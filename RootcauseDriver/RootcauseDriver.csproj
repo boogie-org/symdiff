@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="options.cs" />
-    <Compile Include="program.cs" />
+    <Compile Include="source\options.cs" />
+    <Compile Include="source\program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

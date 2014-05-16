@@ -103,7 +103,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Wrapper.cs" />
+    <Compile Include="source\Wrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SymDiff\SymDiff.csproj">

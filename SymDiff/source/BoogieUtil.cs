@@ -497,7 +497,7 @@ namespace SDiff.Boogie
 //        if (Microsoft.Boogie.Parser.Parse(f, out p) != 0)
           //Boogie API has changed
           List<string> defs = new List<string>();
-          if (Microsoft.Boogie.Parser.Parse(f, defs, out p) != 0)
+          if (Parser.Parse(f, defs, out p) != 0)
           {
           Console.WriteLine("Failed to read " + f);
           return null;
