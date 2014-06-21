@@ -357,7 +357,7 @@ namespace RVT
             else //we'll split their uninterpreted functions, but otherwise don't generate a verification task
             {
                 vt = new VerificationTask(null, n1.Impl, n2.Impl);
-                vt.Result = VerificationResult.Error;
+                vt.Result = SDiff.VerificationResult.Error;
                 SDiff.Boogie.Process.RewriteUninterpretedOnDiseq(vt, SDiff.Boogie.Process.BuildProgramDictionary(mergedProgram.TopLevelDeclarations));
             }
 
@@ -495,10 +495,10 @@ namespace RVT
 
             switch (vt.Result)
             {
-                case VerificationResult.Error:
+                case SDiff.VerificationResult.Error:
                     Log.Out(Log.Verifier, "Result: Error");
                     break;
-                case VerificationResult.Verified:
+                case SDiff.VerificationResult.Verified:
                     Log.Out(Log.Verifier, "Result: Verified");
                     break;
                 default:
@@ -527,7 +527,7 @@ namespace RVT
                 }
             }
 
-            if (vt.Result == VerificationResult.Verified)
+            if (vt.Result == SDiff.VerificationResult.Verified)
                 return 1;
             else
                 return 0;

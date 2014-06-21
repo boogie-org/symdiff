@@ -44,7 +44,8 @@ namespace SDiff
             //lets drop the modifies of all procedures (e.g. default generated alloc/detchoicent by havoc
             if (!freeContracts)
                 Util.DropAllModifies(mergedProgram);
-            Microsoft.Boogie.ModSetCollector.DoModSetAnalysis(mergedProgram);
+            ModSetCollector c = new ModSetCollector();
+            c.DoModSetAnalysis(mergedProgram);
             //get the call graphs
             cg1 = CallGraph.Make(p1);
             cg2 = CallGraph.Make(p2);
