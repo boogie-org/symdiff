@@ -1,0 +1,76 @@
+Parsing config file
+Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
+---Command arguments
+/doModSetAnalysis
+--------------------
+Parsing programs
+Namespacing ASTs
+Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
+---Command arguments
+/printInstrumented
+--------------------
+Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
+---Command arguments
+/printInstrumented
+--------------------
+Resolving and typechecking
+Resolving and typechecking
+Building callgraphs and computing read and write sets
+Writing writesets as modifies clauses
+Resolving and Typechecking again..
+Adding instrumented equality functions to program and generating verification tasks
+Resolving and Typechecking again..
+Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
+---Command arguments
+-z3multipleErrors
+
+-typeEncoding:m
+-timeLimit:200
+-removeEmptyBlocks:0
+
+/doModSetAnalysis
+-printModel:1
+/printModelToFile:model.dmp
+
+--------------------
+Verifier[0]: Preparing to verify 1 pairs
+Verifier[0]: Verifying EQ__v1.B__xx___v2.B
+  [0.111089 s]  
+Correct
+Verifier[0]: 0 counterexamples.
+Verifier[0]: Result: Verified
+Time[0]: 131ms
+Summary[0]: Checked 1 procedures.
+Summary[0]: Max elapsed: 131ms
+Summary[0]: Total Counterexamples: 0
+Summary[0]: Number of failed verifies: 0
+Summary[0]: Number of verifier failures: 0
+M[0]: 	1	131	0	0	0	283	1	
+Resolving and Typechecking again..
+Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
+---Command arguments
+-z3multipleErrors
+
+-typeEncoding:m
+-timeLimit:200
+-removeEmptyBlocks:0
+
+/doModSetAnalysis
+-printModel:1
+/printModelToFile:model.dmp
+
+--------------------
+Verifier[0]: Preparing to verify 1 pairs
+Verifier[0]: Verifying EQ__v1.A__xx___v2.A
+  [0.0150117 s]  
+Correct
+Verifier[0]: 0 counterexamples.
+Verifier[0]: Result: Verified
+Time[0]: 17ms
+Summary[0]: Checked 1 procedures.
+Summary[0]: Max elapsed: 17ms
+Summary[0]: Total Counterexamples: 0
+Summary[0]: Number of failed verifies: 0
+Summary[0]: Number of verifier failures: 0
+M[0]: 	1	17	0	0	0	301	1	
+FinalStats: (#Procs, #Cex, #NotEq, #Crash, #Time) = (2,0,0,0,301)
