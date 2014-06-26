@@ -1,10 +1,3 @@
-echo Usage: %~n0 [Boogie Binary Dir]
-if "%1"=="" (
-  echo No directory given.
-  exit /b
-) else (
-  echo Copying Boogie binaries from %1:
-)
 copy %1\AbsInt.dll .
 copy %1\AbsInt.pdb .
 copy %1\AIFramework.dll .

@@ -19,5 +19,5 @@ Build SymDiff
 Run Regressions
 ---------------
 1. Open a VS command prompt
-2. Run \script\setup.cmd
+2. Run \scripts\setup.cmd
 3. Run \SymDiff\Test\run_regressions.cmd 

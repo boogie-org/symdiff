@@ -46,6 +46,7 @@ use Cwd;
 ####################################################################################################
 
 my $pattern = "";
+my $dac = 0;
 
 
 sub MyExec{
@@ -54,30 +55,43 @@ sub MyExec{
     system("$cmd ");
 }
 
+sub Error{
+  my $msg = shift;
+  print "ERROR::$msg";
+}
+
 sub GetStats {
   my ($file) = @_;
   open (OUT, "<$file") or die "Can't open $output file\n";
   my $result = "";
-  # look for the line below
-  # FinalStats: (#Procs, #Cex, #NotEq, #Crash, #Time) = (3,3,3,0,943)
   for my $line (<OUT>) {
+#	# look for the line below
+#	# FinalStats: (#Procs, #Cex, #NotEq, #Crash, #Time) = (3,3,3,0,943)
 #    if ($line =~ /FinalStats:.* = \(([0-9]+),([0-9]+),([0-9]+),([0-9]+),([0-9]+)\)/) {
 #       #print "--> $1, $2, $3, $4, $5\n";
 #       $result  = "$1, $2, $3, $4";
 #     }
-    if($line =~ /Verifier\[0\]: Result/) {
-      $result = $result . " " . $line;
-    }	
- }
+  
+	if( (($dac == 1) && ($line =~ /Boogie program verifier finished with/)) || # look for the line "Boogie program verifier finished with X verified, Y error"
+		($line =~ /Verifier\[0\]: Result/) ) { 
+	  $result = $result . " " . $line;
+	}
+  }	
   if ($result eq "") { 
     print "Error: Stats not found in $file file\n";
   }	
   close OUT;
   $result
-}	
+}
+
 
 sub CheckRegression {
   my ($golden, $output) = @_;
+  if (not(-e "$golden")){
+    Error ("Basis for comparison $golden file does not exist\n");
+	Error ("Can't check regression for $output\n");
+	return;
+  }
   my $golden_stats = GetStats($golden);
   my $output_stats = GetStats($output);
   if ($golden_stats eq $output_stats) {
@@ -87,6 +101,7 @@ sub CheckRegression {
   }	
   
 }
+
 
 sub RunSymDiff {
   my ($lang, $ex, $v1, $v2, $o, $regr, $tag) = @_;
@@ -121,6 +136,7 @@ sub RunExampleWithOptions {
     chdir ("$cwd") or die "Can't chdir to back to $cwd\n";
   }
 }
+
 
 my $cwd = getdcwd();
 print "***** Current working directory is $cwd ****** \n";
@@ -231,7 +247,6 @@ my @rvt_examples =
 # my $tag = ".rvt";
 # RunExampleWithOptions("_c", \@rvt_examples, $flags, $cwd, $opt_regr, $tag);
 
-
 ##############################################################
 ## Example for BPL
 ##############################################################
@@ -283,10 +298,38 @@ my @bpl_examples =
      ["bpl_examples\\nonmodular_asserts\\", "v1", "v2"],
   );
 
-print "--------------------------\n";
+print "----------------------------------\n";
 print "BPL nonmodular SymDiff regressions\n";
-print "--------------------------\n";
+print "----------------------------------\n";
 $flags = "/cex:1 /nohtml /nonmodular";
 my $tag = ".bpl";
 RunExampleWithOptions("_bpl", \@bpl_examples, $flags, $cwd, $opt_regr, $tag);
 
+##############################################################
+## Example for Differential Assertion Checking
+##############################################################
+my @dac_examples = 
+  (
+	##### apache1 #######
+    # ["dac_examples\\apache1\\", "bad", "ok"],
+	##### apache2 #######
+    # ["dac_examples\\apache2\\", "bad", "ok"],
+  	##### madwifi1 #######
+     ["dac_examples\\madwifi1\\", "bad", "ok"],
+	 ##### madwifi1 #######
+	 ["dac_examples\\madwifi1\\", "ok", "bad"],
+    ##### sendmail1 #######
+     ["dac_examples\\sendmail1\\", "bad", "ok"],
+    ##### sendmail1 #######
+     ["dac_examples\\sendmail1\\", "ok", "bad"],
+	##### sendmail2 #######
+    # ["dac_examples\\sendmail2\\", "bad", "ok"]
+  );
+
+print "-----------------------\n";
+print "DAC SymDiff regressions\n";
+print "-----------------------\n";
+$flags = "";
+$dac = 1; # checking DAC regression is different than other regressions
+my $tag = ".bpl";
+RunExampleWithOptions("_dac", \@dac_examples, $flags, $cwd, $opt_regr, $tag);
