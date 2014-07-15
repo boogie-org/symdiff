@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymDiff", "SymDiff\SymDiff.csproj", "{4A428490-CD6F-4FBF-AA15-5F579BE6C4B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoogieWrapper", "BoogieWrapper\BoogieWrapper.csproj", "{1E16DB2A-17E4-4E2B-BDE0-C6994B236152}"
@@ -8,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rootcause", "Rootcause\rootcause.csproj", "{053B9089-ECF9-4B67-9858-4F2C78502BBF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RootcauseDriver", "RootcauseDriver\RootcauseDriver.csproj", "{FCE934F6-9527-48AD-80BB-887489229EB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dependency", "Dependency\Dependency.csproj", "{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +65,16 @@ Global
 		{FCE934F6-9527-48AD-80BB-887489229EB9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{FCE934F6-9527-48AD-80BB-887489229EB9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FCE934F6-9527-48AD-80BB-887489229EB9}.Release|x86.ActiveCfg = Release|Any CPU
+		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
