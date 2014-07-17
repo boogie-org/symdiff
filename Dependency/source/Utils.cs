@@ -42,6 +42,16 @@ namespace Dependency
             }
             return true;
         }
+
+        public class VariableExtractor : StandardVisitor
+        {
+            public HashSet<Variable> vars = new HashSet<Variable>();
+            public override Variable VisitVariable(Variable node)
+            {
+                vars.Add(node);
+                return node;
+            }
+        }
     }
 
 }

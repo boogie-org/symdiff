@@ -47,9 +47,7 @@
     <Compile Include="source\Analysis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\Utils.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <Compile Include="source\Tabulation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

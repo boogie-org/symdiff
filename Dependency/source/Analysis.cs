@@ -9,7 +9,6 @@ using Microsoft.Boogie.GraphUtil;
 using System.Collections;
 using System.Diagnostics;
 
-
 namespace Dependency
 {
     class Analysis
@@ -20,12 +19,20 @@ namespace Dependency
         {
             CommandLineOptions.Install(new CommandLineOptions());
 
-            if (args.Length < 1)
+            if (args.Length > 1)
             {
                 Usage();
                 return -1;
+            } else if (args.Length == 0) { // run regressions
+                Test0();
+                return 0;
             }
-            string filename = args[0];
+
+            return RunAnalysis(args[0]);
+        }
+
+        private static int RunAnalysis(string filename)
+        {
 
             Console.WriteLine("Processing file {0}", filename);
             if (!Utils.ParseProgram(filename, out program)) return -1;
@@ -36,30 +43,21 @@ namespace Dependency
 
             List<Declaration> declarations = program.TopLevelDeclarations;
 
-            
+
             var implementations = new List<Declaration>(program.TopLevelDeclarations.Where(x => x is Implementation));
-            foreach (Implementation impl in implementations) {
-                Console.WriteLine("Found implementation: {0}",impl.ToString());
+            foreach (Implementation impl in implementations)
+            {
+                Console.WriteLine("Found implementation: {0}", impl.ToString());
                 var visitor = new DependencyVisitor();
                 visitor.dominatedBy = ComputeDominators(impl);
-
                 visitor.Visit(impl);
-
-                foreach (var dependency in procDependencies[impl.Proc])
-                {
-                    Console.Write("{0} <-- {{ ",dependency.Key); 
-                    foreach (var v in dependency.Value)
-	                {
-		                 Console.Write(v + " ");
-	                }
-                    Console.WriteLine("}");
-                }
+                procDependencies[impl.Proc].Print();
+                Console.WriteLine();
             }
 
             System.Console.WriteLine("Done.");
 
             return 0;
-
         }
 
         private static Dictionary<Block, HashSet<Block>> ComputeDominators(Implementation impl)
@@ -112,6 +110,30 @@ namespace Dependency
             Console.WriteLine("Lightweight inter-procedural dependency analysis for change impact");
             Console.WriteLine("Usage: " + execName + " <filename.bpl>");
             Console.WriteLine("filename.bpl -- a Boogie program");
+        }
+
+        private static void Test0()
+        {
+            // TODO: maybe do a simple diff here?
+            RunAnalysis("Test0.bpl");
+            var numProcs = 0;
+            foreach (var pd in procDependencies)
+            {
+                var proc = pd.Key;
+                var dep = pd.Value;
+                Console.WriteLine("Proc = " + proc.Name);
+                switch (proc.Name)
+                {
+                    case "TestCallDominationDependancyCalleeConst":
+                        Debug.Assert(dep.Count == 1);
+                        Debug.Assert(dep[proc.OutParams[0]].Count == 0);
+                        numProcs++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            //Debug.Assert(numProcs == 7);
         }
 
         // This is our abstract domain
@@ -167,7 +189,7 @@ namespace Dependency
 
         public class DependencyVisitor : StandardVisitor
         {
-            Procedure currentProc;
+            
             public List<Variable> inputs;
             // Command -> ( Var -> { Var } )
             public Dictionary<Absy, Dependencies> dependencies = new Dictionary<Absy,Dependencies>();
@@ -177,6 +199,9 @@ namespace Dependency
             private Graph<Block> blockGraph;
             private List<Absy> workList;
             private Dictionary<Absy, Block> cmdToBlock;
+            private Procedure currentProc;
+            private Implementation currentImpl;
+            private List<CallCmd> recursionPoints;
 
             static public HashSet<Variable> ImplInputsToProcInputs(Implementation impl, HashSet<Variable> vars)
             {
@@ -203,8 +228,10 @@ namespace Dependency
                 node.ComputePredecessorsForBlocks();
                 blockGraph = program.ProcessLoops(node);
                 inputs = node.InParams;
+                currentImpl = node;
                 currentProc = node.Proc;
                 cmdToBlock = new Dictionary<Absy, Block>();
+                recursionPoints = new List<CallCmd>();
 
                 // do a fixed point computation
                 workList = new List<Absy>();
@@ -215,19 +242,34 @@ namespace Dependency
                     var cmd = workList[0];
                     workList.RemoveAt(0);
                     Visit(cmd);
+#if false
+                    Console.WriteLine("Visited L" + cmd.Line + ": " + cmd);
+                    if (dependencies.ContainsKey(cmd))
+                        dependencies[cmd].Print(); 
+#endif
                 }
 
+                procDependencies[currentProc] = PruneDependencies(node, procDependencies[currentProc]);
+#if false
+                Console.WriteLine("Result: ");
+                procDependencies[currentProc].Print();
+                Console.ReadLine();
+#endif
+                return node;
+            }
+
+            private Dependencies PruneDependencies(Implementation impl, Dependencies deps)
+            {
                 var outDependancies = new Dependencies();
-                foreach (var dependency in procDependencies[currentProc])
+                foreach (var dependency in deps)
                 {
                     var v = dependency.Key;
                     // fix the dependencies such that instead of the Implementation inputs\outputs
                     // it will adhere to the Procedure inputs\outputs
-                    if (v is GlobalVariable || node.OutParams.Contains(v)) 
-                        outDependancies.Add(ImplOutputToProcOutput(node, v), ImplInputsToProcInputs(node, dependency.Value));
+                    if (v is GlobalVariable || impl.OutParams.Contains(v))
+                        outDependancies.Add(ImplOutputToProcOutput(impl, v), ImplInputsToProcInputs(impl, dependency.Value));
                 }
-                procDependencies[currentProc] = outDependancies;
-                return node;
+                return outDependancies;
             }
 
             public override GotoCmd VisitGotoCmd(GotoCmd node)
@@ -235,7 +277,7 @@ namespace Dependency
                 Block currBlock = cmdToBlock[node];
                 // get the state from the previous command
                 // TODO: this might not be necessary
-                var state = new Dependencies(dependencies[currBlock.Cmds.Last()]);
+                var state = GatherPredecessorsState(node, currBlock);
                 //state.JoinWith(dependencies[currBlock.Cmds.Last()]);
                 var succs = node.labelTargets;
                 if (succs.Count > 1)
@@ -244,7 +286,7 @@ namespace Dependency
                     {
                         Debug.Assert(succ.Cmds[0] is AssumeCmd);
                         AssumeCmd cmd = (AssumeCmd)succ.Cmds[0];
-                        var varExtractor = new VariableExtractor();
+                        var varExtractor = new Utils.VariableExtractor();
                         varExtractor.Visit(cmd.Expr);
                         branchCondVars[currBlock] = varExtractor.vars;
                     }
@@ -258,11 +300,11 @@ namespace Dependency
             {
                 // gather state from all predecesors
                 Block currBlock = cmdToBlock[node];
-                Dependencies state = GatherPredecessorState(node, currBlock);
+                Dependencies state = GatherPredecessorsState(node, currBlock);
 
                 //Debug.Assert(node.Lhss.Count == 1 && node.Rhss.Count == 1);
                 Expr lhs = node.Lhss[0].AsExpr, rhs = node.Rhss[0];
-                var varExtractor = new VariableExtractor();
+                var varExtractor = new Utils.VariableExtractor();
                 varExtractor.Visit(lhs);
 
                 Variable left = varExtractor.vars.Single(x => true);
@@ -283,65 +325,103 @@ namespace Dependency
                     //    taintSet.Add(rv);
                 }
 
-                // assignment under a branch is tainted by all the variables in the branch's conditional
-                if (dominatedBy.Keys.Contains(currBlock))
-                    foreach (var dominator in dominatedBy[currBlock])
-                        foreach (var v in branchCondVars[dominator]) {
-                            taintSet.Add(v);
-                            taintSet.UnionWith(state[v]);
-                        }
+                InferDominatorDependency(currBlock, taintSet);
 
                 state[left] = taintSet;
                 AssignAndPropagate(node,currBlock,state);
                 return node;
             }
 
-            private void AssignAndPropagate(Absy node, Block currBlock, Dependencies state)
+            private void InferDominatorDependency(Block currBlock, HashSet<Variable> taintSet)
+            {
+                // assignment under a branch is tainted by all the variables in the branch's conditional
+                if (dominatedBy.Keys.Contains(currBlock))
+                    foreach (var dominator in dominatedBy[currBlock])
+                        foreach (var v in branchCondVars[dominator])
+                        {
+                            taintSet.Add(v);
+                            // it is also dependent on all that v depends on *at the point of branching*
+                            taintSet.UnionWith(dependencies[dominator.TransferCmd][v]);
+                        }
+            }
+
+            // returns whether a propagation occured
+            private bool AssignAndPropagate(Absy node, Block nodeBlock, Dependencies state)
             {
                 // if the new state for the node is different, add all succesors to the worklist
                 if (!dependencies.ContainsKey(node))
                     dependencies[node] = state;
                 else if (!dependencies[node].JoinWith(state))
-                    return;
+                    return false;
 
                 Absy cmd;
                 if (node is Cmd)
                 {
-                    int index = currBlock.Cmds.IndexOf((Cmd)node);
-                    if (index < currBlock.Cmds.Count - 1)
-                        cmd = currBlock.Cmds[index + 1];
+                    int index = nodeBlock.Cmds.IndexOf((Cmd)node);
+                    if (index < nodeBlock.Cmds.Count - 1)
+                        cmd = nodeBlock.Cmds[index + 1];
                     else
-                        cmd = currBlock.TransferCmd;
+                        cmd = nodeBlock.TransferCmd;
                     workList.Add(cmd);
-                    cmdToBlock[cmd] = currBlock;
+                    cmdToBlock[cmd] = nodeBlock;
                 }
                 else if (node is GotoCmd)
                 {
                     foreach (var succ in ((GotoCmd)node).labelTargets)
                     {
-                        cmd = succ.Cmds[0];
+                        if (succ.Cmds.Count > 0) 
+                            cmd = succ.Cmds[0];
+                        else
+                            cmd = succ.TransferCmd; // some blocks are just a goto
                         workList.Add(cmd);
                         cmdToBlock[cmd] = succ;
                     }
                 }
-            }
-            private Dependencies GatherPredecessorState(Cmd node, Block currBlock)
-            {
-                Dependencies state;
-                int index = currBlock.Cmds.IndexOf(node);
-                if (index == 0)
+                else if (node is ReturnCmd) // for recursive procedures, the return propagates to all call sites
                 {
-                    state = new Dependencies();
-                    foreach (var pred in currBlock.Predecessors)
+                    foreach (var rp in recursionPoints)
+                    {
+                        workList.Add(rp);
+                    }
+                }
+
+                return true;
+            }
+            private Dependencies GatherPredecessorsState(Absy node, Block currBlock)
+            {
+                Dependencies state = null;
+                if (node is Cmd)
+                {
+                    int index = currBlock.Cmds.IndexOf((Cmd)node);
+                    state = (index == 0) ? GatherBlockPredecessorsState(currBlock, state):
+                                           new Dependencies(dependencies[currBlock.Cmds[index - 1]]);
+                }
+                else if (node is TransferCmd)
+                    state = (currBlock.Cmds.Count == 0) ? GatherBlockPredecessorsState(currBlock, state):
+                                                          new Dependencies(dependencies[currBlock.Cmds.Last()]);
+                else
+                    throw new ArgumentException("Unknown node type: " + node);
+                return state;
+            }
+
+            private Dependencies GatherBlockPredecessorsState(Block currBlock, Dependencies state)
+            {
+                state = new Dependencies();
+                foreach (var pred in currBlock.Predecessors)
+                {
+                    if (pred.Cmds.Count > 0)
+                    {
                         if (dependencies.ContainsKey(pred.Cmds.Last()))
                         {
                             var predState = dependencies[pred.Cmds.Last()];
                             state.JoinWith(predState);
                         }
-                }
-                else
-                {
-                    state = new Dependencies(dependencies[currBlock.Cmds[index - 1]]);
+                    }
+                    else
+                    {
+                        var predState = dependencies[pred.TransferCmd];
+                        state.JoinWith(predState);
+                    }
                 }
                 return state;
             }
@@ -368,14 +448,14 @@ namespace Dependency
 
             public override Cmd VisitCallCmd(CallCmd node)
             {
-                // TODO: for external stubs this won't hold
-                Debug.Assert(procDependencies.Keys.Contains(node.Proc)); // the callee was previously analyzed
                 Block currBlock = cmdToBlock[node];
-                Dependencies state = GatherPredecessorState(node, currBlock);
+                Dependencies state = GatherPredecessorsState(node, currBlock);
 
-                if (node.Proc == currentProc) // recursion
-                {
-                    Debug.Assert(false);
+                // an external stub
+                if (!(node.Proc == currentProc || procDependencies.Keys.Contains(node.Proc))) {
+                    procDependencies[node.Proc] = new Dependencies();
+                    foreach (var v in node.Proc.OutParams) // all outputs depend on all inputs
+                        procDependencies[node.Proc][v] = new HashSet<Variable>(node.Proc.InParams);
                 }
 
                 Debug.Assert(node.Outs.Count == node.Outs.Distinct().Count()); // only allow one output for now
@@ -384,10 +464,10 @@ namespace Dependency
                 var inputExpressionsDependency = new List<HashSet<Variable>>();
                 foreach (var inExpr in node.Ins)
 	            {
-		            var varExtractor = new VariableExtractor();
+		            var varExtractor = new Utils.VariableExtractor();
                     varExtractor.Visit(inExpr);
                     inputExpressionsDependency.Add(new HashSet<Variable>());
-                    var current = inputExpressionsDependency.Count - 1;
+                    int current = inputExpressionsDependency.Count - 1;
                     foreach (var v in varExtractor.vars)
                     {
                         inputExpressionsDependency[current].Add(v);
@@ -395,6 +475,14 @@ namespace Dependency
                             inputExpressionsDependency[current].UnionWith(state[v]);
                     }
 	            }
+
+                if (node.Proc == currentProc) // recursion
+                {
+                    recursionPoints.Add(node);
+                    if (!procDependencies.ContainsKey(node.Proc)) {
+                        procDependencies[node.Proc] = new Dependencies();
+                    }
+                }
 
                 var calleeDependencies = procDependencies[node.Proc];
                 // handle outputs affected by the call
@@ -407,6 +495,7 @@ namespace Dependency
                     var inferedOutputDependency = InferCalleeOutputDependancy(node,formalOutput,state,inputExpressionsDependency);
                     var actualOutput = node.Outs[i].Decl;
                     state[actualOutput] = inferedOutputDependency;
+                    InferDominatorDependency(currBlock, state[actualOutput]); // conditionals may dominate the return value
                 }
 
                 // handle globals affected by the call
@@ -416,7 +505,8 @@ namespace Dependency
                         continue;
                     var inferedOutputDependency = InferCalleeOutputDependancy(node,g,state,inputExpressionsDependency);
                     state[g] = inferedOutputDependency;
-                }
+                    InferDominatorDependency(currBlock, state[g]); // conditionals may dominate the modified globals
+                } 
 
                 AssignAndPropagate(node, currBlock, state);
                 return node;
@@ -426,7 +516,7 @@ namespace Dependency
             public Cmd VisitCmd(Cmd node)
             {
                 Block currBlock = cmdToBlock[node];
-                Dependencies state = GatherPredecessorState(node, currBlock);
+                Dependencies state = GatherPredecessorsState(node, currBlock);
                 AssignAndPropagate(node, currBlock, state);
                 return node;
             }
@@ -438,26 +528,13 @@ namespace Dependency
             {
                 return VisitCmd(node);
             }
+
+            // TODO! everying past if(c) return; depends on c
             public override ReturnCmd VisitReturnCmd(ReturnCmd node)
             {
                 Block currBlock = cmdToBlock[node];
-                var state = new Dependencies(dependencies[currBlock.Cmds.Last()]);
-                if (!dependencies.ContainsKey(node))
-                {
-                    dependencies[node] = state;
-                }
-                else
-                {
-                    dependencies[node].JoinWith(state);
-                }
-                //if (dependencies[node].JoinWith(state))
-                //{
-                //    foreach (var succ in blockGraph.Successors(currBlock))
-                //    {
-                //        workList.Add(succ.Cmds[0]);
-                //        cmdToBlock[succ.Cmds[0]] = succ;
-                //    }
-                //}
+                var state = GatherPredecessorsState(node,currBlock);
+                AssignAndPropagate(node, currBlock, state);
                 // set the result for the procedure
                 procDependencies[currentProc] = dependencies[node];
                 return node;
@@ -465,166 +542,6 @@ namespace Dependency
 
         }
 
-        public class VariableExtractor : StandardVisitor
-        {
-            public HashSet<Variable> vars = new HashSet<Variable>();
-            public override Variable VisitVariable(Variable node)
-            {
-                vars.Add(node);
-                return node;
-            }
-        }
 
-
-        // Reps, Horwitz abd Sagiv: Precise Interprocedural Dataflow Analysis via Graph Reachability
-        public class TaintFactoid
-        {
-            public Variable Src { get; set; }
-            public Variable Dst { get; set; }
-            public Absy Node { get; set; } // the node associated with the factoid
-        }
-        public class Tabulation
-        {
-            Program program;
-            Cmd Smain;
-            // TODO:
-            // graph is a transformed block graph where B1 { c1_1, ... , c1_transfer } -> B2 { c2_1, ... , c2_transfer }
-            // is c1_1 -> c1_2 ... c1_transfer -> c2_1 ... 
-            Graph<Absy> graph;
-            Dictionary<Absy, HashSet<TaintFactoid>> state;
-            HashSet<Tuple<TaintFactoid, TaintFactoid>> pathEdge, workList, summaryEdge;
-            Dictionary<Procedure, Implementation> procedures;
-            Dictionary<Expr, HashSet<Variable>> extractedVars; // TODO: optimization
-
-            // TODO: state was loaded with S_main -> { (In_1,In_1) , ... , (In_k,In_k) }
-            public void Tabulate()
-            {
-                throw new NotImplementedException();
-                // sanity check
-                Debug.Assert(procedures.First().Value.LocVars.Count > 1);
-                Variable v1 = procedures.First().Value.LocVars[0];
-                Variable v2 = procedures.First().Value.LocVars[1];
-                TaintFactoid f1 = new TaintFactoid();
-                TaintFactoid f2 = new TaintFactoid();
-                TaintFactoid f3 = new TaintFactoid();
-                TaintFactoid f4 = new TaintFactoid();
-                f1.Dst = v1; f1.Src = v2; f1.Node = graph.Nodes.First();
-                f3.Dst = v1; f3.Src = v2; f3.Node = graph.Nodes.First();
-                Debug.Assert(f1 == f3);
-                Tuple<TaintFactoid, TaintFactoid> t1 = new Tuple<TaintFactoid, TaintFactoid>(f1, f3);
-                Tuple<TaintFactoid, TaintFactoid> t2 = new Tuple<TaintFactoid, TaintFactoid>(f3, f1);
-                Debug.Assert(t1 == t2);
-
-                foreach (var node in graph.Nodes)
-                {
-                    state[node] = new HashSet<TaintFactoid>();
-                }
-                foreach (var f in state[Smain])
-                {
-                    workList.Add(new Tuple<TaintFactoid, TaintFactoid>(f, f));
-                    pathEdge.Add(new Tuple<TaintFactoid, TaintFactoid>(f, f));
-                }
-                ForwardTabulate();
-            }
-
-            private void ForwardTabulate()
-            {
-                while (workList.Count > 0)
-                {
-                    var edge = workList.First();
-                    workList.Remove(edge);
-                    var n = edge.Item2.Node;
-                    if (n is CallCmd)
-                    {
-                        CallTransformer((CallCmd)edge.Item2.Node);
-                    }
-                    else if (n is ReturnCmd)
-                    {
-
-                    }
-                    else
-                    {
-                        if (n is AssignCmd)
-                        {
-                            AssignTransformer(edge.Item2);
-                        }
-                        else if (n is GotoCmd)
-                        {
-
-                        }
-                    }
-                }
-            }
-
-            private void CallTransformer(CallCmd node)
-            {
-                // the transformer for a call simply emits all the taint factoid of the caller
-                // to the callee, with the proper renaming i.e. if f(int a) was called with f(x)
-                // then every taint factoid T(x,v) at the callsite will appear as T(a,v) at function entry
-                foreach (var f in state[node])
-                {
-                    for (int i = 0; i < node.Ins.Count; ++i)
-                    {
-                        var actual = node.Ins[i];
-                        var varExtractor = new VariableExtractor();
-                        varExtractor.Visit(actual);
-                        if (varExtractor.vars.Contains(f.Dst)) // current input contains a tainted variable
-                        {
-                            var nf = new TaintFactoid();
-                            nf.Node = procedures[node.Proc].Blocks[0].Cmds[0];
-                            nf.Src = f.Src;
-                            nf.Dst = node.Proc.InParams[i]; // replace the actual with the formal
-                            state[nf.Node].Add(nf);
-                            Propagate(nf, nf);
-                            //if (summaryEdge.Contains)
-                            //{
-                            //}
-                        }
-                    }
-                }
-            }
-
-            private void AssignTransformer(TaintFactoid factoid)
-            {
-                AssignCmd node = (AssignCmd)factoid.Node;
-                Console.WriteLine("Visiting " + node);
-                Debug.Assert(node.Lhss.Count == 1 && node.Rhss.Count == 1);
-                Expr lhs = node.Lhss[0].AsExpr, rhs = node.Rhss[0];
-                var varExtractor = new VariableExtractor();
-                varExtractor.Visit(lhs);
-                Variable left = varExtractor.vars.Single(x => true);
-
-                varExtractor.vars = new HashSet<Variable>();
-                varExtractor.Visit(rhs);
-                var rhsVars = varExtractor.vars;
-
-                // we know Dst is tained by Src
-                if (rhsVars.Contains(factoid.Dst) ||  // RHS contains Dst so LHS is also tained by Src
-                    left == factoid.Dst)              // factoid is not involved in the assignment
-                {
-                    foreach (var succ in graph.Successors(node))
-                    { // foreach succesor of the node
-                        TaintFactoid sf = new TaintFactoid();
-                        sf.Node = succ;
-                        sf.Src = factoid.Src;
-                        sf.Dst = left;
-                        Propagate(factoid, sf);
-                    }
-                }
-
-            }
-
-            private void Propagate(TaintFactoid from, TaintFactoid to)
-            {
-                state[to.Node].Add(to);
-                var edge = new Tuple<TaintFactoid, TaintFactoid>(from, to);
-                if (!pathEdge.Contains(edge))
-                {
-                    pathEdge.Add(edge);
-                    workList.Add(edge);
-                }
-
-            }
-        }
     }
 }
