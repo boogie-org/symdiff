@@ -17,13 +17,15 @@ namespace Dependency
         static private Dictionary<Procedure, Dependencies> procDependencies = new Dictionary<Procedure, Dependencies>();
         static int Main(string[] args)
         {
-            CommandLineOptions.Install(new CommandLineOptions());
-
-            if (args.Length > 1)
+            if (args.Length == 0)
             {
                 Usage();
                 return -1;
-            } else if (args.Length == 0) { // run regressions
+            }
+
+            CommandLineOptions.Install(new CommandLineOptions());
+            
+            if (args.Any(x => x == "/r")) { // run regressions
                 Test0();
                 return 0;
             }
@@ -83,8 +85,9 @@ namespace Dependency
         {
             string execName = System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName;
             Console.WriteLine("Lightweight inter-procedural dependency analysis for change impact");
-            Console.WriteLine("Usage: " + execName + " <filename.bpl>");
-            Console.WriteLine("filename.bpl -- a Boogie program");
+            Console.WriteLine("Usage: " + execName + " <filename.bpl> [flags]");
+            Console.WriteLine("flags:");
+            Console.WriteLine("/r -- run regression tests (execute from \\Test\\regression)");
         }
 
         private static void Test0()
@@ -96,7 +99,6 @@ namespace Dependency
             {
                 var proc = pd.Key;
                 var dep = pd.Value;
-                Console.WriteLine("Proc = " + proc.Name);
                 switch (proc.Name)
                 {
                     case "TestCallDominationDependancyCalleeConst":
