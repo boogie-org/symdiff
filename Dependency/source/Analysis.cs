@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define DBG
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,22 +15,18 @@ namespace Dependency
 {
     class Analysis
     {
+        static private GlobalVariable nonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
         static private Program program;
         static private Dictionary<Procedure, Dependencies> procDependencies = new Dictionary<Procedure, Dependencies>();
         static int Main(string[] args)
         {
-            if (args.Length == 0)
+            if (args.Length != 1)
             {
                 Usage();
                 return -1;
             }
 
             CommandLineOptions.Install(new CommandLineOptions());
-            
-            if (args.Any(x => x == "/r")) { // run regressions
-                Test0();
-                return 0;
-            }
 
             return RunAnalysis(args[0]);
         }
@@ -85,32 +83,7 @@ namespace Dependency
         {
             string execName = System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName;
             Console.WriteLine("Lightweight inter-procedural dependency analysis for change impact");
-            Console.WriteLine("Usage: " + execName + " <filename.bpl> [flags]");
-            Console.WriteLine("flags:");
-            Console.WriteLine("/r -- run regression tests (execute from \\Test\\regression)");
-        }
-
-        private static void Test0()
-        {
-            // TODO: maybe do a simple diff here?
-            RunAnalysis("Test0.bpl");
-            var numProcs = 0;
-            foreach (var pd in procDependencies)
-            {
-                var proc = pd.Key;
-                var dep = pd.Value;
-                switch (proc.Name)
-                {
-                    case "TestCallDominationDependancyCalleeConst":
-                        Debug.Assert(dep.Count == 1);
-                        Debug.Assert(dep[proc.OutParams[0]].Count == 0);
-                        numProcs++;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            //Debug.Assert(numProcs == 7);
+            Console.WriteLine("Usage: " + execName + " <filename.bpl>");
         }
 
         // This is our abstract domain
@@ -218,16 +191,19 @@ namespace Dependency
                 {
                     var cmd = workList[0];
                     workList.RemoveAt(0);
+#if DBG
+                    Console.WriteLine("Visiting L" + cmd.Line + ": " + cmd);
+#endif
                     Visit(cmd);
-#if false
-                    Console.WriteLine("Visited L" + cmd.Line + ": " + cmd);
+#if DBG
                     if (dependencies.ContainsKey(cmd))
-                        dependencies[cmd].Print(); 
+                        dependencies[cmd].Print();
+                    Console.ReadLine();
 #endif
                 }
 
                 procDependencies[currentProc] = PruneDependencies(node, procDependencies[currentProc]);
-#if false
+#if DBG
                 Console.WriteLine("Result: ");
                 procDependencies[currentProc].Print();
                 Console.ReadLine();
@@ -249,11 +225,26 @@ namespace Dependency
                 return outDependancies;
             }
 
+            public override Cmd VisitHavocCmd(HavocCmd node)
+            {
+                Block currBlock = cmdToBlock[node];
+                // get the state from the previous command
+                var state = GatherPredecessorsState(node, currBlock);
+                // Havoc x translates to x <- *
+                foreach (var v in node.Vars)
+	            {
+                    state[v.Decl] = new HashSet<Variable>();
+                    state[v.Decl].Add(nonDetVar);
+                    InferDominatorDependency(currBlock, state[v.Decl]);
+	            }
+                AssignAndPropagate(node, currBlock, state);
+                return node;
+            }
+
             public override GotoCmd VisitGotoCmd(GotoCmd node)
             {
                 Block currBlock = cmdToBlock[node];
                 // get the state from the previous command
-                // TODO: this might not be necessary
                 var state = GatherPredecessorsState(node, currBlock);
                 //state.JoinWith(dependencies[currBlock.Cmds.Last()]);
                 var succs = node.labelTargets;
@@ -318,7 +309,12 @@ namespace Dependency
                         {
                             taintSet.Add(v);
                             // it is also dependent on all that v depends on *at the point of branching*
-                            taintSet.UnionWith(dependencies[dominator.TransferCmd][v]);
+                            if (dependencies.ContainsKey(dominator.TransferCmd))
+                            {
+                                var domDep = dependencies[dominator.TransferCmd];
+                                if (domDep.ContainsKey(v))
+                                    taintSet.UnionWith(domDep[v]);
+                            }
                         }
             }
 
@@ -431,8 +427,12 @@ namespace Dependency
                 // an external stub
                 if (!(node.Proc == currentProc || procDependencies.Keys.Contains(node.Proc))) {
                     procDependencies[node.Proc] = new Dependencies();
-                    foreach (var v in node.Proc.OutParams) // all outputs depend on all inputs
+                    foreach (var v in node.Proc.OutParams)
+                    {   // all outputs depend on all inputs
                         procDependencies[node.Proc][v] = new HashSet<Variable>(node.Proc.InParams);
+                        // and on *
+                        procDependencies[node.Proc][v].Add(nonDetVar);
+                    }
                 }
 
                 Debug.Assert(node.Outs.Count == node.Outs.Distinct().Count()); // only allow one output for now
