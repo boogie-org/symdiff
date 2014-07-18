@@ -1,4 +1,6 @@
 ﻿//#define DBG
+//#define DBGRES
+//#define DBGDOMS
 
 using System;
 using System.Collections.Generic;
@@ -49,7 +51,6 @@ namespace Dependency
             {
                 Console.WriteLine("Found implementation: {0}", impl.ToString());
                 var visitor = new DependencyVisitor();
-                visitor.dominatedBy = ComputeDominators(impl);
                 visitor.Visit(impl);
                 procDependencies[impl.Proc].Print();
                 Console.WriteLine();
@@ -58,25 +59,6 @@ namespace Dependency
             System.Console.WriteLine("Done.");
 
             return 0;
-        }
-
-        private static Dictionary<Block, HashSet<Block>> ComputeDominators(Implementation impl)
-        {
-            Graph<Block> blockGraph = program.ProcessLoops(impl);
-            var controlDeps = blockGraph.ControlDependence();
-            var dominatedBy = new Dictionary<Block, HashSet<Block>>();
-            // reverse the control dependance mapping (easier for the algorithm)
-            foreach (var cd in controlDeps)
-            {
-                foreach (var controlled in cd.Value)
-                {
-                    if (!dominatedBy.Keys.Contains(controlled))
-                        dominatedBy[controlled] = new HashSet<Block>();
-                    dominatedBy[controlled].Add(cd.Key);
-                }
-            }
-
-            return dominatedBy;
         }
 
         private static void Usage()
@@ -143,6 +125,7 @@ namespace Dependency
             public List<Variable> inputs;
             // Command -> ( Var -> { Var } )
             public Dictionary<Absy, Dependencies> dependencies = new Dictionary<Absy,Dependencies>();
+            public Dictionary<Block, HashSet<Block>> dominates = new Dictionary<Block, HashSet<Block>>();
             public Dictionary<Block, HashSet<Block>> dominatedBy = new Dictionary<Block, HashSet<Block>>();
             // a mapping: branching Block -> { Variables in the branch conditional }
             private Dictionary<Block, HashSet<Variable>> branchCondVars = new Dictionary<Block,HashSet<Variable>>();
@@ -173,10 +156,32 @@ namespace Dependency
                 else
                     return v; // leave non-outputs as is
             }
+
+            private Dictionary<Block, HashSet<Block>> ComputeDominators(Implementation impl)
+            {
+                dominates = program.ProcessLoops(impl).ControlDependence();
+                dominatedBy = new Dictionary<Block, HashSet<Block>>();
+                // reverse the control dependance mapping (easier for the algorithm)
+                foreach (var cd in dominates)
+                {
+                    foreach (var controlled in cd.Value)
+                    {
+                        if (!dominatedBy.Keys.Contains(controlled))
+                            dominatedBy[controlled] = new HashSet<Block>();
+#if DBGDOMS
+                        Console.WriteLine(controlled + " dominated by " + cd.Key);
+#endif
+                        dominatedBy[controlled].Add(cd.Key);
+                    }
+                }
+
+                return dominatedBy;
+            }
+
             public override Implementation VisitImplementation(Implementation node)
             {
                 node.ComputePredecessorsForBlocks();
-                blockGraph = program.ProcessLoops(node);
+                ComputeDominators(node);
                 inputs = node.InParams;
                 currentImpl = node;
                 currentProc = node.Proc;
@@ -203,7 +208,7 @@ namespace Dependency
                 }
 
                 procDependencies[currentProc] = PruneDependencies(node, procDependencies[currentProc]);
-#if DBG
+#if DBGRES
                 Console.WriteLine("Result: ");
                 procDependencies[currentProc].Print();
                 Console.ReadLine();
@@ -258,6 +263,13 @@ namespace Dependency
                         varExtractor.Visit(cmd.Expr);
                         branchCondVars[currBlock] = varExtractor.vars;
                     }
+                    // branchCondVars changed, add all dominated to worklist
+                    //foreach (var dominated in dominates.Values)
+                    //    foreach (var b in dominated)
+                    //        if (b.Cmds.Count > 0)
+                    //            workList.Add(b.Cmds[0]);
+                    //        else
+                    //            workList.Add(b.TransferCmd);
                 }
                 
                 // put the goto destinations in the worklist
@@ -276,7 +288,7 @@ namespace Dependency
                 varExtractor.Visit(lhs);
 
                 Variable left = varExtractor.vars.Single(x => true);
-                var taintSet = new HashSet<Variable>();
+                var dependsSet = new HashSet<Variable>();
 
                 varExtractor.vars = new HashSet<Variable>();
                 varExtractor.Visit(rhs);
@@ -284,38 +296,36 @@ namespace Dependency
 
                 foreach (var rv in rhsVars)
                 {
-                    taintSet.Add(rv);
+                    dependsSet.Add(rv);
 
-                    if (state.ContainsKey(rv)) // a variable in rhs is tainted
-                        taintSet.UnionWith(state[rv]);
-
-                    //if (rv is GlobalVariable || inputs.Contains(rv))
-                    //    taintSet.Add(rv);
+                    if (state.ContainsKey(rv)) // a variable in rhs has dependencies
+                        dependsSet.UnionWith(state[rv]);
                 }
 
-                InferDominatorDependency(currBlock, taintSet);
+                InferDominatorDependency(currBlock, dependsSet);
 
-                state[left] = taintSet;
+                state[left] = dependsSet;
                 AssignAndPropagate(node,currBlock,state);
                 return node;
             }
 
-            private void InferDominatorDependency(Block currBlock, HashSet<Variable> taintSet)
+            private void InferDominatorDependency(Block currBlock, HashSet<Variable> dependsSet)
             {
-                // assignment under a branch is tainted by all the variables in the branch's conditional
+                // assignment under a branch is dependent on all the variables in the branch's conditional
                 if (dominatedBy.Keys.Contains(currBlock))
                     foreach (var dominator in dominatedBy[currBlock])
-                        foreach (var v in branchCondVars[dominator])
-                        {
-                            taintSet.Add(v);
-                            // it is also dependent on all that v depends on *at the point of branching*
-                            if (dependencies.ContainsKey(dominator.TransferCmd))
+                        if (branchCondVars.ContainsKey(dominator))
+                            foreach (var v in branchCondVars[dominator])
                             {
-                                var domDep = dependencies[dominator.TransferCmd];
-                                if (domDep.ContainsKey(v))
-                                    taintSet.UnionWith(domDep[v]);
+                                dependsSet.Add(v);
+                                // it is also dependends on all that v depends on *at the point of branching*
+                                if (dependencies.ContainsKey(dominator.TransferCmd))
+                                {
+                                    var domDep = dependencies[dominator.TransferCmd];
+                                    if (domDep.ContainsKey(v))
+                                        dependsSet.UnionWith(domDep[v]);
+                                }
                             }
-                        }
             }
 
             // returns whether a propagation occured
@@ -382,17 +392,15 @@ namespace Dependency
                 state = new Dependencies();
                 foreach (var pred in currBlock.Predecessors)
                 {
+                    Absy cmd = null;
                     if (pred.Cmds.Count > 0)
-                    {
-                        if (dependencies.ContainsKey(pred.Cmds.Last()))
-                        {
-                            var predState = dependencies[pred.Cmds.Last()];
-                            state.JoinWith(predState);
-                        }
-                    }
+                        cmd = pred.Cmds.Last();
                     else
+                        cmd = pred.TransferCmd;
+
+                    if (dependencies.ContainsKey(cmd))
                     {
-                        var predState = dependencies[pred.TransferCmd];
+                        var predState = dependencies[cmd];
                         state.JoinWith(predState);
                     }
                 }
