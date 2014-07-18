@@ -75,31 +75,6 @@ namespace Dependency
                     dominatedBy[controlled].Add(cd.Key);
                 }
             }
-            // transitive closure needed here
-            bool done;
-            do
-            {
-                done = true;
-                var newDominatedBy = new Dictionary<Block, HashSet<Block>>();
-                foreach (var dom in dominatedBy)
-                {
-                    var dominators = dom.Value;
-                    var newDominators = new HashSet<Block>();
-                    newDominators.UnionWith(dominators);
-                    foreach (var block in dominators)
-                    {   // each block is also dominated by the the dominators of its dominators :)
-                        if (dominatedBy.Keys.Contains(block))
-                            newDominators.UnionWith(dominatedBy[block]);
-                    }
-                    if (newDominators.Count > dominators.Count)
-                    {
-                        newDominatedBy[dom.Key] = newDominators;
-                        done = false;
-                    }
-                }
-                if (!done)
-                    dominatedBy = newDominatedBy;
-            } while (!done);
 
             return dominatedBy;
         }
