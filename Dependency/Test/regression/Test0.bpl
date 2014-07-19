@@ -383,8 +383,6 @@ var {:extern} Res_KERNEL_SOURCE: [int]int;
 
 var {:extern} Res_PROBED: [int]int;
 
-function {:extern} Res_VALID_REGION(int) : int;
-
 function {:extern} Equal([int]bool, [int]bool) : bool;
 
 function {:extern} Subset([int]bool, [int]bool) : bool;
@@ -511,71 +509,73 @@ const {:extern} unique BOOGIE_FLOAT_CONST_0: int;
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 48} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 17} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 49} unique __ctobpl_const_14: int;
+const {:extern} {:model_const "global1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 49} unique __ctobpl_const_13: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 92} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "result.TestGlobalRecursion"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 49} unique __ctobpl_const_15: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 44} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 54} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 26} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "z"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 64} unique __ctobpl_const_20: int;
+const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 29} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 56} unique __ctobpl_const_18: int;
+const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 27} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 56} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "result.TestCallDominationDependancyCalleeConst"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 27} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "result.TestRecursion"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 56} unique __ctobpl_const_19: int;
+const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 20} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "result.TestEmptyRecursion"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 42} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 44} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "global2"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 48} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "result.TestEmptyRecursion"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 44} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 18} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "result.TestGlobalRecursion"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 52} unique __ctobpl_const_16: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 24} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 79} unique __ctobpl_const_26: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 27} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 59} unique __ctobpl_const_19: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 15} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "global4"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 72} unique __ctobpl_const_22: int;
 
-const {:extern} {:model_const "global1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 9} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "global5"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 78} unique __ctobpl_const_24: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 25} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 51} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "result.TestCallDominationDependancyCalleeConst"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 25} unique __ctobpl_const_7: int;
+const {:extern} {:model_const "global3"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 80} unique __ctobpl_const_27: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 72} unique __ctobpl_const_25: int;
+const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 39} unique __ctobpl_const_31: int;
 
-const {:extern} {:model_const "global3"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 73} unique __ctobpl_const_26: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 52} unique __ctobpl_const_14: int;
 
-const {:extern} {:model_const "global5"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 71} unique __ctobpl_const_23: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 36} unique __ctobpl_const_32: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 67} unique __ctobpl_const_24: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 34} unique __ctobpl_const_28: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 32} unique __ctobpl_const_27: int;
+const {:extern} {:model_const "z"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 36} unique __ctobpl_const_33: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 37} unique __ctobpl_const_30: int;
+const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 74} unique __ctobpl_const_25: int;
 
-const {:extern} {:model_const "global4"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 65} unique __ctobpl_const_21: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 73} unique __ctobpl_const_23: int;
 
-const {:extern} {:model_const "z"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 34} unique __ctobpl_const_32: int;
+const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 34} unique __ctobpl_const_29: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 66} unique __ctobpl_const_22: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 59} unique __ctobpl_const_18: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 35} unique __ctobpl_const_33: int;
+const {:extern} {:model_const "global2"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 51} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 32} unique __ctobpl_const_28: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 52} unique __ctobpl_const_15: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 34} unique __ctobpl_const_31: int;
+const {:extern} {:model_const "z"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 71} unique __ctobpl_const_21: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 33} unique __ctobpl_const_29: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 57} unique __ctobpl_const_17: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 42} unique __ctobpl_const_8: int;
+const {:extern} {:model_const "result.TestRecursion"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 59} unique __ctobpl_const_20: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceLine 42} unique __ctobpl_const_9: int;
+const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 35} unique __ctobpl_const_30: int;
+
+const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceLine 37} unique __ctobpl_const_34: int;
 
 procedure {:extern} TestCallDominationDependancyCalleeConst() returns (result.TestCallDominationDependancyCalleeConst$1: int);
   free requires INT_LT(0, alloc);
@@ -626,12 +626,12 @@ implementation {:extern} TestCallDominationDependancyCalleeConst() returns (resu
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 3} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 3} true;
     result.TestCallDominationDependancyCalleeConst$1 := 0;
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 4} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 4} true;
     return;
 }
 
@@ -685,14 +685,14 @@ implementation {:extern} TestCallDominationDependancyCalleeGlobals()
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 9} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 10} true;
     assume value_is(__ctobpl_const_1, Mem_T.INT4[global1]);
     tempBoogie0 := INT_PLUS(Mem_T.INT4[global1], 1, 1);
     Mem_T.INT4 := Mem_T.INT4[global1 := tempBoogie0];
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 10} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 11} true;
     return;
 }
 
@@ -755,11 +755,11 @@ implementation {:extern} TestCallDominationDependancyGlobals(y_.1: int, z_.1: in
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 14} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 16} true;
     goto label_4#2;
 
   label_4#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 15} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 17} true;
     goto label_4_true#2, label_4_false#2;
 
   label_4_false#2:
@@ -773,18 +773,18 @@ implementation {:extern} TestCallDominationDependancyGlobals(y_.1: int, z_.1: in
     goto label_6#2;
 
   label_6#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 16} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 18} true;
     call TestCallDominationDependancyCalleeGlobals();
     goto label_5#2;
 
   label_5#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 18} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 20} true;
     result.TestCallDominationDependancyGlobals$1 := w;
     assume value_is(__ctobpl_const_3, w);
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 19} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 21} true;
     return;
 }
 
@@ -849,11 +849,11 @@ implementation {:extern} TestCallDominationDependancyReturns(y_.1: int, z_.1: in
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 23} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 25} true;
     goto label_4#2;
 
   label_4#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 24} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 26} true;
     goto label_4_true#2, label_4_false#2;
 
   label_4_false#2:
@@ -867,25 +867,110 @@ implementation {:extern} TestCallDominationDependancyReturns(y_.1: int, z_.1: in
     goto label_6#2;
 
   label_6#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 25} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 27} true;
     call result.TestCallDominationDependancyCalleeConst$2 := TestCallDominationDependancyCalleeConst();
     goto label_9#2;
 
   label_9#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 25} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 27} true;
     w := result.TestCallDominationDependancyCalleeConst$2;
     assume value_is(__ctobpl_const_6, w);
     assume value_is(__ctobpl_const_7, result.TestCallDominationDependancyCalleeConst$2);
     goto label_5#2;
 
   label_5#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 27} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 29} true;
     result.TestCallDominationDependancyReturns$1 := w;
     assume value_is(__ctobpl_const_5, w);
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 28} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 30} true;
+    return;
+}
+
+
+
+procedure {:extern} TestCondExit(x_.1: int) returns (result.TestCondExit$1: int);
+  free requires INT_LT(0, alloc);
+  modifies alloc, detChoiceCnt, Res_KERNEL_SOURCE, Res_PROBED, Mem_T.CHAR, Mem_T.FLOAT, Mem_T.INT4;
+  free ensures INT_LEQ(old(alloc), alloc);
+  ensures Subset(Empty(), Empty()) && (forall _r: int :: { Res_KERNEL_SOURCE[_r] } old(Res_KERNEL_SOURCE)[_r] == Res_KERNEL_SOURCE[_r]);
+  free ensures old(Res_KERNEL_SOURCE) == Res_KERNEL_SOURCE;
+  ensures Subset(Empty(), Empty()) && (forall _r: int :: { Res_PROBED[_r] } old(Res_PROBED)[_r] == Res_PROBED[_r]);
+  free ensures old(Res_PROBED) == Res_PROBED;
+  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
+  free ensures Mem_T.FLOAT == old(Mem_T.FLOAT);
+  free ensures Mem_T.INT4 == old(Mem_T.INT4);
+
+
+
+implementation {:extern} TestCondExit(x_.1: int) returns (result.TestCondExit$1: int)
+{
+  var {:extern} havoc_stringTemp: int;
+  var {:extern} condVal: int;
+  var {:extern} result.exit$2: int;
+  var {:extern} x: int;
+  var {:extern} tempBoogie0: int;
+  var {:extern} tempBoogie1: int;
+  var {:extern} tempBoogie2: int;
+  var {:extern} tempBoogie3: int;
+  var {:extern} tempBoogie4: int;
+  var {:extern} tempBoogie5: int;
+  var {:extern} tempBoogie6: int;
+  var {:extern} tempBoogie7: int;
+  var {:extern} tempBoogie8: int;
+  var {:extern} tempBoogie9: int;
+  var {:extern} tempBoogie10: int;
+  var {:extern} tempBoogie11: int;
+  var {:extern} tempBoogie12: int;
+  var {:extern} tempBoogie13: int;
+  var {:extern} tempBoogie14: int;
+  var {:extern} tempBoogie15: int;
+  var {:extern} tempBoogie16: int;
+  var {:extern} tempBoogie17: int;
+  var {:extern} tempBoogie18: int;
+  var {:extern} tempBoogie19: int;
+  var {:extern} __havoc_dummy_return: int;
+
+  anon0#2:
+    havoc_stringTemp := 0;
+    goto start#2;
+
+  start#2:
+    result.TestCondExit$1 := 0;
+    result.exit$2 := 0;
+    x := 0;
+    x := x_.1;
+    goto label_3#2;
+
+  label_3#2:
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 92} true;
+    goto label_3_true#2, label_3_false#2;
+
+  label_3_false#2:
+    assume !INT_LT(0, x);
+    assume value_is(__ctobpl_const_8, x);
+    goto label_4#2;
+
+  label_4#2:
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 94} true;
+    call result.exit$2 := det_choice();
+    assume false;
+    return;
+
+  label_3_true#2:
+    assume INT_LT(0, x);
+    assume value_is(__ctobpl_const_8, x);
+    goto label_7#2;
+
+  label_7#2:
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 93} true;
+    result.TestCondExit$1 := 0;
+    goto label_1#2;
+
+  label_1#2:
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 96} true;
     return;
 }
 
@@ -945,20 +1030,20 @@ implementation {:extern} TestEmptyRecursion(x_.1: int) returns (result.TestEmpty
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 42} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 44} true;
     call result.TestEmptyRecursion$2 := TestEmptyRecursion(x);
-    assume value_is(__ctobpl_const_8, x);
     assume value_is(__ctobpl_const_9, x);
+    assume value_is(__ctobpl_const_10, x);
     goto label_6#2;
 
   label_6#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 42} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 44} true;
     result.TestEmptyRecursion$1 := result.TestEmptyRecursion$2;
-    assume value_is(__ctobpl_const_10, result.TestEmptyRecursion$2);
+    assume value_is(__ctobpl_const_11, result.TestEmptyRecursion$2);
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 43} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 45} true;
     return;
 }
 
@@ -1018,28 +1103,28 @@ implementation {:extern} TestGlobalRecursion(x_.1: int) returns (result.TestGlob
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 48} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 51} true;
     tempBoogie0 := INT_PLUS(Mem_T.INT4[global2], 1, x);
     Mem_T.INT4 := Mem_T.INT4[global2 := tempBoogie0];
-    assume value_is(__ctobpl_const_11, Mem_T.INT4[global2]);
-    assume value_is(__ctobpl_const_12, x);
+    assume value_is(__ctobpl_const_12, Mem_T.INT4[global2]);
+    assume value_is(__ctobpl_const_13, x);
     goto label_4#2;
 
   label_4#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 49} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 52} true;
     call result.TestGlobalRecursion$2 := TestGlobalRecursion(x);
-    assume value_is(__ctobpl_const_13, x);
     assume value_is(__ctobpl_const_14, x);
+    assume value_is(__ctobpl_const_15, x);
     goto label_7#2;
 
   label_7#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 49} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 52} true;
     result.TestGlobalRecursion$1 := result.TestGlobalRecursion$2;
-    assume value_is(__ctobpl_const_15, result.TestGlobalRecursion$2);
+    assume value_is(__ctobpl_const_16, result.TestGlobalRecursion$2);
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 50} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 53} true;
     return;
 }
 
@@ -1099,39 +1184,39 @@ implementation {:extern} TestRecursion(x_.1: int) returns (result.TestRecursion$
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 54} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 57} true;
     goto label_3_true#2, label_3_false#2;
 
   label_3_false#2:
     assume !INT_LT(x, 0);
-    assume value_is(__ctobpl_const_16, x);
+    assume value_is(__ctobpl_const_17, x);
     goto label_4#2;
 
   label_4#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 56} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 59} true;
     call result.TestRecursion$2 := TestRecursion(x);
-    assume value_is(__ctobpl_const_17, x);
     assume value_is(__ctobpl_const_18, x);
+    assume value_is(__ctobpl_const_19, x);
     goto label_8#2;
 
   label_8#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 56} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 59} true;
     result.TestRecursion$1 := result.TestRecursion$2;
-    assume value_is(__ctobpl_const_19, result.TestRecursion$2);
+    assume value_is(__ctobpl_const_20, result.TestRecursion$2);
     goto label_1#2;
 
   label_3_true#2:
     assume INT_LT(x, 0);
-    assume value_is(__ctobpl_const_16, x);
+    assume value_is(__ctobpl_const_17, x);
     goto label_7#2;
 
   label_7#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 55} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 58} true;
     result.TestRecursion$1 := 0;
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 57} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 60} true;
     return;
 }
 
@@ -1198,89 +1283,89 @@ implementation {:extern} TestReturnDomination(x_.1: int, w_.1: int) returns (res
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 63} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 70} true;
     goto label_4#2;
 
   label_4#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 63} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 70} true;
     goto label_5#2;
 
   label_5#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 63} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 70} true;
     goto label_6#2;
 
   label_6#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 64} true;
-    assume value_is(__ctobpl_const_20, z);
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 71} true;
+    assume value_is(__ctobpl_const_21, z);
     z := INT_PLUS(z, 1, 1);
     goto label_7#2;
 
   label_7#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 65} true;
-    assume value_is(__ctobpl_const_21, Mem_T.INT4[global4]);
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 72} true;
+    assume value_is(__ctobpl_const_22, Mem_T.INT4[global4]);
     tempBoogie0 := INT_PLUS(Mem_T.INT4[global4], 1, 1);
     Mem_T.INT4 := Mem_T.INT4[global4 := tempBoogie0];
     goto label_8#2;
 
   label_8#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 66} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 73} true;
     goto label_8_true#2, label_8_false#2;
 
   label_8_false#2:
     assume !INT_LT(0, x);
-    assume value_is(__ctobpl_const_22, x);
+    assume value_is(__ctobpl_const_23, x);
     goto label_9#2;
 
   label_9#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 71} true;
-    assume value_is(__ctobpl_const_23, Mem_T.CHAR[global5]);
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 78} true;
+    assume value_is(__ctobpl_const_24, Mem_T.CHAR[global5]);
     tempBoogie0 := INT_PLUS(Mem_T.CHAR[global5], 1, 1);
     Mem_T.CHAR := Mem_T.CHAR[global5 := tempBoogie0];
     goto label_11#2;
 
   label_8_true#2:
     assume INT_LT(0, x);
-    assume value_is(__ctobpl_const_22, x);
+    assume value_is(__ctobpl_const_23, x);
     goto label_10#2;
 
   label_10#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 67} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 74} true;
     goto label_10_true#2, label_10_false#2;
 
   label_10_false#2:
     assume !INT_LT(0, w);
-    assume value_is(__ctobpl_const_24, w);
+    assume value_is(__ctobpl_const_25, w);
     goto label_11#2;
 
   label_11#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 72} true;
-    assume value_is(__ctobpl_const_25, y);
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 79} true;
+    assume value_is(__ctobpl_const_26, y);
     y := INT_PLUS(y, 1, 1);
     goto label_13#2;
 
   label_13#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 73} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 80} true;
     Mem_T.FLOAT := Mem_T.FLOAT[global3 := 0];
-    assume value_is(__ctobpl_const_26, Mem_T.FLOAT[global3]);
+    assume value_is(__ctobpl_const_27, Mem_T.FLOAT[global3]);
     goto label_14#2;
 
   label_14#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 74} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 81} true;
     result.TestReturnDomination$1 := 2;
     goto label_1#2;
 
   label_10_true#2:
     assume INT_LT(0, w);
-    assume value_is(__ctobpl_const_24, w);
+    assume value_is(__ctobpl_const_25, w);
     goto label_12#2;
 
   label_12#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 68} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 75} true;
     result.TestReturnDomination$1 := 0;
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 75} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 82} true;
     return;
 }
 
@@ -1345,55 +1430,117 @@ implementation {:extern} TestSimpleDominationDependancy(y_.1: int, z_.1: int) re
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 32} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 34} true;
     goto label_4#2;
 
   label_4#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 32} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 34} true;
     x := INT_PLUS(y, 1, 1);
-    assume value_is(__ctobpl_const_27, x);
-    assume value_is(__ctobpl_const_28, y);
+    assume value_is(__ctobpl_const_28, x);
+    assume value_is(__ctobpl_const_29, y);
     goto label_5#2;
 
   label_5#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 32} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 34} true;
     goto label_6#2;
 
   label_6#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 33} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 35} true;
     goto label_6_true#2, label_6_false#2;
 
   label_6_false#2:
     assume x == 0;
-    assume value_is(__ctobpl_const_29, x);
+    assume value_is(__ctobpl_const_30, x);
     goto label_7#2;
 
   label_6_true#2:
     assume x != 0;
-    assume value_is(__ctobpl_const_29, x);
+    assume value_is(__ctobpl_const_30, x);
     goto label_8#2;
 
   label_8#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 34} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 36} true;
     x := z;
-    assume value_is(__ctobpl_const_31, x);
-    assume value_is(__ctobpl_const_32, z);
+    assume value_is(__ctobpl_const_32, x);
+    assume value_is(__ctobpl_const_33, z);
     goto label_9#2;
 
   label_9#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 35} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 37} true;
     w := 2;
-    assume value_is(__ctobpl_const_33, w);
+    assume value_is(__ctobpl_const_34, w);
     goto label_7#2;
 
   label_7#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 37} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 39} true;
     result.TestSimpleDominationDependancy$1 := w;
-    assume value_is(__ctobpl_const_30, w);
+    assume value_is(__ctobpl_const_31, w);
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\simple_examples\simple1\v1\foo.c"} {:sourceline 38} true;
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 40} true;
+    return;
+}
+
+
+
+procedure {:extern} TestSimpleExit(x_.1: int) returns (result.TestSimpleExit$1: int);
+  free requires INT_LT(0, alloc);
+  modifies alloc, detChoiceCnt, Res_KERNEL_SOURCE, Res_PROBED, Mem_T.CHAR, Mem_T.FLOAT, Mem_T.INT4;
+  free ensures INT_LEQ(old(alloc), alloc);
+  ensures Subset(Empty(), Empty()) && (forall _r: int :: { Res_KERNEL_SOURCE[_r] } old(Res_KERNEL_SOURCE)[_r] == Res_KERNEL_SOURCE[_r]);
+  free ensures old(Res_KERNEL_SOURCE) == Res_KERNEL_SOURCE;
+  ensures Subset(Empty(), Empty()) && (forall _r: int :: { Res_PROBED[_r] } old(Res_PROBED)[_r] == Res_PROBED[_r]);
+  free ensures old(Res_PROBED) == Res_PROBED;
+  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
+  free ensures Mem_T.FLOAT == old(Mem_T.FLOAT);
+  free ensures Mem_T.INT4 == old(Mem_T.INT4);
+
+
+
+implementation {:extern} TestSimpleExit(x_.1: int) returns (result.TestSimpleExit$1: int)
+{
+  var {:extern} havoc_stringTemp: int;
+  var {:extern} condVal: int;
+  var {:extern} result.exit$2: int;
+  var {:extern} x: int;
+  var {:extern} tempBoogie0: int;
+  var {:extern} tempBoogie1: int;
+  var {:extern} tempBoogie2: int;
+  var {:extern} tempBoogie3: int;
+  var {:extern} tempBoogie4: int;
+  var {:extern} tempBoogie5: int;
+  var {:extern} tempBoogie6: int;
+  var {:extern} tempBoogie7: int;
+  var {:extern} tempBoogie8: int;
+  var {:extern} tempBoogie9: int;
+  var {:extern} tempBoogie10: int;
+  var {:extern} tempBoogie11: int;
+  var {:extern} tempBoogie12: int;
+  var {:extern} tempBoogie13: int;
+  var {:extern} tempBoogie14: int;
+  var {:extern} tempBoogie15: int;
+  var {:extern} tempBoogie16: int;
+  var {:extern} tempBoogie17: int;
+  var {:extern} tempBoogie18: int;
+  var {:extern} tempBoogie19: int;
+  var {:extern} __havoc_dummy_return: int;
+
+  anon0#2:
+    havoc_stringTemp := 0;
+    goto start#2;
+
+  start#2:
+    result.TestSimpleExit$1 := 0;
+    result.exit$2 := 0;
+    x := 0;
+    x := x_.1;
+    goto label_3#2;
+
+  label_3#2:
+    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\v1\example.c"} {:sourceline 86} true;
+    call result.exit$2 := det_choice();
+    assume false;
     return;
 }
 

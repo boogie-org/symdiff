@@ -45,18 +45,9 @@ namespace Dependency
 
             List<Declaration> declarations = program.TopLevelDeclarations;
 
-
             var implementations = new List<Declaration>(program.TopLevelDeclarations.Where(x => x is Implementation));
             foreach (Implementation impl in implementations)
-            {
-                Console.WriteLine("Found implementation: {0}", impl.ToString());
-                var visitor = new DependencyVisitor();
-                visitor.Visit(impl);
-                procDependencies[impl.Proc].Print();
-                Console.WriteLine();
-            }
-
-            System.Console.WriteLine("Done.");
+                (new DependencyVisitor()).Visit(impl);
 
             return 0;
         }
@@ -81,17 +72,38 @@ namespace Dependency
             }
 
             public void Print() {
-                Console.Write("[ ");
+                Console.WriteLine("[ ");
                 foreach (var v in Keys)
 	            {
-                    Console.Write(v + " -> { ");
+                    int maxLen = 0;
+                    var vheader = "  " + v + " <- { ";
+                    Console.Write(vheader);
+                    if (this[v].Count == 0)
+                    {
+                        Console.WriteLine("}");
+                        continue;
+                    }
+
+                    string vspaces = new string(' ',vheader.Length);
                     foreach (var d in this[v])
 	                {
-		                 Console.Write(d + " ");
+                        var dLen = d.ToString().Length;
+                        if (d == this[v].Last())
+                        {
+                            Console.Write(d);
+                            maxLen = (dLen > maxLen ? dLen : maxLen);
+                            string lastSpaces = new string(' ', maxLen - dLen);
+                            Console.WriteLine(lastSpaces + " }");
+                        }
+                        else
+                        {
+                            Console.WriteLine(d);
+                            maxLen = (dLen > maxLen ? dLen : maxLen);
+                            Console.Write(vspaces);
+                        }
 	                }
-                    Console.Write("}" + (Keys.Last() == v ? "" : " ,"));
 	            }
-                Console.WriteLine(" ]");
+                Console.WriteLine("]");
             }
 
             // returns (d > this)
@@ -129,7 +141,6 @@ namespace Dependency
             public Dictionary<Block, HashSet<Block>> dominatedBy = new Dictionary<Block, HashSet<Block>>();
             // a mapping: branching Block -> { Variables in the branch conditional }
             private Dictionary<Block, HashSet<Variable>> branchCondVars = new Dictionary<Block,HashSet<Variable>>();
-            private Graph<Block> blockGraph;
             private List<Absy> workList;
             private Dictionary<Absy, Block> cmdToBlock;
             private Procedure currentProc;
@@ -208,9 +219,10 @@ namespace Dependency
                 }
 
                 procDependencies[currentProc] = PruneDependencies(node, procDependencies[currentProc]);
-#if DBGRES
-                Console.WriteLine("Result: ");
+
+                Console.WriteLine("Dependencies for procedure " + node.ToString() + "( ) :");
                 procDependencies[currentProc].Print();
+#if DBGRES
                 Console.ReadLine();
 #endif
                 return node;
@@ -434,12 +446,21 @@ namespace Dependency
 
                 // an external stub
                 if (!(node.Proc == currentProc || procDependencies.Keys.Contains(node.Proc))) {
-                    procDependencies[node.Proc] = new Dependencies();
-                    foreach (var v in node.Proc.OutParams)
-                    {   // all outputs depend on all inputs
-                        procDependencies[node.Proc][v] = new HashSet<Variable>(node.Proc.InParams);
-                        // and on *
-                        procDependencies[node.Proc][v].Add(nonDetVar);
+                    var procImpl = program.Implementations().Where(x => x.Proc == node.Proc);
+                    if (procImpl.Count() == 1) // the implementation exists, but has yet to be visited
+                    {   // TODO: careful of mutual recursion
+                        (new DependencyVisitor()).Visit(procImpl.First());
+                        Debug.Assert(procDependencies.ContainsKey(node.Proc));
+                    }
+                    else
+                    {
+                        procDependencies[node.Proc] = new Dependencies();
+                        foreach (var v in node.Proc.OutParams)
+                        {   // all outputs depend on all inputs
+                            procDependencies[node.Proc][v] = new HashSet<Variable>(node.Proc.InParams);
+                            // and on *
+                            procDependencies[node.Proc][v].Add(nonDetVar);
+                        }
                     }
                 }
 
@@ -521,7 +542,11 @@ namespace Dependency
                 var state = GatherPredecessorsState(node,currBlock);
                 AssignAndPropagate(node, currBlock, state);
                 // set the result for the procedure
-                procDependencies[currentProc] = dependencies[node];
+                if (!procDependencies.ContainsKey(currentProc))
+                    procDependencies[currentProc] = dependencies[node];
+                else
+                    procDependencies[currentProc].JoinWith(dependencies[node]);
+                
                 return node;
             }
 
