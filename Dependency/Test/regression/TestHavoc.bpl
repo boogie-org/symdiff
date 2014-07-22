@@ -24,6 +24,8 @@ function {:extern} Base(int) : int;
 
 axiom (forall x: int :: { Base(x) } INT_LEQ(Base(x), x));
 
+function {:extern} DT(int) : name;
+
 var {:extern} Mem_T.INT4: [int]int;
 
 function {:extern} Match(a: int, t: name) : bool;
@@ -62,6 +64,11 @@ function {:extern}  INT_ADD(x: int, y: int) : int
 function {:extern}  INT_SUB(x: int, y: int) : int
 {
   x - y
+}
+
+function {:extern}  INT_MULT(x: int, y: int) : int
+{
+  x * y
 }
 
 function {:extern}  INT_LT(x: int, y: int) : bool
@@ -104,19 +111,71 @@ function {:extern}  INT_UGEQ(x: int, y: int) : bool
   x >= y
 }
 
-function {:extern} INT_AND(a: int, b: int) : int;
+function {:extern}  BV32_EQ(x: bv32, y: bv32) : bool
+{
+  x == y
+}
 
-axiom (forall a: int, b: int :: { INT_AND(a, b) } a == b ==> INT_AND(a, b) == a);
+function {:extern}  BV32_NEQ(x: bv32, y: bv32) : bool
+{
+  x != y
+}
 
-axiom (forall a: int, b: int :: { INT_AND(a, b) } POW2(a) && POW2(b) && a != b ==> INT_AND(a, b) == 0);
+function {:extern} {:bvbuiltin "bvadd"} BV32_ADD(x: bv32, y: bv32) : bv32;
 
-axiom (forall a: int, b: int :: { INT_AND(a, b) } a == 0 || b == 0 ==> INT_AND(a, b) == 0);
+function {:extern} {:bvbuiltin "bvsub"} BV32_SUB(x: bv32, y: bv32) : bv32;
 
-function {:extern} INT_OR(a: int, b: int) : int;
+function {:extern} {:bvbuiltin "bvmul"} BV32_MULT(x: bv32, y: bv32) : bv32;
 
-function {:extern} INT_XOR(a: int, b: int) : int;
+function {:extern} {:bvbuiltin "bvudiv"} BV32_DIV(x: bv32, y: bv32) : bv32;
 
-function {:extern} INT_NOT(a: int) : int;
+function {:extern} {:bvbuiltin "bvult"} BV32_ULT(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvslt"} BV32_LT(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvule"} BV32_ULEQ(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvsle"} BV32_LEQ(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvugt"} BV32_UGT(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvsgt"} BV32_GT(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvuge"} BV32_UGEQ(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvsge"} BV32_GEQ(x: bv32, y: bv32) : bool;
+
+function {:extern} MINUS_BOTH_PTR_OR_BOTH_INT(a: int, b: int, size: int) : int;
+
+axiom (forall a: int, b: int, size: int :: { MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size) } INT_LEQ(INT_MULT(size, MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size)), INT_SUB(a, b)) && INT_LT(INT_SUB(a, b), INT_MULT(size, INT_ADD(MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size), 1))));
+
+axiom (forall a: int, b: int, size: int :: { MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size) } MINUS_BOTH_PTR_OR_BOTH_INT(a, b, 1) == INT_SUB(a, b));
+
+function {:extern} MINUS_LEFT_PTR(a: int, a_size: int, b: int) : int;
+
+axiom (forall a: int, a_size: int, b: int :: { MINUS_LEFT_PTR(a, a_size, b) } MINUS_LEFT_PTR(a, a_size, b) == INT_SUB(a, INT_MULT(a_size, b)));
+
+function {:extern} PLUS(a: int, a_size: int, b: int) : int;
+
+axiom (forall a: int, a_size: int, b: int :: { PLUS(a, a_size, b) } PLUS(a, a_size, b) == INT_ADD(a, INT_MULT(a_size, b)));
+
+function {:extern} MULT(a: int, b: int) : int;
+
+axiom (forall a: int, b: int :: { MULT(a, b) } MULT(a, b) == INT_MULT(a, b));
+
+function {:extern} DIV(a: int, b: int) : int;
+
+function {:extern} BINARY_UNKNOWN(a: int, b: int) : int;
+
+axiom (forall a: int, b: int :: { DIV(a, b) } a >= 0 && b > 0 ==> b * DIV(a, b) <= a && a < b * (DIV(a, b) + 1));
+
+axiom (forall a: int, b: int :: { DIV(a, b) } a >= 0 && b < 0 ==> b * DIV(a, b) <= a && a < b * (DIV(a, b) - 1));
+
+axiom (forall a: int, b: int :: { DIV(a, b) } a < 0 && b > 0 ==> b * DIV(a, b) >= a && a > b * (DIV(a, b) - 1));
+
+axiom (forall a: int, b: int :: { DIV(a, b) } a < 0 && b < 0 ==> b * DIV(a, b) >= a && a > b * (DIV(a, b) + 1));
+
+function {:extern} BINARY_BOTH_INT(a: int, b: int) : int;
 
 function {:extern} POW2(a: int) : bool;
 
@@ -172,96 +231,19 @@ axiom POW2(16777216);
 
 axiom POW2(33554432);
 
-function {:extern} INT_MINUS_BOTH_PTR_OR_BOTH_INT(a: int, b: int, size: int) : int;
+function {:extern} BIT_BAND(a: int, b: int) : int;
 
-axiom (forall a: int, b: int, size: int :: { INT_MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size) } size * INT_MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size) <= a - b && a - b < size * (INT_MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size) + 1));
+axiom (forall a: int, b: int :: { BIT_BAND(a, b) } a == b ==> BIT_BAND(a, b) == a);
 
-function {:extern} INT_MINUS_LEFT_PTR(a: int, a_size: int, b: int) : int;
+axiom (forall a: int, b: int :: { BIT_BAND(a, b) } POW2(a) && POW2(b) && a != b ==> BIT_BAND(a, b) == 0);
 
-axiom (forall a: int, a_size: int, b: int :: { INT_MINUS_LEFT_PTR(a, a_size, b) } INT_MINUS_LEFT_PTR(a, a_size, b) == a - a_size * b);
+axiom (forall a: int, b: int :: { BIT_BAND(a, b) } a == 0 || b == 0 ==> BIT_BAND(a, b) == 0);
 
-function {:extern} INT_PLUS(a: int, a_size: int, b: int) : int;
+function {:extern} BIT_BOR(a: int, b: int) : int;
 
-axiom (forall a: int, a_size: int, b: int :: { INT_PLUS(a, a_size, b) } INT_PLUS(a, a_size, b) == a + a_size * b);
+function {:extern} BIT_BXOR(a: int, b: int) : int;
 
-function {:extern} INT_MULT(a: int, b: int) : int;
-
-axiom (forall a: int, b: int :: { INT_MULT(a, b) } INT_MULT(a, b) == a * b);
-
-function {:extern} INT_DIV(a: int, b: int) : int;
-
-axiom (forall a: int, b: int :: { INT_DIV(a, b) } a >= 0 && b > 0 ==> b * INT_DIV(a, b) <= a && a < b * (INT_DIV(a, b) + 1));
-
-axiom (forall a: int, b: int :: { INT_DIV(a, b) } a >= 0 && b < 0 ==> b * INT_DIV(a, b) <= a && a < b * (INT_DIV(a, b) - 1));
-
-axiom (forall a: int, b: int :: { INT_DIV(a, b) } a < 0 && b > 0 ==> b * INT_DIV(a, b) >= a && a > b * (INT_DIV(a, b) - 1));
-
-axiom (forall a: int, b: int :: { INT_DIV(a, b) } a < 0 && b < 0 ==> b * INT_DIV(a, b) >= a && a > b * (INT_DIV(a, b) + 1));
-
-function {:extern} INT_BINARY_BOTH_INT(a: int, b: int) : int;
-
-function {:extern}  BV32_EQ(x: bv32, y: bv32) : bool
-{
-  x == y
-}
-
-function {:extern}  BV32_NEQ(x: bv32, y: bv32) : bool
-{
-  x != y
-}
-
-function {:extern} {:bvbuiltin "bvadd"} BV32_ADD(x: bv32, y: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvsub"} BV32_SUB(x: bv32, y: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvmul"} BV32_MULT(x: bv32, y: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvudiv"} BV32_DIV(x: bv32, y: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvult"} BV32_ULT(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvslt"} BV32_LT(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvule"} BV32_ULEQ(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvsle"} BV32_LEQ(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvugt"} BV32_UGT(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvsgt"} BV32_GT(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvuge"} BV32_UGEQ(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvsge"} BV32_GEQ(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvand"} BV32_AND(a: bv32, b: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvor"} BV32_OR(a: bv32, b: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvxor"} BV32_XOR(a: bv32, b: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvnot"} BV32_NOT(a: bv32) : bv32;
-
-function {:extern}  BV32_MINUS_BOTH_PTR_OR_BOTH_INT(a: bv32, b: bv32, size: bv32) : bv32
-{
-  BV32_DIV(BV32_SUB(a, b), size)
-}
-
-function {:extern}  BV32_MINUS_LEFT_PTR(a: bv32, a_size: bv32, b: bv32) : bv32
-{
-  BV32_SUB(a, BV32_MULT(a_size, b))
-}
-
-function {:extern}  BV32_PLUS(a: bv32, a_size: bv32, b: bv32) : bv32
-{
-  BV32_ADD(a, BV32_MULT(a_size, b))
-}
-
-function {:extern} BV32_BINARY_BOTH_INT(a: bv32, b: bv32) : bv32;
-
-function {:extern} bv32ToInt(bv32) : int;
-
-function {:extern} intToBv32(int) : bv32;
+function {:extern} BIT_BNOT(a: int) : int;
 
 function {:extern} choose(a: bool, b: int, c: int) : int;
 
@@ -302,23 +284,21 @@ procedure {:extern} __HAVOC_free(a: int);
 function {:extern} NewAlloc(x: int, y: int) : int;
 
 procedure {:extern} __HAVOC_malloc(obj_size: int) returns (new: int);
-  requires INT_GEQ(obj_size, 0);
+  free requires INT_GEQ(obj_size, 0);
   modifies alloc;
   ensures new == old(alloc);
   ensures INT_GT(alloc, INT_ADD(new, obj_size));
   ensures Base(new) == new;
-  ensures INT_GEQ(new, 0);
 
 
 
 procedure {:extern} __HAVOC_det_malloc(obj_size: int) returns (new: int);
-  requires INT_GEQ(obj_size, 0);
+  free requires INT_GEQ(obj_size, 0);
   modifies alloc;
   ensures new == old(alloc);
   ensures INT_GT(alloc, INT_ADD(new, obj_size));
   ensures Base(new) == new;
   ensures alloc == NewAlloc(old(alloc), obj_size);
-  ensures INT_GEQ(new, 0);
 
 
 
@@ -340,6 +320,10 @@ procedure {:extern} __HAVOC_memset_split_4(A: [int]int, p: int, c: int, n: int) 
 
 
 
+procedure {:extern} nondet_intrinsic() returns (x: int);
+
+
+
 procedure {:extern} nondet_choice() returns (x: int);
 
 
@@ -349,7 +333,6 @@ var {:extern} detChoiceCnt: int;
 function {:extern} DetChoiceFunc(a: int) : int;
 
 procedure {:extern} det_choice() returns (x: int);
-  modifies detChoiceCnt;
   ensures detChoiceCnt == INT_ADD(old(detChoiceCnt), 1);
   ensures x == DetChoiceFunc(old(detChoiceCnt));
 
@@ -366,10 +349,6 @@ procedure {:extern} _xstrcasecmp(a0: int, a1: int) returns (ret: int);
 procedure {:extern} _xstrcmp(a0: int, a1: int) returns (ret: int);
 
 
-
-var {:extern} Res_KERNEL_SOURCE: [int]int;
-
-var {:extern} Res_PROBED: [int]int;
 
 function {:extern} Equal([int]bool, [int]bool) : bool;
 
@@ -405,7 +384,7 @@ axiom (forall n: int, x: int, y: int :: { AtLeast(n, x), Rep(n, x), Rep(n, y) } 
 
 axiom (forall n: int, x: int :: { AtLeast(n, x) } AtLeast(n, x)[x]);
 
-axiom (forall n: int, x: int, z: int :: { INT_PLUS(x, n, z) } Rep(n, x) == Rep(n, INT_PLUS(x, n, z)));
+axiom (forall n: int, x: int, z: int :: { PLUS(x, n, z) } Rep(n, x) == Rep(n, PLUS(x, n, z)));
 
 axiom (forall n: int, x: int :: { Rep(n, x) } (exists k: int :: INT_SUB(Rep(n, x), x) == INT_MULT(n, k)));
 
@@ -413,7 +392,7 @@ function {:extern} Array(int, int, int) : [int]bool;
 
 axiom (forall x: int, n: int, z: int :: { Array(x, n, z) } INT_LEQ(z, 0) ==> Equal(Array(x, n, z), Empty()));
 
-axiom (forall x: int, n: int, z: int :: { Array(x, n, z) } INT_GT(z, 0) ==> Equal(Array(x, n, z), Difference(AtLeast(n, x), AtLeast(n, INT_PLUS(x, n, z)))));
+axiom (forall x: int, n: int, z: int :: { Array(x, n, z) } INT_GT(z, 0) ==> Equal(Array(x, n, z), Difference(AtLeast(n, x), AtLeast(n, PLUS(x, n, z)))));
 
 axiom (forall x: int :: !Empty()[x]);
 
@@ -465,40 +444,38 @@ axiom (forall M: [name][int]int, x: int, y: int :: { Unified(M[Field(x) := M[Fie
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 5} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "x"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 5} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "x"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 5} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "result.non_det"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "result.foo"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 5} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "y"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 6} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "result.foo"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "result.non_det"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "y"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 6} unique __ctobpl_const_6: int;
 
-procedure {:extern} foo(a0: int) returns (ret: int);
+procedure {:extern} foo(__dummy_formal_foo_0.__1: int) returns (__dummy_retfoo: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt;
+  modifies alloc, detChoiceCnt, Mem_T.INT4;
   free ensures INT_LEQ(old(alloc), alloc);
+  free ensures Mem_T.INT4 == old(Mem_T.INT4);
 
 
 
-procedure {:extern} non_det() returns (ret: int);
+procedure {:extern} non_det() returns (__dummy_retnon_det: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt;
+  modifies alloc, detChoiceCnt, Mem_T.INT4;
   free ensures INT_LEQ(old(alloc), alloc);
+  free ensures Mem_T.INT4 == old(Mem_T.INT4);
 
 
 
 procedure {:extern} doo() returns (result.doo$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Res_KERNEL_SOURCE, Res_PROBED, Mem_T.INT4;
+  modifies alloc, detChoiceCnt, Mem_T.INT4;
   free ensures INT_LEQ(old(alloc), alloc);
-  ensures Subset(Empty(), Empty()) && (forall _r: int :: { Res_KERNEL_SOURCE[_r] } old(Res_KERNEL_SOURCE)[_r] == Res_KERNEL_SOURCE[_r]);
-  free ensures old(Res_KERNEL_SOURCE) == Res_KERNEL_SOURCE;
-  ensures Subset(Empty(), Empty()) && (forall _r: int :: { Res_PROBED[_r] } old(Res_PROBED)[_r] == Res_PROBED[_r]);
-  free ensures old(Res_PROBED) == Res_PROBED;
   free ensures Mem_T.INT4 == old(Mem_T.INT4);
 
 
@@ -528,7 +505,6 @@ implementation {:extern} doo() returns (result.doo$1: int)
   var {:extern} tempBoogie17: int;
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
-  var {:extern} __havoc_dummy_return: int;
 
   anon0#2:
     havoc_stringTemp := 0;
@@ -540,36 +516,32 @@ implementation {:extern} doo() returns (result.doo$1: int)
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 10} true;
-    havoc result.non_det$2;
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 10} true;
+    call result.non_det$2 := non_det();
     goto label_6#2;
 
   label_6#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 10} true;
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 10} true;
     result.doo$1 := result.non_det$2;
     assume value_is(__ctobpl_const_1, result.non_det$2);
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 11} true;
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 11} true;
     return;
 }
 
 
 
-procedure {:extern} goo(x_.1: int) returns (result.goo$1: int);
+procedure {:extern} goo(x.__1: int) returns (result.goo$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Res_KERNEL_SOURCE, Res_PROBED, Mem_T.INT4;
+  modifies alloc, detChoiceCnt, Mem_T.INT4;
   free ensures INT_LEQ(old(alloc), alloc);
-  ensures Subset(Empty(), Empty()) && (forall _r: int :: { Res_KERNEL_SOURCE[_r] } old(Res_KERNEL_SOURCE)[_r] == Res_KERNEL_SOURCE[_r]);
-  free ensures old(Res_KERNEL_SOURCE) == Res_KERNEL_SOURCE;
-  ensures Subset(Empty(), Empty()) && (forall _r: int :: { Res_PROBED[_r] } old(Res_PROBED)[_r] == Res_PROBED[_r]);
-  free ensures old(Res_PROBED) == Res_PROBED;
   free ensures Mem_T.INT4 == old(Mem_T.INT4);
 
 
 
-implementation {:extern} goo(x_.1: int) returns (result.goo$1: int)
+implementation {:extern} goo(x.__1: int) returns (result.goo$1: int)
 {
   var {:extern} havoc_stringTemp: int;
   var {:extern} condVal: int;
@@ -596,7 +568,6 @@ implementation {:extern} goo(x_.1: int) returns (result.goo$1: int)
   var {:extern} tempBoogie17: int;
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
-  var {:extern} __havoc_dummy_return: int;
 
   anon0#2:
     havoc_stringTemp := 0;
@@ -607,35 +578,35 @@ implementation {:extern} goo(x_.1: int) returns (result.goo$1: int)
     result.goo$1 := 0;
     x := 0;
     y := 0;
-    x := x_.1;
+    x := x.__1;
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 4} true;
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 4} true;
     goto label_4#2;
 
   label_4#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 5} true;
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 5} true;
     call result.foo$2 := foo(x);
     assume value_is(__ctobpl_const_2, x);
     assume value_is(__ctobpl_const_3, x);
     goto label_7#2;
 
   label_7#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 5} true;
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 5} true;
     y := result.foo$2;
     assume value_is(__ctobpl_const_4, y);
     assume value_is(__ctobpl_const_5, result.foo$2);
     goto label_8#2;
 
   label_8#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 6} true;
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 6} true;
     result.goo$1 := y;
     assume value_is(__ctobpl_const_6, y);
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 7} true;
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 7} true;
     return;
 }
 

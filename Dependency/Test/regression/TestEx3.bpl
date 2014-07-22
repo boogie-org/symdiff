@@ -24,6 +24,8 @@ function {:extern} Base(int) : int;
 
 axiom (forall x: int :: { Base(x) } INT_LEQ(Base(x), x));
 
+function {:extern} DT(int) : name;
+
 var {:extern} Mem_T.INT4: [int]int;
 
 var {:extern} Mem_T.op1__EXPR: [int]int;
@@ -48,11 +50,11 @@ axiom (forall b: int, a: int, t: name :: { MatchBase(b, a, T.Ptr(t)) } MatchBase
 
 axiom (forall v: int, t: name :: { HasType(v, T.Ptr(t)) } HasType(v, T.Ptr(t)) <==> v == 0 || (INT_GT(v, 0) && Match(v, t) && MatchBase(Base(v), v, t)));
 
-const {:extern} unique T.oper__EXPR: name;
-
 const {:extern} unique T.op1__EXPR: name;
 
 const {:extern} unique T.op2__EXPR: name;
+
+const {:extern} unique T.oper__EXPR: name;
 
 const {:extern} unique T.result__EXPR: name;
 
@@ -66,91 +68,27 @@ const {:extern} unique T._EXPR: name;
 
 function {:extern} op1__EXPR(int) : int;
 
-function {:extern} op1__EXPRInv(int) : int;
-
-function {:extern} _S_op1__EXPR([int]bool) : [int]bool;
-
-function {:extern} _S_op1__EXPRInv([int]bool) : [int]bool;
-
-axiom (forall x: int, S: [int]bool :: { _S_op1__EXPR(S)[x] } _S_op1__EXPR(S)[x] <==> S[op1__EXPRInv(x)]);
-
-axiom (forall x: int, S: [int]bool :: { _S_op1__EXPRInv(S)[x] } _S_op1__EXPRInv(S)[x] <==> S[op1__EXPR(x)]);
-
-axiom (forall x: int, S: [int]bool :: { S[x], _S_op1__EXPR(S) } S[x] ==> _S_op1__EXPR(S)[op1__EXPR(x)]);
-
-axiom (forall x: int, S: [int]bool :: { S[x], _S_op1__EXPRInv(S) } S[x] ==> _S_op1__EXPRInv(S)[op1__EXPRInv(x)]);
-
 axiom (forall x: int :: { op1__EXPR(x) } op1__EXPR(x) == INT_ADD(x, 4));
 
-axiom (forall x: int :: { op1__EXPRInv(x) } op1__EXPRInv(x) == INT_SUB(x, 4));
-
-axiom (forall x: int :: { op1__EXPR(x) } op1__EXPR(x) == INT_PLUS(x, 1, 4));
+axiom (forall x: int :: { op1__EXPR(x) } op1__EXPR(x) == PLUS(x, 1, 4));
 
 function {:extern} op2__EXPR(int) : int;
 
-function {:extern} op2__EXPRInv(int) : int;
-
-function {:extern} _S_op2__EXPR([int]bool) : [int]bool;
-
-function {:extern} _S_op2__EXPRInv([int]bool) : [int]bool;
-
-axiom (forall x: int, S: [int]bool :: { _S_op2__EXPR(S)[x] } _S_op2__EXPR(S)[x] <==> S[op2__EXPRInv(x)]);
-
-axiom (forall x: int, S: [int]bool :: { _S_op2__EXPRInv(S)[x] } _S_op2__EXPRInv(S)[x] <==> S[op2__EXPR(x)]);
-
-axiom (forall x: int, S: [int]bool :: { S[x], _S_op2__EXPR(S) } S[x] ==> _S_op2__EXPR(S)[op2__EXPR(x)]);
-
-axiom (forall x: int, S: [int]bool :: { S[x], _S_op2__EXPRInv(S) } S[x] ==> _S_op2__EXPRInv(S)[op2__EXPRInv(x)]);
-
 axiom (forall x: int :: { op2__EXPR(x) } op2__EXPR(x) == INT_ADD(x, 8));
 
-axiom (forall x: int :: { op2__EXPRInv(x) } op2__EXPRInv(x) == INT_SUB(x, 8));
-
-axiom (forall x: int :: { op2__EXPR(x) } op2__EXPR(x) == INT_PLUS(x, 1, 8));
+axiom (forall x: int :: { op2__EXPR(x) } op2__EXPR(x) == PLUS(x, 1, 8));
 
 function {:extern} oper__EXPR(int) : int;
 
-function {:extern} oper__EXPRInv(int) : int;
-
-function {:extern} _S_oper__EXPR([int]bool) : [int]bool;
-
-function {:extern} _S_oper__EXPRInv([int]bool) : [int]bool;
-
-axiom (forall x: int, S: [int]bool :: { _S_oper__EXPR(S)[x] } _S_oper__EXPR(S)[x] <==> S[oper__EXPRInv(x)]);
-
-axiom (forall x: int, S: [int]bool :: { _S_oper__EXPRInv(S)[x] } _S_oper__EXPRInv(S)[x] <==> S[oper__EXPR(x)]);
-
-axiom (forall x: int, S: [int]bool :: { S[x], _S_oper__EXPR(S) } S[x] ==> _S_oper__EXPR(S)[oper__EXPR(x)]);
-
-axiom (forall x: int, S: [int]bool :: { S[x], _S_oper__EXPRInv(S) } S[x] ==> _S_oper__EXPRInv(S)[oper__EXPRInv(x)]);
-
 axiom (forall x: int :: { oper__EXPR(x) } oper__EXPR(x) == INT_ADD(x, 0));
 
-axiom (forall x: int :: { oper__EXPRInv(x) } oper__EXPRInv(x) == INT_SUB(x, 0));
-
-axiom (forall x: int :: { oper__EXPR(x) } oper__EXPR(x) == INT_PLUS(x, 1, 0));
+axiom (forall x: int :: { oper__EXPR(x) } oper__EXPR(x) == PLUS(x, 1, 0));
 
 function {:extern} result__EXPR(int) : int;
 
-function {:extern} result__EXPRInv(int) : int;
-
-function {:extern} _S_result__EXPR([int]bool) : [int]bool;
-
-function {:extern} _S_result__EXPRInv([int]bool) : [int]bool;
-
-axiom (forall x: int, S: [int]bool :: { _S_result__EXPR(S)[x] } _S_result__EXPR(S)[x] <==> S[result__EXPRInv(x)]);
-
-axiom (forall x: int, S: [int]bool :: { _S_result__EXPRInv(S)[x] } _S_result__EXPRInv(S)[x] <==> S[result__EXPR(x)]);
-
-axiom (forall x: int, S: [int]bool :: { S[x], _S_result__EXPR(S) } S[x] ==> _S_result__EXPR(S)[result__EXPR(x)]);
-
-axiom (forall x: int, S: [int]bool :: { S[x], _S_result__EXPRInv(S) } S[x] ==> _S_result__EXPRInv(S)[result__EXPRInv(x)]);
-
 axiom (forall x: int :: { result__EXPR(x) } result__EXPR(x) == INT_ADD(x, 12));
 
-axiom (forall x: int :: { result__EXPRInv(x) } result__EXPRInv(x) == INT_SUB(x, 12));
-
-axiom (forall x: int :: { result__EXPR(x) } result__EXPR(x) == INT_PLUS(x, 1, 12));
+axiom (forall x: int :: { result__EXPR(x) } result__EXPR(x) == PLUS(x, 1, 12));
 
 function {:extern}  INT_EQ(x: int, y: int) : bool
 {
@@ -170,6 +108,11 @@ function {:extern}  INT_ADD(x: int, y: int) : int
 function {:extern}  INT_SUB(x: int, y: int) : int
 {
   x - y
+}
+
+function {:extern}  INT_MULT(x: int, y: int) : int
+{
+  x * y
 }
 
 function {:extern}  INT_LT(x: int, y: int) : bool
@@ -212,19 +155,71 @@ function {:extern}  INT_UGEQ(x: int, y: int) : bool
   x >= y
 }
 
-function {:extern} INT_AND(a: int, b: int) : int;
+function {:extern}  BV32_EQ(x: bv32, y: bv32) : bool
+{
+  x == y
+}
 
-axiom (forall a: int, b: int :: { INT_AND(a, b) } a == b ==> INT_AND(a, b) == a);
+function {:extern}  BV32_NEQ(x: bv32, y: bv32) : bool
+{
+  x != y
+}
 
-axiom (forall a: int, b: int :: { INT_AND(a, b) } POW2(a) && POW2(b) && a != b ==> INT_AND(a, b) == 0);
+function {:extern} {:bvbuiltin "bvadd"} BV32_ADD(x: bv32, y: bv32) : bv32;
 
-axiom (forall a: int, b: int :: { INT_AND(a, b) } a == 0 || b == 0 ==> INT_AND(a, b) == 0);
+function {:extern} {:bvbuiltin "bvsub"} BV32_SUB(x: bv32, y: bv32) : bv32;
 
-function {:extern} INT_OR(a: int, b: int) : int;
+function {:extern} {:bvbuiltin "bvmul"} BV32_MULT(x: bv32, y: bv32) : bv32;
 
-function {:extern} INT_XOR(a: int, b: int) : int;
+function {:extern} {:bvbuiltin "bvudiv"} BV32_DIV(x: bv32, y: bv32) : bv32;
 
-function {:extern} INT_NOT(a: int) : int;
+function {:extern} {:bvbuiltin "bvult"} BV32_ULT(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvslt"} BV32_LT(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvule"} BV32_ULEQ(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvsle"} BV32_LEQ(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvugt"} BV32_UGT(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvsgt"} BV32_GT(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvuge"} BV32_UGEQ(x: bv32, y: bv32) : bool;
+
+function {:extern} {:bvbuiltin "bvsge"} BV32_GEQ(x: bv32, y: bv32) : bool;
+
+function {:extern} MINUS_BOTH_PTR_OR_BOTH_INT(a: int, b: int, size: int) : int;
+
+axiom (forall a: int, b: int, size: int :: { MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size) } INT_LEQ(INT_MULT(size, MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size)), INT_SUB(a, b)) && INT_LT(INT_SUB(a, b), INT_MULT(size, INT_ADD(MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size), 1))));
+
+axiom (forall a: int, b: int, size: int :: { MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size) } MINUS_BOTH_PTR_OR_BOTH_INT(a, b, 1) == INT_SUB(a, b));
+
+function {:extern} MINUS_LEFT_PTR(a: int, a_size: int, b: int) : int;
+
+axiom (forall a: int, a_size: int, b: int :: { MINUS_LEFT_PTR(a, a_size, b) } MINUS_LEFT_PTR(a, a_size, b) == INT_SUB(a, INT_MULT(a_size, b)));
+
+function {:extern} PLUS(a: int, a_size: int, b: int) : int;
+
+axiom (forall a: int, a_size: int, b: int :: { PLUS(a, a_size, b) } PLUS(a, a_size, b) == INT_ADD(a, INT_MULT(a_size, b)));
+
+function {:extern} MULT(a: int, b: int) : int;
+
+axiom (forall a: int, b: int :: { MULT(a, b) } MULT(a, b) == INT_MULT(a, b));
+
+function {:extern} DIV(a: int, b: int) : int;
+
+function {:extern} BINARY_UNKNOWN(a: int, b: int) : int;
+
+axiom (forall a: int, b: int :: { DIV(a, b) } a >= 0 && b > 0 ==> b * DIV(a, b) <= a && a < b * (DIV(a, b) + 1));
+
+axiom (forall a: int, b: int :: { DIV(a, b) } a >= 0 && b < 0 ==> b * DIV(a, b) <= a && a < b * (DIV(a, b) - 1));
+
+axiom (forall a: int, b: int :: { DIV(a, b) } a < 0 && b > 0 ==> b * DIV(a, b) >= a && a > b * (DIV(a, b) - 1));
+
+axiom (forall a: int, b: int :: { DIV(a, b) } a < 0 && b < 0 ==> b * DIV(a, b) >= a && a > b * (DIV(a, b) + 1));
+
+function {:extern} BINARY_BOTH_INT(a: int, b: int) : int;
 
 function {:extern} POW2(a: int) : bool;
 
@@ -280,96 +275,19 @@ axiom POW2(16777216);
 
 axiom POW2(33554432);
 
-function {:extern} INT_MINUS_BOTH_PTR_OR_BOTH_INT(a: int, b: int, size: int) : int;
+function {:extern} BIT_BAND(a: int, b: int) : int;
 
-axiom (forall a: int, b: int, size: int :: { INT_MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size) } size * INT_MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size) <= a - b && a - b < size * (INT_MINUS_BOTH_PTR_OR_BOTH_INT(a, b, size) + 1));
+axiom (forall a: int, b: int :: { BIT_BAND(a, b) } a == b ==> BIT_BAND(a, b) == a);
 
-function {:extern} INT_MINUS_LEFT_PTR(a: int, a_size: int, b: int) : int;
+axiom (forall a: int, b: int :: { BIT_BAND(a, b) } POW2(a) && POW2(b) && a != b ==> BIT_BAND(a, b) == 0);
 
-axiom (forall a: int, a_size: int, b: int :: { INT_MINUS_LEFT_PTR(a, a_size, b) } INT_MINUS_LEFT_PTR(a, a_size, b) == a - a_size * b);
+axiom (forall a: int, b: int :: { BIT_BAND(a, b) } a == 0 || b == 0 ==> BIT_BAND(a, b) == 0);
 
-function {:extern} INT_PLUS(a: int, a_size: int, b: int) : int;
+function {:extern} BIT_BOR(a: int, b: int) : int;
 
-axiom (forall a: int, a_size: int, b: int :: { INT_PLUS(a, a_size, b) } INT_PLUS(a, a_size, b) == a + a_size * b);
+function {:extern} BIT_BXOR(a: int, b: int) : int;
 
-function {:extern} INT_MULT(a: int, b: int) : int;
-
-axiom (forall a: int, b: int :: { INT_MULT(a, b) } INT_MULT(a, b) == a * b);
-
-function {:extern} INT_DIV(a: int, b: int) : int;
-
-axiom (forall a: int, b: int :: { INT_DIV(a, b) } a >= 0 && b > 0 ==> b * INT_DIV(a, b) <= a && a < b * (INT_DIV(a, b) + 1));
-
-axiom (forall a: int, b: int :: { INT_DIV(a, b) } a >= 0 && b < 0 ==> b * INT_DIV(a, b) <= a && a < b * (INT_DIV(a, b) - 1));
-
-axiom (forall a: int, b: int :: { INT_DIV(a, b) } a < 0 && b > 0 ==> b * INT_DIV(a, b) >= a && a > b * (INT_DIV(a, b) - 1));
-
-axiom (forall a: int, b: int :: { INT_DIV(a, b) } a < 0 && b < 0 ==> b * INT_DIV(a, b) >= a && a > b * (INT_DIV(a, b) + 1));
-
-function {:extern} INT_BINARY_BOTH_INT(a: int, b: int) : int;
-
-function {:extern}  BV32_EQ(x: bv32, y: bv32) : bool
-{
-  x == y
-}
-
-function {:extern}  BV32_NEQ(x: bv32, y: bv32) : bool
-{
-  x != y
-}
-
-function {:extern} {:bvbuiltin "bvadd"} BV32_ADD(x: bv32, y: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvsub"} BV32_SUB(x: bv32, y: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvmul"} BV32_MULT(x: bv32, y: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvudiv"} BV32_DIV(x: bv32, y: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvult"} BV32_ULT(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvslt"} BV32_LT(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvule"} BV32_ULEQ(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvsle"} BV32_LEQ(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvugt"} BV32_UGT(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvsgt"} BV32_GT(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvuge"} BV32_UGEQ(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvsge"} BV32_GEQ(x: bv32, y: bv32) : bool;
-
-function {:extern} {:bvbuiltin "bvand"} BV32_AND(a: bv32, b: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvor"} BV32_OR(a: bv32, b: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvxor"} BV32_XOR(a: bv32, b: bv32) : bv32;
-
-function {:extern} {:bvbuiltin "bvnot"} BV32_NOT(a: bv32) : bv32;
-
-function {:extern}  BV32_MINUS_BOTH_PTR_OR_BOTH_INT(a: bv32, b: bv32, size: bv32) : bv32
-{
-  BV32_DIV(BV32_SUB(a, b), size)
-}
-
-function {:extern}  BV32_MINUS_LEFT_PTR(a: bv32, a_size: bv32, b: bv32) : bv32
-{
-  BV32_SUB(a, BV32_MULT(a_size, b))
-}
-
-function {:extern}  BV32_PLUS(a: bv32, a_size: bv32, b: bv32) : bv32
-{
-  BV32_ADD(a, BV32_MULT(a_size, b))
-}
-
-function {:extern} BV32_BINARY_BOTH_INT(a: bv32, b: bv32) : bv32;
-
-function {:extern} bv32ToInt(bv32) : int;
-
-function {:extern} intToBv32(int) : bv32;
+function {:extern} BIT_BNOT(a: int) : int;
 
 function {:extern} choose(a: bool, b: int, c: int) : int;
 
@@ -410,23 +328,21 @@ procedure {:extern} __HAVOC_free(a: int);
 function {:extern} NewAlloc(x: int, y: int) : int;
 
 procedure {:extern} __HAVOC_malloc(obj_size: int) returns (new: int);
-  requires INT_GEQ(obj_size, 0);
+  free requires INT_GEQ(obj_size, 0);
   modifies alloc;
   ensures new == old(alloc);
   ensures INT_GT(alloc, INT_ADD(new, obj_size));
   ensures Base(new) == new;
-  ensures INT_GEQ(new, 0);
 
 
 
 procedure {:extern} __HAVOC_det_malloc(obj_size: int) returns (new: int);
-  requires INT_GEQ(obj_size, 0);
+  free requires INT_GEQ(obj_size, 0);
   modifies alloc;
   ensures new == old(alloc);
   ensures INT_GT(alloc, INT_ADD(new, obj_size));
   ensures Base(new) == new;
   ensures alloc == NewAlloc(old(alloc), obj_size);
-  ensures INT_GEQ(new, 0);
 
 
 
@@ -448,6 +364,10 @@ procedure {:extern} __HAVOC_memset_split_4(A: [int]int, p: int, c: int, n: int) 
 
 
 
+procedure {:extern} nondet_intrinsic() returns (x: int);
+
+
+
 procedure {:extern} nondet_choice() returns (x: int);
 
 
@@ -457,7 +377,6 @@ var {:extern} detChoiceCnt: int;
 function {:extern} DetChoiceFunc(a: int) : int;
 
 procedure {:extern} det_choice() returns (x: int);
-  modifies detChoiceCnt;
   ensures detChoiceCnt == INT_ADD(old(detChoiceCnt), 1);
   ensures x == DetChoiceFunc(old(detChoiceCnt));
 
@@ -474,10 +393,6 @@ procedure {:extern} _xstrcasecmp(a0: int, a1: int) returns (ret: int);
 procedure {:extern} _xstrcmp(a0: int, a1: int) returns (ret: int);
 
 
-
-var {:extern} Res_KERNEL_SOURCE: [int]int;
-
-var {:extern} Res_PROBED: [int]int;
 
 function {:extern} Equal([int]bool, [int]bool) : bool;
 
@@ -513,7 +428,7 @@ axiom (forall n: int, x: int, y: int :: { AtLeast(n, x), Rep(n, x), Rep(n, y) } 
 
 axiom (forall n: int, x: int :: { AtLeast(n, x) } AtLeast(n, x)[x]);
 
-axiom (forall n: int, x: int, z: int :: { INT_PLUS(x, n, z) } Rep(n, x) == Rep(n, INT_PLUS(x, n, z)));
+axiom (forall n: int, x: int, z: int :: { PLUS(x, n, z) } Rep(n, x) == Rep(n, PLUS(x, n, z)));
 
 axiom (forall n: int, x: int :: { Rep(n, x) } (exists k: int :: INT_SUB(Rep(n, x), x) == INT_MULT(n, k)));
 
@@ -521,7 +436,7 @@ function {:extern} Array(int, int, int) : [int]bool;
 
 axiom (forall x: int, n: int, z: int :: { Array(x, n, z) } INT_LEQ(z, 0) ==> Equal(Array(x, n, z), Empty()));
 
-axiom (forall x: int, n: int, z: int :: { Array(x, n, z) } INT_GT(z, 0) ==> Equal(Array(x, n, z), Difference(AtLeast(n, x), AtLeast(n, INT_PLUS(x, n, z)))));
+axiom (forall x: int, n: int, z: int :: { Array(x, n, z) } INT_GT(z, 0) ==> Equal(Array(x, n, z), Difference(AtLeast(n, x), AtLeast(n, PLUS(x, n, z)))));
 
 axiom (forall x: int :: !Empty()[x]);
 
@@ -573,50 +488,46 @@ axiom (forall M: [name][int]int, x: int, y: int :: { Unified(M[Field(x) := M[Fie
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "e"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "e->oper"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 10} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "e->op1"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 14} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "e->op2"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "e->op2"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 12} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 20} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "e->result"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 20} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "e->result"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 20} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "e->oper"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 14} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 12} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "e->result"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "e->result"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 12} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 12} unique __ctobpl_const_7: int;
+const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 14} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 12} unique __ctobpl_const_9: int;
+const {:extern} {:model_const "e->oper"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 14} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "e->op1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 12} unique __ctobpl_const_8: int;
+const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 20} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "e->op1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 16} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "e->oper"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 10} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 16} unique __ctobpl_const_13: int;
+const {:extern} {:model_const "e->op2"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_18: int;
 
-const {:extern} {:model_const "e->result"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 16} unique __ctobpl_const_14: int;
+const {:extern} {:model_const "e->result"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_14: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 16} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_17: int;
 
-const {:extern} {:model_const "e->op2"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 16} unique __ctobpl_const_18: int;
+const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_15: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceLine 16} unique __ctobpl_const_15: int;
+const {:extern} {:model_const "e->op1"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_16: int;
 
-procedure {:extern} Eval(e_.1: int);
+procedure {:extern} Eval(e.__1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Res_KERNEL_SOURCE, Res_PROBED, Mem_T.INT4, Mem_T.op1__EXPR, Mem_T.op2__EXPR, Mem_T.oper__EXPR, Mem_T.result__EXPR;
+  modifies alloc, detChoiceCnt, Mem_T.INT4, Mem_T.op1__EXPR, Mem_T.op2__EXPR, Mem_T.oper__EXPR, Mem_T.result__EXPR;
   free ensures INT_LEQ(old(alloc), alloc);
-  ensures Subset(Empty(), Empty()) && (forall _r: int :: { Res_KERNEL_SOURCE[_r] } old(Res_KERNEL_SOURCE)[_r] == Res_KERNEL_SOURCE[_r]);
-  free ensures old(Res_KERNEL_SOURCE) == Res_KERNEL_SOURCE;
-  ensures Subset(Empty(), Empty()) && (forall _r: int :: { Res_PROBED[_r] } old(Res_PROBED)[_r] == Res_PROBED[_r]);
-  free ensures old(Res_PROBED) == Res_PROBED;
   free ensures Mem_T.INT4 == old(Mem_T.INT4);
   free ensures Mem_T.op1__EXPR == old(Mem_T.op1__EXPR);
   free ensures Mem_T.op2__EXPR == old(Mem_T.op2__EXPR);
@@ -625,7 +536,7 @@ procedure {:extern} Eval(e_.1: int);
 
 
 
-implementation {:extern} Eval(e_.1: int)
+implementation {:extern} Eval(e.__1: int)
 {
   var {:extern} havoc_stringTemp: int;
   var {:extern} condVal: int;
@@ -650,21 +561,20 @@ implementation {:extern} Eval(e_.1: int)
   var {:extern} tempBoogie17: int;
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
-  var {:extern} __havoc_dummy_return: int;
 
   anon0#2:
     havoc_stringTemp := 0;
     goto start#2;
 
   start#2:
-    assume INT_LT(e_.1, alloc);
+    assume INT_LT(e.__1, alloc);
     e := 0;
-    e := e_.1;
+    e := e.__1;
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 10} true;
-    assert INT_NEQ(e, 0);
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 10} true;
+    assert e != 0;
     goto label_3_true#2, label_3_false#2;
 
   label_3_false#2:
@@ -674,8 +584,8 @@ implementation {:extern} Eval(e_.1: int)
     goto label_4#2;
 
   label_4#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 14} true;
-    assert INT_NEQ(e, 0);
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 14} true;
+    assert e != 0;
     goto label_4_true#2, label_4_false#2;
 
   label_4_false#2:
@@ -685,11 +595,11 @@ implementation {:extern} Eval(e_.1: int)
     goto label_6#2;
 
   label_6#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 20} true;
-    assert INT_NEQ(e, 0);
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 20} true;
+    assert e != 0;
     Mem_T.result__EXPR := Mem_T.result__EXPR[result__EXPR(e) := -1];
-    assume value_is(__ctobpl_const_11, e);
-    assume value_is(__ctobpl_const_12, Mem_T.result__EXPR[result__EXPR(e)]);
+    assume value_is(__ctobpl_const_5, e);
+    assume value_is(__ctobpl_const_6, Mem_T.result__EXPR[result__EXPR(e)]);
     goto label_1#2;
 
   label_4_true#2:
@@ -699,17 +609,17 @@ implementation {:extern} Eval(e_.1: int)
     goto label_7#2;
 
   label_7#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 16} true;
-    assert INT_NEQ(e, 0);
-    assert INT_NEQ(e, 0);
-    assert INT_NEQ(e, 0);
-    Mem_T.result__EXPR := Mem_T.result__EXPR[result__EXPR(e) := INT_MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.op1__EXPR[op1__EXPR(e)], Mem_T.op2__EXPR[op2__EXPR(e)], 1)];
-    assume value_is(__ctobpl_const_13, e);
-    assume value_is(__ctobpl_const_14, Mem_T.result__EXPR[result__EXPR(e)]);
-    assume value_is(__ctobpl_const_15, e);
-    assume value_is(__ctobpl_const_16, Mem_T.op1__EXPR[op1__EXPR(e)]);
-    assume value_is(__ctobpl_const_17, e);
-    assume value_is(__ctobpl_const_18, Mem_T.op2__EXPR[op2__EXPR(e)]);
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 16} true;
+    assert e != 0;
+    assert e != 0;
+    assert e != 0;
+    Mem_T.result__EXPR := Mem_T.result__EXPR[result__EXPR(e) := MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.op1__EXPR[op1__EXPR(e)], Mem_T.op2__EXPR[op2__EXPR(e)], 1)];
+    assume value_is(__ctobpl_const_7, e);
+    assume value_is(__ctobpl_const_8, Mem_T.result__EXPR[result__EXPR(e)]);
+    assume value_is(__ctobpl_const_9, e);
+    assume value_is(__ctobpl_const_10, Mem_T.op1__EXPR[op1__EXPR(e)]);
+    assume value_is(__ctobpl_const_11, e);
+    assume value_is(__ctobpl_const_12, Mem_T.op2__EXPR[op2__EXPR(e)]);
     goto label_1#2;
 
   label_3_true#2:
@@ -719,21 +629,21 @@ implementation {:extern} Eval(e_.1: int)
     goto label_5#2;
 
   label_5#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 12} true;
-    assert INT_NEQ(e, 0);
-    assert INT_NEQ(e, 0);
-    assert INT_NEQ(e, 0);
-    Mem_T.result__EXPR := Mem_T.result__EXPR[result__EXPR(e) := INT_PLUS(Mem_T.op1__EXPR[op1__EXPR(e)], 1, Mem_T.op2__EXPR[op2__EXPR(e)])];
-    assume value_is(__ctobpl_const_5, e);
-    assume value_is(__ctobpl_const_6, Mem_T.result__EXPR[result__EXPR(e)]);
-    assume value_is(__ctobpl_const_7, e);
-    assume value_is(__ctobpl_const_8, Mem_T.op1__EXPR[op1__EXPR(e)]);
-    assume value_is(__ctobpl_const_9, e);
-    assume value_is(__ctobpl_const_10, Mem_T.op2__EXPR[op2__EXPR(e)]);
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 12} true;
+    assert e != 0;
+    assert e != 0;
+    assert e != 0;
+    Mem_T.result__EXPR := Mem_T.result__EXPR[result__EXPR(e) := PLUS(Mem_T.op1__EXPR[op1__EXPR(e)], 1, Mem_T.op2__EXPR[op2__EXPR(e)])];
+    assume value_is(__ctobpl_const_13, e);
+    assume value_is(__ctobpl_const_14, Mem_T.result__EXPR[result__EXPR(e)]);
+    assume value_is(__ctobpl_const_15, e);
+    assume value_is(__ctobpl_const_16, Mem_T.op1__EXPR[op1__EXPR(e)]);
+    assume value_is(__ctobpl_const_17, e);
+    assume value_is(__ctobpl_const_18, Mem_T.op2__EXPR[op2__EXPR(e)]);
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.1.0\examples\c_examples\ex3\v1\foo.c"} {:sourceline 22} true;
+    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 22} true;
     return;
 }
 
