@@ -39,6 +39,9 @@ namespace Dependency
 
             printDeps = (args.Length == 1) || args.Any(x => x == "/d");
 
+            if (args.Any(x => x.Contains("/break")))
+                Debugger.Launch();
+
             if (changeList != null)
             {
                 if (changeList == "all")
@@ -49,6 +52,20 @@ namespace Dependency
             else
                 RunAnalysis(args[0], null);
 
+            var changesSrc = new List<Tuple<string, string, int>>();
+            var taintSrc = new List<Tuple<string, string, int, List<string>>>();
+            #region dummy change and taintsets
+            string symdiffRoot = @"c:\symdiff_codeplex\";
+            changesSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestCallDominationDependancyGlobals", 18));
+            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestCallDominationDependancyGlobals", 18, new List<string>()));
+            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestCallDominationDependancyReturns", 26, new List<string>()));
+            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestCallDominationDependancyReturns", 27, new List<string>()));
+            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestSimpleDominationDependancy", 34, new List<string>()));
+            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestSimpleDominationDependancy", 35, new List<string>()));
+            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestSimpleDominationDependancy", 37, new List<string>()));
+            #endregion
+            var displayHtml = new Utils.DisplayHtmlHelper(changesSrc, taintSrc);
+            displayHtml.GenerateHtmlOutput("taint_output.html");
             return 0;
         }
 

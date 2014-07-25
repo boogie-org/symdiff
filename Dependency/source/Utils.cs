@@ -64,8 +64,78 @@ namespace Dependency
                 return v; // leave non-outputs as is
         }
 
-        static public void DisplayHTML()
+        public class DisplayHtmlHelper
         {
+            List<Tuple<string, string, int>> changedLines;  //{(file, func, line),..}
+            List<Tuple<string, string, int, List<string>>> taintedLines; //{(file, func, line, {v1,..vn}), ..}
+            public DisplayHtmlHelper(List<Tuple<string, string, int>> changes, List<Tuple<string, string, int, List<string>>> taints)
+            {
+                changedLines = changes;
+                taintedLines = taints;
+            }
+            public void GenerateHtmlOutput(string outFileName)
+            {
+                Func<string, string, string> MkLink = delegate(string s, string t)
+                {
+                    return @"<a href=" + t + @">" + s + @"</a>";
+                };
+
+                TextWriter output = new StreamWriter(outFileName);
+                output.WriteLine("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">");
+                output.WriteLine("<html>");
+                output.WriteLine("<head>");
+                output.WriteLine("<title>Tainted outputs</title>");
+                output.WriteLine("<style type=\"text/css\"> "
+                    + "div.code {font-family:monospace; font-size:100%;} </style>");
+                output.WriteLine("<style type=\"text/css\"> "
+                    + "span.trace { background:yellow; color:red; font-weight:bold;} </style>");
+                output.WriteLine("<style type=\"text/css\"> "
+                    + "span.values { background:lightgray; color:black; font-weight:bold;} </style>");
+                output.WriteLine("<style type=\"text/css\"> "
+                    + "span.report { background:lightgreen; color:black; font-weight:bold;} </style>");
+                output.WriteLine("<style type=\"text/css\"> "
+                    + "span.reportstmt { background:lightgreen; color:red; font-weight:bold;} </style>");
+                output.WriteLine("</head>");
+                output.WriteLine("<body>");
+                output.WriteLine("");
+                output.WriteLine("<h1> Statements that are tainted given the taint source </h1> ");
+
+                //for each file f in the taint set
+                //  for each sourceline l in f
+                //     if changed(l) then change-marker l
+                //     elseif tainted(l) then tainted-marker l
+                //     else l
+                var changesByFile = changedLines.GroupBy(x => x.Item1).ToDictionary(x => x.Key, x => x);
+                foreach (var taintInFile in taintedLines.GroupBy(x => x.Item1))
+                {
+                    var srcFile = taintInFile.Key;
+                    StreamReader sr = new StreamReader(srcFile);
+                    string ln;
+                    List<string> srcLines = new List<string>();
+                    while ((ln = sr.ReadLine()) != null)
+                        srcLines.Add(ln);
+                    sr.Close();
+                    var changes = new HashSet<int> ();
+                    if (changesByFile.ContainsKey(srcFile))
+                        foreach(var x in changesByFile[srcFile]) 
+                            changes.Add(x.Item3);
+                    var taints = taintInFile.Select(x => x.Item3);
+                    for (int i = 0; i < srcLines.Count; ++i)
+                    {
+                        var l = srcLines[i];
+                        string str = l;
+                        if (changes.Contains(i+1))
+                            str = string.Format("<b> <i> {0} </i> </b>", l);
+                        else if (taints.Contains(i+1))
+                            str = string.Format("<b> <u> {0} </u> </b>", l);
+                        output.Write("[{0}] &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  {1} <br>", i+1, str);
+                    }
+                }
+
+                output.WriteLine("</body>");
+                output.WriteLine("</html>");
+                output.Close();
+            }
 
         }
 
