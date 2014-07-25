@@ -21,7 +21,8 @@ namespace Dependency
         static private Program program;
         static private Dictionary<Procedure, Dependencies> procDependencies = new Dictionary<Procedure, Dependencies>();
         static private Dictionary<Procedure, TaintSet> procTaint = new Dictionary<Procedure, TaintSet>();
-        static private bool printDeps = true;
+        static private bool dataDependencyOnly = false;
+        static private bool printDeps = false;
         static private StreamWriter taintLog;
         static int Main(string[] args)
         {
@@ -37,7 +38,8 @@ namespace Dependency
             args.Where(x => x.StartsWith("/t:"))
                 .Iter(s => changeList = s.Split(':')[1]);
 
-            printDeps = (args.Length == 1) || args.Any(x => x == "/d");
+            printDeps = (args.Length == 1);
+            dataDependencyOnly = args.Any(x => x == "/d");
 
             if (changeList != null)
             {
@@ -76,7 +78,7 @@ namespace Dependency
             Console.WriteLine("Processing file {0}", filename);
             if (!Utils.ParseProgram(filename, out program)) return -1;
 
-            taintLog = new StreamWriter(filename + ".tainted_lines.txt", true);
+            taintLog = new StreamWriter(filename + ".tainted_lines.txt", false);
 
             Dictionary<string, HashSet<int>> changes = null;
             if (!taintAll)
@@ -115,7 +117,8 @@ namespace Dependency
             Console.WriteLine("/t:changelist.txt - produce taint for all lined marked as changed in changelist.txt");
             // TODO: /t:all should really be function based, and conveyed by lines like "f,-1" in the changelist file
             Console.WriteLine("/t:all            - produce taint assuming all assignments are tainted");
-            Console.WriteLine("/d                - print computed dependnecies");
+            Console.WriteLine("/d                - compute data dependnecies only (no control)");
+            Console.WriteLine("No flags          - print dependnecies only (no taint)");
         }
 
         // some of the WorkList algorithm was exported to this class as it is the same for Dependency and Taint
@@ -418,7 +421,8 @@ namespace Dependency
                 DWL.RunFixedPoint(this,node); // the dependencies fixed-point will also drive the taint computation
                 Console.WriteLine("Done Analyzing " + node.ToString() + "( ). Tainted source lines are: ");
 
-                foreach (var pair in TWL.stateSpace.OrderBy(x => x.Key.Line)) {
+                Dictionary<int, Tuple<TaintSet, string>> lines = new Dictionary<int, Tuple<TaintSet, string>>();
+                foreach (var pair in TWL.stateSpace) {
                     if (!(pair.Key is GotoCmd) || pair.Value.Count == 0)
                         continue;
                     Block block = TWL.cmdBlocks[(GotoCmd)pair.Key];
@@ -428,10 +432,21 @@ namespace Dependency
                         string sourcefile = GetSourceFile((AssertCmd)block.Cmds[0]);
                         if (sourceline >= 0)
                         {
-                            taintLog.WriteLine(sourcefile + ", " + currentProc + ", " + sourceline + ", " + pair.Value.ToString());
-                            Console.WriteLine( sourceline + " <- " + pair.Value.ToString());
+                            var taintSet = pair.Value;
+                            // multiple boogie lines may corrsepond to a single source line
+                            // so the taint there would be the join of taint over all boogie lines
+                            if (lines.ContainsKey(sourceline)) 
+                                taintSet.JoinWith(lines[sourceline].Item1);
+                            string output = sourcefile + ", " + currentProc + ", " + sourceline + ", " + taintSet.ToString();
+                            lines[sourceline] = new Tuple<TaintSet, string>(taintSet, output);
                         }
                     }
+                }
+
+                foreach (var line in lines.OrderBy(x => x.Key))
+                {
+                    taintLog.WriteLine(line.Value.Item2);
+                    //Console.WriteLine(line);
                 }
                 
                 //Console.ReadLine();
@@ -569,7 +584,8 @@ namespace Dependency
 
             private void InferDominatorDependency(Block currBlock, HashSet<Variable> dependsSet, HashSet<Variable> taintSet, Variable left)
             {
-               
+                if (dataDependencyOnly)
+                    return;
                 bool tainted = false;
                 // assignment under a branch is dependent on all the variables in the branch's conditional
                 if (dominatedBy.Keys.Contains(currBlock))
