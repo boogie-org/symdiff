@@ -43,6 +43,32 @@ namespace Dependency
             return true;
         }
 
+        static public HashSet<Variable> ImplInputsToProcInputs(Implementation impl, HashSet<Variable> vars)
+        {
+            var result = new HashSet<Variable>();
+            foreach (var v in vars)
+            {
+                if (impl.InParams.Contains(v)) // replace Implemetation inputs with Procedure inputs
+                    result.Add(impl.Proc.InParams[impl.InParams.IndexOf(v)]);
+                else if (v is GlobalVariable)
+                    result.Add(v);
+            }
+            return result;
+        }
+        static public Variable ImplOutputToProcOutput(Implementation node, Variable v)
+        {
+            var index = node.OutParams.IndexOf(v);
+            if (index >= 0) // replace Implemetation outputs with Procedure outputs
+                return node.Proc.OutParams[index];
+            else
+                return v; // leave non-outputs as is
+        }
+
+        static public void DisplayHTML()
+        {
+
+        }
+
         public class VariableExtractor : StandardVisitor
         {
             public HashSet<Variable> vars = new HashSet<Variable>();
