@@ -23,7 +23,9 @@ namespace Dependency
         static private Dictionary<Procedure, TaintSet> procTaint = new Dictionary<Procedure, TaintSet>();
         static private bool dataDependencyOnly = false;
         static private bool printDeps = false;
-        static private StreamWriter taintLog;
+        static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
+        static private List<Tuple<string, string, int, List<string>>> taintLog = new List<Tuple<string, string, int, List<string>>>();
+        static private List<Tuple<string, string, int, string>> dependenciesLog = new List<Tuple<string, string, int, string>>();
         static int Main(string[] args)
         {
             if (args.Length < 1 || args.Length > 3)
@@ -54,19 +56,7 @@ namespace Dependency
             else
                 RunAnalysis(args[0], null);
 
-            var changesSrc = new List<Tuple<string, string, int>>();
-            var taintSrc = new List<Tuple<string, string, int, List<string>>>();
-            #region dummy change and taintsets
-            string symdiffRoot = @"c:\symdiff_codeplex\";
-            changesSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestCallDominationDependancyGlobals", 18));
-            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestCallDominationDependancyGlobals", 18, new List<string>()));
-            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestCallDominationDependancyReturns", 26, new List<string>()));
-            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestCallDominationDependancyReturns", 27, new List<string>()));
-            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestSimpleDominationDependancy", 34, new List<string>()));
-            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestSimpleDominationDependancy", 35, new List<string>()));
-            taintSrc.Add(Tuple.Create(symdiffRoot + @"symdiff\dependency\test\regression\test0.c", "TestSimpleDominationDependancy", 37, new List<string>()));
-            #endregion
-            var displayHtml = new Utils.DisplayHtmlHelper(changesSrc, taintSrc);
+            var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog);
             displayHtml.GenerateHtmlOutput("taint_output.html");
             return 0;
         }
@@ -86,6 +76,7 @@ namespace Dependency
                 if (!result.ContainsKey(funcName))
                     result[funcName] = new HashSet<int>();
                 result[funcName].Add(lineNum);
+                changeLog.Add(Tuple.Create(filename, funcName, lineNum));
             }
             return result;
         }
@@ -94,8 +85,6 @@ namespace Dependency
         {
             Console.WriteLine("Processing file {0}", filename);
             if (!Utils.ParseProgram(filename, out program)) return -1;
-
-            taintLog = new StreamWriter(filename + ".tainted_lines.txt", false);
 
             Dictionary<string, HashSet<int>> changes = null;
             if (!taintAll)
@@ -122,7 +111,6 @@ namespace Dependency
                 visitor.Visit(impl);
             }
 
-            taintLog.Close();
             return 0;
         }
 
@@ -134,7 +122,7 @@ namespace Dependency
             Console.WriteLine("/t:changelist.txt - produce taint for all lined marked as changed in changelist.txt");
             // TODO: /t:all should really be function based, and conveyed by lines like "f,-1" in the changelist file
             Console.WriteLine("/t:all            - produce taint assuming all assignments are tainted");
-            Console.WriteLine("/d                - compute data dependnecies only (no control)");
+            Console.WriteLine("/d                - compute data dependnecies\\taint only (no control)");
             Console.WriteLine("No flags          - print dependnecies only (no taint)");
         }
 
@@ -319,6 +307,23 @@ namespace Dependency
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder();
+                sb.Append("[\n");
+                foreach (var v in Keys)
+                {
+                    sb.Append("  " + v + " <- { ");
+                    foreach (var d in this[v])
+                    {
+                        sb.Append(d + ", ");
+                    }
+                    sb.Append(" }\n");
+                }
+                sb.Append("]\n");
+                return sb.ToString();
+            }
+
+            public string ToStringPretty()
+            {
+                StringBuilder sb = new StringBuilder();
                 sb.Append("[ \n");
                 foreach (var v in Keys)
                 {
@@ -435,10 +440,14 @@ namespace Dependency
                 currentImpl = node;
                 currentProc = node.Proc;
 
+                
                 DWL.RunFixedPoint(this,node); // the dependencies fixed-point will also drive the taint computation
-                Console.WriteLine("Done Analyzing " + node.ToString() + "( ). Tainted source lines are: ");
+                Console.WriteLine("Analyzed " + node.ToString() + "( ).");
+                
 
-                Dictionary<int, Tuple<TaintSet, string>> lines = new Dictionary<int, Tuple<TaintSet, string>>();
+                Dictionary<int, TaintSet> lines = new Dictionary<int, TaintSet>();
+                Dictionary<int, Tuple<string, string, int, List<string>>> tuples = new Dictionary<int, Tuple<string, string, int, List<string>>>();
+                string sourcefile = null;
                 foreach (var pair in TWL.stateSpace) {
                     if (!(pair.Key is GotoCmd) || pair.Value.Count == 0)
                         continue;
@@ -446,28 +455,29 @@ namespace Dependency
                     if (block.Cmds.Count > 0 && block.Cmds[0] is AssertCmd)
                     {
                         int sourceline = GetSourceLine((AssertCmd)block.Cmds[0]);
-                        string sourcefile = GetSourceFile((AssertCmd)block.Cmds[0]);
+                        if (sourcefile == null)
+                            sourcefile = GetSourceFile((AssertCmd)block.Cmds[0]);
                         if (sourceline >= 0)
                         {
                             var taintSet = pair.Value;
                             // multiple boogie lines may corrsepond to a single source line
                             // so the taint there would be the join of taint over all boogie lines
                             if (lines.ContainsKey(sourceline)) 
-                                taintSet.JoinWith(lines[sourceline].Item1);
-                            string output = sourcefile + ", " + currentProc + ", " + sourceline + ", " + taintSet.ToString();
-                            lines[sourceline] = new Tuple<TaintSet, string>(taintSet, output);
+                                taintSet.JoinWith(lines[sourceline]);
+                            lines[sourceline] = taintSet;
+                            List<string> varNames = taintSet.Select(x => x.Name).ToList<string>();
+                            tuples[sourceline] = new Tuple<string, string, int, List<string>>(sourcefile, currentProc.Name, sourceline, varNames);
                         }
                     }
                 }
 
-                foreach (var line in lines.OrderBy(x => x.Key))
+                foreach (var t in tuples.OrderBy(x => x.Key))
                 {
-                    taintLog.WriteLine(line.Value.Item2);
-                    //Console.WriteLine(line);
+                    taintLog.Add(t.Value);
                 }
-                
-                //Console.ReadLine();
 
+                int lastSourceLine = node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => GetSourceLine((AssertCmd)b.Cmds[0])).Max();
+                dependenciesLog.Add(new Tuple<string, string, int, string>(sourcefile, currentProc.Name, lastSourceLine, procDependencies[currentProc].ToString()));
 
                 procDependencies[currentProc] = PruneDependencies(node, procDependencies[currentProc]);
                 procTaint[currentProc] = PruneTaint(node, procTaint[currentProc]);
@@ -655,14 +665,15 @@ namespace Dependency
             {
                 Block currBlock = DWL.cmdBlocks[node];
                 Dependencies dependencies = DWL.GatherPredecessorsState(node, currBlock);
-                TaintSet taintSet = TWL.GatherPredecessorsState(node, currBlock);
+                TaintSet initialTaintSet = TWL.GatherPredecessorsState(node, currBlock), 
+                         taintSet = new TaintSet(); // the new taint starts empty
                 // an external stub
                 if (!(node.Proc == currentProc || procDependencies.Keys.Contains(node.Proc))) {
                     var procImpl = program.Implementations().Where(x => x.Proc == node.Proc);
                     if (procImpl.Count() == 1) // the implementation exists, but has yet to be visited
                     {   // TODO: careful of mutual recursion
-                        (new DependencyTaintVisitor()).Visit(procImpl.First());
-                        Debug.Assert(procDependencies.ContainsKey(node.Proc));
+                        var visitor = new DependencyTaintVisitor();
+                        visitor.Visit(procImpl.First());
                     }
                     else
                     {
@@ -678,7 +689,7 @@ namespace Dependency
 
                 Debug.Assert(node.Outs.Count == node.Outs.Distinct().Count()); // only allow one output for now
 
-                // first, for f(e1,...,ek) find the dependency set of each e_i
+                // first, for f(e1,...,ek) find the dependency set of each ei
                 var inputExpressionsDependency = new List<HashSet<Variable>>();
                 foreach (var inExpr in node.Ins)
 	            {
@@ -714,9 +725,8 @@ namespace Dependency
                     var actualOutput = node.Outs[i].Decl;
                     dependencies[actualOutput] = inferedOutputDependency;
 
-                    taintSet.Remove(actualOutput); // the output's taint may be cleansed by the assignment
                     foreach (var v in dependencies[actualOutput]) // the output v := call (...) is infered to depend on {v1, ... ,vn}
-                        if (taintSet.Contains(v)) // so if vi is tainted
+                        if (initialTaintSet.Contains(v)) // so if vi is tainted
                             taintSet.Add(actualOutput); // so is v
 
                     InferDominatorDependency(currBlock, dependencies[actualOutput], taintSet, actualOutput); // conditionals may dominate/taint the return value
@@ -735,11 +745,10 @@ namespace Dependency
                     var inferedOutputDependency = InferCalleeOutputDependancy(node,g,dependencies,inputExpressionsDependency);
                     dependencies[g] = inferedOutputDependency;
 
-                    taintSet.Remove(g); // the global's taint may be cleansed by the assignment
                     foreach (var v in dependencies[g])// a global g in the call (...) is infered to depend on {v1, ... ,vn}
-                        if (taintSet.Contains(v) || // so if vi is tainted
+                        if (initialTaintSet.Contains(v) || // so if vi is tainted
                             (v is GlobalVariable && procTaint[node.Proc].Contains(v))) // or vi is a global marked as tainted in the callee
-                            taintSet.Add(g); // so is g
+                            taintSet.Add(g); // g is also tainted
 
                     InferDominatorDependency(currBlock, dependencies[g], taintSet, g); // conditionals may dominate/taint the modified globals
 

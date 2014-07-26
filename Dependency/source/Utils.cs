@@ -68,10 +68,12 @@ namespace Dependency
         {
             List<Tuple<string, string, int>> changedLines;  //{(file, func, line),..}
             List<Tuple<string, string, int, List<string>>> taintedLines; //{(file, func, line, {v1,..vn}), ..}
-            public DisplayHtmlHelper(List<Tuple<string, string, int>> changes, List<Tuple<string, string, int, List<string>>> taints)
+            List<Tuple<string, string, int, string>> dependenciesLines; //{(file, func, line, {v1 <- {...},... vn <- {...}})}
+            public DisplayHtmlHelper(List<Tuple<string, string, int>> changes, List<Tuple<string, string, int, List<string>>> taints, List<Tuple<string, string, int, string>> dependencies)
             {
                 changedLines = changes;
                 taintedLines = taints;
+                dependenciesLines = dependencies;
             }
             public void GenerateHtmlOutput(string outFileName)
             {
@@ -108,7 +110,7 @@ namespace Dependency
                 var changesByFile = changedLines.GroupBy(x => x.Item1).ToDictionary(x => x.Key, x => x);
                 foreach (var taintInFile in taintedLines.GroupBy(x => x.Item1))
                 {
-                    var srcFile = taintInFile.Key;
+                    string srcFile = taintInFile.Key;
                     StreamReader sr = new StreamReader(srcFile);
                     string ln;
                     List<string> srcLines = new List<string>();
@@ -126,8 +128,19 @@ namespace Dependency
                         string str = l;
                         if (changes.Contains(i+1))
                             str = string.Format("<b> <i> {0} </i> </b>", l);
-                        else if (taints.Contains(i+1))
-                            str = string.Format("<b> <u> {0} </u> </b>", l);
+                        else if (taints.Contains(i + 1))
+                        {
+                            string vars = "[ ";
+                            foreach (var v in taintInFile.Single(x => x.Item3 == i + 1).Item4)
+                            {
+                                vars += v + " ";
+                            }
+                            vars += "]";
+                            str = string.Format("<b> <u> {0} </u> </b> \t {1} ", l, vars);
+                        }
+                        var dep = dependenciesLines.Find(x => x.Item3 == i);
+                        if (dep != null)
+                            str += string.Format("<pre> {0}", dep.Item4);
                         output.Write("[{0}] &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  {1} <br>", i+1, str);
                     }
                 }
