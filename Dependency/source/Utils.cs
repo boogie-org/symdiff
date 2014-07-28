@@ -131,9 +131,12 @@ namespace Dependency
                         else if (taints.Contains(i + 1))
                         {
                             string vars = "[ ";
-                            foreach (var v in taintInFile.Single(x => x.Item3 == i + 1).Item4)
+                            foreach (var t in taintInFile.Where(x => x.Item3 == i + 1))
                             {
-                                vars += v + " ";
+                                foreach (var v in t.Item4)
+                                {
+                                    vars += v + " ";
+                                }
                             }
                             vars += "]";
                             str = string.Format("<b> <u> {0} </u> </b> \t {1} ", l, vars);

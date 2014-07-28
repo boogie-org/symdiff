@@ -133,7 +133,7 @@ namespace Dependency
             public Dictionary<Absy, AbsState> stateSpace = new Dictionary<Absy,AbsState>();
             internal List<Absy> workList = new List<Absy>();
             internal Dictionary<Absy, Block> cmdBlocks = new Dictionary<Absy, Block>();
-            internal List<CallCmd> recursionPoints = new List<CallCmd>();
+            internal HashSet<CallCmd> recursionPoints = new HashSet<CallCmd>();
 
             internal AbsState GatherPredecessorsState(Absy node, Block currBlock)
             {
@@ -222,8 +222,11 @@ namespace Dependency
 
             internal void RunFixedPoint(StandardVisitor visitor, Implementation node)
             {
-                workList.Add(node.Blocks[0].Cmds[0]);
-                cmdBlocks[node.Blocks[0].Cmds[0]] = node.Blocks[0];
+                Absy entry = (node.Blocks[0].Cmds.Count > 0) ? 
+                    (Absy)node.Blocks[0].Cmds[0] :
+                    (Absy)node.Blocks[0].TransferCmd;
+                workList.Add(entry);
+                cmdBlocks[entry] = node.Blocks[0];
                 while (workList.Count > 0)
                 {
                     var cmd = workList[0];
@@ -434,6 +437,7 @@ namespace Dependency
 
             public override Implementation VisitImplementation(Implementation node)
             {
+                Console.WriteLine("Analyzing " + node.ToString() + "( ).");
                 node.ComputePredecessorsForBlocks();
                 ComputeDominators(node);
                 inputs = node.InParams;
@@ -672,6 +676,7 @@ namespace Dependency
                     var procImpl = program.Implementations().Where(x => x.Proc == node.Proc);
                     if (procImpl.Count() == 1) // the implementation exists, but has yet to be visited
                     {   // TODO: careful of mutual recursion
+                        Console.WriteLine("Visiting call " + node);
                         var visitor = new DependencyTaintVisitor();
                         visitor.Visit(procImpl.First());
                     }
@@ -686,8 +691,6 @@ namespace Dependency
                         }
                     }
                 }
-
-                Debug.Assert(node.Outs.Count == node.Outs.Distinct().Count()); // only allow one output for now
 
                 // first, for f(e1,...,ek) find the dependency set of each ei
                 var inputExpressionsDependency = new List<HashSet<Variable>>();
