@@ -64,6 +64,74 @@ namespace Dependency
                 return v; // leave non-outputs as is
         }
 
+        static public string GetSourceFile(AssertCmd node)
+        {
+            for (var attr = node.Attributes; attr != null; attr = attr.Next)
+                if (attr.Key == "sourcefile") // TODO: magic string
+                    return (string)attr.Params[0];
+            return null;
+        }
+
+        static public int GetSourceLine(AssertCmd node)
+        {
+            for (var attr = node.Attributes; attr != null; attr = attr.Next)
+                if (attr.Key == "sourceline") // TODO: magic string
+                    return int.Parse(((LiteralExpr)attr.Params[0]).ToString());
+            return -1;
+        }
+
+        // returns the source line adhering to the end of the implementaition
+        static public string GetImplSourceFile(Implementation node)
+        {
+            string sourcefile = null;
+            foreach (var b in node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd))
+            {
+                sourcefile = GetSourceFile((AssertCmd)b.Cmds[0]);
+                if (sourcefile != null)
+                    break;
+            }
+            return sourcefile;
+        }
+
+        public class StatisticsHelper
+        {
+            List<Tuple<string, Procedure, Dependency.Analysis.Dependencies>> procDependencies;
+
+            public StatisticsHelper(List<Tuple<string, Procedure, Dependency.Analysis.Dependencies>> pd) 
+            {
+                procDependencies = pd;
+            }
+
+            public void GenerateCSVOutput(string outFileName)
+            {
+                TextWriter output = new StreamWriter(outFileName);
+                output.WriteLine("Filename, Procedure, Overall, Num Globals, Sum Globals, Inputs(Globals), Num Outputs, Sum Outputs, Inputs(Outputs)");
+                // for each tuple, grouped by filename
+                foreach (var depsInFile in procDependencies.GroupBy(x => x.Item1))
+                {
+                    foreach (var pd in depsInFile) {
+                        var overall = pd.Item3.Sum(x => x.Value.Count); // overall size of dependencies (\Sigma_{v} Deps(v))
+                        var numGlobals = pd.Item3.Where(x => x.Key is GlobalVariable).Count();
+                        var sumGlobals = pd.Item3.Where(x => x.Key is GlobalVariable).Sum(x => x.Value.Count); // size of global vars dependencies
+                        HashSet<Variable> inputsGlobals = new HashSet<Variable>();
+                        foreach (var depSet in pd.Item3.Where(x => x.Key is GlobalVariable))
+                            foreach (var v in depSet.Value)
+                                if (pd.Item2.InParams.Contains(v))
+                                    inputsGlobals.Add(v);
+                        var numOutputs = pd.Item3.Where(x => pd.Item2.OutParams.Contains(x.Key)).Count();
+                        var sumOutputs = pd.Item3.Where(x => pd.Item2.OutParams.Contains(x.Key)).Sum(x => x.Value.Count); // size out outputs dependencies
+                        HashSet<Variable> inputsOutputs = new HashSet<Variable>();
+                        foreach (var depSet in pd.Item3.Where(x => pd.Item2.OutParams.Contains(x.Key)))
+                            foreach (var v in depSet.Value)
+                                if (pd.Item2.InParams.Contains(v))
+                                    inputsOutputs.Add(v);
+                        output.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}", pd.Item1, pd.Item2, overall, numGlobals, sumGlobals, inputsGlobals.Count, numOutputs, sumOutputs, inputsOutputs.Count);
+                    }
+                }
+                output.Close();
+            }
+        }
+
         public class DisplayHtmlHelper
         {
             List<Tuple<string, string, int>> changedLines;  //{(file, func, line),..}
@@ -102,15 +170,15 @@ namespace Dependency
                 output.WriteLine("");
                 output.WriteLine("<h1> Statements that are tainted given the taint source </h1> ");
 
-                //for each file f in the taint set
+                //for each file f in the dependency set
                 //  for each sourceline l in f
                 //     if changed(l) then change-marker l
                 //     elseif tainted(l) then tainted-marker l
-                //     else l
+                //     elseif l is last line then l proc-deps 
                 var changesByFile = changedLines.GroupBy(x => x.Item1).ToDictionary(x => x.Key, x => x);
-                foreach (var taintInFile in taintedLines.GroupBy(x => x.Item1))
+                foreach (var depsInFile in dependenciesLines.GroupBy(x => x.Item1))
                 {
-                    string srcFile = taintInFile.Key;
+                    string srcFile = depsInFile.Key;
                     StreamReader sr = new StreamReader(srcFile);
                     string ln;
                     List<string> srcLines = new List<string>();
@@ -121,17 +189,18 @@ namespace Dependency
                     if (changesByFile.ContainsKey(srcFile))
                         foreach(var x in changesByFile[srcFile]) 
                             changes.Add(x.Item3);
-                    var taints = taintInFile.Select(x => x.Item3);
+                    var depLines = depsInFile.Select(x => x.Item3);
                     for (int i = 0; i < srcLines.Count; ++i)
                     {
                         var l = srcLines[i];
                         string str = l;
                         if (changes.Contains(i+1))
-                            str = string.Format("<b> <i> {0} </i> </b>", l);
-                        else if (taints.Contains(i + 1))
-                        {
+                            str = string.Format("<b> <i> {0}  </i> </b>", l);
+
+                        else if (taintedLines.Find(x => x.Item3 == i + 1) != null)
+                            {
                             string vars = "[ ";
-                            foreach (var t in taintInFile.Where(x => x.Item3 == i + 1))
+                            foreach (var t in depsInFile.Where(x => x.Item3 == i + 1))
                             {
                                 foreach (var v in t.Item4)
                                 {
@@ -139,11 +208,15 @@ namespace Dependency
                                 }
                             }
                             vars += "]";
-                            str = string.Format("<b> <u> {0} </u> </b> \t {1} ", l, vars);
+                            str = string.Format("<b> <u> {0} </u> </b>", l/*, vars*/);
                         }
-                        var dep = dependenciesLines.Find(x => x.Item3 == i);
-                        if (dep != null)
-                            str += string.Format("<pre> {0}", dep.Item4);
+                            
+                        else if (depLines.Contains(i + 1))
+                        {
+                            foreach (var dep in dependenciesLines.Where(x => x.Item3 == i + 1))
+                                str += string.Format("<pre> {0} </pre>", dep.Item4);
+                        }
+
                         output.Write("[{0}] &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  {1} <br>", i+1, str);
                     }
                 }

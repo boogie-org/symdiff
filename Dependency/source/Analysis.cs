@@ -18,17 +18,22 @@ namespace Dependency
     class Analysis
     {
         static private GlobalVariable nonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
-        static private Program program;
-        static private Dictionary<Procedure, Dependencies> procDependencies = new Dictionary<Procedure, Dependencies>();
-        static private Dictionary<Procedure, TaintSet> procTaint = new Dictionary<Procedure, TaintSet>();
-        static private bool dataDependencyOnly = false;
-        static private bool printDeps = false;
+        static private HashSet<Procedure> taintedProcs = new HashSet<Procedure>();
+        static private Graph<Procedure> callGraph = new Graph<Procedure>();
+
+        static private bool dataDependenciesOnly = false;
+        static private bool bothDependencies = false;
+        static private bool prune = false;
+        static private bool printStats = false;
+        
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int, List<string>>> taintLog = new List<Tuple<string, string, int, List<string>>>();
         static private List<Tuple<string, string, int, string>> dependenciesLog = new List<Tuple<string, string, int, string>>();
+        static private List<Tuple<string, Procedure, Dependencies>> statsLog = new List<Tuple<string, Procedure, Dependencies>>();
+        static private string statsFile;
         static int Main(string[] args)
         {
-            if (args.Length < 1 || args.Length > 3)
+            if (args.Length < 1)
             {
                 Usage();
                 return -1;
@@ -36,12 +41,19 @@ namespace Dependency
              
             CommandLineOptions.Install(new CommandLineOptions());
 
+            statsFile = args[0] + ".csv";
+
             string changeList = null;
             args.Where(x => x.StartsWith("/t:"))
                 .Iter(s => changeList = s.Split(':')[1]);
 
-            printDeps = (args.Length == 1);
-            dataDependencyOnly = args.Any(x => x == "/d");
+            dataDependenciesOnly = args.Any(x => x == "/d");
+            prune = args.Any(x => x == "/p");
+            bothDependencies = args.Any(x => x == "/b") && !dataDependenciesOnly;
+
+            printStats = args.Any(x => x == "/s" || x.StartsWith("/s:"));
+            args.Where(x => x.StartsWith("/s:"))
+                .Iter(s => statsFile = s.Split(':')[1]);
 
             if (args.Any(x => x.Contains("/break")))
                 Debugger.Launch();
@@ -57,38 +69,44 @@ namespace Dependency
                 RunAnalysis(args[0], null);
 
             var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog);
-            displayHtml.GenerateHtmlOutput("taint_output.html");
+            displayHtml.GenerateHtmlOutput(args[0] + ".html");
+            Console.WriteLine("Output generated in " + args[0] + ".html");
+
+            if (printStats)
+            {
+                var statsHelper = new Utils.StatisticsHelper(statsLog);
+                statsHelper.GenerateCSVOutput(statsFile);
+                Console.WriteLine("Statistics generated in " + statsFile);
+            }
+
+            TextWriter output = new StreamWriter(args[0] + ".dot");
+            output.Write(callGraph.ToDot(p => p.ToString() /*+ procDependencies[p].ToString()*/));
+            output.Close();
+
             return 0;
         }
 
-        private static Dictionary<string, HashSet<int>> ParseChangeList(string filename)
+        public static void PopulateChangeLog(string filename)
         {
-            Dictionary<string, HashSet<int>> result = new Dictionary<string, HashSet<int>>();
             if (filename == null)
-                return result;
+                return;
             StreamReader reader = File.OpenText(filename);
             string line;
             while ((line = reader.ReadLine()) != null)
             {
                 string[] items = line.Split(',');
-                string funcName = items[0];
-                int lineNum = int.Parse(items[1]);
-                if (!result.ContainsKey(funcName))
-                    result[funcName] = new HashSet<int>();
-                result[funcName].Add(lineNum);
-                changeLog.Add(Tuple.Create(filename, funcName, lineNum));
+                changeLog.Add(Tuple.Create(filename, items[0], int.Parse(items[1])));
             }
-            return result;
         }
 
         private static int RunAnalysis(string filename, string changelist, bool taintAll = false)
         {
             Console.WriteLine("Processing file {0}", filename);
+            Program program;
             if (!Utils.ParseProgram(filename, out program)) return -1;
 
-            Dictionary<string, HashSet<int>> changes = null;
             if (!taintAll)
-                changes = ParseChangeList(changelist);
+                PopulateChangeLog(changelist);
 
             // collect Modifies for all procedures
             ModSetCollector c = new ModSetCollector();
@@ -96,19 +114,16 @@ namespace Dependency
 
             List<Declaration> declarations = program.TopLevelDeclarations;
 
-            var implementations = new List<Declaration>(program.TopLevelDeclarations.Where(x => x is Implementation));
-            foreach (Implementation impl in implementations)
+            var visitor = new DependencyTaintVisitor(program);
+            visitor.Visit(program);
+            visitor.Results();
+
+            if (bothDependencies)
             {
-                if (procDependencies.ContainsKey(impl.Proc)) // the proc may have been visited already through a caller
-                    continue;
-                var visitor = new DependencyTaintVisitor();
-
-                if (taintAll)
-                    visitor.taintAll = true;
-                else if (changes.ContainsKey(impl.Proc.Name))
-                    visitor.changedLines = changes[impl.Proc.Name];
-
-                visitor.Visit(impl);
+                var dataDepVisitor = new DependencyTaintVisitor(program);
+                dataDependenciesOnly = true;
+                dataDepVisitor.Visit(program);
+                dataDepVisitor.Results();
             }
 
             return 0;
@@ -121,9 +136,12 @@ namespace Dependency
             Console.WriteLine("Usage: " + execName + " <filename.bpl> [/t:changelist.txt | /t:all] [/d]");
             Console.WriteLine("/t:changelist.txt - produce taint for all lined marked as changed in changelist.txt");
             // TODO: /t:all should really be function based, and conveyed by lines like "f,-1" in the changelist file
-            Console.WriteLine("/t:all            - produce taint assuming all assignments are tainted");
+            //Console.WriteLine("/t:all            - produce taint assuming all assignments are tainted");
             Console.WriteLine("/d                - compute data dependnecies\\taint only (no control)");
-            Console.WriteLine("No flags          - print dependnecies only (no taint)");
+            Console.WriteLine("/b                - compute both data & control dependencies for showing in HTML");
+            Console.WriteLine("/p                - show only in\\out\\global dependencies (no locals)");
+            Console.WriteLine("/s[:statsfile.csv]  - print dependecies statistics in CSV format [to a specified file]");
+            //Console.WriteLine("No flags          - print dependnecies only (no taint)");
         }
 
         // some of the WorkList algorithm was exported to this class as it is the same for Dependency and Taint
@@ -133,7 +151,13 @@ namespace Dependency
             public Dictionary<Absy, AbsState> stateSpace = new Dictionary<Absy,AbsState>();
             internal List<Absy> workList = new List<Absy>();
             internal Dictionary<Absy, Block> cmdBlocks = new Dictionary<Absy, Block>();
-            internal HashSet<CallCmd> recursionPoints = new HashSet<CallCmd>();
+            private Dictionary<Absy, Implementation> nodeToImpl;
+            private Dictionary<Procedure, HashSet<CallCmd>> procCallers;
+
+            public WorkList(Dictionary<Absy, Implementation> _nodeToImpl, Dictionary<Procedure, HashSet<CallCmd>> _procCallers) {
+                nodeToImpl = _nodeToImpl;
+                procCallers = _procCallers;
+            }
 
             internal AbsState GatherPredecessorsState(Absy node, Block currBlock)
             {
@@ -211,10 +235,10 @@ namespace Dependency
                 }
                 else if (node is ReturnCmd) // for recursive procedures, the return propagates to all call sites
                 {
-                    foreach (var rp in recursionPoints)
-                    {
-                        workList.Add(rp);
-                    }
+                    var caller = nodeToImpl[node].Proc;
+                    if (procCallers.ContainsKey(caller))
+                        foreach (var cs in procCallers[caller])
+                            workList.Add(cs);
                 }
 
                 return true;
@@ -267,12 +291,6 @@ namespace Dependency
                 sb.Append("}");
                 return sb.ToString();
             }
-            public void Print() {
-                Console.Write("{ ");
-                foreach (var v in this)
-                    Console.Write(v + " ");
-                Console.WriteLine("}");
-            }
 
             // returns ( (this |_| ias) > this ) i.e. whether ias had tainted variables that did not exist in this
             public bool JoinWith(IAbstractState ias)
@@ -288,6 +306,35 @@ namespace Dependency
                     }
                 }
                 return added;
+            }
+
+            public void Prune(Procedure proc)
+            {
+                var result = new TaintSet();
+                foreach (var v in this)
+                {
+                    // leave only globals and outputs
+                    if (v is GlobalVariable || proc.OutParams.Contains(v))
+                        result.Add(v);
+                }
+                this.Clear();
+                this.JoinWith(result);
+            }
+
+            public void FixFormals(Implementation impl)
+            {
+                var result = new TaintSet();
+                foreach (var v in this)
+                {
+                    // fix the dependencies such that instead of the Implementation outputs
+                    // it will adhere to the Procedure outputs
+                    if (impl.OutParams.Contains(v))
+                        result.Add(Utils.ImplOutputToProcOutput(impl, v));
+                    else 
+                        result.Add(v);
+                }
+                this.Clear();
+                this.JoinWith(result);
             }
         }
         public class Dependencies : Dictionary<Variable, HashSet<Variable>>, IAbstractState
@@ -385,29 +432,141 @@ namespace Dependency
                 }
                 return added;
             }
+
+            public void FixFormals(Implementation impl)
+            {
+                var result = new Dependencies();
+                foreach (var dependency in this)
+                {
+                    var v = dependency.Key;
+                    // fix the dependencies such that instead of the Implementation inputs\outputs
+                    // it will adhere to the Procedure inputs\outputs
+                    if (impl.OutParams.Contains(v))
+                        result[Utils.ImplOutputToProcOutput(impl, v)] = Utils.ImplInputsToProcInputs(impl, dependency.Value);
+                    else
+                        result[v] = Utils.ImplInputsToProcInputs(impl,dependency.Value);
+                }
+                this.Clear();
+                this.JoinWith(result);
+            }
+
+            public void Prune(Procedure proc)
+            {
+                var result = new Dependencies();
+                foreach (var dependency in this)
+                {
+                    var v = dependency.Key;
+                    // leave only globals and formal outputs
+                    if (v is GlobalVariable || proc.OutParams.Contains(v))
+                        result.Add(v, dependency.Value);
+                }
+                this.Clear();
+                this.JoinWith(result);
+            }
         }
         public class DependencyTaintVisitor : StandardVisitor
         {
-            public List<Variable> inputs;
+            private Program program;
+            private Dictionary<Absy, Implementation> nodeToImpl = new Dictionary<Absy, Implementation>();
+            private Dictionary<Procedure, Dependencies> procDependencies = new Dictionary<Procedure, Dependencies>();
+            private Dictionary<Procedure, TaintSet> procTaint = new Dictionary<Procedure, TaintSet>();
+            private Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure, HashSet<CallCmd>>();
             public Dictionary<Block, HashSet<Block>> dominates = new Dictionary<Block, HashSet<Block>>();
             public Dictionary<Block, HashSet<Block>> dominatedBy = new Dictionary<Block, HashSet<Block>>();
             // a mapping: branching Block -> { Variables in the branch conditional }
             private Dictionary<Block, HashSet<Variable>> branchCondVars = new Dictionary<Block,HashSet<Variable>>();
-            private Procedure currentProc;
-            private Implementation currentImpl;
-            public WorkList<Dependencies> DWL = new WorkList<Dependencies>();
-            public WorkList<TaintSet> TWL = new WorkList<TaintSet>();
+            public WorkList<Dependencies> DWL;
+            public WorkList<TaintSet> TWL;
             public HashSet<int> changedLines = new HashSet<int>();
-            public bool taintAll = false;
             private HashSet<Block> changedBlocks = new HashSet<Block>();
 
-            private Dictionary<Block, HashSet<Block>> ComputeDominators(Implementation impl)
+
+            private void ComputeNodeToImpl()
             {
-                dominates = program.ProcessLoops(impl).ControlDependence();
-                dominatedBy = new Dictionary<Block, HashSet<Block>>();
-                // reverse the control dependance mapping (easier for the algorithm)
-                foreach (var cd in dominates)
+                var implementations = new List<Declaration>(program.TopLevelDeclarations.Where(x => x is Implementation));
+                foreach (Implementation impl in implementations)
+                    foreach (var b in impl.Blocks)
+                    {
+                        foreach (var s in b.Cmds)
+                            nodeToImpl[s] = impl;
+                        nodeToImpl[b.TransferCmd] = impl;
+                    }
+            }
+
+            public DependencyTaintVisitor(Program p)
+            {
+                program = p;
+                ComputeNodeToImpl();
+                DWL = new WorkList<Dependencies>(nodeToImpl, procCallers);
+                TWL = new WorkList<TaintSet>(nodeToImpl, procCallers);
+            }
+            public override Program VisitProgram(Program node)
+            {
+                foreach (Implementation impl in program.TopLevelDeclarations.Where(x => x is Implementation))
                 {
+                    if (procDependencies.ContainsKey(impl.Proc)) // the proc may have been visited already through a caller
+                        continue;
+                    else
+                        foreach (var change in changeLog.Where(x => x.Item2 == impl.Proc.Name))
+                            changedLines.Add(change.Item3);
+
+                    Visit(impl);
+                }
+                return node;
+            }
+
+            public void PopulateDependencyLog(Implementation node)
+            {
+                var proc = node.Proc;
+                string sourcefile = Utils.GetImplSourceFile(node);
+                int lastSourceLine = node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.GetSourceLine((AssertCmd)b.Cmds[0])).Max();
+
+                string depStr = proc.Name + "(): (Size = " + procDependencies[proc].Sum(x => x.Value.Count) + ")</b> " + procDependencies[proc];
+                if (dataDependenciesOnly)
+                    depStr = "<b> Data Only for " + depStr;
+                else
+                    depStr = "<b> Control + Data for " + depStr;
+
+                dependenciesLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, depStr));
+            }
+
+            public void PopulateTaintLog(Implementation node)
+            {
+                Dictionary<int, TaintSet> lines = new Dictionary<int, TaintSet>();
+                Dictionary<int, Tuple<string, string, int, List<string>>> tuples = new Dictionary<int, Tuple<string, string, int, List<string>>>();
+                string sourcefile = Utils.GetImplSourceFile(node);
+                foreach (var pair in TWL.stateSpace)
+                {
+                    if (!(pair.Key is GotoCmd) || pair.Value.Count == 0)
+                        continue;
+                    Block block = TWL.cmdBlocks[(GotoCmd)pair.Key];
+                    if (block.Cmds.Count > 0 && block.Cmds[0] is AssertCmd)
+                    {
+                        int sourceline = Utils.GetSourceLine((AssertCmd)block.Cmds[0]);
+                        if (sourceline >= 0)
+                        {
+                            var taintSet = pair.Value;
+                            // multiple boogie lines may corrsepond to a single source line
+                            // so the taint there would be the join of taint over all boogie lines
+                            if (lines.ContainsKey(sourceline))
+                                taintSet.JoinWith(lines[sourceline]);
+                            lines[sourceline] = taintSet;
+                            List<string> varNames = taintSet.Select(x => x.Name).ToList<string>();
+                            tuples[sourceline] = new Tuple<string, string, int, List<string>>(sourcefile, node.Proc.Name, sourceline, varNames);
+                        }
+                    }
+                }
+
+                foreach (var t in tuples.OrderBy(x => x.Key))
+                    taintLog.Add(t.Value);
+            }
+
+            private void ComputeDominators(Implementation impl)
+            {   
+                // reverse the control dependence mapping (easier for the algorithm)
+                foreach (var cd in program.ProcessLoops(impl).ControlDependence())
+                {
+                    dominates.Add(cd.Key, cd.Value);
                     foreach (var controlled in cd.Value)
                     {
                         if (!dominatedBy.Keys.Contains(controlled))
@@ -418,95 +577,17 @@ namespace Dependency
                         dominatedBy[controlled].Add(cd.Key);
                     }
                 }
-
-                return dominatedBy;
-            }
-
-            private TaintSet PruneTaint(Implementation impl, TaintSet taintSet)
-            {
-                var outTaintSet = new TaintSet();
-                foreach (var v in taintSet)
-                {
-                    // fix the dependencies such that instead of the Implementation outputs
-                    // it will adhere to the Procedure outputs
-                    if (v is GlobalVariable || impl.OutParams.Contains(v))
-                        outTaintSet.Add(Utils.ImplOutputToProcOutput(impl, v));
-                }
-                return outTaintSet;
             }
 
             public override Implementation VisitImplementation(Implementation node)
             {
-                Console.WriteLine("Analyzing " + node.ToString() + "( ).");
                 node.ComputePredecessorsForBlocks();
                 ComputeDominators(node);
-                inputs = node.InParams;
-                currentImpl = node;
-                currentProc = node.Proc;
 
-                
                 DWL.RunFixedPoint(this,node); // the dependencies fixed-point will also drive the taint computation
                 Console.WriteLine("Analyzed " + node.ToString() + "( ).");
-                
 
-                Dictionary<int, TaintSet> lines = new Dictionary<int, TaintSet>();
-                Dictionary<int, Tuple<string, string, int, List<string>>> tuples = new Dictionary<int, Tuple<string, string, int, List<string>>>();
-                string sourcefile = null;
-                foreach (var pair in TWL.stateSpace) {
-                    if (!(pair.Key is GotoCmd) || pair.Value.Count == 0)
-                        continue;
-                    Block block = TWL.cmdBlocks[(GotoCmd)pair.Key];
-                    if (block.Cmds.Count > 0 && block.Cmds[0] is AssertCmd)
-                    {
-                        int sourceline = GetSourceLine((AssertCmd)block.Cmds[0]);
-                        if (sourcefile == null)
-                            sourcefile = GetSourceFile((AssertCmd)block.Cmds[0]);
-                        if (sourceline >= 0)
-                        {
-                            var taintSet = pair.Value;
-                            // multiple boogie lines may corrsepond to a single source line
-                            // so the taint there would be the join of taint over all boogie lines
-                            if (lines.ContainsKey(sourceline)) 
-                                taintSet.JoinWith(lines[sourceline]);
-                            lines[sourceline] = taintSet;
-                            List<string> varNames = taintSet.Select(x => x.Name).ToList<string>();
-                            tuples[sourceline] = new Tuple<string, string, int, List<string>>(sourcefile, currentProc.Name, sourceline, varNames);
-                        }
-                    }
-                }
-
-                foreach (var t in tuples.OrderBy(x => x.Key))
-                {
-                    taintLog.Add(t.Value);
-                }
-
-                int lastSourceLine = node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => GetSourceLine((AssertCmd)b.Cmds[0])).Max();
-                dependenciesLog.Add(new Tuple<string, string, int, string>(sourcefile, currentProc.Name, lastSourceLine, procDependencies[currentProc].ToString()));
-
-                procDependencies[currentProc] = PruneDependencies(node, procDependencies[currentProc]);
-                procTaint[currentProc] = PruneTaint(node, procTaint[currentProc]);
-
-                if (printDeps)
-                    Console.WriteLine("Dependencies for procedure " + node.ToString() + "( ) :" + procDependencies[currentProc].ToString() + "\n");
-
-#if DBGRES
-                Console.ReadLine();
-#endif
                 return node;
-            }
-
-            private Dependencies PruneDependencies(Implementation impl, Dependencies dependencies)
-            {
-                var outDependancies = new Dependencies();
-                foreach (var dependency in dependencies)
-                {
-                    var v = dependency.Key;
-                    // fix the dependencies such that instead of the Implementation inputs\outputs
-                    // it will adhere to the Procedure inputs\outputs
-                    if (v is GlobalVariable || impl.OutParams.Contains(v))
-                        outDependancies.Add(Utils.ImplOutputToProcOutput(impl, v), Utils.ImplInputsToProcInputs(impl, dependency.Value));
-                }
-                return outDependancies;
             }
 
             public override Cmd VisitHavocCmd(HavocCmd node)
@@ -523,7 +604,7 @@ namespace Dependency
 
                     InferDominatorDependency(currBlock, dependencies[v], taintSet, v);
 
-                    if (taintAll || changedBlocks.Contains(currBlock))
+                    if (taintedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock))
                     {// the line itself is tainted
                         taintSet.Add(v);
                     }
@@ -602,7 +683,7 @@ namespace Dependency
 
                 InferDominatorDependency(currBlock, dependsSet, taintSet, left);
 
-                if (taintAll || changedBlocks.Contains(currBlock)) // the line itself is tainted
+                if (taintedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // the line itself is tainted
                 {// the line itself is tainted
                     taintSet.Add(left);
                 }
@@ -615,7 +696,7 @@ namespace Dependency
 
             private void InferDominatorDependency(Block currBlock, HashSet<Variable> dependsSet, HashSet<Variable> taintSet, Variable left)
             {
-                if (dataDependencyOnly)
+                if (dataDependenciesOnly)
                     return;
                 bool tainted = false;
                 // assignment under a branch is dependent on all the variables in the branch's conditional
@@ -667,30 +748,37 @@ namespace Dependency
 
             public override Cmd VisitCallCmd(CallCmd node)
             {
+                var callee = node.Proc;
+                callGraph.AddEdge(nodeToImpl[node].Proc, callee);
+                if (!procCallers.ContainsKey(callee))
+                    procCallers[callee] = new HashSet<CallCmd>();
+                procCallers[callee].Add(node);
                 Block currBlock = DWL.cmdBlocks[node];
                 Dependencies dependencies = DWL.GatherPredecessorsState(node, currBlock);
                 TaintSet initialTaintSet = TWL.GatherPredecessorsState(node, currBlock), 
                          taintSet = new TaintSet(); // the new taint starts empty
+
                 // an external stub
-                if (!(node.Proc == currentProc || procDependencies.Keys.Contains(node.Proc))) {
-                    var procImpl = program.Implementations().Where(x => x.Proc == node.Proc);
-                    if (procImpl.Count() == 1) // the implementation exists, but has yet to be visited
-                    {   // TODO: careful of mutual recursion
-                        Console.WriteLine("Visiting call " + node);
-                        var visitor = new DependencyTaintVisitor();
-                        visitor.Visit(procImpl.First());
-                    }
-                    else
-                    {
-                        procDependencies[node.Proc] = new Dependencies();
-                        foreach (var v in node.Proc.OutParams)
-                        {   // all outputs depend on all inputs
-                            procDependencies[node.Proc][v] = new HashSet<Variable>(node.Proc.InParams);
-                            // and on *
-                            procDependencies[node.Proc][v].Add(nonDetVar);
-                        }
+                if (program.Implementations().Where(x => x.Proc == callee).Count() == 0)
+                {
+                    procDependencies[callee] = new Dependencies();
+                    foreach (var v in callee.OutParams)
+                    {   // all outputs depend on all inputs
+                        procDependencies[callee][v] = new HashSet<Variable>(callee.InParams);
+                        // and on *
+                        procDependencies[callee][v].Add(nonDetVar);
                     }
                 }
+
+
+                if (!procDependencies.ContainsKey(callee))
+                { // this will be continued once the callee gets analyzed
+                    TWL.AssignAndPropagate(node, currBlock, new TaintSet());
+                    DWL.AssignAndPropagate(node, currBlock, new Dependencies());
+                    return node;
+                }
+
+                var calleeDependencies = procDependencies[callee];
 
                 // first, for f(e1,...,ek) find the dependency set of each ei
                 var inputExpressionsDependency = new List<HashSet<Variable>>();
@@ -708,22 +796,12 @@ namespace Dependency
                     }
 	            }
 
-                if (node.Proc == currentProc) // recursion
-                {
-                    DWL.recursionPoints.Add(node);
-                    if (!procDependencies.ContainsKey(node.Proc)) {
-                        procDependencies[node.Proc] = new Dependencies();
-                    }
-                }
-
-                var calleeDependencies = procDependencies[node.Proc];
                 // handle outputs affected by the call
-                for (int i = 0; i < node.Proc.OutParams.Count; ++i)
+                for (int i = 0; i < callee.OutParams.Count; ++i)
                 {
-                    var formalOutput = node.Proc.OutParams[i];
-                    if (!calleeDependencies.Keys.Contains(formalOutput))
+                    var formalOutput = callee.OutParams[i];
+                    if (!calleeDependencies.ContainsKey(formalOutput))
                         continue;
-                    
                     var inferedOutputDependency = InferCalleeOutputDependancy(node,formalOutput,dependencies,inputExpressionsDependency);
                     var actualOutput = node.Outs[i].Decl;
                     dependencies[actualOutput] = inferedOutputDependency;
@@ -734,7 +812,7 @@ namespace Dependency
 
                     InferDominatorDependency(currBlock, dependencies[actualOutput], taintSet, actualOutput); // conditionals may dominate/taint the return value
 
-                    if (taintAll || changedBlocks.Contains(currBlock))
+                    if (taintedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock))
                     {// the line itself is tainted
                         taintSet.Add(actualOutput);
                     }
@@ -750,12 +828,12 @@ namespace Dependency
 
                     foreach (var v in dependencies[g])// a global g in the call (...) is infered to depend on {v1, ... ,vn}
                         if (initialTaintSet.Contains(v) || // so if vi is tainted
-                            (v is GlobalVariable && procTaint[node.Proc].Contains(v))) // or vi is a global marked as tainted in the callee
+                            (v is GlobalVariable && procTaint[callee].Contains(v))) // or vi is a global marked as tainted in the callee
                             taintSet.Add(g); // g is also tainted
 
                     InferDominatorDependency(currBlock, dependencies[g], taintSet, g); // conditionals may dominate/taint the modified globals
 
-                    if (taintAll || changedBlocks.Contains(currBlock))
+                    if (taintedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock))
                     {// the line itself is tainted TODO: this may be too conservative
                         taintSet.Add(g);
                     }
@@ -781,27 +859,11 @@ namespace Dependency
             {
                 return VisitCmd(node);
             }
-
-            private string GetSourceFile(AssertCmd node)
-            {
-                for (var attr = node.Attributes; attr != null; attr = attr.Next)
-                    if (attr.Key == "sourcefile") // TODO: magic string
-                        return (string)attr.Params[0];
-                return null;
-            }
-
-            private int GetSourceLine(AssertCmd node)
-            {
-                for (var attr = node.Attributes; attr != null; attr = attr.Next)
-                        if (attr.Key == "sourceline") // TODO: magic string
-                            return int.Parse(((LiteralExpr)attr.Params[0]).ToString());
-                return -1;
-            }
             public override Cmd VisitAssertCmd(AssertCmd node)
             {
                 Block currBlock = DWL.cmdBlocks[node];
-                if (!taintAll) // if we mark all assignments as tainted, no need to search
-                    if (changedLines.Contains(GetSourceLine(node))) 
+                if (!taintedProcs.Contains(nodeToImpl[node].Proc)) // if we mark all assignments as tainted, no need to search
+                    if (changedLines.Contains(Utils.GetSourceLine(node))) 
                         changedBlocks.Add(currBlock);
 
                 return VisitCmd(node);
@@ -812,12 +874,13 @@ namespace Dependency
                 Block currBlock = DWL.cmdBlocks[node];
                 Dependencies dependencies = DWL.GatherPredecessorsState(node, currBlock);
                 DWL.AssignAndPropagate(node, currBlock, dependencies);
-
+                var currentProc = nodeToImpl[node].Proc;
                 // set the dependencies result for the procedure
                 if (!procDependencies.ContainsKey(currentProc))
                     procDependencies[currentProc] = DWL.stateSpace[node];
                 else
                     procDependencies[currentProc].JoinWith(DWL.stateSpace[node]);
+                procDependencies[currentProc].FixFormals(nodeToImpl[node]);
 
                 TaintSet taintSet = TWL.GatherPredecessorsState(node, currBlock);
                 TWL.AssignAndPropagate(node, currBlock, taintSet);
@@ -827,8 +890,28 @@ namespace Dependency
                     procTaint[currentProc] = TWL.stateSpace[node];
                 else
                     procTaint[currentProc].JoinWith(TWL.stateSpace[node]);
+                procTaint[currentProc].FixFormals(nodeToImpl[node]);
                 
                 return node;
+            }
+
+            public void Results()
+            {
+                foreach (Implementation impl in program.TopLevelDeclarations.Where(x => x is Implementation))
+                {
+                    var proc = impl.Proc;
+                    if (prune)
+                    {
+                        procDependencies[proc].Prune(impl.Proc);
+                        procTaint[proc].Prune(impl.Proc);
+                    }
+
+                    PopulateTaintLog(impl);
+                    PopulateDependencyLog(impl);
+
+                    if (printStats)
+                        statsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.GetImplSourceFile(impl), proc, procDependencies[proc]));
+                }
             }
         }
 

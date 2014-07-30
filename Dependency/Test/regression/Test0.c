@@ -64,8 +64,8 @@ int global4;
 char global5;
 // result <- {x,w}
 // global3 <- {x,w}
-// global4 <- {}
-// global5 <- {x}
+// global4 <- {global4}
+// global5 <- {x,global5}
 int TestReturnDomination(int x, int w) {
 	int y,z,p;
 	z++; 
