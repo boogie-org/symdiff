@@ -1,0 +1,6 @@
+BENCHMARK:rootcause_ex4.bpl(ERRORFREE)
+Processing file rootcause_ex4.bpl
+############# Implementation = EQ_A #################
+Cause ==>
+leftAssignment: r[i] := -1;
+rightAssignment: r[i] := t0 * t1;

@@ -1,0 +1,6 @@
+BENCHMARK:rootcause_ex13.bpl(ERRORFREE)
+Processing file rootcause_ex13.bpl
+############# Implementation = EQ_A #################
+Cause ==>
+leftAssignment: h1[index] := g(h1[index], 1);
+rightAssignment: h2[index] := g(h2[index + 1], 1);

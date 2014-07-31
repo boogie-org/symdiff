@@ -1,0 +1,8 @@
+BENCHMARK:tcas_line63_level1.bpl(ERRORFREE)
+Processing file tcas_line63_level1.bpl
+############# Implementation = EQ_v1.Inhibit_Biased_Climb__xx__v2.Inhibit_Biased_Climb #################
+Cause ==>
+leftAssignment: inline$v1.Inhibit_Biased_Climb$0$$result.question.2$ := v2.INT_PLUS(v2.Mem_T.INT4[v2.Up_Separation], 1, 100);
+rightAssignment: inline$v2.Inhibit_Biased_Climb$0$$result.question.2$ := v2.INT_PLUS(v2.Mem_T.INT4[v2.Up_Separation], 1, 300);
+leftAssignment sourceLine: 63
+rightAssignment sourceLine: 63

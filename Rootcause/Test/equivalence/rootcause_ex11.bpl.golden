@@ -1,0 +1,6 @@
+BENCHMARK:rootcause_ex11.bpl(ERRORFREE)
+Processing file rootcause_ex11.bpl
+############# Implementation = EQ_Fat #################
+Cause ==>
+leftAssignment: h1 := h;
+rightAssignment: h2[j] := 2;

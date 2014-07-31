@@ -1,0 +1,6 @@
+BENCHMARK:rootcause_ex1d.bpl(ERRORFREE)
+Processing file rootcause_ex1d.bpl
+############# Implementation = EQ_diff #################
+Cause ==>
+leftAssignment: rootcause_cond_var := y1 == 42;
+rightAssignment: rootcause_cond_var := y2 == 142;

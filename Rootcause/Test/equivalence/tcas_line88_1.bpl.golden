@@ -1,0 +1,8 @@
+BENCHMARK:tcas_line88_1.bpl(ERRORFREE)
+Processing file tcas_line88_1.bpl
+############# Implementation = EQ_v3.tcas__xx__v4.tcas #################
+Cause ==>
+leftAssignment: v3.rohit_cond := v4.INT_LEQ(2598, v4.Mem_T.INT4[v4.Up_Separation]);
+rightAssignment: v4.rohit_cond := v4.INT_LEQ(1598, v4.Mem_T.INT4[v4.Up_Separation]);
+leftAssignment sourceLine: 88
+rightAssignment sourceLine: 88

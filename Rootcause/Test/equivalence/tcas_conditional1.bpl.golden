@@ -1,0 +1,8 @@
+BENCHMARK:tcas_conditional1.bpl(ERRORFREE)
+Processing file tcas_conditional1.bpl
+############# Implementation = EQ_v3.tcas__xx__v4.tcas #################
+Cause ==>
+leftAssignment: rootcause_cond_var := v4.INT_LEQ(inline$v3.tcas$0$inline$Non_Crossing_Biased_Climb$0$result.ALIM$8, v4.Mem_T.INT4[v4.Up_Separation]);
+rightAssignment: rootcause_cond_var := v4.INT_LEQ(v4.Mem_T.INT4[v4.Up_Separation], inline$v4.tcas$0$inline$Non_Crossing_Biased_Descend$0$result.ALIM$8);
+leftAssignment sourceLine: 70
+rightAssignment sourceLine: 88

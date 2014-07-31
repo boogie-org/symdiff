@@ -1,0 +1,8 @@
+BENCHMARK:rootcause_ex14.bpl(ERRORFREE)
+Processing file rootcause_ex14.bpl
+############# Implementation = EQ_v1.Eval__xx__v3.Eval #################
+Cause ==>
+leftAssignment: v3.Mem_T.result__EXPR := v3.Mem_T.result__EXPR[v3.result__EXPR(inline$v1.Eval$0$e) := 0 - 1];
+rightAssignment: inline$v3.Eval$0$res := v3.INT_MULT(inline$v3.Eval$0$a1, inline$v3.Eval$0$a2);
+leftAssignment sourceLine: 20
+rightAssignment sourceLine: 29

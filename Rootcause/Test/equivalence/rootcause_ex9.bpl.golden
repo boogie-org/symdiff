@@ -1,0 +1,6 @@
+BENCHMARK:rootcause_ex9.bpl(ERRORFREE)
+Processing file rootcause_ex9.bpl
+############# Implementation = EQ_A #################
+Cause ==>
+leftAssignment: t1 := f(h, index);
+rightAssignment: t2 := f(h, index + 1);

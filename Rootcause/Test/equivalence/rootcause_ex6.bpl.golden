@@ -1,0 +1,6 @@
+BENCHMARK:rootcause_ex6.bpl(ERRORFREE)
+Processing file rootcause_ex6.bpl
+############# Implementation = EQ_A #################
+Cause ==>
+leftAssignment: r := -1;
+rightAssignment: r := MULT(t0, t1);

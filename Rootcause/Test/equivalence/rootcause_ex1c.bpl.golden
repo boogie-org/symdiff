@@ -1,0 +1,6 @@
+BENCHMARK:rootcause_ex1c.bpl(ERRORFREE)
+Processing file rootcause_ex1c.bpl
+############# Implementation = EQ_diff #################
+Cause ==>
+leftAssignment: M1[4] := 1;
+rightAssignment: M2[4] := 2;

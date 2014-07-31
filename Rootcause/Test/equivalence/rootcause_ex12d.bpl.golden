@@ -1,0 +1,6 @@
+BENCHMARK:rootcause_ex12d.bpl(ERRORFREE)
+Processing file rootcause_ex12d.bpl
+############# Implementation = EQ_D #################
+Cause ==>
+leftAssignment: h1[index] := 1;
+rightAssignment: h2[index + 1] := 2;

@@ -1,0 +1,8 @@
+BENCHMARK:tcas_conditional2.bpl(ERRORFREE)
+Processing file tcas_conditional2.bpl
+############# Implementation = EQ_v3.tcas__xx__v4.tcas #################
+Cause ==>
+leftAssignment: rootcause_cond_var := inline$v3.tcas$0$inline$Non_Crossing_Biased_Climb$0$upward_preferred != 0;
+rightAssignment: rootcause_cond_var := inline$v4.tcas$0$inline$Non_Crossing_Biased_Descend$0$upward_preferred != 0;
+leftAssignment sourceLine: 64
+rightAssignment sourceLine: 82

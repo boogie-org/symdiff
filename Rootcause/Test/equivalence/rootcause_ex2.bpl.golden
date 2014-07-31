@@ -1,0 +1,6 @@
+BENCHMARK:rootcause_ex2.bpl(ERRORFREE)
+Processing file rootcause_ex2.bpl
+############# Implementation = EQ_foo #################
+Cause ==>
+leftAssignment: x1 := x1 + b_in;
+rightAssignment: x2 := x2 * b_in;

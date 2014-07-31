@@ -1,0 +1,6 @@
+BENCHMARK:rootcause_ex5.bpl(ERRORFREE)
+Processing file rootcause_ex5.bpl
+############# Implementation = EQ_A #################
+Cause ==>
+leftAssignment: r := -1;
+rightAssignment: r := t0 * t1;

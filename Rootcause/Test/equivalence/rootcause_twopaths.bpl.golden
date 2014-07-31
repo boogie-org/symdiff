@@ -1,0 +1,6 @@
+BENCHMARK:rootcause_twopaths.bpl(ERRORFREE)
+Processing file rootcause_twopaths.bpl
+############# Implementation = EQ_diff #################
+Cause ==>
+leftAssignment: z1 := f() + 1;
+rightAssignment: z2 := f() - 1;

@@ -1,0 +1,33 @@
+rootcause_ex1a.bpl$/equalityFixes+ /verbose:0
+rootcause_ex1b.bpl$/equalityFixes+ /passingTestFilter- /verbose:0 
+rootcause_ex1c.bpl$/equalityFixes+ /verbose:0 
+rootcause_ex1d.bpl$/equalityFixes+ /verbose:0 /liftConditionals+
+rootcause_ex1e.bpl$/equalityFixes+ /verbose:0 /passingTestFilter- /demonizeUninterpreted+
+rootcause_twopaths.bpl$/equalityFixes+ /constrainLeftPath+ /verbose:0
+rootcause_ex2.bpl$/equalityFixes+ /verbose:0
+rootcause_ex3.bpl$/equalityFixes+ /verbose:0 /liftConditionals+
+rootcause_ex4.bpl$/equalityFixes+ /verbose:0
+rootcause_ex5.bpl$/equalityFixes+ /verbose:0
+rootcause_ex6.bpl$/equalityFixes+ /verbose:0
+rootcause_ex7.bpl$/equalityFixes+ /verbose:0
+rootcause_ex8a.bpl$/equalityFixes+ /verbose:0
+rootcause_ex8b.bpl$/equalityFixes+ /verbose:0
+rootcause_ex8c.bpl$/equalityFixes+ /verbose:0
+rootcause_ex8d.bpl$/equalityFixes+ /verbose:0
+rootcause_ex9.bpl$/equalityFixes+ /verbose:0
+rootcause_ex10.bpl$/equalityFixes+ /verbose:0
+rootcause_ex11.bpl$/equalityFixes+ /verbose:0
+rootcause_ex12a.bpl$/equalityFixes+ /verbose:0
+rootcause_ex12b.bpl$/equalityFixes+ /verbose:0
+rootcause_ex12c.bpl$/equalityFixes+ /verbose:0
+rootcause_ex12d.bpl$/equalityFixes+ /verbose:0
+rootcause_ex12e.bpl$/equalityFixes+ /verbose:0
+rootcause_ex12f.bpl$/equalityFixes+ /verbose:0
+rootcause_ex13.bpl$/equalityFixes+ /verbose:0
+rootcause_ex14.bpl$/equalityFixes+ /verbose:0
+tcas_line63_level1.bpl$/equalityFixes+  /verbose:0
+tcas_line63_level2.bpl$/equalityFixes+  /verbose:0
+tcas_line88_1.bpl$/equalityFixes+ /arithmeticFilter- /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0
+tcas_line88_2.bpl$/equalityFixes+ /arithmeticFilter- /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0
+tcas_conditional1.bpl$/equalityFixes+ /conditionalFilter+ /arithmeticFilter- /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0 /liftConditionals+
+tcas_conditional2.bpl$/equalityFixes+ /conditionalFilter+ /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0 /liftConditionals+
