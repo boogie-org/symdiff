@@ -144,7 +144,7 @@ namespace Dependency
             }
 
             int curr = 0;
-            while (todo.Count > 0)
+            while (todo.Count > 0 && curr < result.Count)
             {
                 foreach (var s in cg.Successors(result.ElementAt(curr)))
                     if (todo.Contains(s))
@@ -154,6 +154,38 @@ namespace Dependency
                     }
                 curr++;
             }
+
+            if (todo.Count > 0)
+                result.AddRange(todo);
+
+            return result;
+        }
+
+        static public List<Procedure> BottomUp(Microsoft.Boogie.GraphUtil.Graph<Procedure> cg)
+        {
+            HashSet<Procedure> todo = new HashSet<Procedure>(cg.Nodes);
+            List<Procedure> result = new List<Procedure>();
+
+            foreach (Procedure p in cg.Nodes.Where(p => cg.Successors(p).Count() == 0))
+            {
+                todo.Remove(p);
+                result.Add(p);
+            }
+
+            int curr = 0;
+            while (todo.Count > 0 && curr < result.Count)
+            {
+                foreach (var p in cg.Predecessors(result.ElementAt(curr)))
+                    if (todo.Contains(p))
+                    {
+                        result.Add( p);
+                        todo.Remove(p);
+                    }
+                curr++;
+            }
+
+            if (todo.Count > 0)
+                result.AddRange(todo);
 
             return result;
         }

@@ -43,7 +43,7 @@ namespace Dependency
             CommandLineOptions.Clo.RunningBoogieFromCommandLine = true;
             var boogieOptions = "/typeEncoding:m -timeLimit:200 -removeEmptyBlocks:0 ";
             //need this to avoid crash while creating prover
-            CommandLineOptions.Clo.Parse(boogieOptions.Split(' '));
+            //CommandLineOptions.Clo.Parse(boogieOptions.Split(' '));
 
             statsFile = args[0] + ".csv";
 
@@ -514,11 +514,11 @@ namespace Dependency
             {
                 callGraph = Utils.ComputeCallGraph(node);
                 
-                var bottomUp = new List<Procedure>();
-                Utils.BFS(callGraph).Iter(l => bottomUp.AddRange(l.Value));  
-                bottomUp.Reverse();
+                var reversedBFS = new List<Procedure>();
+                Utils.BFS(callGraph).Iter(l => reversedBFS.AddRange(l.Value));  
+                reversedBFS.Reverse();
 
-                foreach (var proc in bottomUp)
+                foreach (var proc in reversedBFS)
                 {
                     var impl = (Implementation)program.TopLevelDeclarations.Find(x => x is Implementation && ((Implementation)x).Proc == proc);
                     if (impl == null)
@@ -538,7 +538,10 @@ namespace Dependency
             {
                 var proc = node.Proc;
                 string sourcefile = Utils.GetImplSourceFile(node);
-                int lastSourceLine = node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.GetSourceLine((AssertCmd)b.Cmds[0])).Max();
+                var sourceLines = node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.GetSourceLine((AssertCmd)b.Cmds[0]));
+                if (sourceLines.Count() == 0)
+                    return;
+                int lastSourceLine = sourceLines.Max();
 
                 string depStr = proc.Name + "(): (Size = " + procDependencies[proc].Sum(x => x.Value.Count) + ")</b> " + procDependencies[proc];
                 if (dataDependenciesOnly)
