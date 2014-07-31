@@ -502,8 +502,17 @@ namespace Dependency
             }
             public override Program VisitProgram(Program node)
             {
-                foreach (Implementation impl in program.TopLevelDeclarations.Where(x => x is Implementation))
+                callGraph = Utils.ComputeCallGraph(node);
+                
+                var bottomUp = new List<Procedure>();
+                Utils.BFS(callGraph).Iter(l => bottomUp.AddRange(l.Value));  
+                bottomUp.Reverse();
+
+                foreach (var proc in bottomUp)
                 {
+                    var impl = (Implementation)program.TopLevelDeclarations.Find(x => x is Implementation && ((Implementation)x).Proc == proc);
+                    if (impl == null)
+                        continue;
                     if (procDependencies.ContainsKey(impl.Proc)) // the proc may have been visited already through a caller
                         continue;
                     else
@@ -749,7 +758,6 @@ namespace Dependency
             public override Cmd VisitCallCmd(CallCmd node)
             {
                 var callee = node.Proc;
-                callGraph.AddEdge(nodeToImpl[node].Proc, callee);
                 if (!procCallers.ContainsKey(callee))
                     procCallers[callee] = new HashSet<CallCmd>();
                 procCallers[callee].Add(node);

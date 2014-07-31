@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
 using System.IO;
+using System.Diagnostics;
 
 namespace Dependency
 {
@@ -91,6 +92,70 @@ namespace Dependency
                     break;
             }
             return sourcefile;
+        }
+
+
+        static public Dictionary<int, HashSet<Procedure>> BFS(Microsoft.Boogie.GraphUtil.Graph<Procedure> cg)
+        {
+            int level = 0;
+            HashSet<Procedure> todo = new HashSet<Procedure>(cg.Nodes);
+            Dictionary<int, HashSet<Procedure>> bfs = new Dictionary<int, HashSet<Procedure>>();
+
+            bfs[level] = new HashSet<Procedure>();
+            foreach (Procedure p in cg.Nodes.Where(p => cg.Predecessors(p).Count() == 0))
+                bfs[level].Add(p);
+
+            if (bfs[level].Count == 0)
+            { // no sources found
+                bfs[level] = todo;
+                return bfs;
+            }
+
+            while (todo.Count > 0)
+            {
+                if (bfs[level].Count == 0)
+                { // add remaining at last level
+                    bfs[level] = todo;
+                    return bfs;
+                }
+                bfs[level + 1] = new HashSet<Procedure>();
+                foreach (var p in bfs[level])
+                {
+                    foreach (var s in cg.Successors(p).Intersect(todo))
+                    {
+                        bfs[level + 1].Add(s);
+                    }
+                    todo.Remove(p);
+                }
+                level++;
+            }
+            return bfs;
+        }
+
+        static public List<Procedure> DFS(Microsoft.Boogie.GraphUtil.Graph<Procedure> cg)
+        {
+            HashSet<Procedure> todo = new HashSet<Procedure>(cg.Nodes);
+            List<Procedure> result = new List<Procedure>();
+
+            foreach (Procedure p in cg.Nodes.Where(p => cg.Predecessors(p).Count() == 0))
+            {
+                todo.Remove(p);
+                result.Add(p);
+            }
+
+            int curr = 0;
+            while (todo.Count > 0)
+            {
+                foreach (var s in cg.Successors(result.ElementAt(curr)))
+                    if (todo.Contains(s))
+                    {
+                        result.Insert(curr + 1, s);
+                        todo.Remove(s);
+                    }
+                curr++;
+            }
+
+            return result;
         }
 
         public class StatisticsHelper
@@ -236,6 +301,20 @@ namespace Dependency
                 vars.Add(node);
                 return node;
             }
+        }
+
+        public static Microsoft.Boogie.GraphUtil.Graph<Procedure> ComputeCallGraph(Program program)
+        {
+            Microsoft.Boogie.GraphUtil.Graph<Procedure> result = new Microsoft.Boogie.GraphUtil.Graph<Procedure>();
+
+            foreach (Implementation impl in program.TopLevelDeclarations.Where(x => x is Implementation))
+            {
+                result.AddSource(impl.Proc);
+                foreach (var b in impl.Blocks)
+                    foreach (CallCmd c in b.Cmds.Where(c => c is CallCmd))
+                        result.AddEdge(impl.Proc, c.Proc);
+            }
+            return result;
         }
     }
 
