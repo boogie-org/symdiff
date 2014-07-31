@@ -528,7 +528,10 @@ namespace Dependency
             {
                 var proc = node.Proc;
                 string sourcefile = Utils.GetImplSourceFile(node);
-                int lastSourceLine = node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.GetSourceLine((AssertCmd)b.Cmds[0])).Max();
+                var sourceLines = node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.GetSourceLine((AssertCmd)b.Cmds[0]));
+                if (sourceLines.Count() == 0)
+                    return;
+                int lastSourceLine = sourceLines.Max();
 
                 string depStr = proc.Name + "(): (Size = " + procDependencies[proc].Sum(x => x.Value.Count) + ")</b> " + procDependencies[proc];
                 if (dataDependenciesOnly)
