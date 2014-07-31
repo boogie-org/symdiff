@@ -38,7 +38,7 @@ namespace Rootcause
             //ROHIT: always print
             //if (!Options.verbose == 2) return; //Printing p messes up line numbers
             var filename = Options.outputPath + @"\tmp" + Options.htmlTag + ".bpl";
-            var tuo = new TokenTextWriter(filename);
+            var tuo = new TokenTextWriter(filename,true);
             try
             {
                 p.Emit(tuo);

@@ -21,7 +21,7 @@ namespace SDiff
 
   public static class ConsoleOut
   {
-    public static TokenTextWriter sdout = new TokenTextWriter(Console.Out);
+    public static TokenTextWriter sdout = new TokenTextWriter(Console.Out,true);
   }
 
   public static class UniqueNumber
@@ -403,14 +403,14 @@ namespace SDiff
       {
           var sb = new System.Text.StringBuilder();
           var tw = new System.IO.StringWriter(sb);
-          var tt = new TokenTextWriter(tw);
+          var tt = new TokenTextWriter(tw, true);
           emitter(tt);
           tt.Close();
           return sb.ToString();
       }
       public static void DumpBplAST(Program p, string filename)
       {
-          var tuo = new TokenTextWriter(filename);
+          var tuo = new TokenTextWriter(filename, true);
           p.Emit(tuo);
           tuo.Close();
       }

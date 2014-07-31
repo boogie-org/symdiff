@@ -22,12 +22,12 @@ namespace SDiff.SymEx
     public static void PrintTrace(List<Block> e)
     {
       foreach (Block b in e)
-        b.Emit(new TokenTextWriter(Console.Out), 0);
+        b.Emit(new TokenTextWriter(Console.Out,true), 0);
     }
 
     public static void PrintCindyTrace(List<Block> e, string filename)
     {
-      var ttt = new TokenTextWriter(filename);
+      var ttt = new TokenTextWriter(filename,true);
 
       foreach (Block b in e)
         b.Emit(ttt, 0);
@@ -37,7 +37,7 @@ namespace SDiff.SymEx
     public static void PrintSymbolicTrace(SymbolicTrace st)
     {
       foreach (SymbolicBlock b in st)
-        b.Emit(new TokenTextWriter(Console.Out));
+        b.Emit(new TokenTextWriter(Console.Out,true));
     }
   }
 

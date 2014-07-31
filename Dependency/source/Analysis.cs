@@ -38,8 +38,12 @@ namespace Dependency
                 Usage();
                 return -1;
             }
-             
+
             CommandLineOptions.Install(new CommandLineOptions());
+            CommandLineOptions.Clo.RunningBoogieFromCommandLine = true;
+            var boogieOptions = "/typeEncoding:m -timeLimit:200 -removeEmptyBlocks:0 ";
+            //need this to avoid crash while creating prover
+            CommandLineOptions.Clo.Parse(boogieOptions.Split(' '));
 
             statsFile = args[0] + ".csv";
 
@@ -57,6 +61,12 @@ namespace Dependency
 
             if (args.Any(x => x.Contains("/break")))
                 Debugger.Launch();
+
+            if (args.Any(x => x.Contains("/semanticDependency")))
+            {
+                (new RefineDependency(args[0])).Run();
+                return 1;
+            }
 
             if (changeList != null)
             {

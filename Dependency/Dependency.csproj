@@ -44,14 +44,24 @@
     <Reference Include="ParserHelper">
       <HintPath>..\references\ParserHelper.dll</HintPath>
     </Reference>
+    <Reference Include="Provers.SMTLib">
+      <HintPath>..\references\Provers.SMTLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="VCExpr">
+      <HintPath>..\references\VCExpr.dll</HintPath>
+    </Reference>
+    <Reference Include="VCGeneration">
+      <HintPath>..\references\VCGeneration.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="source\Analysis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="source\RefineDependency.cs" />
     <Compile Include="source\Utils.cs" />
     <Compile Include="source\Tabulation.cs" />
   </ItemGroup>

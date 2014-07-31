@@ -266,7 +266,7 @@ namespace SDiff
       program.UnrollLoops(iterationsToUnroll, false); //setting it to true breaks ex7
 
         
-      var outchan = new TokenTextWriter(outfilename);
+      var outchan = new TokenTextWriter(outfilename, true);
       program.Emit(outchan);
       outchan.Close();
       return 0;
@@ -345,7 +345,7 @@ namespace SDiff
             
 
 
-        var outchan = new TokenTextWriter(outfilename);
+        var outchan = new TokenTextWriter(outfilename,true);
         program.Emit(outchan);
         outchan.Close();
         return 0;
