@@ -355,7 +355,7 @@ namespace SDiff
                     if (cTrace.Trim() != "")
                     {
                         var fname = impl.Name + "_cex_" + (i + 1) + "_out.c";
-                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c");
+                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c", true);
                         cexOut.WriteLine(cTrace);
                         cexOut.Close();
                         Log.Out(Log.CTrace, "n:" + (i + 1) + ":" + fname);
@@ -543,7 +543,7 @@ namespace SDiff
 
                         //note that the index for cex on the output shows 1,2,..., instead of 0,1,2....
                         var fname = impl.Name + "_cex_" + (i + 1) + "_out.c";
-                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c");
+                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c",true);
                         cexOut.WriteLine(cTrace);
                         cexOut.Close();
                         Log.Out(Log.CTrace, "n:" + (i + 1) + ":" + fname);

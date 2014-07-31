@@ -447,9 +447,9 @@ namespace SDiff.Boogie
     {
       TokenTextWriter outFile;
       if (filename != null)
-        outFile = new TokenTextWriter(filename);
+        outFile = new TokenTextWriter(filename,true);
       else
-        outFile = new TokenTextWriter(Console.Out);
+        outFile = new TokenTextWriter(Console.Out,true);
       p.Emit(outFile);
       outFile.Close();
     }

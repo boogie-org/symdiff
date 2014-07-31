@@ -166,7 +166,7 @@ namespace SDiff
      
 
 
-    public static TokenTextWriter LogWriter = new TokenTextWriter(Console.Out);
+    public static TokenTextWriter LogWriter = new TokenTextWriter(Console.Out,true);
   }
 }
 
