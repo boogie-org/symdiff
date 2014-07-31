@@ -1,0 +1,3 @@
+Run it as
+
+..\..\bin\debug\rootcause.exe /equalityFixes+ example1.bpl /verbose:1

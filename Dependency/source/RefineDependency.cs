@@ -77,7 +77,7 @@ namespace Dependency
            inputGuardConsts.ForEach(x => assumptions.Add(VC.translator.LookupVariable(x)));
 
             ProverInterface.Outcome outcome = ProverInterface.Outcome.Undetermined;
-            outcome = VC.proverInterface.CheckAssumptions(assumptions, out unsatClauseIdentifiers, VC.handler);
+            outcome = VC.proverInterface.CheckAssumptions(assumptions, /* new List<VCExpr>(),*/ out unsatClauseIdentifiers, VC.handler);
 
             if (unsatClauseIdentifiers.Count() == 0)
             {
