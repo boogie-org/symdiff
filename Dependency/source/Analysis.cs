@@ -43,7 +43,7 @@ namespace Dependency
             CommandLineOptions.Clo.RunningBoogieFromCommandLine = true;
             var boogieOptions = "/typeEncoding:m -timeLimit:200 -removeEmptyBlocks:0 ";
             //need this to avoid crash while creating prover
-            CommandLineOptions.Clo.Parse(boogieOptions.Split(' '));
+            //CommandLineOptions.Clo.Parse(boogieOptions.Split(' '));
 
             statsFile = args[0] + ".csv";
 
@@ -514,11 +514,11 @@ namespace Dependency
             {
                 callGraph = Utils.ComputeCallGraph(node);
                 
-                var bottomUp = new List<Procedure>();
-                Utils.BFS(callGraph).Iter(l => bottomUp.AddRange(l.Value));  
-                bottomUp.Reverse();
+                var reversedBFS = new List<Procedure>();
+                Utils.BFS(callGraph).Iter(l => reversedBFS.AddRange(l.Value));  
+                reversedBFS.Reverse();
 
-                foreach (var proc in bottomUp)
+                foreach (var proc in reversedBFS)
                 {
                     var impl = (Implementation)program.TopLevelDeclarations.Find(x => x is Implementation && ((Implementation)x).Proc == proc);
                     if (impl == null)
