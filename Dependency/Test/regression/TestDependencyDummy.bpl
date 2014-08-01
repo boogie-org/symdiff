@@ -7,14 +7,14 @@ procedure {:inline 1} Foo(i1:int, i2:int, i3:int) returns (o1:int, o2:int, o3:in
 {
     if (i1 < 0) {
        o1 := 5;
-       o2 := 22;
+       o2 := i2 + 1;
     } else {
        o1 := 6;
-       o2 := 22; 
+       o2 := i2 + 1; 
     }
    
     havoc o3; //non-det
-    o4 := o1 + o2;
+    o4 := o1 + o2 + i3;
     return;
 }
 
@@ -46,6 +46,7 @@ ensures bo4 ==> eq4;
    var i3:int;
 
    var i11:int, i21:int, i31:int;
+
    var i12:int, i22:int, i32:int;
 
    var o11:int;

@@ -37,7 +37,6 @@ namespace Dependency
                 .Iter(x => Analyze(x));
 
         }
-
         private void Analyze(Implementation impl)
         {
             //get the guard constants  (refine per procedure)
@@ -48,44 +47,82 @@ namespace Dependency
                 .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "guardOutputs"))
                 .ToList();
 
-            //generate a VC 
-            //(following unsatcoreFromFailures.cs/PerformRootcauseWorks or 
-            //EqualityFixes.cs/PerformRootCause in Rootcause project)
+            //---- generate VC starts ---------
+            //following unsatcoreFromFailures.cs/PerformRootcauseWorks or EqualityFixes.cs/PerformRootCause in Rootcause project
             //typecheck the instrumented program
             prog.Resolve();
             prog.Typecheck();
 
-
             //Generate VC
             VC.InitializeVCGen(prog);
             VCExpr programVC = VC.GenerateVC(prog, impl);
+            //---- generate VC ends ---------
 
             //Analyze using UNSAT cores for each output
-            outputGuardConsts
-                .Iter(x => AnalyzeOutputWithUnsatCore(programVC,x));
-        }
+            outputGuardConsts.Iter(x => AnalyzeDependencyWithUnsatCore(programVC,x));
 
-        private void AnalyzeOutputWithUnsatCore(VCExpr programVC, Constant outConstant)
+            VC.FinalizeVCGen(prog);
+
+        }
+        private void AnalyzeDependencyWithUnsatCore(VCExpr programVC, Constant outConstant)
         {
+            #region Description of UNSAT core logic implemented below 
+            /*
+                Given VC, I, O, o
+                - preInp = (\wedge_{i \in I} i) 
+                - preOut = (\wedge_{o' \in O} !o') \wedge o
+                - VC' = (preOut => VC)
+                - checkValid preInp => VC'
+                - if invalid return
+                - A += !VC' 
+                - A += I
+                - if (CheckAssumption(A, out core) != valid) ABORT
+             */
+            #endregion
+
+            //Should call VerifyVC before invoking CheckAssumptions
+            List<Counterexample> cexs;
+            var preInp = inputGuardConsts
+                .Aggregate(VCExpressionGenerator.True, (x, y) => VC.exprGen.And(x, VC.translator.LookupVariable(y)));
+            var preOut = outputGuardConsts
+                .Where(x => x != outConstant)
+                .Aggregate(VCExpressionGenerator.True, (x, y) => VC.exprGen.And(x, VC.exprGen.Not(VC.translator.LookupVariable(y))));
+            preOut = VC.exprGen.And(preOut, VC.translator.LookupVariable(outConstant));
+            var newVC = VC.exprGen.Implies(preOut, programVC);
+
+            //check for validity (presence of all input eq implies output is equal)
+            var outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
+            if (outcome != ProverInterface.Outcome.Valid)
+            {
+                Console.WriteLine("VC not valid, returning");
+                Console.WriteLine("The list of inputs in the Dependency of {0} = <*>", outConstant);
+                return;
+            }
 
             List<int> unsatClauseIdentifiers = new List<int>();
             var assumptions = new List<VCExpr>();
-            //only constrain output, all other constants can be unconstrained
-            assumptions.Add(VC.exprGen.And(programVC,VC.translator.LookupVariable(outConstant))); 
+            assumptions.Add(VC.exprGen.Not(newVC));
 
             //Add the list of all input constants
-           inputGuardConsts.ForEach(x => assumptions.Add(VC.translator.LookupVariable(x)));
+            inputGuardConsts.ForEach(x => assumptions.Add(VC.translator.LookupVariable(x)));
 
-            ProverInterface.Outcome outcome = ProverInterface.Outcome.Undetermined;
-            outcome = VC.proverInterface.CheckAssumptions(assumptions, /* new List<VCExpr>(),*/ out unsatClauseIdentifiers, VC.handler);
-
-            if (unsatClauseIdentifiers.Count() == 0)
+            //VERY IMPORTANT: TO USE UNSAT CORE, SET ContractInfer to true in CommandLineOptions.Clo.
+            outcome = ProverInterface.Outcome.Undetermined;
+            outcome = VC.proverInterface.CheckAssumptions(assumptions, out unsatClauseIdentifiers, VC.handler);
+            if (outcome == ProverInterface.Outcome.Invalid && unsatClauseIdentifiers.Count() == 0)
             {
-                Console.WriteLine("Sorry! The output {0} does not seem verifiable with all inputs equal", outConstant);
+                Console.WriteLine("Something went wrong! Unsat core with 0 elements for {0}", outConstant);
                 return;
             }
-            Console.WriteLine("The list of indices in unsat core = {0}",
-                string.Join(",", unsatClauseIdentifiers));
+            if (!unsatClauseIdentifiers.Remove(0)) //newVC should be always at 0, since it has to participate in inconsistency
+            {
+                Console.WriteLine("Something went wrong! The VC itself is not part of UNSAT core");
+                return;
+            }
+            Console.WriteLine("The list of inputs in the Dependency of {0} = <{1}>",
+                outConstant,
+                string.Join(",", unsatClauseIdentifiers.Select(i => assumptions[i])));
+                
         }
     }
 
