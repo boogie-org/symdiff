@@ -25,9 +25,9 @@ rootcause_ex12e.bpl$/equalityFixes+ /verbose:0
 rootcause_ex12f.bpl$/equalityFixes+ /verbose:0
 rootcause_ex13.bpl$/equalityFixes+ /verbose:0
 rootcause_ex14.bpl$/equalityFixes+ /verbose:0
-tcas_line63_level1.bpl$/equalityFixes+  /verbose:0
-tcas_line63_level2.bpl$/equalityFixes+  /verbose:0
-tcas_line88_1.bpl$/equalityFixes+ /arithmeticFilter- /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0
-tcas_line88_2.bpl$/equalityFixes+ /arithmeticFilter- /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0
-tcas_conditional1.bpl$/equalityFixes+ /conditionalFilter+ /arithmeticFilter- /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0 /liftConditionals+
-tcas_conditional2.bpl$/equalityFixes+ /conditionalFilter+ /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0 /liftConditionals+
+#tcas_line63_level1.bpl$/equalityFixes+  /verbose:0
+#tcas_line63_level2.bpl$/equalityFixes+  /verbose:0
+#tcas_line88_1.bpl$/equalityFixes+ /arithmeticFilter- /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0
+#tcas_line88_2.bpl$/equalityFixes+ /arithmeticFilter- /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0
+#tcas_conditional1.bpl$/equalityFixes+ /conditionalFilter+ /arithmeticFilter- /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0 /liftConditionals+
+#tcas_conditional2.bpl$/equalityFixes+ /conditionalFilter+ /literalFilter- /trivialFilter- /applyLeftFilter /applyRightFilter /independantFilter- /maxsatLimit:20 /verbose:0 /liftConditionals+
