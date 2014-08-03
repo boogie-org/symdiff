@@ -6,10 +6,10 @@
 procedure {:inline 1} Foo(i1:int, i2:int, i3:int) returns (o1:int, o2:int, o3:int, o4:int)
 {
     if (i1 < 0) {
-       o1 := 5;
+       o1 := i3 + 5;
        o2 := i2 + 1;
     } else {
-       o1 := 6;
+       o1 := i3 + 6;
        o2 := i2 + 1; 
     }
    

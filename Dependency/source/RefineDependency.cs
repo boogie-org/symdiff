@@ -119,10 +119,26 @@ namespace Dependency
                 Console.WriteLine("Something went wrong! The VC itself is not part of UNSAT core");
                 return;
             }
+
+            //Core may not be minimal (e.g. testdependencyDummy.bpl), need to iterate
+            var core0 = unsatClauseIdentifiers.Select(i => assumptions[i]);
+            var core = new List<VCExpr>(core0);
+            core0
+                .Iter(b =>
+                {
+                    core.Remove(b);
+                    preInp = core.Aggregate(VCExpressionGenerator.True, (x, y) => VC.exprGen.And(x, y));
+                    outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
+                    if (outcome != ProverInterface.Outcome.Valid)
+                    {
+                        core.Add(b);
+                        return;
+                    }
+                });
+
             Console.WriteLine("The list of inputs in the Dependency of {0} = <{1}>",
                 outConstant,
-                string.Join(",", unsatClauseIdentifiers.Select(i => assumptions[i])));
-                
+                string.Join(",", core));                
         }
     }
 
