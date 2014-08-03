@@ -468,73 +468,73 @@ const {:extern} unique BOOGIE_FLOAT_CONST_0: int;
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 17} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "y"} {:sourceFile "Test0.c"} {:sourceLine 17} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 26} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "y"} {:sourceFile "Test0.c"} {:sourceLine 26} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 20} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "w"} {:sourceFile "Test0.c"} {:sourceLine 20} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 27} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "w"} {:sourceFile "Test0.c"} {:sourceLine 27} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 92} unique __ctobpl_const_8: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 92} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 44} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 44} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "result.TestEmptyRecursion"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 44} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "result.TestEmptyRecursion"} {:sourceFile "Test0.c"} {:sourceLine 44} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "global2"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 51} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "global2"} {:sourceFile "Test0.c"} {:sourceLine 51} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "result.TestGlobalRecursion"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 52} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "result.TestGlobalRecursion"} {:sourceFile "Test0.c"} {:sourceLine 52} unique __ctobpl_const_16: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 57} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 57} unique __ctobpl_const_17: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 59} unique __ctobpl_const_18: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 59} unique __ctobpl_const_18: int;
 
-const {:extern} {:model_const "result.TestRecursion"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 59} unique __ctobpl_const_20: int;
+const {:extern} {:model_const "result.TestRecursion"} {:sourceFile "Test0.c"} {:sourceLine 59} unique __ctobpl_const_20: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 59} unique __ctobpl_const_19: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 59} unique __ctobpl_const_19: int;
 
-const {:extern} {:model_const "z"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 71} unique __ctobpl_const_21: int;
+const {:extern} {:model_const "z"} {:sourceFile "Test0.c"} {:sourceLine 71} unique __ctobpl_const_21: int;
 
-const {:extern} {:model_const "global5"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 78} unique __ctobpl_const_24: int;
+const {:extern} {:model_const "global5"} {:sourceFile "Test0.c"} {:sourceLine 78} unique __ctobpl_const_24: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 35} unique __ctobpl_const_30: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 35} unique __ctobpl_const_30: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 36} unique __ctobpl_const_31: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 36} unique __ctobpl_const_31: int;
 
-const {:extern} {:model_const "z"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 36} unique __ctobpl_const_32: int;
+const {:extern} {:model_const "z"} {:sourceFile "Test0.c"} {:sourceLine 36} unique __ctobpl_const_32: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 37} unique __ctobpl_const_33: int;
+const {:extern} {:model_const "w"} {:sourceFile "Test0.c"} {:sourceLine 37} unique __ctobpl_const_33: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 79} unique __ctobpl_const_26: int;
+const {:extern} {:model_const "y"} {:sourceFile "Test0.c"} {:sourceLine 79} unique __ctobpl_const_26: int;
 
-const {:extern} {:model_const "global3"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 80} unique __ctobpl_const_27: int;
+const {:extern} {:model_const "global3"} {:sourceFile "Test0.c"} {:sourceLine 80} unique __ctobpl_const_27: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 44} unique __ctobpl_const_9: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 44} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "global4"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 72} unique __ctobpl_const_22: int;
+const {:extern} {:model_const "global4"} {:sourceFile "Test0.c"} {:sourceLine 72} unique __ctobpl_const_22: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 51} unique __ctobpl_const_13: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 51} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 39} unique __ctobpl_const_34: int;
+const {:extern} {:model_const "w"} {:sourceFile "Test0.c"} {:sourceLine 39} unique __ctobpl_const_34: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 52} unique __ctobpl_const_15: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 52} unique __ctobpl_const_15: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 74} unique __ctobpl_const_25: int;
+const {:extern} {:model_const "w"} {:sourceFile "Test0.c"} {:sourceLine 74} unique __ctobpl_const_25: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 73} unique __ctobpl_const_23: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 73} unique __ctobpl_const_23: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 34} unique __ctobpl_const_29: int;
+const {:extern} {:model_const "y"} {:sourceFile "Test0.c"} {:sourceLine 34} unique __ctobpl_const_29: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 34} unique __ctobpl_const_28: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 34} unique __ctobpl_const_28: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 52} unique __ctobpl_const_14: int;
+const {:extern} {:model_const "x"} {:sourceFile "Test0.c"} {:sourceLine 52} unique __ctobpl_const_14: int;
 
-const {:extern} {:model_const "w"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 29} unique __ctobpl_const_7: int;
+const {:extern} {:model_const "w"} {:sourceFile "Test0.c"} {:sourceLine 29} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "result.TestCallDominationDependancyCalleeConst"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 27} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "result.TestCallDominationDependancyCalleeConst"} {:sourceFile "Test0.c"} {:sourceLine 27} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "global1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "global1"} {:sourceFile "Test0.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
 
 procedure {:extern} TestCallDominationDependancyCalleeConst() returns (result.TestCallDominationDependancyCalleeConst$1: int);
   free requires INT_LT(0, alloc);
@@ -580,12 +580,12 @@ implementation {:extern} TestCallDominationDependancyCalleeConst() returns (resu
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 3} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 3} true;
     result.TestCallDominationDependancyCalleeConst$1 := 0;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 4} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 4} true;
     return;
 }
 
@@ -634,13 +634,13 @@ implementation {:extern} TestCallDominationDependancyCalleeGlobals()
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 10} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 10} true;
     assume value_is(__ctobpl_const_1, global1);
     global1 := PLUS(global1, 1, 1);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 11} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 11} true;
     return;
 }
 
@@ -698,11 +698,11 @@ implementation {:extern} TestCallDominationDependancyGlobals(y.__1: int, z.__1: 
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 16} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 16} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 17} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 17} true;
     goto label_4_true, label_4_false;
 
   label_4_false:
@@ -711,13 +711,13 @@ implementation {:extern} TestCallDominationDependancyGlobals(y.__1: int, z.__1: 
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 20} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 20} true;
     result.TestCallDominationDependancyGlobals$1 := w;
     assume value_is(__ctobpl_const_3, w);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 21} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 21} true;
     return;
 
   label_4_true:
@@ -726,7 +726,7 @@ implementation {:extern} TestCallDominationDependancyGlobals(y.__1: int, z.__1: 
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 18} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 18} true;
     call TestCallDominationDependancyCalleeGlobals();
     goto label_5;
 }
@@ -787,11 +787,11 @@ implementation {:extern} TestCallDominationDependancyReturns(y.__1: int, z.__1: 
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 25} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 25} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 26} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 26} true;
     goto label_4_true, label_4_false;
 
   label_4_false:
@@ -800,13 +800,13 @@ implementation {:extern} TestCallDominationDependancyReturns(y.__1: int, z.__1: 
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 29} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 29} true;
     result.TestCallDominationDependancyReturns$1 := w;
     assume value_is(__ctobpl_const_7, w);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 30} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 30} true;
     return;
 
   label_4_true:
@@ -815,12 +815,12 @@ implementation {:extern} TestCallDominationDependancyReturns(y.__1: int, z.__1: 
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 27} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 27} true;
     call result.TestCallDominationDependancyCalleeConst$2 := TestCallDominationDependancyCalleeConst();
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 27} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 27} true;
     w := result.TestCallDominationDependancyCalleeConst$2;
     assume value_is(__ctobpl_const_5, w);
     assume value_is(__ctobpl_const_6, result.TestCallDominationDependancyCalleeConst$2);
@@ -878,7 +878,7 @@ implementation {:extern} TestCondExit(x.__1: int) returns (result.TestCondExit$1
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 92} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 92} true;
     goto label_3_true, label_3_false;
 
   label_3_false:
@@ -887,7 +887,7 @@ implementation {:extern} TestCondExit(x.__1: int) returns (result.TestCondExit$1
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 94} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 94} true;
     call result.exit$2 := det_choice();
     assume false;
     return;
@@ -898,12 +898,12 @@ implementation {:extern} TestCondExit(x.__1: int) returns (result.TestCondExit$1
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 93} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 93} true;
     result.TestCondExit$1 := 0;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 96} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 96} true;
     return;
 }
 
@@ -958,20 +958,20 @@ implementation {:extern} TestEmptyRecursion(x.__1: int) returns (result.TestEmpt
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 44} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 44} true;
     call result.TestEmptyRecursion$2 := TestEmptyRecursion(x);
     assume value_is(__ctobpl_const_9, x);
     assume value_is(__ctobpl_const_10, x);
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 44} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 44} true;
     result.TestEmptyRecursion$1 := result.TestEmptyRecursion$2;
     assume value_is(__ctobpl_const_11, result.TestEmptyRecursion$2);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 45} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 45} true;
     return;
 }
 
@@ -1026,7 +1026,7 @@ implementation {:extern} TestGlobalRecursion(x.__1: int) returns (result.TestGlo
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 51} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 51} true;
     tempBoogie0 := PLUS(global2, 1, x);
     global2 := tempBoogie0;
     assume value_is(__ctobpl_const_12, global2);
@@ -1034,20 +1034,20 @@ implementation {:extern} TestGlobalRecursion(x.__1: int) returns (result.TestGlo
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 52} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 52} true;
     call result.TestGlobalRecursion$2 := TestGlobalRecursion(x);
     assume value_is(__ctobpl_const_14, x);
     assume value_is(__ctobpl_const_15, x);
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 52} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 52} true;
     result.TestGlobalRecursion$1 := result.TestGlobalRecursion$2;
     assume value_is(__ctobpl_const_16, result.TestGlobalRecursion$2);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 53} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 53} true;
     return;
 }
 
@@ -1102,7 +1102,7 @@ implementation {:extern} TestRecursion(x.__1: int) returns (result.TestRecursion
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 57} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 57} true;
     goto label_3_true, label_3_false;
 
   label_3_false:
@@ -1111,20 +1111,20 @@ implementation {:extern} TestRecursion(x.__1: int) returns (result.TestRecursion
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 59} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 59} true;
     call result.TestRecursion$2 := TestRecursion(x);
     assume value_is(__ctobpl_const_18, x);
     assume value_is(__ctobpl_const_19, x);
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 59} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 59} true;
     result.TestRecursion$1 := result.TestRecursion$2;
     assume value_is(__ctobpl_const_20, result.TestRecursion$2);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 60} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 60} true;
     return;
 
   label_3_true:
@@ -1133,7 +1133,7 @@ implementation {:extern} TestRecursion(x.__1: int) returns (result.TestRecursion
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 58} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 58} true;
     result.TestRecursion$1 := 0;
     goto label_1;
 }
@@ -1196,31 +1196,31 @@ implementation {:extern} TestReturnDomination(x.__1: int, w.__1: int) returns (r
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 70} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 70} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 70} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 70} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 70} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 70} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 71} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 71} true;
     assume value_is(__ctobpl_const_21, z);
     z := PLUS(z, 1, 1);
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 72} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 72} true;
     assume value_is(__ctobpl_const_22, global4);
     global4 := PLUS(global4, 1, 1);
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 73} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 73} true;
     goto label_8_true, label_8_false;
 
   label_8_false:
@@ -1229,30 +1229,30 @@ implementation {:extern} TestReturnDomination(x.__1: int, w.__1: int) returns (r
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 78} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 78} true;
     assume value_is(__ctobpl_const_24, global5);
     global5 := PLUS(global5, 1, 1);
     goto label_11;
 
   label_11:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 79} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 79} true;
     assume value_is(__ctobpl_const_26, y);
     y := PLUS(y, 1, 1);
     goto label_13;
 
   label_13:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 80} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 80} true;
     global3 := 0;
     assume value_is(__ctobpl_const_27, global3);
     goto label_14;
 
   label_14:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 81} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 81} true;
     result.TestReturnDomination$1 := 2;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 82} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 82} true;
     return;
 
   label_8_true:
@@ -1261,7 +1261,7 @@ implementation {:extern} TestReturnDomination(x.__1: int, w.__1: int) returns (r
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 74} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 74} true;
     goto label_10_true, label_10_false;
 
   label_10_false:
@@ -1275,7 +1275,7 @@ implementation {:extern} TestReturnDomination(x.__1: int, w.__1: int) returns (r
     goto label_12;
 
   label_12:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 75} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 75} true;
     result.TestReturnDomination$1 := 0;
     goto label_1;
 }
@@ -1336,22 +1336,22 @@ implementation {:extern} TestSimpleDominationDependancy(y.__1: int, z.__1: int) 
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 34} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 34} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 34} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 34} true;
     x := PLUS(y, 1, 1);
     assume value_is(__ctobpl_const_28, x);
     assume value_is(__ctobpl_const_29, y);
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 34} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 34} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 35} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 35} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -1360,13 +1360,13 @@ implementation {:extern} TestSimpleDominationDependancy(y.__1: int, z.__1: int) 
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 39} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 39} true;
     result.TestSimpleDominationDependancy$1 := w;
     assume value_is(__ctobpl_const_34, w);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 40} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 40} true;
     return;
 
   label_6_true:
@@ -1375,14 +1375,14 @@ implementation {:extern} TestSimpleDominationDependancy(y.__1: int, z.__1: int) 
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 36} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 36} true;
     x := z;
     assume value_is(__ctobpl_const_31, x);
     assume value_is(__ctobpl_const_32, z);
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 37} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 37} true;
     w := 2;
     assume value_is(__ctobpl_const_33, w);
     goto label_7;
@@ -1439,7 +1439,7 @@ implementation {:extern} TestSimpleExit(x.__1: int) returns (result.TestSimpleEx
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\test0\test0.c"} {:sourceline 86} true;
+    assert {:sourcefile "Test0.c"} {:sourceline 86} true;
     call result.exit$2 := det_choice();
     assume false;
     return;

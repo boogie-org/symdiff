@@ -444,17 +444,17 @@ axiom (forall M: [name][int]int, x: int, y: int :: { Unified(M[Field(x) := M[Fie
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "x"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "x"} {:sourceFile "TestHavoc.c"} {:sourceLine 5} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "x"} {:sourceFile "TestHavoc.c"} {:sourceLine 5} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "result.non_det"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "result.non_det"} {:sourceFile "TestHavoc.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "y"} {:sourceFile "TestHavoc.c"} {:sourceLine 5} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "result.foo"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "result.foo"} {:sourceFile "TestHavoc.c"} {:sourceLine 5} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceLine 6} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "y"} {:sourceFile "TestHavoc.c"} {:sourceLine 6} unique __ctobpl_const_6: int;
 
 procedure {:extern} foo(__dummy_formal_foo_0.__1: int) returns (__dummy_retfoo: int);
   free requires INT_LT(0, alloc);
@@ -516,18 +516,18 @@ implementation {:extern} doo() returns (result.doo$1: int)
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 10} true;
+    assert {:sourcefile "TestHavoc.c"} {:sourceline 10} true;
     call result.non_det$2 := non_det();
     goto label_6#2;
 
   label_6#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 10} true;
+    assert {:sourcefile "TestHavoc.c"} {:sourceline 10} true;
     result.doo$1 := result.non_det$2;
     assume value_is(__ctobpl_const_1, result.non_det$2);
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 11} true;
+    assert {:sourcefile "TestHavoc.c"} {:sourceline 11} true;
     return;
 }
 
@@ -582,31 +582,31 @@ implementation {:extern} goo(x.__1: int) returns (result.goo$1: int)
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 4} true;
+    assert {:sourcefile "TestHavoc.c"} {:sourceline 4} true;
     goto label_4#2;
 
   label_4#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 5} true;
+    assert {:sourcefile "TestHavoc.c"} {:sourceline 5} true;
     call result.foo$2 := foo(x);
     assume value_is(__ctobpl_const_2, x);
     assume value_is(__ctobpl_const_3, x);
     goto label_7#2;
 
   label_7#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 5} true;
+    assert {:sourcefile "TestHavoc.c"} {:sourceline 5} true;
     y := result.foo$2;
     assume value_is(__ctobpl_const_4, y);
     assume value_is(__ctobpl_const_5, result.foo$2);
     goto label_8#2;
 
   label_8#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 6} true;
+    assert {:sourcefile "TestHavoc.c"} {:sourceline 6} true;
     result.goo$1 := y;
     assume value_is(__ctobpl_const_6, y);
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testhavoc\testhavoc.c"} {:sourceline 7} true;
+    assert {:sourcefile "TestHavoc.c"} {:sourceline 7} true;
     return;
 }
 

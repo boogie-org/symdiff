@@ -276,7 +276,16 @@ namespace Dependency
                 foreach (var depsInFile in dependenciesLines.GroupBy(x => x.Item1))
                 {
                     string srcFile = depsInFile.Key;
-                    StreamReader sr = new StreamReader(srcFile);
+                    StreamReader sr = null;
+                    try
+                    {
+                        sr = new StreamReader(srcFile);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Could not generate HTML for file " + srcFile + ". (file not found)");
+                        continue;
+                    }
                     string ln;
                     List<string> srcLines = new List<string>();
                     while ((ln = sr.ReadLine()) != null)

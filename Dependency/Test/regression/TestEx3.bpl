@@ -488,41 +488,41 @@ axiom (forall M: [name][int]int, x: int, y: int :: { Unified(M[Field(x) := M[Fie
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "e"} {:sourceFile "TestEx3.c"} {:sourceLine 16} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "e->op1"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "e->op1"} {:sourceFile "TestEx3.c"} {:sourceLine 16} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "e->op2"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "e->op2"} {:sourceFile "TestEx3.c"} {:sourceLine 16} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_13: int;
+const {:extern} {:model_const "e"} {:sourceFile "TestEx3.c"} {:sourceLine 12} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "e"} {:sourceFile "TestEx3.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "e->result"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 20} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "e->result"} {:sourceFile "TestEx3.c"} {:sourceLine 20} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_7: int;
+const {:extern} {:model_const "e"} {:sourceFile "TestEx3.c"} {:sourceLine 16} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "e->result"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_8: int;
+const {:extern} {:model_const "e->result"} {:sourceFile "TestEx3.c"} {:sourceLine 16} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 16} unique __ctobpl_const_9: int;
+const {:extern} {:model_const "e"} {:sourceFile "TestEx3.c"} {:sourceLine 16} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 14} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "e"} {:sourceFile "TestEx3.c"} {:sourceLine 14} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "e->oper"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 14} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "e->oper"} {:sourceFile "TestEx3.c"} {:sourceLine 14} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 20} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "e"} {:sourceFile "TestEx3.c"} {:sourceLine 20} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "e->oper"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 10} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "e->oper"} {:sourceFile "TestEx3.c"} {:sourceLine 10} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "e->op2"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_18: int;
+const {:extern} {:model_const "e->op2"} {:sourceFile "TestEx3.c"} {:sourceLine 12} unique __ctobpl_const_18: int;
 
-const {:extern} {:model_const "e->result"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_14: int;
+const {:extern} {:model_const "e->result"} {:sourceFile "TestEx3.c"} {:sourceLine 12} unique __ctobpl_const_14: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "e"} {:sourceFile "TestEx3.c"} {:sourceLine 12} unique __ctobpl_const_17: int;
 
-const {:extern} {:model_const "e"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_15: int;
+const {:extern} {:model_const "e"} {:sourceFile "TestEx3.c"} {:sourceLine 12} unique __ctobpl_const_15: int;
 
-const {:extern} {:model_const "e->op1"} {:sourceFile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceLine 12} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "e->op1"} {:sourceFile "TestEx3.c"} {:sourceLine 12} unique __ctobpl_const_16: int;
 
 procedure {:extern} Eval(e.__1: int);
   free requires INT_LT(0, alloc);
@@ -573,7 +573,7 @@ implementation {:extern} Eval(e.__1: int)
     goto label_3#2;
 
   label_3#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 10} true;
+    assert {:sourcefile "TestEx3.c"} {:sourceline 10} true;
     assert e != 0;
     goto label_3_true#2, label_3_false#2;
 
@@ -584,7 +584,7 @@ implementation {:extern} Eval(e.__1: int)
     goto label_4#2;
 
   label_4#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 14} true;
+    assert {:sourcefile "TestEx3.c"} {:sourceline 14} true;
     assert e != 0;
     goto label_4_true#2, label_4_false#2;
 
@@ -595,7 +595,7 @@ implementation {:extern} Eval(e.__1: int)
     goto label_6#2;
 
   label_6#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 20} true;
+    assert {:sourcefile "TestEx3.c"} {:sourceline 20} true;
     assert e != 0;
     Mem_T.result__EXPR := Mem_T.result__EXPR[result__EXPR(e) := -1];
     assume value_is(__ctobpl_const_5, e);
@@ -609,7 +609,7 @@ implementation {:extern} Eval(e.__1: int)
     goto label_7#2;
 
   label_7#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 16} true;
+    assert {:sourcefile "TestEx3.c"} {:sourceline 16} true;
     assert e != 0;
     assert e != 0;
     assert e != 0;
@@ -629,7 +629,7 @@ implementation {:extern} Eval(e.__1: int)
     goto label_5#2;
 
   label_5#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 12} true;
+    assert {:sourcefile "TestEx3.c"} {:sourceline 12} true;
     assert e != 0;
     assert e != 0;
     assert e != 0;
@@ -643,7 +643,7 @@ implementation {:extern} Eval(e.__1: int)
     goto label_1#2;
 
   label_1#2:
-    assert {:sourcefile "c$$users\t-nisebb\documents\symdiff.src\dependency\test\build\regression\testex3\testex3.c"} {:sourceline 22} true;
+    assert {:sourcefile "TestEx3.c"} {:sourceline 22} true;
     return;
 }
 
