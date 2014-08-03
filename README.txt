@@ -15,12 +15,14 @@ Build SymDiff
 2. Build Boogie
 3. Use \references\updateboogie.bat to update the Boogie binaries in SymDiff
 4. Build SymDiff
-5. Install Z3.exe (> version 4.1) or copy z3.exe it to references\ directory
+5. Install Z3.exe (>= version 4.3) into the bin\debug of each of the .exe currently [TODO: have a central place]
 
 Run Regressions
 ---------------
+0. Install Python (>3.3) to be able to invoke python.exe
 1. Open a VS command prompt
 2. Run \scripts\setup.cmd
 3. From the directory containing SymDiff.sln. 
-   scripts\run_all_regressions.cmd 
+   scripts\run_all_regressions.cmd <path-to-python>
+   (e.g. scripts\run_all_regressions.cmd c:\python34)
 

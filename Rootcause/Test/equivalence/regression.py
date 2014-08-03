@@ -125,7 +125,10 @@ for BoogieProgram in BoogiePrograms:
     ErrorHappened = False
     TimeoutHappened = False
     for line in iter(proc.stdout.readline, b''):
-        Causes += [str(line.lstrip().rstrip().decode(encoding='UTF-8')) + '\n']
+        if "Prover" in str(line):
+           continue
+        else:
+          Causes += [str(line.lstrip().rstrip().decode(encoding='UTF-8')) + '\n']
         
     currentState = ParsingState.FinalState
     RegressionData[BoogieProgram] = Causes

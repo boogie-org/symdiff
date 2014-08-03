@@ -1,7 +1,11 @@
 @echo off
 
+REM USAGE run_all_regressions.cmd <PATH-TO-PYTHON> 
+REM e.g. run_all_regressions.cmd c:\python34\
+
 REM Set paths 
-set PYTHON=c:\python33\
+REM set PYTHON=c:\python33\
+set PYTHON=%1
 
 REM Don't change below this line
 
