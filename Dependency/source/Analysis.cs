@@ -67,7 +67,7 @@ namespace Dependency
 
             if (args.Any(x => x.Contains("/semanticDependency")))
             {
-                (new RefineDependency(args[0])).Run();
+                (new RefineDependency((new RefineProgram(args[0])).Create())).Run();
                 return 1;
             }
 

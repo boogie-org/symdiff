@@ -14,6 +14,192 @@ using BType = Microsoft.Boogie.Type;
 
 namespace Dependency
 {
+
+    public class RefineConsts
+    {
+        public const string inputGuardName = "bi";
+        public const string inputGuradAttribute = "guardOutputs";
+
+        public const string outputGuardName = "bo";
+        public const string outputGuradAttribute = "guardInputs";
+
+        public const string refinedProcNamePrefix = "CheckDependency_";
+        public const string equivCheckVarName = "eq";
+        public const string checkDepAttribute = "checkDependency";
+
+        public const string inputsNamePrefix = "i";
+        public const string outputsNamePrefix = "o";
+    }
+
+    public class RefineProgram
+    {
+        Program prog;
+        string filename;
+
+        public RefineProgram(string filename) { this.filename = filename; }
+
+
+        #region Description of created program structure
+        /*
+                Given P, I, O
+                CheckDependecy_P() return (EQ) Ensures BO => EQ {
+                - Havoc I
+                - I1 := I
+                - O1 = call P(I)
+                - Havoc I
+                - I2 := I
+                - O2 = call P(I)
+                - Assume BI => I1 == I2
+                - EQ := O1 == O2
+                - Return
+                }
+                // TODO: globals
+             */
+        #endregion
+        public string Create()
+        {
+            if (!Utils.ParseProgram(filename, out prog)) return null;
+            List<Declaration> newDecls = new List<Declaration>();
+            foreach (var impl in prog.Implementations())
+            {
+                // TODO: add inline attribute to the original proc(?)
+                var procName = impl.Proc.Name;
+                // create input guards
+                var inputGuards = new List<Constant>();
+                for (int i = 1; i <= impl.Proc.InParams.Count; i++)
+                {
+                    var inputGuard = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, procName + "_" + RefineConsts.inputGuardName + i, Microsoft.Boogie.Type.Bool), false);
+                    inputGuard.AddAttribute(RefineConsts.inputGuradAttribute);
+                    inputGuards.Add(inputGuard);
+                }
+                newDecls.AddRange(inputGuards);    
+
+                // create output guards
+                var outputGuards = new List<Constant>();
+                for (int i = 1; i <= impl.Proc.OutParams.Count; i++)
+                {
+                    var outputGuard = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, procName + "_" + RefineConsts.outputGuardName + i, Microsoft.Boogie.Type.Bool), false);
+                    outputGuard.AddAttribute(RefineConsts.outputGuradAttribute);
+                    outputGuards.Add(outputGuard);
+                }
+                newDecls.AddRange(outputGuards);
+
+                var equivOutParams = new List<Variable>();
+                var equivEnsures = new List<Ensures>();
+                for (int i = 1; i <= impl.Proc.OutParams.Count; i++)
+                {
+                    equivOutParams.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.equivCheckVarName + i, Microsoft.Boogie.Type.Bool), false));
+                    equivEnsures.Add(new Ensures(false,Expr.Imp(Expr.Ident(outputGuards[i-1]),Expr.Ident(equivOutParams[i-1])))); // ensures bo_k => eq_k
+                }
+
+                // create prototype
+                var refineProc = new Procedure(new Token(), RefineConsts.refinedProcNamePrefix + procName, new List<TypeVariable>(), 
+                    new List<Variable>(),
+                    equivOutParams,
+                    new List<Requires>(),
+                    new List<IdentifierExpr>(),
+                    equivEnsures);
+                refineProc.AddAttribute(RefineConsts.checkDepAttribute);
+
+                var locals = new List<Variable>();
+
+                // create input variables
+                var inputs = new List<LocalVariable>();
+                var inputs1 = new List<LocalVariable>();
+                var inputs2 = new List<LocalVariable>();
+                for (int i = 1; i <= impl.Proc.InParams.Count; i++)
+                {
+                    inputs.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.inputsNamePrefix + i, impl.Proc.InParams[i - 1].TypedIdent.Type)));
+                    inputs1.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.inputsNamePrefix + i + "1", impl.Proc.InParams[i - 1].TypedIdent.Type)));
+                    inputs2.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.inputsNamePrefix + i + "2", impl.Proc.InParams[i - 1].TypedIdent.Type)));
+                }
+                locals.AddRange(inputs);
+                locals.AddRange(inputs1);
+                locals.AddRange(inputs2);
+
+                // create output variables
+                var outputs1 = new List<LocalVariable>();
+                var outputs2 = new List<LocalVariable>();
+                for (int i = 1; i <= impl.Proc.OutParams.Count; i++)
+                {
+                    outputs1.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.outputsNamePrefix + i + "1", impl.Proc.OutParams[i - 1].TypedIdent.Type)));
+                    outputs2.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.outputsNamePrefix + i + "2", impl.Proc.OutParams[i - 1].TypedIdent.Type)));
+                }
+                locals.AddRange(outputs1);
+                locals.AddRange(outputs2);
+                
+                // create body
+                List<Block> body = new List<Block>();
+                Block bodyBlock = new Block();
+                body.Add(bodyBlock);
+                bodyBlock.Label = "body";
+
+                // first side
+                CreateHavocAndCall(procName, inputs, inputs1, outputs1, bodyBlock);
+                // second side
+                CreateHavocAndCall(procName, inputs, inputs2, outputs2, bodyBlock);
+
+                // create assumptions
+                for (int i = 0; i < impl.Proc.InParams.Count; i++)
+                    bodyBlock.Cmds.Add(new AssumeCmd(new Token(),Expr.Imp(Expr.Ident(inputGuards[i]),Expr.Eq(Expr.Ident(inputs1[i]),Expr.Ident(inputs2[i]))))); // ensures bi_k => i_k_1 == i_k_2
+
+                // create checks     
+                List<AssignLhs> equivOutsLhss = new List<AssignLhs>();
+                equivOutParams.Iter(o => equivOutsLhss.Add(new SimpleAssignLhs(Token.NoToken, Expr.Ident(o))));
+                List<Expr> equivOutputExprs = new List<Expr>();
+                for (int i = 0; i < impl.Proc.OutParams.Count; i++)
+                    equivOutputExprs.Add(Expr.Eq(Expr.Ident(outputs1[i]), Expr.Ident(outputs2[i])));
+                bodyBlock.Cmds.Add(new AssignCmd(new Token(), equivOutsLhss, equivOutputExprs));
+
+                // create return
+                bodyBlock.TransferCmd = new ReturnCmd(new Token());
+
+                // create implementation
+                var refineImpl = new Implementation(new Token(), RefineConsts.refinedProcNamePrefix + procName, new List<TypeVariable>(),
+                    new List<Variable>(),
+                    equivOutParams,
+                    locals,
+                    body);
+                refineImpl.AddAttribute(RefineConsts.checkDepAttribute);
+                refineImpl.Proc = refineProc;
+
+                newDecls.Add(refineProc);
+                newDecls.Add(refineImpl);
+            }
+            prog.TopLevelDeclarations.AddRange(newDecls);
+
+            var newFilename = (filename.EndsWith(".bpl") ? filename.Substring(0,filename.Length - ".bpl".Length) : filename) + "CD.bpl";
+            var tuo = new TokenTextWriter(newFilename, true);
+            prog.Emit(tuo);
+            tuo.Close();
+
+            return newFilename;
+        }
+
+        private static void CreateHavocAndCall(string procName, List<LocalVariable> actualInputs, List<LocalVariable> savedInputs, List<LocalVariable> savedOutputs, Block body)
+        {
+            List<IdentifierExpr> hInputExprs = new List<IdentifierExpr>();
+            actualInputs.Iter(i => hInputExprs.Add(Expr.Ident(i)));
+            HavocCmd hc = new HavocCmd(new Token(), hInputExprs);
+            body.Cmds.Add(hc);
+
+            List<AssignLhs> aInputsLhss = new List<AssignLhs>();
+            savedInputs.Iter(i => aInputsLhss.Add(new SimpleAssignLhs(Token.NoToken, Expr.Ident(i))));
+            List<Expr> aInputsExprs = new List<Expr>();
+            actualInputs.Iter(i => aInputsExprs.Add(Expr.Ident(i)));
+            AssignCmd ac = new AssignCmd(new Token(), aInputsLhss, aInputsExprs);
+            body.Cmds.Add(ac);
+
+            List<Expr> cInputExprs = new List<Expr>();
+            actualInputs.Iter(i => cInputExprs.Add(Expr.Ident(i)));
+            List<IdentifierExpr> cOutputExprs = new List<IdentifierExpr>();
+            savedOutputs.Iter(i => cOutputExprs.Add(Expr.Ident(i)));
+            CallCmd cc = new CallCmd(new Token(), procName, cInputExprs, cOutputExprs);
+            body.Cmds.Add(cc);
+        }
+    }
+
+    // TODO: use RefineConsts instead of magic strings
     public class RefineDependency
     {
         Program prog;
@@ -39,12 +225,13 @@ namespace Dependency
         }
         private void Analyze(Implementation impl)
         {
-            //get the guard constants  (refine per procedure)
+            var origProcName = impl.Proc.Name.Replace(RefineConsts.refinedProcNamePrefix, "");
+            //get the procedure's guard constants
             inputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
-                .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "guardInputs"))
+                .Where(x => x.Name.StartsWith(origProcName) && QKeyValue.FindBoolAttribute(x.Attributes, RefineConsts.inputGuradAttribute))
                 .ToList();
             outputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
-                .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "guardOutputs"))
+                .Where(x => x.Name.StartsWith(origProcName) && QKeyValue.FindBoolAttribute(x.Attributes, RefineConsts.outputGuradAttribute))
                 .ToList();
 
             //---- generate VC starts ---------
