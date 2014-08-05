@@ -17,7 +17,7 @@ namespace Dependency
 {
     class Analysis
     {
-        static private GlobalVariable nonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
+        static public GlobalVariable nonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
         static private HashSet<Procedure> taintedProcs = new HashSet<Procedure>();
         static private Graph<Procedure> callGraph = new Graph<Procedure>();
 
@@ -124,8 +124,6 @@ namespace Dependency
             // collect Modifies for all procedures
             ModSetCollector c = new ModSetCollector();
             c.DoModSetAnalysis(program);
-
-            List<Declaration> declarations = program.TopLevelDeclarations;
 
             var visitor = new DependencyTaintVisitor(program);
             visitor.Visit(program);
@@ -367,6 +365,19 @@ namespace Dependency
                 return new Dependencies(this);
             }
 
+            public List<Variable> ReadSet()
+            {
+                HashSet<Variable> result = new HashSet<Variable>();
+                foreach (var d in this.Values)
+                    result.UnionWith(d);
+                return new List<Variable>(result);
+            }
+
+            public List<Variable> ModSet()
+            {
+                return new List<Variable>(Keys);
+            }
+
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder();
@@ -481,7 +492,7 @@ namespace Dependency
         {
             private Program program;
             private Dictionary<Absy, Implementation> nodeToImpl = new Dictionary<Absy, Implementation>();
-            private Dictionary<Procedure, Dependencies> procDependencies = new Dictionary<Procedure, Dependencies>();
+            public Dictionary<Procedure, Dependencies> procDependencies = new Dictionary<Procedure, Dependencies>();
             private Dictionary<Procedure, TaintSet> procTaint = new Dictionary<Procedure, TaintSet>();
             private Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure, HashSet<CallCmd>>();
             public Dictionary<Block, HashSet<Block>> dominates = new Dictionary<Block, HashSet<Block>>();
