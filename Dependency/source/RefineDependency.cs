@@ -78,6 +78,11 @@ namespace Dependency
                 var modSet = procDependencies[proc].ModSet();
                 readSet.Remove(Analysis.nonDetVar);
 
+                //make any asserts/requires/ensures free
+                proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
+                proc.Ensures  = proc.Ensures.Select(x => new Ensures(true, x.Condition)).ToList();
+                (new Utils.RemoveAsserts()).Visit(impl);
+
                 // add inline attribute to the original proc and impl
                 if (QKeyValue.FindExprAttribute(proc.Attributes, RefineConsts.inlineAttribute) == null)
                     proc.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(1));
@@ -376,8 +381,9 @@ namespace Dependency
             //---- generate VC ends ---------
 
             //Analyze using UNSAT cores for each output
+            Console.WriteLine("RefinedDependency[{0}] = [", impl.Name);
             outputGuardConsts.Iter(x => AnalyzeDependencyWithUnsatCore(programVC,x));
-
+            Console.WriteLine("]");
             VC.FinalizeVCGen(prog);
 
         }
@@ -411,8 +417,8 @@ namespace Dependency
             var outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
             if (outcome != ProverInterface.Outcome.Valid)
             {
-                Console.WriteLine("VC not valid, returning");
-                Console.WriteLine("The list of inputs in the Dependency of {0} = <*>", outConstant);
+                Console.WriteLine("\t VC not valid, returning");
+                Console.WriteLine("\t Dependency of {0} =  <*>", outConstant);
                 return;
             }
 
@@ -453,7 +459,7 @@ namespace Dependency
                     }
                 });
 
-            Console.WriteLine("The list of inputs in the Dependency of {0} = <{1}>",
+            Console.WriteLine("\t Dependency of {0} = <{1}>",
                 outConstant,
                 string.Join(",", core));                
         }
@@ -567,6 +573,7 @@ namespace Dependency
         #endregion
 
     }
+
 
 
 }

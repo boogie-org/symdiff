@@ -344,6 +344,15 @@ namespace Dependency
             }
         }
 
+        public class RemoveAsserts : StandardVisitor
+        {
+            public override Cmd VisitAssertCmd(AssertCmd node)
+            {
+                node.Expr = Expr.True;
+                return base.VisitAssertCmd(node);
+            }
+        }
+
         public static Microsoft.Boogie.GraphUtil.Graph<Procedure> ComputeCallGraph(Program program)
         {
             Microsoft.Boogie.GraphUtil.Graph<Procedure> result = new Microsoft.Boogie.GraphUtil.Graph<Procedure>();
