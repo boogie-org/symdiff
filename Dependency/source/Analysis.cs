@@ -21,7 +21,19 @@ namespace Dependency
         static private HashSet<Procedure> taintedProcs = new HashSet<Procedure>();
         static private Graph<Procedure> callGraph = new Graph<Procedure>();
 
-        static private bool dataDependenciesOnly = false;
+        static private class CmdLineOpts
+        {
+            public const string semanticDep = "/semanticDependency";
+            public const string stats = "/stats";
+            public const string prune = "/prune";
+            public const string both = "/both";
+            public const string dataOnly = "/dataOnly";
+            public const string taint = "/taint";
+            public const string debug = "/break";
+        }
+        
+
+        static private bool dataOnly = false;
         static private bool bothDependencies = false;
         static private bool prune = false;
         static private bool printStats = false;
@@ -51,33 +63,28 @@ namespace Dependency
             statsFile = args[0] + ".csv";
 
             string changeList = null;
-            args.Where(x => x.StartsWith("/t:"))
+            args.Where(x => x.StartsWith(CmdLineOpts.taint + ":"))
                 .Iter(s => changeList = s.Split(':')[1]);
 
-            dataDependenciesOnly = args.Any(x => x == "/d");
-            prune = args.Any(x => x == "/p");
-            bothDependencies = args.Any(x => x == "/b") && !dataDependenciesOnly;
+            dataOnly = args.Any(x => x == CmdLineOpts.dataOnly);
+            prune = args.Any(x => x == CmdLineOpts.prune);
+            bothDependencies = args.Any(x => x == CmdLineOpts.both) && !dataOnly;
 
-            printStats = args.Any(x => x == "/s" || x.StartsWith("/s:"));
-            args.Where(x => x.StartsWith("/s:"))
+            printStats = args.Any(x => x == CmdLineOpts.stats || x.StartsWith(CmdLineOpts.stats + ":"));
+            args.Where(x => x.StartsWith(CmdLineOpts.stats + ":"))
                 .Iter(s => statsFile = s.Split(':')[1]);
 
-            if (args.Any(x => x.Contains("/break")))
+            if (args.Any(x => x.Contains(CmdLineOpts.debug)))
                 Debugger.Launch();
 
-            if (args.Any(x => x.Contains("/semanticDependency")))
+            if (args.Any(x => x.Contains(CmdLineOpts.semanticDep)))
             {
                 (new RefineDependency((new RefineProgram(args[0])).Create())).Run();
                 return 1;
             }
 
             if (changeList != null)
-            {
-                if (changeList == "all")
-                    RunAnalysis(args[0], null, true);
-                else
-                    RunAnalysis(args[0], changeList);
-            } 
+                RunAnalysis(args[0], changeList);
             else
                 RunAnalysis(args[0], null);
 
@@ -99,6 +106,7 @@ namespace Dependency
             return 0;
         }
 
+        // TODO: add a option for marking an entire function as tainted. maybe by adding a line like: funcname,-1 to the changelist
         public static void PopulateChangeLog(string filename)
         {
             if (filename == null)
@@ -132,7 +140,7 @@ namespace Dependency
             if (bothDependencies)
             {
                 var dataDepVisitor = new DependencyTaintVisitor(program);
-                dataDependenciesOnly = true;
+                dataOnly = true;
                 dataDepVisitor.Visit(program);
                 dataDepVisitor.Results();
             }
@@ -142,17 +150,16 @@ namespace Dependency
 
         private static void Usage()
         {
+            int length = 25;
             string execName = System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName;
             Console.WriteLine("Lightweight inter-procedural dependency\\taint analysis for change impact");
-            Console.WriteLine("Usage: " + execName + " <filename.bpl> [/t:changelist.txt | /t:all] [/d]");
-            Console.WriteLine("/t:changelist.txt - produce taint for all lined marked as changed in changelist.txt");
-            // TODO: /t:all should really be function based, and conveyed by lines like "f,-1" in the changelist file
-            //Console.WriteLine("/t:all            - produce taint assuming all assignments are tainted");
-            Console.WriteLine("/d                - compute data dependnecies\\taint only (no control)");
-            Console.WriteLine("/b                - compute both data & control dependencies for showing in HTML");
-            Console.WriteLine("/p                - show only in\\out\\global dependencies (no locals)");
-            Console.WriteLine("/s[:statsfile.csv]  - print dependecies statistics in CSV format [to a specified file]");
-            //Console.WriteLine("No flags          - print dependnecies only (no taint)");
+            Console.WriteLine("Usage: " + execName + " <filename.bpl> [flags]");
+            Console.WriteLine((CmdLineOpts.taint + ":changelist.txt").PadRight(length,' ') + " - produce taint for all lined marked as changed in changelist.txt");
+            Console.WriteLine(CmdLineOpts.dataOnly.PadRight(length,' ') + " - compute data dependnecies\\taint only (no control)");
+            Console.WriteLine(CmdLineOpts.both.PadRight(length,' ') + " - compute both data & control dependencies for showing in HTML");
+            Console.WriteLine(CmdLineOpts.prune.PadRight(length,' ') + " - show only in\\out\\global dependencies (no locals)");
+            Console.WriteLine((CmdLineOpts.stats + "[:statsfile.csv]").PadRight(length,' ') +  " - print dependecies statistics in CSV format [to a specified file]");
+            Console.WriteLine(CmdLineOpts.semanticDep.PadRight(length,' ') + " - print dependecies statistics in CSV format [to a specified file]");
         }
 
         // some of the WorkList algorithm was exported to this class as it is the same for Dependency and Taint
@@ -558,7 +565,7 @@ namespace Dependency
                 int lastSourceLine = sourceLines.Max();
 
                 string depStr = proc.Name + "(): (Size = " + procDependencies[proc].Sum(x => x.Value.Count) + ")</b> " + procDependencies[proc];
-                if (dataDependenciesOnly)
+                if (dataOnly)
                     depStr = "<b> Data Only for " + depStr;
                 else
                     depStr = "<b> Control + Data for " + depStr;
@@ -732,7 +739,7 @@ namespace Dependency
 
             private void InferDominatorDependency(Block currBlock, HashSet<Variable> dependsSet, HashSet<Variable> taintSet, Variable left)
             {
-                if (dataDependenciesOnly)
+                if (dataOnly)
                     return;
                 bool tainted = false;
                 // assignment under a branch is dependent on all the variables in the branch's conditional

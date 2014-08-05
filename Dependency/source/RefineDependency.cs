@@ -73,7 +73,6 @@ namespace Dependency
             {
                 var proc = impl.Proc;
                 procDependencies[proc].Prune(proc);
-                Console.WriteLine("procDependencies[" + proc + "]=" + procDependencies[proc]);
                 var readSet = procDependencies[proc].ReadSet();
                 var modSet = procDependencies[proc].ModSet();
                 readSet.Remove(Analysis.nonDetVar);
