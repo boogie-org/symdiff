@@ -23,6 +23,8 @@ namespace Dependency
         public const string outputGuardName = "bo";
         public const string outputGuradAttribute = "guardInputs";
 
+        public const string varNameAttribute = "varname";
+
         public const string refinedProcNamePrefix = "CheckDependency_";
         public const string equivCheckVarName = "eq";
         public const string checkDepAttribute = "checkDependency";
@@ -33,6 +35,7 @@ namespace Dependency
         public const string outputsNamePrefix = "m";
         public const string refinedProcBodyName = "body";
         public const string refineProgramNamePostfix = ".CD.bpl";
+        
     }
 
     public class RefineProgram
@@ -64,9 +67,17 @@ namespace Dependency
         {
             if (!Utils.ParseProgram(filename, out prog)) return null;
 
-            var visitor = new Analysis.DependencyTaintVisitor(prog);
-            visitor.Visit(prog);
-            var procDependencies = visitor.procDependencies;
+            var depVisitor = new Analysis.DependencyTaintVisitor(prog);
+            depVisitor.Visit(prog);
+            depVisitor.Results(); // add results to logs for printing
+
+            var procDependencies = depVisitor.procDependencies;
+
+            // do data only analysis as well, for reference
+            var dataDepVisitor = new Analysis.DependencyTaintVisitor(prog);
+            Analysis.dataOnly = true;
+            dataDepVisitor.Visit(prog);
+            dataDepVisitor.Results();
 
             List<Declaration> newDecls = new List<Declaration>();
             foreach (var impl in prog.Implementations())
@@ -226,7 +237,8 @@ namespace Dependency
             List<Expr> equivOutputExprs = new List<Expr>();
             for (int i = 0; i < modSet.Count; i++)
                 equivOutputExprs.Add(Expr.Eq(Expr.Ident(recordedModSet1[i]), Expr.Ident(recordedModSet2[i])));
-            bodyBlock.Cmds.Add(new AssignCmd(new Token(), equivOutsLhss, equivOutputExprs));
+            if (equivOutputExprs.Count > 0)
+                bodyBlock.Cmds.Add(new AssignCmd(new Token(), equivOutsLhss, equivOutputExprs));
         }
 
         private static void CreateRecordedModeSetVars(List<Variable> modSet, List<Variable> locals, out List<Variable> rms1, out List<Variable> rms2)
@@ -285,6 +297,7 @@ namespace Dependency
                 var og = new Constant(Token.NoToken, new TypedIdent(new Token(), procName + "_" + RefineConsts.outputGuardName + "_" + m, Microsoft.Boogie.Type.Bool), false);
                 string[] vals = { procName };
                 og.AddAttribute(RefineConsts.outputGuradAttribute, vals);
+                og.AddAttribute(RefineConsts.varNameAttribute, m.Name);
                 outputGuards.Add(og);
             }
             return outputGuards;
@@ -298,6 +311,7 @@ namespace Dependency
                 var ig = new Constant(Token.NoToken, new TypedIdent(new Token(), procName + "_" + RefineConsts.inputGuardName + "_" + r, Microsoft.Boogie.Type.Bool), false);
                 string[] vals = { procName };
                 ig.AddAttribute(RefineConsts.inputGuradAttribute, vals);
+                ig.AddAttribute(RefineConsts.varNameAttribute,r.Name);
                 inputGuards.Add(ig);
             }
             return inputGuards;
@@ -336,7 +350,7 @@ namespace Dependency
     // TODO: use RefineConsts instead of magic strings
     public class RefineDependency
     {
-        Program prog;
+        Program prog, origProg;
         string filename;
         List<Constant> inputGuardConsts, outputGuardConsts;
 
@@ -348,6 +362,9 @@ namespace Dependency
             ModSetCollector c = new ModSetCollector();
             c.DoModSetAnalysis(prog);
 
+            // needed for printing TODO: this is a hack...
+            Utils.ParseProgram(filename, out origProg);
+
             //inline all the procedures
             BoogieUtils.Inline(prog);
 
@@ -355,7 +372,6 @@ namespace Dependency
             prog.TopLevelDeclarations.OfType<Implementation>()
                 .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, RefineConsts.checkDepAttribute))
                 .Iter(x => Analyze(x));
-
         }
         private void Analyze(Implementation impl)
         {
@@ -380,13 +396,20 @@ namespace Dependency
             //---- generate VC ends ---------
 
             //Analyze using UNSAT cores for each output
-            Console.WriteLine("RefinedDependency[{0}] = [", impl.Name);
-            outputGuardConsts.Iter(x => AnalyzeDependencyWithUnsatCore(programVC,x));
+            Dependency.Analysis.Dependencies deps = new Analysis.Dependencies();
+            Console.WriteLine("RefinedDependency[{0}] = [", origProcName);
+            outputGuardConsts.Iter(x => AnalyzeDependencyWithUnsatCore(programVC, x, deps, origProcName));
             Console.WriteLine("]");
             VC.FinalizeVCGen(prog);
+            Implementation origImpl = (Implementation)origProg.TopLevelDeclarations.Single(d => d is Implementation && ((Implementation)d).Name == origProcName);
+            Dependency.Analysis.PopulateDependencyLog(origImpl, deps, "Refined Dependencies");
+
+            
+            if (Dependency.Analysis.printStats)
+                Dependency.Analysis.statsLog.Add(new Tuple<string, Procedure, Analysis.Dependencies>(Utils.GetImplSourceFile(origImpl), origImpl.Proc, deps));
 
         }
-        private void AnalyzeDependencyWithUnsatCore(VCExpr programVC, Constant outConstant)
+        private void AnalyzeDependencyWithUnsatCore(VCExpr programVC, Constant outConstant, Dependency.Analysis.Dependencies result, string procName)
         {
             #region Description of UNSAT core logic implemented below 
             /*
@@ -412,11 +435,16 @@ namespace Dependency
             preOut = VC.exprGen.And(preOut, VC.translator.LookupVariable(outConstant));
             var newVC = VC.exprGen.Implies(preOut, programVC);
 
+            var varName = QKeyValue.FindStringAttribute(outConstant.Attributes, RefineConsts.varNameAttribute);
+            Variable v = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, varName, Microsoft.Boogie.Type.Int));
+            result[v] = new HashSet<Variable>();
+
             //check for validity (presence of all input eq implies output is equal)
             var outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
             if (outcome != ProverInterface.Outcome.Valid)
             {
                 Console.WriteLine("\t VC not valid, returning");
+                result[v].Add(Dependency.Analysis.nonDetVar);
                 Console.WriteLine("\t Dependency of {0} =  <*>", outConstant);
                 return;
             }
@@ -460,7 +488,19 @@ namespace Dependency
 
             Console.WriteLine("\t Dependency of {0} = <{1}>",
                 outConstant,
-                string.Join(",", core));                
+                string.Join(",", core));
+
+            foreach (var c in inputGuardConsts)
+            {
+                string name;
+                if (core.Contains(VC.translator.LookupVariable(c)))
+                    name = QKeyValue.FindStringAttribute(c.Attributes, RefineConsts.varNameAttribute);
+                else
+                    name = c.Name.Replace(procName + "_" + RefineConsts.inputGuardName + "_", "");
+
+                result[v].Add(new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, Microsoft.Boogie.Type.Int)));
+            }
+            
         }
     }
 

@@ -33,15 +33,15 @@ namespace Dependency
         }
         
 
-        static private bool dataOnly = false;
-        static private bool bothDependencies = false;
-        static private bool prune = false;
-        static private bool printStats = false;
+        static public bool dataOnly = false;
+        static public bool bothDependencies = false;
+        static public bool prune = false;
+        static public bool printStats = false;
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int, List<string>>> taintLog = new List<Tuple<string, string, int, List<string>>>();
         static private List<Tuple<string, string, int, string>> dependenciesLog = new List<Tuple<string, string, int, string>>();
-        static private List<Tuple<string, Procedure, Dependencies>> statsLog = new List<Tuple<string, Procedure, Dependencies>>();
+        static public List<Tuple<string, Procedure, Dependencies>> statsLog = new List<Tuple<string, Procedure, Dependencies>>();
         static private string statsFile;
         static int Main(string[] args)
         {
@@ -78,12 +78,8 @@ namespace Dependency
                 Debugger.Launch();
 
             if (args.Any(x => x.Contains(CmdLineOpts.semanticDep)))
-            {
                 (new RefineDependency((new RefineProgram(args[0])).Create())).Run();
-                return 1;
-            }
-
-            if (changeList != null)
+            else if (changeList != null)
                 RunAnalysis(args[0], changeList);
             else
                 RunAnalysis(args[0], null);
@@ -120,9 +116,23 @@ namespace Dependency
             }
         }
 
+        static public void PopulateDependencyLog(Implementation impl, Dependencies deps, string which)
+        {
+            var proc = impl.Proc;
+            string sourcefile = Utils.GetImplSourceFile(impl);
+            var sourceLines = impl.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.GetSourceLine((AssertCmd)b.Cmds[0]));
+            if (sourceLines.Count() == 0)
+                return;
+            int lastSourceLine = sourceLines.Max();
+
+            string depStr = "<b> " + which + " for " + proc.Name + "(): (Size = " + deps.Sum(d => d.Value.Count) + ")</b> " + deps.ToString();
+
+            dependenciesLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, depStr));
+        }
+
         private static int RunAnalysis(string filename, string changelist, bool taintAll = false)
         {
-            Console.WriteLine("Processing file {0}", filename);
+            Console.WriteLine("Running Analysis for {0}", filename);
             Program program;
             if (!Utils.ParseProgram(filename, out program)) return -1;
 
@@ -555,24 +565,6 @@ namespace Dependency
                 return node;
             }
 
-            public void PopulateDependencyLog(Implementation node)
-            {
-                var proc = node.Proc;
-                string sourcefile = Utils.GetImplSourceFile(node);
-                var sourceLines = node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.GetSourceLine((AssertCmd)b.Cmds[0]));
-                if (sourceLines.Count() == 0)
-                    return;
-                int lastSourceLine = sourceLines.Max();
-
-                string depStr = proc.Name + "(): (Size = " + procDependencies[proc].Sum(x => x.Value.Count) + ")</b> " + procDependencies[proc];
-                if (dataOnly)
-                    depStr = "<b> Data Only for " + depStr;
-                else
-                    depStr = "<b> Control + Data for " + depStr;
-
-                dependenciesLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, depStr));
-            }
-
             public void PopulateTaintLog(Implementation node)
             {
                 Dictionary<int, TaintSet> lines = new Dictionary<int, TaintSet>();
@@ -698,41 +690,43 @@ namespace Dependency
                 Dependencies dependencies = DWL.GatherPredecessorsState(node, currBlock);
                 TaintSet taintSet = TWL.GatherPredecessorsState(node, currBlock);
 
-                //Debug.Assert(node.Lhss.Count == 1 && node.Rhss.Count == 1);
-                Expr lhs = node.Lhss[0].AsExpr, rhs = node.Rhss[0];
-                var varExtractor = new Utils.VariableExtractor();
-                varExtractor.Visit(lhs);
-
-                Variable left = varExtractor.vars.Single(x => true);
-                var dependsSet = new HashSet<Variable>();
-
-                varExtractor.vars = new HashSet<Variable>();
-                varExtractor.Visit(rhs);
-                var rhsVars = varExtractor.vars;
-
-
-                taintSet.Remove(left);
-
-                foreach (var rv in rhsVars)
+                // for assignment v1,...,vn = e1,...,en handle each vi = ei separately
+                for (int i = 0; i < node.Lhss.Count; ++i)
                 {
-                    dependsSet.Add(rv);
+                    Expr lhs = node.Lhss[i].AsExpr, rhs = node.Rhss[i];
+                    var varExtractor = new Utils.VariableExtractor();
+                    varExtractor.Visit(lhs);
+                    Variable left = varExtractor.vars.Single();
+                    
+                    varExtractor = new Utils.VariableExtractor();
+                    varExtractor.Visit(rhs);
+                    var rhsVars = varExtractor.vars;
 
-                    if (dependencies.ContainsKey(rv)) // a variable in rhs has dependencies
-                        dependsSet.UnionWith(dependencies[rv]);
+                    var dependsSet = new HashSet<Variable>();
+                    taintSet.Remove(left);
 
-                    if (taintSet.Contains(rv)) // a variable in rhs is tainted
-                        taintSet.Add(left); 
-                }
+                    foreach (var rv in rhsVars)
+                    {
+                        dependsSet.Add(rv);
 
-                InferDominatorDependency(currBlock, dependsSet, taintSet, left);
+                        if (dependencies.ContainsKey(rv)) // a variable in rhs has dependencies
+                            dependsSet.UnionWith(dependencies[rv]);
 
-                if (taintedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // the line itself is tainted
-                {// the line itself is tainted
-                    taintSet.Add(left);
+                        if (taintSet.Contains(rv)) // a variable in rhs is tainted
+                            taintSet.Add(left);
+                    }
+
+                    InferDominatorDependency(currBlock, dependsSet, taintSet, left);
+
+                    if (taintedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // the line itself is tainted
+                    {// the line itself is tainted
+                        taintSet.Add(left);
+                    }
+
+                    dependencies[left] = dependsSet;
                 }
 
                 TWL.AssignAndPropagate(node, currBlock, taintSet);
-                dependencies[left] = dependsSet;
                 DWL.AssignAndPropagate(node, currBlock, dependencies);
                 return node;
             }
@@ -949,7 +943,7 @@ namespace Dependency
                     }
 
                     PopulateTaintLog(impl);
-                    PopulateDependencyLog(impl);
+                    PopulateDependencyLog(impl, procDependencies[proc], dataOnly ? "Data Only" : "Data and Control");
 
                     if (printStats)
                         statsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.GetImplSourceFile(impl), proc, procDependencies[proc]));
