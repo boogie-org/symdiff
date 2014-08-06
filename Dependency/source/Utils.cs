@@ -67,18 +67,20 @@ namespace Dependency
 
         static public string GetSourceFile(AssertCmd node)
         {
-            for (var attr = node.Attributes; attr != null; attr = attr.Next)
-                if (attr.Key == "sourcefile") // TODO: magic string
-                    return (string)attr.Params[0];
-            return null;
+            if (node == null) return null;
+            // TODO: magic strings
+            var file = QKeyValue.FindStringAttribute(node.Attributes, "sourceFile");
+            if (file == null) file = QKeyValue.FindStringAttribute(node.Attributes, "sourcefile");
+            return file;
         }
 
         static public int GetSourceLine(AssertCmd node)
         {
-            for (var attr = node.Attributes; attr != null; attr = attr.Next)
-                if (attr.Key == "sourceline") // TODO: magic string
-                    return int.Parse(((LiteralExpr)attr.Params[0]).ToString());
-            return -1;
+            if (node == null) return -1;
+            // TODO: magic strings
+            var line = QKeyValue.FindIntAttribute(node.Attributes, "sourceLine", -1);
+            if (line == -1) line = QKeyValue.FindIntAttribute(node.Attributes, "sourceline", -1);
+            return line;
         }
 
         // returns the source line adhering to the end of the implementaition
@@ -192,12 +194,13 @@ namespace Dependency
 
         public class StatisticsHelper
         {
-            List<Tuple<string, Procedure, Dependency.Analysis.Dependencies>> procDependencies;
+            List<Tuple<string, Procedure, Dependency.Analysis.Dependencies>> procDependencies = null;
 
             public StatisticsHelper(List<Tuple<string, Procedure, Dependency.Analysis.Dependencies>> pd) 
             {
                 procDependencies = pd;
             }
+
 
             public void GenerateCSVOutput(string outFileName)
             {
@@ -206,7 +209,8 @@ namespace Dependency
                 // for each tuple, grouped by filename
                 foreach (var depsInFile in procDependencies.GroupBy(x => x.Item1))
                 {
-                    foreach (var pd in depsInFile) {
+                    foreach (var pd in depsInFile)
+                    {
                         var overall = pd.Item3.Sum(x => x.Value.Count); // overall size of dependencies (\Sigma_{v} Deps(v))
                         var numGlobals = pd.Item3.Where(x => x.Key is GlobalVariable).Count();
                         var sumGlobals = pd.Item3.Where(x => x.Key is GlobalVariable).Sum(x => x.Value.Count); // size of global vars dependencies
@@ -225,6 +229,16 @@ namespace Dependency
                         output.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8}", pd.Item1, pd.Item2, overall, numGlobals, sumGlobals, inputsGlobals.Count, numOutputs, sumOutputs, inputsOutputs.Count);
                     }
                 }
+                output.Close();
+            }
+
+            public static void GenerateCSVOutputForSemDep(List<Tuple<string, string, int, int, int>> sd, string outFileName)
+            {
+                TextWriter output = new StreamWriter(outFileName);
+                output.WriteLine("Filename, Procedure, Data + Control, Data Only, Refined");
+                foreach (var fileDeps in sd.GroupBy(x => x.Item1))
+                    foreach (var procDeps in fileDeps)
+                        output.WriteLine("{0},{1},{2},{3},{4}", procDeps.Item1, procDeps.Item2, procDeps.Item3, procDeps.Item4, procDeps.Item5);
                 output.Close();
             }
         }
@@ -295,7 +309,7 @@ namespace Dependency
                     if (changesByFile.ContainsKey(srcFile))
                         foreach(var x in changesByFile[srcFile]) 
                             changes.Add(x.Item3);
-                    var depLines = depsInFile.Select(x => x.Item3);
+                    var depLines = depsInFile.Select(x => x.Item3);                   
                     for (int i = 0; i < srcLines.Count; ++i)
                     {
                         var l = srcLines[i];
