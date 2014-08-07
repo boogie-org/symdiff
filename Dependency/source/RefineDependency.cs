@@ -60,7 +60,6 @@ namespace Dependency
                   EQ := O1 == O2
                   Return
                 }
-                // TODO: globals
              */
         #endregion
         public string Create()
@@ -75,7 +74,7 @@ namespace Dependency
 
             // do data only analysis as well, for reference
             var dataDepVisitor = new Analysis.DependencyTaintVisitor(prog);
-            Analysis.dataOnly = true;
+            Analysis.DataOnly = true;
             dataDepVisitor.Visit(prog);
             dataDepVisitor.Results();
 
@@ -86,7 +85,7 @@ namespace Dependency
                 procDependencies[proc].Prune(proc);
                 var readSet = procDependencies[proc].ReadSet();
                 var modSet = procDependencies[proc].ModSet();
-                readSet.Remove(Analysis.nonDetVar);
+                readSet.Remove(Analysis.NonDetVar);
 
                 //make any asserts/requires/ensures free
                 proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
@@ -353,6 +352,7 @@ namespace Dependency
         Program prog, origProg;
         string filename;
         List<Constant> inputGuardConsts, outputGuardConsts;
+        List<Tuple<string, string, int, int, int>> Stats = new List<Tuple<string, string, int, int, int>>();
 
         public RefineDependency(string filename) { this.filename = filename; }
         public void Run()
@@ -372,6 +372,9 @@ namespace Dependency
             prog.TopLevelDeclarations.OfType<Implementation>()
                 .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, RefineConsts.checkDepAttribute))
                 .Iter(x => Analyze(x));
+            
+            // print statistics
+            Utils.StatisticsHelper.GenerateCSVOutputForSemDep(Stats, filename + ".csv");
         }
         private void Analyze(Implementation impl)
         {
@@ -404,10 +407,34 @@ namespace Dependency
             Implementation origImpl = (Implementation)origProg.TopLevelDeclarations.Single(d => d is Implementation && ((Implementation)d).Name == origProcName);
             Dependency.Analysis.PopulateDependencyLog(origImpl, deps, "Refined Dependencies");
 
-            
-            if (Dependency.Analysis.printStats)
-                Dependency.Analysis.statsLog.Add(new Tuple<string, Procedure, Analysis.Dependencies>(Utils.GetImplSourceFile(origImpl), origImpl.Proc, deps));
+            ComputeStats(origImpl, deps);
 
+        }
+
+        private void ComputeStats(Implementation impl, Dependency.Analysis.Dependencies deps)
+        {
+            
+            var proc = impl.Proc;
+            int refinedCount = 0, dataOnlyCount = 0, dataControlCount = 0;
+
+            // find the proc in the previously computed dependnencies
+            Analysis.Dependencies dataControlDeps = Analysis.ComputedDependencies[0].Single(pd => pd.Key.Name == proc.Name).Value;
+            Analysis.Dependencies dataOnlyDeps = Analysis.ComputedDependencies[1].Single(pd => pd.Key.Name == proc.Name).Value;
+
+            foreach (var rfd in deps)
+            {
+                if (rfd.Value.Contains(Analysis.NonDetVar)) // ignore vars which depend on *
+                    continue;
+                refinedCount += rfd.Value.Count;
+
+                // find the current variable dependnecy set in the previously computed
+                dataControlCount += dataControlDeps.Single(cdd => cdd.Key.Name == rfd.Key.Name).Value.Count;
+                dataOnlyCount += dataOnlyDeps.Single(dod => dod.Key.Name == rfd.Key.Name).Value.Count;
+            }
+
+            string sourcefile = null;
+            impl.Blocks.FirstOrDefault(b => b.Cmds.Count > 0 && (sourcefile = Utils.GetSourceFile(b.Cmds[0] as AssertCmd)) != null);
+            Stats.Add(new Tuple<string, string, int, int, int>(sourcefile, proc.Name, dataControlCount, dataOnlyCount, refinedCount));
         }
         private void AnalyzeDependencyWithUnsatCore(VCExpr programVC, Constant outConstant, Dependency.Analysis.Dependencies result, string procName)
         {
@@ -444,7 +471,7 @@ namespace Dependency
             if (outcome != ProverInterface.Outcome.Valid)
             {
                 Console.WriteLine("\t VC not valid, returning");
-                result[v].Add(Dependency.Analysis.nonDetVar);
+                result[v].Add(Dependency.Analysis.NonDetVar);
                 Console.WriteLine("\t Dependency of {0} =  <*>", outConstant);
                 return;
             }

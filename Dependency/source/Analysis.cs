@@ -17,11 +17,13 @@ namespace Dependency
 {
     class Analysis
     {
-        static public GlobalVariable nonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
+        static public GlobalVariable NonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
         static private HashSet<Procedure> taintedProcs = new HashSet<Procedure>();
         static private Graph<Procedure> callGraph = new Graph<Procedure>();
 
-        static private class CmdLineOpts
+        static public List<Dictionary<Procedure, Dependencies>> ComputedDependencies = new List<Dictionary<Procedure, Dependencies>>();
+
+        static private class CmdLineOptsNames
         {
             public const string semanticDep = "/semanticDependency";
             public const string stats = "/stats";
@@ -30,19 +32,21 @@ namespace Dependency
             public const string dataOnly = "/dataOnly";
             public const string taint = "/taint";
             public const string debug = "/break";
+            public const string detStubs = "/detStubs";
         }
-        
 
-        static public bool dataOnly = false;
-        static public bool bothDependencies = false;
-        static public bool prune = false;
-        static public bool printStats = false;
+        static public bool DataOnly = false;
+        static public bool BothDependencies = false;
+        static public bool Prune = false;
+        static public bool PrintStats = false;
+        static public bool DetStubs = false;
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int, List<string>>> taintLog = new List<Tuple<string, string, int, List<string>>>();
         static private List<Tuple<string, string, int, string>> dependenciesLog = new List<Tuple<string, string, int, string>>();
-        static public List<Tuple<string, Procedure, Dependencies>> statsLog = new List<Tuple<string, Procedure, Dependencies>>();
         static private string statsFile;
+
+        static public List<Tuple<string, Procedure, Dependencies>> StatsLog = new List<Tuple<string, Procedure, Dependencies>>();
         static int Main(string[] args)
         {
             if (args.Length < 1)
@@ -63,21 +67,22 @@ namespace Dependency
             statsFile = args[0] + ".csv";
 
             string changeList = null;
-            args.Where(x => x.StartsWith(CmdLineOpts.taint + ":"))
+            args.Where(x => x.StartsWith(CmdLineOptsNames.taint + ":"))
                 .Iter(s => changeList = s.Split(':')[1]);
 
-            dataOnly = args.Any(x => x == CmdLineOpts.dataOnly);
-            prune = args.Any(x => x == CmdLineOpts.prune);
-            bothDependencies = args.Any(x => x == CmdLineOpts.both) && !dataOnly;
+            DataOnly = args.Any(x => x == CmdLineOptsNames.dataOnly);
+            Prune = args.Any(x => x == CmdLineOptsNames.prune);
+            BothDependencies = args.Any(x => x == CmdLineOptsNames.both) && !DataOnly;
+            DetStubs = args.Any(x => x == CmdLineOptsNames.detStubs);
 
-            printStats = args.Any(x => x == CmdLineOpts.stats || x.StartsWith(CmdLineOpts.stats + ":"));
-            args.Where(x => x.StartsWith(CmdLineOpts.stats + ":"))
+            PrintStats = args.Any(x => x == CmdLineOptsNames.stats || x.StartsWith(CmdLineOptsNames.stats + ":"));
+            args.Where(x => x.StartsWith(CmdLineOptsNames.stats + ":"))
                 .Iter(s => statsFile = s.Split(':')[1]);
 
-            if (args.Any(x => x.Contains(CmdLineOpts.debug)))
+            if (args.Any(x => x.Contains(CmdLineOptsNames.debug)))
                 Debugger.Launch();
 
-            if (args.Any(x => x.Contains(CmdLineOpts.semanticDep)))
+            if (args.Any(x => x.Contains(CmdLineOptsNames.semanticDep)))
                 (new RefineDependency((new RefineProgram(args[0])).Create())).Run();
             else if (changeList != null)
                 RunAnalysis(args[0], changeList);
@@ -88,9 +93,9 @@ namespace Dependency
             displayHtml.GenerateHtmlOutput(args[0] + ".html");
             Console.WriteLine("Output generated in " + args[0] + ".html");
 
-            if (printStats)
+            if (PrintStats)
             {
-                var statsHelper = new Utils.StatisticsHelper(statsLog);
+                var statsHelper = new Utils.StatisticsHelper(StatsLog);
                 statsHelper.GenerateCSVOutput(statsFile);
                 Console.WriteLine("Statistics generated in " + statsFile);
             }
@@ -147,10 +152,10 @@ namespace Dependency
             visitor.Visit(program);
             visitor.Results();
 
-            if (bothDependencies)
+            if (BothDependencies)
             {
                 var dataDepVisitor = new DependencyTaintVisitor(program);
-                dataOnly = true;
+                DataOnly = true;
                 dataDepVisitor.Visit(program);
                 dataDepVisitor.Results();
             }
@@ -164,12 +169,13 @@ namespace Dependency
             string execName = System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName;
             Console.WriteLine("Lightweight inter-procedural dependency\\taint analysis for change impact");
             Console.WriteLine("Usage: " + execName + " <filename.bpl> [flags]");
-            Console.WriteLine((CmdLineOpts.taint + ":changelist.txt").PadRight(length,' ') + " - produce taint for all lined marked as changed in changelist.txt");
-            Console.WriteLine(CmdLineOpts.dataOnly.PadRight(length,' ') + " - compute data dependnecies\\taint only (no control)");
-            Console.WriteLine(CmdLineOpts.both.PadRight(length,' ') + " - compute both data & control dependencies for showing in HTML");
-            Console.WriteLine(CmdLineOpts.prune.PadRight(length,' ') + " - show only in\\out\\global dependencies (no locals)");
-            Console.WriteLine((CmdLineOpts.stats + "[:statsfile.csv]").PadRight(length,' ') +  " - print dependecies statistics in CSV format [to a specified file]");
-            Console.WriteLine(CmdLineOpts.semanticDep.PadRight(length,' ') + " - print dependecies statistics in CSV format [to a specified file]");
+            Console.WriteLine((CmdLineOptsNames.taint + ":changelist.txt").PadRight(length,' ') + " - produce taint for all lined marked as changed in changelist.txt");
+            Console.WriteLine(CmdLineOptsNames.dataOnly.PadRight(length,' ') + " - compute data dependnecies\\taint only (no control)");
+            Console.WriteLine(CmdLineOptsNames.both.PadRight(length,' ') + " - compute both data & control dependencies for showing in HTML");
+            Console.WriteLine(CmdLineOptsNames.prune.PadRight(length,' ') + " - show only in\\out\\global dependencies (no locals)");
+            Console.WriteLine((CmdLineOptsNames.stats + "[:statsfile.csv]").PadRight(length,' ') +  " - print dependecies statistics in CSV format [to a specified file]");
+            Console.WriteLine(CmdLineOptsNames.semanticDep.PadRight(length,' ') + " - print dependecies statistics in CSV format [to a specified file]");
+            Console.WriteLine(CmdLineOptsNames.detStubs.PadRight(length, ' ') + " - (unsoundly) assume stub functions to depend only on input (and not be undeterministic)");
         }
 
         // some of the WorkList algorithm was exported to this class as it is the same for Dependency and Taint
@@ -635,7 +641,7 @@ namespace Dependency
                 foreach (var v in node.Vars.Select(x => x.Decl))
 	            {
                     dependencies[v] = new HashSet<Variable>();
-                    dependencies[v].Add(nonDetVar);
+                    dependencies[v].Add(NonDetVar);
 
                     InferDominatorDependency(currBlock, dependencies[v], taintSet, v);
 
@@ -696,7 +702,7 @@ namespace Dependency
                     Expr lhs = node.Lhss[i].AsExpr, rhs = node.Rhss[i];
                     var varExtractor = new Utils.VariableExtractor();
                     varExtractor.Visit(lhs);
-                    Variable left = varExtractor.vars.Single();
+                    Variable left = varExtractor.vars.First(); // TODO: stuff like: Mem_T.INT4[in_prio] := out_tempBoogie0
                     
                     varExtractor = new Utils.VariableExtractor();
                     varExtractor.Visit(rhs);
@@ -719,9 +725,7 @@ namespace Dependency
                     InferDominatorDependency(currBlock, dependsSet, taintSet, left);
 
                     if (taintedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // the line itself is tainted
-                    {// the line itself is tainted
                         taintSet.Add(left);
-                    }
 
                     dependencies[left] = dependsSet;
                 }
@@ -733,7 +737,7 @@ namespace Dependency
 
             private void InferDominatorDependency(Block currBlock, HashSet<Variable> dependsSet, HashSet<Variable> taintSet, Variable left)
             {
-                if (dataOnly)
+                if (DataOnly)
                     return;
                 bool tainted = false;
                 // assignment under a branch is dependent on all the variables in the branch's conditional
@@ -801,11 +805,10 @@ namespace Dependency
                     foreach (var v in callee.OutParams)
                     {   // all outputs depend on all inputs
                         procDependencies[callee][v] = new HashSet<Variable>(callee.InParams);
-                        // and on *
-                        procDependencies[callee][v].Add(nonDetVar);
+                        if (!DetStubs)
+                            procDependencies[callee][v].Add(NonDetVar); // and on *
                     }
                 }
-
 
                 if (!procDependencies.ContainsKey(callee))
                 { // this will be continued once the callee gets analyzed
@@ -936,17 +939,19 @@ namespace Dependency
                 foreach (Implementation impl in program.TopLevelDeclarations.Where(x => x is Implementation))
                 {
                     var proc = impl.Proc;
-                    if (prune)
+                    if (Prune)
                     {
                         procDependencies[proc].Prune(impl.Proc);
                         procTaint[proc].Prune(impl.Proc);
                     }
 
                     PopulateTaintLog(impl);
-                    PopulateDependencyLog(impl, procDependencies[proc], dataOnly ? "Data Only" : "Data and Control");
+                    PopulateDependencyLog(impl, procDependencies[proc], DataOnly ? "Data Only" : "Data and Control");
 
-                    if (printStats)
-                        statsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.GetImplSourceFile(impl), proc, procDependencies[proc]));
+                    if (PrintStats)
+                        StatsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.GetImplSourceFile(impl), proc, procDependencies[proc]));
+
+                    ComputedDependencies.Add(procDependencies);
                 }
             }
         }
