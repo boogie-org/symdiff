@@ -18,12 +18,10 @@ namespace Dependency
     public static class RefineConsts
     {
         public const string inputGuardName = "bi";
-        public const string inputGuradAttribute = "guardOutputs";
+        public const string inputGuradAttribute = "guardInputs";
 
         public const string outputGuardName = "bo";
-        public const string outputGuradAttribute = "guardInputs";
-
-        public const string varNameAttribute = "varname";
+        public const string outputGuradAttribute = "guardOutputs";
 
         public const string refinedProcNamePrefix = "CheckDependency_";
         public const string equivCheckVarName = "eq";
@@ -294,9 +292,8 @@ namespace Dependency
             foreach (var m in modSet)
             {
                 var og = new Constant(Token.NoToken, new TypedIdent(new Token(), procName + "_" + RefineConsts.outputGuardName + "_" + m, Microsoft.Boogie.Type.Bool), false);
-                string[] vals = { procName };
+                string[] vals = { procName ,m.Name };
                 og.AddAttribute(RefineConsts.outputGuradAttribute, vals);
-                og.AddAttribute(RefineConsts.varNameAttribute, m.Name);
                 outputGuards.Add(og);
             }
             return outputGuards;
@@ -308,9 +305,10 @@ namespace Dependency
             foreach (var r in readSet)
             {
                 var ig = new Constant(Token.NoToken, new TypedIdent(new Token(), procName + "_" + RefineConsts.inputGuardName + "_" + r, Microsoft.Boogie.Type.Bool), false);
-                string[] vals = { procName };
+                string[] vals = { procName, r.Name };
                 ig.AddAttribute(RefineConsts.inputGuradAttribute, vals);
-                ig.AddAttribute(RefineConsts.varNameAttribute,r.Name);
+                Debug.Assert(Utils.GetAttributeVals(ig.Attributes, RefineConsts.inputGuradAttribute).Contains(procName.Clone()));
+                Debug.Assert(Utils.GetAttributeVals(ig.Attributes, RefineConsts.inputGuradAttribute).Exists(p => p == r.Name));
                 inputGuards.Add(ig);
             }
             return inputGuards;
@@ -381,10 +379,10 @@ namespace Dependency
             var origProcName = impl.Proc.Name.Replace(RefineConsts.refinedProcNamePrefix, "");
             //get the procedure's guard constants
             inputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
-                .Where(x => QKeyValue.FindStringAttribute(x.Attributes, RefineConsts.inputGuradAttribute) == origProcName)
+                .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.inputGuradAttribute).Exists(p => (p as string) == origProcName))
                 .ToList();
             outputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
-                .Where(x => QKeyValue.FindStringAttribute(x.Attributes, RefineConsts.outputGuradAttribute) == origProcName)
+                .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.outputGuradAttribute).Exists(p => (p as string)  == origProcName))
                 .ToList();
 
             //---- generate VC starts ---------
@@ -425,6 +423,7 @@ namespace Dependency
             {
                 if (rfd.Value.Contains(Analysis.NonDetVar)) // ignore vars which depend on *
                     continue;
+
                 refinedCount += rfd.Value.Count;
 
                 // find the current variable dependnecy set in the previously computed
@@ -462,7 +461,7 @@ namespace Dependency
             preOut = VC.exprGen.And(preOut, VC.translator.LookupVariable(outConstant));
             var newVC = VC.exprGen.Implies(preOut, programVC);
 
-            var varName = QKeyValue.FindStringAttribute(outConstant.Attributes, RefineConsts.varNameAttribute);
+            string varName = (string)Utils.GetAttributeVals(outConstant.Attributes, RefineConsts.outputGuradAttribute)[1];
             Variable v = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, varName, Microsoft.Boogie.Type.Int));
             result[v] = new HashSet<Variable>();
 
@@ -517,15 +516,18 @@ namespace Dependency
                 outConstant,
                 string.Join(",", core));
 
-            foreach (var c in inputGuardConsts)
+            foreach (var ig in inputGuardConsts)
             {
-                string name;
-                if (core.Contains(VC.translator.LookupVariable(c)))
-                    name = QKeyValue.FindStringAttribute(c.Attributes, RefineConsts.varNameAttribute);
-                else
-                    name = c.Name.Replace(procName + "_" + RefineConsts.inputGuardName + "_", "");
+                string name = null;
+                if (core.Contains(VC.translator.LookupVariable(ig)))
+                    name = (string)Utils.GetAttributeVals(ig.Attributes, RefineConsts.inputGuradAttribute)[1];
+                else if (core.Select(c => c.ToString()).Contains(ig.ToString()))
+                    name = ig.Name.Replace(procName + "_" + RefineConsts.inputGuardName + "_", "");
 
-                result[v].Add(new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, Microsoft.Boogie.Type.Int)));
+                if (name != null) { 
+                    var d = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, Microsoft.Boogie.Type.Int));
+                    result[v].Add(d);
+                }
             }
             
         }

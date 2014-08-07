@@ -11,6 +11,15 @@ namespace Dependency
 {
     class Utils
     {
+        public static List<object> GetAttributeVals(QKeyValue attributes, string key)
+        {
+            for (QKeyValue attr = attributes; attr != null; attr = attr.Next)
+                if (attr.Key == key)
+                    return attr.Params;
+
+            return new List<object>();
+        }
+
         public static bool ParseProgram(string fname, out Program prog)
         {
             prog = null;

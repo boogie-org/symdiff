@@ -951,8 +951,8 @@ namespace Dependency
                     if (PrintStats)
                         StatsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.GetImplSourceFile(impl), proc, procDependencies[proc]));
 
-                    ComputedDependencies.Add(procDependencies);
                 }
+                ComputedDependencies.Add(procDependencies);
             }
         }
 
