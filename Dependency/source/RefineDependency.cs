@@ -28,6 +28,7 @@ namespace Dependency
         public const string checkDepAttribute = "checkDependency";
 
         public const string inlineAttribute = "inline";
+        public const int inlineDepth = 2; //1 is bad for loops as it doesn't enter the loop
 
         public const string inputsNamePrefix = "r";
         public const string outputsNamePrefix = "m";
@@ -92,9 +93,9 @@ namespace Dependency
 
                 // add inline attribute to the original proc and impl
                 if (QKeyValue.FindExprAttribute(proc.Attributes, RefineConsts.inlineAttribute) == null)
-                    proc.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(1));
-                if (QKeyValue.FindExprAttribute(impl.Attributes, RefineConsts.inlineAttribute) == null)
-                    impl.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(1));
+                    proc.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(RefineConsts.inlineDepth));
+                //if (QKeyValue.FindExprAttribute(impl.Attributes, RefineConsts.inlineAttribute) == null)
+                //    impl.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(2));
                 //Debug.Assert(QKeyValue.FindBoolAttribute(proc.Attributes, RefineConsts.inlineAttribute));
                 var procName = proc.Name;
 
