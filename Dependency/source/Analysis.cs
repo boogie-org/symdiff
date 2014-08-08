@@ -351,8 +351,8 @@ namespace Dependency
                     if (v is GlobalVariable || proc.OutParams.Contains(v))
                         result.Add(v);
                 }
-                this.Clear();
-                this.JoinWith(result);
+                Clear();
+                JoinWith(result);
             }
 
             public void FixFormals(Implementation impl)
@@ -367,8 +367,8 @@ namespace Dependency
                     else 
                         result.Add(v);
                 }
-                this.Clear();
-                this.JoinWith(result);
+                Clear();
+                JoinWith(result);
             }
         }
         public class Dependencies : Dictionary<Variable, HashSet<Variable>>, IAbstractState
@@ -493,8 +493,8 @@ namespace Dependency
                     else
                         result[v] = Utils.ImplInputsToProcInputs(impl,dependency.Value);
                 }
-                this.Clear();
-                this.JoinWith(result);
+                Clear();
+                JoinWith(result);
             }
 
             public void Prune(Procedure proc)
@@ -507,8 +507,8 @@ namespace Dependency
                     if (v is GlobalVariable || proc.OutParams.Contains(v))
                         result.Add(v, dependency.Value);
                 }
-                this.Clear();
-                this.JoinWith(result);
+                Clear();
+                JoinWith(result);
             }
         }
         public class DependencyTaintVisitor : StandardVisitor
@@ -626,7 +626,7 @@ namespace Dependency
                 ComputeDominators(node);
 
                 DWL.RunFixedPoint(this,node); // the dependencies fixed-point will also drive the taint computation
-                Console.WriteLine("Analyzed " + node.ToString() + "( ).");
+                Console.WriteLine("Analyzed " + node + "( ).");
 
                 return node;
             }
@@ -916,9 +916,8 @@ namespace Dependency
                 var currentProc = nodeToImpl[node].Proc;
                 // set the dependencies result for the procedure
                 if (!procDependencies.ContainsKey(currentProc))
-                    procDependencies[currentProc] = DWL.stateSpace[node];
-                else
-                    procDependencies[currentProc].JoinWith(DWL.stateSpace[node]);
+                    procDependencies[currentProc] = new Dependencies();
+                procDependencies[currentProc].JoinWith(DWL.stateSpace[node]);
                 procDependencies[currentProc].FixFormals(nodeToImpl[node]);
 
                 TaintSet taintSet = TWL.GatherPredecessorsState(node, currBlock);
@@ -926,9 +925,8 @@ namespace Dependency
 
                 // set the taint result for the procedure
                 if (!procTaint.ContainsKey(currentProc))
-                    procTaint[currentProc] = TWL.stateSpace[node];
-                else
-                    procTaint[currentProc].JoinWith(TWL.stateSpace[node]);
+                    procTaint[currentProc] = new TaintSet();
+                procTaint[currentProc].JoinWith(TWL.stateSpace[node]);
                 procTaint[currentProc].FixFormals(nodeToImpl[node]);
                 
                 return node;

@@ -17,11 +17,11 @@ namespace Dependency
 
     public static class RefineConsts
     {
-        public const string inputGuardName = "bi";
-        public const string inputGuradAttribute = "guardInputs";
+        public const string readSetGuardName = "br";
+        public const string readSetGuradAttribute = "guardReadSet";
 
-        public const string outputGuardName = "bo";
-        public const string outputGuradAttribute = "guardOutputs";
+        public const string modSetGuardName = "bm";
+        public const string modSetGuradAttribute = "guardModSet";
 
         public const string refinedProcNamePrefix = "CheckDependency_";
         public const string equivCheckVarName = "eq";
@@ -30,8 +30,8 @@ namespace Dependency
         public const string inlineAttribute = "inline";
         public const int inlineDepth = 2; //1 is bad for loops as it doesn't enter the loop
 
-        public const string inputsNamePrefix = "r";
-        public const string outputsNamePrefix = "m";
+        public const string readSetNamePrefix = "r";
+        public const string modSetNamePrefix = "m";
         public const string refinedProcBodyName = "body";
         public const string refineProgramNamePostfix = ".CD.bpl";
         
@@ -47,16 +47,16 @@ namespace Dependency
 
         #region Description of created program structure
         /*
-                Given P, I, O
-                CheckDependecy_P() return (EQ) Ensures BO => EQ {
-                  Havoc I
-                  I1 := I
-                  O1 = call P(I)
-                  Havoc I
-                  I2 := I
-                  O2 = call P(I)
-                  Assume BI => I1 == I2
-                  EQ := O1 == O2
+                Given P, R (=ReadSet), M (=ModSet)
+                CheckDependecy_P() return (EQ) Ensures BM => EQ {
+                  Havoc R
+                  R1 := R
+                  M1 = call P(R)
+                  Havoc R
+                  R2 := R
+                  M2 = call P(R)
+                  Assume BR => R1 == R2
+                  EQ := M1 == M2
                   Return
                 }
              */
@@ -142,7 +142,7 @@ namespace Dependency
             // create input variables
             List<Variable> actualInputs = new List<Variable>();
             for (int i = 1; i <= proc.InParams.Count; ++i)
-                actualInputs.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.inputsNamePrefix + i, proc.InParams[i - 1].TypedIdent.Type)));
+                actualInputs.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.readSetNamePrefix + i, proc.InParams[i - 1].TypedIdent.Type)));
             locals.AddRange(actualInputs);
 
             // create read set recording variables
@@ -152,7 +152,7 @@ namespace Dependency
             // create output variables
             List<Variable> actualOutputs = new List<Variable>();
             for (int i = 1; i <= proc.OutParams.Count; ++i)
-                actualOutputs.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.outputsNamePrefix + i, proc.OutParams[i - 1].TypedIdent.Type)));
+                actualOutputs.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.modSetNamePrefix + i, proc.OutParams[i - 1].TypedIdent.Type)));
             locals.AddRange(actualOutputs);
 
             // create mod set recording variables
@@ -246,8 +246,8 @@ namespace Dependency
             for (int i = 1; i <= modSet.Count; i++)
             {
                 var type = modSet[i - 1].TypedIdent.Type;
-                rms1.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.outputsNamePrefix + i + "_" + "1", type)));
-                rms2.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.outputsNamePrefix + i + "_" + "2", type)));
+                rms1.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.modSetNamePrefix + i + "_" + "1", type)));
+                rms2.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.modSetNamePrefix + i + "_" + "2", type)));
             }
             locals.AddRange(rms1);
             locals.AddRange(rms2);
@@ -260,8 +260,8 @@ namespace Dependency
             for (int i = 1; i <= readSet.Count; i++)
             {
                 var type = readSet[i - 1].TypedIdent.Type;
-                rrs1.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.inputsNamePrefix + i + "_" + "1", type)));
-                rrs2.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.inputsNamePrefix + i + "_" + "2", type)));
+                rrs1.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.readSetNamePrefix + i + "_" + "1", type)));
+                rrs2.Add(new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, RefineConsts.readSetNamePrefix + i + "_" + "2", type)));
             }
             locals.AddRange(rrs1);
             locals.AddRange(rrs2);
@@ -292,9 +292,9 @@ namespace Dependency
             var outputGuards = new List<Constant>();
             foreach (var m in modSet)
             {
-                var og = new Constant(Token.NoToken, new TypedIdent(new Token(), procName + "_" + RefineConsts.outputGuardName + "_" + m, Microsoft.Boogie.Type.Bool), false);
+                var og = new Constant(Token.NoToken, new TypedIdent(new Token(), procName + "_" + RefineConsts.modSetGuardName + "_" + m, Microsoft.Boogie.Type.Bool), false);
                 string[] vals = { procName ,m.Name };
-                og.AddAttribute(RefineConsts.outputGuradAttribute, vals);
+                og.AddAttribute(RefineConsts.modSetGuradAttribute, vals);
                 outputGuards.Add(og);
             }
             return outputGuards;
@@ -305,11 +305,11 @@ namespace Dependency
             List<Constant> inputGuards = new List<Constant>();
             foreach (var r in readSet)
             {
-                var ig = new Constant(Token.NoToken, new TypedIdent(new Token(), procName + "_" + RefineConsts.inputGuardName + "_" + r, Microsoft.Boogie.Type.Bool), false);
+                var ig = new Constant(Token.NoToken, new TypedIdent(new Token(), procName + "_" + RefineConsts.readSetGuardName + "_" + r, Microsoft.Boogie.Type.Bool), false);
                 string[] vals = { procName, r.Name };
-                ig.AddAttribute(RefineConsts.inputGuradAttribute, vals);
-                Debug.Assert(Utils.GetAttributeVals(ig.Attributes, RefineConsts.inputGuradAttribute).Contains(procName.Clone()));
-                Debug.Assert(Utils.GetAttributeVals(ig.Attributes, RefineConsts.inputGuradAttribute).Exists(p => p == r.Name));
+                ig.AddAttribute(RefineConsts.readSetGuradAttribute, vals);
+                Debug.Assert(Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute).Contains(procName.Clone()));
+                Debug.Assert(Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute).Exists(p => p == r.Name));
                 inputGuards.Add(ig);
             }
             return inputGuards;
@@ -380,10 +380,10 @@ namespace Dependency
             var origProcName = impl.Proc.Name.Replace(RefineConsts.refinedProcNamePrefix, "");
             //get the procedure's guard constants
             inputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
-                .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.inputGuradAttribute).Exists(p => (p as string) == origProcName))
+                .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.readSetGuradAttribute).Exists(p => (p as string) == origProcName))
                 .ToList();
             outputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
-                .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.outputGuradAttribute).Exists(p => (p as string)  == origProcName))
+                .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.modSetGuradAttribute).Exists(p => (p as string)  == origProcName))
                 .ToList();
 
             //---- generate VC starts ---------
@@ -462,7 +462,7 @@ namespace Dependency
             preOut = VC.exprGen.And(preOut, VC.translator.LookupVariable(outConstant));
             var newVC = VC.exprGen.Implies(preOut, programVC);
 
-            string varName = (string)Utils.GetAttributeVals(outConstant.Attributes, RefineConsts.outputGuradAttribute)[1];
+            string varName = (string)Utils.GetAttributeVals(outConstant.Attributes, RefineConsts.modSetGuradAttribute)[1];
             Variable v = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, varName, Microsoft.Boogie.Type.Int));
             result[v] = new HashSet<Variable>();
 
@@ -521,9 +521,9 @@ namespace Dependency
             {
                 string name = null;
                 if (core.Contains(VC.translator.LookupVariable(ig)))
-                    name = (string)Utils.GetAttributeVals(ig.Attributes, RefineConsts.inputGuradAttribute)[1];
+                    name = (string)Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute)[1];
                 else if (core.Select(c => c.ToString()).Contains(ig.ToString()))
-                    name = ig.Name.Replace(procName + "_" + RefineConsts.inputGuardName + "_", "");
+                    name = ig.Name.Replace(procName + "_" + RefineConsts.readSetGuardName + "_", "");
 
                 if (name != null) { 
                     var d = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, Microsoft.Boogie.Type.Int));
