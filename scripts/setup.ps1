@@ -25,7 +25,7 @@ $env:PATH = $env:PATH + $env:SYMDIFF_ROOT + "\scripts\cygwin_binaries;"
 $env:PATH = $env:PATH + $env:SYMDIFF_ROOT + "\SymDiff\bin\x86\Debug\;"
 $env:PATH = $env:PATH + $env:SYMDIFF_ROOT + "\BoogieWrapper\bin\Debug;"
 $env:PATH = $env:PATH + $env:SYMDIFF_ROOT + "\Dependency\bin\Debug;"
-$env:PATH = $env:PATH + $env:SYMDIFF_ROOT + "\SymDiff\references;"
+$env:PATH = $env:PATH + $env:SYMDIFF_ROOT + "\references;"
 
 $env:HAVOC_DLL_DIR = $env:SYMDIFF_ROOT + "\havoc_dlls\"
 $env:HAVOCFECONFIG = $env:SYMDIFF_ROOT + "\havoc_dlls\havoc.config"

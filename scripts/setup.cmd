@@ -12,7 +12,7 @@ REM DO NOT EDIT THE LINES BELOW THIS LINE
 REM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 REM put the cygwin_binaries ahead of cygwin in the path (if present)
 REM Put the references\ after the bin\debug since there is overlap between the dlls. 
-set PATH=%SYMDIFF_ROOT%\scripts;%SYMDIFF_ROOT%\scripts\cygwin_binaries;%SYMDIFF_ROOT%\SymDiff\bin\x86\Debug\;%SYMDIFF_ROOT%\BoogieWrapper\bin\Debug\;%SYMDIFF_ROOT%\SymDiff\references;%SYMDIFF_ROOT%\Dependency\bin\Debug;%PATH%
+set PATH=%SYMDIFF_ROOT%\scripts;%SYMDIFF_ROOT%\scripts\cygwin_binaries;%SYMDIFF_ROOT%\SymDiff\bin\x86\Debug\;%SYMDIFF_ROOT%\BoogieWrapper\bin\Debug\;%SYMDIFF_ROOT%\references;%SYMDIFF_ROOT%\Dependency\bin\Debug;%PATH%
 set HAVOC_DLL_DIR=%SYMDIFF_ROOT%\havoc_dlls\
 set HAVOCFECONFIG=%SYMDIFF_ROOT%\havoc_dlls\havoc.config
 set CYGWIN=nodosfilewarning
