@@ -775,7 +775,7 @@ namespace Dependency
                     if (dependentOn is GlobalVariable) // global
                     { // add in the global's dependency set
                         inferedOutputDependency.Add(dependentOn);
-                        if (DWL.stateSpace.ContainsKey(dependentOn))
+                        if (state.ContainsKey(dependentOn))
                             inferedOutputDependency.UnionWith(state[dependentOn]);
                         continue;
                     }
