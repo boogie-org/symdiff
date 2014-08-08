@@ -468,6 +468,7 @@ namespace Dependency
 
             //check for validity (presence of all input eq implies output is equal)
             var outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
+            Console.Write("-");
             if (outcome != ProverInterface.Outcome.Valid)
             {
                 Console.WriteLine("\t VC not valid, returning");
@@ -486,6 +487,7 @@ namespace Dependency
             //VERY IMPORTANT: TO USE UNSAT CORE, SET ContractInfer to true in CommandLineOptions.Clo.
             outcome = ProverInterface.Outcome.Undetermined;
             outcome = VC.proverInterface.CheckAssumptions(assumptions, out unsatClauseIdentifiers, VC.handler);
+            Console.Write("+");
             if (outcome == ProverInterface.Outcome.Invalid && unsatClauseIdentifiers.Count() == 0)
             {
                 Console.WriteLine("Something went wrong! Unsat core with 0 elements for {0}", outConstant);
@@ -506,6 +508,7 @@ namespace Dependency
                     core.Remove(b);
                     preInp = core.Aggregate(VCExpressionGenerator.True, (x, y) => VC.exprGen.And(x, y));
                     outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
+                    Console.Write(".");
                     if (outcome != ProverInterface.Outcome.Valid)
                     {
                         core.Add(b);

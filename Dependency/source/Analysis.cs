@@ -57,7 +57,7 @@ namespace Dependency
 
             CommandLineOptions.Install(new CommandLineOptions());
             CommandLineOptions.Clo.RunningBoogieFromCommandLine = true;
-            var boogieOptions = "/typeEncoding:m -timeLimit:200 -removeEmptyBlocks:0 /printModel:1 /printModelToFile:model.dmp /printInstrumented "; // /errorLimit:1";
+            var boogieOptions = "/typeEncoding:m -timeLimit:20 -removeEmptyBlocks:0 /printModel:1 /printModelToFile:model.dmp /printInstrumented "; // /errorLimit:1";
             //IMPORTANT: need the next to avoid crash while creating prover
             CommandLineOptions.Clo.Parse(boogieOptions.Split(' '));
             //IMPORTANT: need these two to make use of UNSAT cores!!
