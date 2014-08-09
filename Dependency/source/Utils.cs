@@ -389,6 +389,23 @@ namespace Dependency
             }
             return result;
         }
+
+
+
+        /// <summary>
+        /// Converts dependency over prog1 to dependecy over prog2
+        /// </summary>
+        /// <param name="dependency"></param>
+        /// <param name="prog1"></param>
+        /// <param name="prog2"></param>
+        /// <returns></returns>
+        public static Dictionary<Procedure, Dictionary<Variable, HashSet<Variable>>>  ResolveDependenciesAcrossPrograms
+            (Dictionary<Procedure, Dictionary<Variable, HashSet<Variable>>> dependency,
+            Program prog1,
+            Program prog2)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
