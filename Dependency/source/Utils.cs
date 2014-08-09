@@ -58,10 +58,14 @@ namespace Dependency
             var result = new HashSet<Variable>();
             foreach (var v in vars)
             {
-                if (impl.InParams.Contains(v)) // replace Implemetation inputs with Procedure inputs
+                if (impl.InParams.Contains(v))
+                {// replace Implemetation inputs with Procedure inputs
                     result.Add(impl.Proc.InParams[impl.InParams.IndexOf(v)]);
-                else if (v is GlobalVariable)
+                }
+                else if (v is GlobalVariable || impl.Proc.InParams.Contains(v))
+                {
                     result.Add(v);
+                }
             }
             return result;
         }

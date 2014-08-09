@@ -342,8 +342,9 @@ namespace Dependency
                 return added;
             }
 
-            public void Prune(Procedure proc)
+            public void Prune(Implementation impl)
             {
+                var proc = impl.Proc;
                 var result = new TaintSet();
                 foreach (var v in this)
                 {
@@ -489,23 +490,32 @@ namespace Dependency
                     // fix the dependencies such that instead of the Implementation inputs\outputs
                     // it will adhere to the Procedure inputs\outputs
                     if (impl.OutParams.Contains(v))
-                        result[Utils.ImplOutputToProcOutput(impl, v)] = Utils.ImplInputsToProcInputs(impl, dependency.Value);
+                    {
+                        var fv = Utils.ImplOutputToProcOutput(impl, v);
+                        if (!result.ContainsKey(fv))
+                            result[fv] = new HashSet<Variable>();
+                        result[fv].UnionWith(Utils.ImplInputsToProcInputs(impl, dependency.Value));
+                    }
                     else
-                        result[v] = Utils.ImplInputsToProcInputs(impl,dependency.Value);
+                    {
+                        if (!result.ContainsKey(v))
+                            result[v] = new HashSet<Variable>();
+                        result[v].UnionWith(dependency.Value);
+                    }
                 }
-                Clear();
-                JoinWith(result);
+                this.JoinWith(result);
             }
 
-            public void Prune(Procedure proc)
+            public void Prune(Implementation impl)
             {
+                var proc = impl.Proc;
                 var result = new Dependencies();
                 foreach (var dependency in this)
                 {
                     var v = dependency.Key;
                     // leave only globals and formal outputs
                     if (v is GlobalVariable || proc.OutParams.Contains(v))
-                        result.Add(v, dependency.Value);
+                        result.Add(v, Utils.ImplInputsToProcInputs(impl, dependency.Value));
                 }
                 Clear();
                 JoinWith(result);
@@ -939,8 +949,8 @@ namespace Dependency
                     var proc = impl.Proc;
                     if (Prune)
                     {
-                        procDependencies[proc].Prune(impl.Proc);
-                        procTaint[proc].Prune(impl.Proc);
+                        procDependencies[proc].Prune(impl);
+                        procTaint[proc].Prune(impl);
                     }
 
                     PopulateTaintLog(impl);

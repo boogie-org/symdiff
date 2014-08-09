@@ -81,7 +81,7 @@ namespace Dependency
             foreach (var impl in prog.Implementations())
             {
                 var proc = impl.Proc;
-                procDependencies[proc].Prune(proc);
+                procDependencies[proc].Prune(impl);
                 var readSet = procDependencies[proc].ReadSet();
                 var modSet = procDependencies[proc].ModSet();
                 readSet.Remove(Analysis.NonDetVar);
