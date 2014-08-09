@@ -469,11 +469,20 @@ namespace Dependency
             //check for validity (presence of all input eq implies output is equal)
             var outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
             Console.Write("-");
-            if (outcome != ProverInterface.Outcome.Valid)
+            if (outcome == ProverInterface.Outcome.Invalid)
             {
                 Console.WriteLine("\t VC not valid, returning");
                 result[v].Add(Dependency.Analysis.NonDetVar);
                 Console.WriteLine("\t Dependency of {0} =  <*>", outConstant);
+                return;
+            }
+            if (outcome == ProverInterface.Outcome.OutOfMemory || 
+                outcome == ProverInterface.Outcome.TimeOut ||
+                outcome == ProverInterface.Outcome.Undetermined)
+            {
+                Console.WriteLine("\t VC inconclusive, returning");
+                result[v].Add(Dependency.Analysis.NonDetVar);
+                Console.WriteLine("\t Dependency of {0} =  <->", outConstant);
                 return;
             }
 
@@ -537,6 +546,24 @@ namespace Dependency
         }
     }
 
+    public class RefineDependencyPerImplementation
+    {
+
+        public RefineDependencyPerImplementation(Program prog, Implementation impl, 
+            Dictionary<Procedure, Dictionary<Variable, HashSet<Variable>>> currDependency,
+            Dictionary<Variable, Dictionary<Variable, HashSet<Variable>>> dataDependency,
+            int stackBound)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dictionary<Procedure, Dictionary<Variable, HashSet<Variable>>> Run()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    
     /// <summary>
     /// TODO: Copied from Rootcause, refactor 
     /// </summary>
