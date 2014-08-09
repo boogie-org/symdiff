@@ -82,7 +82,7 @@ namespace Dependency
             args.Where(x => x.StartsWith(CmdLineOptsNames.stats + ":"))
                 .Iter(s => statsFile = s.Split(':')[1]);
 
-            Refine = args.Any(x => x == CmdLineOptsNames.refine);
+            Refine = args.Any(x => x == CmdLineOptsNames.refine || x.StartsWith(CmdLineOptsNames.refine + ":"));
             args.Where(x => x.StartsWith(CmdLineOptsNames.refine + ":"))
                 .Iter(s => StackBound = int.Parse(s.Split(':')[1]));
 
