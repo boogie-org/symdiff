@@ -406,6 +406,19 @@ namespace Dependency
         {
             throw new NotImplementedException();
         }
+
+        static int replicateProgramCount = 0;
+        public static Program ReplicateProgram(Program prog, string origFilename)
+        {
+            var filename = origFilename + ".tmp." + (replicateProgramCount++) + ".bpl";
+            prog.Emit(new TokenTextWriter(filename, true));
+            //Parsing stuff
+            Program newProg;
+            if (!Utils.ParseProgram(filename, out newProg)) return null;
+            ModSetCollector c = new ModSetCollector();
+            c.DoModSetAnalysis(newProg);
+            return newProg;
+        }
     }
 
 }
