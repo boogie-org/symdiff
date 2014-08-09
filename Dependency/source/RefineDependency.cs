@@ -65,14 +65,14 @@ namespace Dependency
         {
             if (!Utils.ParseProgram(filename, out prog)) return null;
 
-            var depVisitor = new Analysis.DependencyTaintVisitor(prog);
+            var depVisitor = new Analysis.DependencyTaintVisitor(filename,prog);
             depVisitor.Visit(prog);
             depVisitor.Results(); // add results to logs for printing
 
             var procDependencies = depVisitor.procDependencies;
 
             // do data only analysis as well, for reference
-            var dataDepVisitor = new Analysis.DependencyTaintVisitor(prog);
+            var dataDepVisitor = new Analysis.DependencyTaintVisitor(filename,prog);
             Analysis.DataOnly = true;
             dataDepVisitor.Visit(prog);
             dataDepVisitor.Results();
@@ -309,7 +309,7 @@ namespace Dependency
                 string[] vals = { procName, r.Name };
                 ig.AddAttribute(RefineConsts.readSetGuradAttribute, vals);
                 Debug.Assert(Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute).Contains(procName.Clone()));
-                Debug.Assert(Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute).Exists(p => p == r.Name));
+                Debug.Assert(Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute).Exists(p => (p as string) == r.Name));
                 inputGuards.Add(ig);
             }
             return inputGuards;
@@ -398,7 +398,7 @@ namespace Dependency
             //---- generate VC ends ---------
 
             //Analyze using UNSAT cores for each output
-            Dependency.Analysis.Dependencies deps = new Analysis.Dependencies();
+            Dependencies deps = new Dependencies();
             Console.WriteLine("RefinedDependency[{0}] = [", origProcName);
             outputGuardConsts.Iter(x => AnalyzeDependencyWithUnsatCore(programVC, x, deps, origProcName));
             Console.WriteLine("]");
@@ -410,15 +410,15 @@ namespace Dependency
 
         }
 
-        private void ComputeStats(Implementation impl, Dependency.Analysis.Dependencies deps)
+        private void ComputeStats(Implementation impl, Dependencies deps)
         {
             
             var proc = impl.Proc;
             int refinedCount = 0, dataOnlyCount = 0, dataControlCount = 0;
 
             // find the proc in the previously computed dependnencies
-            Analysis.Dependencies dataControlDeps = Analysis.ComputedDependencies[0].Single(pd => pd.Key.Name == proc.Name).Value;
-            Analysis.Dependencies dataOnlyDeps = Analysis.ComputedDependencies[1].Single(pd => pd.Key.Name == proc.Name).Value;
+            Dependencies dataControlDeps = Analysis.ComputedDependencies[0].Single(pd => pd.Key.Name == proc.Name).Value;
+            Dependencies dataOnlyDeps = Analysis.ComputedDependencies[1].Single(pd => pd.Key.Name == proc.Name).Value;
 
             foreach (var rfd in deps)
             {
@@ -436,7 +436,7 @@ namespace Dependency
             impl.Blocks.FirstOrDefault(b => b.Cmds.Count > 0 && (sourcefile = Utils.GetSourceFile(b.Cmds[0] as AssertCmd)) != null);
             Stats.Add(new Tuple<string, string, int, int, int>(sourcefile, proc.Name, dataControlCount, dataOnlyCount, refinedCount));
         }
-        private void AnalyzeDependencyWithUnsatCore(VCExpr programVC, Constant outConstant, Dependency.Analysis.Dependencies result, string procName)
+        private void AnalyzeDependencyWithUnsatCore(VCExpr programVC, Constant outConstant, Dependencies result, string procName)
         {
             #region Description of UNSAT core logic implemented below 
             /*
@@ -548,16 +548,16 @@ namespace Dependency
 
     public class RefineDependencyPerImplementation
     {
-
-        public RefineDependencyPerImplementation(Program prog, Implementation impl, 
-            Dictionary<Procedure, Dictionary<Variable, HashSet<Variable>>> currDependency,
-            Dictionary<Variable, Dictionary<Variable, HashSet<Variable>>> dataDependency,
+        public RefineDependencyPerImplementation(Program prog, Implementation impl,
+            Dictionary<Procedure, Dependencies> currDependencies, // Dependencies inherits from Dictionary<Variable, HashSet<Variable>>
+            Dictionary<Procedure, Dependencies> dataDependencies,
             int stackBound)
-        {
+        { 
             throw new NotImplementedException();
         }
 
-        public Dictionary<Procedure, Dictionary<Variable, HashSet<Variable>>> Run()
+        // returns the refined dependencies for the implementation
+        public Dictionary<Procedure, Dependencies> Run()
         {
             throw new NotImplementedException();
         }

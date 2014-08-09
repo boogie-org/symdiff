@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
+using Microsoft.Boogie.GraphUtil;
 using System.IO;
 using System.Diagnostics;
 
@@ -11,6 +12,7 @@ namespace Dependency
 {
     class Utils
     {
+
         public static List<object> GetAttributeVals(QKeyValue attributes, string key)
         {
             for (QKeyValue attr = attributes; attr != null; attr = attr.Next)
@@ -109,107 +111,11 @@ namespace Dependency
             return sourcefile;
         }
 
-
-        static public Dictionary<int, HashSet<Procedure>> BFS(Microsoft.Boogie.GraphUtil.Graph<Procedure> cg)
-        {
-            int level = 0;
-            HashSet<Procedure> todo = new HashSet<Procedure>(cg.Nodes);
-            Dictionary<int, HashSet<Procedure>> bfs = new Dictionary<int, HashSet<Procedure>>();
-
-            bfs[level] = new HashSet<Procedure>();
-            foreach (Procedure p in cg.Nodes.Where(p => cg.Predecessors(p).Count() == 0))
-                bfs[level].Add(p);
-
-            if (bfs[level].Count == 0)
-            { // no sources found
-                bfs[level] = todo;
-                return bfs;
-            }
-
-            while (todo.Count > 0)
-            {
-                if (bfs[level].Count == 0)
-                { // add remaining at last level
-                    bfs[level] = todo;
-                    return bfs;
-                }
-                bfs[level + 1] = new HashSet<Procedure>();
-                foreach (var p in bfs[level])
-                {
-                    foreach (var s in cg.Successors(p).Intersect(todo))
-                    {
-                        bfs[level + 1].Add(s);
-                    }
-                    todo.Remove(p);
-                }
-                level++;
-            }
-            return bfs;
-        }
-
-        static public List<Procedure> DFS(Microsoft.Boogie.GraphUtil.Graph<Procedure> cg)
-        {
-            HashSet<Procedure> todo = new HashSet<Procedure>(cg.Nodes);
-            List<Procedure> result = new List<Procedure>();
-
-            foreach (Procedure p in cg.Nodes.Where(p => cg.Predecessors(p).Count() == 0))
-            {
-                todo.Remove(p);
-                result.Add(p);
-            }
-
-            int curr = 0;
-            while (todo.Count > 0 && curr < result.Count)
-            {
-                foreach (var s in cg.Successors(result.ElementAt(curr)))
-                    if (todo.Contains(s))
-                    {
-                        result.Insert(curr + 1, s);
-                        todo.Remove(s);
-                    }
-                curr++;
-            }
-
-            if (todo.Count > 0)
-                result.AddRange(todo);
-
-            return result;
-        }
-
-        static public List<Procedure> BottomUp(Microsoft.Boogie.GraphUtil.Graph<Procedure> cg)
-        {
-            HashSet<Procedure> todo = new HashSet<Procedure>(cg.Nodes);
-            List<Procedure> result = new List<Procedure>();
-
-            foreach (Procedure p in cg.Nodes.Where(p => cg.Successors(p).Count() == 0))
-            {
-                todo.Remove(p);
-                result.Add(p);
-            }
-
-            int curr = 0;
-            while (todo.Count > 0 && curr < result.Count)
-            {
-                foreach (var p in cg.Predecessors(result.ElementAt(curr)))
-                    if (todo.Contains(p))
-                    {
-                        result.Add( p);
-                        todo.Remove(p);
-                    }
-                curr++;
-            }
-
-            if (todo.Count > 0)
-                result.AddRange(todo);
-
-            return result;
-        }
-
         public class StatisticsHelper
         {
-            List<Tuple<string, Procedure, Dependency.Analysis.Dependencies>> procDependencies = null;
+            List<Tuple<string, Procedure, Dependencies>> procDependencies = null;
 
-            public StatisticsHelper(List<Tuple<string, Procedure, Dependency.Analysis.Dependencies>> pd) 
+            public StatisticsHelper(List<Tuple<string, Procedure, Dependencies>> pd) 
             {
                 procDependencies = pd;
             }
@@ -380,18 +286,124 @@ namespace Dependency
             }
         }
 
-        public static Microsoft.Boogie.GraphUtil.Graph<Procedure> ComputeCallGraph(Program program)
-        {
-            Microsoft.Boogie.GraphUtil.Graph<Procedure> result = new Microsoft.Boogie.GraphUtil.Graph<Procedure>();
 
-            foreach (Implementation impl in program.TopLevelDeclarations.Where(x => x is Implementation))
+        static public class CallGraphHelper
+        {
+            static public Graph<Procedure> ComputeCallGraph(Program program)
             {
-                result.AddSource(impl.Proc);
-                foreach (var b in impl.Blocks)
-                    foreach (CallCmd c in b.Cmds.Where(c => c is CallCmd))
-                        result.AddEdge(impl.Proc, c.Proc);
+                Graph<Procedure> result = new Graph<Procedure>();
+
+                foreach (Implementation impl in program.TopLevelDeclarations.Where(x => x is Implementation))
+                {
+                    result.AddSource(impl.Proc);
+                    foreach (var b in impl.Blocks)
+                        foreach (CallCmd c in b.Cmds.Where(c => c is CallCmd))
+                            result.AddEdge(impl.Proc, c.Proc);
+                }
+                return result;
             }
-            return result;
+
+            static public Dictionary<int, HashSet<Procedure>> BFS(Graph<Procedure> cg)
+            {
+                int level = 0;
+                HashSet<Procedure> todo = new HashSet<Procedure>(cg.Nodes);
+                Dictionary<int, HashSet<Procedure>> bfs = new Dictionary<int, HashSet<Procedure>>();
+
+                bfs[level] = new HashSet<Procedure>();
+                foreach (Procedure p in cg.Nodes.Where(p => cg.Predecessors(p).Count() == 0))
+                    bfs[level].Add(p);
+
+                if (bfs[level].Count == 0)
+                { // no sources found
+                    bfs[level] = todo;
+                    return bfs;
+                }
+
+                while (todo.Count > 0)
+                {
+                    if (bfs[level].Count == 0)
+                    { // add remaining at last level
+                        bfs[level] = todo;
+                        return bfs;
+                    }
+                    bfs[level + 1] = new HashSet<Procedure>();
+                    foreach (var p in bfs[level])
+                    {
+                        foreach (var s in cg.Successors(p).Intersect(todo))
+                        {
+                            bfs[level + 1].Add(s);
+                        }
+                        todo.Remove(p);
+                    }
+                    level++;
+                }
+                return bfs;
+            }
+
+            static public List<Procedure> DFS(Graph<Procedure> cg)
+            {
+                HashSet<Procedure> todo = new HashSet<Procedure>(cg.Nodes);
+                List<Procedure> result = new List<Procedure>();
+
+                foreach (Procedure p in cg.Nodes.Where(p => cg.Predecessors(p).Count() == 0))
+                {
+                    todo.Remove(p);
+                    result.Add(p);
+                }
+
+                int curr = 0;
+                while (todo.Count > 0 && curr < result.Count)
+                {
+                    foreach (var s in cg.Successors(result.ElementAt(curr)))
+                        if (todo.Contains(s))
+                        {
+                            result.Insert(curr + 1, s);
+                            todo.Remove(s);
+                        }
+                    curr++;
+                }
+
+                if (todo.Count > 0)
+                    result.AddRange(todo);
+
+                return result;
+            }
+
+            static public List<Procedure> BottomUp(Graph<Procedure> cg)
+            {
+                HashSet<Procedure> todo = new HashSet<Procedure>(cg.Nodes);
+                List<Procedure> result = new List<Procedure>();
+
+                foreach (Procedure p in cg.Nodes.Where(p => cg.Successors(p).Count() == 0))
+                {
+                    todo.Remove(p);
+                    result.Add(p);
+                }
+
+                int curr = 0;
+                while (todo.Count > 0 && curr < result.Count)
+                {
+                    foreach (var p in cg.Predecessors(result.ElementAt(curr)))
+                        if (todo.Contains(p))
+                        {
+                            result.Add(p);
+                            todo.Remove(p);
+                        }
+                    curr++;
+                }
+
+                if (todo.Count > 0)
+                    result.AddRange(todo);
+
+                return result;
+            }
+
+            static public void WriteCallGraph(string filename, Graph<Procedure> callGraph)
+            {
+                TextWriter output = new StreamWriter(filename + ".dot");
+                output.Write(callGraph.ToDot(p => p.ToString() /*+ procDependencies[p].ToString()*/));
+                output.Close();
+            }
         }
 
 
@@ -403,8 +415,8 @@ namespace Dependency
         /// <param name="prog1"></param>
         /// <param name="prog2"></param>
         /// <returns></returns>
-        public static Dictionary<Procedure, Dictionary<Variable, HashSet<Variable>>>  ResolveDependenciesAcrossPrograms
-            (Dictionary<Procedure, Dictionary<Variable, HashSet<Variable>>> dependency,
+        public static Dictionary<Procedure, Dependencies>  ResolveDependenciesAcrossPrograms
+            (Dictionary<Procedure, Dependencies> dependencies,
             Program prog1,
             Program prog2)
         {
