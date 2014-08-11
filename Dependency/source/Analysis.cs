@@ -622,13 +622,15 @@ namespace Dependency
                 if (Refine)
                 {
                     var newProg = Utils.ReplicateProgram(program, filename);
-                    //TODO: resolve dependencies, callGraph, impl, etc from program -> newProg
+                    var newprocDependencies = Utils.ResolveDependenciesAcrossPrograms(procDependencies, program, newProg);
+                    
+                    // resolve dependencies, callGraph, impl, etc from program -> newProg
                     RefineDependencyPerImplementation refine = new RefineDependencyPerImplementation(newProg,
-                        nodeToImpl[node],
-                        procDependencies,
-                        new Dictionary<Procedure, Dependencies>(), // TODO: data dependencies are empty for now
+                        newProg.Implementations().Single(i => i.Proc.Name == proc.Name),
+                        newprocDependencies,
+                        new Dictionary<Procedure, Dependencies>(), // TODO: lower bound is empty for now
                         StackBound,
-                        null); //TODO: pass the resolved callgraph
+                        Utils.CallGraphHelper.ComputeCallGraph(newProg)); 
                     //TODO: resolve dependencies, callGraph, impl, etc from newProg -> program
                     var refinedDeps = Utils.ResolveDependenciesAcrossPrograms(refine.Run(), newProg, program);
 

@@ -75,7 +75,9 @@ namespace Dependency
             dataDepVisitor.Visit(prog);
             dataDepVisitor.Results();
 
-            prog.Implementations().Iter(impl => CreateCheckDependencyImpl(procDependencies, impl));
+            Declaration[] implementations = new Declaration[prog.TopLevelDeclarations.Count];
+            prog.TopLevelDeclarations.CopyTo(implementations);
+            implementations.Where(i => i is Implementation).Iter(i => CreateCheckDependencyImpl(procDependencies, i as Implementation, prog));
 
             ModSetCollector c = new ModSetCollector();
             c.DoModSetAnalysis(prog);
@@ -92,12 +94,12 @@ namespace Dependency
         }
 
         /// <summary>
-        /// Creates the CheckDependency implementation for "impl" only
+        /// Creates the CheckDependency implementation for "impl" only and adds to the program
         /// </summary>
         /// <param name="procDependencies"></param>
         /// <param name="newDecls"></param>
         /// <param name="impl"></param>
-        public Implementation CreateCheckDependencyImpl(Dictionary<Procedure, Dependencies> procDependencies, Implementation impl)
+        public Implementation CreateCheckDependencyImpl(Dictionary<Procedure, Dependencies> procDependencies, Implementation impl, Program program)
         {
             #region Description of created program structure
             /*
@@ -119,7 +121,7 @@ namespace Dependency
             var proc = impl.Proc;
             procDependencies[proc].Prune(impl);
             var readSet = procDependencies[proc].ReadSet();
-            var modSet = procDependencies[proc].ModSet();
+            var modSet = procDependencies[proc].ModSet().Where(m => procDependencies[proc][m].Count > 0); // only consider modified variables that do not depend on inputs\globals
             readSet.RemoveAll(x => x.Name == Analysis.NonDetVar.Name);
 
             //make any asserts/requires/ensures free
@@ -156,7 +158,7 @@ namespace Dependency
             newDecls.Add(refineProc);
             newDecls.Add(refineImpl);
 
-            prog.TopLevelDeclarations.AddRange(newDecls);
+            program.TopLevelDeclarations.AddRange(newDecls);
             return refineImpl;
         }
 
@@ -622,7 +624,7 @@ namespace Dependency
             if (potential == 0) return currDependencies;
 
             //TODO: refine to only add those outputs for which the curr\data != {}
-            var refineImpl = rp.CreateCheckDependencyImpl(currDependencies, impl);
+            var refineImpl = rp.CreateCheckDependencyImpl(currDependencies, impl, prog);
 
             //add callee ensures to procedure
             prog.TopLevelDeclarations.OfType<Procedure>().Iter
