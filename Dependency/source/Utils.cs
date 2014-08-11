@@ -413,15 +413,34 @@ namespace Dependency
         /// <summary>
         /// Utilities for looking up entities across programs
         /// </summary>
-        public class CrossProgramUtils
+        public static class CrossProgramUtils
         {
-            public static Declaration ResolveDeclarationAcrossPrograms(Declaration d, Program prog1, Program prog2)
+            //TODO: this does not account for non-globals (e.g. procedure params/returns/locals)
+            public static Declaration ResolveTopLevelDeclsAcrossPrograms(Declaration d, Program prog1, Program prog2)
             {
                 //TODO: do we have copies of NONDETVAR?
                 var ret = prog2.TopLevelDeclarations.Where(x => x.ToString() == d.ToString() && x.GetType() == d.GetType()).FirstOrDefault();
                 if (ret == null)
                     throw new Exception(string.Format("Unable to resolve symbol {0} of type {1} in prog2", d.ToString(), d.GetType()));
                 return ret;
+            }
+
+            public static Variable ResolveVariableDeclsAcrossPrograms(Variable v, Procedure proc2, Program prog1, Program prog2)
+            {
+                if (v is GlobalVariable) return (Variable) ResolveTopLevelDeclsAcrossPrograms(v, prog1, prog2);
+                var inp = (Variable)proc2.InParams.Where(x => x.Name == v.Name && x.TypedIdent.Type.ToString() == v.TypedIdent.Type.ToString()).FirstOrDefault();
+                if (inp != null) return inp;
+                var op = (Variable)proc2.OutParams.Where(x => x.Name == v.Name && x.TypedIdent.Type.ToString() == v.TypedIdent.Type.ToString()).FirstOrDefault();
+                if (op != null) return op;
+                Debug.Assert(v is LocalVariable);
+                var impl2 = prog2.TopLevelDeclarations.OfType<Implementation>().Where(x => x.Name == proc2.Name).FirstOrDefault();
+                if (impl2 == null)
+                    throw new Exception(string.Format("Unable to resolve impl {0} in prog2", proc2.Name));
+                var lv = impl2.LocVars.Where(x => x.Name == v.Name && x.TypedIdent.Type.ToString() == v.TypedIdent.Type.ToString()).FirstOrDefault();
+                if (lv == null)
+                    throw new Exception(string.Format("Unable to resolve local variable {0} of type {1} in impl {2} in prog2", 
+                        v.ToString(), v.GetType(), proc2.Name));
+                return lv;
             }
 
             /// <summary>
@@ -440,12 +459,12 @@ namespace Dependency
                 foreach (var kv in procDepends) //proc -> (Var -> {Var})
                 {
                     var proc = kv.Key;
-                    var newProc = (Procedure)ResolveDeclarationAcrossPrograms(proc, prog1, prog2);
+                    var newProc = (Procedure)ResolveTopLevelDeclsAcrossPrograms(proc, prog1, prog2);
                     var depends = new Dependencies();
                     foreach (var kv1 in kv.Value) //Var -> {Var}
                     {
-                        var variable = (Variable)ResolveDeclarationAcrossPrograms(kv1.Key, prog1, prog2);
-                        var deps = new HashSet<Variable>(kv1.Value.Select(x => (Variable)ResolveDeclarationAcrossPrograms(x, prog1, prog2)));
+                        var variable = ResolveVariableDeclsAcrossPrograms(kv1.Key, newProc, prog1, prog2);
+                        var deps = new HashSet<Variable>(kv1.Value.Select(x => ResolveVariableDeclsAcrossPrograms(x, newProc, prog1, prog2)));
                         depends[variable] = deps;
                     }
                     newProcDepends[newProc] = depends;
@@ -456,8 +475,10 @@ namespace Dependency
             static int replicateProgramCount = 0;
             public static Program ReplicateProgram(Program prog, string origFilename)
             {
-                var filename = origFilename + ".tmp." + (replicateProgramCount++) + ".bpl";
-                prog.Emit(new TokenTextWriter(filename, true));
+                var filename = origFilename + ".tmp." + (++replicateProgramCount) + ".bpl";
+                var tuo = new TokenTextWriter(filename, true);
+                prog.Emit(tuo);
+                tuo.Close();
                 //Parsing stuff
                 Program newProg;
                 if (!Utils.ParseProgram(filename, out newProg)) return null;

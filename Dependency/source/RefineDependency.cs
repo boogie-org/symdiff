@@ -619,9 +619,12 @@ namespace Dependency
 
             //check if ANY of the output has scope for refinement
             var depAll = currDependencies[impl.Proc];
-            var depData = dataDependencies[impl.Proc];
-            var potential = depAll.Keys.Where(x => depAll[x].Count() > depData[x].Count()).Count();
-            if (potential == 0) return currDependencies;
+            if (dataDependencies != null && dataDependencies.Count == 0)
+            {
+                var depData = dataDependencies[impl.Proc];
+                var potential = depAll.Keys.Where(x => depAll[x].Count() > depData[x].Count()).Count();
+                if (potential == 0) return currDependencies;
+            }
 
             //TODO: refine to only add those outputs for which the curr\data != {}
             var refineImpl = rp.CreateCheckDependencyImpl(currDependencies, impl, prog);
@@ -641,10 +644,12 @@ namespace Dependency
             currDependencies[impl.Proc] = newDepImpl; //update the dependecy for impl only
             return currDependencies;
         }
+        
         private void AddCalleeDependencySpecs(Procedure p, Dependencies dep)
         {
             foreach(Variable o in dep.Keys)
             {
+                if (o is LocalVariable) continue; //the dependency contains locals
                 var oDeps = dep[o].ToList();
                 if (oDeps.Find(x => x.Name == Analysis.NonDetVar.Name) != null) continue; 
                 Function oFunc = new Function(Token.NoToken, 

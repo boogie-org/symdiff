@@ -42,7 +42,7 @@ namespace Dependency
         static public bool PrintStats = false;
         static public bool DetStubs = false;
         static public bool Refine = false;
-        static public int StackBound;
+        static public int StackBound = 3;
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int, List<string>>> taintLog = new List<Tuple<string, string, int, List<string>>>();
@@ -624,9 +624,9 @@ namespace Dependency
                     var newProg = Utils.CrossProgramUtils.ReplicateProgram(program, filename);
                     // resolve dependencies, callGraph, impl, etc from program -> newProg
                     RefineDependencyPerImplementation refine = new RefineDependencyPerImplementation(newProg,
-                        (Implementation) Utils.CrossProgramUtils.ResolveDeclarationAcrossPrograms(nodeToImpl[node], program, newProg),
+                        (Implementation) Utils.CrossProgramUtils.ResolveTopLevelDeclsAcrossPrograms(nodeToImpl[node], program, newProg),
                         Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(procDependencies,program, newProg),
-                        new Dictionary<Procedure, Dependencies>(), // TODO: lower bound is empty for now
+                        null, // TODO: lower bound is empty for now, need to populate per procedure/per Variable
                         StackBound,
                         Utils.CallGraphHelper.ComputeCallGraph(newProg)); 
                     var refinedDeps = Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(refine.Run(), newProg, program);
