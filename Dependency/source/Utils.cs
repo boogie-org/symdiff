@@ -115,6 +115,7 @@ namespace Dependency
             return sourcefile;
         }
 
+
         public class StatisticsHelper
         {
             List<Tuple<string, Procedure, Dependencies>> procDependencies = null;
@@ -290,7 +291,6 @@ namespace Dependency
             }
         }
 
-
         static public class CallGraphHelper
         {
             static public Graph<Procedure> ComputeCallGraph(Program program)
@@ -410,94 +410,121 @@ namespace Dependency
             }
         }
 
+        /// <summary>
+        /// Utilities for looking up entities across programs
+        /// </summary>
+        public class CrossProgramUtils
+        {
+            public static Declaration ResolveDeclarationAcrossPrograms(Declaration d, Program prog1, Program prog2)
+            {
+                //TODO: do we have copies of NONDETVAR?
+                var ret = prog2.TopLevelDeclarations.Where(x => x.ToString() == d.ToString() && x.GetType() == d.GetType()).FirstOrDefault();
+                if (ret == null)
+                    throw new Exception(string.Format("Unable to resolve symbol {0} of type {1} in prog2", d.ToString(), d.GetType()));
+                return ret;
+            }
+
+            /// <summary>
+            /// Converts dependency over prog1 to dependecy over prog2
+            /// </summary>
+            /// <param name="dependency"></param>
+            /// <param name="prog1"></param>
+            /// <param name="prog2"></param>
+            /// <returns></returns>
+            public static Dictionary<Procedure, Dependencies> ResolveDependenciesAcrossPrograms
+                (Dictionary<Procedure, Dependencies> procDepends,
+                Program prog1,
+                Program prog2)
+            {
+                Dictionary<Procedure, Dependencies> newProcDepends = new Dictionary<Procedure, Dependencies>();
+                foreach (var kv in procDepends) //proc -> (Var -> {Var})
+                {
+                    var proc = kv.Key;
+                    var newProc = (Procedure)ResolveDeclarationAcrossPrograms(proc, prog1, prog2);
+                    var depends = new Dependencies();
+                    foreach (var kv1 in kv.Value) //Var -> {Var}
+                    {
+                        var variable = (Variable)ResolveDeclarationAcrossPrograms(kv1.Key, prog1, prog2);
+                        var deps = new HashSet<Variable>(kv1.Value.Select(x => (Variable)ResolveDeclarationAcrossPrograms(x, prog1, prog2)));
+                        depends[variable] = deps;
+                    }
+                    newProcDepends[newProc] = depends;
+                }
+                return newProcDepends;
+            }
+
+            static int replicateProgramCount = 0;
+            public static Program ReplicateProgram(Program prog, string origFilename)
+            {
+                var filename = origFilename + ".tmp." + (replicateProgramCount++) + ".bpl";
+                prog.Emit(new TokenTextWriter(filename, true));
+                //Parsing stuff
+                Program newProg;
+                if (!Utils.ParseProgram(filename, out newProg)) return null;
+                ModSetCollector c = new ModSetCollector();
+                c.DoModSetAnalysis(newProg);
+                return newProg;
+            }
+        }
 
 
         /// <summary>
-        /// Converts dependency over prog1 to dependecy over prog2
+        /// TODO: Copied from Rootcause, refactor 
         /// </summary>
-        /// <param name="dependency"></param>
-        /// <param name="prog1"></param>
-        /// <param name="prog2"></param>
-        /// <returns></returns>
-        public static Dictionary<Procedure, Dependencies>  ResolveDependenciesAcrossPrograms
-            (Dictionary<Procedure, Dependencies> dependencies,
-            Program prog1,
-            Program prog2)
+        public class BoogieInlineUtils
         {
-            throw new NotImplementedException();
-        }
-
-        static int replicateProgramCount = 0;
-        public static Program ReplicateProgram(Program prog, string origFilename)
-        {
-            var filename = origFilename + ".tmp." + (replicateProgramCount++) + ".bpl";
-            prog.Emit(new TokenTextWriter(filename, true));
-            //Parsing stuff
-            Program newProg;
-            if (!Utils.ParseProgram(filename, out newProg)) return null;
-            ModSetCollector c = new ModSetCollector();
-            c.DoModSetAnalysis(newProg);
-            return newProg;
-        }
-    }
-
-
-    /// <summary>
-    /// TODO: Copied from Rootcause, refactor 
-    /// </summary>
-    class BoogieInlineUtils
-    {
-        public static void Inline(Program program)
-        {
-            //perform inlining on the procedures
-            List<Declaration> impls = program.TopLevelDeclarations.FindAll(x => x is Implementation);
-            foreach (Implementation impl in impls)
+            public static void Inline(Program program)
             {
-                impl.OriginalBlocks = impl.Blocks;
-                impl.OriginalLocVars = impl.LocVars;
+                //perform inlining on the procedures
+                List<Declaration> impls = program.TopLevelDeclarations.FindAll(x => x is Implementation);
+                foreach (Implementation impl in impls)
+                {
+                    impl.OriginalBlocks = impl.Blocks;
+                    impl.OriginalLocVars = impl.LocVars;
+                }
+
+                foreach (Implementation impl in impls)
+                    Inliner.ProcessImplementation(program, impl);
+
+            }
+            public static bool IsInlinedProc(Procedure procedure)
+            {
+                return procedure != null && QKeyValue.FindIntAttribute(procedure.Attributes, RefineConsts.inlineAttribute, -1) != -1;
             }
 
-            foreach (Implementation impl in impls)
-                Inliner.ProcessImplementation(program, impl);
-
-        }
-        public static bool IsInlinedProc(Procedure procedure)
-        {
-            return procedure != null && QKeyValue.FindIntAttribute(procedure.Attributes, RefineConsts.inlineAttribute, -1) != -1;
-        }
-
-        /// <summary>
-        /// Adds {:inline "recursionDepth"} to all proceudres reachable within "bound" in "callGraph"
-        /// from "impl" in "prog"
-        /// Excludes impl
-        /// InlineAsSpec uses {:inline spec} instead of {:inline bound} which replaces leaves with a call instead of assume false
-        /// </summary>
-        /// <param name="prog"></param>
-        /// <param name="impl"></param>
-        /// <param name="bound"></param>
-        /// <param name="recursionDepth"></param>
-        public static void InlineUptoDepth(Program prog, Implementation impl, int bound, int recursionDepth, Graph<Procedure> callGraph,
-            bool inlineUsingSpec = false)
-        {
-            Dictionary<int, HashSet<Procedure>> reachableProcs = new Dictionary<int, HashSet<Procedure>>();
-            reachableProcs[0] = new HashSet<Procedure>() { impl.Proc };
-            
-            for (int i = 1; i < bound; ++i)
+            /// <summary>
+            /// Adds {:inline "recursionDepth"} to all proceudres reachable within "bound" in "callGraph"
+            /// from "impl" in "prog"
+            /// Excludes impl
+            /// InlineAsSpec uses {:inline spec} instead of {:inline bound} which replaces leaves with a call instead of assume false
+            /// </summary>
+            /// <param name="prog"></param>
+            /// <param name="impl"></param>
+            /// <param name="bound"></param>
+            /// <param name="recursionDepth"></param>
+            public static void InlineUptoDepth(Program prog, Implementation impl, int bound, int recursionDepth, Graph<Procedure> callGraph,
+                bool inlineUsingSpec = false)
             {
-                reachableProcs[i] = new HashSet<Procedure>();
-                reachableProcs[i - 1].Iter
-                    (p => callGraph.Successors(p).Iter(q => reachableProcs[i].Add(q)));
-            }
-            HashSet<Procedure> reachAll = new HashSet<Procedure>();
-            reachableProcs.Values
-                .Iter(
-                x => x.Iter(y => reachAll.Add(y))
-                );
-            reachAll.Remove(impl.Proc);
-            reachAll.Iter
-                (x =>  x.AddAttribute("inline", Expr.Literal(recursionDepth)));
-        }
+                Dictionary<int, HashSet<Procedure>> reachableProcs = new Dictionary<int, HashSet<Procedure>>();
+                reachableProcs[0] = new HashSet<Procedure>() { impl.Proc };
 
+                for (int i = 1; i < bound; ++i)
+                {
+                    reachableProcs[i] = new HashSet<Procedure>();
+                    reachableProcs[i - 1].Iter
+                        (p => callGraph.Successors(p).Iter(q => reachableProcs[i].Add(q)));
+                }
+                HashSet<Procedure> reachAll = new HashSet<Procedure>();
+                reachableProcs.Values
+                    .Iter(
+                    x => x.Iter(y => reachAll.Add(y))
+                    );
+                reachAll.Remove(impl.Proc);
+                reachAll.Iter
+                    (x => x.AddAttribute("inline", Expr.Literal(recursionDepth)));
+            }
+
+        }
     }
 
     //state related to VC generation that will be shared by different options
