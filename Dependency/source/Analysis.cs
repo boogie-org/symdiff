@@ -90,7 +90,7 @@ namespace Dependency
                 Debugger.Launch();
 
             if (args.Any(x => x.Contains(CmdLineOptsNames.semanticDep)))
-                (new RefineDependency((new RefineProgram(args[0])).Create())).Run();
+                (new RefineDependencyChecker((new RefineDependencyProgramCreator(args[0])).CreateCheckDependencyProgram())).Run();
             else if (changeList != null)
                 RunAnalysis(args[0], changeList);
             else
@@ -622,11 +622,14 @@ namespace Dependency
                 if (Refine)
                 {
                     var newProg = Utils.ReplicateProgram(program, filename);
+                    //TODO: resolve dependencies, callGraph, impl, etc from program -> newProg
                     RefineDependencyPerImplementation refine = new RefineDependencyPerImplementation(newProg,
                         nodeToImpl[node],
                         procDependencies,
                         new Dictionary<Procedure, Dependencies>(), // TODO: data dependencies are empty for now
-                        StackBound);
+                        StackBound,
+                        null); //TODO: pass the resolved callgraph
+                    //TODO: resolve dependencies, callGraph, impl, etc from newProg -> program
                     var refinedDeps = Utils.ResolveDependenciesAcrossPrograms(refine.Run(), newProg, program);
 
                     if (!(refinedDeps.Equals(procDependencies[proc])))

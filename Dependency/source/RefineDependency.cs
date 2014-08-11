@@ -28,7 +28,7 @@ namespace Dependency
         public const string checkDepAttribute = "checkDependency";
 
         public const string inlineAttribute = "inline";
-        public const int inlineDepth = 2; //1 is bad for loops as it doesn't enter the loop
+        public const int recursionDepth = 2; //1 is bad for loops as it doesn't enter the loop
 
         public const string readSetNamePrefix = "r";
         public const string modSetNamePrefix = "m";
@@ -37,31 +37,29 @@ namespace Dependency
         
     }
 
-    public class RefineProgram
+    public class RefineDependencyProgramCreator
     {
         Program prog;
         string filename;
 
-        public RefineProgram(string filename) { this.filename = filename; }
+        /// <summary>
+        /// Constructor when we only start with a file 
+        /// </summary>
+        /// <param name="filename"></param>
+        public RefineDependencyProgramCreator(string filename) { this.filename = filename; }
 
+        /// <summary>
+        /// Constructor when we have a program already
+        /// </summary>
+        /// <param name="prog"></param>
+        public RefineDependencyProgramCreator(Program prog) { this.prog = prog; filename = null; }
 
-        #region Description of created program structure
-        /*
-                Given P, R (=ReadSet), M (=ModSet)
-                CheckDependecy_P() return (EQ) Ensures BM => EQ {
-                  Havoc R
-                  R1 := R
-                  M1 = call P(R)
-                  Havoc R
-                  R2 := R
-                  M2 = call P(R)
-                  Assume BR => R1 == R2
-                  EQ := M1 == M2
-                  Return
-                }
-             */
-        #endregion
-        public string Create()
+        /// <summary>
+        /// This creates an entire program with CheckDependency for each procedure
+        /// It also creates the data and data+control dependencies
+        /// </summary>
+        /// <returns></returns>
+        public string CreateCheckDependencyProgram()
         {
             if (!Utils.ParseProgram(filename, out prog)) return null;
 
@@ -77,49 +75,7 @@ namespace Dependency
             dataDepVisitor.Visit(prog);
             dataDepVisitor.Results();
 
-            List<Declaration> newDecls = new List<Declaration>();
-            foreach (var impl in prog.Implementations())
-            {
-                var proc = impl.Proc;
-                procDependencies[proc].Prune(impl);
-                var readSet = procDependencies[proc].ReadSet();
-                var modSet = procDependencies[proc].ModSet();
-                readSet.Remove(Analysis.NonDetVar);
-
-                //make any asserts/requires/ensures free
-                proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
-                proc.Ensures  = proc.Ensures.Select(x => new Ensures(true, x.Condition)).ToList();
-                (new Utils.RemoveAsserts()).Visit(impl);
-
-                // add inline attribute to the original proc and impl
-                if (QKeyValue.FindExprAttribute(proc.Attributes, RefineConsts.inlineAttribute) == null)
-                    proc.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(RefineConsts.inlineDepth));
-                //if (QKeyValue.FindExprAttribute(impl.Attributes, RefineConsts.inlineAttribute) == null)
-                //    impl.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(2));
-                //Debug.Assert(QKeyValue.FindBoolAttribute(proc.Attributes, RefineConsts.inlineAttribute));
-                var procName = proc.Name;
-
-                // create input guards
-                var inputGuards = CreateInputGuards(readSet, procName);
-                newDecls.AddRange(inputGuards);    
-
-                // create output guards
-                var outputGuards = CreateOutputGuards(modSet, procName);
-                newDecls.AddRange(outputGuards);
-
-                // create prototype
-                List<Variable> equivOutParams;
-                List<Ensures> equivEnsures;
-                var refineProc = CreateProtoype(modSet, procName, outputGuards, out equivOutParams, out equivEnsures);
-
-                // create implementation
-                var refineImpl = CreateImplementation(proc, readSet, modSet, procName, inputGuards, equivOutParams);
-                refineImpl.Proc = refineProc;
-
-                newDecls.Add(refineProc);
-                newDecls.Add(refineImpl);
-            }
-            prog.TopLevelDeclarations.AddRange(newDecls);
+            prog.Implementations().Iter(impl => CreateCheckDependencyImpl(procDependencies, impl));
 
             ModSetCollector c = new ModSetCollector();
             c.DoModSetAnalysis(prog);
@@ -133,6 +89,75 @@ namespace Dependency
             tuo.Close();
 
             return newFilename;
+        }
+
+        /// <summary>
+        /// Creates the CheckDependency implementation for "impl" only
+        /// </summary>
+        /// <param name="procDependencies"></param>
+        /// <param name="newDecls"></param>
+        /// <param name="impl"></param>
+        public Implementation CreateCheckDependencyImpl(Dictionary<Procedure, Dependencies> procDependencies, Implementation impl)
+        {
+            #region Description of created program structure
+            /*
+                Given P, R (=ReadSet), M (=ModSet)
+                CheckDependecy_P() return (EQ) Ensures BM => EQ {
+                  Havoc R
+                  R1 := R
+                  M1 = call P(R)
+                  Havoc R
+                  R2 := R
+                  M2 = call P(R)
+                  Assume BR => R1 == R2
+                  EQ := M1 == M2
+                  Return
+                }
+             */
+            #endregion
+
+            var proc = impl.Proc;
+            procDependencies[proc].Prune(impl);
+            var readSet = procDependencies[proc].ReadSet();
+            var modSet = procDependencies[proc].ModSet();
+            readSet.RemoveAll(x => x.Name == Analysis.NonDetVar.Name);
+
+            //make any asserts/requires/ensures free
+            proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
+            proc.Ensures = proc.Ensures.Select(x => new Ensures(true, x.Condition)).ToList();
+            (new Utils.RemoveAsserts()).Visit(impl);
+
+            // add inline attribute to the original proc and impl
+            if (QKeyValue.FindExprAttribute(proc.Attributes, RefineConsts.inlineAttribute) == null)
+                proc.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(RefineConsts.recursionDepth));
+            //if (QKeyValue.FindExprAttribute(impl.Attributes, RefineConsts.inlineAttribute) == null)
+            //    impl.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(2));
+            //Debug.Assert(QKeyValue.FindBoolAttribute(proc.Attributes, RefineConsts.inlineAttribute));
+            var procName = proc.Name;
+
+            var newDecls = new List<Declaration>();
+            // create input guards
+            var inputGuards = CreateInputGuards(readSet, procName);
+            newDecls.AddRange(inputGuards);
+
+            // create output guards
+            var outputGuards = CreateOutputGuards(modSet, procName);
+            newDecls.AddRange(outputGuards);
+
+            // create prototype
+            List<Variable> equivOutParams;
+            List<Ensures> equivEnsures;
+            var refineProc = CreateProtoype(modSet, procName, outputGuards, out equivOutParams, out equivEnsures);
+
+            // create implementation
+            var refineImpl = CreateImplementation(proc, readSet, modSet, procName, inputGuards, equivOutParams);
+            refineImpl.Proc = refineProc;
+
+            newDecls.Add(refineProc);
+            newDecls.Add(refineImpl);
+
+            prog.TopLevelDeclarations.AddRange(newDecls);
+            return refineImpl;
         }
 
         private static Implementation CreateImplementation(Procedure proc, List<Variable> readSet, List<Variable> modSet, string procName, List<Constant> inputGuards, List<Variable> equivOutParams)
@@ -345,17 +370,21 @@ namespace Dependency
         }
     }
 
-    // TODO: use RefineConsts instead of magic strings
-    public class RefineDependency
+    /// <summary>
+    /// All logic related to calling prover for dependency should be in this class
+    /// Should be as stateless as possible
+    /// </summary>
+    public class RefineDependencyChecker
     {
-        Program prog, origProg;
+        Program prog, origProg; //TODO: get rid of origProg
         string filename;
         List<Constant> inputGuardConsts, outputGuardConsts;
         List<Tuple<string, string, int, int, int>> Stats = new List<Tuple<string, string, int, int, int>>();
 
-        public RefineDependency(string filename) { this.filename = filename; }
-        public void Run()
+        public RefineDependencyChecker(string filename)
         {
+            this.filename = filename;
+
             //Parsing stuff
             if (!Utils.ParseProgram(filename, out prog)) return;
             ModSetCollector c = new ModSetCollector();
@@ -363,9 +392,17 @@ namespace Dependency
 
             // needed for printing TODO: this is a hack...
             Utils.ParseProgram(filename, out origProg);
+        }
 
-            //inline all the procedures
-            BoogieUtils.Inline(prog);
+        public RefineDependencyChecker(Program prog) { this.prog = prog; this.filename = null; origProg = null; }
+
+        /// <summary>
+        /// Expect the inline attributes to be setup before this call
+        /// </summary>
+        public void Run()
+        {
+            //inline all the implementtions
+            BoogieInlineUtils.Inline(prog);
 
             //create a VC
             prog.TopLevelDeclarations.OfType<Implementation>()
@@ -373,11 +410,11 @@ namespace Dependency
                 .Iter(x => Analyze(x));
             
             // print statistics
-            Utils.StatisticsHelper.GenerateCSVOutputForSemDep(Stats, filename + ".csv");
+            Utils.StatisticsHelper.GenerateCSVOutputForSemDep(Stats, filename + ".csv"); 
         }
-        private void Analyze(Implementation impl)
+        public Dependencies Analyze(Implementation impl)
         {
-            var origProcName = impl.Proc.Name.Replace(RefineConsts.refinedProcNamePrefix, "");
+            var origProcName = impl.Proc.Name.Replace(RefineConsts.refinedProcNamePrefix, ""); //TODO: no string manipulation please!!
             //get the procedure's guard constants
             inputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
                 .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.readSetGuradAttribute).Exists(p => (p as string) == origProcName))
@@ -403,11 +440,14 @@ namespace Dependency
             outputGuardConsts.Iter(x => AnalyzeDependencyWithUnsatCore(programVC, x, deps, origProcName));
             Console.WriteLine("]");
             VC.FinalizeVCGen(prog);
+
+
+            //TODO: remove this state and computeStats
             Implementation origImpl = (Implementation)origProg.TopLevelDeclarations.Single(d => d is Implementation && ((Implementation)d).Name == origProcName);
             Dependency.Analysis.PopulateDependencyLog(origImpl, deps, "Refined Dependencies");
-
             ComputeStats(origImpl, deps);
 
+            return deps;
         }
 
         private void ComputeStats(Implementation impl, Dependencies deps)
@@ -548,131 +588,76 @@ namespace Dependency
 
     public class RefineDependencyPerImplementation
     {
+
+        Program prog;
+        Implementation impl;
+        Dictionary<Procedure, Dependencies> currDependencies;
+        Dictionary<Procedure, Dependencies> dataDependencies;
+        int stackBound;
+        Graph<Procedure> callGraph;
+
         public RefineDependencyPerImplementation(Program prog, Implementation impl,
             Dictionary<Procedure, Dependencies> currDependencies, // Dependencies inherits from Dictionary<Variable, HashSet<Variable>>
             Dictionary<Procedure, Dependencies> dataDependencies,
-            int stackBound)
-        { 
-            throw new NotImplementedException();
+            int stackBound,
+            Graph<Procedure> callGraph)
+        {
+            this.prog = prog;
+            this.impl = impl;
+            this.currDependencies = currDependencies;
+            this.dataDependencies = dataDependencies;
+            this.stackBound = stackBound;
+            this.callGraph = callGraph;
         }
 
         // returns the refined dependencies for the implementation
         public Dictionary<Procedure, Dependencies> Run()
         {
-            throw new NotImplementedException();
+            var rp = new RefineDependencyProgramCreator(prog);
+
+            //check if ANY of the output has scope for refinement
+            var depAll = currDependencies[impl.Proc];
+            var depData = dataDependencies[impl.Proc];
+            var potential = depAll.Keys.Where(x => depAll[x].Count() > depData[x].Count()).Count();
+            if (potential == 0) return currDependencies;
+
+            //TODO: refine to only add those outputs for which the curr\data != {}
+            var refineImpl = rp.CreateCheckDependencyImpl(currDependencies, impl);
+
+            //add callee ensures to procedure
+            prog.TopLevelDeclarations.OfType<Procedure>().Iter
+                (p => AddCalleeDependencySpecs(p, currDependencies[p]));
+            //setup inline attributes for inline upto depth k
+            callGraph.AddEdge(refineImpl.Proc, impl.Proc);
+            BoogieInlineUtils.InlineUptoDepth(prog, refineImpl, stackBound, RefineConsts.recursionDepth, callGraph);
+
+            var rdc = new RefineDependencyChecker(prog);
+            var newDepImpl = rdc.Analyze(refineImpl);
+
+            currDependencies[impl.Proc] = newDepImpl; //update the dependecy for impl only
+            return currDependencies;
         }
+        private void AddCalleeDependencySpecs(Procedure p, Dependencies dep)
+        {
+            foreach(Variable o in dep.Keys)
+            {
+                var oDeps = dep[o].ToList();
+                if (oDeps.Find(x => x.Name == Analysis.NonDetVar.Name) != null) continue; 
+                Function oFunc = new Function(Token.NoToken, 
+                    "FunctionOf__" + p.Name + "_" + o.Name,
+                    oDeps,
+                    o);
+                prog.TopLevelDeclarations.Add(oFunc);
+                var callFunc = new FunctionCall(oFunc);
+                var argsFunc = oDeps.Select(x => (Expr) Expr.Ident(x)).ToList();
+                p.Ensures.Add(new Ensures(true, new NAryExpr(new Token(), callFunc, argsFunc)));
+            }
+        }
+
     }
 
     
-    /// <summary>
-    /// TODO: Copied from Rootcause, refactor 
-    /// </summary>
-    class BoogieUtils
-    {
-        public static void Inline(Program program)
-        {
-            //perform inlining on the procedures
-            List<Declaration> impls = program.TopLevelDeclarations.FindAll(x => x is Implementation);
-            foreach (Implementation impl in impls)
-            {
-                impl.OriginalBlocks = impl.Blocks;
-                impl.OriginalLocVars = impl.LocVars;
-            }
-
-            foreach (Implementation impl in impls)
-                Inliner.ProcessImplementation(program, impl);
-
-        }
-        public static bool IsInlinedProc(Procedure procedure)
-        {
-            return procedure != null && QKeyValue.FindIntAttribute(procedure.Attributes, RefineConsts.inlineAttribute, -1) != -1;
-        }
-    }
-
-    //state related to VC generation that will be shared by different options
-    /// <summary>
-    /// TODO: Copied from Rootcause, refactor
-    /// </summary>
-    static class VC
-    {
-        /* vcgen related state */
-        static public VCGen vcgen;
-        static public ProverInterface proverInterface;
-        static public ProverInterface.ErrorHandler handler;
-        static public ConditionGeneration.CounterexampleCollector collector;
-        static public Boogie2VCExprTranslator translator;
-        static public VCExpressionGenerator exprGen;
-
-        #region Utilities for calling the verifier
-        public static void InitializeVCGen(Program prog)
-        {
-            //create VC.vcgen/VC.proverInterface
-            VC.vcgen = new VCGen(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend, null);
-            VC.proverInterface = ProverInterface.CreateProver(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend, CommandLineOptions.Clo.ProverKillTime);
-            VC.translator = VC.proverInterface.Context.BoogieExprTranslator;
-            VC.exprGen = VC.proverInterface.Context.ExprGen;
-            VC.collector = new ConditionGeneration.CounterexampleCollector();
-        }
-        public static ProverInterface.Outcome VerifyVC(string descriptiveName, VCExpr vc, out List<Counterexample> cex)
-        {
-            VC.collector.examples.Clear(); //reset the cexs
-            //Use MyBeginCheck instead of BeginCheck as it is inconsistent with CheckAssumptions's Push/Pop of declarations
-            ProverInterface.Outcome proverOutcome;
-            //proverOutcome = MyBeginCheck(descriptiveName, vc, VC.handler); //Crashes now
-            VC.proverInterface.BeginCheck(descriptiveName, vc, VC.handler);
-            proverOutcome = VC.proverInterface.CheckOutcome(VC.handler);
-            cex = VC.collector.examples;
-            return proverOutcome;
-        }
-
-        public static void FinalizeVCGen(Program prog)
-        {
-            VC.collector = null;
-        }
-
-        public static ProverInterface.Outcome MyBeginCheck(string descriptiveName, VCExpr vc, ProverInterface.ErrorHandler handler)
-        {
-            VC.proverInterface.Push();
-            VC.proverInterface.Assert(vc, true);
-            VC.proverInterface.Check();
-            var outcome = VC.proverInterface.CheckOutcomeCore(VC.handler);
-            VC.proverInterface.Pop();
-            return outcome;
-        }
-        public static VCExpr GenerateVC(Program prog, Implementation impl)
-        {
-            VC.vcgen.ConvertCFG2DAG(impl);
-            ModelViewInfo mvInfo;
-            var /*TransferCmd->ReturnCmd*/ gotoCmdOrigins = VC.vcgen.PassifyImpl(impl, out mvInfo);
-
-            var exprGen = VC.proverInterface.Context.ExprGen;
-            //VCExpr controlFlowVariableExpr = null; 
-            VCExpr controlFlowVariableExpr = CommandLineOptions.Clo.UseLabels ? null : VC.exprGen.Integer(BigNum.ZERO);
-
-
-            Dictionary<int, Absy> label2absy;
-            var vc = VC.vcgen.GenerateVC(impl, controlFlowVariableExpr, out label2absy, VC.proverInterface.Context);
-            if (!CommandLineOptions.Clo.UseLabels)
-            {
-                VCExpr controlFlowFunctionAppl = VC.exprGen.ControlFlowFunctionApplication(VC.exprGen.Integer(BigNum.ZERO), VC.exprGen.Integer(BigNum.ZERO));
-                VCExpr eqExpr = VC.exprGen.Eq(controlFlowFunctionAppl, VC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
-                vc = VC.exprGen.Implies(eqExpr, vc);
-            }
-
-            if (CommandLineOptions.Clo.vcVariety == CommandLineOptions.VCVariety.Local)
-            {
-                VC.handler = new VCGen.ErrorReporterLocal(gotoCmdOrigins, label2absy, impl.Blocks, VC.vcgen.incarnationOriginMap, VC.collector, mvInfo, VC.proverInterface.Context, prog);
-            }
-            else
-            {
-                VC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, VC.vcgen.incarnationOriginMap, VC.collector, mvInfo, VC.proverInterface.Context, prog);
-            }
-            return vc;
-        }
-        #endregion
-
-    }
-
+  
 
 
 }
