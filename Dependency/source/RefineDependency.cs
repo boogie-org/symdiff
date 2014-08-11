@@ -632,6 +632,8 @@ namespace Dependency
             BoogieInlineUtils.InlineUptoDepth(prog, refineImpl, stackBound, RefineConsts.recursionDepth, callGraph);
 
             var rdc = new RefineDependencyChecker(prog);
+            //inline all the implementations before calling Analyze
+            BoogieInlineUtils.Inline(prog);
             var newDepImpl = rdc.Analyze(refineImpl);
 
             currDependencies[impl.Proc] = newDepImpl; //update the dependecy for impl only
