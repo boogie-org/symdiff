@@ -402,7 +402,7 @@ namespace Dependency
         public void Run()
         {
             //inline all the implementtions
-            BoogieInlineUtils.Inline(prog);
+            Utils.BoogieInlineUtils.Inline(prog);
 
             //create a VC
             prog.TopLevelDeclarations.OfType<Implementation>()
@@ -629,11 +629,11 @@ namespace Dependency
                 (p => AddCalleeDependencySpecs(p, currDependencies[p]));
             //setup inline attributes for inline upto depth k
             callGraph.AddEdge(refineImpl.Proc, impl.Proc);
-            BoogieInlineUtils.InlineUptoDepth(prog, refineImpl, stackBound, RefineConsts.recursionDepth, callGraph);
+            Utils.BoogieInlineUtils.InlineUptoDepth(prog, refineImpl, stackBound, RefineConsts.recursionDepth, callGraph);
 
             var rdc = new RefineDependencyChecker(prog);
             //inline all the implementations before calling Analyze
-            BoogieInlineUtils.Inline(prog);
+            Utils.BoogieInlineUtils.Inline(prog);
             var newDepImpl = rdc.Analyze(refineImpl);
 
             currDependencies[impl.Proc] = newDepImpl; //update the dependecy for impl only
