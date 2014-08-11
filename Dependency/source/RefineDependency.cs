@@ -121,7 +121,7 @@ namespace Dependency
             var proc = impl.Proc;
             procDependencies[proc].Prune(impl);
             var readSet = procDependencies[proc].ReadSet();
-            var modSet = procDependencies[proc].ModSet().Where(m => procDependencies[proc][m].Count > 0); // only consider modified variables that do not depend on inputs\globals
+            var modSet = new List<Variable>(procDependencies[proc].ModSet().Where(m => procDependencies[proc][m].Count > 0)); // only consider modified variables that do not depend on inputs\globals
             readSet.RemoveAll(x => x.Name == Analysis.NonDetVar.Name);
 
             //make any asserts/requires/ensures free
