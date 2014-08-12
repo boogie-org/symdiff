@@ -67,6 +67,7 @@ namespace Dependency
             CommandLineOptions.Clo.UseUnsatCoreForContractInfer = true; //ROHIT
             CommandLineOptions.Clo.ContractInfer = true; //ROHIT
 
+            #region Command line parsing 
             statsFile = args[0] + ".csv";
 
             string changeList = null;
@@ -90,6 +91,7 @@ namespace Dependency
 
             if (args.Any(x => x.Contains(CmdLineOptsNames.debug)))
                 Debugger.Launch();
+            #endregion 
 
             var filename = args[0];
             if (!Utils.ParseProgram(filename, out program))
@@ -97,7 +99,7 @@ namespace Dependency
                 Usage();
                 return -1;
             }
-            ModSetCollector c = new ModSetCollector();
+            ModSetCollector c = new ModSetCollector(); //TODO: fold it with ParseProgram
             c.DoModSetAnalysis(program);
 
             if (SemanticDep)
@@ -122,6 +124,7 @@ namespace Dependency
                 RunAnalysis(filename, program);
             }
 
+            #region Display and Log
             var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog);
             displayHtml.GenerateHtmlOutput(filename + ".html");
             Console.WriteLine("Output generated in " + filename + ".html");
@@ -137,7 +140,7 @@ namespace Dependency
                     Console.WriteLine("Statistics generated in " + statsFile);
                 }
             }
-
+            #endregion
             return 0;
         }
 
@@ -149,7 +152,7 @@ namespace Dependency
 
             foreach (var rfd in refinedDeps)
             {
-                if (rfd.Value.Contains(Utils.VariableUtils.NonDetVar)) // ignore vars which depend on *
+                if (rfd.Value.Contains(Utils.VariableUtils.NonDetVar)) //TODO: compare based on string // ignore vars which depend on *
                     continue;
 
                 refinedCount += rfd.Value.Count;

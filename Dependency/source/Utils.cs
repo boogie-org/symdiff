@@ -441,6 +441,8 @@ namespace Dependency
             public static Declaration ResolveTopLevelDeclsAcrossPrograms(Declaration d, Program prog1, Program prog2)
             {
                 //TODO: do we have copies of NONDETVAR?
+                if (d == Utils.VariableUtils.NonDetVar)
+                    return d;
                 var ret = prog2.TopLevelDeclarations.Where(x => x.ToString() == d.ToString() && x.GetType() == d.GetType()).FirstOrDefault();
                 if (ret == null)
                     throw new Exception(string.Format("Unable to resolve symbol {0} of type {1} in prog2", d.ToString(), d.GetType()));

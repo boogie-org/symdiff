@@ -72,6 +72,10 @@ namespace Dependency
             prog.Resolve();
             prog.Typecheck();
 
+            var tuo = new TokenTextWriter("tmp.bpl", true);
+            prog.Emit(tuo);
+            tuo.Close();
+
             return prog;
         }
 
@@ -141,6 +145,11 @@ namespace Dependency
             newDecls.Add(refineImpl);
 
             program.TopLevelDeclarations.AddRange(newDecls);
+
+            var tuo = new TokenTextWriter(impl.Name +"_tmp.bpl", true);
+            program.Emit(tuo);
+            tuo.Close();
+
             return refineImpl;
         }
 
@@ -304,7 +313,7 @@ namespace Dependency
             foreach (var m in modSet)
             {
                 var og = new Constant(Token.NoToken, new TypedIdent(new Token(), procName + "_" + RefineConsts.modSetGuardName + "_" + m, Microsoft.Boogie.Type.Bool), false);
-                string[] vals = { procName ,m.Name };
+                object[] vals = { procName , Expr.Ident(m) }; /* string, expr */
                 og.AddAttribute(RefineConsts.modSetGuradAttribute, vals);
                 outputGuards.Add(og);
             }
@@ -317,10 +326,8 @@ namespace Dependency
             foreach (var r in readSet)
             {
                 var ig = new Constant(Token.NoToken, new TypedIdent(new Token(), procName + "_" + RefineConsts.readSetGuardName + "_" + r, Microsoft.Boogie.Type.Bool), false);
-                string[] vals = { procName, r.Name };
+                object[] vals = { procName, Expr.Ident(r)}; /* string, expr */
                 ig.AddAttribute(RefineConsts.readSetGuradAttribute, vals);
-                Debug.Assert(Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute).Contains(procName.Clone()));
-                Debug.Assert(Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute).Exists(p => (p as string) == r.Name));
                 inputGuards.Add(ig);
             }
             return inputGuards;
@@ -438,9 +445,15 @@ namespace Dependency
             preOut = VC.exprGen.And(preOut, VC.translator.LookupVariable(outConstant));
             var newVC = VC.exprGen.Implies(preOut, programVC);
 
-            string varName = (string)Utils.GetAttributeVals(outConstant.Attributes, RefineConsts.modSetGuradAttribute)[1];
-            Variable v = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, varName, Microsoft.Boogie.Type.Int));
-            result[v] = new HashSet<Variable>();
+            //TODO: Really really ugly way to get to the Variable in the guardOutput
+            var vexpr = (Expr) Utils.GetAttributeVals(outConstant.Attributes, RefineConsts.modSetGuradAttribute)[1];
+            var vident = vexpr as IdentifierExpr;
+            if (vident == null)
+                throw new Exception(string.Format("Illegal variable expression {0} in {1} attribute", vexpr, RefineConsts.modSetGuardName));
+            GSet<object> freeVars = new GSet<object>();
+            vident.ComputeFreeVariables(freeVars);
+            Variable v = (Variable)freeVars.Choose();
+            result[v] = new HashSet<Variable>(); //TODO: need a variable in place of v
 
             //check for validity (presence of all input eq implies output is equal)
             var outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
@@ -505,18 +518,25 @@ namespace Dependency
                 outConstant,
                 string.Join(",", core));
 
+            //TODO: THIS HAS TO GO AWAY with proper variables!!!
             foreach (var ig in inputGuardConsts)
             {
-                string name = null;
+                Variable var = null;
                 if (core.Contains(VC.translator.LookupVariable(ig)))
-                    name = (string)Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute)[1];
-                else if (core.Select(c => c.ToString()).Contains(ig.ToString()))
-                    name = ig.Name.Replace(procName + "_" + RefineConsts.readSetGuardName + "_", "");
-
-                if (name != null) { 
-                    var d = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, Microsoft.Boogie.Type.Int));
-                    result[v].Add(d);
+                {
+                    //TODO: really really ugly
+                    IdentifierExpr iexpr = (IdentifierExpr) Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute)[1];
+                    GSet<object> freeVars1 = new GSet<object>();
+                    iexpr.ComputeFreeVariables(freeVars1);
+                    result[v].Add((Variable) freeVars.Choose());
                 }
+                //else if (core.Select(c => c.ToString()).Contains(ig.ToString()))
+                //    name = ig.Name.Replace(procName + "_" + RefineConsts.readSetGuardName + "_", "");
+
+                //if (name != null) { 
+                //    var d = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, Microsoft.Boogie.Type.Int));
+                //    result[v].Add(d);
+                //}
             }
             
         }
@@ -565,12 +585,17 @@ namespace Dependency
             }
 
             var refineImpl = RefineDependencyProgramCreator.CreateCheckDependencyImpl(currDependencies, impl, prog);
-            currDependencies[refineImpl.Proc] = new Dependencies();
+            ModSetCollector c = new ModSetCollector();
+            c.DoModSetAnalysis(prog);
 
             //add callee ensures to procedure
             Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count];
             prog.TopLevelDeclarations.CopyTo(decls); // a copy is needed since AddCalleeDependencySpecs changes prog.TopLevelDeclarations
-            decls.OfType<Procedure>().Iter(p => AddCalleeDependencySpecs(p, currDependencies[p]));
+            decls.OfType<Procedure>().Iter(p =>
+                { 
+                    if (currDependencies.ContainsKey(p)) //the CheckDependency does not have currDependencies
+                        AddCalleeDependencySpecs(p, currDependencies[p]); 
+                });
             //setup inline attributes for inline upto depth k
             callGraph.AddEdge(refineImpl.Proc, impl.Proc);
             Utils.BoogieInlineUtils.InlineUptoDepth(prog, refineImpl, stackBound, RefineConsts.recursionDepth, callGraph);
@@ -588,16 +613,17 @@ namespace Dependency
             foreach(Variable o in dep.Keys)
             {
                 if (o is LocalVariable) continue; //the dependency contains locals
-                var oDeps = dep[o].ToList();
-                if (oDeps.Find(x => x.Name == Utils.VariableUtils.NonDetVar.Name) != null) continue; 
+                var oDeps = dep[o].Select(x => (Variable) new Formal(Token.NoToken, x.TypedIdent, false)).ToList();
+                if (dep[o].Where(x => x.Name == Utils.VariableUtils.NonDetVar.Name).Count() != 0) continue; 
                 Function oFunc = new Function(Token.NoToken, 
                     "FunctionOf__" + p.Name + "_" + o.Name,
                     oDeps,
-                    o);
+                    new Formal(Token.NoToken, o.TypedIdent, false));
                 prog.TopLevelDeclarations.Add(oFunc);
                 var callFunc = new FunctionCall(oFunc);
-                var argsFunc = oDeps.Select(x => (Expr) Expr.Ident(x)).ToList();
-                p.Ensures.Add(new Ensures(true, new NAryExpr(new Token(), callFunc, argsFunc)));
+                var argsFunc = dep[o].Select(x => (Expr) Expr.Ident(x)).ToList();
+                var ens = Expr.Eq(Expr.Ident(o), new OldExpr(Token.NoToken, new NAryExpr(new Token(), callFunc, argsFunc)));
+                p.Ensures.Add(new Ensures(true, ens));
             }
         }
 
