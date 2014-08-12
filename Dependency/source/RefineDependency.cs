@@ -194,7 +194,8 @@ namespace Dependency
                 equivOutParams,
                 locals,
                 body);
-            refineImpl.AddAttribute(RefineConsts.checkDepAttribute);
+            string[] vals = {procName};
+            refineImpl.AddAttribute(RefineConsts.checkDepAttribute,vals);
             return refineImpl;
         }
 
@@ -291,7 +292,8 @@ namespace Dependency
                 new List<Requires>(),
                 new List<IdentifierExpr>(),
                 equivEnsures);
-            refineProc.AddAttribute(RefineConsts.checkDepAttribute);
+            string[] vals = {procName};
+            refineProc.AddAttribute(RefineConsts.checkDepAttribute,vals);
             return refineProc;
         }
 
@@ -371,16 +373,14 @@ namespace Dependency
             Dictionary<Procedure, Dependencies> result = new Dictionary<Procedure, Dependencies>();
             //create a VC
             prog.TopLevelDeclarations.OfType<Implementation>()
-                .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, RefineConsts.checkDepAttribute))
+                .Where(x => QKeyValue.FindStringAttribute(x.Attributes, RefineConsts.checkDepAttribute) != null)
                 .Iter(x => result[x.Proc] = Analyze(prog, x));
 
             return result;
         }
         public static Dependencies Analyze(Program prog, Implementation impl)
         {
-            string origProcName = null;
-            // TODO: not sure if this is better, but we need the original procedure somehow
-            impl.Blocks.Iter(b => { b.Cmds.Iter(c => { if (c is CallCmd) { origProcName = (c as CallCmd).Proc.Name; return; } }); if (origProcName != null) return; });
+            string origProcName = impl.FindStringAttribute(RefineConsts.checkDepAttribute);
             //get the procedure's guard constants
             var inputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
                 .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.readSetGuradAttribute).Exists(p => (p as string) == origProcName))
