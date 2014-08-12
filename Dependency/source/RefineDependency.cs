@@ -525,7 +525,7 @@ namespace Dependency
                     IdentifierExpr iexpr = (IdentifierExpr) Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute)[1];
                     GSet<object> freeVars1 = new GSet<object>();
                     iexpr.ComputeFreeVariables(freeVars1);
-                    result[v].Add((Variable) freeVars.Choose());
+                    result[v].Add((Variable) freeVars1.Choose());
                 }
             }
             Console.WriteLine("\t Dependency of {0} = <{1}>",
