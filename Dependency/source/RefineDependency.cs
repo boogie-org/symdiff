@@ -104,7 +104,7 @@ namespace Dependency
             procDependencies[proc].Prune(impl);
             var readSet = procDependencies[proc].ReadSet();
             var modSet = procDependencies[proc].ModSet();
-            readSet.RemoveAll(x => x.Name == Utils.NonDetVar.Name);
+            readSet.RemoveAll(x => x.Name == Utils.VariableUtils.NonDetVar.Name);
 
             //make any asserts/requires/ensures free
             proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
@@ -448,7 +448,7 @@ namespace Dependency
             if (outcome == ProverInterface.Outcome.Invalid)
             {
                 Console.WriteLine("\t VC not valid, returning");
-                result[v].Add(Utils.NonDetVar);
+                result[v].Add(Utils.VariableUtils.NonDetVar);
                 Console.WriteLine("\t Dependency of {0} =  <*>", outConstant);
                 return;
             }
@@ -457,7 +457,7 @@ namespace Dependency
                 outcome == ProverInterface.Outcome.Undetermined)
             {
                 Console.WriteLine("\t VC inconclusive, returning");
-                result[v].Add(Utils.NonDetVar);
+                result[v].Add(Utils.VariableUtils.NonDetVar);
                 Console.WriteLine("\t Dependency of {0} =  <->", outConstant);
                 return;
             }
@@ -589,7 +589,7 @@ namespace Dependency
             {
                 if (o is LocalVariable) continue; //the dependency contains locals
                 var oDeps = dep[o].ToList();
-                if (oDeps.Find(x => x.Name == Utils.NonDetVar.Name) != null) continue; 
+                if (oDeps.Find(x => x.Name == Utils.VariableUtils.NonDetVar.Name) != null) continue; 
                 Function oFunc = new Function(Token.NoToken, 
                     "FunctionOf__" + p.Name + "_" + o.Name,
                     oDeps,

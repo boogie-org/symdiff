@@ -36,6 +36,7 @@ namespace Dependency
         static public bool PrintStats = false;
         static public bool DetStubs = false;
         static public bool Refine = false;
+        public static bool SemanticDep = false;
         static public int StackBound = 3;
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
@@ -47,6 +48,7 @@ namespace Dependency
         static private List<Tuple<string, string, int, int, int>> comparativeStats = new List<Tuple<string, string, int, int, int>>();
 
         static private Program program;
+        
 
         static int Main(string[] args)
         {
@@ -80,6 +82,8 @@ namespace Dependency
             args.Where(x => x.StartsWith(CmdLineOptsNames.stats + ":"))
                 .Iter(s => statsFile = s.Split(':')[1]);
 
+            SemanticDep = args.Any(x => x.Contains(CmdLineOptsNames.semanticDep));
+
             Refine = args.Any(x => x == CmdLineOptsNames.refine || x.StartsWith(CmdLineOptsNames.refine + ":"));
             args.Where(x => x.StartsWith(CmdLineOptsNames.refine + ":"))
                 .Iter(s => StackBound = int.Parse(s.Split(':')[1]));
@@ -96,7 +100,7 @@ namespace Dependency
             ModSetCollector c = new ModSetCollector();
             c.DoModSetAnalysis(program);
 
-            if (args.Any(x => x.Contains(CmdLineOptsNames.semanticDep)))
+            if (SemanticDep)
             {
 
                 var refined = RefineDependencyProgramCreator.CreateCheckDependencyProgram(filename, program);
@@ -105,20 +109,17 @@ namespace Dependency
                 foreach (var pd in procDeps)
                 {
                     string origProcName = pd.Key.FindStringAttribute(RefineConsts.checkDepAttribute);
-                    var impl = program.Implementations().Single(i => i.Name == origProcName); // TODO: this is also string manipulation, but how else?
+                    var impl = program.Implementations().Single(i => i.Name == origProcName); 
                     PopulateDependencyLog(impl, pd.Value, "Refined Dependencies");
                     //ComputeStats(impl, pd.Value, depVisitor.procDependencies[impl.Proc], dataDepVisitor.procDependencies[impl.Proc]);
                 }
                 
-                // print statistics
-                Utils.StatisticsHelper.GenerateCSVOutputForSemDep(comparativeStats, filename + ".csv"); 
             }
             else 
             {
                 if (changeList != null)
                     PopulateChangeLog(changeList);
                 RunAnalysis(filename, program);
-                // TODO: separate the printing\statistics part from RunAnalysis and put it here
             }
 
             var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog);
@@ -127,9 +128,14 @@ namespace Dependency
 
             if (PrintStats)
             {
-                var statsHelper = new Utils.StatisticsHelper(statsLog);
-                statsHelper.GenerateCSVOutput(statsFile);
-                Console.WriteLine("Statistics generated in " + statsFile);
+                if (SemanticDep)
+                    Utils.StatisticsHelper.GenerateCSVOutputForSemDep(comparativeStats, filename + ".csv");
+                else
+                {
+                    var statsHelper = new Utils.StatisticsHelper(statsLog);
+                    statsHelper.GenerateCSVOutput(statsFile);
+                    Console.WriteLine("Statistics generated in " + statsFile);
+                }
             }
 
             return 0;
@@ -143,7 +149,7 @@ namespace Dependency
 
             foreach (var rfd in refinedDeps)
             {
-                if (rfd.Value.Contains(Utils.NonDetVar)) // ignore vars which depend on *
+                if (rfd.Value.Contains(Utils.VariableUtils.NonDetVar)) // ignore vars which depend on *
                     continue;
 
                 refinedCount += rfd.Value.Count;
@@ -222,10 +228,8 @@ namespace Dependency
             statsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.GetImplSourceFile(impl), impl.Proc, dependencies));
         }
 
-        private static int RunAnalysis(string filename, Program program, bool taintAll = false)
+        private static void RunAnalysis(string filename, Program program, bool taintAll = false)
         {
-            Console.WriteLine("Running Analysis for {0}", filename);
-
             var visitor = new DependencyVisitor(filename, program, false, DetStubs, Refine, StackBound);
             visitor.Visit(program);
             visitor.Results(Prune,PrintStats);
@@ -237,8 +241,6 @@ namespace Dependency
                 dataDepVisitor.Visit(program);
                 dataDepVisitor.Results(Prune, PrintStats);
             }
-
-            return 0;
         }
 
         private static void Usage()

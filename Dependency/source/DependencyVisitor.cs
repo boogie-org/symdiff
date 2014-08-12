@@ -111,7 +111,7 @@ namespace Dependency
             foreach (var v in node.Vars.Select(x => x.Decl))
             {
                 dependencies[v] = new HashSet<Variable>();
-                dependencies[v].Add(Utils.NonDetVar);
+                dependencies[v].Add(Utils.VariableUtils.NonDetVar);
 
                 InferDominatorDependency(currBlock, dependencies[v], v);
             }
@@ -134,7 +134,7 @@ namespace Dependency
                 foreach (var succ in succs)
                 {
                     AssumeCmd cmd = (AssumeCmd)succ.Cmds[0];
-                    var varExtractor = new Utils.VariableExtractor();
+                    var varExtractor = new Utils.VariableUtils.VariableExtractor();
                     varExtractor.Visit(cmd.Expr);
                     branchCondVars[currBlock].UnionWith(varExtractor.vars);
                 }
@@ -154,11 +154,11 @@ namespace Dependency
             for (int i = 0; i < node.Lhss.Count; ++i)
             {
                 Expr lhs = node.Lhss[i].AsExpr, rhs = node.Rhss[i];
-                var varExtractor = new Utils.VariableExtractor();
+                var varExtractor = new Utils.VariableUtils.VariableExtractor();
                 varExtractor.Visit(lhs);
                 Variable left = varExtractor.vars.First(); // TODO: stuff like: Mem_T.INT4[in_prio] := out_tempBoogie0
 
-                varExtractor = new Utils.VariableExtractor();
+                varExtractor = new Utils.VariableUtils.VariableExtractor();
                 varExtractor.Visit(rhs);
                 var rhsVars = varExtractor.vars;
 
@@ -242,7 +242,7 @@ namespace Dependency
                 {   // all outputs depend on all inputs
                     procDependencies[callee][v] = new HashSet<Variable>(callee.InParams);
                     if (!detStubs)
-                        procDependencies[callee][v].Add(Utils.NonDetVar); // and on *
+                        procDependencies[callee][v].Add(Utils.VariableUtils.NonDetVar); // and on *
                 }
             }
 
@@ -260,7 +260,7 @@ namespace Dependency
             var inputExpressionsDependency = new List<HashSet<Variable>>();
             foreach (var inExpr in node.Ins)
             {
-                var varExtractor = new Utils.VariableExtractor();
+                var varExtractor = new Utils.VariableUtils.VariableExtractor();
                 varExtractor.Visit(inExpr);
                 inputExpressionsDependency.Add(new HashSet<Variable>());
                 int current = inputExpressionsDependency.Count - 1;

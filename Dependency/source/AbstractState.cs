@@ -72,7 +72,7 @@ namespace Dependency
                 // fix the dependencies such that instead of the Implementation outputs
                 // it will adhere to the Procedure outputs
                 if (impl.OutParams.Contains(v))
-                    result.Add(Utils.ImplOutputToProcOutput(impl, v));
+                    result.Add(Utils.VariableUtils.ImplOutputToProcOutput(impl, v));
                 else
                     result.Add(v);
             }
@@ -213,10 +213,10 @@ namespace Dependency
                 // it will adhere to the Procedure inputs\outputs
                 if (impl.OutParams.Contains(v))
                 {
-                    var fv = Utils.ImplOutputToProcOutput(impl, v);
+                    var fv = Utils.VariableUtils.ImplOutputToProcOutput(impl, v);
                     if (!result.ContainsKey(fv))
                         result[fv] = new HashSet<Variable>();
-                    result[fv].UnionWith(Utils.ImplInputsToProcInputs(impl, dependency.Value));
+                    result[fv].UnionWith(Utils.VariableUtils.ImplInputsToProcInputs(impl, dependency.Value));
                 }
                 else
                 {
@@ -237,7 +237,7 @@ namespace Dependency
                 var v = dependency.Key;
                 // leave only globals and formal outputs
                 if (v is GlobalVariable || proc.OutParams.Contains(v))
-                    result.Add(v, Utils.ImplInputsToProcInputs(impl, dependency.Value));
+                    result.Add(v, Utils.VariableUtils.ImplInputsToProcInputs(impl, dependency.Value));
             }
             Clear();
             JoinWith(result);
