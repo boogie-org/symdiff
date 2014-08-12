@@ -83,14 +83,12 @@ namespace Dependency
     public class Dependencies : Dictionary<Variable, HashSet<Variable>>, IAbstractState
     {
         public Dependencies() : base() { }
+
         // this is a deep copy, since we keep sets in the dictionary
         public Dependencies(Dependencies d)
             : base(d)
         {
-            foreach (var v in d.Keys)
-            {
-                this[v] = new HashSet<Variable>(d[v]);
-            }
+            d.Keys.Iter(v => this[v] = new HashSet<Variable>(d[v]));
         }
 
         public IAbstractState Clone()
@@ -101,14 +99,13 @@ namespace Dependency
         public List<Variable> ReadSet()
         {
             HashSet<Variable> result = new HashSet<Variable>();
-            foreach (var d in this.Values)
-                result.UnionWith(d);
+            Values.Iter(d => result.UnionWith(d));
             return new List<Variable>(result);
         }
 
         public List<Variable> ModSet()
         {
-            return new List<Variable>(Keys);
+            return new List<Variable>(Keys.Where(m => this[m].Count > 0));
         }
 
         public override string ToString()

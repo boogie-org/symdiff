@@ -19,7 +19,7 @@ namespace Dependency
     {
         static public GlobalVariable NonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
         static private HashSet<Procedure> taintedProcs = new HashSet<Procedure>();
-        static private Graph<Procedure> callGraph = new Graph<Procedure>();
+        static private Program program;
 
         static public List<Dictionary<Procedure, Dependencies>> ComputedDependencies = new List<Dictionary<Procedure, Dependencies>>();
 
@@ -49,7 +49,8 @@ namespace Dependency
         static private List<Tuple<string, string, int, string>> dependenciesLog = new List<Tuple<string, string, int, string>>();
         static private string statsFile;
 
-        static public List<Tuple<string, Procedure, Dependencies>> StatsLog = new List<Tuple<string, Procedure, Dependencies>>();
+        static private List<Tuple<string, Procedure, Dependencies>> statsLog = new List<Tuple<string, Procedure, Dependencies>>();
+        static private List<Tuple<string, string, int, int, int>> comparativeStats = new List<Tuple<string, string, int, int, int>>();
         static int Main(string[] args)
         {
             if (args.Length < 1)
@@ -89,12 +90,36 @@ namespace Dependency
             if (args.Any(x => x.Contains(CmdLineOptsNames.debug)))
                 Debugger.Launch();
 
+            if (!Utils.ParseProgram(args[0], out program))
+            {
+                Usage();
+                return -1;
+            }
+            ModSetCollector c = new ModSetCollector();
+            c.DoModSetAnalysis(program);
+
             if (args.Any(x => x.Contains(CmdLineOptsNames.semanticDep)))
-                (new RefineDependencyChecker((new RefineDependencyProgramCreator(args[0])).CreateCheckDependencyProgram())).Run();
-            else if (changeList != null)
-                RunAnalysis(args[0], changeList);
-            else
-                RunAnalysis(args[0], null);
+            {
+                var refined = RefineDependencyProgramCreator.CreateCheckDependencyProgram(args[0], program);
+                var procDeps = RefineDependencyChecker.Run(refined);
+
+                foreach (var pd in procDeps)
+                {
+                    var impl = program.Implementations().Single(i => pd.Key.Name.Contains(i.Name)); // TODO: this is also string manipulation, but how else?
+                    PopulateDependencyLog(impl, pd.Value, "Refined Dependencies");
+                    ComputeStats(impl, pd.Value);
+                }
+                
+                // print statistics
+                Utils.StatisticsHelper.GenerateCSVOutputForSemDep(comparativeStats, args[0] + ".csv"); 
+            }
+            else 
+            {
+                if (changeList != null)
+                    PopulateChangeLog(changeList);
+                RunAnalysis(args[0], program);
+                // TODO: separate the printing\statistics part from RunAnalysis and put it here
+            }
 
             var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog);
             displayHtml.GenerateHtmlOutput(args[0] + ".html");
@@ -102,16 +127,39 @@ namespace Dependency
 
             if (PrintStats)
             {
-                var statsHelper = new Utils.StatisticsHelper(StatsLog);
+                var statsHelper = new Utils.StatisticsHelper(statsLog);
                 statsHelper.GenerateCSVOutput(statsFile);
                 Console.WriteLine("Statistics generated in " + statsFile);
             }
 
-            TextWriter output = new StreamWriter(args[0] + ".dot");
-            output.Write(callGraph.ToDot(p => p.ToString() /*+ procDependencies[p].ToString()*/));
-            output.Close();
-
             return 0;
+        }
+
+        private static void ComputeStats(Implementation impl, Dependencies deps)
+        {
+
+            var proc = impl.Proc;
+            int refinedCount = 0, dataOnlyCount = 0, dataControlCount = 0;
+
+            // find the proc in the previously computed dependnencies
+            Dependencies dataControlDeps = Analysis.ComputedDependencies[0].Single(pd => pd.Key.Name == proc.Name).Value;
+            Dependencies dataOnlyDeps = Analysis.ComputedDependencies[1].Single(pd => pd.Key.Name == proc.Name).Value;
+
+            foreach (var rfd in deps)
+            {
+                if (rfd.Value.Contains(Analysis.NonDetVar)) // ignore vars which depend on *
+                    continue;
+
+                refinedCount += rfd.Value.Count;
+
+                // find the current variable dependnecy set in the previously computed
+                dataControlCount += dataControlDeps.Single(cdd => cdd.Key.Name == rfd.Key.Name).Value.Count;
+                dataOnlyCount += dataOnlyDeps.Single(dod => dod.Key.Name == rfd.Key.Name).Value.Count;
+            }
+
+            string sourcefile = null;
+            impl.Blocks.FirstOrDefault(b => b.Cmds.Count > 0 && (sourcefile = Utils.GetSourceFile(b.Cmds[0] as AssertCmd)) != null);
+            comparativeStats.Add(new Tuple<string, string, int, int, int>(sourcefile, proc.Name, dataControlCount, dataOnlyCount, refinedCount));
         }
 
         // TODO: add a option for marking an entire function as tainted. maybe by adding a line like: funcname,-1 to the changelist
@@ -173,18 +221,9 @@ namespace Dependency
                 taintLog.Add(t.Value);
         }
 
-        private static int RunAnalysis(string filename, string changelist, bool taintAll = false)
+        private static int RunAnalysis(string filename, Program program, bool taintAll = false)
         {
             Console.WriteLine("Running Analysis for {0}", filename);
-            Program program;
-            if (!Utils.ParseProgram(filename, out program)) return -1;
-
-            if (!taintAll)
-                PopulateChangeLog(changelist);
-
-            // collect Modifies for all procedures
-            ModSetCollector c = new ModSetCollector();
-            c.DoModSetAnalysis(program);
 
             var visitor = new DependencyTaintVisitor(filename,program);
             visitor.Visit(program);
@@ -624,9 +663,9 @@ namespace Dependency
                     var newProg = Utils.CrossProgramUtils.ReplicateProgram(program, filename);
                     // resolve dependencies, callGraph, impl, etc from program -> newProg
                     RefineDependencyPerImplementation refine = new RefineDependencyPerImplementation(newProg,
-                        (Implementation) Utils.CrossProgramUtils.ResolveTopLevelDeclsAcrossPrograms(nodeToImpl[node], program, newProg),
+                        (Implementation)Utils.CrossProgramUtils.ResolveTopLevelDeclsAcrossPrograms(nodeToImpl[node], program, newProg),
                         Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(procDependencies,program, newProg),
-                        null, // TODO: lower bound is empty for now, need to populate per procedure/per Variable
+                        Utils.BaseDependencies(newProg), // TODO: lower bound is empty for now, need to populate per procedure/per Variable
                         StackBound,
                         Utils.CallGraphHelper.ComputeCallGraph(newProg)); 
                     var refinedDeps = Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(refine.Run(), newProg, program);
@@ -666,7 +705,7 @@ namespace Dependency
                     PopulateDependencyLog(impl, procDependencies[proc], DataOnly ? "Data Only" : "Data and Control");
 
                     if (PrintStats)
-                        StatsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.GetImplSourceFile(impl), proc, procDependencies[proc]));
+                        statsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.GetImplSourceFile(impl), proc, procDependencies[proc]));
 
                 }
                 ComputedDependencies.Add(procDependencies);

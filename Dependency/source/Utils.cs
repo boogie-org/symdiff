@@ -115,6 +115,23 @@ namespace Dependency
             return sourcefile;
         }
 
+        public static Dictionary<Procedure, Dependencies> BaseDependencies(Program prog)
+        {
+            Dictionary<Procedure, Dependencies> result = new Dictionary<Procedure, Dependencies>();
+            foreach (var proc in prog.TopLevelDeclarations.OfType<Procedure>())
+            {
+                result[proc] = new Dependencies();
+                proc.Modifies.Iter(m => result[proc][m.Decl] = new HashSet<Variable>());
+            }
+            return result;
+        }
+
+        public static void JoinProcDependencies(Dictionary<Procedure, Dependencies> lhs, Dictionary<Procedure, Dependencies> rhs)
+        {
+            lhs.Keys.Iter(p => { if (rhs.ContainsKey(p)) lhs[p].JoinWith(rhs[p]); });
+            rhs.Keys.Iter(p => { if (!lhs.ContainsKey(p)) lhs[p] = rhs[p]; });
+        }
+
 
         public class StatisticsHelper
         {

@@ -39,29 +39,14 @@ namespace Dependency
 
     public class RefineDependencyProgramCreator
     {
-        Program prog;
-        string filename;
-
-        /// <summary>
-        /// Constructor when we only start with a file 
-        /// </summary>
-        /// <param name="filename"></param>
-        public RefineDependencyProgramCreator(string filename) { this.filename = filename; }
-
-        /// <summary>
-        /// Constructor when we have a program already
-        /// </summary>
-        /// <param name="prog"></param>
-        public RefineDependencyProgramCreator(Program prog) { this.prog = prog; filename = null; }
-
         /// <summary>
         /// This creates an entire program with CheckDependency for each procedure
         /// It also creates the data and data+control dependencies
         /// </summary>
         /// <returns></returns>
-        public string CreateCheckDependencyProgram()
+        public static Program CreateCheckDependencyProgram(string filename, Program prog)
         {
-            if (!Utils.ParseProgram(filename, out prog)) return null;
+            prog = Utils.CrossProgramUtils.ReplicateProgram(prog, filename);
 
             var depVisitor = new Analysis.DependencyTaintVisitor(filename,prog);
             depVisitor.Visit(prog);
@@ -74,10 +59,11 @@ namespace Dependency
             Analysis.DataOnly = true;
             dataDepVisitor.Visit(prog);
             dataDepVisitor.Results();
+           
 
-            Declaration[] implementations = new Declaration[prog.TopLevelDeclarations.Count];
-            prog.TopLevelDeclarations.CopyTo(implementations);
-            implementations.Where(i => i is Implementation).Iter(i => CreateCheckDependencyImpl(procDependencies, i as Implementation, prog));
+            Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count];
+            prog.TopLevelDeclarations.CopyTo(decls);
+            decls.Where(i => i is Implementation).Iter(i => CreateCheckDependencyImpl(procDependencies, i as Implementation, prog));
 
             ModSetCollector c = new ModSetCollector();
             c.DoModSetAnalysis(prog);
@@ -85,12 +71,7 @@ namespace Dependency
             prog.Resolve();
             prog.Typecheck();
 
-            var newFilename = (filename.EndsWith(".bpl") ? filename.Substring(0,filename.Length - ".bpl".Length) : filename) + RefineConsts.refineProgramNamePostfix;
-            var tuo = new TokenTextWriter(newFilename, true);
-            prog.Emit(tuo);
-            tuo.Close();
-
-            return newFilename;
+            return prog;
         }
 
         /// <summary>
@@ -99,7 +80,7 @@ namespace Dependency
         /// <param name="procDependencies"></param>
         /// <param name="newDecls"></param>
         /// <param name="impl"></param>
-        public Implementation CreateCheckDependencyImpl(Dictionary<Procedure, Dependencies> procDependencies, Implementation impl, Program program)
+        public static Implementation CreateCheckDependencyImpl(Dictionary<Procedure, Dependencies> procDependencies, Implementation impl, Program program)
         {
             #region Description of created program structure
             /*
@@ -121,7 +102,7 @@ namespace Dependency
             var proc = impl.Proc;
             procDependencies[proc].Prune(impl);
             var readSet = procDependencies[proc].ReadSet();
-            var modSet = new List<Variable>(procDependencies[proc].ModSet().Where(m => procDependencies[proc][m].Count > 0)); // only consider modified variables that do not depend on inputs\globals
+            var modSet = procDependencies[proc].ModSet();
             readSet.RemoveAll(x => x.Name == Analysis.NonDetVar.Name);
 
             //make any asserts/requires/ensures free
@@ -378,50 +359,33 @@ namespace Dependency
     /// </summary>
     public class RefineDependencyChecker
     {
-        Program prog, origProg; //TODO: get rid of origProg
-        string filename;
-        List<Constant> inputGuardConsts, outputGuardConsts;
-        List<Tuple<string, string, int, int, int>> Stats = new List<Tuple<string, string, int, int, int>>();
-
-        public RefineDependencyChecker(string filename)
-        {
-            this.filename = filename;
-
-            //Parsing stuff
-            if (!Utils.ParseProgram(filename, out prog)) return;
-            ModSetCollector c = new ModSetCollector();
-            c.DoModSetAnalysis(prog);
-
-            // needed for printing TODO: this is a hack...
-            Utils.ParseProgram(filename, out origProg);
-        }
-
-        public RefineDependencyChecker(Program prog) { this.prog = prog; this.filename = null; origProg = null; }
 
         /// <summary>
         /// Expect the inline attributes to be setup before this call
         /// </summary>
-        public void Run()
+        public static Dictionary<Procedure, Dependencies> Run(Program prog)
         {
             //inline all the implementtions
             Utils.BoogieInlineUtils.Inline(prog);
 
+            Dictionary<Procedure, Dependencies> result = new Dictionary<Procedure, Dependencies>();
             //create a VC
             prog.TopLevelDeclarations.OfType<Implementation>()
                 .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, RefineConsts.checkDepAttribute))
-                .Iter(x => Analyze(x));
-            
-            // print statistics
-            Utils.StatisticsHelper.GenerateCSVOutputForSemDep(Stats, filename + ".csv"); 
+                .Iter(x => result[x.Proc] = Analyze(prog, x));
+
+            return result;
         }
-        public Dependencies Analyze(Implementation impl)
+        public static Dependencies Analyze(Program prog, Implementation impl)
         {
-            var origProcName = impl.Proc.Name.Replace(RefineConsts.refinedProcNamePrefix, ""); //TODO: no string manipulation please!!
+            string origProcName = null;
+            // TODO: not sure if this is better, but we need the original procedure somehow
+            impl.Blocks.Iter(b => { b.Cmds.Iter(c => { if (c is CallCmd) { origProcName = (c as CallCmd).Proc.Name; return; } }); if (origProcName != null) return; });
             //get the procedure's guard constants
-            inputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
+            var inputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
                 .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.readSetGuradAttribute).Exists(p => (p as string) == origProcName))
                 .ToList();
-            outputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
+            var outputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
                 .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.modSetGuradAttribute).Exists(p => (p as string)  == origProcName))
                 .ToList();
 
@@ -439,46 +403,15 @@ namespace Dependency
             //Analyze using UNSAT cores for each output
             Dependencies deps = new Dependencies();
             Console.WriteLine("RefinedDependency[{0}] = [", origProcName);
-            outputGuardConsts.Iter(x => AnalyzeDependencyWithUnsatCore(programVC, x, deps, origProcName));
+            outputGuardConsts.Iter(x => AnalyzeDependencyWithUnsatCore(programVC, x, deps, origProcName, inputGuardConsts, outputGuardConsts));
             Console.WriteLine("]");
             VC.FinalizeVCGen(prog);
-
-
-            //TODO: remove this state and computeStats
-            Implementation origImpl = (Implementation)origProg.TopLevelDeclarations.Single(d => d is Implementation && ((Implementation)d).Name == origProcName);
-            Dependency.Analysis.PopulateDependencyLog(origImpl, deps, "Refined Dependencies");
-            ComputeStats(origImpl, deps);
 
             return deps;
         }
 
-        private void ComputeStats(Implementation impl, Dependencies deps)
-        {
-            
-            var proc = impl.Proc;
-            int refinedCount = 0, dataOnlyCount = 0, dataControlCount = 0;
 
-            // find the proc in the previously computed dependnencies
-            Dependencies dataControlDeps = Analysis.ComputedDependencies[0].Single(pd => pd.Key.Name == proc.Name).Value;
-            Dependencies dataOnlyDeps = Analysis.ComputedDependencies[1].Single(pd => pd.Key.Name == proc.Name).Value;
-
-            foreach (var rfd in deps)
-            {
-                if (rfd.Value.Contains(Analysis.NonDetVar)) // ignore vars which depend on *
-                    continue;
-
-                refinedCount += rfd.Value.Count;
-
-                // find the current variable dependnecy set in the previously computed
-                dataControlCount += dataControlDeps.Single(cdd => cdd.Key.Name == rfd.Key.Name).Value.Count;
-                dataOnlyCount += dataOnlyDeps.Single(dod => dod.Key.Name == rfd.Key.Name).Value.Count;
-            }
-
-            string sourcefile = null;
-            impl.Blocks.FirstOrDefault(b => b.Cmds.Count > 0 && (sourcefile = Utils.GetSourceFile(b.Cmds[0] as AssertCmd)) != null);
-            Stats.Add(new Tuple<string, string, int, int, int>(sourcefile, proc.Name, dataControlCount, dataOnlyCount, refinedCount));
-        }
-        private void AnalyzeDependencyWithUnsatCore(VCExpr programVC, Constant outConstant, Dependencies result, string procName)
+        private static void AnalyzeDependencyWithUnsatCore(VCExpr programVC, Constant outConstant, Dependencies result, string procName, List<Constant> inputGuardConsts, List<Constant> outputGuardConsts)
         {
             #region Description of UNSAT core logic implemented below 
             /*
@@ -610,13 +543,17 @@ namespace Dependency
             this.dataDependencies = dataDependencies;
             this.stackBound = stackBound;
             this.callGraph = callGraph;
+
+            // complete the missing variables in the dependencies
+            var bd = Utils.BaseDependencies(prog);
+            Utils.JoinProcDependencies(currDependencies, bd);
+            Utils.JoinProcDependencies(dataDependencies, bd);
+
         }
 
         // returns the refined dependencies for the implementation
         public Dictionary<Procedure, Dependencies> Run()
         {
-            var rp = new RefineDependencyProgramCreator(prog);
-
             //check if ANY of the output has scope for refinement
             var depAll = currDependencies[impl.Proc];
             if (dataDependencies != null && dataDependencies.Count == 0)
@@ -626,20 +563,20 @@ namespace Dependency
                 if (potential == 0) return currDependencies;
             }
 
-            //TODO: refine to only add those outputs for which the curr\data != {}
-            var refineImpl = rp.CreateCheckDependencyImpl(currDependencies, impl, prog);
+            var refineImpl = RefineDependencyProgramCreator.CreateCheckDependencyImpl(currDependencies, impl, prog);
+            currDependencies[refineImpl.Proc] = new Dependencies();
 
             //add callee ensures to procedure
-            prog.TopLevelDeclarations.OfType<Procedure>().Iter
-                (p => AddCalleeDependencySpecs(p, currDependencies[p]));
+            Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count];
+            prog.TopLevelDeclarations.CopyTo(decls); // a copy is needed since AddCalleeDependencySpecs changes prog.TopLevelDeclarations
+            decls.OfType<Procedure>().Iter(p => AddCalleeDependencySpecs(p, currDependencies[p]));
             //setup inline attributes for inline upto depth k
             callGraph.AddEdge(refineImpl.Proc, impl.Proc);
             Utils.BoogieInlineUtils.InlineUptoDepth(prog, refineImpl, stackBound, RefineConsts.recursionDepth, callGraph);
 
-            var rdc = new RefineDependencyChecker(prog);
             //inline all the implementations before calling Analyze
             Utils.BoogieInlineUtils.Inline(prog);
-            var newDepImpl = rdc.Analyze(refineImpl);
+            var newDepImpl = RefineDependencyChecker.Analyze(prog,refineImpl);
 
             currDependencies[impl.Proc] = newDepImpl; //update the dependecy for impl only
             return currDependencies;
