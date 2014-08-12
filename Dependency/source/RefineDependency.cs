@@ -514,10 +514,7 @@ namespace Dependency
                     }
                 });
 
-            Console.WriteLine("\t Dependency of {0} = <{1}>",
-                outConstant,
-                string.Join(",", core));
-
+ 
             //TODO: THIS HAS TO GO AWAY with proper variables!!!
             foreach (var ig in inputGuardConsts)
             {
@@ -530,14 +527,11 @@ namespace Dependency
                     iexpr.ComputeFreeVariables(freeVars1);
                     result[v].Add((Variable) freeVars.Choose());
                 }
-                //else if (core.Select(c => c.ToString()).Contains(ig.ToString()))
-                //    name = ig.Name.Replace(procName + "_" + RefineConsts.readSetGuardName + "_", "");
-
-                //if (name != null) { 
-                //    var d = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, Microsoft.Boogie.Type.Int));
-                //    result[v].Add(d);
-                //}
             }
+            Console.WriteLine("\t Dependency of {0} = <{1}>",
+                v,
+                string.Join(",", result[v]));
+
             
         }
     }
@@ -610,6 +604,7 @@ namespace Dependency
         
         private void AddCalleeDependencySpecs(Procedure p, Dependencies dep)
         {
+            //return;
             foreach(Variable o in dep.Keys)
             {
                 if (o is LocalVariable) continue; //the dependency contains locals
@@ -618,7 +613,7 @@ namespace Dependency
                 Function oFunc = new Function(Token.NoToken, 
                     "FunctionOf__" + p.Name + "_" + o.Name,
                     oDeps,
-                    new Formal(Token.NoToken, o.TypedIdent, false));
+                    new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "__ret__",o.TypedIdent.Type), false));
                 prog.TopLevelDeclarations.Add(oFunc);
                 var callFunc = new FunctionCall(oFunc);
                 var argsFunc = dep[o].Select(x => (Expr) Expr.Ident(x)).ToList();

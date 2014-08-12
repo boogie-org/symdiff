@@ -452,6 +452,7 @@ namespace Dependency
             public static Variable ResolveVariableDeclsAcrossPrograms(Variable v, Procedure proc2, Program prog1, Program prog2)
             {
                 if (v is GlobalVariable) return (Variable) ResolveTopLevelDeclsAcrossPrograms(v, prog1, prog2);
+                if (v is Constant) return (Variable)ResolveTopLevelDeclsAcrossPrograms(v, prog1, prog2);
                 var inp = (Variable)proc2.InParams.Where(x => x.Name == v.Name && x.TypedIdent.Type.ToString() == v.TypedIdent.Type.ToString()).FirstOrDefault();
                 if (inp != null) return inp;
                 var op = (Variable)proc2.OutParams.Where(x => x.Name == v.Name && x.TypedIdent.Type.ToString() == v.TypedIdent.Type.ToString()).FirstOrDefault();
