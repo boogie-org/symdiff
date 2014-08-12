@@ -48,18 +48,18 @@ namespace Dependency
         {
             prog = Utils.CrossProgramUtils.ReplicateProgram(prog, filename);
 
-            // TODO: once Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms works, depVisitor & dataDepVisitor become a parameter
-            var depVisitor = new Analysis.DependencyTaintVisitor(filename,prog);
+            // TODO: once Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms works, depVisitor & dataDepVisitor become a parameter!
+            var depVisitor = new DependencyVisitor(filename,prog,false,false,false,0);
             depVisitor.Visit(prog);
-            depVisitor.Results(); // add results to logs for printing
+            depVisitor.Results(true,true); // add results to logs for printing
 
             var procDependencies = depVisitor.procDependencies;
 
             // do data only analysis as well, for reference
-            var dataDepVisitor = new Analysis.DependencyTaintVisitor(filename,prog);
+            var dataDepVisitor = new DependencyVisitor(filename, prog, true, false, false, 0);
             Analysis.DataOnly = true;
             dataDepVisitor.Visit(prog);
-            dataDepVisitor.Results();
+            dataDepVisitor.Results(true, true);
            
 
             Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count];
@@ -104,7 +104,7 @@ namespace Dependency
             procDependencies[proc].Prune(impl);
             var readSet = procDependencies[proc].ReadSet();
             var modSet = procDependencies[proc].ModSet();
-            readSet.RemoveAll(x => x.Name == Analysis.NonDetVar.Name);
+            readSet.RemoveAll(x => x.Name == Utils.NonDetVar.Name);
 
             //make any asserts/requires/ensures free
             proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
@@ -448,7 +448,7 @@ namespace Dependency
             if (outcome == ProverInterface.Outcome.Invalid)
             {
                 Console.WriteLine("\t VC not valid, returning");
-                result[v].Add(Dependency.Analysis.NonDetVar);
+                result[v].Add(Utils.NonDetVar);
                 Console.WriteLine("\t Dependency of {0} =  <*>", outConstant);
                 return;
             }
@@ -457,7 +457,7 @@ namespace Dependency
                 outcome == ProverInterface.Outcome.Undetermined)
             {
                 Console.WriteLine("\t VC inconclusive, returning");
-                result[v].Add(Dependency.Analysis.NonDetVar);
+                result[v].Add(Utils.NonDetVar);
                 Console.WriteLine("\t Dependency of {0} =  <->", outConstant);
                 return;
             }
@@ -589,7 +589,7 @@ namespace Dependency
             {
                 if (o is LocalVariable) continue; //the dependency contains locals
                 var oDeps = dep[o].ToList();
-                if (oDeps.Find(x => x.Name == Analysis.NonDetVar.Name) != null) continue; 
+                if (oDeps.Find(x => x.Name == Utils.NonDetVar.Name) != null) continue; 
                 Function oFunc = new Function(Token.NoToken, 
                     "FunctionOf__" + p.Name + "_" + o.Name,
                     oDeps,

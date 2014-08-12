@@ -59,6 +59,9 @@ namespace Dependency
             return true;
         }
 
+        // TODO: wrap this and maybe others in some sort of VariableUtils
+        static public GlobalVariable NonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
+
         static public HashSet<Variable> ImplInputsToProcInputs(Implementation impl, HashSet<Variable> vars)
         {
             var result = new HashSet<Variable>();

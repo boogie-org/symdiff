@@ -16,13 +16,11 @@ namespace Dependency
         public Dictionary<Absy, AbsState> stateSpace = new Dictionary<Absy, AbsState>();
         internal List<Absy> workList = new List<Absy>();
         internal Dictionary<Absy, Block> cmdBlocks = new Dictionary<Absy, Block>();
-        private Dictionary<Absy, Implementation> nodeToImpl;
         private Dictionary<Procedure, HashSet<CallCmd>> procCallers;
 
-        public WorkList(Dictionary<Absy, Implementation> _nodeToImpl, Dictionary<Procedure, HashSet<CallCmd>> _procCallers)
+        public WorkList(Dictionary<Procedure, HashSet<CallCmd>> procCallers)
         {
-            nodeToImpl = _nodeToImpl;
-            procCallers = _procCallers;
+            this.procCallers = procCallers;
         }
 
         internal AbsState GatherPredecessorsState(Absy node, Block currBlock)
@@ -80,39 +78,35 @@ namespace Dependency
             return true;
         }
 
-        internal void Propagate(Absy node)
+        internal void Propagate(Cmd node)
         {
             Block block = cmdBlocks[node];
-            Absy cmd;
-            if (node is Cmd)
+            int index = block.Cmds.IndexOf(node);
+            Absy cmd = (index < block.Cmds.Count - 1) ? block.Cmds[index + 1] : cmd = block.TransferCmd;
+            workList.Add(cmd);
+            cmdBlocks[cmd] = block;
+        }
+
+        internal void Propagate(GotoCmd node)
+        {
+            Block block = cmdBlocks[node];
+            foreach (var succ in ((GotoCmd)node).labelTargets)
             {
-                int index = block.Cmds.IndexOf((Cmd)node);
-                if (index < block.Cmds.Count - 1)
-                    cmd = block.Cmds[index + 1];
+                Absy cmd;
+                if (succ.Cmds.Count > 0)
+                    cmd = succ.Cmds[0];
                 else
-                    cmd = block.TransferCmd;
+                    cmd = succ.TransferCmd; // some blocks are just a goto
                 workList.Add(cmd);
-                cmdBlocks[cmd] = block;
+                cmdBlocks[cmd] = succ;
             }
-            else if (node is GotoCmd)
-            {
-                foreach (var succ in ((GotoCmd)node).labelTargets)
-                {
-                    if (succ.Cmds.Count > 0)
-                        cmd = succ.Cmds[0];
-                    else
-                        cmd = succ.TransferCmd; // some blocks are just a goto
-                    workList.Add(cmd);
-                    cmdBlocks[cmd] = succ;
-                }
-            }
-            else if (node is ReturnCmd) // for recursive procedures, the return propagates to all call sites
-            {
-                var caller = nodeToImpl[node].Proc;
-                if (procCallers.ContainsKey(caller))
-                    foreach (var cs in procCallers[caller])
-                        workList.Add(cs);
-            }
+        }
+
+        internal void Propagate(ReturnCmd node, Procedure caller)
+        {
+            if (procCallers.ContainsKey(caller))
+                foreach (var cs in procCallers[caller])
+                    workList.Add(cs);
         }
 
         internal void RunFixedPoint(StandardVisitor visitor, Implementation node)
