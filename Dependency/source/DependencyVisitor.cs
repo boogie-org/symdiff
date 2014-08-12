@@ -15,6 +15,8 @@ namespace Dependency
         private Program program;
         static private Graph<Procedure> callGraph = new Graph<Procedure>();
         private Dictionary<Absy, Implementation> nodeToImpl = new Dictionary<Absy, Implementation>();
+
+        private Dictionary<Procedure, Dependencies> lowerBoundProcDependencies;
         public Dictionary<Procedure, Dependencies> procDependencies = new Dictionary<Procedure, Dependencies>();
         private Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure, HashSet<CallCmd>>();
 
@@ -42,10 +44,11 @@ namespace Dependency
                 }
         }
 
-        public DependencyVisitor(string filename, Program program, bool dataOnly, bool detStubs, bool refine, int stackBound)
+        public DependencyVisitor(string filename, Program program, bool dataOnly = false, Dictionary<Procedure, Dependencies> lowerBoundProcDependencies = null, bool detStubs = false, bool refine = false, int stackBound = 0)
         {
             this.filename = filename;
             this.program = program;
+            this.lowerBoundProcDependencies = lowerBoundProcDependencies;
             this.dataOnly = dataOnly;
             this.detStubs = detStubs;
             this.refine = refine;
@@ -343,7 +346,7 @@ namespace Dependency
                 RefineDependencyPerImplementation rdpi = new RefineDependencyPerImplementation(newProg,
                     (Implementation)Utils.CrossProgramUtils.ResolveTopLevelDeclsAcrossPrograms(nodeToImpl[node], program, newProg),
                     Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(procDependencies, program, newProg),
-                    Utils.BaseDependencies(newProg), // TODO: lower bound is empty for now, need to populate per procedure/per Variable
+                    Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(lowerBoundProcDependencies, program, newProg), 
                     stackBound,
                     Utils.CallGraphHelper.ComputeCallGraph(newProg));
                 var refinedDeps = Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(rdpi.Run(), newProg, program);

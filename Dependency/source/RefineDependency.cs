@@ -49,14 +49,14 @@ namespace Dependency
             prog = Utils.CrossProgramUtils.ReplicateProgram(prog, filename);
 
             // TODO: once Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms works, depVisitor & dataDepVisitor become a parameter!
-            var depVisitor = new DependencyVisitor(filename,prog,false,false,false,0);
+            var depVisitor = new DependencyVisitor(filename,prog);
             depVisitor.Visit(prog);
             depVisitor.Results(true,true); // add results to logs for printing
 
             var procDependencies = depVisitor.procDependencies;
 
             // do data only analysis as well, for reference
-            var dataDepVisitor = new DependencyVisitor(filename, prog, true, false, false, 0);
+            var dataDepVisitor = new DependencyVisitor(filename, prog, true);
             Analysis.DataOnly = true;
             dataDepVisitor.Visit(prog);
             dataDepVisitor.Results(true, true);

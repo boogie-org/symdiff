@@ -230,17 +230,20 @@ namespace Dependency
 
         private static void RunAnalysis(string filename, Program program, bool taintAll = false)
         {
-            var visitor = new DependencyVisitor(filename, program, false, DetStubs, Refine, StackBound);
+            Dictionary<Procedure, Dependencies> dataProcDependencies = Utils.BaseDependencies(program);
+            if (Refine || BothDependencies)
+            {
+                var dataDepVisitor = new DependencyVisitor(filename, program, true, null, DetStubs); // do not refine data dependencies
+                dataDepVisitor.Visit(program);
+                dataDepVisitor.Results(Prune, PrintStats);
+                Utils.JoinProcDependencies(dataProcDependencies, dataDepVisitor.procDependencies);
+            }
+
+            var visitor = new DependencyVisitor(filename, program, DataOnly, dataProcDependencies, DetStubs, Refine, StackBound);
             visitor.Visit(program);
             visitor.Results(Prune,PrintStats);
 
-            if (BothDependencies)
-            {
-                var dataDepVisitor = new DependencyVisitor(filename, program, true, DetStubs, Refine, StackBound);
-                DataOnly = true;
-                dataDepVisitor.Visit(program);
-                dataDepVisitor.Results(Prune, PrintStats);
-            }
+            
         }
 
         private static void Usage()
