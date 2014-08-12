@@ -48,6 +48,7 @@ namespace Dependency
         {
             prog = Utils.CrossProgramUtils.ReplicateProgram(prog, filename);
 
+            // TODO: once Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms works, depVisitor & dataDepVisitor become a parameter
             var depVisitor = new Analysis.DependencyTaintVisitor(filename,prog);
             depVisitor.Visit(prog);
             depVisitor.Results(); // add results to logs for printing

@@ -21,8 +21,6 @@ namespace Dependency
         static private HashSet<Procedure> taintedProcs = new HashSet<Procedure>();
         static private Program program;
 
-        static public List<Dictionary<Procedure, Dependencies>> ComputedDependencies = new List<Dictionary<Procedure, Dependencies>>();
-
         static private class CmdLineOptsNames
         {
             public const string semanticDep = "/semanticDependency";
@@ -90,7 +88,8 @@ namespace Dependency
             if (args.Any(x => x.Contains(CmdLineOptsNames.debug)))
                 Debugger.Launch();
 
-            if (!Utils.ParseProgram(args[0], out program))
+            var filename = args[0];
+            if (!Utils.ParseProgram(filename, out program))
             {
                 Usage();
                 return -1;
@@ -100,30 +99,32 @@ namespace Dependency
 
             if (args.Any(x => x.Contains(CmdLineOptsNames.semanticDep)))
             {
-                var refined = RefineDependencyProgramCreator.CreateCheckDependencyProgram(args[0], program);
+
+                var refined = RefineDependencyProgramCreator.CreateCheckDependencyProgram(filename, program);
                 var procDeps = RefineDependencyChecker.Run(refined);
 
                 foreach (var pd in procDeps)
                 {
-                    var impl = program.Implementations().Single(i => pd.Key.Name.Contains(i.Name)); // TODO: this is also string manipulation, but how else?
+                    string origProcName = pd.Key.FindStringAttribute(RefineConsts.checkDepAttribute);
+                    var impl = program.Implementations().Single(i => i.Name == origProcName); // TODO: this is also string manipulation, but how else?
                     PopulateDependencyLog(impl, pd.Value, "Refined Dependencies");
-                    ComputeStats(impl, pd.Value);
+                    //ComputeStats(impl, pd.Value, depVisitor.procDependencies[impl.Proc], dataDepVisitor.procDependencies[impl.Proc]);
                 }
                 
                 // print statistics
-                Utils.StatisticsHelper.GenerateCSVOutputForSemDep(comparativeStats, args[0] + ".csv"); 
+                Utils.StatisticsHelper.GenerateCSVOutputForSemDep(comparativeStats, filename + ".csv"); 
             }
             else 
             {
                 if (changeList != null)
                     PopulateChangeLog(changeList);
-                RunAnalysis(args[0], program);
+                RunAnalysis(filename, program);
                 // TODO: separate the printing\statistics part from RunAnalysis and put it here
             }
 
             var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog);
-            displayHtml.GenerateHtmlOutput(args[0] + ".html");
-            Console.WriteLine("Output generated in " + args[0] + ".html");
+            displayHtml.GenerateHtmlOutput(filename + ".html");
+            Console.WriteLine("Output generated in " + filename + ".html");
 
             if (PrintStats)
             {
@@ -135,17 +136,13 @@ namespace Dependency
             return 0;
         }
 
-        private static void ComputeStats(Implementation impl, Dependencies deps)
+        private static void ComputeStats(Implementation impl, Dependencies refinedDeps, Dependencies dataControlDeps, Dependencies dataOnlyDeps)
         {
 
             var proc = impl.Proc;
             int refinedCount = 0, dataOnlyCount = 0, dataControlCount = 0;
 
-            // find the proc in the previously computed dependnencies
-            Dependencies dataControlDeps = Analysis.ComputedDependencies[0].Single(pd => pd.Key.Name == proc.Name).Value;
-            Dependencies dataOnlyDeps = Analysis.ComputedDependencies[1].Single(pd => pd.Key.Name == proc.Name).Value;
-
-            foreach (var rfd in deps)
+            foreach (var rfd in refinedDeps)
             {
                 if (rfd.Value.Contains(Analysis.NonDetVar)) // ignore vars which depend on *
                     continue;
@@ -704,11 +701,10 @@ namespace Dependency
                     PopulateTaintLog(impl, TWL);
                     PopulateDependencyLog(impl, procDependencies[proc], DataOnly ? "Data Only" : "Data and Control");
 
-                    if (PrintStats)
+                    if (PrintStats) // TODO: move to main
                         statsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.GetImplSourceFile(impl), proc, procDependencies[proc]));
 
                 }
-                ComputedDependencies.Add(procDependencies);
             }
         }
 
