@@ -163,7 +163,7 @@ namespace Dependency
             }
 
             string sourcefile = null;
-            impl.Blocks.FirstOrDefault(b => b.Cmds.Count > 0 && (sourcefile = Utils.GetSourceFile(b.Cmds[0] as AssertCmd)) != null);
+            impl.Blocks.FirstOrDefault(b => b.Cmds.Count > 0 && (sourcefile = Utils.AttributeUtils.GetSourceFile(b.Cmds[0] as AssertCmd)) != null);
             comparativeStats.Add(new Tuple<string, string, int, int, int>(sourcefile, proc.Name, dataControlCount, dataOnlyCount, refinedCount));
         }
 
@@ -184,8 +184,8 @@ namespace Dependency
         static public void PopulateDependencyLog(Implementation impl, Dependencies deps, string which)
         {
             var proc = impl.Proc;
-            string sourcefile = Utils.GetImplSourceFile(impl);
-            var sourceLines = impl.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.GetSourceLine((AssertCmd)b.Cmds[0]));
+            string sourcefile = Utils.AttributeUtils.GetImplSourceFile(impl);
+            var sourceLines = impl.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.AttributeUtils.GetSourceLine((AssertCmd)b.Cmds[0]));
             if (sourceLines.Count() == 0)
                 return;
             int lastSourceLine = sourceLines.Max();
@@ -199,7 +199,7 @@ namespace Dependency
         {
             Dictionary<int, TaintSet> lines = new Dictionary<int, TaintSet>();
             Dictionary<int, Tuple<string, string, int, List<string>>> tuples = new Dictionary<int, Tuple<string, string, int, List<string>>>();
-            string sourcefile = Utils.GetImplSourceFile(node);
+            string sourcefile = Utils.AttributeUtils.GetImplSourceFile(node);
             foreach (var pair in twl.stateSpace)
             {
                 if (!(pair.Key is GotoCmd) || pair.Value.Count == 0)
@@ -207,7 +207,7 @@ namespace Dependency
                 Block block = twl.cmdBlocks[(GotoCmd)pair.Key];
                 if (block.Cmds.Count > 0 && block.Cmds[0] is AssertCmd)
                 {
-                    int sourceline = Utils.GetSourceLine((AssertCmd)block.Cmds[0]);
+                    int sourceline = Utils.AttributeUtils.GetSourceLine((AssertCmd)block.Cmds[0]);
                     if (sourceline >= 0)
                     {
                         var taintSet = pair.Value;
@@ -228,7 +228,7 @@ namespace Dependency
 
         public static void PopulateStatsLog(Implementation impl, Dependencies dependencies)
         {
-            statsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.GetImplSourceFile(impl), impl.Proc, dependencies));
+            statsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.AttributeUtils.GetImplSourceFile(impl), impl.Proc, dependencies));
         }
 
         private static void RunAnalysis(string filename, Program program, bool taintAll = false)
@@ -239,7 +239,7 @@ namespace Dependency
                 var dataDepVisitor = new DependencyVisitor(filename, program, true, null, DetStubs); // do not refine data dependencies
                 dataDepVisitor.Visit(program);
                 dataDepVisitor.Results(Prune, PrintStats);
-                Utils.JoinProcDependencies(dataProcDependencies, dataDepVisitor.procDependencies);
+                Utils.JoinProcDependencies(dataProcDependencies, dataDepVisitor.ProcDependencies);
             }
 
             var visitor = new DependencyVisitor(filename, program, DataOnly, dataProcDependencies, DetStubs, Refine, StackBound);

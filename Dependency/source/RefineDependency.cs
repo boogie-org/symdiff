@@ -53,7 +53,7 @@ namespace Dependency
             depVisitor.Visit(prog);
             depVisitor.Results(true,true); // add results to logs for printing
 
-            var procDependencies = depVisitor.procDependencies;
+            var procDependencies = depVisitor.ProcDependencies;
 
             // do data only analysis as well, for reference
             var dataDepVisitor = new DependencyVisitor(filename, prog, true);
@@ -391,10 +391,10 @@ namespace Dependency
             string origProcName = impl.FindStringAttribute(RefineConsts.checkDepAttribute);
             //get the procedure's guard constants
             var inputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
-                .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.readSetGuradAttribute).Exists(p => (p as string) == origProcName))
+                .Where(x => Utils.AttributeUtils.GetAttributeVals(x.Attributes, RefineConsts.readSetGuradAttribute).Exists(p => (p as string) == origProcName))
                 .ToList();
             var outputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
-                .Where(x => Utils.GetAttributeVals(x.Attributes, RefineConsts.modSetGuradAttribute).Exists(p => (p as string)  == origProcName))
+                .Where(x => Utils.AttributeUtils.GetAttributeVals(x.Attributes, RefineConsts.modSetGuradAttribute).Exists(p => (p as string) == origProcName))
                 .ToList();
 
             //---- generate VC starts ---------
@@ -446,7 +446,7 @@ namespace Dependency
             var newVC = VC.exprGen.Implies(preOut, programVC);
 
             //TODO: Really really ugly way to get to the Variable in the guardOutput
-            var vexpr = (Expr) Utils.GetAttributeVals(outConstant.Attributes, RefineConsts.modSetGuradAttribute)[1];
+            var vexpr = (Expr)Utils.AttributeUtils.GetAttributeVals(outConstant.Attributes, RefineConsts.modSetGuradAttribute)[1];
             var vident = vexpr as IdentifierExpr;
             if (vident == null)
                 throw new Exception(string.Format("Illegal variable expression {0} in {1} attribute", vexpr, RefineConsts.modSetGuardName));
@@ -522,7 +522,7 @@ namespace Dependency
                 if (core.Contains(VC.translator.LookupVariable(ig)))
                 {
                     //TODO: really really ugly
-                    IdentifierExpr iexpr = (IdentifierExpr) Utils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute)[1];
+                    IdentifierExpr iexpr = (IdentifierExpr)Utils.AttributeUtils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute)[1];
                     GSet<object> freeVars1 = new GSet<object>();
                     iexpr.ComputeFreeVariables(freeVars1);
                     result[v].Add((Variable) freeVars1.Choose());

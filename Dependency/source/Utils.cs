@@ -17,15 +17,6 @@ namespace Dependency
     class Utils
     {
 
-        public static List<object> GetAttributeVals(QKeyValue attributes, string key)
-        {
-            for (QKeyValue attr = attributes; attr != null; attr = attr.Next)
-                if (attr.Key == key)
-                    return attr.Params;
-
-            return new List<object>();
-        }
-
         public static bool ParseProgram(string fname, out Program prog)
         {
             prog = null;
@@ -59,35 +50,47 @@ namespace Dependency
             return true;
         }
 
-        static public string GetSourceFile(AssertCmd node)
+        public static class AttributeUtils
         {
-            if (node == null) return null;
-            // TODO: magic strings
-            var file = QKeyValue.FindStringAttribute(node.Attributes, "sourceFile");
-            if (file == null) file = QKeyValue.FindStringAttribute(node.Attributes, "sourcefile");
-            return file;
-        }
-
-        static public int GetSourceLine(AssertCmd node)
-        {
-            if (node == null) return -1;
-            // TODO: magic strings
-            var line = QKeyValue.FindIntAttribute(node.Attributes, "sourceLine", -1);
-            if (line == -1) line = QKeyValue.FindIntAttribute(node.Attributes, "sourceline", -1);
-            return line;
-        }
-
-        // returns the source line adhering to the end of the implementaition
-        static public string GetImplSourceFile(Implementation node)
-        {
-            string sourcefile = null;
-            foreach (var b in node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd))
+            public static List<object> GetAttributeVals(QKeyValue attributes, string key)
             {
-                sourcefile = GetSourceFile((AssertCmd)b.Cmds[0]);
-                if (sourcefile != null)
-                    break;
+                for (QKeyValue attr = attributes; attr != null; attr = attr.Next)
+                    if (attr.Key == key)
+                        return attr.Params;
+
+                return new List<object>();
             }
-            return sourcefile;
+
+            static public string GetSourceFile(AssertCmd node)
+            {
+                if (node == null) return null;
+                // TODO: magic strings
+                var file = QKeyValue.FindStringAttribute(node.Attributes, "sourceFile");
+                if (file == null) file = QKeyValue.FindStringAttribute(node.Attributes, "sourcefile");
+                return file;
+            }
+
+            static public int GetSourceLine(AssertCmd node)
+            {
+                if (node == null) return -1;
+                // TODO: magic strings
+                var line = QKeyValue.FindIntAttribute(node.Attributes, "sourceLine", -1);
+                if (line == -1) line = QKeyValue.FindIntAttribute(node.Attributes, "sourceline", -1);
+                return line;
+            }
+
+            // returns the source line adhering to the end of the implementaition
+            static public string GetImplSourceFile(Implementation node)
+            {
+                string sourcefile = null;
+                foreach (var b in node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd))
+                {
+                    sourcefile = GetSourceFile((AssertCmd)b.Cmds[0]);
+                    if (sourcefile != null)
+                        break;
+                }
+                return sourcefile;
+            }
         }
 
         public static Dictionary<Procedure, Dependencies> BaseDependencies(Program prog)
@@ -105,6 +108,20 @@ namespace Dependency
         {
             lhs.Keys.Iter(p => { if (rhs.ContainsKey(p)) lhs[p].JoinWith(rhs[p]); });
             rhs.Keys.Iter(p => { if (!lhs.ContainsKey(p)) lhs[p] = rhs[p]; });
+        }
+
+        public static Dictionary<Absy, Implementation> ComputeNodeToImpl(Program program)
+        {
+            Dictionary<Absy, Implementation> nodeToImpl = new Dictionary<Absy, Implementation>();
+            var implementations = new List<Declaration>(program.TopLevelDeclarations.Where(x => x is Implementation));
+            foreach (Implementation impl in implementations)
+                foreach (var b in impl.Blocks)
+                {
+                    foreach (var s in b.Cmds)
+                        nodeToImpl[s] = impl;
+                    nodeToImpl[b.TransferCmd] = impl;
+                }
+            return nodeToImpl;
         }
 
 

@@ -13,13 +13,15 @@ namespace Dependency
     {
         private string filename;
         private Program program;
-        static private Graph<Procedure> callGraph = new Graph<Procedure>();
+
+        private Graph<Procedure> callGraph;
         private Dictionary<Absy, Implementation> nodeToImpl = new Dictionary<Absy, Implementation>();
 
-        private Dictionary<Procedure, Dependencies> lowerBoundProcDependencies;
-        public Dictionary<Procedure, Dependencies> procDependencies = new Dictionary<Procedure, Dependencies>();
-        private Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure, HashSet<CallCmd>>();
+        public Dictionary<Procedure, Dependencies> ProcDependencies = new Dictionary<Procedure, Dependencies>();
 
+        private Dictionary<Procedure, Dependencies> lowerBoundProcDependencies;
+
+        private Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure, HashSet<CallCmd>>();
         public Dictionary<Block, HashSet<Block>> dominates = new Dictionary<Block, HashSet<Block>>();
         public Dictionary<Block, HashSet<Block>> dominatedBy = new Dictionary<Block, HashSet<Block>>();
 
@@ -31,19 +33,6 @@ namespace Dependency
         private bool refine;
         private int stackBound;
 
-
-        private void ComputeNodeToImpl()
-        {
-            var implementations = new List<Declaration>(program.TopLevelDeclarations.Where(x => x is Implementation));
-            foreach (Implementation impl in implementations)
-                foreach (var b in impl.Blocks)
-                {
-                    foreach (var s in b.Cmds)
-                        nodeToImpl[s] = impl;
-                    nodeToImpl[b.TransferCmd] = impl;
-                }
-        }
-
         public DependencyVisitor(string filename, Program program, bool dataOnly = false, Dictionary<Procedure, Dependencies> lowerBoundProcDependencies = null, bool detStubs = false, bool refine = false, int stackBound = 0)
         {
             this.filename = filename;
@@ -53,9 +42,10 @@ namespace Dependency
             this.detStubs = detStubs;
             this.refine = refine;
             this.stackBound = stackBound;
-            ComputeNodeToImpl();
+            this.nodeToImpl = Utils.ComputeNodeToImpl(program);
             worklist = new WorkList<Dependencies>(procCallers);
         }
+
         public override Program VisitProgram(Program node)
         {
             callGraph = Utils.CallGraphHelper.ComputeCallGraph(node);
@@ -69,7 +59,7 @@ namespace Dependency
                 var impl = (Implementation)program.TopLevelDeclarations.Find(x => x is Implementation && ((Implementation)x).Proc == proc);
                 if (impl == null)
                     continue;
-                if (procDependencies.ContainsKey(impl.Proc)) // the proc may have been visited already through a caller
+                if (ProcDependencies.ContainsKey(impl.Proc)) // the proc may have been visited already through a caller
                     continue;
                 Visit(impl);
             }
@@ -209,7 +199,7 @@ namespace Dependency
 
         private HashSet<Variable> InferCalleeOutputDependancy(CallCmd cmd, Variable output, Dependencies state, List<HashSet<Variable>> inputExpressionsDependency)
         {
-            var outputDependency = procDependencies[cmd.Proc][output]; // output is dependent on a set of formals and globals
+            var outputDependency = ProcDependencies[cmd.Proc][output]; // output is dependent on a set of formals and globals
             var inferedOutputDependency = new HashSet<Variable>();
             foreach (var dependentOn in outputDependency) // foreach (formal parameter p\global g) o_i is dependent upon
             {
@@ -240,16 +230,16 @@ namespace Dependency
             // an external stub
             if (program.Implementations().Where(x => x.Proc == callee).Count() == 0)
             {
-                procDependencies[callee] = new Dependencies();
+                ProcDependencies[callee] = new Dependencies();
                 foreach (var v in callee.OutParams)
                 {   // all outputs depend on all inputs
-                    procDependencies[callee][v] = new HashSet<Variable>(callee.InParams);
+                    ProcDependencies[callee][v] = new HashSet<Variable>(callee.InParams);
                     if (!detStubs)
-                        procDependencies[callee][v].Add(Utils.VariableUtils.NonDetVar); // and on *
+                        ProcDependencies[callee][v].Add(Utils.VariableUtils.NonDetVar); // and on *
                 }
             }
 
-            if (!procDependencies.ContainsKey(callee))
+            if (!ProcDependencies.ContainsKey(callee))
             { // this will be continued once the callee gets analyzed
                 dependencies = new Dependencies();
                 if (worklist.Assign(node, dependencies))
@@ -257,7 +247,7 @@ namespace Dependency
                 return node;
             }
 
-            var calleeDependencies = procDependencies[callee];
+            var calleeDependencies = ProcDependencies[callee];
 
             // first, for f(e1,...,ek) find the dependency set of each ei
             var inputExpressionsDependency = new List<HashSet<Variable>>();
@@ -333,10 +323,10 @@ namespace Dependency
                 worklist.Propagate(node,nodeToImpl[node].Proc);
             var proc = nodeToImpl[node].Proc;
             // set the dependencies result for the procedure
-            if (!procDependencies.ContainsKey(proc))
-                procDependencies[proc] = new Dependencies();
-            procDependencies[proc].JoinWith(worklist.stateSpace[node]);
-            procDependencies[proc].FixFormals(nodeToImpl[node]);
+            if (!ProcDependencies.ContainsKey(proc))
+                ProcDependencies[proc] = new Dependencies();
+            ProcDependencies[proc].JoinWith(worklist.stateSpace[node]);
+            ProcDependencies[proc].FixFormals(nodeToImpl[node]);
 
             // refinement
             if (refine)
@@ -345,15 +335,15 @@ namespace Dependency
                 // resolve dependencies, callGraph, impl, etc from program -> newProg
                 RefineDependencyPerImplementation rdpi = new RefineDependencyPerImplementation(newProg,
                     (Implementation)Utils.CrossProgramUtils.ResolveTopLevelDeclsAcrossPrograms(nodeToImpl[node], program, newProg),
-                    Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(procDependencies, program, newProg),
+                    Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(ProcDependencies, program, newProg),
                     Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(lowerBoundProcDependencies, program, newProg), 
                     stackBound,
                     Utils.CallGraphHelper.ComputeCallGraph(newProg));
                 var refinedDeps = Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(rdpi.Run(), newProg, program);
 
-                if (!(refinedDeps.Equals(procDependencies[proc])))
+                if (!(refinedDeps.Equals(ProcDependencies[proc])))
                 {
-                    procDependencies[proc] = refinedDeps[proc];
+                    ProcDependencies[proc] = refinedDeps[proc];
                     worklist.Propagate(node, nodeToImpl[node].Proc);
                 }
             }
@@ -367,12 +357,12 @@ namespace Dependency
             {
                 var proc = impl.Proc;
                 if (prune)
-                    procDependencies[proc].Prune(impl);
+                    ProcDependencies[proc].Prune(impl);
 
-                Analysis.PopulateDependencyLog(impl, procDependencies[proc], dataOnly ? "Data Only" : "Data and Control");
+                Analysis.PopulateDependencyLog(impl, ProcDependencies[proc], dataOnly ? "Data Only" : "Data and Control");
 
                 if (printStats) // TODO: move to main
-                    Analysis.PopulateStatsLog(impl, procDependencies[proc]);
+                    Analysis.PopulateStatsLog(impl, ProcDependencies[proc]);
 
             }
         }
