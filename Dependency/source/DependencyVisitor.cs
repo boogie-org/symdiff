@@ -126,7 +126,8 @@ namespace Dependency
             node.ComputePredecessorsForBlocks();
             Utils.ComputeDominators(program, node, dominatedBy);
 
-            worklist.RunFixedPoint(this, node); 
+            worklist.RunFixedPoint(this, node);
+            worklist.stateSpace[node] = ProcDependencies[node.Proc];
             Console.WriteLine("Analyzed " + node + "( ).");
 
             return node;

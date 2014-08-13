@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
 using Microsoft.Boogie.GraphUtil;
+using System.Diagnostics;
 
 namespace Dependency
 {
@@ -78,27 +79,33 @@ namespace Dependency
             return true;
         }
 
-        internal void Propagate(Cmd node)
+        internal void Propagate(Absy node)
         {
             Block block = cmdBlocks[node];
-            int index = block.Cmds.IndexOf(node);
-            Absy cmd = (index < block.Cmds.Count - 1) ? block.Cmds[index + 1] : cmd = block.TransferCmd;
-            workList.Add(cmd);
-            cmdBlocks[cmd] = block;
-        }
-
-        internal void Propagate(GotoCmd node)
-        {
-            Block block = cmdBlocks[node];
-            foreach (var succ in ((GotoCmd)node).labelTargets)
+            if (node is Cmd)
             {
-                Absy cmd;
-                if (succ.Cmds.Count > 0)
-                    cmd = succ.Cmds[0];
-                else
-                    cmd = succ.TransferCmd; // some blocks are just a goto
+                int index = block.Cmds.IndexOf(node as Cmd);
+                Absy cmd = (index < block.Cmds.Count - 1) ? block.Cmds[index + 1] : cmd = block.TransferCmd;
                 workList.Add(cmd);
-                cmdBlocks[cmd] = succ;
+                cmdBlocks[cmd] = block;
+            }
+            else if (node is GotoCmd)
+            {
+                foreach (var succ in (node as GotoCmd).labelTargets)
+                {
+                    Absy cmd;
+                    if (succ.Cmds.Count > 0)
+                        cmd = succ.Cmds[0];
+                    else
+                        cmd = succ.TransferCmd; // some blocks are just a goto
+                    workList.Add(cmd);
+                    cmdBlocks[cmd] = succ;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error is WorkList: Propagating state for " + node);
+                Debug.Assert(false);
             }
         }
 
@@ -111,9 +118,7 @@ namespace Dependency
 
         internal void RunFixedPoint(StandardVisitor visitor, Implementation node)
         {
-            Absy entry = (node.Blocks[0].Cmds.Count > 0) ?
-                (Absy)node.Blocks[0].Cmds[0] :
-                (Absy)node.Blocks[0].TransferCmd;
+            Absy entry = Utils.GetImplEntry(node);
             workList.Add(entry);
             cmdBlocks[entry] = node.Blocks[0];
             while (workList.Count > 0)

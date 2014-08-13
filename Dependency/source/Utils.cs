@@ -612,6 +612,13 @@ namespace Dependency
             }
 
         }
+
+        public static Absy GetImplEntry(Implementation node)
+        {
+            return (node.Blocks[0].Cmds.Count > 0) ?
+                (Absy)node.Blocks[0].Cmds[0] :
+                (Absy)node.Blocks[0].TransferCmd;
+        }
     }
 
     //state related to VC generation that will be shared by different options
