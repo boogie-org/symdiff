@@ -568,6 +568,11 @@ namespace Dependency
             //check if ANY of the output has scope for refinement
             // TODO: move this to before the program even gets replicated!
             var depAll = currDependencies[impl.Proc];
+
+            Console.WriteLine("\n-------Procedure {0}--------\n", impl.Proc.Name);
+            Console.WriteLine("Data dependency = {0}", dataDependencies[impl.Proc]);
+            Console.WriteLine("Data/Control dependency = {0}", currDependencies[impl.Proc]);
+
             if (dataDependencies != null && dataDependencies.Count > 0)
             {
                 var depData = dataDependencies[impl.Proc];
