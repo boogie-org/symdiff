@@ -16,7 +16,7 @@ namespace Dependency
         public Dictionary<Absy, AbsState> stateSpace = new Dictionary<Absy, AbsState>();
         internal List<Absy> workList = new List<Absy>();
         internal Dictionary<Absy, Block> cmdBlocks = new Dictionary<Absy, Block>();
-        private Dictionary<Procedure, HashSet<CallCmd>> procCallers;
+        internal Dictionary<Procedure, HashSet<CallCmd>> procCallers;
 
         public WorkList(Dictionary<Procedure, HashSet<CallCmd>> procCallers)
         {

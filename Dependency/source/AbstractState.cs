@@ -105,7 +105,7 @@ namespace Dependency
 
         public List<Variable> ModSet()
         {
-            return new List<Variable>(Keys.Where(m => this[m].Count > 0));
+            return new List<Variable>(Keys);
         }
 
         public override string ToString()
@@ -190,17 +190,11 @@ namespace Dependency
         public override bool Equals(object o)
         {
             Dependencies rhs = o as Dependencies;
-            if (rhs == null)
+
+            if (rhs == null || rhs.Keys.Count != Keys.Count || !rhs.Keys.All(v => Keys.Contains(v)))
                 return false;
 
-            if (rhs.Keys != Keys)
-                return false;
-
-            foreach (var d in rhs)
-                if (!this[d.Key].SetEquals(d.Value))
-                    return false;
-
-            return true;
+            return rhs.All(d => this[d.Key].SetEquals(d.Value));
         }
 
         public void FixFormals(Implementation impl)

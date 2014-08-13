@@ -104,7 +104,6 @@ namespace Dependency
 
             if (SemanticDep)
             {
-
                 var refined = RefineDependencyProgramCreator.CreateCheckDependencyProgram(filename, program);
                 var procDeps = RefineDependencyChecker.Run(refined);
 
@@ -115,7 +114,6 @@ namespace Dependency
                     PopulateDependencyLog(impl, pd.Value, "Refined Dependencies");
                     //ComputeStats(impl, pd.Value, depVisitor.procDependencies[impl.Proc], dataDepVisitor.procDependencies[impl.Proc]);
                 }
-                
             }
             else 
             {
@@ -233,18 +231,29 @@ namespace Dependency
 
         private static void RunAnalysis(string filename, Program program, bool taintAll = false)
         {
-            Dictionary<Procedure, Dependencies> dataProcDependencies = Utils.BaseDependencies(program);
+            DependencyVisitor dataDepVisitor = new DependencyVisitor(filename, program, true, DetStubs);
             if (Refine || BothDependencies)
             {
-                var dataDepVisitor = new DependencyVisitor(filename, program, true, null, DetStubs); // do not refine data dependencies
                 dataDepVisitor.Visit(program);
                 dataDepVisitor.Results(Prune, PrintStats);
-                Utils.JoinProcDependencies(dataProcDependencies, dataDepVisitor.ProcDependencies);
             }
 
-            var visitor = new DependencyVisitor(filename, program, DataOnly, dataProcDependencies, DetStubs, Refine, StackBound);
-            visitor.Visit(program);
-            visitor.Results(Prune,PrintStats);
+            var allDepVisitor = new DependencyVisitor(filename, program, DataOnly, DetStubs);
+            allDepVisitor.Visit(program);
+            allDepVisitor.Results(Prune, PrintStats);
+
+            if (Refine)
+            {
+                // refined must have pruned dependencies
+                Utils.DependenciesUtils.PruneProcDependencies(program, dataDepVisitor.ProcDependencies);
+                Utils.DependenciesUtils.PruneProcDependencies(program, allDepVisitor.ProcDependencies);
+
+                var refineDepsWL = new RefineDependencyWL(filename, program, dataDepVisitor.ProcDependencies, allDepVisitor.ProcDependencies, StackBound);
+                refineDepsWL.RunFixedPoint();
+
+                // print
+                refineDepsWL.ProcDependencies.Iter(pd => PopulateDependencyLog(program.Implementations().SingleOrDefault(i => i.Proc == pd.Key), pd.Value, "Refined"));
+            }
 
             
         }

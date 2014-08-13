@@ -5,9 +5,75 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
 using Microsoft.Boogie.GraphUtil;
+using System.Diagnostics;
 
 namespace Dependency
 {
+
+    public class RefineDependencyWL
+    {
+        private string filename;
+        private Program program;
+
+        private Graph<Procedure> callGraph;
+
+        private Dictionary<Procedure, Dependencies> lowerBoundProcDependencies;
+        private Dictionary<Procedure, Dependencies> upperBoundProcDependencies;
+        public Dictionary<Procedure, Dependencies> ProcDependencies;
+
+        private int stackBound;
+
+        public RefineDependencyWL(string filename, Program program, Dictionary<Procedure, Dependencies> lowerBoundProcDependencies, Dictionary<Procedure, Dependencies> upperBoundProcDependencies, int stackBound)
+        {
+            this.filename = filename;
+            this.program = program;
+            this.lowerBoundProcDependencies = lowerBoundProcDependencies;
+            this.upperBoundProcDependencies = upperBoundProcDependencies;
+            this.ProcDependencies = new Dictionary<Procedure, Dependencies>();
+            this.stackBound = stackBound;
+            this.callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);
+        }
+
+        public void RunFixedPoint()
+        {
+            var worklist = new List<Procedure>();
+            Utils.CallGraphHelper.BFS(callGraph).Iter(l => worklist.AddRange(l.Value));
+
+            while (worklist.Count > 0)
+            {
+                var proc = worklist.Last();
+                worklist.Remove(proc);
+
+                Debug.Assert(upperBoundProcDependencies[proc].Keys.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable));
+                Debug.Assert(upperBoundProcDependencies[proc].Values.All(d => d.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable)));
+                Debug.Assert(lowerBoundProcDependencies[proc].Keys.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable));
+                Debug.Assert(lowerBoundProcDependencies[proc].Values.All(d => d.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable)));
+
+                var impl = program.Implementations().SingleOrDefault(i => i.Name == proc.Name);
+                if (impl == null)
+                    continue;
+
+                var newProg = Utils.CrossProgramUtils.ReplicateProgram(program, filename);
+                // resolve dependencies, callGraph, impl, etc from program -> newProg
+                RefineDependencyPerImplementation rdpi = new RefineDependencyPerImplementation(newProg,
+                    (Implementation)Utils.CrossProgramUtils.ResolveTopLevelDeclsAcrossPrograms(impl, program, newProg),
+                    Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(upperBoundProcDependencies, program, newProg),
+                    Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(lowerBoundProcDependencies, program, newProg),
+                    stackBound,
+                    Utils.CallGraphHelper.ComputeCallGraph(newProg));
+
+                ProcDependencies[proc] = Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(rdpi.Run(), newProg, program)[proc];
+
+                Debug.Assert(ProcDependencies[proc].Keys.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable));
+                Debug.Assert(ProcDependencies[proc].Values.All(d => d.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable)));
+
+                // if the dependencies are different (hopefully lower :) than the upper bound, add all callers
+                if (!(ProcDependencies[proc].Equals(upperBoundProcDependencies[proc])))
+                    worklist.AddRange(callGraph.Predecessors(proc));
+            }
+        }
+
+    }
 
     public class DependencyVisitor : StandardVisitor
     {
@@ -15,79 +81,50 @@ namespace Dependency
         private Program program;
 
         private Graph<Procedure> callGraph;
-        private Dictionary<Absy, Implementation> nodeToImpl = new Dictionary<Absy, Implementation>();
+        private Dictionary<Absy, Implementation> nodeToImpl;
 
         public Dictionary<Procedure, Dependencies> ProcDependencies = new Dictionary<Procedure, Dependencies>();
 
-        private Dictionary<Procedure, Dependencies> lowerBoundProcDependencies;
-
         private Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure, HashSet<CallCmd>>();
-        public Dictionary<Block, HashSet<Block>> dominates = new Dictionary<Block, HashSet<Block>>();
-        public Dictionary<Block, HashSet<Block>> dominatedBy = new Dictionary<Block, HashSet<Block>>();
+        private Dictionary<Block, HashSet<Block>> dominatedBy = new Dictionary<Block, HashSet<Block>>();
 
         private Dictionary<Block, HashSet<Variable>> branchCondVars = new Dictionary<Block, HashSet<Variable>>(); // a mapping: branching Block -> { Variables in the branch conditional }
         public WorkList<Dependencies> worklist;
 
         private bool dataOnly;
         private bool detStubs;
-        private bool refine;
-        private int stackBound;
 
-        public DependencyVisitor(string filename, Program program, bool dataOnly = false, Dictionary<Procedure, Dependencies> lowerBoundProcDependencies = null, bool detStubs = false, bool refine = false, int stackBound = 0)
+        public DependencyVisitor(string filename, Program program, bool dataOnly = false, bool detStubs = false)
         {
             this.filename = filename;
             this.program = program;
-            this.lowerBoundProcDependencies = lowerBoundProcDependencies;
             this.dataOnly = dataOnly;
             this.detStubs = detStubs;
-            this.refine = refine;
-            this.stackBound = stackBound;
             this.nodeToImpl = Utils.ComputeNodeToImpl(program);
-            worklist = new WorkList<Dependencies>(procCallers);
+            this.callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);
+            this.worklist = new WorkList<Dependencies>(procCallers);
         }
 
         public override Program VisitProgram(Program node)
         {
-            callGraph = Utils.CallGraphHelper.ComputeCallGraph(node);
-
             var reversedBFS = new List<Procedure>();
             Utils.CallGraphHelper.BFS(callGraph).Iter(l => reversedBFS.AddRange(l.Value));
             reversedBFS.Reverse();
 
             foreach (var proc in reversedBFS)
             {
-                var impl = (Implementation)program.TopLevelDeclarations.Find(x => x is Implementation && ((Implementation)x).Proc == proc);
-                if (impl == null)
-                    continue;
-                if (ProcDependencies.ContainsKey(impl.Proc)) // the proc may have been visited already through a caller
+                var impl = program.Implementations().FirstOrDefault(i => i.Proc == proc);
+                if (impl == null || ProcDependencies.ContainsKey(impl.Proc)) // the proc may have been visited already through a caller
                     continue;
                 Visit(impl);
             }
             return node;
         }
 
-        private void ComputeDominators(Implementation impl)
-        {
-            // reverse the control dependence mapping (easier for the algorithm)
-            foreach (var cd in program.ProcessLoops(impl).ControlDependence())
-            {
-                dominates.Add(cd.Key, cd.Value);
-                foreach (var controlled in cd.Value)
-                {
-                    if (!dominatedBy.Keys.Contains(controlled))
-                        dominatedBy[controlled] = new HashSet<Block>();
-#if DBGDOMS
-                        Console.WriteLine(controlled + " dominated by " + cd.Key);
-#endif
-                    dominatedBy[controlled].Add(cd.Key);
-                }
-            }
-        }
-
         public override Implementation VisitImplementation(Implementation node)
         {
             node.ComputePredecessorsForBlocks();
-            ComputeDominators(node);
+            Utils.ComputeDominators(program, node, dominatedBy);
 
             worklist.RunFixedPoint(this, node); 
             Console.WriteLine("Analyzed " + node + "( ).");
@@ -328,42 +365,20 @@ namespace Dependency
             ProcDependencies[proc].JoinWith(worklist.stateSpace[node]);
             ProcDependencies[proc].FixFormals(nodeToImpl[node]);
 
-            // refinement
-            if (refine)
-            {
-                var newProg = Utils.CrossProgramUtils.ReplicateProgram(program, filename);
-                // resolve dependencies, callGraph, impl, etc from program -> newProg
-                RefineDependencyPerImplementation rdpi = new RefineDependencyPerImplementation(newProg,
-                    (Implementation)Utils.CrossProgramUtils.ResolveTopLevelDeclsAcrossPrograms(nodeToImpl[node], program, newProg),
-                    Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(ProcDependencies, program, newProg),
-                    Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(lowerBoundProcDependencies, program, newProg), 
-                    stackBound,
-                    Utils.CallGraphHelper.ComputeCallGraph(newProg));
-                var refinedDeps = Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(rdpi.Run(), newProg, program);
-
-                if (!(refinedDeps.Equals(ProcDependencies[proc])))
-                {
-                    ProcDependencies[proc] = refinedDeps[proc];
-                    worklist.Propagate(node, nodeToImpl[node].Proc);
-                }
-            }
-
             return node;
         }
 
+        // TODO: this should not exist
         public void Results(bool prune, bool printStats)
         {
-            foreach (Implementation impl in program.TopLevelDeclarations.Where(x => x is Implementation))
+            if (prune)
+                Utils.DependenciesUtils.PruneProcDependencies(program, ProcDependencies);
+            foreach (Implementation impl in program.Implementations())
             {
                 var proc = impl.Proc;
-                if (prune)
-                    ProcDependencies[proc].Prune(impl);
-
                 Analysis.PopulateDependencyLog(impl, ProcDependencies[proc], dataOnly ? "Data Only" : "Data and Control");
-
                 if (printStats) // TODO: move to main
                     Analysis.PopulateStatsLog(impl, ProcDependencies[proc]);
-
             }
         }
     }

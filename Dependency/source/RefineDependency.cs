@@ -560,9 +560,9 @@ namespace Dependency
             this.callGraph = callGraph;
 
             // complete the missing variables in the dependencies
-            var bd = Utils.BaseDependencies(prog);
-            Utils.JoinProcDependencies(currDependencies, bd);
-            Utils.JoinProcDependencies(dataDependencies, bd);
+            var bd = Utils.DependenciesUtils.BaseDependencies(prog);
+            Utils.DependenciesUtils.JoinProcDependencies(currDependencies, bd);
+            Utils.DependenciesUtils.JoinProcDependencies(dataDependencies, bd);
 
         }
 
@@ -570,8 +570,9 @@ namespace Dependency
         public Dictionary<Procedure, Dependencies> Run()
         {
             //check if ANY of the output has scope for refinement
+            // TODO: move this to before the program even gets replicated!
             var depAll = currDependencies[impl.Proc];
-            if (dataDependencies != null && dataDependencies.Count == 0)
+            if (dataDependencies != null && dataDependencies.Count > 0)
             {
                 var depData = dataDependencies[impl.Proc];
                 var potential = depAll.Keys.Where(x => depAll[x].Count() > depData[x].Count()).Count();

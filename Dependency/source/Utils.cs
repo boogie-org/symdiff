@@ -93,35 +93,59 @@ namespace Dependency
             }
         }
 
-        public static Dictionary<Procedure, Dependencies> BaseDependencies(Program prog)
+        public static class DependenciesUtils
         {
-            Dictionary<Procedure, Dependencies> result = new Dictionary<Procedure, Dependencies>();
-            foreach (var proc in prog.TopLevelDeclarations.OfType<Procedure>())
-            {
-                result[proc] = new Dependencies();
-                proc.Modifies.Iter(m => result[proc][m.Decl] = new HashSet<Variable>());
-            }
-            return result;
-        }
 
-        public static void JoinProcDependencies(Dictionary<Procedure, Dependencies> lhs, Dictionary<Procedure, Dependencies> rhs)
-        {
-            lhs.Keys.Iter(p => { if (rhs.ContainsKey(p)) lhs[p].JoinWith(rhs[p]); });
-            rhs.Keys.Iter(p => { if (!lhs.ContainsKey(p)) lhs[p] = rhs[p]; });
+
+            public static Dictionary<Procedure, Dependencies> BaseDependencies(Program program)
+            {
+                Dictionary<Procedure, Dependencies> result = new Dictionary<Procedure, Dependencies>();
+                foreach (var proc in program.TopLevelDeclarations.OfType<Procedure>())
+                {
+                    result[proc] = new Dependencies();
+                    proc.Modifies.Iter(m => result[proc][m.Decl] = new HashSet<Variable>());
+                }
+                return result;
+            }
+
+            public static void JoinProcDependencies(Dictionary<Procedure, Dependencies> lhs, Dictionary<Procedure, Dependencies> rhs)
+            {
+                lhs.Keys.Iter(p => { if (rhs.ContainsKey(p)) lhs[p].JoinWith(rhs[p]); });
+                rhs.Keys.Iter(p => { if (!lhs.ContainsKey(p)) lhs[p] = rhs[p]; });
+            }
+
+            public static void PruneProcDependencies(Program program, Dictionary<Procedure, Dependencies> procDependencies)
+            {
+                procDependencies.Iter(pd => { var impl = program.Implementations().SingleOrDefault(i => i.Proc == pd.Key); if (impl != null) pd.Value.Prune(impl); });
+            }
         }
 
         public static Dictionary<Absy, Implementation> ComputeNodeToImpl(Program program)
         {
-            Dictionary<Absy, Implementation> nodeToImpl = new Dictionary<Absy, Implementation>();
+            Dictionary<Absy, Implementation> result = new Dictionary<Absy, Implementation>();
             var implementations = new List<Declaration>(program.TopLevelDeclarations.Where(x => x is Implementation));
             foreach (Implementation impl in implementations)
                 foreach (var b in impl.Blocks)
                 {
                     foreach (var s in b.Cmds)
-                        nodeToImpl[s] = impl;
-                    nodeToImpl[b.TransferCmd] = impl;
+                        result[s] = impl;
+                    result[b.TransferCmd] = impl;
                 }
-            return nodeToImpl;
+            return result;
+        }
+
+        public static void ComputeDominators(Program program, Implementation impl, Dictionary<Block, HashSet<Block>> dominatedBy)
+        {
+            // reverse the control dependence mapping (easier for the algorithm)
+            foreach (var cd in program.ProcessLoops(impl).ControlDependence())
+            {
+                foreach (var controlled in cd.Value)
+                {
+                    if (!dominatedBy.Keys.Contains(controlled))
+                        dominatedBy[controlled] = new HashSet<Block>();
+                    dominatedBy[controlled].Add(cd.Key);
+                }
+            }
         }
 
 
