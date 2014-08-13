@@ -115,9 +115,9 @@ namespace Dependency
             proc.Ensures = proc.Ensures.Select(x => new Ensures(true, x.Condition)).ToList();
             (new Utils.RemoveAsserts()).Visit(impl);
 
-            // add inline attribute to the original proc and impl
-            if (QKeyValue.FindExprAttribute(proc.Attributes, RefineConsts.inlineAttribute) == null)
-                proc.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(RefineConsts.recursionDepth));
+            // add inline attribute to the original proc and impl (we do it later in inlineUpto)
+            //if (QKeyValue.FindExprAttribute(proc.Attributes, RefineConsts.inlineAttribute) == null)
+            //    proc.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(RefineConsts.recursionDepth));
             //if (QKeyValue.FindExprAttribute(impl.Attributes, RefineConsts.inlineAttribute) == null)
             //    impl.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(2));
             //Debug.Assert(QKeyValue.FindBoolAttribute(proc.Attributes, RefineConsts.inlineAttribute));
@@ -145,10 +145,6 @@ namespace Dependency
             newDecls.Add(refineImpl);
 
             program.TopLevelDeclarations.AddRange(newDecls);
-
-            var tuo = new TokenTextWriter(impl.Name +"_tmp.bpl", true);
-            program.Emit(tuo);
-            tuo.Close();
 
             return refineImpl;
         }
@@ -597,6 +593,11 @@ namespace Dependency
 
             //inline all the implementations before calling Analyze
             Utils.BoogieInlineUtils.Inline(prog);
+
+            var tuo = new TokenTextWriter(impl.Name + "_checkdep.bpl", true);
+            prog.Emit(tuo);
+            tuo.Close();
+
             var newDepImpl = RefineDependencyChecker.Analyze(prog,refineImpl);
 
             currDependencies[impl.Proc] = newDepImpl; //update the dependecy for impl only
