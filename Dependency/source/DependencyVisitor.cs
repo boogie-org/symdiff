@@ -69,7 +69,11 @@ namespace Dependency
 
                 // if the dependencies are different (hopefully lower :) than the upper bound, add all callers
                 if (!(ProcDependencies[proc].Equals(upperBoundProcDependencies[proc])))
+                {
                     worklist.AddRange(callGraph.Predecessors(proc));
+                    upperBoundProcDependencies[proc] = ProcDependencies[proc];
+                }
+
             }
         }
 
