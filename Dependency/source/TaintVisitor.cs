@@ -102,9 +102,7 @@ namespace Dependency
             // for assignment v1,...,vn = e1,...,en handle each vi = ei separately
             foreach (var lhs in Lhss)
             {
-                var varExtractor = new Utils.VariableUtils.VariableExtractor();
-                varExtractor.Visit(lhs);
-                Variable left = varExtractor.vars.First(); // TODO: stuff like: Mem_T.INT4[in_prio] := out_tempBoogie0
+                Variable left = Utils.VariableUtils.ExtractVars(lhs).First(); // TODO: stuff like: Mem_T.INT4[in_prio] := out_tempBoogie0
                 taintSet.Add(left);
             }
         }
@@ -117,11 +115,8 @@ namespace Dependency
 
             for (int i = 0; i < node.Ins.Count; ++i)
             {
-                var inExpr = node.Ins[i];
-                var varExtractor = new Utils.VariableUtils.VariableExtractor();
-                varExtractor.Visit(inExpr);
                 // if an argument is tainted at the call site, mark the corresponding formal as tainted 
-                foreach (var v in varExtractor.vars)
+                foreach (var v in Utils.VariableUtils.ExtractVars(node.Ins[i]))
                     if (prevTaintSet.Contains(v))
                         calleeTaintSet.Add(callee.InParams[i]);
             }
