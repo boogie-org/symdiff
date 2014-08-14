@@ -889,7 +889,8 @@ implementation {:extern} TestCondExit(x.__1: int) returns (result.TestCondExit$1
   label_4:
     assert {:sourcefile "Test0.c"} {:sourceline 94} true;
     call result.exit$2 := det_choice();
-    //assume false;
+    //assume false;    
+    //result.TestCondExit$1 := 1;
     return;
 
   label_3_true:
