@@ -104,7 +104,7 @@ namespace Dependency
             }
             else
             {
-                Console.WriteLine("Error is WorkList: Propagating state for " + node);
+                Console.WriteLine("Error in WorkList: Propagating state for " + node);
                 Debug.Assert(false);
             }
         }

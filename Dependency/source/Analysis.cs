@@ -237,25 +237,32 @@ namespace Dependency
                 dataDepVisitor.Visit(program);
                 dataDepVisitor.Results(Prune, PrintStats);
             }
+            dataDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
+            var dataDeps = dataDepVisitor.ProcDependencies;
+            dataDepVisitor = null;
+            GC.Collect();
 
             var allDepVisitor = new DependencyVisitor(filename, program, DataOnly, DetStubs);
             allDepVisitor.Visit(program);
             allDepVisitor.Results(Prune, PrintStats);
+            allDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
+            var allDeps = allDepVisitor.ProcDependencies;
+            allDepVisitor = null;
+            GC.Collect();
 
             if (Refine)
             {
                 // refined must have pruned dependencies
-                Utils.DependenciesUtils.PruneProcDependencies(program, dataDepVisitor.ProcDependencies);
-                Utils.DependenciesUtils.PruneProcDependencies(program, allDepVisitor.ProcDependencies);
+                Utils.DependenciesUtils.PruneProcDependencies(program, dataDeps);
+                Utils.DependenciesUtils.PruneProcDependencies(program, allDeps);
 
-                var refineDepsWL = new RefineDependencyWL(filename, program, dataDepVisitor.ProcDependencies, allDepVisitor.ProcDependencies, StackBound);
+                var refineDepsWL = new RefineDependencyWL(filename, program, dataDeps, allDeps, StackBound);
                 refineDepsWL.RunFixedPoint();
 
                 // print
                 refineDepsWL.ProcDependencies.Iter(pd => PopulateDependencyLog(program.Implementations().SingleOrDefault(i => i.Proc == pd.Key), pd.Value, "Refined"));
             }
 
-            
         }
 
         private static void Usage()

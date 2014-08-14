@@ -153,6 +153,7 @@ namespace Dependency
         {
             public static GlobalVariable NonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
 
+            // TOOD: replace this with a static function that recieves and Expr and returns HashSet<Variable>
             public class VariableExtractor : StandardVisitor
             {
                 public HashSet<Variable> vars = new HashSet<Variable>();
@@ -187,6 +188,7 @@ namespace Dependency
                 else
                     return v; // leave non-outputs as is
             }
+
         }
 
         public class StatisticsHelper

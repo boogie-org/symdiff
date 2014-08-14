@@ -107,16 +107,10 @@ namespace Dependency
 
         public override Program VisitProgram(Program node)
         {
-            var reversedBFS = new List<Procedure>();
-            Utils.CallGraphHelper.BFS(callGraph).Iter(l => reversedBFS.AddRange(l.Value));
-            reversedBFS.Reverse();
-
-            foreach (var proc in reversedBFS)
+            foreach (var impl in program.Implementations())
             {
-                var impl = program.Implementations().FirstOrDefault(i => i.Proc == proc);
-                if (impl == null || ProcDependencies.ContainsKey(impl.Proc)) // the proc may have been visited already through a caller
-                    continue;
-                Visit(impl);
+                if (!ProcDependencies.ContainsKey(impl.Proc)) // the proc may have been visited already through a caller
+                    Visit(impl);
             }
             return node;
         }
@@ -127,9 +121,7 @@ namespace Dependency
             Utils.ComputeDominators(program, node, dominatedBy);
 
             worklist.RunFixedPoint(this, node);
-            worklist.stateSpace[node] = ProcDependencies[node.Proc];
             Console.WriteLine("Analyzed " + node + "( ).");
-
             return node;
         }
 
