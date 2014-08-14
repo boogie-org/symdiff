@@ -200,17 +200,45 @@ namespace Dependency
 
         }
 
-        public class StatisticsHelper
+        public static class StatisticsHelper
         {
-            List<Tuple<string, Procedure, Dependencies>> procDependencies = null;
-
-            public StatisticsHelper(List<Tuple<string, Procedure, Dependencies>> pd) 
+            public const string ReadSet = "Read Set";
+            public const string DataAndControl = "Data And Control";
+            public const string Refined = "Refined";
+            public const string DataOnly = "Data Only";
+            public static void GenerateCSVOutput(string outFileName, List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>> statsLog)
             {
-                procDependencies = pd;
+                TextWriter output = new StreamWriter(outFileName);
+                output.WriteLine("Note: Only variables that do not have * on all kinds of analysis will are aggregated");
+                output.WriteLine("Filename, Procedure, {0}, {1}, {2}, {3}", ReadSet, DataAndControl, Refined, DataOnly);
+
+                var statsPerFile = statsLog.GroupBy(t => t.Item2);
+                foreach (var ft in statsPerFile)
+                {
+                    var statsPerProc = ft.GroupBy(t => t.Item3);
+                    foreach (var pt in statsPerProc)
+                    {
+                        Dictionary<string, int> vals = new Dictionary<string, int>();
+                        vals[ReadSet] = vals[DataAndControl] = vals[Refined] = vals[DataOnly] = 0;
+                        var statsPerVar = pt.GroupBy(t => t.Item4);
+                        foreach (var statsOfVar in statsPerVar)
+                        {
+                            if (statsOfVar.All(t => !t.Item5.Contains(Utils.VariableUtils.NonDetVar)))
+                            { // if all datasets are non deterministic
+                                foreach (var t in statsOfVar)
+                                {
+                                    vals[t.Item1] += t.Item5.Count;
+                                }
+                            }
+                        }
+                        output.WriteLine("{0},{1},{2},{3},{4}", ft.Key, pt.Key, vals[ReadSet], vals[DataAndControl], vals[Refined], vals[DataOnly]);
+                    }
+                }
+                
+                output.Close();
             }
 
-
-            public void GenerateCSVOutput(string outFileName)
+            public static void GenerateCSVOutput(string outFileName, List<Tuple<string, Procedure, Dependencies>> procDependencies)
             {
                 TextWriter output = new StreamWriter(outFileName);
                 output.WriteLine("Filename, Procedure, Overall, Num Globals, Sum Globals, Inputs(Globals), Num Outputs, Sum Outputs, Inputs(Outputs)");

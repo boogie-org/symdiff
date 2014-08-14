@@ -46,7 +46,7 @@ namespace Dependency
         static private List<Tuple<string, string, int, string>> dependenciesLog = new List<Tuple<string, string, int, string>>();
         static private string statsFile;
 
-        static private List<Tuple<string, Procedure, Dependencies>> statsLog = new List<Tuple<string, Procedure, Dependencies>>();
+        static private List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>> statsLog = new List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>>();
         static private List<Tuple<string, string, int, int, int>> comparativeStats = new List<Tuple<string, string, int, int, int>>();
 
         static private Program program;
@@ -138,8 +138,7 @@ namespace Dependency
                     Utils.StatisticsHelper.GenerateCSVOutputForSemDep(comparativeStats, filename + ".csv");
                 else
                 {
-                    var statsHelper = new Utils.StatisticsHelper(statsLog);
-                    statsHelper.GenerateCSVOutput(statsFile);
+                    Utils.StatisticsHelper.GenerateCSVOutput(statsFile, statsLog);
                     Console.WriteLine("Statistics generated in " + statsFile);
                 }
             }
@@ -230,9 +229,9 @@ namespace Dependency
                 taintLog.Add(t.Value);
         }
 
-        public static void PopulateStatsLog(Implementation impl, Dependencies dependencies)
+        public static void PopulateStatsLog(string type, Implementation impl, Variable key, HashSet<Variable> value)
         {
-            statsLog.Add(new Tuple<string, Procedure, Dependencies>(Utils.AttributeUtils.GetImplSourceFile(impl), impl.Proc, dependencies));
+            statsLog.Add(new Tuple<string,string, Procedure, Variable,HashSet<Variable>>(type,Utils.AttributeUtils.GetImplSourceFile(impl), impl.Proc, key, value));
         }
 
         private static void RunAnalysis(string filename, Program program, bool taintAll = false)

@@ -372,7 +372,8 @@ namespace Dependency
                 var proc = impl.Proc;
                 Analysis.PopulateDependencyLog(impl, ProcDependencies[proc], dataOnly ? "Data Only" : "Data and Control");
                 if (printStats) // TODO: move to main
-                    Analysis.PopulateStatsLog(impl, ProcDependencies[proc]);
+                    foreach (var d in ProcDependencies[proc])
+                        Analysis.PopulateStatsLog(dataOnly ? Utils.StatisticsHelper.DataOnly : Utils.StatisticsHelper.DataAndControl,impl,d.Key,d.Value);
             }
         }
     }
