@@ -231,7 +231,7 @@ namespace Dependency
                                 }
                             }
                         }
-                        output.WriteLine("{0},{1},{2},{3},{4}", ft.Key, pt.Key, vals[ReadSet], vals[DataAndControl], vals[Refined], vals[DataOnly]);
+                        output.WriteLine("{0},{1},{2},{3},{4},{5}", ft.Key, pt.Key, vals[ReadSet], vals[DataAndControl], vals[Refined], vals[DataOnly]);
                     }
                 }
                 
