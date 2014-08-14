@@ -167,13 +167,9 @@ namespace Dependency
             { // here we create branchCondVars
                 if (!branchCondVars.ContainsKey(currBlock))
                     branchCondVars[currBlock] = new HashSet<Variable>();
+
                 foreach (var succ in succs)
-                {
-                    AssumeCmd cmd = (AssumeCmd)succ.Cmds[0];
-                    var varExtractor = new Utils.VariableUtils.VariableExtractor();
-                    varExtractor.Visit(cmd.Expr);
-                    branchCondVars[currBlock].UnionWith(varExtractor.vars);
-                }
+                    branchCondVars[currBlock].UnionWith(Utils.VariableUtils.ExtractVars(succ.Cmds[0]));
             }
 
             if (worklist.Assign(node, dependencies))
@@ -189,14 +185,8 @@ namespace Dependency
             // for assignment v1,...,vn = e1,...,en handle each vi = ei separately
             for (int i = 0; i < node.Lhss.Count; ++i)
             {
-                Expr lhs = node.Lhss[i].AsExpr, rhs = node.Rhss[i];
-                var varExtractor = new Utils.VariableUtils.VariableExtractor();
-                varExtractor.Visit(lhs);
-                Variable left = varExtractor.vars.First(); // TODO: stuff like: Mem_T.INT4[in_prio] := out_tempBoogie0
-
-                varExtractor = new Utils.VariableUtils.VariableExtractor();
-                varExtractor.Visit(rhs);
-                var rhsVars = varExtractor.vars;
+                var lhs = Utils.VariableUtils.ExtractVars(node.Lhss[i]).First(); // TODO: stuff like: Mem_T.INT4[in_prio] := out_tempBoogie0
+                var rhsVars = Utils.VariableUtils.ExtractVars(node.Rhss[i]);
 
                 var dependsSet = new HashSet<Variable>();
 
@@ -208,9 +198,9 @@ namespace Dependency
                         dependsSet.UnionWith(dependencies[rv]);
                 }
 
-                InferDominatorDependency(currBlock, dependsSet, left);
+                InferDominatorDependency(currBlock, dependsSet, lhs);
 
-                dependencies[left] = dependsSet;
+                dependencies[lhs] = dependsSet;
             }
 
             if (worklist.Assign(node, dependencies))
@@ -296,11 +286,9 @@ namespace Dependency
             var inputExpressionsDependency = new List<HashSet<Variable>>();
             foreach (var inExpr in node.Ins)
             {
-                var varExtractor = new Utils.VariableUtils.VariableExtractor();
-                varExtractor.Visit(inExpr);
                 inputExpressionsDependency.Add(new HashSet<Variable>());
                 int current = inputExpressionsDependency.Count - 1;
-                foreach (var v in varExtractor.vars)
+                foreach (var v in Utils.VariableUtils.ExtractVars(inExpr))
                 {
                     inputExpressionsDependency[current].Add(v);
                     if (dependencies.Keys.Contains(v))

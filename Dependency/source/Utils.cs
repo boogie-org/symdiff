@@ -153,8 +153,8 @@ namespace Dependency
         {
             public static GlobalVariable NonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
 
-            // TOOD: replace this with a static function that recieves and Expr and returns HashSet<Variable>
-            public class VariableExtractor : StandardVisitor
+            // TOOD: replace this with a static function that recieves an Absy and returns HashSet<Variable>
+            private class VariableExtractor : StandardVisitor
             {
                 public HashSet<Variable> vars = new HashSet<Variable>();
                 public override Variable VisitVariable(Variable node)
@@ -163,6 +163,15 @@ namespace Dependency
                     return node;
                 }
             }
+            private static VariableExtractor varExtractor = new VariableExtractor();
+            public static HashSet<Variable> ExtractVars(Absy node)
+            {
+                varExtractor.vars = new HashSet<Variable>();
+                varExtractor.Visit(node);
+                return varExtractor.vars;
+            }
+
+            
 
             public static HashSet<Variable> ImplInputsToProcInputs(Implementation impl, HashSet<Variable> vars)
             {
