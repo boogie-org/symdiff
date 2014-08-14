@@ -252,6 +252,12 @@ namespace Dependency
             allDepVisitor = null;
             GC.Collect();
 
+            // Control+Data dependencies must contain the Data dependencies
+            Debug.Assert(dataDeps.All(pd => { 
+                var proc = pd.Key; var ddeps = pd.Value; var adeps = allDeps[proc];
+                return ddeps.Keys.All(v => adeps.Keys.Contains(v) && adeps[v].IsSupersetOf(ddeps[v]));          
+            }));
+
             if (Refine)
             {
                 // refined must have pruned dependencies
