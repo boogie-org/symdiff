@@ -37,7 +37,7 @@ namespace Dependency
         
     }
 
-    public class RefineDependencyProgramCreator
+    public static class RefineDependencyProgramCreator
     {
         /// <summary>
         /// This creates an entire program with CheckDependency for each procedure
@@ -127,8 +127,9 @@ namespace Dependency
             var upperBoundDepImpl = upperBoundDependencies[proc];
 
             //lowerBoundDepImpl.Prune(impl);
-            var readSet = lowerBoundDepImpl.ReadSet();
-            var modSet = lowerBoundDepImpl.ModSet();
+            //we will take the read/write set from upper bound, as lower bound may not have all the read vars
+            var readSet = upperBoundDepImpl.ReadSet();
+            var modSet = upperBoundDepImpl.ModSet();
             readSet.RemoveAll(x => x.Name == Utils.VariableUtils.NonDetVar.Name);
 
             //remove all entries from modSet for which upper/lower bounds are same or lower already has a *
