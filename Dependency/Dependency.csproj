@@ -78,6 +78,7 @@
     <Compile Include="source\Analysis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\DependencyVisitor.cs" />
+    <Compile Include="source\ReadSetVisitor.cs" />
     <Compile Include="source\RefineDependency.cs" />
     <Compile Include="source\TaintVisitor.cs" />
     <Compile Include="source\Utils.cs" />

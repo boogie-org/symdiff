@@ -28,6 +28,7 @@ namespace Dependency
             public const string debug = "/break";
             public const string detStubs = "/detStubs";
             public const string refine = "/refine";
+            public const string readSet = "/readSet";
         }
 
         static public bool DataOnly = false;
@@ -37,6 +38,7 @@ namespace Dependency
         static public bool DetStubs = false;
         static public bool Refine = false;
         public static bool SemanticDep = false;
+        public static bool ReadSet = false;
         static public int StackBound = 3;
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
@@ -88,6 +90,8 @@ namespace Dependency
             Refine = args.Any(x => x == CmdLineOptsNames.refine || x.StartsWith(CmdLineOptsNames.refine + ":"));
             args.Where(x => x.StartsWith(CmdLineOptsNames.refine + ":"))
                 .Iter(s => StackBound = int.Parse(s.Split(':')[1]));
+
+            ReadSet = args.Any(x => x.Contains(CmdLineOptsNames.readSet));
 
             if (args.Any(x => x.Contains(CmdLineOptsNames.debug)))
                 Debugger.Launch();
@@ -258,6 +262,19 @@ namespace Dependency
                 return ddeps.Keys.All(v => adeps.Keys.Contains(v) && adeps[v].IsSupersetOf(ddeps[v]));          
             }));
 
+            ReadSetVisitor rsVisitor = new ReadSetVisitor();
+            if (ReadSet)
+                rsVisitor.Visit(program);
+
+            // ReadSet  must contain the Control+Data dependencies
+            Debug.Assert(rsVisitor.ProcReadSet.All(prs => 
+            {
+                var proc = prs.Key; var readSet = prs.Value;
+                if (!allDeps.ContainsKey(proc)) return true;
+                var deps = allDeps[proc];
+                return deps.Keys.All(v => readSet.Contains(v) && readSet.IsSupersetOf(deps[v]));
+            }));
+
             if (Refine)
             {
                 // refined must have pruned dependencies
@@ -284,10 +301,11 @@ namespace Dependency
             Console.WriteLine(CmdLineOptsNames.both.PadRight(length,' ') + " - compute both data & control dependencies for showing in HTML");
             Console.WriteLine(CmdLineOptsNames.prune.PadRight(length,' ') + " - show only in\\out\\global dependencies (no locals)");
             Console.WriteLine((CmdLineOptsNames.stats + "[:statsfile.csv]").PadRight(length,' ') +  " - print dependecies statistics in CSV format [to a specified file]");
-            Console.WriteLine(CmdLineOptsNames.semanticDep.PadRight(length,' ') + " - print dependecies statistics in CSV format [to a specified file]");
             Console.WriteLine(CmdLineOptsNames.detStubs.PadRight(length, ' ') + " - (unsoundly) assume stub functions to depend only on input (and not be undeterministic)");
+            Console.WriteLine(CmdLineOptsNames.readSet.PadRight(length, ' ') + " - compute a naive read set (for comparison purposes)");
             Console.WriteLine((CmdLineOptsNames.refine + "[:<int>]").PadRight(length, ' ') + " - refine result [with inlining up to stack bound]");
         }
+
 
     }
 }
