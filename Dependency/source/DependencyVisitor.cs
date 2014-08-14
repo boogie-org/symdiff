@@ -50,7 +50,7 @@ namespace Dependency
         public void RunFixedPoint()
         {
             var worklist = new List<Procedure>();
-            Utils.CallGraphHelper.BFS(callGraph).Iter(l => worklist.AddRange(l.Value));
+            worklist.AddRange(program.TopLevelDeclarations.Where(d => d is Procedure).Select(p => p as Procedure));
 
             //least fixed point, starting with lower-bound
             currDependencies = new Dictionary<Procedure, Dependencies>(lowerBoundProcDependencies); 
