@@ -46,50 +46,67 @@ namespace Dependency
         /// <returns></returns>
         public static Program CreateCheckDependencyProgram(string filename, Program prog)
         {
-            prog = Utils.CrossProgramUtils.ReplicateProgram(prog, filename);
+            throw new NotImplementedException("This API is deprecated");
 
-            // TODO: once Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms works, depVisitor & dataDepVisitor become a parameter!
-            var depVisitor = new DependencyVisitor(filename,prog);
-            depVisitor.Visit(prog);
-            depVisitor.Results(true,true); // add results to logs for printing
+            #region deprecated 
+            //prog = Utils.CrossProgramUtils.ReplicateProgram(prog, filename);
 
-            var procDependencies = depVisitor.ProcDependencies;
+            //// TODO: once Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms works, depVisitor & dataDepVisitor become a parameter!
+            //var depVisitor = new DependencyVisitor(filename,prog);
+            //depVisitor.Visit(prog);
+            //depVisitor.Results(true,true); // add results to logs for printing
 
-            // do data only analysis as well, for reference
-            var dataDepVisitor = new DependencyVisitor(filename, prog, true);
-            Analysis.DataOnly = true;
-            dataDepVisitor.Visit(prog);
-            dataDepVisitor.Results(true, true);
-           
+            //var procDependencies = depVisitor.ProcDependencies;
 
-            Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count];
-            prog.TopLevelDeclarations.CopyTo(decls);
-            decls.Where(i => i is Implementation).Iter(i => CreateCheckDependencyImpl(procDependencies, i as Implementation, prog));
+            //// do data only analysis as well, for reference
+            //var dataDepVisitor = new DependencyVisitor(filename, prog, true);
+            //Analysis.DataOnly = true;
+            //dataDepVisitor.Visit(prog);
+            //dataDepVisitor.Results(true, true);
 
-            ModSetCollector c = new ModSetCollector();
-            c.DoModSetAnalysis(prog);
+            ////make any asserts/requires/ensures free on the entire program (as procedures get inlined)
+            //prog.TopLevelDeclarations.OfType<Procedure>().Iter
+            //    (proc =>
+            //    {
+            //        proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
+            //        proc.Ensures = proc.Ensures.Select(x => new Ensures(true, x.Condition)).ToList();
+            //    });
+            //(new Utils.RemoveAsserts()).Visit(prog);
 
-            prog.Resolve();
-            prog.Typecheck();
+            //Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count];
+            //prog.TopLevelDeclarations.CopyTo(decls);
+            //decls.Where(i => i is Implementation).Iter(i => CreateCheckDependencyImpl(procDependencies, null, i as Implementation, prog));
 
-            var tuo = new TokenTextWriter("tmp.bpl", true);
-            prog.Emit(tuo);
-            tuo.Close();
+            //ModSetCollector c = new ModSetCollector();
+            //c.DoModSetAnalysis(prog);
 
-            return prog;
+            //prog.Resolve();
+            //prog.Typecheck();
+
+            //var tuo = new TokenTextWriter("tmp.bpl", true);
+            //prog.Emit(tuo);
+            //tuo.Close();
+
+            //return prog;
+            #endregion
         }
 
         /// <summary>
         /// Creates the CheckDependency implementation for "impl" only and adds to the program
         /// </summary>
-        /// <param name="procDependencies"></param>
+        /// <param name="upperBoundDependencies"></param>
         /// <param name="newDecls"></param>
         /// <param name="impl"></param>
-        public static Implementation CreateCheckDependencyImpl(Dictionary<Procedure, Dependencies> procDependencies, Implementation impl, Program program)
+        public static Implementation CreateCheckDependencyImpl(Dictionary<Procedure, Dependencies> upperBoundDependencies, 
+            Dictionary<Procedure, Dependencies>  lowerBoundDependencies,
+            Implementation impl, Program program)
         {
             #region Description of created program structure
             /*
                 Given P, R (=ReadSet), M (=ModSet)
+                R = R \ {*}
+                M = M \ {m | lowerBnd(m) has * || upperBnd[m] == lowerBnd[m]}
+             
                 CheckDependecy_P() return (EQ) Ensures BM => EQ {
                   Havoc R
                   R1 := R
@@ -105,22 +122,26 @@ namespace Dependency
             #endregion
 
             var proc = impl.Proc;
-            procDependencies[proc].Prune(impl);
-            var readSet = procDependencies[proc].ReadSet();
-            var modSet = procDependencies[proc].ModSet();
+
+            var lowerBoundDepImpl = lowerBoundDependencies[proc];
+            var upperBoundDepImpl = upperBoundDependencies[proc];
+
+            //lowerBoundDepImpl.Prune(impl);
+            var readSet = lowerBoundDepImpl.ReadSet();
+            var modSet = lowerBoundDepImpl.ModSet();
             readSet.RemoveAll(x => x.Name == Utils.VariableUtils.NonDetVar.Name);
 
-            //make any asserts/requires/ensures free
-            proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
-            proc.Ensures = proc.Ensures.Select(x => new Ensures(true, x.Condition)).ToList();
-            (new Utils.RemoveAsserts()).Visit(impl);
+            //remove all entries from modSet for which upper/lower bounds are same or lower already has a *
+            modSet.RemoveAll(x =>
+                {
+                    if (lowerBoundDepImpl[x].Count() != upperBoundDepImpl[x].Count()) return false;
+                    if (lowerBoundDepImpl[x].Contains(Utils.VariableUtils.NonDetVar)) return true; //already has *
+                    return //true only if both sets are identical
+                        lowerBoundDepImpl[x].All(y => upperBoundDepImpl[x].Contains(y)) &&
+                        upperBoundDepImpl[x].All(y => lowerBoundDepImpl[x].Contains(y));
+                }
+                );
 
-            // add inline attribute to the original proc and impl (we do it later in inlineUpto)
-            //if (QKeyValue.FindExprAttribute(proc.Attributes, RefineConsts.inlineAttribute) == null)
-            //    proc.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(RefineConsts.recursionDepth));
-            //if (QKeyValue.FindExprAttribute(impl.Attributes, RefineConsts.inlineAttribute) == null)
-            //    impl.AddAttribute(RefineConsts.inlineAttribute, Expr.Literal(2));
-            //Debug.Assert(QKeyValue.FindBoolAttribute(proc.Attributes, RefineConsts.inlineAttribute));
             var procName = proc.Name;
 
             var newDecls = new List<Declaration>();
@@ -371,6 +392,8 @@ namespace Dependency
         /// </summary>
         public static Dictionary<Procedure, Dependencies> Run(Program prog)
         {
+            throw new NotImplementedException("This API is deprecated");
+
             //inline all the implementtions
             Utils.BoogieInlineUtils.Inline(prog);
 
@@ -378,11 +401,11 @@ namespace Dependency
             //create a VC
             prog.TopLevelDeclarations.OfType<Implementation>()
                 .Where(x => QKeyValue.FindStringAttribute(x.Attributes, RefineConsts.checkDepAttribute) != null)
-                .Iter(x => result[x.Proc] = Analyze(prog, x));
+                .Iter(x => result[x.Proc] = Analyze(prog, null, x));
 
             return result;
         }
-        public static Dependencies Analyze(Program prog, Implementation impl)
+        public static Dependencies Analyze(Program prog, Dependencies deps, Implementation impl)
         {
             string origProcName = impl.FindStringAttribute(RefineConsts.checkDepAttribute);
             //get the procedure's guard constants
@@ -405,7 +428,7 @@ namespace Dependency
             //---- generate VC ends ---------
 
             //Analyze using UNSAT cores for each output
-            Dependencies deps = new Dependencies();
+            //Dependencies deps = new Dependencies();
             Console.WriteLine("RefinedDependency[{0}] = [", origProcName);
             outputGuardConsts.Iter(x => AnalyzeDependencyWithUnsatCore(programVC, x, deps, origProcName, inputGuardConsts, outputGuardConsts));
             Console.WriteLine("]");
@@ -449,7 +472,7 @@ namespace Dependency
             GSet<object> freeVars = new GSet<object>();
             vident.ComputeFreeVariables(freeVars);
             Variable v = (Variable)freeVars.Choose();
-            result[v] = new HashSet<Variable>(); //TODO: need a variable in place of v
+            //result[v] = new HashSet<Variable>(); //TODO: need a variable in place of v
 
             //check for validity (presence of all input eq implies output is equal)
             var outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
@@ -458,7 +481,7 @@ namespace Dependency
             {
                 Console.WriteLine("\t VC not valid, returning");
                 result[v].Add(Utils.VariableUtils.NonDetVar);
-                Console.WriteLine("\t Dependency of {0} =  <*>", outConstant);
+                Console.WriteLine("\t Dependency of {0} =  <{1}>", v, string.Join(",", result[v]));
                 return;
             }
             if (outcome == ProverInterface.Outcome.OutOfMemory || 
@@ -467,7 +490,7 @@ namespace Dependency
             {
                 Console.WriteLine("\t VC inconclusive, returning");
                 result[v].Add(Utils.VariableUtils.NonDetVar);
-                Console.WriteLine("\t Dependency of {0} =  <->", outConstant);
+                Console.WriteLine("\t Dependency of {0} =  <{1}>", v, string.Join(",", result[v]));
                 return;
             }
 
@@ -510,7 +533,8 @@ namespace Dependency
                     }
                 });
 
- 
+            //We are about to refine the dependency of v, so we start with the empty set
+            result[v] = new HashSet<Variable>();
             //TODO: THIS HAS TO GO AWAY with proper variables!!!
             foreach (var ig in inputGuardConsts)
             {
@@ -521,7 +545,8 @@ namespace Dependency
                     IdentifierExpr iexpr = (IdentifierExpr)Utils.AttributeUtils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute)[1];
                     GSet<object> freeVars1 = new GSet<object>();
                     iexpr.ComputeFreeVariables(freeVars1);
-                    result[v].Add((Variable) freeVars1.Choose());
+                    var w = (Variable)freeVars1.Choose();
+                    result[v].Add(w);
                 }
             }
             Console.WriteLine("\t Dependency of {0} = <{1}>",
@@ -537,28 +562,28 @@ namespace Dependency
 
         Program prog;
         Implementation impl;
-        Dictionary<Procedure, Dependencies> currDependencies;
-        Dictionary<Procedure, Dependencies> dataDependencies;
+        Dictionary<Procedure, Dependencies> upperBoundDependencies;
+        Dictionary<Procedure, Dependencies> lowerBoundDependencies;
         int stackBound;
         Graph<Procedure> callGraph;
 
         public RefineDependencyPerImplementation(Program prog, Implementation impl,
-            Dictionary<Procedure, Dependencies> currDependencies, // Dependencies inherits from Dictionary<Variable, HashSet<Variable>>
-            Dictionary<Procedure, Dependencies> dataDependencies,
+            Dictionary<Procedure, Dependencies> upperBoundDeps, // Dependencies inherits from Dictionary<Variable, HashSet<Variable>>
+            Dictionary<Procedure, Dependencies> lowerBoundDeps,
             int stackBound,
             Graph<Procedure> callGraph)
         {
             this.prog = prog;
             this.impl = impl;
-            this.currDependencies = currDependencies;
-            this.dataDependencies = dataDependencies;
+            this.upperBoundDependencies = upperBoundDeps;
+            this.lowerBoundDependencies = lowerBoundDeps;
             this.stackBound = stackBound;
             this.callGraph = callGraph;
 
             // complete the missing variables in the dependencies
-            var bd = Utils.DependenciesUtils.BaseDependencies(prog);
-            Utils.DependenciesUtils.JoinProcDependencies(currDependencies, bd);
-            Utils.DependenciesUtils.JoinProcDependencies(dataDependencies, bd);
+            //var bd = Utils.DependenciesUtils.BaseDependencies(prog);
+            //Utils.DependenciesUtils.JoinProcDependencies(currDependencies, bd);
+            //Utils.DependenciesUtils.JoinProcDependencies(dataDependencies, bd);
 
         }
 
@@ -567,20 +592,30 @@ namespace Dependency
         {
             //check if ANY of the output has scope for refinement
             // TODO: move this to before the program even gets replicated!
-            var depAll = currDependencies[impl.Proc];
+            var dependUpperBnd = upperBoundDependencies[impl.Proc];
 
             Console.WriteLine("\n-------Procedure {0}--------\n", impl.Proc.Name);
-            Console.WriteLine("Data dependency = {0}", dataDependencies[impl.Proc]);
-            Console.WriteLine("Data/Control dependency = {0}", currDependencies[impl.Proc]);
+            Console.WriteLine("Lower bound dependency = {0}", lowerBoundDependencies[impl.Proc]);
+            Console.WriteLine("Upper bound dependency = {0}", upperBoundDependencies[impl.Proc]);
 
-            if (dataDependencies != null && dataDependencies.Count > 0)
-            {
-                var depData = dataDependencies[impl.Proc];
-                var potential = depAll.Keys.Where(x => depAll[x].Count() > depData[x].Count()).Count();
-                if (potential == 0) return currDependencies;
-            }
+            var dependLowerBnd = lowerBoundDependencies[impl.Proc];
+            //at least one output variable without * has a non-empty upper\lower bound
+            var potential = dependUpperBnd.Keys.Where(x =>
+                !dependLowerBnd[x].Contains(Utils.VariableUtils.NonDetVar) &&
+                 dependUpperBnd[x].Count() > dependLowerBnd[x].Count())
+                 .Count();
+            if (potential == 0) return lowerBoundDependencies;
+ 
+            //make any asserts/requires/ensures free on the entire program (as procedures get inlined)
+            prog.TopLevelDeclarations.OfType<Procedure>().Iter
+                (proc =>
+                    {
+                        proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
+                        proc.Ensures = proc.Ensures.Select(x => new Ensures(true, x.Condition)).ToList();
+                    });
+             (new Utils.RemoveAsserts()).Visit(prog);
 
-            var refineImpl = RefineDependencyProgramCreator.CreateCheckDependencyImpl(currDependencies, impl, prog);
+            var refineImpl = RefineDependencyProgramCreator.CreateCheckDependencyImpl(upperBoundDependencies, lowerBoundDependencies, impl, prog);
             ModSetCollector c = new ModSetCollector();
             c.DoModSetAnalysis(prog);
 
@@ -589,8 +624,8 @@ namespace Dependency
             prog.TopLevelDeclarations.CopyTo(decls); // a copy is needed since AddCalleeDependencySpecs changes prog.TopLevelDeclarations
             decls.OfType<Procedure>().Iter(p =>
                 { 
-                    if (currDependencies.ContainsKey(p)) //the CheckDependency does not have currDependencies
-                        AddCalleeDependencySpecs(p, currDependencies[p]); 
+                    if (lowerBoundDependencies.ContainsKey(p)) //the CheckDependency does not have currDependencies
+                        AddCalleeDependencySpecs(p, lowerBoundDependencies[p]); 
                 });
             //setup inline attributes for inline upto depth k
             callGraph.AddEdge(refineImpl.Proc, impl.Proc);
@@ -603,10 +638,10 @@ namespace Dependency
             prog.Emit(tuo);
             tuo.Close();
 
-            var newDepImpl = RefineDependencyChecker.Analyze(prog,refineImpl);
+            var newDepImpl = RefineDependencyChecker.Analyze(prog, lowerBoundDependencies[impl.Proc], refineImpl);
 
-            currDependencies[impl.Proc] = newDepImpl; //update the dependecy for impl only
-            return currDependencies;
+            lowerBoundDependencies[impl.Proc] = newDepImpl; //update the dependecy for impl only
+            return lowerBoundDependencies;
         }
         
         private void AddCalleeDependencySpecs(Procedure p, Dependencies dep)

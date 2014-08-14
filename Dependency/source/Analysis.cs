@@ -104,16 +104,17 @@ namespace Dependency
 
             if (SemanticDep)
             {
-                var refined = RefineDependencyProgramCreator.CreateCheckDependencyProgram(filename, program);
-                var procDeps = RefineDependencyChecker.Run(refined);
+                throw new NotImplementedException("This mode is deprecated. Use /refine:k instead");
+                //var refined = RefineDependencyProgramCreator.CreateCheckDependencyProgram(filename, program);
+                //var procDeps = RefineDependencyChecker.Run(refined);
 
-                foreach (var pd in procDeps)
-                {
-                    string origProcName = pd.Key.FindStringAttribute(RefineConsts.checkDepAttribute);
-                    var impl = program.Implementations().Single(i => i.Name == origProcName); 
-                    PopulateDependencyLog(impl, pd.Value, "Refined Dependencies");
-                    //ComputeStats(impl, pd.Value, depVisitor.procDependencies[impl.Proc], dataDepVisitor.procDependencies[impl.Proc]);
-                }
+                //foreach (var pd in procDeps)
+                //{
+                //    string origProcName = pd.Key.FindStringAttribute(RefineConsts.checkDepAttribute);
+                //    var impl = program.Implementations().Single(i => i.Name == origProcName); 
+                //    PopulateDependencyLog(impl, pd.Value, "Refined Dependencies");
+                //    //ComputeStats(impl, pd.Value, depVisitor.procDependencies[impl.Proc], dataDepVisitor.procDependencies[impl.Proc]);
+                //}
             }
             else 
             {
@@ -181,6 +182,7 @@ namespace Dependency
 
         static public void PopulateDependencyLog(Implementation impl, Dependencies deps, string which)
         {
+            if (impl == null) return; //if this is a stub
             var proc = impl.Proc;
             string sourcefile = Utils.AttributeUtils.GetImplSourceFile(impl);
             var sourceLines = impl.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.AttributeUtils.GetSourceLine((AssertCmd)b.Cmds[0]));
@@ -260,7 +262,7 @@ namespace Dependency
                 refineDepsWL.RunFixedPoint();
 
                 // print
-                refineDepsWL.ProcDependencies.Iter(pd => PopulateDependencyLog(program.Implementations().SingleOrDefault(i => i.Proc == pd.Key), pd.Value, "Refined"));
+                refineDepsWL.currDependencies.Iter(pd => PopulateDependencyLog(program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name), pd.Value, "Refined"));
             }
 
         }

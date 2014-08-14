@@ -17,9 +17,10 @@ namespace Dependency
 
         private Graph<Procedure> callGraph;
 
-        private Dictionary<Procedure, Dependencies> lowerBoundProcDependencies;
-        private Dictionary<Procedure, Dependencies> upperBoundProcDependencies;
-        public Dictionary<Procedure, Dependencies> ProcDependencies;
+         private readonly Dictionary<Procedure, Dependencies> lowerBoundProcDependencies; //never changes
+         private readonly Dictionary<Procedure, Dependencies> upperBoundProcDependencies; //never changes
+         public Dictionary<Procedure, Dependencies> currDependencies; 
+        
 
         private int stackBound;
 
@@ -29,9 +30,21 @@ namespace Dependency
             this.program = program;
             this.lowerBoundProcDependencies = lowerBoundProcDependencies;
             this.upperBoundProcDependencies = upperBoundProcDependencies;
-            this.ProcDependencies = new Dictionary<Procedure, Dependencies>();
             this.stackBound = stackBound;
             this.callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);
+            currDependencies = null;
+
+            program.TopLevelDeclarations.OfType<Procedure>().Iter(proc =>
+                {
+                    if (upperBoundProcDependencies.ContainsKey(proc)) //some unreachable procs such as havoc_Assert are not present in the tables
+                    {
+                        Debug.Assert(upperBoundProcDependencies[proc].Keys.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable));
+                        Debug.Assert(upperBoundProcDependencies[proc].Values.All(d => d.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable)));
+                        Debug.Assert(lowerBoundProcDependencies[proc].Keys.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable));
+                        Debug.Assert(lowerBoundProcDependencies[proc].Values.All(d => d.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable)));
+                    }
+                }
+            );
         }
 
         public void RunFixedPoint()
@@ -39,15 +52,12 @@ namespace Dependency
             var worklist = new List<Procedure>();
             Utils.CallGraphHelper.BFS(callGraph).Iter(l => worklist.AddRange(l.Value));
 
+            //least fixed point, starting with lower-bound
+            currDependencies = new Dictionary<Procedure, Dependencies>(lowerBoundProcDependencies); 
             while (worklist.Count > 0)
             {
                 var proc = worklist.Last();
                 worklist.Remove(proc);
-
-                Debug.Assert(upperBoundProcDependencies[proc].Keys.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable));
-                Debug.Assert(upperBoundProcDependencies[proc].Values.All(d => d.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable)));
-                Debug.Assert(lowerBoundProcDependencies[proc].Keys.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable));
-                Debug.Assert(lowerBoundProcDependencies[proc].Values.All(d => d.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable)));
 
                 var impl = program.Implementations().SingleOrDefault(i => i.Name == proc.Name);
                 if (impl == null)
@@ -58,20 +68,19 @@ namespace Dependency
                 RefineDependencyPerImplementation rdpi = new RefineDependencyPerImplementation(newProg,
                     (Implementation)Utils.CrossProgramUtils.ResolveTopLevelDeclsAcrossPrograms(impl, program, newProg),
                     Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(upperBoundProcDependencies, program, newProg),
-                    Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(lowerBoundProcDependencies, program, newProg),
+                    Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(currDependencies, program, newProg),
                     stackBound,
                     Utils.CallGraphHelper.ComputeCallGraph(newProg));
+                var tmp = Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(rdpi.Run(), newProg, program)[proc];
 
-                ProcDependencies[proc] = Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(rdpi.Run(), newProg, program)[proc];
+                Debug.Assert(tmp.Keys.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable));
+                Debug.Assert(tmp.Values.All(d => d.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable)));
 
-                Debug.Assert(ProcDependencies[proc].Keys.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable));
-                Debug.Assert(ProcDependencies[proc].Values.All(d => d.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable)));
-
-                // if the dependencies are different (hopefully lower :) than the upper bound, add all callers
-                if (!(ProcDependencies[proc].Equals(upperBoundProcDependencies[proc])))
+                // the lower bound has changed, update the dependencies and add callers to WL
+                if (!(tmp.Equals(currDependencies[proc])))
                 {
                     worklist.AddRange(callGraph.Predecessors(proc));
-                    upperBoundProcDependencies[proc] = ProcDependencies[proc];
+                    currDependencies[proc] = tmp;
                 }
 
             }
