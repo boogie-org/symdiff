@@ -39,57 +39,57 @@ namespace Dependency
 
     public static class RefineDependencyProgramCreator
     {
-        /// <summary>
-        /// This creates an entire program with CheckDependency for each procedure
-        /// It also creates the data and data+control dependencies
-        /// </summary>
-        /// <returns></returns>
-        public static Program CreateCheckDependencyProgram(string filename, Program prog)
-        {
-            throw new NotImplementedException("This API is deprecated");
+        ///// <summary>
+        ///// This creates an entire program with CheckDependency for each procedure
+        ///// It also creates the data and data+control dependencies
+        ///// </summary>
+        ///// <returns></returns>
+        //public static Program CreateCheckDependencyProgram(string filename, Program prog)
+        //{
+        //    throw new NotImplementedException("This API is deprecated");
 
-            #region deprecated 
-            //prog = Utils.CrossProgramUtils.ReplicateProgram(prog, filename);
+        //    #region deprecated 
+        //    //prog = Utils.CrossProgramUtils.ReplicateProgram(prog, filename);
 
-            //// TODO: once Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms works, depVisitor & dataDepVisitor become a parameter!
-            //var depVisitor = new DependencyVisitor(filename,prog);
-            //depVisitor.Visit(prog);
-            //depVisitor.Results(true,true); // add results to logs for printing
+        //    //// TODO: once Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms works, depVisitor & dataDepVisitor become a parameter!
+        //    //var depVisitor = new DependencyVisitor(filename,prog);
+        //    //depVisitor.Visit(prog);
+        //    //depVisitor.Results(true,true); // add results to logs for printing
 
-            //var procDependencies = depVisitor.ProcDependencies;
+        //    //var procDependencies = depVisitor.ProcDependencies;
 
-            //// do data only analysis as well, for reference
-            //var dataDepVisitor = new DependencyVisitor(filename, prog, true);
-            //Analysis.DataOnly = true;
-            //dataDepVisitor.Visit(prog);
-            //dataDepVisitor.Results(true, true);
+        //    //// do data only analysis as well, for reference
+        //    //var dataDepVisitor = new DependencyVisitor(filename, prog, true);
+        //    //Analysis.DataOnly = true;
+        //    //dataDepVisitor.Visit(prog);
+        //    //dataDepVisitor.Results(true, true);
 
-            ////make any asserts/requires/ensures free on the entire program (as procedures get inlined)
-            //prog.TopLevelDeclarations.OfType<Procedure>().Iter
-            //    (proc =>
-            //    {
-            //        proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
-            //        proc.Ensures = proc.Ensures.Select(x => new Ensures(true, x.Condition)).ToList();
-            //    });
-            //(new Utils.RemoveAsserts()).Visit(prog);
+        //    ////make any asserts/requires/ensures free on the entire program (as procedures get inlined)
+        //    //prog.TopLevelDeclarations.OfType<Procedure>().Iter
+        //    //    (proc =>
+        //    //    {
+        //    //        proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
+        //    //        proc.Ensures = proc.Ensures.Select(x => new Ensures(true, x.Condition)).ToList();
+        //    //    });
+        //    //(new Utils.RemoveAsserts()).Visit(prog);
 
-            //Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count];
-            //prog.TopLevelDeclarations.CopyTo(decls);
-            //decls.Where(i => i is Implementation).Iter(i => CreateCheckDependencyImpl(procDependencies, null, i as Implementation, prog));
+        //    //Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count];
+        //    //prog.TopLevelDeclarations.CopyTo(decls);
+        //    //decls.Where(i => i is Implementation).Iter(i => CreateCheckDependencyImpl(procDependencies, null, i as Implementation, prog));
 
-            //ModSetCollector c = new ModSetCollector();
-            //c.DoModSetAnalysis(prog);
+        //    //ModSetCollector c = new ModSetCollector();
+        //    //c.DoModSetAnalysis(prog);
 
-            //prog.Resolve();
-            //prog.Typecheck();
+        //    //prog.Resolve();
+        //    //prog.Typecheck();
 
-            //var tuo = new TokenTextWriter("tmp.bpl", true);
-            //prog.Emit(tuo);
-            //tuo.Close();
+        //    //var tuo = new TokenTextWriter("tmp.bpl", true);
+        //    //prog.Emit(tuo);
+        //    //tuo.Close();
 
-            //return prog;
-            #endregion
-        }
+        //    //return prog;
+        //    #endregion
+        //}
 
         /// <summary>
         /// Creates the CheckDependency implementation for "impl" only and adds to the program
@@ -135,8 +135,8 @@ namespace Dependency
             //remove all entries from modSet for which upper/lower bounds are same or lower already has a *
             modSet.RemoveAll(x =>
                 {
+                    //if (lowerBoundDepImpl[x].Contains(Utils.VariableUtils.NonDetVar)) return true; //already has *
                     if (lowerBoundDepImpl[x].Count() != upperBoundDepImpl[x].Count()) return false;
-                    if (lowerBoundDepImpl[x].Contains(Utils.VariableUtils.NonDetVar)) return true; //already has *
                     return //true only if both sets are identical
                         lowerBoundDepImpl[x].All(y => upperBoundDepImpl[x].Contains(y)) &&
                         upperBoundDepImpl[x].All(y => lowerBoundDepImpl[x].Contains(y));
