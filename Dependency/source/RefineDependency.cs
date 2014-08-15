@@ -28,7 +28,7 @@ namespace Dependency
         public const string checkDepAttribute = "checkDependency";
 
         public const string inlineAttribute = "inline";
-        public const int recursionDepth = 2; //1 is bad for loops as it doesn't enter the loop
+        public const int recursionDepth = 1; //we are using inline:spec now, so no unsoundness due to inlining
 
         public const string readSetNamePrefix = "r";
         public const string modSetNamePrefix = "m";
@@ -632,6 +632,7 @@ namespace Dependency
             Utils.BoogieInlineUtils.InlineUptoDepth(prog, refineImpl, stackBound, RefineConsts.recursionDepth, callGraph);
 
             //inline all the implementations before calling Analyze
+            CommandLineOptions.Clo.ProcedureInlining = CommandLineOptions.Inlining.Spec; //inline and then use spec, no unsoundness
             Utils.BoogieInlineUtils.Inline(prog);
 
             var tuo = new TokenTextWriter(impl.Name + "_checkdep.bpl", true);
