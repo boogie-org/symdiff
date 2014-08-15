@@ -41,6 +41,8 @@ namespace Dependency
                 Console.WriteLine("WARNING: {0} name resolution errors in {1}", errCount, fname);
                 return false;
             }
+            ModSetCollector c = new ModSetCollector();
+            c.DoModSetAnalysis(prog);
             errCount = prog.Typecheck();
             if (errCount > 0)
             {
@@ -606,8 +608,8 @@ namespace Dependency
                 //Parsing stuff
                 Program newProg;
                 if (!Utils.ParseProgram(filename, out newProg)) return null;
-                ModSetCollector c = new ModSetCollector();
-                c.DoModSetAnalysis(newProg);
+                //ModSetCollector c = new ModSetCollector();
+                //c.DoModSetAnalysis(newProg);
                 return newProg;
             }
         }

@@ -103,8 +103,8 @@ namespace Dependency
                 Usage();
                 return -1;
             }
-            ModSetCollector c = new ModSetCollector(); //TODO: fold it with ParseProgram
-            c.DoModSetAnalysis(program);
+            //ModSetCollector c = new ModSetCollector(); //TODO: fold it with ParseProgram
+            //c.DoModSetAnalysis(program);
 
             //cleanup assume value_is, as we are not printing a trace now
             (new Utils.RemoveValueIsAssumes()).Visit(program);

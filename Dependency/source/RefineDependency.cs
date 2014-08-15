@@ -473,7 +473,6 @@ namespace Dependency
             GSet<object> freeVars = new GSet<object>();
             vident.ComputeFreeVariables(freeVars);
             Variable v = (Variable)freeVars.Choose();
-            //result[v] = new HashSet<Variable>(); //TODO: need a variable in place of v
 
             //check for validity (presence of all input eq implies output is equal)
             var outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
