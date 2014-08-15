@@ -3062,7 +3062,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
 
   label_10:
     assert {:sourcefile "source\print_tokens.c"} {:sourceline 190} true;
-    call result.malloc$2 := __HAVOC_malloc(84);
+    call result.malloc$2 := __HAVOC_det_malloc(84);
     goto label_13;
 
   label_13:
@@ -4963,7 +4963,7 @@ implementation {:extern} open_character_stream(FILENAME.__1: int) returns (resul
 
   label_4:
     assert {:sourcefile "source\print_tokens.c"} {:sourceline 67} true;
-    call result.malloc$2 := __HAVOC_malloc(88);
+    call result.malloc$2 := __HAVOC_det_malloc(88);
     goto label_7;
 
   label_7:
@@ -5178,7 +5178,7 @@ implementation {:extern} open_token_stream(FILENAME.__1: int) returns (result.op
 
   label_4:
     assert {:sourcefile "source\print_tokens.c"} {:sourceline 162} true;
-    call result.malloc$2 := __HAVOC_malloc(4);
+    call result.malloc$2 := __HAVOC_det_malloc(4);
     goto label_7;
 
   label_7:
