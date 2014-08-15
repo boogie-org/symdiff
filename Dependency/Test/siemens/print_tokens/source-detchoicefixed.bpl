@@ -4068,7 +4068,7 @@ implementation {:extern} keyword(state.__1: int) returns (result.keyword$1: int)
   label_17:
     assert {:sourcefile "source\print_tokens.c"} {:sourceline 370} true;
     call result.exit$5 := det_choice();
-    assume false;
+    //assume false;
     return;
 }
 
@@ -4273,7 +4273,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
   label_35:
     assert {:sourcefile "source\print_tokens.c"} {:sourceline 44} true;
     call result.exit$12 := det_choice();
-    assume false;
+    //assume false;
     return;
 
   label_5_true:
@@ -4302,7 +4302,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
   label_14:
     assert {:sourcefile "source\print_tokens.c"} {:sourceline 37} true;
     call result.exit$5 := det_choice();
-    assume false;
+    //assume false;
     return;
 
   label_29_dummy:
@@ -5077,7 +5077,7 @@ implementation {:extern} open_character_stream(FILENAME.__1: int) returns (resul
   label_27:
     assert {:sourcefile "source\print_tokens.c"} {:sourceline 75} true;
     call result.exit$8 := det_choice();
-    assume false;
+    //assume false;
     return;
 
   label_18_true:
@@ -6676,7 +6676,7 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
   label_20:
     assert {:sourcefile "source\print_tokens.c"} {:sourceline 398} true;
     call result.exit$5 := det_choice();
-    assume false;
+    //assume false;
     return;
 }
 

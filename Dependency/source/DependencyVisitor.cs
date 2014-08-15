@@ -50,7 +50,8 @@ namespace Dependency
         public void RunFixedPoint()
         {
             var worklist = new List<Procedure>();
-            worklist.AddRange(program.TopLevelDeclarations.Where(d => d is Procedure).Select(p => p as Procedure));
+            worklist.AddRange(Utils.CallGraphHelper.BottomUp(Utils.CallGraphHelper.ComputeCallGraph(program))); //does this help?
+            // worklist.AddRange(program.TopLevelDeclarations.Where(d => d is Procedure).Select(p => p as Procedure));
 
             //least fixed point, starting with lower-bound
             currDependencies = new Dictionary<Procedure, Dependencies>(lowerBoundProcDependencies); 
@@ -260,6 +261,7 @@ namespace Dependency
             Block currBlock = worklist.cmdBlocks[node];
             Dependencies dependencies = worklist.GatherPredecessorsState(node, currBlock);
 
+            //TODO: why do we have to deal with callee stubs in the callee command?
             // an external stub
             if (program.Implementations().Where(x => x.Proc == callee).Count() == 0)
             {
@@ -267,7 +269,7 @@ namespace Dependency
                 foreach (var v in callee.OutParams)
                 {   // all outputs depend on all inputs
                     ProcDependencies[callee][v] = new HashSet<Variable>(callee.InParams);
-                    if (!detStubs)
+                    if (!detStubs || Utils.IsBakedInStub(callee)) //adding out == func(in) causes inconsistency for functions like malloc/det_choice etc.
                         ProcDependencies[callee][v].Add(Utils.VariableUtils.NonDetVar); // and on *
                 }
             }

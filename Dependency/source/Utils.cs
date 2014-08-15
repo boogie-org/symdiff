@@ -50,6 +50,8 @@ namespace Dependency
             return true;
         }
 
+
+
         public static class AttributeUtils
         {
             public static List<object> GetAttributeVals(QKeyValue attributes, string key)
@@ -393,6 +395,23 @@ namespace Dependency
             }
         }
 
+        public class RemoveValueIsAssumes : StandardVisitor
+        {
+            public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
+            {
+                var newCmdSeq = new List<Cmd>();
+                cmdSeq.Iter
+                    (x =>
+                    {
+                        if (!((x is AssumeCmd) && 
+                             ((AssumeCmd)x).Expr.ToString().Contains("value_is")))
+                            newCmdSeq.Add(x);
+                    }    
+                    );
+                return base.VisitCmdSeq(newCmdSeq);
+            }
+        }
+
         static public class CallGraphHelper
         {
             static public Graph<Procedure> ComputeCallGraph(Program program)
@@ -657,6 +676,20 @@ namespace Dependency
             return (node.Blocks[0].Cmds.Count > 0) ?
                 (Absy)node.Blocks[0].Cmds[0] :
                 (Absy)node.Blocks[0].TransferCmd;
+        }
+
+        /// <summary>
+        /// These are some very specific stubs for which we should not add out == func(in)
+        /// </summary>
+        /// <param name="callee"></param>
+        /// <returns></returns>
+        internal static bool IsBakedInStub(Procedure callee)
+        {
+            var name = callee.Name.ToLower();
+            return
+                name.Contains("_malloc") ||
+                name.Contains("det_choice") ||
+                name.ToLower().Contains("havoc_");
         }
     }
 

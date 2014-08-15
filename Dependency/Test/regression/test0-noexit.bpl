@@ -347,7 +347,7 @@ function {:extern} DetChoiceFunc(a: int) : int;
 procedure {:extern} det_choice() returns (x: int);
   ensures detChoiceCnt == INT_ADD(old(detChoiceCnt), 1);
   ensures x == DetChoiceFunc(old(detChoiceCnt));
-
+  modifies detChoiceCnt;
 
 
 procedure {:extern} _strdup(str: int) returns (new: int);
@@ -890,7 +890,6 @@ implementation {:extern} TestCondExit(x.__1: int) returns (result.TestCondExit$1
     assert {:sourcefile "Test0.c"} {:sourceline 94} true;
     call result.exit$2 := det_choice();
     //assume false;    
-    //result.TestCondExit$1 := 1;
     return;
 
   label_3_true:
@@ -1442,7 +1441,7 @@ implementation {:extern} TestSimpleExit(x.__1: int) returns (result.TestSimpleEx
   label_3:
     assert {:sourcefile "Test0.c"} {:sourceline 86} true;
     call result.exit$2 := det_choice();
-    assume false;
+    //assume false;
     return;
 }
 

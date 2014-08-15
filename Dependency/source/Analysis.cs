@@ -106,6 +106,9 @@ namespace Dependency
             ModSetCollector c = new ModSetCollector(); //TODO: fold it with ParseProgram
             c.DoModSetAnalysis(program);
 
+            //cleanup assume value_is, as we are not printing a trace now
+            (new Utils.RemoveValueIsAssumes()).Visit(program);
+
             if (SemanticDep)
             {
                 throw new NotImplementedException("This mode is deprecated. Use /refine:k instead");
