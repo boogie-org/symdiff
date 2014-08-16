@@ -475,6 +475,7 @@ var {:extern} detChoiceCnt: int;
 function {:extern} DetChoiceFunc(a: int) : int;
 
 procedure {:extern} det_choice() returns (x: int);
+  modifies detChoiceCnt;
   ensures detChoiceCnt == INT_ADD(old(detChoiceCnt), 1);
   ensures x == DetChoiceFunc(old(detChoiceCnt));
 
@@ -594,1051 +595,821 @@ var {:extern} const_80: int;
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 80} unique __ctobpl_const_2: int;
-
-const {:extern} {:model_const "const_80"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 151} unique __ctobpl_const_10: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 81} unique __ctobpl_const_5: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 151} unique __ctobpl_const_8: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 156} unique __ctobpl_const_18: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 163} unique __ctobpl_const_24: int;
-
-const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 80} unique __ctobpl_const_1: int;
-
-const {:extern} {:model_const "result.is_spec_symbol"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 162} unique __ctobpl_const_23: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 155} unique __ctobpl_const_14: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 155} unique __ctobpl_const_15: int;
-
-const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 163} unique __ctobpl_const_25: int;
-
-const {:extern} {:model_const "ch1[1]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 154} unique __ctobpl_const_12: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 164} unique __ctobpl_const_26: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_93: int;
-
 const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 160} unique __ctobpl_const_21: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 148} unique __ctobpl_const_6: int;
-
-const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 164} unique __ctobpl_const_27: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 165} unique __ctobpl_const_28: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 165} unique __ctobpl_const_29: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 155} unique __ctobpl_const_13: int;
-
-const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 149} unique __ctobpl_const_7: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 156} unique __ctobpl_const_17: int;
-
-const {:extern} {:model_const "buffer[i]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 160} unique __ctobpl_const_20: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 165} unique __ctobpl_const_30: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 80} unique __ctobpl_const_3: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 151} unique __ctobpl_const_9: int;
-
-const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 161} unique __ctobpl_const_22: int;
 
 const {:extern} {:model_const "result.getc"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 80} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "ch1[0]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 153} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 163} unique __ctobpl_const_24: int;
+
+const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 163} unique __ctobpl_const_25: int;
+
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 165} unique __ctobpl_const_29: int;
+
+const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 80} unique __ctobpl_const_2: int;
+
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 155} unique __ctobpl_const_14: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 80} unique __ctobpl_const_3: int;
 
 const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 155} unique __ctobpl_const_16: int;
 
+const {:extern} {:model_const "const_80"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 151} unique __ctobpl_const_10: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 151} unique __ctobpl_const_9: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 81} unique __ctobpl_const_5: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_93: int;
+
+const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 161} unique __ctobpl_const_22: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 155} unique __ctobpl_const_15: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 156} unique __ctobpl_const_18: int;
+
+const {:extern} {:model_const "result.is_spec_symbol"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 162} unique __ctobpl_const_23: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 164} unique __ctobpl_const_26: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 165} unique __ctobpl_const_30: int;
+
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 155} unique __ctobpl_const_13: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 151} unique __ctobpl_const_8: int;
+
+const {:extern} {:model_const "ch1[0]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 153} unique __ctobpl_const_11: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 156} unique __ctobpl_const_17: int;
+
+const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 149} unique __ctobpl_const_7: int;
+
+const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 164} unique __ctobpl_const_27: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 148} unique __ctobpl_const_6: int;
+
+const {:extern} {:model_const "buffer[i]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 160} unique __ctobpl_const_20: int;
+
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 165} unique __ctobpl_const_28: int;
+
+const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 80} unique __ctobpl_const_1: int;
+
 const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 160} unique __ctobpl_const_19: int;
 
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 278} unique __ctobpl_const_313: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 260} unique __ctobpl_const_291: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 262} unique __ctobpl_const_296: int;
-
-const {:extern} {:model_const "result.token_type"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 260} unique __ctobpl_const_293: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 265} unique __ctobpl_const_299: int;
-
-const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 261} unique __ctobpl_const_294: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 461} unique __ctobpl_const_283: int;
-
-const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 271} unique __ctobpl_const_306: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 461} unique __ctobpl_const_284: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 467} unique __ctobpl_const_289: int;
-
-const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 274} unique __ctobpl_const_309: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 275} unique __ctobpl_const_310: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 262} unique __ctobpl_const_295: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 265} unique __ctobpl_const_298: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 260} unique __ctobpl_const_290: int;
-
-const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 267} unique __ctobpl_const_300: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 269} unique __ctobpl_const_305: int;
-
-const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 264} unique __ctobpl_const_297: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 269} unique __ctobpl_const_304: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 467} unique __ctobpl_const_288: int;
-
-const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 260} unique __ctobpl_const_292: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 463} unique __ctobpl_const_286: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 267} unique __ctobpl_const_301: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 267} unique __ctobpl_const_302: int;
-
-const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 268} unique __ctobpl_const_303: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 463} unique __ctobpl_const_287: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 272} unique __ctobpl_const_308: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 461} unique __ctobpl_const_285: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 272} unique __ctobpl_const_307: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 275} unique __ctobpl_const_311: int;
-
-const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 277} unique __ctobpl_const_312: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 242} unique __ctobpl_const_335: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_326: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_328: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 241} unique __ctobpl_const_333: int;
-
-const {:extern} {:model_const "result.is_identifier"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 242} unique __ctobpl_const_337: int;
-
-const {:extern} {:model_const "result.is_num_constant"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 243} unique __ctobpl_const_340: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 244} unique __ctobpl_const_341: int;
-
-const {:extern} {:model_const "_Str"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_320: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 282} unique __ctobpl_const_319: int;
-
-const {:extern} {:model_const "_Str"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_322: int;
-
-const {:extern} {:model_const "_MaxCount"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_323: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 240} unique __ctobpl_const_329: int;
-
-const {:extern} {:model_const "_MaxCount"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_325: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_321: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 240} unique __ctobpl_const_330: int;
-
-const {:extern} {:model_const "result.is_str_constant"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 244} unique __ctobpl_const_343: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 282} unique __ctobpl_const_318: int;
-
-const {:extern} {:model_const "result.is_keyword"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 240} unique __ctobpl_const_331: int;
-
-const {:extern} {:model_const "_Str"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_324: int;
-
-const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 281} unique __ctobpl_const_317: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 241} unique __ctobpl_const_332: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 244} unique __ctobpl_const_342: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 245} unique __ctobpl_const_344: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 278} unique __ctobpl_const_314: int;
-
-const {:extern} {:model_const "result.is_spec_symbol"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 241} unique __ctobpl_const_334: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 242} unique __ctobpl_const_336: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 243} unique __ctobpl_const_338: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 279} unique __ctobpl_const_316: int;
-
-const {:extern} {:model_const "result.strnlen"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_327: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 243} unique __ctobpl_const_339: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 279} unique __ctobpl_const_315: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 35} unique __ctobpl_const_210: int;
-
-const {:extern} {:model_const "argv[1]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 33} unique __ctobpl_const_213: int;
-
-const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 30} unique __ctobpl_const_216: int;
-
-const {:extern} {:model_const "* fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 30} unique __ctobpl_const_217: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 211} unique __ctobpl_const_206: int;
-
-const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 380} unique __ctobpl_const_189: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 384} unique __ctobpl_const_193: int;
-
-const {:extern} {:model_const "str_com_id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 217} unique __ctobpl_const_199: int;
-
-const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 29} unique __ctobpl_const_214: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 211} unique __ctobpl_const_205: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 381} unique __ctobpl_const_191: int;
-
-const {:extern} {:model_const "result.malloc"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 29} unique __ctobpl_const_215: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 380} unique __ctobpl_const_188: int;
-
-const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 38} unique __ctobpl_const_218: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 225} unique __ctobpl_const_201: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 207} unique __ctobpl_const_195: int;
-
-const {:extern} {:model_const "argc"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 27} unique __ctobpl_const_207: int;
-
-const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 381} unique __ctobpl_const_192: int;
-
-const {:extern} {:model_const "argc"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 32} unique __ctobpl_const_208: int;
-
-const {:extern} {:model_const "result.is_spec_symbol"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 224} unique __ctobpl_const_200: int;
-
-const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 209} unique __ctobpl_const_197: int;
-
-const {:extern} {:model_const "ch1[0]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 207} unique __ctobpl_const_194: int;
-
-const {:extern} {:model_const "ch1[1]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 208} unique __ctobpl_const_196: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 225} unique __ctobpl_const_202: int;
-
-const {:extern} {:model_const "str_com_id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 210} unique __ctobpl_const_198: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 225} unique __ctobpl_const_203: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 380} unique __ctobpl_const_187: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 381} unique __ctobpl_const_190: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 35} unique __ctobpl_const_209: int;
-
-const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 33} unique __ctobpl_const_211: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 218} unique __ctobpl_const_204: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 33} unique __ctobpl_const_212: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 499} unique __ctobpl_const_179: int;
-
-const {:extern} {:model_const "* str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 379} unique __ctobpl_const_186: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 487} unique __ctobpl_const_171: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 495} unique __ctobpl_const_176: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 491} unique __ctobpl_const_172: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 499} unique __ctobpl_const_180: int;
-
-const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_158: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 458} unique __ctobpl_const_282: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 483} unique __ctobpl_const_167: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 487} unique __ctobpl_const_169: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 359} unique __ctobpl_const_162: int;
-
-const {:extern} {:model_const "result.isdigit"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_161: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 479} unique __ctobpl_const_163: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 479} unique __ctobpl_const_165: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 491} unique __ctobpl_const_174: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 495} unique __ctobpl_const_177: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_157: int;
-
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_160: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 479} unique __ctobpl_const_164: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 483} unique __ctobpl_const_166: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 491} unique __ctobpl_const_173: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 487} unique __ctobpl_const_170: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 495} unique __ctobpl_const_175: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 499} unique __ctobpl_const_178: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 503} unique __ctobpl_const_181: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 483} unique __ctobpl_const_168: int;
-
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_159: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 503} unique __ctobpl_const_182: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 503} unique __ctobpl_const_183: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 377} unique __ctobpl_const_184: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 379} unique __ctobpl_const_185: int;
-
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_106: int;
-
-const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_122: int;
-
-const {:extern} {:model_const "* (str + 1)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_94: int;
-
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_117: int;
-
-const {:extern} {:model_const "* ident"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 309} unique __ctobpl_const_99: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 399} unique __ctobpl_const_102: int;
-
-const {:extern} {:model_const "result.isalpha"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_108: int;
-
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_96: int;
-
-const {:extern} {:model_const "* tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 295} unique __ctobpl_const_101: int;
-
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_112: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_113: int;
-
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_95: int;
-
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_103: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_114: int;
-
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_116: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_120: int;
-
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_107: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_121: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_104: int;
-
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_123: int;
-
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_124: int;
-
-const {:extern} {:model_const "* str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_105: int;
-
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_119: int;
-
-const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_115: int;
-
-const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 403} unique __ctobpl_const_111: int;
-
-const {:extern} {:model_const "result.isalpha"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_97: int;
-
-const {:extern} {:model_const "ident"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 309} unique __ctobpl_const_98: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 295} unique __ctobpl_const_100: int;
-
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_155: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 403} unique __ctobpl_const_109: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 403} unique __ctobpl_const_110: int;
-
-const {:extern} {:model_const "result.isalpha"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_118: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_130: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_144: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 352} unique __ctobpl_const_145: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 356} unique __ctobpl_const_152: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 356} unique __ctobpl_const_153: int;
-
-const {:extern} {:model_const "result.isdigit"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_125: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_142: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_147: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_132: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_139: int;
-
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_146: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_134: int;
-
-const {:extern} {:model_const "result.isdigit"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_151: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 406} unique __ctobpl_const_126: int;
-
-const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 356} unique __ctobpl_const_154: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_133: int;
-
-const {:extern} {:model_const "* str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_148: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_136: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_135: int;
+const {:extern} {:model_const "ch1[1]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 154} unique __ctobpl_const_12: int;
 
 const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_138: int;
 
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_129: int;
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_124: int;
 
 const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_143: int;
 
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_149: int;
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_144: int;
 
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_128: int;
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_139: int;
 
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_131: int;
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_133: int;
+
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_146: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_135: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_129: int;
+
+const {:extern} {:model_const "result.isdigit"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_125: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_136: int;
+
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_150: int;
+
+const {:extern} {:model_const "* str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_148: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_142: int;
+
+const {:extern} {:model_const "result.isdigit"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_151: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_147: int;
 
 const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_137: int;
 
-const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 38} unique __ctobpl_const_219: int;
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_149: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 356} unique __ctobpl_const_152: int;
 
 const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_127: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_128: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_130: int;
+
+const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 356} unique __ctobpl_const_154: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_132: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_134: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 356} unique __ctobpl_const_153: int;
 
 const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_140: int;
 
 const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 324} unique __ctobpl_const_141: int;
 
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 354} unique __ctobpl_const_150: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 352} unique __ctobpl_const_145: int;
 
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_92: int;
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 323} unique __ctobpl_const_131: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 406} unique __ctobpl_const_126: int;
+
+const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 38} unique __ctobpl_const_219: int;
+
+const {:extern} {:model_const "* (str + 1)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_94: int;
+
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_107: int;
+
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_103: int;
+
+const {:extern} {:model_const "ident"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 309} unique __ctobpl_const_98: int;
+
+const {:extern} {:model_const "* ident"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 309} unique __ctobpl_const_99: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_104: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_113: int;
+
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_117: int;
+
+const {:extern} {:model_const "result.isalpha"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_118: int;
+
+const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_122: int;
+
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_96: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_120: int;
+
+const {:extern} {:model_const "result.isalpha"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_97: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 403} unique __ctobpl_const_110: int;
+
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_155: int;
+
+const {:extern} {:model_const "result.isalpha"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_108: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 399} unique __ctobpl_const_102: int;
+
+const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 403} unique __ctobpl_const_111: int;
+
+const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_115: int;
+
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_95: int;
+
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_116: int;
+
+const {:extern} {:model_const "* tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 295} unique __ctobpl_const_101: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 403} unique __ctobpl_const_109: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_114: int;
+
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_119: int;
+
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_112: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_121: int;
+
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 405} unique __ctobpl_const_123: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 295} unique __ctobpl_const_100: int;
+
+const {:extern} {:model_const "* str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_105: int;
+
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 401} unique __ctobpl_const_106: int;
 
 const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 180} unique __ctobpl_const_69: int;
 
-const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 158} unique __ctobpl_const_86: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 151} unique __ctobpl_const_89: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 176} unique __ctobpl_const_81: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_156: int;
-
-const {:extern} {:model_const "buffer[j]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 152} unique __ctobpl_const_88: int;
-
-const {:extern} {:model_const "* str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_91: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 186} unique __ctobpl_const_64: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 175} unique __ctobpl_const_78: int;
-
 const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 175} unique __ctobpl_const_74: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 181} unique __ctobpl_const_72: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 180} unique __ctobpl_const_68: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 180} unique __ctobpl_const_67: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 186} unique __ctobpl_const_62: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 176} unique __ctobpl_const_80: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 181} unique __ctobpl_const_71: int;
-
-const {:extern} {:model_const "buffer[i]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 186} unique __ctobpl_const_63: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 181} unique __ctobpl_const_73: int;
 
 const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 176} unique __ctobpl_const_82: int;
 
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 175} unique __ctobpl_const_75: int;
+const {:extern} {:model_const "result.unget_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 175} unique __ctobpl_const_79: int;
 
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 158} unique __ctobpl_const_83: int;
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 181} unique __ctobpl_const_72: int;
 
 const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 158} unique __ctobpl_const_84: int;
 
 const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 158} unique __ctobpl_const_85: int;
 
-const {:extern} {:model_const "result.unget_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 180} unique __ctobpl_const_70: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 175} unique __ctobpl_const_76: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 175} unique __ctobpl_const_77: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 180} unique __ctobpl_const_65: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 180} unique __ctobpl_const_66: int;
-
-const {:extern} {:model_const "result.unget_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 175} unique __ctobpl_const_79: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 186} unique __ctobpl_const_62: int;
 
 const {:extern} {:model_const "j"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 152} unique __ctobpl_const_87: int;
 
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 175} unique __ctobpl_const_76: int;
+
+const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 158} unique __ctobpl_const_86: int;
+
+const {:extern} {:model_const "buffer[j]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 152} unique __ctobpl_const_88: int;
+
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 181} unique __ctobpl_const_73: int;
+
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 180} unique __ctobpl_const_66: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 186} unique __ctobpl_const_64: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 151} unique __ctobpl_const_89: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_156: int;
+
 const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_90: int;
 
-const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 167} unique __ctobpl_const_32: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 180} unique __ctobpl_const_65: int;
 
-const {:extern} {:model_const "result.is_token_end"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 167} unique __ctobpl_const_36: int;
+const {:extern} {:model_const "* str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_91: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 170} unique __ctobpl_const_38: int;
+const {:extern} {:model_const "result.unget_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 180} unique __ctobpl_const_70: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 167} unique __ctobpl_const_35: int;
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 158} unique __ctobpl_const_83: int;
 
-const {:extern} {:model_const "buffer[i]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 170} unique __ctobpl_const_39: int;
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 338} unique __ctobpl_const_92: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 171} unique __ctobpl_const_43: int;
+const {:extern} {:model_const "buffer[i]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 186} unique __ctobpl_const_63: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 191} unique __ctobpl_const_52: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 180} unique __ctobpl_const_67: int;
 
-const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 174} unique __ctobpl_const_47: int;
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 180} unique __ctobpl_const_68: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 189} unique __ctobpl_const_51: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 181} unique __ctobpl_const_71: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 167} unique __ctobpl_const_33: int;
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 175} unique __ctobpl_const_77: int;
 
-const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 171} unique __ctobpl_const_44: int;
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 175} unique __ctobpl_const_75: int;
 
-const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 189} unique __ctobpl_const_50: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 175} unique __ctobpl_const_78: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 191} unique __ctobpl_const_56: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 176} unique __ctobpl_const_80: int;
 
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 191} unique __ctobpl_const_55: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 192} unique __ctobpl_const_59: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 169} unique __ctobpl_const_37: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 192} unique __ctobpl_const_60: int;
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 176} unique __ctobpl_const_81: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 185} unique __ctobpl_const_61: int;
 
-const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 165} unique __ctobpl_const_31: int;
+const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 167} unique __ctobpl_const_32: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 170} unique __ctobpl_const_40: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 167} unique __ctobpl_const_33: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 173} unique __ctobpl_const_46: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 189} unique __ctobpl_const_51: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 191} unique __ctobpl_const_52: int;
+
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 191} unique __ctobpl_const_53: int;
+
+const {:extern} {:model_const "buffer[i]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 170} unique __ctobpl_const_39: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 192} unique __ctobpl_const_58: int;
 
 const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 171} unique __ctobpl_const_42: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 173} unique __ctobpl_const_46: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 170} unique __ctobpl_const_38: int;
+
+const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 174} unique __ctobpl_const_47: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 169} unique __ctobpl_const_37: int;
+
+const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 167} unique __ctobpl_const_34: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 171} unique __ctobpl_const_43: int;
+
+const {:extern} {:model_const "result.is_token_end"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 167} unique __ctobpl_const_36: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 170} unique __ctobpl_const_40: int;
+
+const {:extern} {:model_const "ch1[0]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 173} unique __ctobpl_const_45: int;
+
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 171} unique __ctobpl_const_41: int;
+
+const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 165} unique __ctobpl_const_31: int;
+
+const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 171} unique __ctobpl_const_44: int;
 
 const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 184} unique __ctobpl_const_49: int;
 
 const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 191} unique __ctobpl_const_54: int;
 
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 191} unique __ctobpl_const_55: int;
+
 const {:extern} {:model_const "result.unget_char"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 191} unique __ctobpl_const_57: int;
 
-const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 167} unique __ctobpl_const_34: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 171} unique __ctobpl_const_41: int;
-
-const {:extern} {:model_const "ch1[0]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 173} unique __ctobpl_const_45: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 192} unique __ctobpl_const_58: int;
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 192} unique __ctobpl_const_59: int;
 
 const {:extern} {:model_const "result.is_spec_symbol"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 179} unique __ctobpl_const_48: int;
 
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 191} unique __ctobpl_const_53: int;
+const {:extern} {:model_const "id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 189} unique __ctobpl_const_50: int;
 
-const {:extern} {:model_const "result.is_comment"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 246} unique __ctobpl_const_349: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 191} unique __ctobpl_const_56: int;
 
-const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_372: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 167} unique __ctobpl_const_35: int;
 
-const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_374: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 424} unique __ctobpl_const_365: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_359: int;
-
-const {:extern} {:model_const "ungetc.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_355: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 95} unique __ctobpl_const_361: int;
-
-const {:extern} {:model_const "_MaxCount"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_371: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 100} unique __ctobpl_const_362: int;
-
-const {:extern} {:model_const "ungetc.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_357: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 247} unique __ctobpl_const_351: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 424} unique __ctobpl_const_364: int;
-
-const {:extern} {:model_const "_Src"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_366: int;
-
-const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_354: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 97} unique __ctobpl_const_363: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 247} unique __ctobpl_const_350: int;
-
-const {:extern} {:model_const "ungetc.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_353: int;
-
-const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_358: int;
-
-const {:extern} {:model_const "_MaxCount"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_369: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_367: int;
-
-const {:extern} {:model_const "result.is_char_constant"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 245} unique __ctobpl_const_346: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 246} unique __ctobpl_const_347: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 246} unique __ctobpl_const_348: int;
-
-const {:extern} {:model_const "_Src"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_368: int;
-
-const {:extern} {:model_const "_Src"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_370: int;
-
-const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 247} unique __ctobpl_const_352: int;
-
-const {:extern} {:model_const "result.wcsnlen"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_373: int;
-
-const {:extern} {:model_const "result.ungetc"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_360: int;
-
-const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_356: int;
-
-const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 135} unique __ctobpl_const_257: int;
-
-const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 134} unique __ctobpl_const_254: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 436} unique __ctobpl_const_259: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 443} unique __ctobpl_const_266: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 446} unique __ctobpl_const_268: int;
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 192} unique __ctobpl_const_60: int;
 
 const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 451} unique __ctobpl_const_274: int;
 
 const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 451} unique __ctobpl_const_275: int;
 
-const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 132} unique __ctobpl_const_251: int;
-
 const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 436} unique __ctobpl_const_258: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 453} unique __ctobpl_const_276: int;
-
-const {:extern} {:model_const "result.open_character_stream"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 132} unique __ctobpl_const_252: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 441} unique __ctobpl_const_264: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 446} unique __ctobpl_const_269: int;
-
-const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 134} unique __ctobpl_const_253: int;
-
-const {:extern} {:model_const "result.open_character_stream"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 134} unique __ctobpl_const_256: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 443} unique __ctobpl_const_267: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 446} unique __ctobpl_const_270: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 448} unique __ctobpl_const_272: int;
-
-const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 436} unique __ctobpl_const_260: int;
-
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 451} unique __ctobpl_const_273: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 438} unique __ctobpl_const_262: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 448} unique __ctobpl_const_271: int;
 
 const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 456} unique __ctobpl_const_278: int;
 
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 456} unique __ctobpl_const_279: int;
+const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 135} unique __ctobpl_const_257: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 453} unique __ctobpl_const_277: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 448} unique __ctobpl_const_271: int;
 
 const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 456} unique __ctobpl_const_280: int;
 
 const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 458} unique __ctobpl_const_281: int;
 
-const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 134} unique __ctobpl_const_255: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 448} unique __ctobpl_const_272: int;
+
+const {:extern} {:model_const "result.open_character_stream"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 134} unique __ctobpl_const_256: int;
 
 const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 131} unique __ctobpl_const_250: int;
 
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 436} unique __ctobpl_const_260: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 443} unique __ctobpl_const_266: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 446} unique __ctobpl_const_269: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 443} unique __ctobpl_const_267: int;
+
+const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 134} unique __ctobpl_const_254: int;
+
 const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 438} unique __ctobpl_const_261: int;
 
-const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 441} unique __ctobpl_const_263: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 438} unique __ctobpl_const_262: int;
+
+const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 134} unique __ctobpl_const_253: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 441} unique __ctobpl_const_264: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 436} unique __ctobpl_const_259: int;
 
 const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 441} unique __ctobpl_const_265: int;
 
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 245} unique __ctobpl_const_345: int;
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 451} unique __ctobpl_const_273: int;
 
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 40} unique __ctobpl_const_227: int;
+const {:extern} {:model_const "result.open_character_stream"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 132} unique __ctobpl_const_252: int;
 
-const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 64} unique __ctobpl_const_244: int;
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 446} unique __ctobpl_const_268: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 66} unique __ctobpl_const_245: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 453} unique __ctobpl_const_277: int;
 
-const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 63} unique __ctobpl_const_238: int;
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 456} unique __ctobpl_const_279: int;
 
-const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 131} unique __ctobpl_const_248: int;
+const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 132} unique __ctobpl_const_251: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 453} unique __ctobpl_const_276: int;
+
+const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 134} unique __ctobpl_const_255: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 441} unique __ctobpl_const_263: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 446} unique __ctobpl_const_270: int;
 
 const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 131} unique __ctobpl_const_249: int;
 
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 39} unique __ctobpl_const_224: int;
+const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 40} unique __ctobpl_const_228: int;
 
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 42} unique __ctobpl_const_230: int;
-
-const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 62} unique __ctobpl_const_237: int;
-
-const {:extern} {:model_const "result.fopen"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 64} unique __ctobpl_const_243: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 42} unique __ctobpl_const_229: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 43} unique __ctobpl_const_233: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 38} unique __ctobpl_const_220: int;
-
-const {:extern} {:model_const "result.get_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 39} unique __ctobpl_const_225: int;
-
-const {:extern} {:model_const "result.open_token_stream"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 38} unique __ctobpl_const_221: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 40} unique __ctobpl_const_226: int;
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 39} unique __ctobpl_const_222: int;
 
 const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 43} unique __ctobpl_const_231: int;
 
 const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 43} unique __ctobpl_const_232: int;
 
+const {:extern} {:model_const "result.get_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 39} unique __ctobpl_const_225: int;
+
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 38} unique __ctobpl_const_220: int;
+
 const {:extern} {:model_const "result.get_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 43} unique __ctobpl_const_234: int;
-
-const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 45} unique __ctobpl_const_236: int;
-
-const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 64} unique __ctobpl_const_240: int;
-
-const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 64} unique __ctobpl_const_242: int;
-
-const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 64} unique __ctobpl_const_241: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 66} unique __ctobpl_const_246: int;
-
-const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 40} unique __ctobpl_const_228: int;
-
-const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 69} unique __ctobpl_const_247: int;
-
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 39} unique __ctobpl_const_223: int;
 
 const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 45} unique __ctobpl_const_235: int;
 
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 40} unique __ctobpl_const_227: int;
+
+const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 63} unique __ctobpl_const_238: int;
+
 const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 63} unique __ctobpl_const_239: int;
 
-const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 39} unique __ctobpl_const_222: int;
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 40} unique __ctobpl_const_226: int;
+
+const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 64} unique __ctobpl_const_240: int;
+
+const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 64} unique __ctobpl_const_241: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 42} unique __ctobpl_const_230: int;
+
+const {:extern} {:model_const "result.open_token_stream"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 38} unique __ctobpl_const_221: int;
+
+const {:extern} {:model_const "tp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 39} unique __ctobpl_const_223: int;
+
+const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 64} unique __ctobpl_const_242: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 45} unique __ctobpl_const_236: int;
+
+const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 62} unique __ctobpl_const_237: int;
+
+const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 64} unique __ctobpl_const_244: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 43} unique __ctobpl_const_233: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 39} unique __ctobpl_const_224: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 66} unique __ctobpl_const_245: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 66} unique __ctobpl_const_246: int;
+
+const {:extern} {:model_const "result.fopen"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 64} unique __ctobpl_const_243: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 245} unique __ctobpl_const_345: int;
+
+const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 69} unique __ctobpl_const_247: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 42} unique __ctobpl_const_229: int;
+
+const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 131} unique __ctobpl_const_248: int;
+
+const {:extern} {:model_const "str_com_id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 210} unique __ctobpl_const_198: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 225} unique __ctobpl_const_203: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 218} unique __ctobpl_const_204: int;
+
+const {:extern} {:model_const "argc"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 32} unique __ctobpl_const_208: int;
+
+const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 380} unique __ctobpl_const_189: int;
+
+const {:extern} {:model_const "ch1[0]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 207} unique __ctobpl_const_194: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 35} unique __ctobpl_const_210: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 211} unique __ctobpl_const_206: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 380} unique __ctobpl_const_188: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 35} unique __ctobpl_const_209: int;
+
+const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 33} unique __ctobpl_const_211: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 33} unique __ctobpl_const_212: int;
+
+const {:extern} {:model_const "argv[1]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 33} unique __ctobpl_const_213: int;
+
+const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 29} unique __ctobpl_const_214: int;
+
+const {:extern} {:model_const "result.malloc"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 29} unique __ctobpl_const_215: int;
+
+const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 30} unique __ctobpl_const_216: int;
+
+const {:extern} {:model_const "str_com_id"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 217} unique __ctobpl_const_199: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 207} unique __ctobpl_const_195: int;
+
+const {:extern} {:model_const "* fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 30} unique __ctobpl_const_217: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 225} unique __ctobpl_const_201: int;
+
+const {:extern} {:model_const "argc"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 27} unique __ctobpl_const_207: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 381} unique __ctobpl_const_191: int;
+
+const {:extern} {:model_const "fname"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 38} unique __ctobpl_const_218: int;
+
+const {:extern} {:model_const "result.is_spec_symbol"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 224} unique __ctobpl_const_200: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 211} unique __ctobpl_const_205: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 225} unique __ctobpl_const_202: int;
+
+const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 209} unique __ctobpl_const_197: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 380} unique __ctobpl_const_187: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 384} unique __ctobpl_const_193: int;
+
+const {:extern} {:model_const "ch1[1]"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 208} unique __ctobpl_const_196: int;
+
+const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 381} unique __ctobpl_const_192: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 381} unique __ctobpl_const_190: int;
+
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_160: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 359} unique __ctobpl_const_162: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 487} unique __ctobpl_const_169: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 487} unique __ctobpl_const_170: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 491} unique __ctobpl_const_172: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 495} unique __ctobpl_const_175: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 495} unique __ctobpl_const_177: int;
+
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_159: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 479} unique __ctobpl_const_165: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 499} unique __ctobpl_const_180: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 479} unique __ctobpl_const_164: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 503} unique __ctobpl_const_181: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 495} unique __ctobpl_const_176: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 483} unique __ctobpl_const_166: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_157: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 487} unique __ctobpl_const_171: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 491} unique __ctobpl_const_173: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 499} unique __ctobpl_const_179: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 503} unique __ctobpl_const_183: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 491} unique __ctobpl_const_174: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 458} unique __ctobpl_const_282: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 377} unique __ctobpl_const_184: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 479} unique __ctobpl_const_163: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 483} unique __ctobpl_const_167: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 483} unique __ctobpl_const_168: int;
+
+const {:extern} {:model_const "result.isdigit"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_161: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 499} unique __ctobpl_const_178: int;
+
+const {:extern} {:model_const "* (str + i)"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 358} unique __ctobpl_const_158: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 379} unique __ctobpl_const_185: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 503} unique __ctobpl_const_182: int;
+
+const {:extern} {:model_const "* str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 379} unique __ctobpl_const_186: int;
+
+const {:extern} {:model_const "_Src"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_368: int;
+
+const {:extern} {:model_const "result.is_comment"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 246} unique __ctobpl_const_349: int;
+
+const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_358: int;
+
+const {:extern} {:model_const "fp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_356: int;
+
+const {:extern} {:model_const "_MaxCount"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_369: int;
+
+const {:extern} {:model_const "result.ungetc"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_360: int;
+
+const {:extern} {:model_const "ungetc.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_353: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 246} unique __ctobpl_const_347: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 247} unique __ctobpl_const_351: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 424} unique __ctobpl_const_365: int;
+
+const {:extern} {:model_const "result.is_char_constant"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 245} unique __ctobpl_const_346: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 95} unique __ctobpl_const_361: int;
+
+const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_367: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_359: int;
+
+const {:extern} {:model_const "_Src"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_370: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 100} unique __ctobpl_const_362: int;
+
+const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_372: int;
+
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_354: int;
+
+const {:extern} {:model_const "ungetc.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_357: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 247} unique __ctobpl_const_350: int;
+
+const {:extern} {:model_const "ungetc.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 94} unique __ctobpl_const_355: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 424} unique __ctobpl_const_364: int;
+
+const {:extern} {:model_const "_Src"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_366: int;
+
+const {:extern} {:model_const "result.wcsnlen"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_373: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 246} unique __ctobpl_const_348: int;
+
+const {:extern} {:model_const "_MaxCount"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_371: int;
+
+const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 307} unique __ctobpl_const_374: int;
+
+const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 247} unique __ctobpl_const_352: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 97} unique __ctobpl_const_363: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 244} unique __ctobpl_const_341: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 279} unique __ctobpl_const_316: int;
+
+const {:extern} {:model_const "_MaxCount"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_323: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 244} unique __ctobpl_const_342: int;
+
+const {:extern} {:model_const "result.is_str_constant"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 244} unique __ctobpl_const_343: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 245} unique __ctobpl_const_344: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 278} unique __ctobpl_const_314: int;
+
+const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 281} unique __ctobpl_const_317: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 243} unique __ctobpl_const_338: int;
+
+const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_326: int;
+
+const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_321: int;
+
+const {:extern} {:model_const "result.is_spec_symbol"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 241} unique __ctobpl_const_334: int;
+
+const {:extern} {:model_const "_MaxCount"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_325: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 279} unique __ctobpl_const_315: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 242} unique __ctobpl_const_335: int;
+
+const {:extern} {:model_const "_Str"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_324: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 278} unique __ctobpl_const_313: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 240} unique __ctobpl_const_329: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 242} unique __ctobpl_const_336: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 243} unique __ctobpl_const_339: int;
+
+const {:extern} {:model_const "result.question.2"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_328: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 240} unique __ctobpl_const_330: int;
+
+const {:extern} {:model_const "_Str"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_320: int;
+
+const {:extern} {:model_const "result.is_identifier"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 242} unique __ctobpl_const_337: int;
+
+const {:extern} {:model_const "result.is_keyword"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 240} unique __ctobpl_const_331: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 282} unique __ctobpl_const_318: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 282} unique __ctobpl_const_319: int;
+
+const {:extern} {:model_const "result.strnlen"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_327: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 241} unique __ctobpl_const_332: int;
+
+const {:extern} {:model_const "result.is_num_constant"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 243} unique __ctobpl_const_340: int;
+
+const {:extern} {:model_const "_Str"} {:sourceFile "c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h"} {:sourceLine 132} unique __ctobpl_const_322: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 241} unique __ctobpl_const_333: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 467} unique __ctobpl_const_289: int;
+
+const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 277} unique __ctobpl_const_312: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 461} unique __ctobpl_const_284: int;
+
+const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 260} unique __ctobpl_const_292: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 267} unique __ctobpl_const_301: int;
+
+const {:extern} {:model_const "str"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 461} unique __ctobpl_const_283: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 467} unique __ctobpl_const_288: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 267} unique __ctobpl_const_302: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 269} unique __ctobpl_const_304: int;
+
+const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 271} unique __ctobpl_const_306: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 260} unique __ctobpl_const_291: int;
+
+const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 261} unique __ctobpl_const_294: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 463} unique __ctobpl_const_287: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 265} unique __ctobpl_const_299: int;
+
+const {:extern} {:model_const "tok"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 260} unique __ctobpl_const_290: int;
+
+const {:extern} {:model_const "result.token_type"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 260} unique __ctobpl_const_293: int;
+
+const {:extern} {:model_const "result.strcmp"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 461} unique __ctobpl_const_285: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 262} unique __ctobpl_const_296: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 262} unique __ctobpl_const_295: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 265} unique __ctobpl_const_298: int;
+
+const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 264} unique __ctobpl_const_297: int;
+
+const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 267} unique __ctobpl_const_300: int;
+
+const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 268} unique __ctobpl_const_303: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 269} unique __ctobpl_const_305: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 272} unique __ctobpl_const_307: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 463} unique __ctobpl_const_286: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 272} unique __ctobpl_const_308: int;
+
+const {:extern} {:model_const "typea"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 274} unique __ctobpl_const_309: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 275} unique __ctobpl_const_310: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens2.c"} {:sourceLine 275} unique __ctobpl_const_311: int;
 
 procedure {:extern} __iob_func() returns (__dummy_ret__iob_func: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} fopen(__dummy_formal_fopen_0.__1: int, __dummy_formal_fopen_1.__1: int) returns (__dummy_retfopen: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} getc(__dummy_formal_getc_0.__1: int) returns (__dummy_retgetc: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} isalpha(__dummy_formal_isalpha_0.__1: int) returns (__dummy_retisalpha: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} isdigit(__dummy_formal_isdigit_0.__1: int) returns (__dummy_retisdigit: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} strcmp(__dummy_formal_strcmp_0.__1: int, __dummy_formal_strcmp_1.__1: int) returns (__dummy_retstrcmp: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} strnlen(__dummy_formal_strnlen_0.__1: int, __dummy_formal_strnlen_1.__1: int) returns (__dummy_retstrnlen: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} ungetc(__dummy_formal_ungetc_0.__1: int, __dummy_formal_ungetc_1.__1: int) returns (__dummy_retungetc: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} wcsnlen(__dummy_formal_wcsnlen_0.__1: int, __dummy_formal_wcsnlen_1.__1: int) returns (__dummy_retwcsnlen: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} get_char(fp.__1: int) returns (result.get_char$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -1716,31 +1487,8 @@ implementation {:extern} get_char(fp.__1: int) returns (result.get_char$1: int)
 
 procedure {:extern} get_token(tp.__1: int) returns (result.get_token$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -2428,31 +2176,8 @@ implementation {:extern} get_token(tp.__1: int) returns (result.get_token$1: int
 
 procedure {:extern} is_char_constant(str.__1: int) returns (result.is_char_constant$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -2563,31 +2288,8 @@ implementation {:extern} is_char_constant(str.__1: int) returns (result.is_char_
 
 procedure {:extern} is_comment(ident.__1: int) returns (result.is_comment$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -2664,31 +2366,8 @@ implementation {:extern} is_comment(ident.__1: int) returns (result.is_comment$1
 
 procedure {:extern} is_eof_token(tok.__1: int) returns (result.is_eof_token$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -2765,31 +2444,8 @@ implementation {:extern} is_eof_token(tok.__1: int) returns (result.is_eof_token
 
 procedure {:extern} is_identifier(str.__1: int) returns (result.is_identifier$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -3006,31 +2662,8 @@ implementation {:extern} is_identifier(str.__1: int) returns (result.is_identifi
 
 procedure {:extern} is_keyword(str.__1: int) returns (result.is_keyword$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -3228,31 +2861,8 @@ implementation {:extern} is_keyword(str.__1: int) returns (result.is_keyword$1: 
 
 procedure {:extern} is_num_constant(str.__1: int) returns (result.is_num_constant$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -3434,31 +3044,8 @@ implementation {:extern} is_num_constant(str.__1: int) returns (result.is_num_co
 
 procedure {:extern} is_spec_symbol(str.__1: int) returns (result.is_spec_symbol$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -3709,31 +3296,8 @@ implementation {:extern} is_spec_symbol(str.__1: int) returns (result.is_spec_sy
 
 procedure {:extern} is_str_constant(str.__1: int) returns (result.is_str_constant$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -3882,31 +3446,8 @@ implementation {:extern} is_str_constant(str.__1: int) returns (result.is_str_co
 
 procedure {:extern} is_token_end(str_com_id.__1: int, ch.__1: int) returns (result.is_token_end$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -4174,31 +3715,8 @@ implementation {:extern} is_token_end(str_com_id.__1: int, ch.__1: int) returns 
 
 procedure {:extern} main(argc.__1: int, argv.__1: int) returns (result.main$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -4323,7 +3841,6 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
   label_46:
     assert {:sourcefile "source\print_tokens2.c"} {:sourceline 36} true;
     call result.exit$6 := det_choice();
-    assume false;
     return;
 
   label_7_true:
@@ -4421,7 +3938,6 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
   label_31:
     assert {:sourcefile "source\print_tokens2.c"} {:sourceline 46} true;
     call result.exit$13 := det_choice();
-    assume false;
     return;
 
   label_6_true:
@@ -4431,7 +3947,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
 
   label_8:
     assert {:sourcefile "source\print_tokens2.c"} {:sourceline 29} true;
-    call result.malloc$2 := __HAVOC_malloc(1);
+    call result.malloc$2 := __HAVOC_det_malloc(1);
     goto label_11;
 
   label_11:
@@ -4464,31 +3980,8 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
 
 procedure {:extern} open_character_stream(fname.__1: int) returns (result.open_character_stream$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -4628,7 +4121,6 @@ implementation {:extern} open_character_stream(fname.__1: int) returns (result.o
   label_21:
     assert {:sourcefile "source\print_tokens2.c"} {:sourceline 67} true;
     call result.exit$7 := det_choice();
-    assume false;
     return;
 
   label_12_true:
@@ -4641,31 +4133,8 @@ implementation {:extern} open_character_stream(fname.__1: int) returns (result.o
 
 procedure {:extern} open_token_stream(fname.__1: int) returns (result.open_token_stream$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -4780,31 +4249,8 @@ implementation {:extern} open_token_stream(fname.__1: int) returns (result.open_
 
 procedure {:extern} print_spec_symbol(str.__1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -5183,31 +4629,8 @@ implementation {:extern} print_spec_symbol(str.__1: int)
 
 procedure {:extern} print_token(tok.__1: int) returns (result.print_token$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -5573,31 +4996,8 @@ implementation {:extern} print_token(tok.__1: int) returns (result.print_token$1
 
 procedure {:extern} strnlen_s(_Str.__1: int, _MaxCount.__1: int) returns (result.strnlen_s$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -5698,31 +5098,8 @@ implementation {:extern} strnlen_s(_Str.__1: int, _MaxCount.__1: int) returns (r
 
 procedure {:extern} token_type(tok.__1: int) returns (result.token_type$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -6001,31 +5378,8 @@ implementation {:extern} token_type(tok.__1: int) returns (result.token_type$1: 
 
 procedure {:extern} unget_char(ch.__1: int, fp.__1: int) returns (result.unget_char$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -6137,31 +5491,8 @@ implementation {:extern} unget_char(ch.__1: int, fp.__1: int) returns (result.un
 
 procedure {:extern} unget_error(fp.__1: int) returns (result.unget_error$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -6235,31 +5566,8 @@ implementation {:extern} unget_error(fp.__1: int) returns (result.unget_error$1:
 
 procedure {:extern} wcsnlen_s(_Src.__1: int, _MaxCount.__1: int) returns (result.wcsnlen_s$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A12CHAR == old(Mem_T.A12CHAR);
-  free ensures Mem_T.A13CHAR == old(Mem_T.A13CHAR);
-  free ensures Mem_T.A15CHAR == old(Mem_T.A15CHAR);
-  free ensures Mem_T.A17CHAR == old(Mem_T.A17CHAR);
-  free ensures Mem_T.A18CHAR == old(Mem_T.A18CHAR);
-  free ensures Mem_T.A1CHAR == old(Mem_T.A1CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A2CHAR == old(Mem_T.A2CHAR);
-  free ensures Mem_T.A37CHAR == old(Mem_T.A37CHAR);
-  free ensures Mem_T.A3CHAR == old(Mem_T.A3CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A6CHAR == old(Mem_T.A6CHAR);
-  free ensures Mem_T.A7CHAR == old(Mem_T.A7CHAR);
-  free ensures Mem_T.A81CHAR == old(Mem_T.A81CHAR);
-  free ensures Mem_T.A8CHAR == old(Mem_T.A8CHAR);
-  free ensures Mem_T.A9CHAR == old(Mem_T.A9CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PVOID == old(Mem_T.PVOID);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -6415,7 +5723,7 @@ implementation get_token_loop_label_47_head(in_ch: int, in_i: int, in_id: int, i
     assume out_result.is_token_end$9 != 0;
     assume value_is(__ctobpl_const_36, out_result.is_token_end$9);
     out_ch, out_i, out_result.get_char$10, out_result.is_token_end$9 := in_ch, in_i, in_result.get_char$10, in_result.is_token_end$9;
-    alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80 := old(alloc), old(detChoiceCnt), old(Mem_T.A12CHAR), old(Mem_T.A13CHAR), old(Mem_T.A15CHAR), old(Mem_T.A17CHAR), old(Mem_T.A18CHAR), old(Mem_T.A1CHAR), old(Mem_T.A25CHAR), old(Mem_T.A28CHAR), old(Mem_T.A2CHAR), old(Mem_T.A37CHAR), old(Mem_T.A3CHAR), old(Mem_T.A4CHAR), old(Mem_T.A6CHAR), old(Mem_T.A7CHAR), old(Mem_T.A81CHAR), old(Mem_T.A8CHAR), old(Mem_T.A9CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PVOID), old(Mem_T.P_iobuf), old(Mem_T.UINT4), old(const_80);
+    alloc, detChoiceCnt, const_80, Mem_T.CHAR := old(alloc), old(detChoiceCnt), old(const_80), old(Mem_T.CHAR);
     return;
 
   label_101_dummy:
@@ -6429,7 +5737,7 @@ implementation get_token_loop_label_47_head(in_ch: int, in_i: int, in_id: int, i
 
 
 procedure get_token_loop_label_47_head(in_ch: int, in_i: int, in_id: int, in_result.get_char$10: int, in_result.is_token_end$9: int, in_tp: int) returns (out_ch: int, out_i: int, out_result.get_char$10: int, out_result.is_token_end$9: int);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80, Mem_T.CHAR;
 
 
 
@@ -6475,7 +5783,7 @@ implementation get_token_loop_label_20_head(in_ch: int, in_result.get_char$3: in
     assume !INT_EQ(out_ch, 10);
     assume value_is(__ctobpl_const_18, out_ch);
     out_ch, out_result.get_char$3 := in_ch, in_result.get_char$3;
-    alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80 := old(alloc), old(detChoiceCnt), old(Mem_T.A12CHAR), old(Mem_T.A13CHAR), old(Mem_T.A15CHAR), old(Mem_T.A17CHAR), old(Mem_T.A18CHAR), old(Mem_T.A1CHAR), old(Mem_T.A25CHAR), old(Mem_T.A28CHAR), old(Mem_T.A2CHAR), old(Mem_T.A37CHAR), old(Mem_T.A3CHAR), old(Mem_T.A4CHAR), old(Mem_T.A6CHAR), old(Mem_T.A7CHAR), old(Mem_T.A81CHAR), old(Mem_T.A8CHAR), old(Mem_T.A9CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PVOID), old(Mem_T.P_iobuf), old(Mem_T.UINT4), old(const_80);
+    alloc, detChoiceCnt, const_80 := old(alloc), old(detChoiceCnt), old(const_80);
     return;
 
   label_20_false:
@@ -6494,7 +5802,7 @@ implementation get_token_loop_label_20_head(in_ch: int, in_result.get_char$3: in
 
 
 procedure get_token_loop_label_20_head(in_ch: int, in_result.get_char$3: int, in_tp: int) returns (out_ch: int, out_result.get_char$3: int);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
 
 
 
@@ -6568,7 +5876,7 @@ implementation is_identifier_loop_label_11_head(in_i: int, in_$isalpha.arg.1$5$_
     assume value_is(__ctobpl_const_110, out_i);
     assume value_is(__ctobpl_const_111, Mem_T.CHAR[PLUS(in_str, 1, out_i)]);
     out_i, out_$isalpha.arg.1$5$_123_$static$, out_$isdigit.arg.1$7$_123_$static$, out_result.isalpha$4, out_result.isdigit$6 := in_i, in_$isalpha.arg.1$5$_123_$static$, in_$isdigit.arg.1$7$_123_$static$, in_result.isalpha$4, in_result.isdigit$6;
-    alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80 := old(alloc), old(detChoiceCnt), old(Mem_T.A12CHAR), old(Mem_T.A13CHAR), old(Mem_T.A15CHAR), old(Mem_T.A17CHAR), old(Mem_T.A18CHAR), old(Mem_T.A1CHAR), old(Mem_T.A25CHAR), old(Mem_T.A28CHAR), old(Mem_T.A2CHAR), old(Mem_T.A37CHAR), old(Mem_T.A3CHAR), old(Mem_T.A4CHAR), old(Mem_T.A6CHAR), old(Mem_T.A7CHAR), old(Mem_T.A81CHAR), old(Mem_T.A8CHAR), old(Mem_T.A9CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PVOID), old(Mem_T.P_iobuf), old(Mem_T.UINT4), old(const_80);
+    alloc, detChoiceCnt, const_80 := old(alloc), old(detChoiceCnt), old(const_80);
     return;
 
   label_19:
@@ -6623,7 +5931,7 @@ implementation is_identifier_loop_label_11_head(in_i: int, in_$isalpha.arg.1$5$_
     assume out_result.isdigit$6 == 0;
     assume value_is(__ctobpl_const_125, out_result.isdigit$6);
     out_i, out_$isalpha.arg.1$5$_123_$static$, out_$isdigit.arg.1$7$_123_$static$, out_result.isalpha$4, out_result.isdigit$6 := in_i, in_$isalpha.arg.1$5$_123_$static$, in_$isdigit.arg.1$7$_123_$static$, in_result.isalpha$4, in_result.isdigit$6;
-    alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80 := old(alloc), old(detChoiceCnt), old(Mem_T.A12CHAR), old(Mem_T.A13CHAR), old(Mem_T.A15CHAR), old(Mem_T.A17CHAR), old(Mem_T.A18CHAR), old(Mem_T.A1CHAR), old(Mem_T.A25CHAR), old(Mem_T.A28CHAR), old(Mem_T.A2CHAR), old(Mem_T.A37CHAR), old(Mem_T.A3CHAR), old(Mem_T.A4CHAR), old(Mem_T.A6CHAR), old(Mem_T.A7CHAR), old(Mem_T.A81CHAR), old(Mem_T.A8CHAR), old(Mem_T.A9CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PVOID), old(Mem_T.P_iobuf), old(Mem_T.UINT4), old(const_80);
+    alloc, detChoiceCnt, const_80 := old(alloc), old(detChoiceCnt), old(const_80);
     return;
 
   label_20:
@@ -6659,7 +5967,7 @@ implementation is_identifier_loop_label_11_head(in_i: int, in_$isalpha.arg.1$5$_
 
 
 procedure is_identifier_loop_label_11_head(in_i: int, in_$isalpha.arg.1$5$_123_$static$: int, in_$isdigit.arg.1$7$_123_$static$: int, in_result.isalpha$4: int, in_result.isdigit$6: int, in_str: int) returns (out_i: int, out_$isalpha.arg.1$5$_123_$static$: int, out_$isdigit.arg.1$7$_123_$static$: int, out_result.isalpha$4: int, out_result.isdigit$6: int);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
 
 
 
@@ -6680,7 +5988,7 @@ implementation is_num_constant_loop_label_11_head(in_i: int, in_$isdigit.arg.1$5
     assume value_is(__ctobpl_const_153, out_i);
     assume value_is(__ctobpl_const_154, Mem_T.CHAR[PLUS(in_str, 1, out_i)]);
     out_i, out_$isdigit.arg.1$5$_123_$static$, out_result.isdigit$4 := in_i, in_$isdigit.arg.1$5$_123_$static$, in_result.isdigit$4;
-    alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80 := old(alloc), old(detChoiceCnt), old(Mem_T.A12CHAR), old(Mem_T.A13CHAR), old(Mem_T.A15CHAR), old(Mem_T.A17CHAR), old(Mem_T.A18CHAR), old(Mem_T.A1CHAR), old(Mem_T.A25CHAR), old(Mem_T.A28CHAR), old(Mem_T.A2CHAR), old(Mem_T.A37CHAR), old(Mem_T.A3CHAR), old(Mem_T.A4CHAR), old(Mem_T.A6CHAR), old(Mem_T.A7CHAR), old(Mem_T.A81CHAR), old(Mem_T.A8CHAR), old(Mem_T.A9CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PVOID), old(Mem_T.P_iobuf), old(Mem_T.UINT4), old(const_80);
+    alloc, detChoiceCnt, const_80 := old(alloc), old(detChoiceCnt), old(const_80);
     return;
 
   label_19:
@@ -6702,7 +6010,7 @@ implementation is_num_constant_loop_label_11_head(in_i: int, in_$isdigit.arg.1$5
     assume out_result.isdigit$4 == 0;
     assume value_is(__ctobpl_const_161, out_result.isdigit$4);
     out_i, out_$isdigit.arg.1$5$_123_$static$, out_result.isdigit$4 := in_i, in_$isdigit.arg.1$5$_123_$static$, in_result.isdigit$4;
-    alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80 := old(alloc), old(detChoiceCnt), old(Mem_T.A12CHAR), old(Mem_T.A13CHAR), old(Mem_T.A15CHAR), old(Mem_T.A17CHAR), old(Mem_T.A18CHAR), old(Mem_T.A1CHAR), old(Mem_T.A25CHAR), old(Mem_T.A28CHAR), old(Mem_T.A2CHAR), old(Mem_T.A37CHAR), old(Mem_T.A3CHAR), old(Mem_T.A4CHAR), old(Mem_T.A6CHAR), old(Mem_T.A7CHAR), old(Mem_T.A81CHAR), old(Mem_T.A8CHAR), old(Mem_T.A9CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PVOID), old(Mem_T.P_iobuf), old(Mem_T.UINT4), old(const_80);
+    alloc, detChoiceCnt, const_80 := old(alloc), old(detChoiceCnt), old(const_80);
     return;
 
   label_14:
@@ -6740,7 +6048,7 @@ implementation is_num_constant_loop_label_11_head(in_i: int, in_$isdigit.arg.1$5
 
 
 procedure is_num_constant_loop_label_11_head(in_i: int, in_$isdigit.arg.1$5$_123_$static$: int, in_result.isdigit$4: int, in_str: int) returns (out_i: int, out_$isdigit.arg.1$5$_123_$static$: int, out_result.isdigit$4: int);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
 
 
 
@@ -6857,7 +6165,7 @@ implementation main_loop_label_21_head(in_result.get_token$11: int, in_result.is
     assume out_result.is_eof_token$9 != 0;
     assume value_is(__ctobpl_const_228, out_result.is_eof_token$9);
     out_result.get_token$11, out_result.is_eof_token$9, out_result.print_token$10, out_tok := in_result.get_token$11, in_result.is_eof_token$9, in_result.print_token$10, in_tok;
-    alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80 := old(alloc), old(detChoiceCnt), old(Mem_T.A12CHAR), old(Mem_T.A13CHAR), old(Mem_T.A15CHAR), old(Mem_T.A17CHAR), old(Mem_T.A18CHAR), old(Mem_T.A1CHAR), old(Mem_T.A25CHAR), old(Mem_T.A28CHAR), old(Mem_T.A2CHAR), old(Mem_T.A37CHAR), old(Mem_T.A3CHAR), old(Mem_T.A4CHAR), old(Mem_T.A6CHAR), old(Mem_T.A7CHAR), old(Mem_T.A81CHAR), old(Mem_T.A8CHAR), old(Mem_T.A9CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PVOID), old(Mem_T.P_iobuf), old(Mem_T.UINT4), old(const_80);
+    alloc, detChoiceCnt, const_80 := old(alloc), old(detChoiceCnt), old(const_80);
     return;
 
   label_37_dummy:
@@ -6871,6 +6179,6 @@ implementation main_loop_label_21_head(in_result.get_token$11: int, in_result.is
 
 
 procedure main_loop_label_21_head(in_result.get_token$11: int, in_result.is_eof_token$9: int, in_result.print_token$10: int, in_tok: int, in_tp: int) returns (out_result.get_token$11: int, out_result.is_eof_token$9: int, out_result.print_token$10: int, out_tok: int);
-  modifies alloc, detChoiceCnt, Mem_T.A12CHAR, Mem_T.A13CHAR, Mem_T.A15CHAR, Mem_T.A17CHAR, Mem_T.A18CHAR, Mem_T.A1CHAR, Mem_T.A25CHAR, Mem_T.A28CHAR, Mem_T.A2CHAR, Mem_T.A37CHAR, Mem_T.A3CHAR, Mem_T.A4CHAR, Mem_T.A6CHAR, Mem_T.A7CHAR, Mem_T.A81CHAR, Mem_T.A8CHAR, Mem_T.A9CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PVOID, Mem_T.P_iobuf, Mem_T.UINT4, const_80;
+  modifies alloc, detChoiceCnt, const_80;
 
 

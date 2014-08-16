@@ -395,6 +395,7 @@ var {:extern} detChoiceCnt: int;
 function {:extern} DetChoiceFunc(a: int) : int;
 
 procedure {:extern} det_choice() returns (x: int);
+  modifies detChoiceCnt;
   ensures detChoiceCnt == INT_ADD(old(detChoiceCnt), 1);
   ensures x == DetChoiceFunc(old(detChoiceCnt));
 
@@ -538,447 +539,414 @@ function {:extern} value_is(c: int, e: int) : bool;
 
 const {:extern} {:model_const "Positive_RA_Alt_Thresh[Alt_Layer_Value]"} {:sourceFile "source\tcas.c"} {:sourceLine 58} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "Alt_Layer_Value"} {:sourceFile "source\tcas.c"} {:sourceLine 58} unique __ctobpl_const_1: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile "source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_6: int;
-
 const {:extern} {:model_const "Up_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_7: int;
 
 const {:extern} {:model_const "result.question.2"} {:sourceFile "source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 104} unique __ctobpl_const_54: int;
+const {:extern} {:model_const "Up_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "Other_Capability"} {:sourceFile "source\tcas.c"} {:sourceLine 119} unique __ctobpl_const_63: int;
-
-const {:extern} {:model_const "Down_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_45: int;
-
-const {:extern} {:model_const "Pred.2"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_58: int;
-
-const {:extern} {:model_const "Pred.2"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_61: int;
-
-const {:extern} {:model_const "Two_of_Three_Reports_Valid"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_64: int;
-
-const {:extern} {:model_const "Pred.3"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_66: int;
-
-const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 109} unique __ctobpl_const_52: int;
-
-const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_42: int;
-
-const {:extern} {:model_const "Pred.3"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_67: int;
-
-const {:extern} {:model_const "argc"} {:sourceFile "source\tcas.c"} {:sourceLine 148} unique __ctobpl_const_100: int;
-
-const {:extern} {:model_const "High_Confidence"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_55: int;
-
-const {:extern} {:model_const "intent_not_known"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_68: int;
-
-const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_39: int;
-
-const {:extern} {:model_const "result.ALIM"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_44: int;
-
-const {:extern} {:model_const "Pred.5"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_49: int;
-
-const {:extern} {:model_const "Own_Tracked_Alt_Rate"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_56: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\tcas.c"} {:sourceLine 99} unique __ctobpl_const_50: int;
-
-const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_57: int;
-
-const {:extern} {:model_const "enabled"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_60: int;
-
-const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_41: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_40: int;
-
-const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_43: int;
-
-const {:extern} {:model_const "Pred.5"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_46: int;
-
-const {:extern} {:model_const "Pred.5"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_47: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_48: int;
-
-const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 104} unique __ctobpl_const_53: int;
-
-const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 109} unique __ctobpl_const_51: int;
-
-const {:extern} {:model_const "Pred.2"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_59: int;
-
-const {:extern} {:model_const "tcas_equipped"} {:sourceFile "source\tcas.c"} {:sourceLine 119} unique __ctobpl_const_62: int;
-
-const {:extern} {:model_const "Other_RAC"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_65: int;
-
-const {:extern} {:model_const "tcas_equipped"} {:sourceFile "source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_74: int;
-
-const {:extern} {:model_const "tcas_equipped"} {:sourceFile "source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_72: int;
-
-const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_77: int;
-
-const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_86: int;
-
-const {:extern} {:model_const "need_upward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 128} unique __ctobpl_const_87: int;
-
-const {:extern} {:model_const "need_downward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 128} unique __ctobpl_const_88: int;
-
-const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 138} unique __ctobpl_const_91: int;
-
-const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_82: int;
-
-const {:extern} {:model_const "need_downward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 135} unique __ctobpl_const_90: int;
-
-const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 136} unique __ctobpl_const_92: int;
-
-const {:extern} {:model_const "need_upward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_79: int;
-
-const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 134} unique __ctobpl_const_93: int;
-
-const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 132} unique __ctobpl_const_94: int;
-
-const {:extern} {:model_const "result.Non_Crossing_Biased_Descend"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_81: int;
-
-const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 141} unique __ctobpl_const_95: int;
-
-const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_80: int;
-
-const {:extern} {:model_const "Positive_RA_Alt_Thresh[0]"} {:sourceFile "source\tcas.c"} {:sourceLine 50} unique __ctobpl_const_96: int;
-
-const {:extern} {:model_const "Positive_RA_Alt_Thresh[1]"} {:sourceFile "source\tcas.c"} {:sourceLine 51} unique __ctobpl_const_97: int;
-
-const {:extern} {:model_const "Positive_RA_Alt_Thresh[2]"} {:sourceFile "source\tcas.c"} {:sourceLine 52} unique __ctobpl_const_98: int;
-
-const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_78: int;
-
-const {:extern} {:model_const "need_upward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 133} unique __ctobpl_const_89: int;
-
-const {:extern} {:model_const "Positive_RA_Alt_Thresh[3]"} {:sourceFile "source\tcas.c"} {:sourceLine 53} unique __ctobpl_const_99: int;
-
-const {:extern} {:model_const "enabled"} {:sourceFile "source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_71: int;
-
-const {:extern} {:model_const "Pred.3"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_69: int;
-
-const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 122} unique __ctobpl_const_70: int;
-
-const {:extern} {:model_const "intent_not_known"} {:sourceFile "source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_73: int;
-
-const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_76: int;
-
-const {:extern} {:model_const "result.Non_Crossing_Biased_Climb"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_75: int;
-
-const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_83: int;
-
-const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_84: int;
-
-const {:extern} {:model_const "need_downward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_85: int;
+const {:extern} {:model_const "result.question.2"} {:sourceFile "source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_6: int;
 
 const {:extern} {:model_const "Climb_Inhibit"} {:sourceFile "source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_3: int;
 
 const {:extern} {:model_const "result.question.2"} {:sourceFile "source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "Up_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "Pred.5"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_47: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_40: int;
+
+const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 109} unique __ctobpl_const_51: int;
+
+const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 104} unique __ctobpl_const_53: int;
+
+const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_57: int;
+
+const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 109} unique __ctobpl_const_52: int;
+
+const {:extern} {:model_const "tcas_equipped"} {:sourceFile "source\tcas.c"} {:sourceLine 119} unique __ctobpl_const_62: int;
+
+const {:extern} {:model_const "Pred.5"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_49: int;
+
+const {:extern} {:model_const "Other_Capability"} {:sourceFile "source\tcas.c"} {:sourceLine 119} unique __ctobpl_const_63: int;
+
+const {:extern} {:model_const "Pred.2"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_58: int;
+
+const {:extern} {:model_const "High_Confidence"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_55: int;
+
+const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_38: int;
+
+const {:extern} {:model_const "enabled"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_60: int;
+
+const {:extern} {:model_const "Two_of_Three_Reports_Valid"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_64: int;
+
+const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_42: int;
+
+const {:extern} {:model_const "result.ALIM"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_44: int;
+
+const {:extern} {:model_const "Down_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_45: int;
+
+const {:extern} {:model_const "Pred.5"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_46: int;
+
+const {:extern} {:model_const "Positive_RA_Alt_Thresh[3]"} {:sourceFile "source\tcas.c"} {:sourceLine 53} unique __ctobpl_const_99: int;
+
+const {:extern} {:model_const "Pred.2"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_61: int;
+
+const {:extern} {:model_const "Pred.3"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_66: int;
+
+const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_43: int;
+
+const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 104} unique __ctobpl_const_54: int;
+
+const {:extern} {:model_const "Own_Tracked_Alt_Rate"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_56: int;
+
+const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_41: int;
+
+const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_39: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_48: int;
+
+const {:extern} {:model_const "Pred.2"} {:sourceFile "source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_59: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\tcas.c"} {:sourceLine 99} unique __ctobpl_const_50: int;
+
+const {:extern} {:model_const "Other_RAC"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_65: int;
+
+const {:extern} {:model_const "Pred.3"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_67: int;
+
+const {:extern} {:model_const "result.Non_Crossing_Biased_Climb"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_75: int;
+
+const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_78: int;
+
+const {:extern} {:model_const "need_upward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 133} unique __ctobpl_const_89: int;
+
+const {:extern} {:model_const "need_downward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 135} unique __ctobpl_const_90: int;
+
+const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 136} unique __ctobpl_const_92: int;
+
+const {:extern} {:model_const "intent_not_known"} {:sourceFile "source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_73: int;
+
+const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 134} unique __ctobpl_const_93: int;
+
+const {:extern} {:model_const "need_downward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 128} unique __ctobpl_const_88: int;
+
+const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 132} unique __ctobpl_const_94: int;
+
+const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 141} unique __ctobpl_const_95: int;
+
+const {:extern} {:model_const "Positive_RA_Alt_Thresh[0]"} {:sourceFile "source\tcas.c"} {:sourceLine 50} unique __ctobpl_const_96: int;
+
+const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_83: int;
+
+const {:extern} {:model_const "Positive_RA_Alt_Thresh[1]"} {:sourceFile "source\tcas.c"} {:sourceLine 51} unique __ctobpl_const_97: int;
+
+const {:extern} {:model_const "Positive_RA_Alt_Thresh[2]"} {:sourceFile "source\tcas.c"} {:sourceLine 52} unique __ctobpl_const_98: int;
+
+const {:extern} {:model_const "intent_not_known"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_68: int;
+
+const {:extern} {:model_const "need_upward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_79: int;
+
+const {:extern} {:model_const "tcas_equipped"} {:sourceFile "source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_72: int;
+
+const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_80: int;
+
+const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_84: int;
+
+const {:extern} {:model_const "enabled"} {:sourceFile "source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_71: int;
+
+const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 138} unique __ctobpl_const_91: int;
+
+const {:extern} {:model_const "alt_sep"} {:sourceFile "source\tcas.c"} {:sourceLine 122} unique __ctobpl_const_70: int;
+
+const {:extern} {:model_const "tcas_equipped"} {:sourceFile "source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_74: int;
+
+const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_77: int;
+
+const {:extern} {:model_const "result.Non_Crossing_Biased_Descend"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_81: int;
+
+const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_86: int;
+
+const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_76: int;
+
+const {:extern} {:model_const "Pred.3"} {:sourceFile "source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_69: int;
+
+const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_82: int;
+
+const {:extern} {:model_const "need_downward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_85: int;
+
+const {:extern} {:model_const "need_upward_RA"} {:sourceFile "source\tcas.c"} {:sourceLine 128} unique __ctobpl_const_87: int;
 
 const {:extern} {:model_const "upward_preferred"} {:sourceFile "source\tcas.c"} {:sourceLine 90} unique __ctobpl_const_30: int;
 
-const {:extern} {:model_const "upward_preferred"} {:sourceFile "source\tcas.c"} {:sourceLine 73} unique __ctobpl_const_12: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_27: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_101: int;
+const {:extern} {:model_const "result.Inhibit_Biased_Climb"} {:sourceFile "source\tcas.c"} {:sourceLine 72} unique __ctobpl_const_11: int;
 
 const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_20: int;
 
 const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_17: int;
 
-const {:extern} {:model_const "Down_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 90} unique __ctobpl_const_31: int;
-
-const {:extern} {:model_const "result.Inhibit_Biased_Climb"} {:sourceFile "source\tcas.c"} {:sourceLine 90} unique __ctobpl_const_32: int;
-
-const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_13: int;
-
-const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_28: int;
-
-const {:extern} {:model_const "upward_preferred"} {:sourceFile "source\tcas.c"} {:sourceLine 91} unique __ctobpl_const_33: int;
-
-const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_34: int;
-
 const {:extern} {:model_const "result.ALIM"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_23: int;
 
-const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_35: int;
+const {:extern} {:model_const "argc"} {:sourceFile "source\tcas.c"} {:sourceLine 148} unique __ctobpl_const_100: int;
 
-const {:extern} {:model_const "result.ALIM"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_36: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_101: int;
 
-const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_38: int;
+const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_25: int;
 
-const {:extern} {:model_const "Up_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_37: int;
+const {:extern} {:model_const "upward_preferred"} {:sourceFile "source\tcas.c"} {:sourceLine 73} unique __ctobpl_const_12: int;
 
 const {:extern} {:model_const "upward_preferred"} {:sourceFile "source\tcas.c"} {:sourceLine 72} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_21: int;
-
-const {:extern} {:model_const "result.ALIM"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_15: int;
-
-const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_26: int;
-
-const {:extern} {:model_const "Down_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 72} unique __ctobpl_const_10: int;
-
-const {:extern} {:model_const "result.Inhibit_Biased_Climb"} {:sourceFile "source\tcas.c"} {:sourceLine 72} unique __ctobpl_const_11: int;
-
-const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_14: int;
-
-const {:extern} {:model_const "Up_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_13: int;
 
 const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_22: int;
 
-const {:extern} {:model_const "Down_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_24: int;
+const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_26: int;
 
-const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_25: int;
+const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_21: int;
+
+const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_14: int;
 
 const {:extern} {:model_const "result"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_19: int;
 
 const {:extern} {:model_const "Pred.9"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_18: int;
 
+const {:extern} {:model_const "Pred.6"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_28: int;
+
+const {:extern} {:model_const "Down_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 90} unique __ctobpl_const_31: int;
+
+const {:extern} {:model_const "result.Inhibit_Biased_Climb"} {:sourceFile "source\tcas.c"} {:sourceLine 90} unique __ctobpl_const_32: int;
+
+const {:extern} {:model_const "upward_preferred"} {:sourceFile "source\tcas.c"} {:sourceLine 91} unique __ctobpl_const_33: int;
+
+const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_35: int;
+
+const {:extern} {:model_const "Down_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 72} unique __ctobpl_const_10: int;
+
+const {:extern} {:model_const "Up_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_16: int;
+
+const {:extern} {:model_const "result.ALIM"} {:sourceFile "source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_15: int;
+
+const {:extern} {:model_const "Down_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_24: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_27: int;
+
 const {:extern} {:model_const "result"} {:sourceFile "source\tcas.c"} {:sourceLine 81} unique __ctobpl_const_29: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_105: int;
+const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_34: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_102: int;
+const {:extern} {:model_const "result.ALIM"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_36: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_128: int;
+const {:extern} {:model_const "Up_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_37: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_129: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_104: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_116: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_122: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_130: int;
-
-const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_127: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_119: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_123: int;
-
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_107: int;
-
-const {:extern} {:model_const "argv[5]"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_131: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_109: int;
-
-const {:extern} {:model_const "High_Confidence"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_113: int;
-
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_114: int;
-
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_121: int;
-
-const {:extern} {:model_const "argv[4]"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_124: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_132: int;
-
-const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_106: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_115: int;
-
-const {:extern} {:model_const "argv[3]"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_117: int;
-
-const {:extern} {:model_const "Two_of_Three_Reports_Valid"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_120: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_126: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_133: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_112: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_108: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_111: int;
-
-const {:extern} {:model_const "argv[1]"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_103: int;
-
-const {:extern} {:model_const "argv[2]"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_110: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_118: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_125: int;
-
-const {:extern} {:model_const "argv[6]"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_138: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_144: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_137: int;
-
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_149: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_161: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_147: int;
-
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_135: int;
-
-const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_141: int;
-
-const {:extern} {:model_const "Up_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_155: int;
-
-const {:extern} {:model_const "argv[9]"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_159: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_143: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_150: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_136: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_157: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_158: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_153: int;
-
-const {:extern} {:model_const "Down_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_162: int;
-
-const {:extern} {:model_const "argv[8]"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_152: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_160: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_146: int;
-
-const {:extern} {:model_const "Own_Tracked_Alt_Rate"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_134: int;
-
-const {:extern} {:model_const "argv[7]"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_145: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_151: int;
-
-const {:extern} {:model_const "Alt_Layer_Value"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_148: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_154: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_140: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_139: int;
-
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_142: int;
-
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_156: int;
-
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_163: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_164: int;
+const {:extern} {:model_const "Alt_Layer_Value"} {:sourceFile "source\tcas.c"} {:sourceLine 58} unique __ctobpl_const_1: int;
 
 const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\tcas.c"} {:sourceLine 154} unique __ctobpl_const_196: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_184: int;
+const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_165: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 150} unique __ctobpl_const_187: int;
+const {:extern} {:model_const "argv[12]"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_180: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\tcas.c"} {:sourceLine 151} unique __ctobpl_const_190: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\tcas.c"} {:sourceLine 152} unique __ctobpl_const_192: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_178: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_182: int;
+
+const {:extern} {:model_const "Climb_Inhibit"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_183: int;
 
 const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\tcas.c"} {:sourceLine 150} unique __ctobpl_const_188: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 153} unique __ctobpl_const_193: int;
 
 const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\tcas.c"} {:sourceLine 153} unique __ctobpl_const_194: int;
 
 const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 154} unique __ctobpl_const_195: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_167: int;
-
-const {:extern} {:model_const "argv[11]"} {:sourceFile "source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_173: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_179: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_168: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_171: int;
-
 const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_175: int;
-
-const {:extern} {:model_const "Climb_Inhibit"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_183: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 171} unique __ctobpl_const_185: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 151} unique __ctobpl_const_189: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\tcas.c"} {:sourceLine 151} unique __ctobpl_const_190: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 152} unique __ctobpl_const_191: int;
-
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_177: int;
 
 const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_174: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\tcas.c"} {:sourceLine 152} unique __ctobpl_const_192: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_184: int;
 
-const {:extern} {:model_const "Other_Capability"} {:sourceFile "source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_176: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_170: int;
 
-const {:extern} {:model_const "argv[10]"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_166: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_171: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_178: int;
-
-const {:extern} {:model_const "argv[12]"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_180: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_181: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 153} unique __ctobpl_const_193: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_168: int;
 
 const {:extern} {:model_const "Other_RAC"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_169: int;
 
 const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_172: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_182: int;
+const {:extern} {:model_const "Other_Capability"} {:sourceFile "source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_176: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_179: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_181: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_177: int;
 
 const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\tcas.c"} {:sourceLine 171} unique __ctobpl_const_186: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_165: int;
+const {:extern} {:model_const "argv[10]"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_166: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_170: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_167: int;
+
+const {:extern} {:model_const "argv[11]"} {:sourceFile "source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_173: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 171} unique __ctobpl_const_185: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 150} unique __ctobpl_const_187: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 151} unique __ctobpl_const_189: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 152} unique __ctobpl_const_191: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_137: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_149: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_143: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_158: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_153: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_147: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_154: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_139: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_140: int;
+
+const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_141: int;
+
+const {:extern} {:model_const "argv[7]"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_145: int;
+
+const {:extern} {:model_const "argv[6]"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_138: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_142: int;
+
+const {:extern} {:model_const "Up_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_155: int;
+
+const {:extern} {:model_const "argv[9]"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_159: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_160: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_133: int;
+
+const {:extern} {:model_const "Own_Tracked_Alt_Rate"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_134: int;
+
+const {:extern} {:model_const "Alt_Layer_Value"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_148: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_151: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_161: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_150: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_144: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_136: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_135: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_146: int;
+
+const {:extern} {:model_const "argv[8]"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_152: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_156: int;
+
+const {:extern} {:model_const "Down_Separation"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_162: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_163: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_157: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_164: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_132: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_119: int;
+
+const {:extern} {:model_const "High_Confidence"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_113: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_108: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_111: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_118: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_123: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_102: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_115: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_114: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_105: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_116: int;
+
+const {:extern} {:model_const "argv[4]"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_124: int;
+
+const {:extern} {:model_const "argv[2]"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_110: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_125: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_104: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_126: int;
+
+const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_127: int;
+
+const {:extern} {:model_const "argv[3]"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_117: int;
+
+const {:extern} {:model_const "argv[1]"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_103: int;
+
+const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_106: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_121: int;
+
+const {:extern} {:model_const "Two_of_Three_Reports_Valid"} {:sourceFile "source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_120: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_112: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_128: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_109: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_122: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_129: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_130: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile "source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_107: int;
+
+const {:extern} {:model_const "argv[5]"} {:sourceFile "source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_131: int;
 
 procedure {:extern} __iob_func() returns (__dummy_ret__iob_func: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A35CHAR, Mem_T.A44CHAR, Mem_T.A49CHAR, Mem_T.A4CHAR, Mem_T.A4INT4, Mem_T.A58CHAR, Mem_T.A63CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
+  modifies alloc, detChoiceCnt, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A35CHAR == old(Mem_T.A35CHAR);
-  free ensures Mem_T.A44CHAR == old(Mem_T.A44CHAR);
-  free ensures Mem_T.A49CHAR == old(Mem_T.A49CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A4INT4 == old(Mem_T.A4INT4);
-  free ensures Mem_T.A58CHAR == old(Mem_T.A58CHAR);
-  free ensures Mem_T.A63CHAR == old(Mem_T.A63CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
 
 
 
 procedure {:extern} atoi(__dummy_formal_atoi_0.__1: int) returns (__dummy_retatoi: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A35CHAR, Mem_T.A44CHAR, Mem_T.A49CHAR, Mem_T.A4CHAR, Mem_T.A4INT4, Mem_T.A58CHAR, Mem_T.A63CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
+  modifies alloc, detChoiceCnt, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A35CHAR == old(Mem_T.A35CHAR);
-  free ensures Mem_T.A44CHAR == old(Mem_T.A44CHAR);
-  free ensures Mem_T.A49CHAR == old(Mem_T.A49CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A4INT4 == old(Mem_T.A4INT4);
-  free ensures Mem_T.A58CHAR == old(Mem_T.A58CHAR);
-  free ensures Mem_T.A63CHAR == old(Mem_T.A63CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
 
 
 
 procedure {:extern} ALIM() returns (result.ALIM$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A35CHAR, Mem_T.A44CHAR, Mem_T.A49CHAR, Mem_T.A4CHAR, Mem_T.A4INT4, Mem_T.A58CHAR, Mem_T.A63CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
+  modifies alloc, detChoiceCnt, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A35CHAR == old(Mem_T.A35CHAR);
-  free ensures Mem_T.A44CHAR == old(Mem_T.A44CHAR);
-  free ensures Mem_T.A49CHAR == old(Mem_T.A49CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A4INT4 == old(Mem_T.A4INT4);
-  free ensures Mem_T.A58CHAR == old(Mem_T.A58CHAR);
-  free ensures Mem_T.A63CHAR == old(Mem_T.A63CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
 
 
 
@@ -1032,19 +1000,8 @@ implementation {:extern} ALIM() returns (result.ALIM$1: int)
 
 procedure {:extern} Inhibit_Biased_Climb() returns (result.Inhibit_Biased_Climb$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A35CHAR, Mem_T.A44CHAR, Mem_T.A49CHAR, Mem_T.A4CHAR, Mem_T.A4INT4, Mem_T.A58CHAR, Mem_T.A63CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
+  modifies alloc, detChoiceCnt, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A35CHAR == old(Mem_T.A35CHAR);
-  free ensures Mem_T.A44CHAR == old(Mem_T.A44CHAR);
-  free ensures Mem_T.A49CHAR == old(Mem_T.A49CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A4INT4 == old(Mem_T.A4INT4);
-  free ensures Mem_T.A58CHAR == old(Mem_T.A58CHAR);
-  free ensures Mem_T.A63CHAR == old(Mem_T.A63CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
 
 
 
@@ -1126,19 +1083,8 @@ implementation {:extern} Inhibit_Biased_Climb() returns (result.Inhibit_Biased_C
 
 procedure {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossing_Biased_Climb$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A35CHAR, Mem_T.A44CHAR, Mem_T.A49CHAR, Mem_T.A4CHAR, Mem_T.A4INT4, Mem_T.A58CHAR, Mem_T.A63CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
+  modifies alloc, detChoiceCnt, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A35CHAR == old(Mem_T.A35CHAR);
-  free ensures Mem_T.A44CHAR == old(Mem_T.A44CHAR);
-  free ensures Mem_T.A49CHAR == old(Mem_T.A49CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A4INT4 == old(Mem_T.A4INT4);
-  free ensures Mem_T.A58CHAR == old(Mem_T.A58CHAR);
-  free ensures Mem_T.A63CHAR == old(Mem_T.A63CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
 
 
 
@@ -1402,19 +1348,8 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
 
 procedure {:extern} Non_Crossing_Biased_Descend() returns (result.Non_Crossing_Biased_Descend$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A35CHAR, Mem_T.A44CHAR, Mem_T.A49CHAR, Mem_T.A4CHAR, Mem_T.A4INT4, Mem_T.A58CHAR, Mem_T.A63CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
+  modifies alloc, detChoiceCnt, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A35CHAR == old(Mem_T.A35CHAR);
-  free ensures Mem_T.A44CHAR == old(Mem_T.A44CHAR);
-  free ensures Mem_T.A49CHAR == old(Mem_T.A49CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A4INT4 == old(Mem_T.A4INT4);
-  free ensures Mem_T.A58CHAR == old(Mem_T.A58CHAR);
-  free ensures Mem_T.A63CHAR == old(Mem_T.A63CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
 
 
 
@@ -1678,19 +1613,8 @@ implementation {:extern} Non_Crossing_Biased_Descend() returns (result.Non_Cross
 
 procedure {:extern} Own_Above_Threat() returns (result.Own_Above_Threat$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A35CHAR, Mem_T.A44CHAR, Mem_T.A49CHAR, Mem_T.A4CHAR, Mem_T.A4INT4, Mem_T.A58CHAR, Mem_T.A63CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
+  modifies alloc, detChoiceCnt, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A35CHAR == old(Mem_T.A35CHAR);
-  free ensures Mem_T.A44CHAR == old(Mem_T.A44CHAR);
-  free ensures Mem_T.A49CHAR == old(Mem_T.A49CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A4INT4 == old(Mem_T.A4INT4);
-  free ensures Mem_T.A58CHAR == old(Mem_T.A58CHAR);
-  free ensures Mem_T.A63CHAR == old(Mem_T.A63CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
 
 
 
@@ -1743,19 +1667,8 @@ implementation {:extern} Own_Above_Threat() returns (result.Own_Above_Threat$1: 
 
 procedure {:extern} Own_Below_Threat() returns (result.Own_Below_Threat$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A35CHAR, Mem_T.A44CHAR, Mem_T.A49CHAR, Mem_T.A4CHAR, Mem_T.A4INT4, Mem_T.A58CHAR, Mem_T.A63CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
+  modifies alloc, detChoiceCnt, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A35CHAR == old(Mem_T.A35CHAR);
-  free ensures Mem_T.A44CHAR == old(Mem_T.A44CHAR);
-  free ensures Mem_T.A49CHAR == old(Mem_T.A49CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A4INT4 == old(Mem_T.A4INT4);
-  free ensures Mem_T.A58CHAR == old(Mem_T.A58CHAR);
-  free ensures Mem_T.A63CHAR == old(Mem_T.A63CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
 
 
 
@@ -1808,19 +1721,8 @@ implementation {:extern} Own_Below_Threat() returns (result.Own_Below_Threat$1: 
 
 procedure {:extern} alt_sep_test() returns (result.alt_sep_test$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A35CHAR, Mem_T.A44CHAR, Mem_T.A49CHAR, Mem_T.A4CHAR, Mem_T.A4INT4, Mem_T.A58CHAR, Mem_T.A63CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
+  modifies alloc, detChoiceCnt, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A35CHAR == old(Mem_T.A35CHAR);
-  free ensures Mem_T.A44CHAR == old(Mem_T.A44CHAR);
-  free ensures Mem_T.A49CHAR == old(Mem_T.A49CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A4INT4 == old(Mem_T.A4INT4);
-  free ensures Mem_T.A58CHAR == old(Mem_T.A58CHAR);
-  free ensures Mem_T.A63CHAR == old(Mem_T.A63CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
 
 
 
@@ -2295,19 +2197,8 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
 
 procedure {:extern} initialize();
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A35CHAR, Mem_T.A44CHAR, Mem_T.A49CHAR, Mem_T.A4CHAR, Mem_T.A4INT4, Mem_T.A58CHAR, Mem_T.A63CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
+  modifies alloc, detChoiceCnt, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A35CHAR == old(Mem_T.A35CHAR);
-  free ensures Mem_T.A44CHAR == old(Mem_T.A44CHAR);
-  free ensures Mem_T.A49CHAR == old(Mem_T.A49CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A4INT4 == old(Mem_T.A4INT4);
-  free ensures Mem_T.A58CHAR == old(Mem_T.A58CHAR);
-  free ensures Mem_T.A63CHAR == old(Mem_T.A63CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
 
 
 
@@ -2380,19 +2271,8 @@ implementation {:extern} initialize()
 
 procedure {:extern} main(argc.__1: int, argv.__1: int) returns (result.main$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A35CHAR, Mem_T.A44CHAR, Mem_T.A49CHAR, Mem_T.A4CHAR, Mem_T.A4INT4, Mem_T.A58CHAR, Mem_T.A63CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
+  modifies alloc, detChoiceCnt, Alt_Layer_Value, Climb_Inhibit, Cur_Vertical_Sep, Down_Separation, High_Confidence, Other_Capability, Other_RAC, Other_Tracked_Alt, Own_Tracked_Alt, Own_Tracked_Alt_Rate, Two_of_Three_Reports_Valid, Up_Separation;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A35CHAR == old(Mem_T.A35CHAR);
-  free ensures Mem_T.A44CHAR == old(Mem_T.A44CHAR);
-  free ensures Mem_T.A49CHAR == old(Mem_T.A49CHAR);
-  free ensures Mem_T.A4CHAR == old(Mem_T.A4CHAR);
-  free ensures Mem_T.A4INT4 == old(Mem_T.A4INT4);
-  free ensures Mem_T.A58CHAR == old(Mem_T.A58CHAR);
-  free ensures Mem_T.A63CHAR == old(Mem_T.A63CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
 
 
 

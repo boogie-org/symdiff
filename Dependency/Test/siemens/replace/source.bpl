@@ -397,6 +397,7 @@ var {:extern} detChoiceCnt: int;
 function {:extern} DetChoiceFunc(a: int) : int;
 
 procedure {:extern} det_choice() returns (x: int);
+  modifies detChoiceCnt;
   ensures detChoiceCnt == INT_ADD(old(detChoiceCnt), 1);
   ensures x == DetChoiceFunc(old(detChoiceCnt));
 
@@ -508,21 +509,343 @@ axiom (forall M: [name][int]int, x: int, y: int :: { Unified(M[Field(x) := M[Fie
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 434} unique __ctobpl_const_70: int;
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 426} unique __ctobpl_const_18: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_63: int;
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 427} unique __ctobpl_const_19: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 437} unique __ctobpl_const_73: int;
+const {:extern} {:model_const "pat[j]"} {:sourceFile "source\replace.c"} {:sourceLine 427} unique __ctobpl_const_22: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_75: int;
+const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 58} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_76: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 427} unique __ctobpl_const_21: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 428} unique __ctobpl_const_23: int;
+
+const {:extern} {:model_const "pat[j]"} {:sourceFile "source\replace.c"} {:sourceLine 428} unique __ctobpl_const_25: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_26: int;
+
+const {:extern} {:model_const "outset"} {:sourceFile "source\replace.c"} {:sourceLine 58} unique __ctobpl_const_6: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 427} unique __ctobpl_const_20: int;
+
+const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_27: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 58} unique __ctobpl_const_7: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 60} unique __ctobpl_const_15: int;
+
+const {:extern} {:model_const "src[* i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_155: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 428} unique __ctobpl_const_24: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 59} unique __ctobpl_const_11: int;
+
+const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 55} unique __ctobpl_const_3: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 561} unique __ctobpl_const_1: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 561} unique __ctobpl_const_2: int;
+
+const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 55} unique __ctobpl_const_5: int;
+
+const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_156: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_28: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_29: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 55} unique __ctobpl_const_4: int;
+
+const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 59} unique __ctobpl_const_12: int;
+
+const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 58} unique __ctobpl_const_8: int;
+
+const {:extern} {:model_const "outset[* j]"} {:sourceFile "source\replace.c"} {:sourceLine 58} unique __ctobpl_const_9: int;
+
+const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 59} unique __ctobpl_const_14: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 59} unique __ctobpl_const_13: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 62} unique __ctobpl_const_17: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 56} unique __ctobpl_const_16: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 79} unique __ctobpl_const_247: int;
+
+const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 82} unique __ctobpl_const_249: int;
+
+const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 74} unique __ctobpl_const_236: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 75} unique __ctobpl_const_240: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 126} unique __ctobpl_const_229: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 71} unique __ctobpl_const_234: int;
+
+const {:extern} {:model_const "s[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 79} unique __ctobpl_const_248: int;
+
+const {:extern} {:model_const "s[* i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 74} unique __ctobpl_const_239: int;
+
+const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 71} unique __ctobpl_const_232: int;
+
+const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_221: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 74} unique __ctobpl_const_237: int;
+
+const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_225: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 126} unique __ctobpl_const_231: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 78} unique __ctobpl_const_241: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_226: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 74} unique __ctobpl_const_238: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 126} unique __ctobpl_const_228: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 78} unique __ctobpl_const_242: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_224: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 71} unique __ctobpl_const_233: int;
+
+const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_222: int;
+
+const {:extern} {:model_const "s[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 71} unique __ctobpl_const_235: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 78} unique __ctobpl_const_243: int;
+
+const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_223: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 126} unique __ctobpl_const_230: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 150} unique __ctobpl_const_313: int;
+
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_227: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_220: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 78} unique __ctobpl_const_244: int;
+
+const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 79} unique __ctobpl_const_245: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 79} unique __ctobpl_const_246: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_154: int;
+
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_148: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 111} unique __ctobpl_const_123: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_135: int;
+
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_141: int;
+
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_128: int;
+
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_133: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_129: int;
+
+const {:extern} {:model_const "src[* i - 1]"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_136: int;
+
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_138: int;
+
+const {:extern} {:model_const "src[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 111} unique __ctobpl_const_125: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_130: int;
+
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_145: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_142: int;
+
+const {:extern} {:model_const "result.isalnum"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_147: int;
+
+const {:extern} {:model_const "src[* i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_144: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_149: int;
+
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_132: int;
+
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_140: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_150: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_153: int;
+
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_146: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 111} unique __ctobpl_const_124: int;
+
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_152: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_126: int;
+
+const {:extern} {:model_const "src[* i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_131: int;
+
+const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_127: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_134: int;
+
+const {:extern} {:model_const "result.isalnum"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_139: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_143: int;
+
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_137: int;
+
+const {:extern} {:model_const "src[* i - 1]"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_151: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_110: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_111: int;
+
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_114: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 442} unique __ctobpl_const_93: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_116: int;
+
+const {:extern} {:model_const "result.getline"} {:sourceFile "source\replace.c"} {:sourceLine 513} unique __ctobpl_const_101: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 515} unique __ctobpl_const_105: int;
+
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 515} unique __ctobpl_const_106: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 516} unique __ctobpl_const_107: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 82} unique __ctobpl_const_250: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 514} unique __ctobpl_const_102: int;
+
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 515} unique __ctobpl_const_104: int;
+
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 445} unique __ctobpl_const_98: int;
+
+const {:extern} {:model_const "src[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_112: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 515} unique __ctobpl_const_103: int;
+
+const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 444} unique __ctobpl_const_96: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_115: int;
+
+const {:extern} {:model_const "src[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_117: int;
+
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 107} unique __ctobpl_const_118: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 107} unique __ctobpl_const_119: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 107} unique __ctobpl_const_120: int;
+
+const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 454} unique __ctobpl_const_99: int;
+
+const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_113: int;
+
+const {:extern} {:model_const "result.getline"} {:sourceFile "source\replace.c"} {:sourceLine 516} unique __ctobpl_const_108: int;
+
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 111} unique __ctobpl_const_122: int;
+
+const {:extern} {:model_const "src[* i - 1]"} {:sourceFile "source\replace.c"} {:sourceLine 107} unique __ctobpl_const_121: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 442} unique __ctobpl_const_94: int;
+
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 440} unique __ctobpl_const_95: int;
+
+const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 444} unique __ctobpl_const_97: int;
+
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_109: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 513} unique __ctobpl_const_100: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_59: int;
+
+const {:extern} {:model_const "result.omatch"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_35: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_40: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_49: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_60: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_61: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_39: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_32: int;
+
+const {:extern} {:model_const "result.patsize"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_45: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_51: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 448} unique __ctobpl_const_36: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_33: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_34: int;
+
+const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 449} unique __ctobpl_const_37: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_41: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_46: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_47: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_50: int;
+
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 450} unique __ctobpl_const_38: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_44: int;
+
+const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_31: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_30: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_48: int;
+
+const {:extern} {:model_const "result.patsize"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_52: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 430} unique __ctobpl_const_53: int;
+
+const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 430} unique __ctobpl_const_54: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_42: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_43: int;
+
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 431} unique __ctobpl_const_55: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 431} unique __ctobpl_const_56: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 431} unique __ctobpl_const_57: int;
+
+const {:extern} {:model_const "lin[i]"} {:sourceFile "source\replace.c"} {:sourceLine 431} unique __ctobpl_const_58: int;
+
+const {:extern} {:model_const "amatch.arg.4"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_85: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_87: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 433} unique __ctobpl_const_69: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_67: int;
+
+const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 439} unique __ctobpl_const_92: int;
 
 const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_77: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_64: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_62: int;
 
-const {:extern} {:model_const "amatch.arg.4"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_79: int;
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_63: int;
+
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 436} unique __ctobpl_const_71: int;
+
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 437} unique __ctobpl_const_72: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_66: int;
+
+const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 437} unique __ctobpl_const_73: int;
 
 const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_80: int;
 
@@ -530,29 +853,29 @@ const {:extern} {:model_const "result.patsize"} {:sourceFile "source\replace.c"}
 
 const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_82: int;
 
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 433} unique __ctobpl_const_69: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_64: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 437} unique __ctobpl_const_74: int;
+const {:extern} {:model_const "result.omatch"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_68: int;
 
 const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_78: int;
 
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 437} unique __ctobpl_const_72: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_83: int;
 
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_67: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_76: int;
 
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 436} unique __ctobpl_const_71: int;
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 434} unique __ctobpl_const_70: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_84: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 437} unique __ctobpl_const_74: int;
 
-const {:extern} {:model_const "amatch.arg.4"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_85: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_66: int;
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_75: int;
 
 const {:extern} {:model_const "amatch.arg.4"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_89: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_83: int;
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_86: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_87: int;
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_65: int;
+
+const {:extern} {:model_const "amatch.arg.4"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_79: int;
 
 const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_88: int;
 
@@ -560,637 +883,375 @@ const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine
 
 const {:extern} {:model_const "result.amatch"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_91: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_86: int;
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 438} unique __ctobpl_const_84: int;
 
-const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 439} unique __ctobpl_const_92: int;
+const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_191: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_61: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_193: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_65: int;
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_198: int;
 
-const {:extern} {:model_const "result.omatch"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_68: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_204: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_62: int;
+const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_189: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_43: int;
+const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_205: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_30: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_208: int;
 
-const {:extern} {:model_const "result.omatch"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_35: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_211: int;
 
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 450} unique __ctobpl_const_38: int;
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_212: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 430} unique __ctobpl_const_54: int;
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_197: int;
 
-const {:extern} {:model_const "lin[i]"} {:sourceFile "source\replace.c"} {:sourceLine 431} unique __ctobpl_const_58: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_190: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_41: int;
+const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_207: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 449} unique __ctobpl_const_37: int;
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_195: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_60: int;
+const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_194: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_31: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_196: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_47: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_213: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_49: int;
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_210: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_46: int;
+const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_203: int;
 
-const {:extern} {:model_const "result.patsize"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_45: int;
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_214: int;
 
-const {:extern} {:model_const "result.patsize"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_52: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_216: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_40: int;
+const {:extern} {:model_const "result.esc"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_217: int;
 
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_34: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_218: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_44: int;
+const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_219: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 430} unique __ctobpl_const_53: int;
+const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_188: int;
 
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 448} unique __ctobpl_const_36: int;
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_200: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_50: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_199: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_33: int;
+const {:extern} {:model_const "src[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_201: int;
 
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 431} unique __ctobpl_const_55: int;
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_202: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_32: int;
+const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_192: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_42: int;
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_206: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 452} unique __ctobpl_const_39: int;
+const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_209: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_48: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_215: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 429} unique __ctobpl_const_51: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_160: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 431} unique __ctobpl_const_57: int;
+const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_181: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 432} unique __ctobpl_const_59: int;
+const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_178: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 431} unique __ctobpl_const_56: int;
+const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_164: int;
 
-const {:extern} {:model_const "src[* i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_155: int;
+const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_185: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 59} unique __ctobpl_const_13: int;
+const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_159: int;
 
-const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_156: int;
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_167: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 55} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_163: int;
 
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 426} unique __ctobpl_const_18: int;
+const {:extern} {:model_const "src[* i - 1]"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_168: int;
 
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 427} unique __ctobpl_const_19: int;
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_186: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 427} unique __ctobpl_const_20: int;
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_172: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 55} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_187: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 59} unique __ctobpl_const_14: int;
+const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_179: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 427} unique __ctobpl_const_21: int;
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_162: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 428} unique __ctobpl_const_24: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_171: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 428} unique __ctobpl_const_23: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_157: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_26: int;
+const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_158: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_28: int;
+const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_161: int;
 
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 62} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_165: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 561} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_169: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 55} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 122} unique __ctobpl_const_175: int;
 
-const {:extern} {:model_const "outset[* j]"} {:sourceFile "source\replace.c"} {:sourceLine 58} unique __ctobpl_const_9: int;
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 122} unique __ctobpl_const_177: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 59} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_166: int;
 
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 60} unique __ctobpl_const_15: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_180: int;
 
-const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 58} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 122} unique __ctobpl_const_176: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 59} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "src[* i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_173: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_27: int;
+const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_170: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 447} unique __ctobpl_const_29: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 122} unique __ctobpl_const_174: int;
 
-const {:extern} {:model_const "pat[j]"} {:sourceFile "source\replace.c"} {:sourceLine 428} unique __ctobpl_const_25: int;
+const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_182: int;
 
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 56} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_184: int;
 
-const {:extern} {:model_const "pat[j]"} {:sourceFile "source\replace.c"} {:sourceLine 427} unique __ctobpl_const_22: int;
+const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_183: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 58} unique __ctobpl_const_7: int;
-
-const {:extern} {:model_const "outset"} {:sourceFile "source\replace.c"} {:sourceLine 58} unique __ctobpl_const_6: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 561} unique __ctobpl_const_2: int;
-
-const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 58} unique __ctobpl_const_8: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 442} unique __ctobpl_const_94: int;
-
-const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 444} unique __ctobpl_const_97: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 513} unique __ctobpl_const_100: int;
-
-const {:extern} {:model_const "result.getline"} {:sourceFile "source\replace.c"} {:sourceLine 516} unique __ctobpl_const_108: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_109: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_111: int;
-
-const {:extern} {:model_const "src[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_112: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_116: int;
-
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 445} unique __ctobpl_const_98: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 516} unique __ctobpl_const_107: int;
-
-const {:extern} {:model_const "result.getline"} {:sourceFile "source\replace.c"} {:sourceLine 513} unique __ctobpl_const_101: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_115: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 442} unique __ctobpl_const_93: int;
-
-const {:extern} {:model_const "src[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_117: int;
-
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 440} unique __ctobpl_const_95: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 514} unique __ctobpl_const_102: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 515} unique __ctobpl_const_105: int;
-
-const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_113: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 107} unique __ctobpl_const_118: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 107} unique __ctobpl_const_119: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_114: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 105} unique __ctobpl_const_110: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 107} unique __ctobpl_const_120: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 515} unique __ctobpl_const_103: int;
-
-const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 454} unique __ctobpl_const_99: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_282: int;
-
-const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 444} unique __ctobpl_const_96: int;
-
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 515} unique __ctobpl_const_106: int;
-
-const {:extern} {:model_const "src[* i - 1]"} {:sourceFile "source\replace.c"} {:sourceLine 107} unique __ctobpl_const_121: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 111} unique __ctobpl_const_122: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 111} unique __ctobpl_const_123: int;
-
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 515} unique __ctobpl_const_104: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_133: int;
-
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_138: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_142: int;
-
-const {:extern} {:model_const "src[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 111} unique __ctobpl_const_125: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_148: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_141: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_126: int;
-
-const {:extern} {:model_const "src[* i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_131: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_143: int;
-
-const {:extern} {:model_const "result.isalnum"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_147: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 111} unique __ctobpl_const_124: int;
-
-const {:extern} {:model_const "src[* i - 1]"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_136: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_134: int;
-
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_140: int;
-
-const {:extern} {:model_const "src[* i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_144: int;
-
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_132: int;
-
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_145: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_150: int;
-
-const {:extern} {:model_const "src[* i - 1]"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_151: int;
-
-const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_127: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_153: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_129: int;
-
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_137: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_135: int;
-
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_146: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_149: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_154: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 116} unique __ctobpl_const_152: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_128: int;
-
-const {:extern} {:model_const "result.isalnum"} {:sourceFile "source\replace.c"} {:sourceLine 115} unique __ctobpl_const_139: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 113} unique __ctobpl_const_130: int;
-
-const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 71} unique __ctobpl_const_232: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 74} unique __ctobpl_const_237: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 78} unique __ctobpl_const_243: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 78} unique __ctobpl_const_244: int;
-
-const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 79} unique __ctobpl_const_245: int;
-
-const {:extern} {:model_const "s[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 79} unique __ctobpl_const_248: int;
-
-const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 82} unique __ctobpl_const_249: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 71} unique __ctobpl_const_234: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_220: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_226: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 126} unique __ctobpl_const_228: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 126} unique __ctobpl_const_230: int;
-
-const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_223: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 182} unique __ctobpl_const_345: int;
-
-const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_221: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_227: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 126} unique __ctobpl_const_231: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 71} unique __ctobpl_const_233: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 74} unique __ctobpl_const_238: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 82} unique __ctobpl_const_250: int;
-
-const {:extern} {:model_const "s[* i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 74} unique __ctobpl_const_239: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_224: int;
-
-const {:extern} {:model_const "s[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 71} unique __ctobpl_const_235: int;
-
-const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_222: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 126} unique __ctobpl_const_229: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 75} unique __ctobpl_const_240: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 78} unique __ctobpl_const_242: int;
-
-const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 74} unique __ctobpl_const_236: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 79} unique __ctobpl_const_246: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 79} unique __ctobpl_const_247: int;
-
-const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_225: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 78} unique __ctobpl_const_241: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 85} unique __ctobpl_const_255: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 145} unique __ctobpl_const_277: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 145} unique __ctobpl_const_276: int;
-
-const {:extern} {:model_const "s[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 82} unique __ctobpl_const_252: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 141} unique __ctobpl_const_271: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 141} unique __ctobpl_const_272: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 140} unique __ctobpl_const_266: int;
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 85} unique __ctobpl_const_256: int;
 
 const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 140} unique __ctobpl_const_269: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 145} unique __ctobpl_const_274: int;
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 141} unique __ctobpl_const_272: int;
 
-const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 85} unique __ctobpl_const_254: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 145} unique __ctobpl_const_277: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 145} unique __ctobpl_const_278: int;
+
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 145} unique __ctobpl_const_279: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 72} unique __ctobpl_const_260: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_280: int;
 
 const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 72} unique __ctobpl_const_261: int;
 
 const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 145} unique __ctobpl_const_275: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 145} unique __ctobpl_const_278: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 80} unique __ctobpl_const_259: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 83} unique __ctobpl_const_258: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 140} unique __ctobpl_const_267: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 141} unique __ctobpl_const_270: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 72} unique __ctobpl_const_260: int;
-
-const {:extern} {:model_const "s[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 72} unique __ctobpl_const_264: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_281: int;
 
 const {:extern} {:model_const "s[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 85} unique __ctobpl_const_257: int;
 
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 85} unique __ctobpl_const_253: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 140} unique __ctobpl_const_268: int;
-
-const {:extern} {:model_const "arg[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 141} unique __ctobpl_const_273: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_280: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 82} unique __ctobpl_const_251: int;
-
 const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 72} unique __ctobpl_const_263: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_281: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 85} unique __ctobpl_const_256: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 72} unique __ctobpl_const_262: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 145} unique __ctobpl_const_279: int;
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 140} unique __ctobpl_const_267: int;
+
+const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 85} unique __ctobpl_const_254: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 140} unique __ctobpl_const_268: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 83} unique __ctobpl_const_258: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 82} unique __ctobpl_const_251: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 80} unique __ctobpl_const_259: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 141} unique __ctobpl_const_270: int;
+
+const {:extern} {:model_const "s[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 82} unique __ctobpl_const_252: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 141} unique __ctobpl_const_271: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 145} unique __ctobpl_const_274: int;
+
+const {:extern} {:model_const "arg[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 141} unique __ctobpl_const_273: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 145} unique __ctobpl_const_276: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 85} unique __ctobpl_const_253: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 85} unique __ctobpl_const_255: int;
 
 const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 87} unique __ctobpl_const_265: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_160: int;
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_407: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_172: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 140} unique __ctobpl_const_266: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_162: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_170: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_165: int;
-
-const {:extern} {:model_const "src[* i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_173: int;
-
-const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_158: int;
-
-const {:extern} {:model_const "src[* i - 1]"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_168: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 122} unique __ctobpl_const_174: int;
-
-const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_178: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_167: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 122} unique __ctobpl_const_176: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 122} unique __ctobpl_const_175: int;
-
-const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_179: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_180: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_166: int;
-
-const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_181: int;
-
-const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_159: int;
-
-const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_182: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 122} unique __ctobpl_const_177: int;
-
-const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_164: int;
-
-const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_183: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_171: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_163: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_157: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_184: int;
-
-const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_185: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_186: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 120} unique __ctobpl_const_187: int;
-
-const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_188: int;
-
-const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 125} unique __ctobpl_const_161: int;
-
-const {:extern} {:model_const "k"} {:sourceFile "source\replace.c"} {:sourceLine 118} unique __ctobpl_const_169: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_211: int;
-
-const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_216: int;
-
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_202: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_198: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_213: int;
-
-const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_218: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_190: int;
-
-const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_189: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_195: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_196: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_199: int;
-
-const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_207: int;
-
-const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_192: int;
-
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_197: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_208: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_212: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_215: int;
-
-const {:extern} {:model_const "result.esc"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_217: int;
-
-const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 109} unique __ctobpl_const_219: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_204: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_193: int;
-
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_206: int;
-
-const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_191: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_200: int;
-
-const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_209: int;
-
-const {:extern} {:model_const "src"} {:sourceFile "source\replace.c"} {:sourceLine 108} unique __ctobpl_const_214: int;
-
-const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 114} unique __ctobpl_const_194: int;
-
-const {:extern} {:model_const "dest"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_203: int;
-
-const {:extern} {:model_const "maxset"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_205: int;
-
-const {:extern} {:model_const "src[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_201: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 112} unique __ctobpl_const_210: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 147} unique __ctobpl_const_297: int;
-
-const {:extern} {:model_const "pat[jstart]"} {:sourceFile "source\replace.c"} {:sourceLine 149} unique __ctobpl_const_309: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 143} unique __ctobpl_const_289: int;
-
-const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 149} unique __ctobpl_const_311: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 147} unique __ctobpl_const_294: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_303: int;
-
-const {:extern} {:model_const "jstart"} {:sourceFile "source\replace.c"} {:sourceLine 149} unique __ctobpl_const_312: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 150} unique __ctobpl_const_313: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 150} unique __ctobpl_const_314: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 147} unique __ctobpl_const_296: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_301: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_285: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 149} unique __ctobpl_const_307: int;
+const {:extern} {:model_const "s[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 72} unique __ctobpl_const_264: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_300: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 146} unique __ctobpl_const_292: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 149} unique __ctobpl_const_310: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 143} unique __ctobpl_const_288: int;
+const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 149} unique __ctobpl_const_311: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 146} unique __ctobpl_const_291: int;
+const {:extern} {:model_const "jstart"} {:sourceFile "source\replace.c"} {:sourceLine 149} unique __ctobpl_const_312: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 143} unique __ctobpl_const_286: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 147} unique __ctobpl_const_293: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_285: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_283: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 146} unique __ctobpl_const_291: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_284: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 143} unique __ctobpl_const_287: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 147} unique __ctobpl_const_298: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_299: int;
-
-const {:extern} {:model_const "jstart"} {:sourceFile "source\replace.c"} {:sourceLine 146} unique __ctobpl_const_290: int;
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_282: int;
 
 const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 147} unique __ctobpl_const_295: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_304: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_283: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 147} unique __ctobpl_const_296: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_299: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_301: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 143} unique __ctobpl_const_288: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 142} unique __ctobpl_const_284: int;
+
+const {:extern} {:model_const "jstart"} {:sourceFile "source\replace.c"} {:sourceLine 146} unique __ctobpl_const_290: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 147} unique __ctobpl_const_294: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 143} unique __ctobpl_const_287: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 147} unique __ctobpl_const_297: int;
+
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 147} unique __ctobpl_const_298: int;
 
 const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_302: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_305: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_304: int;
 
 const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_306: int;
 
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 149} unique __ctobpl_const_307: int;
+
 const {:extern} {:model_const "jstart"} {:sourceFile "source\replace.c"} {:sourceLine 149} unique __ctobpl_const_308: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 149} unique __ctobpl_const_310: int;
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 143} unique __ctobpl_const_289: int;
 
-const {:extern} {:model_const "result.makesub"} {:sourceFile "source\replace.c"} {:sourceLine 298} unique __ctobpl_const_340: int;
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 147} unique __ctobpl_const_293: int;
+
+const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 146} unique __ctobpl_const_292: int;
+
+const {:extern} {:model_const "pat[jstart]"} {:sourceFile "source\replace.c"} {:sourceLine 149} unique __ctobpl_const_309: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_303: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 148} unique __ctobpl_const_305: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 183} unique __ctobpl_const_347: int;
+
+const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_357: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 317} unique __ctobpl_const_367: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 182} unique __ctobpl_const_344: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 321} unique __ctobpl_const_371: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 321} unique __ctobpl_const_372: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 315} unique __ctobpl_const_365: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 314} unique __ctobpl_const_359: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 319} unique __ctobpl_const_374: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 183} unique __ctobpl_const_348: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 314} unique __ctobpl_const_361: int;
+
+const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 319} unique __ctobpl_const_375: int;
+
+const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 315} unique __ctobpl_const_364: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 317} unique __ctobpl_const_368: int;
+
+const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_355: int;
+
+const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 182} unique __ctobpl_const_351: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 182} unique __ctobpl_const_345: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 183} unique __ctobpl_const_346: int;
+
+const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 183} unique __ctobpl_const_350: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_352: int;
+
+const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 183} unique __ctobpl_const_349: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_353: int;
+
+const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_354: int;
+
+const {:extern} {:model_const "flag"} {:sourceFile "source\replace.c"} {:sourceLine 313} unique __ctobpl_const_358: int;
+
+const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 314} unique __ctobpl_const_360: int;
+
+const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 314} unique __ctobpl_const_362: int;
+
+const {:extern} {:model_const "pat[offset]"} {:sourceFile "source\replace.c"} {:sourceLine 314} unique __ctobpl_const_363: int;
+
+const {:extern} {:model_const "flag"} {:sourceFile "source\replace.c"} {:sourceLine 323} unique __ctobpl_const_366: int;
+
+const {:extern} {:model_const "pat[i]"} {:sourceFile "source\replace.c"} {:sourceLine 317} unique __ctobpl_const_370: int;
+
+const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_356: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 317} unique __ctobpl_const_369: int;
+
+const {:extern} {:model_const "flag"} {:sourceFile "source\replace.c"} {:sourceLine 318} unique __ctobpl_const_373: int;
 
 const {:extern} {:model_const "makeres"} {:sourceFile "source\replace.c"} {:sourceLine 299} unique __ctobpl_const_341: int;
 
 const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 182} unique __ctobpl_const_342: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 252} unique __ctobpl_const_328: int;
-
-const {:extern} {:model_const "result.fgets"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_326: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 252} unique __ctobpl_const_329: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 252} unique __ctobpl_const_330: int;
-
-const {:extern} {:model_const "fgets.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_321: int;
-
-const {:extern} {:model_const "makeres"} {:sourceFile "source\replace.c"} {:sourceLine 253} unique __ctobpl_const_334: int;
-
 const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 182} unique __ctobpl_const_343: int;
 
-const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 182} unique __ctobpl_const_344: int;
-
-const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_319: int;
-
-const {:extern} {:model_const "fgets.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_317: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_318: int;
-
-const {:extern} {:model_const "arg[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 150} unique __ctobpl_const_316: int;
-
-const {:extern} {:model_const "makeres"} {:sourceFile "source\replace.c"} {:sourceLine 252} unique __ctobpl_const_332: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 150} unique __ctobpl_const_315: int;
-
-const {:extern} {:model_const "maxsize"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_320: int;
-
-const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_322: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 150} unique __ctobpl_const_314: int;
 
 const {:extern} {:model_const "maxsize"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_323: int;
 
-const {:extern} {:model_const "fgets.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_324: int;
+const {:extern} {:model_const "arg[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 150} unique __ctobpl_const_316: int;
 
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_325: int;
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 252} unique __ctobpl_const_329: int;
+
+const {:extern} {:model_const "result.makesub"} {:sourceFile "source\replace.c"} {:sourceLine 298} unique __ctobpl_const_340: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_318: int;
+
+const {:extern} {:model_const "maxsize"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_320: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 150} unique __ctobpl_const_315: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 252} unique __ctobpl_const_330: int;
+
+const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_319: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 298} unique __ctobpl_const_337: int;
+
+const {:extern} {:model_const "s"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_322: int;
 
 const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 45} unique __ctobpl_const_327: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_408: int;
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 252} unique __ctobpl_const_331: int;
+
+const {:extern} {:model_const "makeres"} {:sourceFile "source\replace.c"} {:sourceLine 252} unique __ctobpl_const_332: int;
+
+const {:extern} {:model_const "fgets.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_317: int;
+
+const {:extern} {:model_const "fgets.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_324: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 252} unique __ctobpl_const_328: int;
 
 const {:extern} {:model_const "result.makepat"} {:sourceFile "source\replace.c"} {:sourceLine 252} unique __ctobpl_const_333: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 298} unique __ctobpl_const_335: int;
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_325: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 252} unique __ctobpl_const_331: int;
+const {:extern} {:model_const "makeres"} {:sourceFile "source\replace.c"} {:sourceLine 253} unique __ctobpl_const_334: int;
+
+const {:extern} {:model_const "fgets.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_321: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 298} unique __ctobpl_const_335: int;
 
 const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 298} unique __ctobpl_const_336: int;
 
@@ -1198,1021 +1259,889 @@ const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLi
 
 const {:extern} {:model_const "makeres"} {:sourceFile "source\replace.c"} {:sourceLine 298} unique __ctobpl_const_339: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 298} unique __ctobpl_const_337: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 183} unique __ctobpl_const_347: int;
-
-const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 183} unique __ctobpl_const_349: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 183} unique __ctobpl_const_348: int;
-
-const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 183} unique __ctobpl_const_350: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_354: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 183} unique __ctobpl_const_346: int;
-
-const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 182} unique __ctobpl_const_351: int;
-
-const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_355: int;
-
-const {:extern} {:model_const "flag"} {:sourceFile "source\replace.c"} {:sourceLine 318} unique __ctobpl_const_373: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 319} unique __ctobpl_const_374: int;
-
-const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 319} unique __ctobpl_const_375: int;
+const {:extern} {:model_const "result.fgets"} {:sourceFile "source\replace.c"} {:sourceLine 44} unique __ctobpl_const_326: int;
 
 const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_406: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 314} unique __ctobpl_const_362: int;
-
-const {:extern} {:model_const "flag"} {:sourceFile "source\replace.c"} {:sourceLine 323} unique __ctobpl_const_366: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 314} unique __ctobpl_const_361: int;
-
-const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_357: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_352: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 314} unique __ctobpl_const_359: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 317} unique __ctobpl_const_369: int;
-
-const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 314} unique __ctobpl_const_360: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_353: int;
-
-const {:extern} {:model_const "pat[offset]"} {:sourceFile "source\replace.c"} {:sourceLine 314} unique __ctobpl_const_363: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "source\replace.c"} {:sourceLine 317} unique __ctobpl_const_367: int;
-
-const {:extern} {:model_const "pat[i]"} {:sourceFile "source\replace.c"} {:sourceLine 317} unique __ctobpl_const_370: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 321} unique __ctobpl_const_371: int;
-
-const {:extern} {:model_const "Pred.2"} {:sourceFile "source\replace.c"} {:sourceLine 176} unique __ctobpl_const_356: int;
-
-const {:extern} {:model_const "flag"} {:sourceFile "source\replace.c"} {:sourceLine 313} unique __ctobpl_const_358: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 315} unique __ctobpl_const_365: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 317} unique __ctobpl_const_368: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_407: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 321} unique __ctobpl_const_372: int;
-
-const {:extern} {:model_const "offset"} {:sourceFile "source\replace.c"} {:sourceLine 315} unique __ctobpl_const_364: int;
-
-const {:extern} {:model_const "result.getpat"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_383: int;
-
-const {:extern} {:model_const "sub[0]"} {:sourceFile "source\replace.c"} {:sourceLine 550} unique __ctobpl_const_388: int;
-
-const {:extern} {:model_const "getsub.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_389: int;
-
-const {:extern} {:model_const "argv[2]"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_391: int;
-
-const {:extern} {:model_const "getsub.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_393: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_394: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 543} unique __ctobpl_const_396: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 545} unique __ctobpl_const_397: int;
-
-const {:extern} {:model_const "argc"} {:sourceFile "source\replace.c"} {:sourceLine 540} unique __ctobpl_const_387: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 545} unique __ctobpl_const_398: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 529} unique __ctobpl_const_399: int;
-
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_565: int;
-
-const {:extern} {:model_const "result.getsub"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_395: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 199} unique __ctobpl_const_401: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 200} unique __ctobpl_const_402: int;
-
-const {:extern} {:model_const "start"} {:sourceFile "source\replace.c"} {:sourceLine 200} unique __ctobpl_const_403: int;
-
-const {:extern} {:model_const "getpat.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_380: int;
-
-const {:extern} {:model_const "getpat.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_381: int;
-
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 202} unique __ctobpl_const_405: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 529} unique __ctobpl_const_400: int;
-
-const {:extern} {:model_const "argv[1]"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_379: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_378: int;
-
-const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 201} unique __ctobpl_const_404: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_390: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 536} unique __ctobpl_const_386: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 534} unique __ctobpl_const_384: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 536} unique __ctobpl_const_385: int;
-
-const {:extern} {:model_const "getsub.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_392: int;
-
-const {:extern} {:model_const "argc"} {:sourceFile "source\replace.c"} {:sourceLine 527} unique __ctobpl_const_376: int;
-
-const {:extern} {:model_const "getpat.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_377: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_382: int;
-
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 358} unique __ctobpl_const_631: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 358} unique __ctobpl_const_632: int;
-
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_645: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 358} unique __ctobpl_const_633: int;
-
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_651: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_652: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 354} unique __ctobpl_const_628: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_637: int;
-
-const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 359} unique __ctobpl_const_635: int;
-
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_646: int;
-
-const {:extern} {:model_const "result.locate"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_649: int;
-
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_648: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_647: int;
-
-const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_642: int;
-
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_643: int;
-
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_638: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_653: int;
-
-const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_654: int;
-
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_639: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_655: int;
-
-const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 367} unique __ctobpl_const_650: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_656: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 354} unique __ctobpl_const_629: int;
-
-const {:extern} {:model_const "pat[j + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_657: int;
-
-const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 351} unique __ctobpl_const_658: int;
-
-const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 378} unique __ctobpl_const_659: int;
-
-const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 355} unique __ctobpl_const_630: int;
-
-const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 358} unique __ctobpl_const_634: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_640: int;
-
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_636: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_641: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_644: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 380} unique __ctobpl_const_661: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 384} unique __ctobpl_const_667: int;
-
-const {:extern} {:model_const "size"} {:sourceFile "source\replace.c"} {:sourceLine 402} unique __ctobpl_const_687: int;
-
-const {:extern} {:model_const "size"} {:sourceFile "source\replace.c"} {:sourceLine 405} unique __ctobpl_const_688: int;
-
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_684: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 397} unique __ctobpl_const_677: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 405} unique __ctobpl_const_689: int;
-
-const {:extern} {:model_const "n"} {:sourceFile "source\replace.c"} {:sourceLine 405} unique __ctobpl_const_690: int;
-
-const {:extern} {:model_const "pat[n + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 405} unique __ctobpl_const_691: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 383} unique __ctobpl_const_660: int;
-
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_668: int;
-
-const {:extern} {:model_const "pat[n]"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_671: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_669: int;
-
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_673: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 380} unique __ctobpl_const_663: int;
-
-const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 380} unique __ctobpl_const_665: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 394} unique __ctobpl_const_675: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 380} unique __ctobpl_const_662: int;
-
-const {:extern} {:model_const "pat[n]"} {:sourceFile "source\replace.c"} {:sourceLine 397} unique __ctobpl_const_679: int;
-
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_680: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 381} unique __ctobpl_const_666: int;
-
-const {:extern} {:model_const "n"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_670: int;
-
-const {:extern} {:model_const "n"} {:sourceFile "source\replace.c"} {:sourceLine 397} unique __ctobpl_const_678: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_681: int;
-
-const {:extern} {:model_const "pat[n]"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_683: int;
-
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_685: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 380} unique __ctobpl_const_664: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 394} unique __ctobpl_const_676: int;
-
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_672: int;
-
-const {:extern} {:model_const "n"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_682: int;
-
-const {:extern} {:model_const "result.in_pat_set"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_674: int;
-
-const {:extern} {:model_const "size"} {:sourceFile "source\replace.c"} {:sourceLine 408} unique __ctobpl_const_686: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_587: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 347} unique __ctobpl_const_595: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 347} unique __ctobpl_const_596: int;
-
-const {:extern} {:model_const "pat[j]"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_589: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 337} unique __ctobpl_const_582: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_575: int;
-
-const {:extern} {:model_const "lastm"} {:sourceFile "source\replace.c"} {:sourceLine 489} unique __ctobpl_const_755: int;
-
-const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_567: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 277} unique __ctobpl_const_578: int;
-
-const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 337} unique __ctobpl_const_584: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 338} unique __ctobpl_const_585: int;
-
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_586: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_576: int;
-
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_591: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_569: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_571: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_570: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_566: int;
-
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_572: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_573: int;
-
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_574: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 277} unique __ctobpl_const_579: int;
-
-const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 336} unique __ctobpl_const_580: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 337} unique __ctobpl_const_583: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_588: int;
-
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_590: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_577: int;
-
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_568: int;
-
-const {:extern} {:model_const "result.in_pat_set"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_592: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 343} unique __ctobpl_const_593: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 343} unique __ctobpl_const_594: int;
-
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 337} unique __ctobpl_const_581: int;
-
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_610: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_599: int;
-
-const {:extern} {:model_const "pat[j]"} {:sourceFile "source\replace.c"} {:sourceLine 347} unique __ctobpl_const_597: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_605: int;
-
-const {:extern} {:model_const "pat[j]"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_601: int;
-
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_602: int;
-
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_615: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_616: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_613: int;
-
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_618: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_619: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_600: int;
-
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_604: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_612: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_606: int;
-
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_617: int;
-
-const {:extern} {:model_const "result.locate"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_621: int;
-
-const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_614: int;
-
-const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 371} unique __ctobpl_const_622: int;
-
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 362} unique __ctobpl_const_623: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 362} unique __ctobpl_const_624: int;
-
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_620: int;
-
-const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 362} unique __ctobpl_const_625: int;
-
-const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 362} unique __ctobpl_const_626: int;
-
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_611: int;
-
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_603: int;
-
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_608: int;
-
-const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 363} unique __ctobpl_const_627: int;
-
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_598: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_609: int;
-
-const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_607: int;
-
-const {:extern} {:model_const "size"} {:sourceFile "source\replace.c"} {:sourceLine 399} unique __ctobpl_const_692: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 269} unique __ctobpl_const_528: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_530: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_515: int;
-
-const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 235} unique __ctobpl_const_519: int;
-
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 231} unique __ctobpl_const_507: int;
-
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 235} unique __ctobpl_const_516: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 236} unique __ctobpl_const_525: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 268} unique __ctobpl_const_527: int;
-
-const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_532: int;
-
-const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_533: int;
-
-const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 230} unique __ctobpl_const_505: int;
-
-const {:extern} {:model_const "from"} {:sourceFile "source\replace.c"} {:sourceLine 269} unique __ctobpl_const_529: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_531: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_503: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_512: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_513: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 239} unique __ctobpl_const_522: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 232} unique __ctobpl_const_508: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 241} unique __ctobpl_const_523: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_504: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_511: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 235} unique __ctobpl_const_518: int;
-
-const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 235} unique __ctobpl_const_520: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 235} unique __ctobpl_const_517: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 238} unique __ctobpl_const_521: int;
-
-const {:extern} {:model_const "lj"} {:sourceFile "source\replace.c"} {:sourceLine 230} unique __ctobpl_const_506: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 241} unique __ctobpl_const_524: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 242} unique __ctobpl_const_526: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_510: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_514: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 232} unique __ctobpl_const_509: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_543: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 286} unique __ctobpl_const_552: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 280} unique __ctobpl_const_553: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 288} unique __ctobpl_const_554: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 271} unique __ctobpl_const_555: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 271} unique __ctobpl_const_556: int;
-
-const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 271} unique __ctobpl_const_557: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_558: int;
-
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_544: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_559: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_560: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_561: int;
-
-const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_562: int;
-
-const {:extern} {:model_const "result.esc"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_563: int;
-
-const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_564: int;
-
-const {:extern} {:model_const "* sub"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_545: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 284} unique __ctobpl_const_550: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_546: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_535: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 279} unique __ctobpl_const_537: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 279} unique __ctobpl_const_538: int;
-
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_541: int;
-
-const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_536: int;
-
-const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 279} unique __ctobpl_const_540: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_534: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_547: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_548: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 283} unique __ctobpl_const_549: int;
-
-const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 286} unique __ctobpl_const_551: int;
-
-const {:extern} {:model_const "* sub"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_542: int;
-
-const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 279} unique __ctobpl_const_539: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_493: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_497: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_500: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_482: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_478: int;
-
-const {:extern} {:model_const "getres"} {:sourceFile "source\replace.c"} {:sourceLine 214} unique __ctobpl_const_486: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_501: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_496: int;
-
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 220} unique __ctobpl_const_474: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_475: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_477: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_471: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_487: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_494: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_476: int;
-
-const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 214} unique __ctobpl_const_485: int;
-
-const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_473: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_491: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_498: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_499: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_502: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_472: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_480: int;
-
-const {:extern} {:model_const "result.getccl"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_484: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_479: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_490: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_492: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_489: int;
-
-const {:extern} {:model_const "getres"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_483: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_495: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_481: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_488: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_441: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_447: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_462: int;
-
-const {:extern} {:model_const "lj"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_463: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_457: int;
-
-const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_449: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_453: int;
-
-const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 218} unique __ctobpl_const_460: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_446: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_445: int;
-
-const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_465: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_458: int;
-
-const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_466: int;
-
-const {:extern} {:model_const "result.in_set_2"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_467: int;
-
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_443: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_468: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_442: int;
-
-const {:extern} {:model_const "result.esc"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_450: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_448: int;
-
-const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_451: int;
-
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_444: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_452: int;
-
-const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_454: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_455: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_456: int;
-
-const {:extern} {:model_const "lj"} {:sourceFile "source\replace.c"} {:sourceLine 218} unique __ctobpl_const_459: int;
-
-const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_461: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_440: int;
-
-const {:extern} {:model_const "pat[lj]"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_464: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_469: int;
-
-const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_470: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 216} unique __ctobpl_const_434: int;
-
-const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 211} unique __ctobpl_const_433: int;
-
-const {:extern} {:model_const "start"} {:sourceFile "source\replace.c"} {:sourceLine 216} unique __ctobpl_const_437: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 216} unique __ctobpl_const_438: int;
-
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_439: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_412: int;
+const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_410: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_425: int;
 
-const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_410: int;
-
-const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_430: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 211} unique __ctobpl_const_431: int;
-
-const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_426: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_424: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_428: int;
-
-const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_409: int;
-
 const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_411: int;
-
-const {:extern} {:model_const "lj"} {:sourceFile "source\replace.c"} {:sourceLine 204} unique __ctobpl_const_414: int;
-
-const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 205} unique __ctobpl_const_418: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 207} unique __ctobpl_const_420: int;
-
-const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 207} unique __ctobpl_const_421: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 207} unique __ctobpl_const_422: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 204} unique __ctobpl_const_415: int;
-
-const {:extern} {:model_const "arg[i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_429: int;
-
-const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_413: int;
-
-const {:extern} {:model_const "start"} {:sourceFile "source\replace.c"} {:sourceLine 207} unique __ctobpl_const_423: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 207} unique __ctobpl_const_419: int;
-
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_427: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 205} unique __ctobpl_const_417: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 205} unique __ctobpl_const_416: int;
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_427: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 211} unique __ctobpl_const_432: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_428: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 211} unique __ctobpl_const_431: int;
+
+const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 211} unique __ctobpl_const_433: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 216} unique __ctobpl_const_434: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 216} unique __ctobpl_const_435: int;
 
 const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 216} unique __ctobpl_const_436: int;
 
-const {:extern} {:model_const "pat[jp]"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_745: int;
+const {:extern} {:model_const "start"} {:sourceFile "source\replace.c"} {:sourceLine 216} unique __ctobpl_const_437: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_747: int;
+const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_430: int;
 
-const {:extern} {:model_const "jp"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_728: int;
+const {:extern} {:model_const "arg[i + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_429: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_729: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 216} unique __ctobpl_const_438: int;
 
-const {:extern} {:model_const "jp"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_744: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_409: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 169} unique __ctobpl_const_733: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_413: int;
 
-const {:extern} {:model_const "jt"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_748: int;
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 205} unique __ctobpl_const_416: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_750: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 207} unique __ctobpl_const_420: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_726: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 205} unique __ctobpl_const_418: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_743: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 211} unique __ctobpl_const_432: int;
 
-const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_731: int;
+const {:extern} {:model_const "lj"} {:sourceFile "source\replace.c"} {:sourceLine 204} unique __ctobpl_const_414: int;
 
-const {:extern} {:model_const "jt"} {:sourceFile "source\replace.c"} {:sourceLine 166} unique __ctobpl_const_740: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_412: int;
 
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_749: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 204} unique __ctobpl_const_415: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 169} unique __ctobpl_const_734: int;
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 207} unique __ctobpl_const_419: int;
 
-const {:extern} {:model_const "jt"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_751: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 207} unique __ctobpl_const_422: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_752: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 203} unique __ctobpl_const_408: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_724: int;
+const {:extern} {:model_const "start"} {:sourceFile "source\replace.c"} {:sourceLine 207} unique __ctobpl_const_423: int;
 
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_746: int;
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_424: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_753: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 209} unique __ctobpl_const_426: int;
 
-const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 170} unique __ctobpl_const_738: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 207} unique __ctobpl_const_421: int;
 
-const {:extern} {:model_const "jp"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_754: int;
+const {:extern} {:model_const "getpat.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_377: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 469} unique __ctobpl_const_727: int;
+const {:extern} {:model_const "result.getpat"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_383: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_725: int;
+const {:extern} {:model_const "argc"} {:sourceFile "source\replace.c"} {:sourceLine 540} unique __ctobpl_const_387: int;
 
-const {:extern} {:model_const "jp"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_732: int;
+const {:extern} {:model_const "start"} {:sourceFile "source\replace.c"} {:sourceLine 200} unique __ctobpl_const_403: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_723: int;
+const {:extern} {:model_const "getpat.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_381: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_730: int;
+const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 201} unique __ctobpl_const_404: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 169} unique __ctobpl_const_736: int;
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 202} unique __ctobpl_const_405: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 170} unique __ctobpl_const_737: int;
+const {:extern} {:model_const "sub[0]"} {:sourceFile "source\replace.c"} {:sourceLine 550} unique __ctobpl_const_388: int;
 
-const {:extern} {:model_const "pat[lastj]"} {:sourceFile "source\replace.c"} {:sourceLine 170} unique __ctobpl_const_739: int;
+const {:extern} {:model_const "getsub.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_393: int;
 
-const {:extern} {:model_const "jp"} {:sourceFile "source\replace.c"} {:sourceLine 166} unique __ctobpl_const_741: int;
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 543} unique __ctobpl_const_396: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 169} unique __ctobpl_const_735: int;
+const {:extern} {:model_const "result.getsub"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_395: int;
 
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_742: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 536} unique __ctobpl_const_385: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 466} unique __ctobpl_const_694: int;
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 534} unique __ctobpl_const_384: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 468} unique __ctobpl_const_699: int;
+const {:extern} {:model_const "getsub.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_392: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_702: int;
+const {:extern} {:model_const "getpat.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_380: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_708: int;
+const {:extern} {:model_const "argv"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_378: int;
 
-const {:extern} {:model_const "s1"} {:sourceFile "source\replace.c"} {:sourceLine 469} unique __ctobpl_const_712: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 545} unique __ctobpl_const_397: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 477} unique __ctobpl_const_716: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 545} unique __ctobpl_const_398: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_707: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 529} unique __ctobpl_const_399: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_703: int;
+const {:extern} {:model_const "argv"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_390: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_718: int;
+const {:extern} {:model_const "argc"} {:sourceFile "source\replace.c"} {:sourceLine 527} unique __ctobpl_const_376: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_710: int;
+const {:extern} {:model_const "argv[2]"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_391: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_701: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_564: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_705: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 536} unique __ctobpl_const_386: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_719: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 199} unique __ctobpl_const_401: int;
 
-const {:extern} {:model_const "sub[i]"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_706: int;
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_382: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_709: int;
+const {:extern} {:model_const "argv[1]"} {:sourceFile "source\replace.c"} {:sourceLine 533} unique __ctobpl_const_379: int;
 
-const {:extern} {:model_const "size"} {:sourceFile "source\replace.c"} {:sourceLine 413} unique __ctobpl_const_693: int;
+const {:extern} {:model_const "getsub.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_389: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_704: int;
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 542} unique __ctobpl_const_394: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_721: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 529} unique __ctobpl_const_400: int;
 
-const {:extern} {:model_const "lin[j]"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_722: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 200} unique __ctobpl_const_402: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_720: int;
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 241} unique __ctobpl_const_523: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 467} unique __ctobpl_const_695: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 241} unique __ctobpl_const_524: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 469} unique __ctobpl_const_713: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 232} unique __ctobpl_const_508: int;
 
-const {:extern} {:model_const "s2"} {:sourceFile "source\replace.c"} {:sourceLine 469} unique __ctobpl_const_714: int;
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 236} unique __ctobpl_const_525: int;
 
-const {:extern} {:model_const "sub[i]"} {:sourceFile "source\replace.c"} {:sourceLine 467} unique __ctobpl_const_697: int;
+const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 235} unique __ctobpl_const_520: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 467} unique __ctobpl_const_696: int;
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_514: int;
 
-const {:extern} {:model_const "sub[i]"} {:sourceFile "source\replace.c"} {:sourceLine 468} unique __ctobpl_const_700: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_515: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 469} unique __ctobpl_const_711: int;
+const {:extern} {:model_const "pat[n + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 405} unique __ctobpl_const_691: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 477} unique __ctobpl_const_715: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_504: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_717: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 268} unique __ctobpl_const_527: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 468} unique __ctobpl_const_698: int;
+const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 230} unique __ctobpl_const_505: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_787: int;
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 238} unique __ctobpl_const_521: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_789: int;
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 242} unique __ctobpl_const_526: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_792: int;
+const {:extern} {:model_const "from"} {:sourceFile "source\replace.c"} {:sourceLine 269} unique __ctobpl_const_529: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_793: int;
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_530: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 500} unique __ctobpl_const_796: int;
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_512: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_788: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 269} unique __ctobpl_const_528: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_795: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 235} unique __ctobpl_const_518: int;
 
-const {:extern} {:model_const "lin[i]"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_791: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_531: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_794: int;
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_510: int;
+
+const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_532: int;
+
+const {:extern} {:model_const "lj"} {:sourceFile "source\replace.c"} {:sourceLine 230} unique __ctobpl_const_506: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_502: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_503: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_511: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 234} unique __ctobpl_const_513: int;
+
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 235} unique __ctobpl_const_516: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 239} unique __ctobpl_const_522: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 232} unique __ctobpl_const_509: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 235} unique __ctobpl_const_517: int;
+
+const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 235} unique __ctobpl_const_519: int;
+
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 231} unique __ctobpl_const_507: int;
+
+const {:extern} {:model_const "* sub"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_542: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 286} unique __ctobpl_const_552: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 280} unique __ctobpl_const_553: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 279} unique __ctobpl_const_537: int;
+
+const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_536: int;
+
+const {:extern} {:model_const "* sub"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_545: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_547: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 283} unique __ctobpl_const_549: int;
+
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_541: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 286} unique __ctobpl_const_551: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 288} unique __ctobpl_const_554: int;
+
+const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 279} unique __ctobpl_const_540: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 271} unique __ctobpl_const_556: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_534: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_558: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_559: int;
+
+const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 279} unique __ctobpl_const_539: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 279} unique __ctobpl_const_538: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 271} unique __ctobpl_const_555: int;
+
+const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_562: int;
+
+const {:extern} {:model_const "result.esc"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_563: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_560: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 284} unique __ctobpl_const_550: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 274} unique __ctobpl_const_561: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_546: int;
+
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_548: int;
+
+const {:extern} {:model_const "arg[i]"} {:sourceFile "source\replace.c"} {:sourceLine 271} unique __ctobpl_const_557: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_535: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_543: int;
+
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 282} unique __ctobpl_const_544: int;
+
+const {:extern} {:model_const "delim"} {:sourceFile "source\replace.c"} {:sourceLine 270} unique __ctobpl_const_533: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 338} unique __ctobpl_const_585: int;
+
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_586: int;
+
+const {:extern} {:model_const "pat[j]"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_589: int;
+
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_572: int;
+
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_591: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_573: int;
+
+const {:extern} {:model_const "result.in_pat_set"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_592: int;
+
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_565: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_575: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_588: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 337} unique __ctobpl_const_582: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 343} unique __ctobpl_const_593: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_566: int;
+
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_568: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 343} unique __ctobpl_const_594: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 347} unique __ctobpl_const_595: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 337} unique __ctobpl_const_583: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_576: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 277} unique __ctobpl_const_579: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_587: int;
+
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 341} unique __ctobpl_const_590: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_570: int;
+
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_571: int;
+
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_577: int;
+
+const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_567: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 275} unique __ctobpl_const_569: int;
+
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 272} unique __ctobpl_const_574: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 337} unique __ctobpl_const_581: int;
+
+const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 336} unique __ctobpl_const_580: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 277} unique __ctobpl_const_578: int;
+
+const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 337} unique __ctobpl_const_584: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_619: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 362} unique __ctobpl_const_625: int;
+
+const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 362} unique __ctobpl_const_626: int;
+
+const {:extern} {:model_const "pat[j]"} {:sourceFile "source\replace.c"} {:sourceLine 347} unique __ctobpl_const_597: int;
+
+const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 363} unique __ctobpl_const_627: int;
+
+const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_614: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 362} unique __ctobpl_const_623: int;
+
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_598: int;
+
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_603: int;
+
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_602: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_606: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_605: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_599: int;
+
+const {:extern} {:model_const "pat[j]"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_601: int;
+
+const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_607: int;
+
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_608: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_611: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_612: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_613: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 374} unique __ctobpl_const_600: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_604: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 347} unique __ctobpl_const_596: int;
+
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_610: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_616: int;
+
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_618: int;
+
+const {:extern} {:model_const "result.locate"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_621: int;
+
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_617: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_609: int;
+
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_615: int;
+
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 370} unique __ctobpl_const_620: int;
+
+const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 371} unique __ctobpl_const_622: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 362} unique __ctobpl_const_624: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_641: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 358} unique __ctobpl_const_632: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_640: int;
+
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_636: int;
+
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_648: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_652: int;
+
+const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_654: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_655: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_656: int;
+
+const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 359} unique __ctobpl_const_635: int;
+
+const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 351} unique __ctobpl_const_658: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_653: int;
+
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_638: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_639: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_647: int;
+
+const {:extern} {:model_const "pat[j + 1]"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_657: int;
+
+const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 378} unique __ctobpl_const_659: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 350} unique __ctobpl_const_651: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 354} unique __ctobpl_const_628: int;
+
+const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 355} unique __ctobpl_const_630: int;
+
+const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 358} unique __ctobpl_const_634: int;
+
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_643: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_644: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 358} unique __ctobpl_const_633: int;
+
+const {:extern} {:model_const "lin[* i]"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_642: int;
+
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_646: int;
+
+const {:extern} {:model_const "result.locate"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_649: int;
+
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_645: int;
+
+const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 367} unique __ctobpl_const_650: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 354} unique __ctobpl_const_629: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 358} unique __ctobpl_const_631: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 366} unique __ctobpl_const_637: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 380} unique __ctobpl_const_661: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 381} unique __ctobpl_const_666: int;
+
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_672: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 380} unique __ctobpl_const_662: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_681: int;
+
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_684: int;
+
+const {:extern} {:model_const "advance"} {:sourceFile "source\replace.c"} {:sourceLine 380} unique __ctobpl_const_665: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 405} unique __ctobpl_const_689: int;
+
+const {:extern} {:model_const "n"} {:sourceFile "source\replace.c"} {:sourceLine 405} unique __ctobpl_const_690: int;
+
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_668: int;
+
+const {:extern} {:model_const "size"} {:sourceFile "source\replace.c"} {:sourceLine 402} unique __ctobpl_const_687: int;
+
+const {:extern} {:model_const "n"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_670: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 384} unique __ctobpl_const_667: int;
+
+const {:extern} {:model_const "result.in_pat_set"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_674: int;
+
+const {:extern} {:model_const "pat[n]"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_671: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 394} unique __ctobpl_const_675: int;
+
+const {:extern} {:model_const "pat[n]"} {:sourceFile "source\replace.c"} {:sourceLine 397} unique __ctobpl_const_679: int;
+
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_673: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 397} unique __ctobpl_const_677: int;
+
+const {:extern} {:model_const "* i"} {:sourceFile "source\replace.c"} {:sourceLine 380} unique __ctobpl_const_664: int;
+
+const {:extern} {:model_const "n"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_682: int;
+
+const {:extern} {:model_const "result"} {:sourceFile "source\replace.c"} {:sourceLine 383} unique __ctobpl_const_660: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 394} unique __ctobpl_const_676: int;
+
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_680: int;
+
+const {:extern} {:model_const "pat[n]"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_683: int;
+
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 411} unique __ctobpl_const_685: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 393} unique __ctobpl_const_669: int;
+
+const {:extern} {:model_const "size"} {:sourceFile "source\replace.c"} {:sourceLine 408} unique __ctobpl_const_686: int;
+
+const {:extern} {:model_const "size"} {:sourceFile "source\replace.c"} {:sourceLine 405} unique __ctobpl_const_688: int;
+
+const {:extern} {:model_const "n"} {:sourceFile "source\replace.c"} {:sourceLine 397} unique __ctobpl_const_678: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 380} unique __ctobpl_const_663: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_445: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_457: int;
+
+const {:extern} {:model_const "lj"} {:sourceFile "source\replace.c"} {:sourceLine 218} unique __ctobpl_const_459: int;
+
+const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_465: int;
+
+const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_470: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_452: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_446: int;
+
+const {:extern} {:model_const "result.esc"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_450: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_455: int;
+
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_444: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_456: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_440: int;
+
+const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_461: int;
+
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_458: int;
+
+const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_466: int;
+
+const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_449: int;
+
+const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 218} unique __ctobpl_const_460: int;
+
+const {:extern} {:model_const "lj"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_463: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_443: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_448: int;
+
+const {:extern} {:model_const "result.in_set_2"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_467: int;
+
+const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_451: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_442: int;
+
+const {:extern} {:model_const "pat[lj]"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_464: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_441: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_468: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_469: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 226} unique __ctobpl_const_439: int;
+
+const {:extern} {:model_const "escjunk"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_454: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 219} unique __ctobpl_const_462: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 227} unique __ctobpl_const_447: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 228} unique __ctobpl_const_453: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_493: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_494: int;
+
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 214} unique __ctobpl_const_485: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_495: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_499: int;
+
+const {:extern} {:model_const "getres"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_483: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_476: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_500: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 206} unique __ctobpl_const_501: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_479: int;
+
+const {:extern} {:model_const "result.getccl"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_484: int;
+
+const {:extern} {:model_const "getres"} {:sourceFile "source\replace.c"} {:sourceLine 214} unique __ctobpl_const_486: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_488: int;
+
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_498: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_471: int;
+
+const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_473: int;
+
+const {:extern} {:model_const "arg"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_475: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_478: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_496: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_490: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 208} unique __ctobpl_const_497: int;
+
+const {:extern} {:model_const "done"} {:sourceFile "source\replace.c"} {:sourceLine 220} unique __ctobpl_const_474: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_489: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_491: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 222} unique __ctobpl_const_472: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_482: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_481: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_480: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 213} unique __ctobpl_const_477: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_487: int;
+
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 210} unique __ctobpl_const_492: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_790: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 500} unique __ctobpl_const_797: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_765: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_787: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 498} unique __ctobpl_const_783: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 500} unique __ctobpl_const_796: int;
+
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_788: int;
+
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_794: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_789: int;
+
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_792: int;
 
 const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_786: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_761: int;
+const {:extern} {:model_const "lin[i]"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_791: int;
 
-const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_766: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_795: int;
 
-const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 496} unique __ctobpl_const_780: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 499} unique __ctobpl_const_793: int;
 
-const {:extern} {:model_const "lin[i]"} {:sourceFile "source\replace.c"} {:sourceLine 491} unique __ctobpl_const_759: int;
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 469} unique __ctobpl_const_711: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_760: int;
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_703: int;
 
-const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_773: int;
+const {:extern} {:model_const "lin[j]"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_722: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_774: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_710: int;
 
-const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_777: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_702: int;
 
-const {:extern} {:model_const "result.amatch"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_767: int;
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 468} unique __ctobpl_const_698: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_771: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 468} unique __ctobpl_const_699: int;
 
-const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 498} unique __ctobpl_const_782: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_701: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_762: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_717: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 491} unique __ctobpl_const_757: int;
+const {:extern} {:model_const "sub[i]"} {:sourceFile "source\replace.c"} {:sourceLine 468} unique __ctobpl_const_700: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_772: int;
+const {:extern} {:model_const "sub[i]"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_706: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_778: int;
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 467} unique __ctobpl_const_695: int;
 
-const {:extern} {:model_const "lastm"} {:sourceFile "source\replace.c"} {:sourceLine 496} unique __ctobpl_const_779: int;
+const {:extern} {:model_const "size"} {:sourceFile "source\replace.c"} {:sourceLine 399} unique __ctobpl_const_692: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 502} unique __ctobpl_const_784: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 467} unique __ctobpl_const_696: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_776: int;
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_704: int;
 
-const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 502} unique __ctobpl_const_785: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_705: int;
 
-const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 494} unique __ctobpl_const_770: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_708: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 490} unique __ctobpl_const_756: int;
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_709: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_763: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 477} unique __ctobpl_const_715: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_718: int;
+
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_719: int;
+
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 475} unique __ctobpl_const_707: int;
+
+const {:extern} {:model_const "s2"} {:sourceFile "source\replace.c"} {:sourceLine 469} unique __ctobpl_const_714: int;
+
+const {:extern} {:model_const "sub[i]"} {:sourceFile "source\replace.c"} {:sourceLine 467} unique __ctobpl_const_697: int;
+
+const {:extern} {:model_const "s1"} {:sourceFile "source\replace.c"} {:sourceLine 469} unique __ctobpl_const_712: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 466} unique __ctobpl_const_694: int;
+
+const {:extern} {:model_const "size"} {:sourceFile "source\replace.c"} {:sourceLine 413} unique __ctobpl_const_693: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 477} unique __ctobpl_const_716: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 469} unique __ctobpl_const_713: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_720: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_721: int;
+
+const {:extern} {:model_const "jt"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_751: int;
+
+const {:extern} {:model_const "junk"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_752: int;
+
+const {:extern} {:model_const "result.addstr"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_753: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 469} unique __ctobpl_const_727: int;
+
+const {:extern} {:model_const "jp"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_754: int;
+
+const {:extern} {:model_const "jp"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_732: int;
+
+const {:extern} {:model_const "pat[lastj]"} {:sourceFile "source\replace.c"} {:sourceLine 170} unique __ctobpl_const_739: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_729: int;
+
+const {:extern} {:model_const "jp"} {:sourceFile "source\replace.c"} {:sourceLine 166} unique __ctobpl_const_741: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_743: int;
+
+const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_730: int;
+
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_742: int;
+
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_723: int;
+
+const {:extern} {:model_const "jp"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_728: int;
+
+const {:extern} {:model_const "jt"} {:sourceFile "source\replace.c"} {:sourceLine 166} unique __ctobpl_const_740: int;
+
+const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 169} unique __ctobpl_const_734: int;
+
+const {:extern} {:model_const "jp"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_744: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 170} unique __ctobpl_const_737: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 169} unique __ctobpl_const_733: int;
+
+const {:extern} {:model_const "* j"} {:sourceFile "source\replace.c"} {:sourceLine 169} unique __ctobpl_const_736: int;
+
+const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 164} unique __ctobpl_const_731: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "source\replace.c"} {:sourceLine 169} unique __ctobpl_const_735: int;
+
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_724: int;
+
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_726: int;
+
+const {:extern} {:model_const "lastj"} {:sourceFile "source\replace.c"} {:sourceLine 170} unique __ctobpl_const_738: int;
+
+const {:extern} {:model_const "pat[jp]"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_745: int;
+
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_746: int;
+
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 471} unique __ctobpl_const_725: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_747: int;
+
+const {:extern} {:model_const "jt"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_748: int;
+
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_749: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 167} unique __ctobpl_const_750: int;
 
 const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_775: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 491} unique __ctobpl_const_758: int;
+const {:extern} {:model_const "lastm"} {:sourceFile "source\replace.c"} {:sourceLine 489} unique __ctobpl_const_755: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_763: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_764: int;
 
-const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 494} unique __ctobpl_const_768: int;
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 490} unique __ctobpl_const_756: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_762: int;
+
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_778: int;
 
 const {:extern} {:model_const "lastm"} {:sourceFile "source\replace.c"} {:sourceLine 494} unique __ctobpl_const_769: int;
 
+const {:extern} {:model_const "lastm"} {:sourceFile "source\replace.c"} {:sourceLine 496} unique __ctobpl_const_779: int;
+
+const {:extern} {:model_const "lin[i]"} {:sourceFile "source\replace.c"} {:sourceLine 491} unique __ctobpl_const_759: int;
+
+const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_766: int;
+
+const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_777: int;
+
+const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 498} unique __ctobpl_const_782: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 502} unique __ctobpl_const_784: int;
+
+const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 494} unique __ctobpl_const_770: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_760: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 498} unique __ctobpl_const_783: int;
+
+const {:extern} {:model_const "pat"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_765: int;
+
+const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 502} unique __ctobpl_const_785: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 491} unique __ctobpl_const_757: int;
+
+const {:extern} {:model_const "result.amatch"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_767: int;
+
+const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 494} unique __ctobpl_const_768: int;
+
+const {:extern} {:model_const "lin"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_771: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 493} unique __ctobpl_const_761: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_772: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_776: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "source\replace.c"} {:sourceLine 491} unique __ctobpl_const_758: int;
+
+const {:extern} {:model_const "sub"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_774: int;
+
+const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 495} unique __ctobpl_const_773: int;
+
 const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 498} unique __ctobpl_const_781: int;
+
+const {:extern} {:model_const "m"} {:sourceFile "source\replace.c"} {:sourceLine 496} unique __ctobpl_const_780: int;
 
 procedure {:extern} __iob_func() returns (__dummy_ret__iob_func: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} abort() returns (__dummy_retabort: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} fgets(__dummy_formal_fgets_0.__1: int, __dummy_formal_fgets_1.__1: int, __dummy_formal_fgets_2.__1: int) returns (__dummy_retfgets: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} fputc(__dummy_formal_fputc_0.__1: int, __dummy_formal_fputc_1.__1: int) returns (__dummy_retfputc: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} isalnum(__dummy_formal_isalnum_0.__1: int) returns (__dummy_retisalnum: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
 procedure {:extern} Caseerror(n.__1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -2277,7 +2206,6 @@ implementation {:extern} Caseerror(n.__1: int)
 
   label_10:
     assert {:sourcefile "source\replace.c"} {:sourceline 562} true;
-    assume false;
     return;
 }
 
@@ -2285,20 +2213,8 @@ implementation {:extern} Caseerror(n.__1: int)
 
 procedure {:extern} addstr(c.__1: int, outset.__1: int, j.__1: int, maxset.__1: int) returns (result.addstr$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -2424,20 +2340,8 @@ implementation {:extern} addstr(c.__1: int, outset.__1: int, j.__1: int, maxset.
 
 procedure {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j.__1: int) returns (result.amatch$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -2923,20 +2827,8 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
 
 procedure {:extern} change(pat.__1: int, sub.__1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -3081,20 +2973,8 @@ implementation {:extern} change(pat.__1: int, sub.__1: int)
 
 procedure {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest.__1: int, j.__1: int, maxset.__1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -3638,20 +3518,8 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
 
 procedure {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -3858,20 +3726,8 @@ implementation {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int)
 
 procedure {:extern} getccl(arg.__1: int, i.__1: int, pat.__1: int, j.__1: int) returns (result.getccl$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -4089,20 +3945,8 @@ implementation {:extern} getccl(arg.__1: int, i.__1: int, pat.__1: int, j.__1: i
 
 procedure {:extern} getline(s.__1: int, maxsize.__1: int) returns (result.getline$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -4204,20 +4048,8 @@ implementation {:extern} getline(s.__1: int, maxsize.__1: int) returns (result.g
 
 procedure {:extern} getpat(arg.__1: int, pat.__1: int) returns (result.getpat$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -4301,20 +4133,8 @@ implementation {:extern} getpat(arg.__1: int, pat.__1: int) returns (result.getp
 
 procedure {:extern} getsub(arg.__1: int, sub.__1: int) returns (result.getsub$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -4398,20 +4218,8 @@ implementation {:extern} getsub(arg.__1: int, sub.__1: int) returns (result.gets
 
 procedure {:extern} in_pat_set(c.__1: int) returns (result.in_pat_set$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -4578,20 +4386,8 @@ implementation {:extern} in_pat_set(c.__1: int) returns (result.in_pat_set$1: in
 
 procedure {:extern} in_set_2(c.__1: int) returns (result.in_set_2$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -4702,20 +4498,8 @@ implementation {:extern} in_set_2(c.__1: int) returns (result.in_set_2$1: int)
 
 procedure {:extern} locate(c.__1: int, pat.__1: int, offset.__1: int) returns (result.locate$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -4878,20 +4662,8 @@ implementation {:extern} locate(c.__1: int, pat.__1: int, offset.__1: int) retur
 
 procedure {:extern} main(argc.__1: int, argv.__1: int) returns (result.main$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -5052,7 +4824,6 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
 
   label_56:
     assert {:sourcefile "source\replace.c"} {:sourceline 537} true;
-    assume false;
     return;
 
   label_23_true:
@@ -5160,7 +4931,6 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
 
   label_49:
     assert {:sourcefile "source\replace.c"} {:sourceline 546} true;
-    assume false;
     return;
 
   label_35_true:
@@ -5193,7 +4963,6 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
 
   label_15:
     assert {:sourcefile "source\replace.c"} {:sourceline 530} true;
-    assume false;
     return;
 }
 
@@ -5201,20 +4970,8 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
 
 procedure {:extern} makepat(arg.__1: int, start.__1: int, delim.__1: int, pat.__1: int) returns (result.makepat$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -5897,20 +5654,8 @@ implementation {:extern} makepat(arg.__1: int, start.__1: int, delim.__1: int, p
 
 procedure {:extern} makesub(arg.__1: int, from.__1: int, delim.__1: int, sub.__1: int) returns (result.makesub$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -6230,20 +5975,8 @@ implementation {:extern} makesub(arg.__1: int, from.__1: int, delim.__1: int, su
 
 procedure {:extern} omatch(lin.__1: int, i.__1: int, pat.__1: int, j.__1: int) returns (result.omatch$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -6462,7 +6195,6 @@ implementation {:extern} omatch(lin.__1: int, i.__1: int, pat.__1: int, j.__1: i
   label_59:
     assert {:sourcefile "source\replace.c"} {:sourceline 344} true;
     call result.abort$7 := abort();
-    assume false;
     return;
 
   label_12_true:
@@ -6811,20 +6543,8 @@ implementation {:extern} omatch(lin.__1: int, i.__1: int, pat.__1: int, j.__1: i
 
 procedure {:extern} patsize(pat.__1: int, n.__1: int) returns (result.patsize$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -6935,7 +6655,6 @@ implementation {:extern} patsize(pat.__1: int, n.__1: int) returns (result.patsi
   label_30:
     assert {:sourcefile "source\replace.c"} {:sourceline 395} true;
     call result.abort$7 := abort();
-    assume false;
     return;
 
   label_8_true:
@@ -7086,20 +6805,8 @@ implementation {:extern} patsize(pat.__1: int, n.__1: int) returns (result.patsi
 
 procedure {:extern} putsub(lin.__1: int, s1.__1: int, s2.__1: int, sub.__1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -7352,20 +7059,8 @@ implementation {:extern} putsub(lin.__1: int, s1.__1: int, s2.__1: int, sub.__1:
 
 procedure {:extern} stclose(pat.__1: int, j.__1: int, lastj.__1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -7541,20 +7236,8 @@ implementation {:extern} stclose(pat.__1: int, j.__1: int, lastj.__1: int)
 
 procedure {:extern} subline(lin.__1: int, pat.__1: int, sub.__1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
-  free ensures Mem_T.A100CHAR == old(Mem_T.A100CHAR);
-  free ensures Mem_T.A25CHAR == old(Mem_T.A25CHAR);
-  free ensures Mem_T.A26CHAR == old(Mem_T.A26CHAR);
-  free ensures Mem_T.A28CHAR == old(Mem_T.A28CHAR);
-  free ensures Mem_T.A29CHAR == old(Mem_T.A29CHAR);
-  free ensures Mem_T.A32CHAR == old(Mem_T.A32CHAR);
-  free ensures Mem_T.CHAR == old(Mem_T.CHAR);
-  free ensures Mem_T.INT4 == old(Mem_T.INT4);
-  free ensures Mem_T.PCHAR == old(Mem_T.PCHAR);
-  free ensures Mem_T.PINT4 == old(Mem_T.PINT4);
-  free ensures Mem_T.P_iobuf == old(Mem_T.P_iobuf);
-  free ensures Mem_T.UINT4 == old(Mem_T.UINT4);
 
 
 
@@ -7841,7 +7524,7 @@ implementation amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int,
     assume out_done != 0;
     assume value_is(__ctobpl_const_72, out_done);
     out_$amatch.arg.4$6$, out_done, out_k, out_result.amatch$4, out_result.patsize$5 := in_$amatch.arg.4$6$, in_done, in_k, in_result.amatch$4, in_result.patsize$5;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_36:
@@ -7864,7 +7547,7 @@ implementation amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int,
     assume INT_LEQ(0, out_k);
     assume value_is(__ctobpl_const_92, out_k);
     out_$amatch.arg.4$6$, out_done, out_k, out_result.amatch$4, out_result.patsize$5 := in_$amatch.arg.4$6$, in_done, in_k, in_result.amatch$4, in_result.patsize$5;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     goto label_37;
 
   label_34:
@@ -7919,7 +7602,7 @@ implementation amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int,
     assume value_is(__ctobpl_const_73, Mem_T.INT4[in_offset]);
     assume value_is(__ctobpl_const_74, Mem_T.INT4[in_i]);
     out_$amatch.arg.4$6$, out_done, out_k, out_result.amatch$4, out_result.patsize$5 := in_$amatch.arg.4$6$, in_done, in_k, in_result.amatch$4, in_result.patsize$5;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_23_false:
@@ -7948,7 +7631,7 @@ implementation amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int,
 
 
 procedure amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int, in_i: int, in_j: int, in_k: int, in_lin: int, in_offset: int, in_pat: int, in_result.amatch$4: int, in_result.patsize$5: int) returns (out_$amatch.arg.4$6$: int, out_done: int, out_k: int, out_result.amatch$4: int, out_result.patsize$5: int);
-  modifies Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies Mem_T.INT4, alloc, detChoiceCnt;
 
 
 
@@ -7966,7 +7649,7 @@ implementation amatch_loop_label_20_head(in_done: int, in_i: int, in_j: int, in_
     assume out_done != 0;
     assume value_is(__ctobpl_const_55, out_done);
     out_done, out_result, out_result.omatch$3 := in_done, in_result, in_result.omatch$3;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     return;
 
   label_43:
@@ -7988,7 +7671,7 @@ implementation amatch_loop_label_20_head(in_done: int, in_i: int, in_j: int, in_
     assume out_result != 0;
     assume value_is(__ctobpl_const_69, out_result);
     out_done, out_result, out_result.omatch$3 := in_done, in_result, in_result.omatch$3;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     goto label_42_true_dummy;
 
   label_41:
@@ -8029,7 +7712,7 @@ implementation amatch_loop_label_20_head(in_done: int, in_i: int, in_j: int, in_
     assume value_is(__ctobpl_const_57, Mem_T.INT4[in_i]);
     assume value_is(__ctobpl_const_58, Mem_T.CHAR[PLUS(in_lin, 1, Mem_T.INT4[in_i])]);
     out_done, out_result, out_result.omatch$3 := in_done, in_result, in_result.omatch$3;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     return;
 
   label_20_false:
@@ -8052,7 +7735,7 @@ implementation amatch_loop_label_20_head(in_done: int, in_i: int, in_j: int, in_
 
 
 procedure amatch_loop_label_20_head(in_done: int, in_i: int, in_j: int, in_lin: int, in_pat: int, in_result: int, in_result.omatch$3: int) returns (out_done: int, out_result: int, out_result.omatch$3: int);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
 
 
 
@@ -8070,7 +7753,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     assume out_done != 0;
     assume value_is(__ctobpl_const_19, out_done);
     out_$amatch.arg.4$6$, out_done, out_j, out_k, out_result, out_result.amatch$4, out_result.omatch$3, out_result.omatch$7, out_result.patsize$2, out_result.patsize$5, out_result.patsize$8 := in_$amatch.arg.4$6$, in_done, in_j, in_k, in_result, in_result.amatch$4, in_result.omatch$3, in_result.omatch$7, in_result.patsize$2, in_result.patsize$5, in_result.patsize$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_51:
@@ -8098,7 +7781,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     assume out_result != 0;
     assume value_is(__ctobpl_const_36, out_result);
     out_$amatch.arg.4$6$, out_done, out_j, out_k, out_result, out_result.amatch$4, out_result.omatch$3, out_result.omatch$7, out_result.patsize$2, out_result.patsize$5, out_result.patsize$8 := in_$amatch.arg.4$6$, in_done, in_j, in_k, in_result, in_result.amatch$4, in_result.omatch$3, in_result.omatch$7, in_result.patsize$2, in_result.patsize$5, in_result.patsize$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     goto label_47;
 
   label_44:
@@ -8139,7 +7822,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     assume value_is(__ctobpl_const_24, out_j);
     assume value_is(__ctobpl_const_25, Mem_T.CHAR[PLUS(in_pat, 1, out_j)]);
     out_$amatch.arg.4$6$, out_done, out_j, out_k, out_result, out_result.amatch$4, out_result.omatch$3, out_result.omatch$7, out_result.patsize$2, out_result.patsize$5, out_result.patsize$8 := in_$amatch.arg.4$6$, in_done, in_j, in_k, in_result, in_result.amatch$4, in_result.omatch$3, in_result.omatch$7, in_result.patsize$2, in_result.patsize$5, in_result.patsize$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     goto label_15;
 
   label_9_true:
@@ -8160,7 +7843,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     assume value_is(__ctobpl_const_21, out_j);
     assume value_is(__ctobpl_const_22, Mem_T.CHAR[PLUS(in_pat, 1, out_j)]);
     out_$amatch.arg.4$6$, out_done, out_j, out_k, out_result, out_result.amatch$4, out_result.omatch$3, out_result.omatch$7, out_result.patsize$2, out_result.patsize$5, out_result.patsize$8 := in_$amatch.arg.4$6$, in_done, in_j, in_k, in_result, in_result.amatch$4, in_result.omatch$3, in_result.omatch$7, in_result.patsize$2, in_result.patsize$5, in_result.patsize$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_8_false:
@@ -8223,7 +7906,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
 
   label_23_head_last:
     out_$amatch.arg.4$6$, out_done, out_j, out_k, out_result, out_result.amatch$4, out_result.omatch$3, out_result.omatch$7, out_result.patsize$2, out_result.patsize$5, out_result.patsize$8 := in_$amatch.arg.4$6$, in_done, in_j, in_k, in_result, in_result.amatch$4, in_result.omatch$3, in_result.omatch$7, in_result.patsize$2, in_result.patsize$5, in_result.patsize$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     goto label_23_true, label_23_false;
 
   label_23:
@@ -8240,7 +7923,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
   label_36_dummy:
     assume false;
     out_$amatch.arg.4$6$, out_done, out_j, out_k, out_result, out_result.amatch$4, out_result.omatch$3, out_result.omatch$7, out_result.patsize$2, out_result.patsize$5, out_result.patsize$8 := in_$amatch.arg.4$6$, in_done, in_j, in_k, in_result, in_result.amatch$4, in_result.omatch$3, in_result.omatch$7, in_result.patsize$2, in_result.patsize$5, in_result.patsize$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_37:
@@ -8252,7 +7935,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
   label_37_dummy:
     assume false;
     out_$amatch.arg.4$6$, out_done, out_j, out_k, out_result, out_result.amatch$4, out_result.omatch$3, out_result.omatch$7, out_result.patsize$2, out_result.patsize$5, out_result.patsize$8 := in_$amatch.arg.4$6$, in_done, in_j, in_k, in_result, in_result.amatch$4, in_result.omatch$3, in_result.omatch$7, in_result.patsize$2, in_result.patsize$5, in_result.patsize$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_35_true:
@@ -8345,7 +8028,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
 
   label_20_head_last:
     out_$amatch.arg.4$6$, out_done, out_j, out_k, out_result, out_result.amatch$4, out_result.omatch$3, out_result.omatch$7, out_result.patsize$2, out_result.patsize$5, out_result.patsize$8 := in_$amatch.arg.4$6$, in_done, in_j, in_k, in_result, in_result.amatch$4, in_result.omatch$3, in_result.omatch$7, in_result.patsize$2, in_result.patsize$5, in_result.patsize$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     goto label_20_true, label_20_false;
 
   label_20:
@@ -8361,7 +8044,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
   label_43_dummy:
     assume false;
     out_$amatch.arg.4$6$, out_done, out_j, out_k, out_result, out_result.amatch$4, out_result.omatch$3, out_result.omatch$7, out_result.patsize$2, out_result.patsize$5, out_result.patsize$8 := in_$amatch.arg.4$6$, in_done, in_j, in_k, in_result, in_result.amatch$4, in_result.omatch$3, in_result.omatch$7, in_result.patsize$2, in_result.patsize$5, in_result.patsize$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_42_true:
@@ -8372,7 +8055,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
   label_42_true_dummy:
     assume false;
     out_$amatch.arg.4$6$, out_done, out_j, out_k, out_result, out_result.amatch$4, out_result.omatch$3, out_result.omatch$7, out_result.patsize$2, out_result.patsize$5, out_result.patsize$8 := in_$amatch.arg.4$6$, in_done, in_j, in_k, in_result, in_result.amatch$4, in_result.omatch$3, in_result.omatch$7, in_result.patsize$2, in_result.patsize$5, in_result.patsize$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_42:
@@ -8456,7 +8139,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
 
 
 procedure amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, in_i: int, in_j: int, in_k: int, in_lin: int, in_offset: int, in_pat: int, in_result: int, in_result.amatch$4: int, in_result.omatch$3: int, in_result.omatch$7: int, in_result.patsize$2: int, in_result.patsize$5: int, in_result.patsize$8: int) returns (out_$amatch.arg.4$6$: int, out_done: int, out_j: int, out_k: int, out_result: int, out_result.amatch$4: int, out_result.omatch$3: int, out_result.omatch$7: int, out_result.patsize$2: int, out_result.patsize$5: int, out_result.patsize$8: int);
-  modifies Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies Mem_T.INT4, alloc, detChoiceCnt;
 
 
 
@@ -8474,7 +8157,7 @@ implementation change_loop_label_10_head(in_$getline.arg.1$5$: int, in_pat: int,
     assume out_result == 0;
     assume value_is(__ctobpl_const_102, out_result);
     out_result, out_result.getline$4 := in_result, in_result.getline$4;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     return;
 
   label_19:
@@ -8522,7 +8205,7 @@ implementation change_loop_label_10_head(in_$getline.arg.1$5$: int, in_pat: int,
 
 
 procedure change_loop_label_10_head(in_$getline.arg.1$5$: int, in_pat: int, in_result: int, in_result.getline$4: int, in_sub: int, in_$subline.arg.1$3$: int) returns (out_result: int, out_result.getline$4: int);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
 
 
 
@@ -8546,7 +8229,7 @@ implementation dodash_loop_label_45_head(in_dest: int, in_i: int, in_j: int, in_
     assume value_is(__ctobpl_const_172, Mem_T.INT4[in_i]);
     assume value_is(__ctobpl_const_173, Mem_T.CHAR[PLUS(in_src, 1, PLUS(Mem_T.INT4[in_i], 1, 1))]);
     out_junk, out_k, out_result.addstr$10 := in_junk, in_k, in_result.addstr$10;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     return;
 
   label_51:
@@ -8595,7 +8278,7 @@ implementation dodash_loop_label_45_head(in_dest: int, in_i: int, in_j: int, in_
 
 
 procedure dodash_loop_label_45_head(in_dest: int, in_i: int, in_j: int, in_junk: int, in_k: int, in_maxset: int, in_result.addstr$10: int, in_src: int) returns (out_junk: int, out_k: int, out_result.addstr$10: int);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
 
 
 
@@ -8619,7 +8302,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     assume value_is(__ctobpl_const_112, Mem_T.CHAR[PLUS(in_src, 1, Mem_T.INT4[in_i])]);
     assume value_is(__ctobpl_const_113, in_delim);
     out_$addstr.arg.1$4$, out_escjunk, out_$isalnum.arg.1$7$, out_$isalnum.arg.1$9$, out_junk, out_k, out_result.addstr$2, out_result.addstr$3, out_result.addstr$5, out_result.addstr$10, out_result.addstr$11, out_result.esc$1, out_result.isalnum$6, out_result.isalnum$8 := in_$addstr.arg.1$4$, in_escjunk, in_$isalnum.arg.1$7$, in_$isalnum.arg.1$9$, in_junk, in_k, in_result.addstr$2, in_result.addstr$3, in_result.addstr$5, in_result.addstr$10, in_result.addstr$11, in_result.esc$1, in_result.isalnum$6, in_result.isalnum$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_18:
@@ -8736,7 +8419,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     assume value_is(__ctobpl_const_116, Mem_T.INT4[in_i]);
     assume value_is(__ctobpl_const_117, Mem_T.CHAR[PLUS(in_src, 1, Mem_T.INT4[in_i])]);
     out_$addstr.arg.1$4$, out_escjunk, out_$isalnum.arg.1$7$, out_$isalnum.arg.1$9$, out_junk, out_k, out_result.addstr$2, out_result.addstr$3, out_result.addstr$5, out_result.addstr$10, out_result.addstr$11, out_result.esc$1, out_result.isalnum$6, out_result.isalnum$8 := in_$addstr.arg.1$4$, in_escjunk, in_$isalnum.arg.1$7$, in_$isalnum.arg.1$9$, in_junk, in_k, in_result.addstr$2, in_result.addstr$3, in_result.addstr$5, in_result.addstr$10, in_result.addstr$11, in_result.esc$1, in_result.isalnum$6, in_result.isalnum$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_6_true:
@@ -8812,7 +8495,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     assert in_i != 0;
     assert in_src != 0;
     out_$addstr.arg.1$4$, out_escjunk, out_$isalnum.arg.1$7$, out_$isalnum.arg.1$9$, out_junk, out_k, out_result.addstr$2, out_result.addstr$3, out_result.addstr$5, out_result.addstr$10, out_result.addstr$11, out_result.esc$1, out_result.isalnum$6, out_result.isalnum$8 := in_$addstr.arg.1$4$, in_escjunk, in_$isalnum.arg.1$7$, in_$isalnum.arg.1$9$, in_junk, in_k, in_result.addstr$2, in_result.addstr$3, in_result.addstr$5, in_result.addstr$10, in_result.addstr$11, in_result.esc$1, in_result.isalnum$6, in_result.isalnum$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     goto label_45_true, label_45_false;
 
   label_45:
@@ -8828,7 +8511,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
   label_51_dummy:
     assume false;
     out_$addstr.arg.1$4$, out_escjunk, out_$isalnum.arg.1$7$, out_$isalnum.arg.1$9$, out_junk, out_k, out_result.addstr$2, out_result.addstr$3, out_result.addstr$5, out_result.addstr$10, out_result.addstr$11, out_result.esc$1, out_result.isalnum$6, out_result.isalnum$8 := in_$addstr.arg.1$4$, in_escjunk, in_$isalnum.arg.1$7$, in_$isalnum.arg.1$9$, in_junk, in_k, in_result.addstr$2, in_result.addstr$3, in_result.addstr$5, in_result.addstr$10, in_result.addstr$11, in_result.esc$1, in_result.isalnum$6, in_result.isalnum$8;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_50:
@@ -9050,7 +8733,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
 
 
 procedure dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int, in_dest: int, in_escjunk: int, in_i: int, in_$isalnum.arg.1$7$: int, in_$isalnum.arg.1$9$: int, in_j: int, in_junk: int, in_k: int, in_maxset: int, in_result.addstr$2: int, in_result.addstr$3: int, in_result.addstr$5: int, in_result.addstr$10: int, in_result.addstr$11: int, in_result.esc$1: int, in_result.isalnum$6: int, in_result.isalnum$8: int, in_src: int) returns (out_$addstr.arg.1$4$: int, out_escjunk: int, out_$isalnum.arg.1$7$: int, out_$isalnum.arg.1$9$: int, out_junk: int, out_k: int, out_result.addstr$2: int, out_result.addstr$3: int, out_result.addstr$5: int, out_result.addstr$10: int, out_result.addstr$11: int, out_result.esc$1: int, out_result.isalnum$6: int, out_result.isalnum$8: int);
-  modifies Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies Mem_T.INT4, alloc, detChoiceCnt;
 
 
 
@@ -9151,7 +8834,7 @@ implementation makepat_loop_label_16_head(in_arg: int, in_delim: int, in_done: i
     assume out_done != 0;
     assume value_is(__ctobpl_const_406, out_done);
     out_done, out_escjunk, out_getres, out_$in_set_2.arg.1$7$, out_junk, out_lastj, out_lj, out_result.addstr$2, out_result.addstr$3, out_result.addstr$4, out_result.addstr$8, out_result.addstr$10, out_result.esc$9, out_result.getccl$5, out_result.in_set_2$6 := in_done, in_escjunk, in_getres, in_$in_set_2.arg.1$7$, in_junk, in_lastj, in_lj, in_result.addstr$2, in_result.addstr$3, in_result.addstr$4, in_result.addstr$8, in_result.addstr$10, in_result.esc$9, in_result.getccl$5, in_result.in_set_2$6;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_39:
@@ -9174,7 +8857,7 @@ implementation makepat_loop_label_16_head(in_arg: int, in_delim: int, in_done: i
     assume out_done != 0;
     assume value_is(__ctobpl_const_507, out_done);
     out_done, out_escjunk, out_getres, out_$in_set_2.arg.1$7$, out_junk, out_lastj, out_lj, out_result.addstr$2, out_result.addstr$3, out_result.addstr$4, out_result.addstr$8, out_result.addstr$10, out_result.esc$9, out_result.getccl$5, out_result.in_set_2$6 := in_done, in_escjunk, in_getres, in_$in_set_2.arg.1$7$, in_junk, in_lastj, in_lj, in_result.addstr$2, in_result.addstr$3, in_result.addstr$4, in_result.addstr$8, in_result.addstr$10, in_result.esc$9, in_result.getccl$5, in_result.in_set_2$6;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     goto label_38_true_dummy;
 
   label_37:
@@ -9282,7 +8965,7 @@ implementation makepat_loop_label_16_head(in_arg: int, in_delim: int, in_done: i
     assume value_is(__ctobpl_const_412, Mem_T.INT4[in_i]);
     assume value_is(__ctobpl_const_413, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     out_done, out_escjunk, out_getres, out_$in_set_2.arg.1$7$, out_junk, out_lastj, out_lj, out_result.addstr$2, out_result.addstr$3, out_result.addstr$4, out_result.addstr$8, out_result.addstr$10, out_result.esc$9, out_result.getccl$5, out_result.in_set_2$6 := in_done, in_escjunk, in_getres, in_$in_set_2.arg.1$7$, in_junk, in_lastj, in_lj, in_result.addstr$2, in_result.addstr$3, in_result.addstr$4, in_result.addstr$8, in_result.addstr$10, in_result.esc$9, in_result.getccl$5, in_result.in_set_2$6;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_17_true:
@@ -9305,7 +8988,7 @@ implementation makepat_loop_label_16_head(in_arg: int, in_delim: int, in_done: i
     assume value_is(__ctobpl_const_409, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     assume value_is(__ctobpl_const_410, in_delim);
     out_done, out_escjunk, out_getres, out_$in_set_2.arg.1$7$, out_junk, out_lastj, out_lj, out_result.addstr$2, out_result.addstr$3, out_result.addstr$4, out_result.addstr$8, out_result.addstr$10, out_result.esc$9, out_result.getccl$5, out_result.in_set_2$6 := in_done, in_escjunk, in_getres, in_$in_set_2.arg.1$7$, in_junk, in_lastj, in_lj, in_result.addstr$2, in_result.addstr$3, in_result.addstr$4, in_result.addstr$8, in_result.addstr$10, in_result.esc$9, in_result.getccl$5, in_result.in_set_2$6;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_16_false:
@@ -9583,7 +9266,7 @@ implementation makepat_loop_label_16_head(in_arg: int, in_delim: int, in_done: i
 
 
 procedure makepat_loop_label_16_head(in_arg: int, in_delim: int, in_done: int, in_escjunk: int, in_getres: int, in_i: int, in_$in_set_2.arg.1$7$: int, in_j: int, in_junk: int, in_lastj: int, in_lj: int, in_pat: int, in_result.addstr$2: int, in_result.addstr$3: int, in_result.addstr$4: int, in_result.addstr$8: int, in_result.addstr$10: int, in_result.esc$9: int, in_result.getccl$5: int, in_result.in_set_2$6: int, in_start: int) returns (out_done: int, out_escjunk: int, out_getres: int, out_$in_set_2.arg.1$7$: int, out_junk: int, out_lastj: int, out_lj: int, out_result.addstr$2: int, out_result.addstr$3: int, out_result.addstr$4: int, out_result.addstr$8: int, out_result.addstr$10: int, out_result.esc$9: int, out_result.getccl$5: int, out_result.in_set_2$6: int);
-  modifies Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies Mem_T.INT4, alloc, detChoiceCnt;
 
 
 
@@ -9605,7 +9288,7 @@ implementation makesub_loop_label_10_head(in_arg: int, in_delim: int, in_escjunk
     assume value_is(__ctobpl_const_532, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     assume value_is(__ctobpl_const_533, in_delim);
     out_escjunk, out_junk, out_result.addstr$2, out_result.addstr$4, out_result.esc$3 := in_escjunk, in_junk, in_result.addstr$2, in_result.addstr$4, in_result.esc$3;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_21:
@@ -9668,7 +9351,7 @@ implementation makesub_loop_label_10_head(in_arg: int, in_delim: int, in_escjunk
     assume value_is(__ctobpl_const_535, Mem_T.INT4[in_i]);
     assume value_is(__ctobpl_const_536, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     out_escjunk, out_junk, out_result.addstr$2, out_result.addstr$4, out_result.esc$3 := in_escjunk, in_junk, in_result.addstr$2, in_result.addstr$4, in_result.esc$3;
-    Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(Mem_T.INT4), old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    Mem_T.INT4, alloc, detChoiceCnt := old(Mem_T.INT4), old(alloc), old(detChoiceCnt);
     return;
 
   label_10_true:
@@ -9724,7 +9407,7 @@ implementation makesub_loop_label_10_head(in_arg: int, in_delim: int, in_escjunk
 
 
 procedure makesub_loop_label_10_head(in_arg: int, in_delim: int, in_escjunk: int, in_i: int, in_j: int, in_junk: int, in_result.addstr$2: int, in_result.addstr$4: int, in_result.esc$3: int, in_sub: int) returns (out_escjunk: int, out_junk: int, out_result.addstr$2: int, out_result.addstr$4: int, out_result.esc$3: int);
-  modifies Mem_T.INT4, alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies Mem_T.INT4, alloc, detChoiceCnt;
 
 
 
@@ -9743,7 +9426,7 @@ implementation putsub_loop_label_12_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.
     assume value_is(__ctobpl_const_713, out_j);
     assume value_is(__ctobpl_const_714, in_s2);
     out_$fputc.arg.1$4$, out_$fputc.arg.2$3$, out_j, out_result.__iob_func$2, out_result.fputc$1 := in_$fputc.arg.1$4$, in_$fputc.arg.2$3$, in_j, in_result.__iob_func$2, in_result.fputc$1;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     return;
 
   label_22:
@@ -9801,7 +9484,7 @@ implementation putsub_loop_label_12_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.
 
 
 procedure putsub_loop_label_12_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.2$3$: int, in_j: int, in_lin: int, in_result.__iob_func$2: int, in_result.fputc$1: int, in_s2: int) returns (out_$fputc.arg.1$4$: int, out_$fputc.arg.2$3$: int, out_j: int, out_result.__iob_func$2: int, out_result.fputc$1: int);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
 
 
 
@@ -9822,7 +9505,7 @@ implementation putsub_loop_label_6_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.1
     assume value_is(__ctobpl_const_696, out_i);
     assume value_is(__ctobpl_const_697, Mem_T.CHAR[PLUS(in_sub, 1, out_i)]);
     out_$fputc.arg.1$4$, out_$fputc.arg.1$8$, out_$fputc.arg.2$3$, out_$fputc.arg.2$7$, out_i, out_j, out_result.__iob_func$2, out_result.__iob_func$6, out_result.fputc$1, out_result.fputc$5 := in_$fputc.arg.1$4$, in_$fputc.arg.1$8$, in_$fputc.arg.2$3$, in_$fputc.arg.2$7$, in_i, in_j, in_result.__iob_func$2, in_result.__iob_func$6, in_result.fputc$1, in_result.fputc$5;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     return;
 
   label_13:
@@ -9853,7 +9536,7 @@ implementation putsub_loop_label_6_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.1
 
   label_12_head_last:
     out_$fputc.arg.1$4$, out_$fputc.arg.1$8$, out_$fputc.arg.2$3$, out_$fputc.arg.2$7$, out_i, out_j, out_result.__iob_func$2, out_result.__iob_func$6, out_result.fputc$1, out_result.fputc$5 := in_$fputc.arg.1$4$, in_$fputc.arg.1$8$, in_$fputc.arg.2$3$, in_$fputc.arg.2$7$, in_i, in_j, in_result.__iob_func$2, in_result.__iob_func$6, in_result.fputc$1, in_result.fputc$5;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     goto label_12_true, label_12_false;
 
   label_12:
@@ -9869,7 +9552,7 @@ implementation putsub_loop_label_6_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.1
   label_22_dummy:
     assume false;
     out_$fputc.arg.1$4$, out_$fputc.arg.1$8$, out_$fputc.arg.2$3$, out_$fputc.arg.2$7$, out_i, out_j, out_result.__iob_func$2, out_result.__iob_func$6, out_result.fputc$1, out_result.fputc$5 := in_$fputc.arg.1$4$, in_$fputc.arg.1$8$, in_$fputc.arg.2$3$, in_$fputc.arg.2$7$, in_i, in_j, in_result.__iob_func$2, in_result.__iob_func$6, in_result.fputc$1, in_result.fputc$5;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     return;
 
   label_19:
@@ -9977,7 +9660,7 @@ implementation putsub_loop_label_6_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.1
 
 
 procedure putsub_loop_label_6_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.1$8$: int, in_$fputc.arg.2$3$: int, in_$fputc.arg.2$7$: int, in_i: int, in_j: int, in_lin: int, in_result.__iob_func$2: int, in_result.__iob_func$6: int, in_result.fputc$1: int, in_result.fputc$5: int, in_s1: int, in_s2: int, in_sub: int) returns (out_$fputc.arg.1$4$: int, out_$fputc.arg.1$8$: int, out_$fputc.arg.2$3$: int, out_$fputc.arg.2$7$: int, out_i: int, out_j: int, out_result.__iob_func$2: int, out_result.__iob_func$6: int, out_result.fputc$1: int, out_result.fputc$5: int);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
 
 
 
@@ -9996,7 +9679,7 @@ implementation stclose_loop_label_7_head(in_$addstr.arg.1$2$: int, in_jp: int, i
     assume value_is(__ctobpl_const_731, in_lastj);
     assume value_is(__ctobpl_const_732, out_jp);
     out_$addstr.arg.1$2$, out_jp, out_junk, out_result.addstr$1 := in_$addstr.arg.1$2$, in_jp, in_junk, in_result.addstr$1;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt, Mem_T.INT4 := old(alloc), old(detChoiceCnt), old(Mem_T.INT4);
     return;
 
   label_15:
@@ -10057,7 +9740,7 @@ implementation stclose_loop_label_7_head(in_$addstr.arg.1$2$: int, in_jp: int, i
 
 
 procedure stclose_loop_label_7_head(in_$addstr.arg.1$2$: int, in_jp: int, in_jt: int, in_junk: int, in_lastj: int, in_pat: int, in_result.addstr$1: int) returns (out_$addstr.arg.1$2$: int, out_jp: int, out_junk: int, out_result.addstr$1: int);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt, Mem_T.INT4;
 
 
 
@@ -10078,7 +9761,7 @@ implementation subline_loop_label_8_head(in_$fputc.arg.1$5$: int, in_$fputc.arg.
     assume value_is(__ctobpl_const_758, out_i);
     assume value_is(__ctobpl_const_759, Mem_T.CHAR[PLUS(in_lin, 1, out_i)]);
     out_$fputc.arg.1$5$, out_$fputc.arg.2$4$, out_i, out_lastm, out_m, out_result.__iob_func$3, out_result.amatch$1, out_result.fputc$2 := in_$fputc.arg.1$5$, in_$fputc.arg.2$4$, in_i, in_lastm, in_m, in_result.__iob_func$3, in_result.amatch$1, in_result.fputc$2;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     return;
 
   label_30:
@@ -10103,7 +9786,7 @@ implementation subline_loop_label_8_head(in_$fputc.arg.1$5$: int, in_$fputc.arg.
     assume value_is(__ctobpl_const_782, out_m);
     assume value_is(__ctobpl_const_783, out_i);
     out_$fputc.arg.1$5$, out_$fputc.arg.2$4$, out_i, out_lastm, out_m, out_result.__iob_func$3, out_result.amatch$1, out_result.fputc$2 := in_$fputc.arg.1$5$, in_$fputc.arg.2$4$, in_i, in_lastm, in_m, in_result.__iob_func$3, in_result.amatch$1, in_result.fputc$2;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     goto label_21;
 
   label_14_false:
@@ -10119,7 +9802,7 @@ implementation subline_loop_label_8_head(in_$fputc.arg.1$5$: int, in_$fputc.arg.
     assume INT_EQ(out_m, -1);
     assume value_is(__ctobpl_const_781, out_m);
     out_$fputc.arg.1$5$, out_$fputc.arg.2$4$, out_i, out_lastm, out_m, out_result.__iob_func$3, out_result.amatch$1, out_result.fputc$2 := in_$fputc.arg.1$5$, in_$fputc.arg.2$4$, in_i, in_lastm, in_m, in_result.__iob_func$3, in_result.amatch$1, in_result.fputc$2;
-    alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4 := old(alloc), old(detChoiceCnt), old(Mem_T.A100CHAR), old(Mem_T.A25CHAR), old(Mem_T.A26CHAR), old(Mem_T.A28CHAR), old(Mem_T.A29CHAR), old(Mem_T.A32CHAR), old(Mem_T.CHAR), old(Mem_T.INT4), old(Mem_T.PCHAR), old(Mem_T.PINT4), old(Mem_T.P_iobuf), old(Mem_T.UINT4);
+    alloc, detChoiceCnt := old(alloc), old(detChoiceCnt);
     goto label_21;
 
   label_13_false:
@@ -10251,6 +9934,6 @@ implementation subline_loop_label_8_head(in_$fputc.arg.1$5$: int, in_$fputc.arg.
 
 
 procedure subline_loop_label_8_head(in_$fputc.arg.1$5$: int, in_$fputc.arg.2$4$: int, in_i: int, in_lastm: int, in_lin: int, in_m: int, in_pat: int, in_result.__iob_func$3: int, in_result.amatch$1: int, in_result.fputc$2: int, in_sub: int) returns (out_$fputc.arg.1$5$: int, out_$fputc.arg.2$4$: int, out_i: int, out_lastm: int, out_m: int, out_result.__iob_func$3: int, out_result.amatch$1: int, out_result.fputc$2: int);
-  modifies alloc, detChoiceCnt, Mem_T.A100CHAR, Mem_T.A25CHAR, Mem_T.A26CHAR, Mem_T.A28CHAR, Mem_T.A29CHAR, Mem_T.A32CHAR, Mem_T.CHAR, Mem_T.INT4, Mem_T.PCHAR, Mem_T.PINT4, Mem_T.P_iobuf, Mem_T.UINT4;
+  modifies alloc, detChoiceCnt;
 
 
