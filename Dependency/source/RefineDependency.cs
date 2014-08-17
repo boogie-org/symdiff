@@ -135,7 +135,8 @@ namespace Dependency
             //remove all entries from modSet for which upper/lower bounds are same or lower already has a *
             modSet.RemoveAll(x =>
                 {
-                    //if (lowerBoundDepImpl[x].Contains(Utils.VariableUtils.NonDetVar)) return true; //already has *
+                    //lowerbound may have a * only for stubs, since it does not understand baked in stubs such as malloc
+                    if (lowerBoundDepImpl[x].Contains(Utils.VariableUtils.NonDetVar)) return true; //already has *
                     if (lowerBoundDepImpl[x].Count() != upperBoundDepImpl[x].Count()) return false;
                     return //true only if both sets are identical
                         lowerBoundDepImpl[x].All(y => upperBoundDepImpl[x].Contains(y)) &&

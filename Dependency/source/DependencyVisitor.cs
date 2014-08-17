@@ -55,6 +55,25 @@ namespace Dependency
 
             //least fixed point, starting with lower-bound
             currDependencies = new Dictionary<Procedure, Dependencies>(lowerBoundProcDependencies); 
+
+            //important note about *
+            //We want to remove * from currDependency except for stubs
+            currDependencies.Iter(kv =>
+                  {
+                      //not a stub
+                      if (!IsStub(kv.Key))
+                      {
+                          currDependencies[kv.Key].Iter
+                              (v =>
+                                  {
+                                      currDependencies[kv.Key][v.Key].Remove(Utils.VariableUtils.NonDetVar);
+                                  }
+                              );
+                      }
+
+                  }
+                );
+
             while (worklist.Count > 0)
             {
                 var proc = worklist.Last();
@@ -85,6 +104,11 @@ namespace Dependency
                 }
 
             }
+        }
+
+        private bool IsStub(Procedure proc)
+        {
+            return program.Implementations().Where(x => x.Proc == proc).Count() == 0;
         }
 
     }
