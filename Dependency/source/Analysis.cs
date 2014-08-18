@@ -91,6 +91,9 @@ namespace Dependency
             args.Where(x => x.StartsWith(CmdLineOptsNames.refine + ":"))
                 .Iter(s => StackBound = int.Parse(s.Split(':')[1]));
 
+            if (StackBound < 2)
+                throw new Exception("Argument k to /refine:k has to be > 1");
+
             ReadSet = args.Any(x => x.Contains(CmdLineOptsNames.readSet));
 
             if (args.Any(x => x.Contains(CmdLineOptsNames.debug)))
