@@ -90,7 +90,7 @@ namespace Dependency
             args.Where(x => x.StartsWith(CmdLineOptsNames.refine + ":"))
                 .Iter(s => StackBound = int.Parse(s.Split(':')[1]));
 
-            // Refine mode prunes by default, so prune the lower and upper bounds as well
+            // refined must have pruned dependencies
             Prune = Refine || args.Any(x => x == CmdLineOptsNames.prune);
 
             if (StackBound < 2)
@@ -272,23 +272,48 @@ namespace Dependency
 
             ReadSetVisitor rsVisitor = new ReadSetVisitor();
             if (ReadSet)
-                rsVisitor.Visit(program);
-
-            // ReadSet  must contain the Control+Data dependencies
-            Debug.Assert(rsVisitor.ProcReadSet.All(prs => 
             {
-                var proc = prs.Key; var readSet = prs.Value;
-                if (!allDeps.ContainsKey(proc)) return true;
-                var deps = allDeps[proc];
-                return deps.Keys.All(v => readSet.Contains(v) && readSet.IsSupersetOf(deps[v]));
-            }));
+                rsVisitor.Visit(program);
+                // prune
+                if (Prune)
+                    rsVisitor.ProcReadSet.Keys.Iter(p => Utils.VariableUtils.PruneLocals(program.Implementations().SingleOrDefault(i => i.Proc.Name == p.Name), rsVisitor.ProcReadSet[p]));
+
+                // stats
+                if (PrintStats)
+                    rsVisitor.ProcReadSet.Iter(prs =>
+                    {
+                        var proc = prs.Key; var readSet = prs.Value;
+                        var impl = program.Implementations().SingleOrDefault(i => i.Proc.Name == proc.Name);
+                        if (impl != null) // conservatively each output\global is dependent on all of the readset
+                            readSet.Where(v => v is GlobalVariable || proc.OutParams.Contains(v)).Iter(v => PopulateStatsLog(Utils.StatisticsHelper.ReadSet, impl, v, readSet));
+                    });
+
+                // ReadSet must contain the Control+Data dependencies
+                Debug.Assert(rsVisitor.ProcReadSet.All(prs =>
+                {
+                    var proc = prs.Key; var readSet = prs.Value;
+                    if (!allDeps.ContainsKey(proc)) return true;
+                    var deps = allDeps[proc];
+                    return deps.Keys.All(v => {
+                        if (!(readSet.Contains(v) && readSet.IsSupersetOf(deps[v])))
+                        {
+                            Console.WriteLine("Failed for " + v + " in proc " + proc);
+                            Console.WriteLine("RS:");
+                            readSet.Iter(r => Console.WriteLine(" " + r));
+                            Console.WriteLine("Deps[" + v +"]:");
+                            deps[v].Iter(r => Console.WriteLine(" " + r));
+
+                            return false;
+                        }
+                        return true;
+                    });
+                }));
+            }
+
+            
 
             if (Refine)
             {
-                // refined must have pruned dependencies
-                Utils.DependenciesUtils.PruneProcDependencies(program, dataDeps);
-                Utils.DependenciesUtils.PruneProcDependencies(program, allDeps);
-
                 var refineDepsWL = new RefineDependencyWL(filename, program, dataDeps, allDeps, StackBound);
                 refineDepsWL.RunFixedPoint();
 

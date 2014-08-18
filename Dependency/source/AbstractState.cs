@@ -197,6 +197,7 @@ namespace Dependency
             return rhs.All(d => this[d.Key].SetEquals(d.Value));
         }
 
+        // TODO: replace this with Utils version
         public void FixFormals(Implementation impl)
         {
             var result = new Dependencies();
@@ -214,6 +215,7 @@ namespace Dependency
             this.JoinWith(result);
         }
 
+        // TODO: replace this with PruneLocals
         public void Prune(Implementation impl)
         {
             var proc = impl.Proc;

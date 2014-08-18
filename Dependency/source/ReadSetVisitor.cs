@@ -30,26 +30,28 @@ namespace Dependency
                 currentProc = worklist.First();
                 worklist.Remove(currentProc);
 
-                var initialRS = ProcReadSet.ContainsKey(currentProc) ? ProcReadSet[currentProc] : null;
+                if (!ProcReadSet.ContainsKey(currentProc))
+                    ProcReadSet[currentProc] = new HashSet<Variable>();
+
+                var initialRS = new HashSet<Variable>(ProcReadSet[currentProc]);
 
                 var impl = program.Implementations().SingleOrDefault(i => i.Name == currentProc.Name);
                 if (impl == null)
-                { // a stub
-                    ProcReadSet[currentProc] = new HashSet<Variable>();
+                {// a stub
                     ProcReadSet[currentProc].Add(Utils.VariableUtils.NonDetVar);
                     ProcReadSet[currentProc].UnionWith(currentProc.InParams);
                     ProcReadSet[currentProc].UnionWith(currentProc.OutParams);
                 }
-                else
-                { // a procedure with a body
+                else // a procedure with a body
                     Visit(impl);
-                }
 
-                if ((initialRS == null || !initialRS.SetEquals(ProcReadSet[currentProc])) && callGraph.Nodes.Contains(currentProc))
+                if (!initialRS.SetEquals(ProcReadSet[currentProc]) && callGraph.Nodes.Contains(currentProc))
                 {// the read set changed
                     worklist.AddRange(callGraph.Predecessors(currentProc)); // add all callers to WL
                 }
             }
+
+            ProcReadSet.Iter(prs => Utils.VariableUtils.FixFormals(program.Implementations().SingleOrDefault(i => i.Name == prs.Key.Name), prs.Value));
 
             return program;
         }
@@ -67,7 +69,7 @@ namespace Dependency
         {
             var callee = node.Proc;
             if (!ProcReadSet.ContainsKey(callee) || ProcReadSet[callee].Count == 0) // callee has no readset
-                return node;
+                return base.VisitCallCmd(node);
 
             if (!ProcReadSet.ContainsKey(currentProc))
                 ProcReadSet[currentProc] = new HashSet<Variable>();

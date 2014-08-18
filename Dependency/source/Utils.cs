@@ -201,7 +201,25 @@ namespace Dependency
                 return varExtractor.vars;
             }
 
-            
+            public static void PruneLocals(Implementation impl, HashSet<Variable> vars)
+            {
+                if (impl == null) 
+                    return;
+                vars.RemoveWhere(v => !(v is GlobalVariable || impl.Proc.InParams.Contains(v) || impl.Proc.OutParams.Contains(v)));
+            }
+
+            // add in the Procedure's inputs\outputs that adhere to the Implementation inputs\outputs in vars
+            public static void FixFormals(Implementation impl, HashSet<Variable> vars)
+            {
+                if (impl == null) // stubs
+                    return;
+                var formals = new HashSet<Variable>();
+                // inputs
+                formals.UnionWith(Utils.VariableUtils.ImplInputsToProcInputs(impl, vars));
+                // outputs
+                vars.Iter(v => { if (impl.OutParams.Contains(v)) formals.Add(ImplOutputToProcOutput(impl, v)); });
+                vars.UnionWith(formals);
+            }
 
             public static HashSet<Variable> ImplInputsToProcInputs(Implementation impl, HashSet<Variable> vars)
             {
