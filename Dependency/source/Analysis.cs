@@ -77,7 +77,6 @@ namespace Dependency
                 .Iter(s => changeList = s.Split(':')[1]);
 
             DataOnly = args.Any(x => x == CmdLineOptsNames.dataOnly);
-            Prune = args.Any(x => x == CmdLineOptsNames.prune);
             BothDependencies = args.Any(x => x == CmdLineOptsNames.both) && !DataOnly;
             DetStubs = args.Any(x => x == CmdLineOptsNames.detStubs);
 
@@ -91,6 +90,9 @@ namespace Dependency
             args.Where(x => x.StartsWith(CmdLineOptsNames.refine + ":"))
                 .Iter(s => StackBound = int.Parse(s.Split(':')[1]));
 
+            // Refine mode prunes by default, so prune the lower and upper bounds as well
+            Prune = Refine || args.Any(x => x == CmdLineOptsNames.prune);
+
             if (StackBound < 2)
                 throw new Exception("Argument k to /refine:k has to be > 1");
 
@@ -99,6 +101,7 @@ namespace Dependency
             if (args.Any(x => x.Contains(CmdLineOptsNames.debug)))
                 Debugger.Launch();
             #endregion 
+
 
             var filename = args[0];
             if (!Utils.ParseProgram(filename, out program))
@@ -291,6 +294,15 @@ namespace Dependency
 
                 // print
                 refineDepsWL.currDependencies.Iter(pd => PopulateDependencyLog(program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name), pd.Value, "Refined"));
+
+                // stats
+                refineDepsWL.currDependencies.Iter(pd =>
+                {
+                    var impl = program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name);
+                    if (impl != null)
+                        pd.Value.Iter(dep => PopulateStatsLog(Utils.StatisticsHelper.Refined, impl, dep.Key, dep.Value));
+                });
+                    
             }
 
         }

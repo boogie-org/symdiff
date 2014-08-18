@@ -239,7 +239,7 @@ namespace Dependency
             public static void GenerateCSVOutput(string outFileName, List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>> statsLog)
             {
                 TextWriter output = new StreamWriter(outFileName);
-                output.WriteLine("Note: Only variables that do not have * on all kinds of analysis will are aggregated");
+                output.WriteLine("Note: Only variables that do not have * on all kinds of analyses are aggregated");
                 output.WriteLine("Filename, Procedure, {0}, {1}, {2}, {3}", ReadSet, DataAndControl, Refined, DataOnly);
 
                 var statsPerFile = statsLog.GroupBy(t => t.Item2);
