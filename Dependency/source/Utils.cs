@@ -145,11 +145,37 @@ namespace Dependency
             {
                 foreach (var controlled in cd.Value)
                 {
-                    if (!dominatedBy.Keys.Contains(controlled))
+                    if (!dominatedBy.ContainsKey(controlled))
                         dominatedBy[controlled] = new HashSet<Block>();
                     dominatedBy[controlled].Add(cd.Key);
                 }
             }
+
+            // transitive closure needed here   
+            bool done;
+            do
+            {
+                done = true;
+                var newDominatedBy = new Dictionary<Block, HashSet<Block>>();
+                foreach (var dom in dominatedBy)
+                {
+                    var dominators = dom.Value;
+                    var newDominators = new HashSet<Block>();
+                    newDominators.UnionWith(dominators);
+                    foreach (var block in dominators)
+                    {   // each block is also dominated by the the dominators of its dominators   
+                        if (dominatedBy.Keys.Contains(block))
+                            newDominators.UnionWith(dominatedBy[block]);
+                    }
+                    newDominatedBy[dom.Key] = newDominators;
+                    if (newDominators.Count > dominators.Count)
+                        done = false;
+                }
+                if (!done)
+                    newDominatedBy.Iter(dom => dominatedBy[dom.Key].UnionWith(dom.Value));
+            } while (!done);
+            
+
         }
 
 
