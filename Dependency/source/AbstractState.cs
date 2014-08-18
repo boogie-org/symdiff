@@ -206,18 +206,10 @@ namespace Dependency
                 // fix the dependencies such that instead of the Implementation inputs\outputs
                 // it will adhere to the Procedure inputs\outputs
                 if (impl.OutParams.Contains(v))
-                {
-                    var fv = Utils.VariableUtils.ImplOutputToProcOutput(impl, v);
-                    if (!result.ContainsKey(fv))
-                        result[fv] = new HashSet<Variable>();
-                    result[fv].UnionWith(Utils.VariableUtils.ImplInputsToProcInputs(impl, dependency.Value));
-                }
-                else
-                {
-                    if (!result.ContainsKey(v))
-                        result[v] = new HashSet<Variable>();
-                    result[v].UnionWith(dependency.Value);
-                }
+                    v = Utils.VariableUtils.ImplOutputToProcOutput(impl, v);
+                if (!result.ContainsKey(v))
+                    result[v] = dependency.Value;
+                result[v].UnionWith(Utils.VariableUtils.ImplInputsToProcInputs(impl, dependency.Value));
             }
             this.JoinWith(result);
         }
