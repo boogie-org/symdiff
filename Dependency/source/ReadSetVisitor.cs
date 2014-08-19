@@ -41,6 +41,7 @@ namespace Dependency
                     ProcReadSet[currentProc].Add(Utils.VariableUtils.NonDetVar);
                     ProcReadSet[currentProc].UnionWith(currentProc.InParams);
                     ProcReadSet[currentProc].UnionWith(currentProc.OutParams);
+                    currentProc.Modifies.Iter(m => ProcReadSet[currentProc].UnionWith(Utils.VariableUtils.ExtractVars(m)));
                 }
                 else // a procedure with a body
                     Visit(impl);
