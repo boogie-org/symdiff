@@ -471,9 +471,7 @@ namespace Dependency
             var vident = vexpr as IdentifierExpr;
             if (vident == null)
                 throw new Exception(string.Format("Illegal variable expression {0} in {1} attribute", vexpr, RefineConsts.modSetGuardName));
-            GSet<object> freeVars = new GSet<object>();
-            vident.ComputeFreeVariables(freeVars);
-            Variable v = (Variable)freeVars.Choose();
+            var v = vident.Decl;
 
             //check for validity (presence of all input eq implies output is equal)
             var outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
@@ -542,12 +540,8 @@ namespace Dependency
                 Variable var = null;
                 if (core.Contains(VC.translator.LookupVariable(ig)))
                 {
-                    //TODO: really really ugly
                     IdentifierExpr iexpr = (IdentifierExpr)Utils.AttributeUtils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute)[1];
-                    GSet<object> freeVars1 = new GSet<object>();
-                    iexpr.ComputeFreeVariables(freeVars1);
-                    var w = (Variable)freeVars1.Choose();
-                    result[v].Add(w);
+                    result[v].Add(iexpr.Decl);
                 }
             }
             Console.WriteLine("\t Dependency of {0} = <{1}>",
