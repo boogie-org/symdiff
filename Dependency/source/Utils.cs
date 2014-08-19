@@ -271,7 +271,7 @@ namespace Dependency
                         var statsPerVar = pt.GroupBy(t => t.Item4);
                         foreach (var statsOfVar in statsPerVar)
                         {
-                            if (statsOfVar.All(t => !t.Item5.Contains(Utils.VariableUtils.NonDetVar)))
+                            if (statsOfVar.Where(t => t.Item1 == Refined).All(t => !t.Item5.Contains(Utils.VariableUtils.NonDetVar)))
                             { // if all datasets are non deterministic
                                 foreach (var t in statsOfVar)
                                 {
