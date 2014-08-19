@@ -50,8 +50,28 @@ namespace Dependency
         public void RunFixedPoint()
         {
             var worklist = new List<Procedure>();
-            worklist.AddRange(Utils.CallGraphHelper.BottomUp(Utils.CallGraphHelper.ComputeCallGraph(program))); //does this help?
-            // worklist.AddRange(program.TopLevelDeclarations.Where(d => d is Procedure).Select(p => p as Procedure));
+            bool acyclic;
+            List<Procedure> topSortedProcedures;
+            Graph<Procedure> callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);   //constant
+            callGraph.TarjanTopSort(out acyclic, out topSortedProcedures, true);
+            if (acyclic)
+                worklist.AddRange(topSortedProcedures);  //works if the graph is acyclic
+            else
+            {
+                //HACK: lets try with self-recursion (includes loops) removed
+                Graph<Procedure> selfLessCg = new Graph<Procedure>();
+                callGraph.Edges.Where(e => e.Item1 != e.Item2).Iter(e => selfLessCg.AddEdge(e.Item1, e.Item2));
+                selfLessCg.TarjanTopSort(out acyclic, out topSortedProcedures,true);
+                if (acyclic)
+                    worklist.AddRange(topSortedProcedures);
+                else
+                {
+                    Console.WriteLine("---------\nMutual recursion exists: the work lists are not optimized\n--------");
+                    //TODO: Compute SCCs and topSort over SCCs
+                    worklist.AddRange(Utils.CallGraphHelper.BottomUp(callGraph)); //does this help?
+                    // worklist.AddRange(program.TopLevelDeclarations.Where(d => d is Procedure).Select(p => p as Procedure));
+                }
+            }
 
             //least fixed point, starting with lower-bound
             currDependencies = new Dictionary<Procedure, Dependencies>(lowerBoundProcDependencies); 
@@ -64,19 +84,20 @@ namespace Dependency
                       if (!IsStub(kv.Key))
                       {
                           currDependencies[kv.Key].Iter
-                              (v =>
-                                  {
-                                      currDependencies[kv.Key][v.Key].Remove(Utils.VariableUtils.NonDetVar);
-                                  }
-                              );
+                              (v => currDependencies[kv.Key][v.Key].Remove(Utils.VariableUtils.NonDetVar));
                       }
-
                   }
                 );
 
             while (worklist.Count > 0)
             {
-                var proc = worklist.Last();
+                //the insertions into the Worklist also has to be sorted topologically
+                //TODO: handle the case for general recursion
+                if (topSortedProcedures.Count() > 0) //HACK!: we had a sorted list
+                {
+                    worklist = topSortedProcedures.Where(x => worklist.Contains(x)).ToList();
+                }
+                var proc = worklist.Last(); //why last?
                 worklist.Remove(proc);
 
                 var impl = program.Implementations().SingleOrDefault(i => i.Name == proc.Name);

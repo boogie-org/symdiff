@@ -572,7 +572,11 @@ namespace Dependency
             static public void WriteCallGraph(string filename, Graph<Procedure> callGraph)
             {
                 TextWriter output = new StreamWriter(filename + ".dot");
-                output.Write(callGraph.ToDot(p => p.ToString() /*+ procDependencies[p].ToString()*/));
+                var stubs =
+                    callGraph.Nodes.Where(p => callGraph.Successors(p).Count() == 0);
+                output.Write(callGraph.ToDot(p => p.ToString(), 
+                    p => 
+                        stubs.Contains(p) ? "[shape=box style=filled fillcolor=yellow]" : "[shape=oval]" ));
                 output.Close();
             }
         }

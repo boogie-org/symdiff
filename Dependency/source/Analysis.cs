@@ -109,32 +109,15 @@ namespace Dependency
                 Usage();
                 return -1;
             }
-            //ModSetCollector c = new ModSetCollector(); //TODO: fold it with ParseProgram
-            //c.DoModSetAnalysis(program);
 
             //cleanup assume value_is, as we are not printing a trace now
             (new Utils.RemoveValueIsAssumes()).Visit(program);
 
-            if (SemanticDep)
-            {
-                throw new NotImplementedException("This mode is deprecated. Use /refine:k instead");
-                //var refined = RefineDependencyProgramCreator.CreateCheckDependencyProgram(filename, program);
-                //var procDeps = RefineDependencyChecker.Run(refined);
+            Utils.CallGraphHelper.WriteCallGraph(filename + ".cg.dot", Utils.CallGraphHelper.ComputeCallGraph(program));
 
-                //foreach (var pd in procDeps)
-                //{
-                //    string origProcName = pd.Key.FindStringAttribute(RefineConsts.checkDepAttribute);
-                //    var impl = program.Implementations().Single(i => i.Name == origProcName); 
-                //    PopulateDependencyLog(impl, pd.Value, "Refined Dependencies");
-                //    //ComputeStats(impl, pd.Value, depVisitor.procDependencies[impl.Proc], dataDepVisitor.procDependencies[impl.Proc]);
-                //}
-            }
-            else 
-            {
-                if (changeList != null)
-                    PopulateChangeLog(changeList);
-                RunAnalysis(filename, program);
-            }
+            if (changeList != null) PopulateChangeLog(changeList);
+            RunAnalysis(filename, program);
+
 
             #region Display and Log
             var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog);
