@@ -518,26 +518,27 @@ namespace Dependency
             //Core may not be minimal (e.g. testdependencyDummy.bpl), need to iterate
             var core0 = unsatClauseIdentifiers.Select(i => assumptions[i]);
             var core = new List<VCExpr>(core0);
-            core0
-                .Iter(b =>
-                {
-                    core.Remove(b);
-                    preInp = core.Aggregate(VCExpressionGenerator.True, (x, y) => VC.exprGen.And(x, y));
-                    outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
-                    Console.Write(".");
-                    if (outcome != ProverInterface.Outcome.Valid)
+            if (!Analysis.dontTryMinUnsatCore)
+            {
+                core0
+                    .Iter(b =>
                     {
-                        core.Add(b);
-                        return;
-                    }
-                });
-
+                        core.Remove(b);
+                        preInp = core.Aggregate(VCExpressionGenerator.True, (x, y) => VC.exprGen.And(x, y));
+                        outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
+                        Console.Write(".");
+                        if (outcome != ProverInterface.Outcome.Valid)
+                        {
+                            core.Add(b);
+                            return;
+                        }
+                    });
+            }
             //We are about to refine the dependency of v, so we start with the empty set
             result[v] = new HashSet<Variable>();
             //TODO: THIS HAS TO GO AWAY with proper variables!!!
             foreach (var ig in inputGuardConsts)
             {
-                Variable var = null;
                 if (core.Contains(VC.translator.LookupVariable(ig)))
                 {
                     IdentifierExpr iexpr = (IdentifierExpr)Utils.AttributeUtils.GetAttributeVals(ig.Attributes, RefineConsts.readSetGuradAttribute)[1];
