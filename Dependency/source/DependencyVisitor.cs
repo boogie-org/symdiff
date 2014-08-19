@@ -53,24 +53,18 @@ namespace Dependency
             bool acyclic;
             List<Procedure> topSortedProcedures;
             Graph<Procedure> callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);   //constant
-            callGraph.TarjanTopSort(out acyclic, out topSortedProcedures, true);
+            //HACK: lets try with self-recursion (includes loops) removed
+            Graph<Procedure> selfLessCg = new Graph<Procedure>();
+            callGraph.Edges.Where(e => e.Item1 != e.Item2).Iter(e => selfLessCg.AddEdge(e.Item1, e.Item2));
+            selfLessCg.TarjanTopSort(out acyclic, out topSortedProcedures, true);
             if (acyclic)
-                worklist.AddRange(topSortedProcedures);  //works if the graph is acyclic
+                worklist.AddRange(topSortedProcedures);
             else
             {
-                //HACK: lets try with self-recursion (includes loops) removed
-                Graph<Procedure> selfLessCg = new Graph<Procedure>();
-                callGraph.Edges.Where(e => e.Item1 != e.Item2).Iter(e => selfLessCg.AddEdge(e.Item1, e.Item2));
-                selfLessCg.TarjanTopSort(out acyclic, out topSortedProcedures,true);
-                if (acyclic)
-                    worklist.AddRange(topSortedProcedures);
-                else
-                {
-                    Console.WriteLine("---------\nMutual recursion exists: the work lists are not optimized\n--------");
-                    //TODO: Compute SCCs and topSort over SCCs
-                    worklist.AddRange(Utils.CallGraphHelper.BottomUp(callGraph)); //does this help?
-                    // worklist.AddRange(program.TopLevelDeclarations.Where(d => d is Procedure).Select(p => p as Procedure));
-                }
+                Console.WriteLine("---------\nMutual recursion exists: the work lists are not optimized\n--------");
+                //TODO: Compute SCCs and topSort over SCCs
+                worklist.AddRange(Utils.CallGraphHelper.BottomUp(callGraph)); //does this help?
+                // worklist.AddRange(program.TopLevelDeclarations.Where(d => d is Procedure).Select(p => p as Procedure));
             }
 
             //least fixed point, starting with lower-bound
