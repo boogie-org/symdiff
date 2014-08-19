@@ -305,10 +305,10 @@ namespace Dependency
             if (program.Implementations().Where(x => x.Proc == callee).Count() == 0)
             {
                 ProcDependencies[callee] = new Dependencies();
-                //todo: 
+                // all outputs+modified depend on all inputs+modified
                 var outs = callee.OutParams.Union(callee.Modifies.Select(x => x.Decl));
                 foreach (var v in outs)
-                {   // all outputs depend on all inputs
+                {   
                     ProcDependencies[callee][v] = new HashSet<Variable>(callee.InParams.Union(callee.Modifies.Select(x => x.Decl)));
                     if (!detStubs /* || Utils.IsBakedInStub(callee)*/ ) //adding out == func(in) causes inconsistency for functions like malloc/det_choice etc.
                         ProcDependencies[callee][v].Add(Utils.VariableUtils.NonDetVar); // and on *
