@@ -161,11 +161,7 @@ namespace Dependency
 
         public override Program VisitProgram(Program node)
         {
-            foreach (var impl in program.Implementations())
-            {
-                if (!ProcDependencies.ContainsKey(impl.Proc)) // the proc may have been visited already through a caller
-                    Visit(impl);
-            }
+            program.Implementations().Iter(impl => Visit(impl));
             return node;
         }
 
