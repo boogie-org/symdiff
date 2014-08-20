@@ -29,7 +29,8 @@ namespace Dependency
             public const string detStubs = "/detStubs";
             public const string refine = "/refine";
             public const string readSet = "/readSet";
-            public const string dontTryMinUnsatCore = "/dontTryMinUnsatCore";
+            public const string noMinUnsatCore = "/noMinUnsatCore";
+            public const string timeout = "/timeout";
         }
 
         static public bool DataOnly = false;
@@ -41,7 +42,8 @@ namespace Dependency
         public static bool SemanticDep = false;
         public static bool ReadSet = false;
         static public int StackBound = 3;
-        static public bool dontTryMinUnsatCore = false;
+        static public bool noMinUnsatCore = false;
+        static public int Timeout = 1000;
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int, List<string>>> taintLog = new List<Tuple<string, string, int, List<string>>>();
@@ -96,6 +98,9 @@ namespace Dependency
             args.Where(x => x.StartsWith(CmdLineOptsNames.refine + ":"))
                 .Iter(s => StackBound = int.Parse(s.Split(':')[1]));
 
+            args.Where(x => x.StartsWith(CmdLineOptsNames.timeout + ":"))
+                .Iter(s => Timeout = int.Parse(s.Split(':')[1]));
+
             // refined must have pruned dependencies
             Prune = Refine || args.Any(x => x == CmdLineOptsNames.prune);
 
@@ -104,7 +109,7 @@ namespace Dependency
 
             ReadSet = args.Any(x => x.Contains(CmdLineOptsNames.readSet));
 
-            dontTryMinUnsatCore = args.Any(x => x.Contains(CmdLineOptsNames.dontTryMinUnsatCore));
+            noMinUnsatCore = args.Any(x => x.Contains(CmdLineOptsNames.noMinUnsatCore));
 
             if (args.Any(x => x.Contains(CmdLineOptsNames.debug)))
                 Debugger.Launch();
@@ -307,9 +312,9 @@ namespace Dependency
             if (Refine)
             {
                 var refineDepsWL = new RefineDependencyWL(filename, program, dataDeps, allDeps, StackBound);
-                LogStopwatch(sw, "Initial analysis");
-                refineDepsWL.RunFixedPoint();
-                LogStopwatch(sw, "After refined dependency analysis");
+                Utils.LogStopwatch(sw, "Initial analysis", Analysis.Timeout);
+                refineDepsWL.RunFixedPoint(sw);
+                Utils.LogStopwatch(sw, "After refined dependency analysis", Analysis.Timeout);
                 // print
                 refineDepsWL.currDependencies.Iter(pd => PopulateDependencyLog(program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name), pd.Value, "Refined"));
 
@@ -325,10 +330,7 @@ namespace Dependency
 
         }
 
-        private static void LogStopwatch(Stopwatch sw, string s)
-        {
-            Console.WriteLine("[STATS]: Time after {0} is {1} secs", s, sw.ElapsedMilliseconds / 1000);
-        }
+
 
         private static void Usage()
         {

@@ -518,7 +518,7 @@ namespace Dependency
             //Core may not be minimal (e.g. testdependencyDummy.bpl), need to iterate
             var core0 = unsatClauseIdentifiers.Select(i => assumptions[i]);
             var core = new List<VCExpr>(core0);
-            if (!Analysis.dontTryMinUnsatCore)
+            if (!Analysis.noMinUnsatCore)
             {
                 core0
                     .Iter(b =>

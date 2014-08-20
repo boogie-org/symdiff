@@ -52,7 +52,13 @@ namespace Dependency
             return true;
         }
 
-
+        public static void LogStopwatch(Stopwatch sw, string s, int timeout)
+        {
+            var t = sw.ElapsedMilliseconds/1000;
+            Console.WriteLine("[STATS]: Time after {0} is {1} secs", s, t);
+            if (t > timeout)
+                throw new Exception(string.Format("Timeout exceeded after {0} seconds", t));
+        }
 
         public static class AttributeUtils
         {
