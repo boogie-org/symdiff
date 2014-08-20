@@ -41,6 +41,7 @@ namespace Dependency
         static public bool Refine = false;
         public static bool SemanticDep = false;
         public static bool ReadSet = false;
+        public static bool Taint = false;
         static public int StackBound = 3;
         static public bool noMinUnsatCore = false;
         static public int Timeout = 1000;
@@ -108,6 +109,8 @@ namespace Dependency
                 throw new Exception("Argument k to /refine:k has to be > 1");
 
             ReadSet = args.Any(x => x.Contains(CmdLineOptsNames.readSet));
+
+            Taint = args.Any(x => x.Contains(CmdLineOptsNames.taint));
 
             noMinUnsatCore = args.Any(x => x.Contains(CmdLineOptsNames.noMinUnsatCore));
 
@@ -240,7 +243,7 @@ namespace Dependency
             statsLog.Add(new Tuple<string,string, Procedure, Variable,HashSet<Variable>>(type,Utils.AttributeUtils.GetImplSourceFile(impl), impl.Proc, key, value));
         }
 
-        private static void RunAnalysis(string filename, Program program, bool taintAll = false)
+        private static void RunAnalysis(string filename, Program program)
         {
             DependencyVisitor dataDepVisitor = new DependencyVisitor(filename, program, true, DetStubs);
             if (Refine || BothDependencies)

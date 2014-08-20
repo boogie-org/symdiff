@@ -139,7 +139,7 @@ namespace Dependency
 
         public Dictionary<Procedure, Dependencies> ProcDependencies = new Dictionary<Procedure, Dependencies>();
 
-        private Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure, HashSet<CallCmd>>();
+        //private Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure, HashSet<CallCmd>>();
         private Dictionary<Block, HashSet<Block>> dominatedBy = new Dictionary<Block, HashSet<Block>>();
 
         private Dictionary<Block, HashSet<Variable>> branchCondVars = new Dictionary<Block, HashSet<Variable>>(); // a mapping: branching Block -> { Variables in the branch conditional }
@@ -156,7 +156,7 @@ namespace Dependency
             this.detStubs = detStubs;
             this.nodeToImpl = Utils.ComputeNodeToImpl(program);
             this.callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);
-            this.worklist = new WorkList<Dependencies>(procCallers);
+            this.worklist = new WorkList<Dependencies>();
         }
 
         public override Program VisitProgram(Program node)
@@ -291,9 +291,6 @@ namespace Dependency
         public override Cmd VisitCallCmd(CallCmd node)
         {
             var callee = node.Proc;
-            if (!procCallers.ContainsKey(callee))
-                procCallers[callee] = new HashSet<CallCmd>();
-            procCallers[callee].Add(node);
             Block currBlock = worklist.cmdBlocks[node];
             Dependencies dependencies = worklist.GatherPredecessorsState(node, currBlock);
 
@@ -365,25 +362,13 @@ namespace Dependency
             return node;
         }
 
-        // this is a simple transformer for a command that has no effect on the state
-        public Cmd VisitCmd(Cmd node)
-        {
-            Block currBlock = worklist.cmdBlocks[node];
-            var dependencies = worklist.GatherPredecessorsState(node, currBlock);
-
-            if (worklist.Assign(node, dependencies))
-                worklist.Propagate(node);
-
-            return node;
-        }
-
         public override Cmd VisitAssumeCmd(AssumeCmd node)
         {
-            return VisitCmd(node);
+            return worklist.SimpleTransform(node) as Cmd;
         }
         public override Cmd VisitAssertCmd(AssertCmd node)
         {
-            return VisitCmd(node);
+            return worklist.SimpleTransform(node) as Cmd;
         }
 
         public override ReturnCmd VisitReturnCmd(ReturnCmd node)

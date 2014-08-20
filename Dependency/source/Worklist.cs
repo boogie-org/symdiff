@@ -17,12 +17,7 @@ namespace Dependency
         public Dictionary<Absy, AbsState> stateSpace = new Dictionary<Absy, AbsState>();
         internal List<Absy> workList = new List<Absy>();
         internal Dictionary<Absy, Block> cmdBlocks = new Dictionary<Absy, Block>();
-        internal Dictionary<Procedure, HashSet<CallCmd>> procCallers;
-
-        public WorkList(Dictionary<Procedure, HashSet<CallCmd>> procCallers)
-        {
-            this.procCallers = procCallers;
-        }
+        internal Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure,HashSet<CallCmd>>();
 
         internal AbsState GatherPredecessorsState(Absy node, Block currBlock)
         {
@@ -71,6 +66,16 @@ namespace Dependency
         internal bool Assign(Absy node, AbsState state)
         {
             Block block = cmdBlocks[node];
+
+            var callNode = (node as CallCmd);
+            if (callNode != null) // maintain procCallers
+            {
+                var callee = callNode.Proc;
+                if (!procCallers.ContainsKey(callee))
+                    procCallers[callee] = new HashSet<CallCmd>();
+                procCallers[callee].Add(callNode);
+            }
+
             // if the new state for the node is different, add all succesors to the worklist
             if (!stateSpace.ContainsKey(node))
                 stateSpace[node] = state;
@@ -114,6 +119,14 @@ namespace Dependency
             if (procCallers.ContainsKey(caller))
                 foreach (var cs in procCallers[caller])
                     workList.Add(cs);
+        }
+
+        // this is a simple transformer for a command that has no effect on the state
+        internal Absy SimpleTransform(Absy node)
+        {
+            if (Assign(node, GatherPredecessorsState(node, cmdBlocks[node])))
+                Propagate(node);
+            return node;
         }
 
         internal void RunFixedPoint(StandardVisitor visitor, Implementation node)

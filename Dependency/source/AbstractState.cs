@@ -63,22 +63,6 @@ namespace Dependency
             Clear();
             JoinWith(result);
         }
-
-        public void FixFormals(Implementation impl)
-        {
-            var result = new TaintSet();
-            foreach (var v in this)
-            {
-                // fix the dependencies such that instead of the Implementation outputs
-                // it will adhere to the Procedure outputs
-                if (impl.OutParams.Contains(v))
-                    result.Add(Utils.VariableUtils.ImplOutputToProcOutput(impl, v));
-                else
-                    result.Add(v);
-            }
-            Clear();
-            JoinWith(result);
-        }
     }
     public class Dependencies : Dictionary<Variable, HashSet<Variable>>, IAbstractState
     {
