@@ -1,7 +1,13 @@
 @echo off
+
+REM USAGE: run_dependency.bat
+
 setlocal
 
-set DEPEXE=..\bin\debug\Dependency.exe
+set oldDir= %~dp0
+set DEPEXE= %oldDir%\..\bin\debug\Dependency.exe
+
+call :RunWithOption " /readSet " "readSet"
 
 call :RunWithOption " /refine:2 /prune  /timeout:10000  /detStubs /noMinUnsatCore " "2.detstubs.nominunsat"
 call :RunWithOption " /refine:2 /prune  /timeout:10000            /noMinUnsatCore " "2.nominunsat"
@@ -17,11 +23,16 @@ goto end
 
 :RunWithOption
 
+
 for %%f in ("siemens\\tcas" "siemens\\print_tokens" "siemens\\replace" "siemens\\tot_info" "space") do (
   echo.
+  echo -------------------------------------------------------------
   echo -------------------- rUNNING %%f with %1 --------------------
-  %DEPEXE% %%f\\source.bpl "%1" 
-  move %%f\\source.bpl.html %%f\\source.bpl.%2.html
+  echo -------------------------------------------------------------
+  pushd %%f
+  %DEPEXE% source.bpl "%1"   
+  move source.bpl.html source.bpl.%2.html
+  popd
 )
 
 goto:EOF
