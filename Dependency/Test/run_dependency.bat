@@ -24,7 +24,7 @@ goto end
 :RunWithOption
 
 
-for %%f in ("siemens\\tcas" "siemens\\print_tokens" "siemens\\replace" "siemens\\tot_info" "space") do (
+for %%f in ("siemens\\tcas" "siemens\\print_tokens" "siemens\\replace" "siemens\\schedule" "siemens\\print_tokens2" "siemens\\tot_info" "space") do (
   echo.
   echo -------------------------------------------------------------
   echo -------------------- rUNNING %%f with %1 --------------------
