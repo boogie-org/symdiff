@@ -47,7 +47,7 @@ namespace Dependency
             );
         }
 
-        public void RunFixedPoint()
+        public void RunFixedPoint(Stopwatch sw)
         {
             var worklist = new List<Procedure>();
             bool acyclic;
@@ -97,6 +97,7 @@ namespace Dependency
                 var impl = program.Implementations().SingleOrDefault(i => i.Name == proc.Name);
                 if (impl == null)
                     continue;
+                Utils.LogStopwatch(sw, string.Format("Analyzing Procedure {0}", proc.Name), Analysis.Timeout);
 
                 var newProg = Utils.CrossProgramUtils.ReplicateProgram(program, filename);
                 // resolve dependencies, callGraph, impl, etc from program -> newProg
