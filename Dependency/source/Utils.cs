@@ -277,13 +277,12 @@ namespace Dependency
                         var statsPerVar = pt.GroupBy(t => t.Item4);
                         foreach (var statsOfVar in statsPerVar)
                         {
-                            if (statsOfVar.Where(t => t.Item1 == Refined).All(t => !t.Item5.Contains(Utils.VariableUtils.NonDetVar)))
-                            { // if all datasets are non deterministic
-                                foreach (var t in statsOfVar)
-                                {
-                                    vals[t.Item1] += t.Item5.Count;
-                                }
-                            }
+                            var statsOfRefined = statsOfVar.Where(t => t.Item1 == Refined);
+                            Debug.Assert(statsOfRefined.Count() <= 1);
+                            // if the refined dataset is non deterministic or no refined run exists:
+                            if ((statsOfRefined.Count() == 0) ||
+                                (statsOfRefined.Count() > 0 && statsOfRefined.All(t => !t.Item5.Contains(Utils.VariableUtils.NonDetVar))))
+                                statsOfVar.Iter(t => vals[t.Item1] += t.Item5.Count);
                         }
                         output.WriteLine("{0},{1},{2},{3},{4},{5}", ft.Key, pt.Key, vals[ReadSet], vals[DataAndControl], vals[Refined], vals[DataOnly]);
                     }
