@@ -62,6 +62,7 @@ namespace Dependency
 
         public static class AttributeUtils
         {
+            public const int WholeProcChangeAttributeVal = -1;
             public static List<object> GetAttributeVals(QKeyValue attributes, string key)
             {
                 for (QKeyValue attr = attributes; attr != null; attr = attr.Next)

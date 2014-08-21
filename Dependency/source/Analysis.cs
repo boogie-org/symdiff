@@ -41,7 +41,6 @@ namespace Dependency
         static public bool Refine = false;
         public static bool SemanticDep = false;
         public static bool ReadSet = false;
-        public static bool Taint = false;
         static public int StackBound = 3;
         static public bool noMinUnsatCore = false;
         static public int Timeout = 1000;
@@ -109,8 +108,6 @@ namespace Dependency
                 throw new Exception("Argument k to /refine:k has to be > 1");
 
             ReadSet = args.Any(x => x.Contains(CmdLineOptsNames.readSet));
-
-            Taint = args.Any(x => x.Contains(CmdLineOptsNames.taint));
 
             noMinUnsatCore = args.Any(x => x.Contains(CmdLineOptsNames.noMinUnsatCore));
 
@@ -207,16 +204,16 @@ namespace Dependency
             dependenciesLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, depStr));
         }
 
-        static public void PopulateTaintLog(Implementation node, WorkList<TaintSet> twl)
+        static public void PopulateTaintLog(Implementation node, WorkList<TaintSet> worklist)
         {
             Dictionary<int, TaintSet> lines = new Dictionary<int, TaintSet>();
             Dictionary<int, Tuple<string, string, int, List<string>>> tuples = new Dictionary<int, Tuple<string, string, int, List<string>>>();
             string sourcefile = Utils.AttributeUtils.GetImplSourceFile(node);
-            foreach (var pair in twl.stateSpace)
+            foreach (var pair in worklist.stateSpace)
             {
                 if (!(pair.Key is GotoCmd) || pair.Value.Count == 0)
                     continue;
-                Block block = twl.cmdBlocks[(GotoCmd)pair.Key];
+                Block block = worklist.cmdBlocks[(GotoCmd)pair.Key];
                 if (block.Cmds.Count > 0 && block.Cmds[0] is AssertCmd)
                 {
                     int sourceline = Utils.AttributeUtils.GetSourceLine((AssertCmd)block.Cmds[0]);
@@ -236,6 +233,7 @@ namespace Dependency
 
             foreach (var t in tuples.OrderBy(x => x.Key))
                 taintLog.Add(t.Value);
+
         }
 
         public static void PopulateStatsLog(string type, Implementation impl, Variable key, HashSet<Variable> value)
@@ -245,7 +243,7 @@ namespace Dependency
 
         private static void RunAnalysis(string filename, Program program)
         {
-            DependencyVisitor dataDepVisitor = new DependencyVisitor(filename, program, true, DetStubs);
+            var dataDepVisitor = new DependencyVisitor(filename, program, true, DetStubs);
             if (Refine || BothDependencies)
             {
                 dataDepVisitor.Visit(program);
@@ -273,20 +271,7 @@ namespace Dependency
             ReadSetVisitor rsVisitor = new ReadSetVisitor();
             if (ReadSet)
             {
-                rsVisitor.Visit(program);
-                // prune
-                if (Prune)
-                    rsVisitor.ProcReadSet.Keys.Iter(p => Utils.VariableUtils.PruneLocals(program.Implementations().SingleOrDefault(i => i.Proc.Name == p.Name), rsVisitor.ProcReadSet[p]));
-
-                // stats
-                if (PrintStats)
-                    rsVisitor.ProcReadSet.Iter(prs =>
-                    {
-                        var proc = prs.Key; var readSet = prs.Value;
-                        var impl = program.Implementations().SingleOrDefault(i => i.Proc.Name == proc.Name);
-                        if (impl != null) // conservatively each output\global is dependent on all of the readset
-                            readSet.Where(v => v is GlobalVariable || proc.OutParams.Contains(v)).Iter(v => PopulateStatsLog(Utils.StatisticsHelper.ReadSet, impl, v, readSet));
-                    });
+                RunReadSetAnalysis(program, rsVisitor);
 
                 // ReadSet must contain the Control+Data dependencies
                 Debug.Assert(rsVisitor.ProcReadSet.All(prs =>
@@ -310,27 +295,65 @@ namespace Dependency
                 }));
             }
 
-            
-
             if (Refine)
+                RunRefinedDepAnalysis(filename, program, dataDeps, allDeps);
+
+            if (changeLog.Count > 0)
+                RunTaintAnalysis(filename, program, allDeps);
+
+        }
+
+        private static void RunTaintAnalysis(string filename, Program program, Dictionary<Procedure, Dependencies> procDependencies)
+        {
+            var buTaintVisitor = new BottomUpTaintVisitor(filename, program, procDependencies, changeLog, DataOnly);
+            buTaintVisitor.Visit(program);
+
+            // TODO: TopDownTaintVisitor
+
+            // TODO: PruneTaintVisitor
+
+            // prune
+            if (Prune)
+                buTaintVisitor.ProcTaint.Keys.Iter(p => Utils.VariableUtils.PruneLocals(program.Implementations().SingleOrDefault(i => i.Proc.Name == p.Name), buTaintVisitor.ProcTaint[p]));
+
+            // print
+            program.Implementations().Iter(impl => PopulateTaintLog(impl, buTaintVisitor.worklist));
+        }
+
+        private static void RunRefinedDepAnalysis(string filename, Program program, Dictionary<Procedure, Dependencies> lowerBound, Dictionary<Procedure, Dependencies> upperBound)
+        {
+            var refineDepsWL = new RefineDependencyWL(filename, program, lowerBound, upperBound, StackBound);
+            Utils.LogStopwatch(sw, "Initial analysis", Analysis.Timeout);
+            refineDepsWL.RunFixedPoint(sw);
+            Utils.LogStopwatch(sw, "After refined dependency analysis", Analysis.Timeout);
+            // print
+            refineDepsWL.currDependencies.Iter(pd => PopulateDependencyLog(program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name), pd.Value, "Refined"));
+
+            // stats
+            refineDepsWL.currDependencies.Iter(pd =>
             {
-                var refineDepsWL = new RefineDependencyWL(filename, program, dataDeps, allDeps, StackBound);
-                Utils.LogStopwatch(sw, "Initial analysis", Analysis.Timeout);
-                refineDepsWL.RunFixedPoint(sw);
-                Utils.LogStopwatch(sw, "After refined dependency analysis", Analysis.Timeout);
-                // print
-                refineDepsWL.currDependencies.Iter(pd => PopulateDependencyLog(program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name), pd.Value, "Refined"));
+                var impl = program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name);
+                if (impl != null)
+                    pd.Value.Iter(dep => PopulateStatsLog(Utils.StatisticsHelper.Refined, impl, dep.Key, dep.Value));
+            });
+        }
 
-                // stats
-                refineDepsWL.currDependencies.Iter(pd =>
+        private static void RunReadSetAnalysis(Program program, ReadSetVisitor rsVisitor)
+        {
+            rsVisitor.Visit(program);
+            // prune
+            if (Prune)
+                rsVisitor.ProcReadSet.Keys.Iter(p => Utils.VariableUtils.PruneLocals(program.Implementations().SingleOrDefault(i => i.Proc.Name == p.Name), rsVisitor.ProcReadSet[p]));
+
+            // stats
+            if (PrintStats)
+                rsVisitor.ProcReadSet.Iter(prs =>
                 {
-                    var impl = program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name);
-                    if (impl != null)
-                        pd.Value.Iter(dep => PopulateStatsLog(Utils.StatisticsHelper.Refined, impl, dep.Key, dep.Value));
+                    var proc = prs.Key; var readSet = prs.Value;
+                    var impl = program.Implementations().SingleOrDefault(i => i.Proc.Name == proc.Name);
+                    if (impl != null) // conservatively each output\global is dependent on all of the readset
+                        readSet.Where(v => v is GlobalVariable || proc.OutParams.Contains(v)).Iter(v => PopulateStatsLog(Utils.StatisticsHelper.ReadSet, impl, v, readSet));
                 });
-                    
-            }
-
         }
 
 

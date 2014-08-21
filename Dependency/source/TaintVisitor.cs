@@ -25,14 +25,13 @@ namespace Dependency
 
         public WorkList<TaintSet> worklist;
 
-        private HashSet<string> changedProcs;
-        private HashSet<int> changedLines;
+        private HashSet<Procedure> changedProcs;
         private HashSet<Block> changedBlocks;
 
         private bool dataOnly;
 
 
-        public BottomUpTaintVisitor(string filename, Program program, Dictionary<Procedure, Dependencies> procDependencies, HashSet<int> changedLines, HashSet<string> changedProcs, bool dataOnly = false)
+        public BottomUpTaintVisitor(string filename, Program program, Dictionary<Procedure, Dependencies> procDependencies, List<Tuple<string,string,int>> changeLog, bool dataOnly = false)
         {
             this.filename = filename;
             this.program = program;
@@ -48,12 +47,26 @@ namespace Dependency
 
             this.worklist = new WorkList<TaintSet>();
 
-            this.changedLines = (changedLines != null) ? changedLines : new HashSet<int>();
-            this.changedProcs = (changedProcs != null) ? changedProcs : new HashSet<string>();
+            // populate changedProcs,changedBlock from changedLines
+            this.changedProcs = new HashSet<Procedure>();
             this.changedBlocks = new HashSet<Block>();
+            foreach (var changesPerFile in changeLog.GroupBy(t => t.Item1)) {
+                foreach (var changesPerProc in changesPerFile.GroupBy(t => t.Item2)) {
+                    var impl = program.Implementations().FirstOrDefault(i => i.Proc.Name == changesPerProc.Key);
+                    if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) != null)
+                        this.changedProcs.Add(impl.Proc); // whole procedure changed
+                    else foreach (var procChange in changesPerProc)
+	                {
+                        // add in the block pertaining to the changed line
+                        impl.Blocks.Where(b => b.Cmds.Count > 0 && 
+                                          b.Cmds[0] is AssertCmd && 
+                                          Utils.AttributeUtils.GetSourceLine(b.Cmds[0] as AssertCmd) == procChange.Item3)
+                                            .Iter(b => changedBlocks.Add(b));
+	                }
+                }
+            }
 
             this.dataOnly = dataOnly;
-            
         }
 
         public override Program VisitProgram(Program node)
@@ -102,7 +115,7 @@ namespace Dependency
             // the assignment has the potential to cleanse the taint
             taintSet.RemoveWhere(v => node.Lhss.Exists(l => Utils.VariableUtils.ExtractVars(l).Contains(v)));
 
-            if (changedProcs.Contains(nodeToImpl[node].Proc.Name) || changedBlocks.Contains(currBlock)  // native taint
+            if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)  // native taint
                 || InferDominatorTaint(currBlock)) // control taint
             {
                 node.Lhss.Iter(lhs => taintSet.Add(Utils.VariableUtils.ExtractVars(lhs).First()));
@@ -137,7 +150,7 @@ namespace Dependency
             taintSet.RemoveWhere(v => node.Outs.Exists(o => o.Decl == v));
             taintSet.RemoveWhere(g => deps.ModSet().Contains(g));
 
-            if (changedProcs.Contains(nodeToImpl[node].Proc.Name) || changedBlocks.Contains(currBlock)  // native taint
+            if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)  // native taint
                 || InferDominatorTaint(currBlock)) // control taint
             {
                 node.Outs.Iter(lhs => taintSet.Add(lhs.Decl));
@@ -209,7 +222,7 @@ namespace Dependency
             // the assignment has the potential to cleanse the taint
             taintSet.RemoveWhere(v => node.Vars.Exists(o => o.Decl == v));
 
-            if (changedProcs.Contains(nodeToImpl[node].Proc.Name) || changedBlocks.Contains(currBlock)  // native taint
+            if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)  // native taint
                 || InferDominatorTaint(currBlock)) // control taint
                 node.Vars.Iter(v => taintSet.Add(v.Decl));
 
