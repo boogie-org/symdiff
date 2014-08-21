@@ -209,7 +209,7 @@ namespace Dependency
             var dataDeps = dataDepVisitor.ProcDependencies;
             
             if (Refine || BothDependencies)
-                RunDependencyAnalysis(program, dataDepVisitor);
+                RunDependencyAnalysis(program, dataDepVisitor, Utils.StatisticsHelper.DataOnly);
 
             dataDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
             dataDepVisitor = null;
@@ -218,11 +218,7 @@ namespace Dependency
             var allDepVisitor = new DependencyVisitor(filename, program, changeLog, DataOnly, DetStubs);
             var allDeps = allDepVisitor.ProcDependencies;
 
-            RunDependencyAnalysis(program, allDepVisitor);
-
-            if (changeLog.Count > 0)
-                // extract taint from dependencies and print
-                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(allDepVisitor.worklist)));
+            RunDependencyAnalysis(program, allDepVisitor, Utils.StatisticsHelper.DataAndControl,true);
 
             allDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
             allDepVisitor = null;
@@ -263,24 +259,28 @@ namespace Dependency
 
             if (Refine)
                 RunRefinedDepAnalysis(filename, program, dataDeps, allDeps);
-
-            // print taint
-            //program.Implementations().Iter(impl => PopulateTaintLog(impl, allDeps.worklist));
-
         }
 
-        private static void RunDependencyAnalysis(Program program, DependencyVisitor visitor)
+        private static void RunDependencyAnalysis(Program program, DependencyVisitor visitor, string kind, bool printTaint = false)
         {
             visitor.Visit(program);
             var deps = visitor.ProcDependencies;
 
+            if (printTaint && changeLog.Count > 0)
+                // extract taint from dependencies and print
+                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(visitor.worklist)));
+
             if (Prune)
                 Utils.DependenciesUtils.PruneProcDependencies(program, deps);
 
-            program.Implementations().Iter(impl => PopulateDependencyLog(impl, deps[impl.Proc], Utils.StatisticsHelper.DataOnly));
+            program.Implementations().Iter(impl => PopulateDependencyLog(impl, deps[impl.Proc], kind));
+
+            if (changeLog.Count > 0)
+                // remove the special taint var
+                deps.Values.Iter(dep => dep.Values.Iter(d => d.Remove(Utils.VariableUtils.TaintVar)));
 
             if (PrintStats)
-                program.Implementations().Iter(impl => deps[impl.Proc].Iter(dep => PopulateStatsLog(Utils.StatisticsHelper.DataOnly, impl, dep.Key, dep.Value)));
+                program.Implementations().Iter(impl => deps[impl.Proc].Iter(dep => PopulateStatsLog(kind, impl, dep.Key, dep.Value)));
         }
 
         private static void RunRefinedDepAnalysis(string filename, Program program, Dictionary<Procedure, Dependencies> lowerBound, Dictionary<Procedure, Dependencies> upperBound)
