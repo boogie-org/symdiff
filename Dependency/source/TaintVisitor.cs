@@ -165,27 +165,55 @@ namespace Dependency
                     return node;
                 }
 
-                // data taint
-                for (int i = 0; i < node.Ins.Count; ++i)
-                {
-                    var lhs = Utils.VariableUtils.ExtractVars(node.Outs[i]).First(); // TODO: stuff like: Mem_T.INT4[in_prio] := out_tempBoogie0
-                    var rhsVars = Utils.VariableUtils.ExtractVars(node.Ins[i]);
+                //TODO: remove code dup here and review again!
 
-                    var formalIn = node.Proc.InParams[i];
+                // data taint for outputs
+                for (int i = 0; i < node.Outs.Count; ++i)
+                {
+                    var lhs = node.Outs[i].Decl;
                     var formalOut = node.Proc.OutParams[i];
 
                     if (ProcTaint[callee].Contains(formalOut) || // callee's output is natively tainted
-                        deps[formalOut].Contains(formalIn) || // callee's output depends on a tainted input
                         predTaintSet.FirstOrDefault(g => g is GlobalVariable && deps[formalOut].Contains(g)) != null) // callee's output depends on a tainted global
-                        taintSet.Add(lhs); 
+                    {
+                        taintSet.Add(lhs);
+                        continue;
+                    }
 
-                    foreach (var g in deps.Keys.Where(v => v is GlobalVariable))
-                        if (ProcTaint[callee].Contains(g) || // callee's global is natively tainted
-                            deps[g].Contains(formalIn) || // callee's global depends on a tainted input
-                            deps[g].Intersect(predTaintSet).Count() > 0) // callee's global depends on a tainted global
+                    for (int j = 0; j < node.Ins.Count; ++j) {
+                        if (Utils.VariableUtils.ExtractVars(node.Ins[j]).Intersect(predTaintSet).Count() == 0)
+                            continue;
+                        var formalIn = node.Proc.InParams[j];
+                        if (deps[formalOut].Contains(formalIn)) // callee's output depends on a tainted input
+                        {
+                            taintSet.Add(lhs);
+                            break;
+                        }
+                    }
+                }
+
+                // data taint for globals
+                foreach (var g in deps.ModSet().Where(v => v is GlobalVariable)) {
+                    if (ProcTaint[callee].Contains(g) || // callee's global is natively tainted
+                        deps[g].Intersect(predTaintSet).Count() > 0) // callee's global depends on a tainted global
+                    {
+                        taintSet.Add(g);
+                        continue;
+                    }
+                    for (int j = 0; j < node.Ins.Count; ++j) {
+                        if (Utils.VariableUtils.ExtractVars(node.Ins[j]).Intersect(predTaintSet).Count() == 0)
+                            continue;
+                        var formalIn = node.Proc.InParams[j];
+                        if (deps[g].Contains(formalIn)) // callee's global depends on a tainted input
+                        {
                             taintSet.Add(g);
+                            break;
+                        }
+                    }
                 }
             }
+
+            Console.WriteLine("Taint after calling " + node + " = " + taintSet);
 
             if (worklist.Assign(node, taintSet))
                 worklist.Propagate(node);
