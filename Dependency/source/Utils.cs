@@ -185,10 +185,24 @@ namespace Dependency
 
         }
 
+        public static HashSet<Block> ExtractTaint(WorkList<Dependencies> worklist)
+        {
+            var result = new HashSet<Block>();
+            foreach (var stmt in worklist.stateSpace.Keys)
+	        {
+                var deps = worklist.stateSpace[stmt];
+                foreach (var v in VariableUtils.ExtractVars(stmt))
+		            if (deps.ContainsKey(v) && deps[v].Contains(VariableUtils.TaintVar))
+                        result.Add(worklist.cmdBlocks[stmt]);
+	        }
+            return result;
+        }
+
 
         public static class VariableUtils
         {
             public static GlobalVariable NonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
+            public static GlobalVariable TaintVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "~", Microsoft.Boogie.Type.Int));
 
             // TOOD: replace this with a static function that recieves an Absy and returns HashSet<Variable>
             private class VariableExtractor : StandardVisitor
@@ -201,6 +215,7 @@ namespace Dependency
                 }
             }
             private static VariableExtractor varExtractor = new VariableExtractor();
+            
             public static HashSet<Variable> ExtractVars(Absy node)
             {
                 varExtractor.vars = new HashSet<Variable>();
@@ -336,9 +351,9 @@ namespace Dependency
         public class DisplayHtmlHelper
         {
             List<Tuple<string, string, int>> changedLines;  //{(file, func, line),..}
-            List<Tuple<string, string, int, List<string>>> taintedLines; //{(file, func, line, {v1,..vn}), ..}
+            List<Tuple<string, string, int>> taintedLines; //{(file, func, line), ..}
             List<Tuple<string, string, int, string>> dependenciesLines; //{(file, func, line, {v1 <- {...},... vn <- {...}})}
-            public DisplayHtmlHelper(List<Tuple<string, string, int>> changes, List<Tuple<string, string, int, List<string>>> taints, List<Tuple<string, string, int, string>> dependencies)
+            public DisplayHtmlHelper(List<Tuple<string, string, int>> changes, List<Tuple<string, string, int>> taints, List<Tuple<string, string, int, string>> dependencies)
             {
                 changedLines = changes;
                 taintedLines = taints;

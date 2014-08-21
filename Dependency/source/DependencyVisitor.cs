@@ -137,26 +137,55 @@ namespace Dependency
         private Graph<Procedure> callGraph;
         private Dictionary<Absy, Implementation> nodeToImpl;
 
-        public Dictionary<Procedure, Dependencies> ProcDependencies = new Dictionary<Procedure, Dependencies>();
+        public Dictionary<Procedure, Dependencies> ProcDependencies;
 
-        //private Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure, HashSet<CallCmd>>();
-        private Dictionary<Block, HashSet<Block>> dominatedBy = new Dictionary<Block, HashSet<Block>>();
-
-        private Dictionary<Block, HashSet<Variable>> branchCondVars = new Dictionary<Block, HashSet<Variable>>(); // a mapping: branching Block -> { Variables in the branch conditional }
+        private Dictionary<Block, HashSet<Block>> dominatedBy;
+        private Dictionary<Block, HashSet<Variable>> branchCondVars; // a mapping: branching Block -> { Variables in the branch conditional }
         public WorkList<Dependencies> worklist;
+
+        private HashSet<Procedure> changedProcs;
+        private HashSet<Block> changedBlocks;
 
         private bool dataOnly;
         private bool detStubs;
 
-        public DependencyVisitor(string filename, Program program, bool dataOnly = false, bool detStubs = false)
+        public DependencyVisitor(string filename, Program program, List<Tuple<string,string,int>> changeLog, bool dataOnly = false, bool detStubs = false)
         {
             this.filename = filename;
             this.program = program;
+
+            this.callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);
+            this.nodeToImpl = Utils.ComputeNodeToImpl(program);
+
+            this.ProcDependencies = new Dictionary<Procedure, Dependencies>();
+
+            this.dominatedBy = new Dictionary<Block, HashSet<Block>>();
+            this.branchCondVars = new Dictionary<Block, HashSet<Variable>>();
+
+            this.worklist = new WorkList<Dependencies>();
+
+            // populate changedProcs,changedBlock from changedLines
+            this.changedProcs = new HashSet<Procedure>();
+            this.changedBlocks = new HashSet<Block>();
+            foreach (var changesPerFile in changeLog.GroupBy(t => t.Item1))
+            {
+                foreach (var changesPerProc in changesPerFile.GroupBy(t => t.Item2))
+                {
+                    var impl = program.Implementations().FirstOrDefault(i => i.Proc.Name == changesPerProc.Key);
+                    if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) != null)
+                        this.changedProcs.Add(impl.Proc); // whole procedure changed
+                    else foreach (var procChange in changesPerProc)
+                        {
+                            // add in the block pertaining to the changed line
+                            impl.Blocks.Where(b => b.Cmds != null && b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd &&
+                                              Utils.AttributeUtils.GetSourceLine(b.Cmds[0] as AssertCmd) == procChange.Item3)
+                                                .Iter(b => changedBlocks.Add(b));
+                        }
+                }
+            }
+
             this.dataOnly = dataOnly;
             this.detStubs = detStubs;
-            this.nodeToImpl = Utils.ComputeNodeToImpl(program);
-            this.callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);
-            this.worklist = new WorkList<Dependencies>();
         }
 
         public override Program VisitProgram(Program node)
@@ -187,6 +216,9 @@ namespace Dependency
                 dependencies[v].Add(Utils.VariableUtils.NonDetVar);
 
                 InferDominatorDependency(currBlock, dependencies[v], v);
+
+                if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
+                    dependencies[v].Add(Utils.VariableUtils.TaintVar);
             }
 
             if (worklist.Assign(node, dependencies))
@@ -238,6 +270,9 @@ namespace Dependency
                 InferDominatorDependency(currBlock, dependsSet, lhs);
 
                 dependencies[lhs] = dependsSet;
+
+                if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
+                    dependencies[lhs].Add(Utils.VariableUtils.TaintVar);
             }
 
             if (worklist.Assign(node, dependencies))
@@ -329,7 +364,9 @@ namespace Dependency
                 {
                     inputExpressionsDependency[current].Add(v);
                     if (dependencies.Keys.Contains(v))
+                    {
                         inputExpressionsDependency[current].UnionWith(dependencies[v]);
+                    }
                 }
             }
 
@@ -344,6 +381,9 @@ namespace Dependency
                 dependencies[actualOutput] = inferedOutputDependency;
 
                 InferDominatorDependency(currBlock, dependencies[actualOutput], actualOutput); // conditionals may dominate/taint the return value
+
+                if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
+                    dependencies[actualOutput].Add(Utils.VariableUtils.TaintVar); // only applies to actual outputs (i.e. bottom up)
             }
 
             // handle globals affected by the call
@@ -385,21 +425,6 @@ namespace Dependency
             ProcDependencies[proc].FixFormals(nodeToImpl[node]);
 
             return node;
-        }
-
-        // TODO: this should not exist
-        public void Results(bool prune, bool printStats)
-        {
-            if (prune)
-                Utils.DependenciesUtils.PruneProcDependencies(program, ProcDependencies);
-            foreach (Implementation impl in program.Implementations())
-            {
-                var proc = impl.Proc;
-                Analysis.PopulateDependencyLog(impl, ProcDependencies[proc], dataOnly ? "Data Only" : "Data and Control");
-                if (printStats) // TODO: move to main
-                    foreach (var d in ProcDependencies[proc])
-                        Analysis.PopulateStatsLog(dataOnly ? Utils.StatisticsHelper.DataOnly : Utils.StatisticsHelper.DataAndControl,impl,d.Key,d.Value);
-            }
         }
     }
 }

@@ -46,12 +46,12 @@ namespace Dependency
         static public int Timeout = 1000;
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
-        static private List<Tuple<string, string, int, List<string>>> taintLog = new List<Tuple<string, string, int, List<string>>>();
+        static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int, string>> dependenciesLog = new List<Tuple<string, string, int, string>>();
+        static private List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>> statsLog = new List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>>();
         static private string statsFile;
 
-        static private List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>> statsLog = new List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>>();
-        static private List<Tuple<string, string, int, int, int>> comparativeStats = new List<Tuple<string, string, int, int, int>>();
+        
 
         static private Program program;
 
@@ -128,7 +128,7 @@ namespace Dependency
 
             Utils.CallGraphHelper.WriteCallGraph(filename + ".cg.dot", Utils.CallGraphHelper.ComputeCallGraph(program));
 
-            if (changeList != null) PopulateChangeLog(changeList);
+            if (changeList != null) PopulateChangeLog(changeList,program);
             RunAnalysis(filename, program);
 
 
@@ -139,53 +139,36 @@ namespace Dependency
 
             if (PrintStats)
             {
-                if (SemanticDep)
-                    Utils.StatisticsHelper.GenerateCSVOutputForSemDep(comparativeStats, filename + ".csv");
-                else
-                {
-                    Utils.StatisticsHelper.GenerateCSVOutput(statsFile, statsLog);
-                    Console.WriteLine("Statistics generated in " + statsFile);
-                }
+                Utils.StatisticsHelper.GenerateCSVOutput(statsFile, statsLog);
+                Console.WriteLine("Statistics generated in " + statsFile);
             }
             #endregion
             sw.Stop();
             return 0;
         }
 
-        private static void ComputeStats(Implementation impl, Dependencies refinedDeps, Dependencies dataControlDeps, Dependencies dataOnlyDeps)
+        public static void PopulateChangeLog(string changelist, Program program)
         {
-
-            var proc = impl.Proc;
-            int refinedCount = 0, dataOnlyCount = 0, dataControlCount = 0;
-
-            foreach (var rfd in refinedDeps)
-            {
-                if (rfd.Value.Contains(Utils.VariableUtils.NonDetVar)) //TODO: compare based on string // ignore vars which depend on *
-                    continue;
-
-                refinedCount += rfd.Value.Count;
-
-                // find the current variable dependnecy set in the previously computed
-                dataControlCount += dataControlDeps.Single(cdd => cdd.Key.Name == rfd.Key.Name).Value.Count;
-                dataOnlyCount += dataOnlyDeps.Single(dod => dod.Key.Name == rfd.Key.Name).Value.Count;
-            }
-
-            string sourcefile = null;
-            impl.Blocks.FirstOrDefault(b => b.Cmds.Count > 0 && (sourcefile = Utils.AttributeUtils.GetSourceFile(b.Cmds[0] as AssertCmd)) != null);
-            comparativeStats.Add(new Tuple<string, string, int, int, int>(sourcefile, proc.Name, dataControlCount, dataOnlyCount, refinedCount));
-        }
-
-        // TODO: add a option for marking an entire function as tainted. maybe by adding a line like: funcname,-1 to the changelist
-        public static void PopulateChangeLog(string filename)
-        {
-            if (filename == null)
+            if (changelist == null)
                 return;
-            StreamReader reader = File.OpenText(filename);
+            StreamReader reader = File.OpenText(changelist);
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                string[] items = line.Split(',');
-                changeLog.Add(Tuple.Create(filename, items[0], int.Parse(items[1])));
+                try  
+                {
+                    string[] items = line.Split(',');
+                    string procName = items[0].Trim(), procFile = null;
+                    // locate the source file for the procedure
+                    var impl = program.Implementations().Single(i => i.Name == procName);
+                    impl.Blocks.Find(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd && (procFile = Utils.AttributeUtils.GetSourceFile(b.Cmds[0] as AssertCmd)) != null);
+                    changeLog.Add(Tuple.Create(procFile, procName, int.Parse(items[1])));
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Warning: Ignoring misformed/empty line in {0}: {1}",changelist,line);
+                    continue;
+                }
             }
         }
 
@@ -204,36 +187,15 @@ namespace Dependency
             dependenciesLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, depStr));
         }
 
-        static public void PopulateTaintLog(Implementation node, WorkList<TaintSet> worklist)
+        static public void PopulateTaintLog(Implementation node, HashSet<Block> taintedBlocks)
         {
-            Dictionary<int, TaintSet> lines = new Dictionary<int, TaintSet>();
-            Dictionary<int, Tuple<string, string, int, List<string>>> tuples = new Dictionary<int, Tuple<string, string, int, List<string>>>();
             string sourcefile = Utils.AttributeUtils.GetImplSourceFile(node);
-            foreach (var pair in worklist.stateSpace)
+            foreach (var block in taintedBlocks)
             {
-                if (!(pair.Key is GotoCmd) || pair.Value.Count == 0)
-                    continue;
-                Block block = worklist.cmdBlocks[(GotoCmd)pair.Key];
-                if (block.Cmds.Count > 0 && block.Cmds[0] is AssertCmd)
-                {
-                    int sourceline = Utils.AttributeUtils.GetSourceLine((AssertCmd)block.Cmds[0]);
-                    if (sourceline >= 0)
-                    {
-                        var taintSet = pair.Value;
-                        // multiple boogie lines may corrsepond to a single source line
-                        // so the taint there would be the join of taint over all boogie lines
-                        if (lines.ContainsKey(sourceline))
-                            taintSet.JoinWith(lines[sourceline]);
-                        lines[sourceline] = taintSet;
-                        List<string> varNames = taintSet.Select(x => x.Name).ToList<string>();
-                        tuples[sourceline] = new Tuple<string, string, int, List<string>>(sourcefile, node.Proc.Name, sourceline, varNames);
-                    }
-                }
+                int sourceline = Utils.AttributeUtils.GetSourceLine(block.Cmds[0] as AssertCmd);
+                if (sourceline >= 0)
+                    taintLog.Add(new Tuple<string, string, int>(sourcefile, node.Proc.Name, sourceline));
             }
-
-            foreach (var t in tuples.OrderBy(x => x.Key))
-                taintLog.Add(t.Value);
-
         }
 
         public static void PopulateStatsLog(string type, Implementation impl, Variable key, HashSet<Variable> value)
@@ -243,22 +205,26 @@ namespace Dependency
 
         private static void RunAnalysis(string filename, Program program)
         {
-            var dataDepVisitor = new DependencyVisitor(filename, program, true, DetStubs);
-            if (Refine || BothDependencies)
-            {
-                dataDepVisitor.Visit(program);
-                dataDepVisitor.Results(Prune, PrintStats);
-            }
-            dataDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
+            var dataDepVisitor = new DependencyVisitor(filename, program, changeLog, true, DetStubs);
             var dataDeps = dataDepVisitor.ProcDependencies;
+            
+            if (Refine || BothDependencies)
+                RunDependencyAnalysis(program, dataDepVisitor);
+
+            dataDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
             dataDepVisitor = null;
             GC.Collect();
 
-            var allDepVisitor = new DependencyVisitor(filename, program, DataOnly, DetStubs);
-            allDepVisitor.Visit(program);
-            allDepVisitor.Results(Prune, PrintStats);
-            allDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
+            var allDepVisitor = new DependencyVisitor(filename, program, changeLog, DataOnly, DetStubs);
             var allDeps = allDepVisitor.ProcDependencies;
+
+            RunDependencyAnalysis(program, allDepVisitor);
+
+            if (changeLog.Count > 0)
+                // extract taint from dependencies and print
+                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(allDepVisitor.worklist)));
+
+            allDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
             allDepVisitor = null;
             GC.Collect();
 
@@ -298,26 +264,23 @@ namespace Dependency
             if (Refine)
                 RunRefinedDepAnalysis(filename, program, dataDeps, allDeps);
 
-            if (changeLog.Count > 0)
-                RunTaintAnalysis(filename, program, allDeps);
+            // print taint
+            //program.Implementations().Iter(impl => PopulateTaintLog(impl, allDeps.worklist));
 
         }
 
-        private static void RunTaintAnalysis(string filename, Program program, Dictionary<Procedure, Dependencies> procDependencies)
+        private static void RunDependencyAnalysis(Program program, DependencyVisitor visitor)
         {
-            var buTaintVisitor = new BottomUpTaintVisitor(filename, program, procDependencies, changeLog, DataOnly);
-            buTaintVisitor.Visit(program);
+            visitor.Visit(program);
+            var deps = visitor.ProcDependencies;
 
-            // TODO: TopDownTaintVisitor
-
-            // TODO: PruneTaintVisitor
-
-            // prune
             if (Prune)
-                buTaintVisitor.ProcTaint.Keys.Iter(p => Utils.VariableUtils.PruneLocals(program.Implementations().SingleOrDefault(i => i.Proc.Name == p.Name), buTaintVisitor.ProcTaint[p]));
+                Utils.DependenciesUtils.PruneProcDependencies(program, deps);
 
-            // print
-            program.Implementations().Iter(impl => PopulateTaintLog(impl, buTaintVisitor.worklist));
+            program.Implementations().Iter(impl => PopulateDependencyLog(impl, deps[impl.Proc], Utils.StatisticsHelper.DataOnly));
+
+            if (PrintStats)
+                program.Implementations().Iter(impl => deps[impl.Proc].Iter(dep => PopulateStatsLog(Utils.StatisticsHelper.DataOnly, impl, dep.Key, dep.Value)));
         }
 
         private static void RunRefinedDepAnalysis(string filename, Program program, Dictionary<Procedure, Dependencies> lowerBound, Dictionary<Procedure, Dependencies> upperBound)
