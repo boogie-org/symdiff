@@ -158,7 +158,6 @@ namespace Dependency
                 }
             }
 
-            // transitive closure needed here   
             bool done;
             do
             {
@@ -192,7 +191,9 @@ namespace Dependency
 	        {
                 var deps = worklist.stateSpace[stmt];
                 foreach (var v in VariableUtils.ExtractVars(stmt))
-		            if (deps.ContainsKey(v) && deps[v].Contains(VariableUtils.TaintVar))
+		            if (deps.ContainsKey(v) && 
+                        (deps[v].Contains(VariableUtils.BottomUpTaintVar) ||
+                         deps[v].Contains(VariableUtils.TopDownTaintVar)))
                         result.Add(worklist.cmdBlocks[stmt]);
 	        }
             return result;
@@ -202,7 +203,8 @@ namespace Dependency
         public static class VariableUtils
         {
             public static GlobalVariable NonDetVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "*", Microsoft.Boogie.Type.Int));
-            public static GlobalVariable TaintVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "~", Microsoft.Boogie.Type.Int));
+            public static GlobalVariable BottomUpTaintVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "^", Microsoft.Boogie.Type.Int));
+            public static GlobalVariable TopDownTaintVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "~", Microsoft.Boogie.Type.Int));
 
             // TOOD: replace this with a static function that recieves an Absy and returns HashSet<Variable>
             private class VariableExtractor : StandardVisitor

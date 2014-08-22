@@ -1,8 +1,4 @@
-﻿//#define DBG
-//#define DBGRES
-//#define DBGDOMS
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -224,18 +220,28 @@ namespace Dependency
             allDepVisitor = null;
             GC.Collect();
 
-            // Control+Data dependencies must contain the Data dependencies
+            #region Control+Data dependencies must contain the Data dependencies
             Debug.Assert(dataDeps.All(pd => { 
                 var proc = pd.Key; var ddeps = pd.Value; var adeps = allDeps[proc];
-                return ddeps.Keys.All(v => adeps.Keys.Contains(v) && adeps[v].IsSupersetOf(ddeps[v]));          
+                return ddeps.Keys.All(v => {
+                    if (!adeps.Keys.Contains(v)) {
+                        Console.WriteLine("{2}: {0} not contained in {1}",v,adeps.ToString(),proc);
+                        return false;
+                    }
+                    if (!adeps[v].IsSupersetOf(ddeps[v])) {
+                        Console.WriteLine("{3}: {0} not superset of {1} for {2}", adeps.ToString(), ddeps.ToString(), v, proc);
+                        return false;
+                    }
+                    return true;
+                });          
             }));
+            #endregion
 
             ReadSetVisitor rsVisitor = new ReadSetVisitor();
             if (ReadSet)
             {
                 RunReadSetAnalysis(program, rsVisitor);
-
-                // ReadSet must contain the Control+Data dependencies
+                #region ReadSet must contain the Control+Data dependencies
                 Debug.Assert(rsVisitor.ProcReadSet.All(prs =>
                 {
                     var proc = prs.Key; var readSet = prs.Value;
@@ -255,6 +261,7 @@ namespace Dependency
                         return true;
                     });
                 }));
+                #endregion
             }
 
             if (Refine)
@@ -277,7 +284,7 @@ namespace Dependency
 
             if (changeLog.Count > 0)
                 // remove the special taint var
-                deps.Values.Iter(dep => dep.Values.Iter(d => d.Remove(Utils.VariableUtils.TaintVar)));
+                deps.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));
 
             if (PrintStats)
                 program.Implementations().Iter(impl => deps[impl.Proc].Iter(dep => PopulateStatsLog(kind, impl, dep.Key, dep.Value)));

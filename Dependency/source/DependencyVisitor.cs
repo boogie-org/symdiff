@@ -143,6 +143,7 @@ namespace Dependency
         private Dictionary<Block, HashSet<Variable>> branchCondVars; // a mapping: branching Block -> { Variables in the branch conditional }
         public WorkList<Dependencies> worklist;
 
+        private Dictionary<Procedure, Dependencies> procTDTaint;
         private HashSet<Procedure> changedProcs;
         private HashSet<Block> changedBlocks;
 
@@ -164,6 +165,7 @@ namespace Dependency
 
             this.worklist = new WorkList<Dependencies>();
 
+            this.procTDTaint = new Dictionary<Procedure, Dependencies>();
             // populate changedProcs,changedBlock from changedLines
             this.changedProcs = new HashSet<Procedure>();
             this.changedBlocks = new HashSet<Block>();
@@ -191,6 +193,25 @@ namespace Dependency
         public override Program VisitProgram(Program node)
         {
             program.Implementations().Iter(impl => Visit(impl));
+            // compute top down taint
+            var topDownTaintWL = new HashSet<Implementation>();
+            topDownTaintWL.UnionWith(program.Implementations());
+            bool done = false;
+            while (!done)
+	        {
+                done = true;
+                foreach (var proc in procTDTaint.Keys)
+                {
+                    var impl = program.Implementations().Single(i => i.Proc == proc);
+                    var entry = Utils.GetImplEntry(impl);
+                    if (worklist.stateSpace[entry].JoinWith(procTDTaint[impl.Proc]))
+                    {
+                        worklist.Propagate(entry);
+                        VisitImplementation(impl);
+                        done = false;
+                    }
+                }
+	        }
             return node;
         }
 
@@ -218,7 +239,7 @@ namespace Dependency
                 InferDominatorDependency(currBlock, dependencies[v], v);
 
                 if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
-                    dependencies[v].Add(Utils.VariableUtils.TaintVar);
+                    dependencies[v].Add(Utils.VariableUtils.BottomUpTaintVar);
             }
 
             if (worklist.Assign(node, dependencies))
@@ -272,7 +293,7 @@ namespace Dependency
                 dependencies[lhs] = dependsSet;
 
                 if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
-                    dependencies[lhs].Add(Utils.VariableUtils.TaintVar);
+                    dependencies[lhs].Add(Utils.VariableUtils.BottomUpTaintVar);
             }
 
             if (worklist.Assign(node, dependencies))
@@ -326,6 +347,7 @@ namespace Dependency
         public override Cmd VisitCallCmd(CallCmd node)
         {
             var callee = node.Proc;
+            var calleeImpl = program.Implementations().FirstOrDefault(i => i.Proc == callee);
             Block currBlock = worklist.cmdBlocks[node];
             Dependencies dependencies = worklist.GatherPredecessorsState(node, currBlock);
 
@@ -356,8 +378,10 @@ namespace Dependency
 
             // first, for f(e1,...,ek) find the dependency set of each ei
             var inputExpressionsDependency = new List<HashSet<Variable>>();
-            foreach (var inExpr in node.Ins)
+            var topDownTaint = new Dependencies();
+            for (int i = 0; i < node.Ins.Count; ++i)
             {
+                var inExpr = node.Ins[i];
                 inputExpressionsDependency.Add(new HashSet<Variable>());
                 int current = inputExpressionsDependency.Count - 1;
                 foreach (var v in Utils.VariableUtils.ExtractVars(inExpr))
@@ -366,8 +390,35 @@ namespace Dependency
                     if (dependencies.Keys.Contains(v))
                     {
                         inputExpressionsDependency[current].UnionWith(dependencies[v]);
+                        if (calleeImpl != null && // not a stub
+                            (dependencies[v].Contains(Utils.VariableUtils.BottomUpTaintVar) ||
+                             dependencies[v].Contains(Utils.VariableUtils.TopDownTaintVar)))
+                        {   // top down taint from input
+                            var input = calleeImpl.InParams[i];
+                            topDownTaint[input] = new HashSet<Variable>();
+                            topDownTaint[input].Add(Utils.VariableUtils.TopDownTaintVar);
+                        }
                     }
                 }
+            }
+
+            foreach (var g in dependencies.Keys.Where(v => v is GlobalVariable && callee.Modifies.Exists(m => Utils.VariableUtils.ExtractVars(m).Contains(v))))
+            {
+                if (calleeImpl != null && // not a stub
+                    (dependencies[g].Contains(Utils.VariableUtils.BottomUpTaintVar) ||
+                     dependencies[g].Contains(Utils.VariableUtils.TopDownTaintVar)))
+                {   // top down taint from global
+                    topDownTaint[g] = new HashSet<Variable>();
+                    topDownTaint[g].Add(Utils.VariableUtils.TopDownTaintVar);
+                }
+            }
+
+            if (calleeImpl != null)
+            {
+                // propagate tainted inputs\globals to the callsite
+                if (!procTDTaint.ContainsKey(callee))
+                    procTDTaint[callee] = new Dependencies();
+                procTDTaint[callee].JoinWith(topDownTaint);
             }
 
             // handle outputs affected by the call
@@ -383,7 +434,7 @@ namespace Dependency
                 InferDominatorDependency(currBlock, dependencies[actualOutput], actualOutput); // conditionals may dominate/taint the return value
 
                 if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
-                    dependencies[actualOutput].Add(Utils.VariableUtils.TaintVar); // only applies to actual outputs (i.e. bottom up)
+                    dependencies[actualOutput].Add(Utils.VariableUtils.BottomUpTaintVar); // only applies to actual outputs (i.e. bottom up)
             }
 
             // handle globals affected by the call
@@ -423,7 +474,8 @@ namespace Dependency
                 ProcDependencies[proc] = new Dependencies();
             ProcDependencies[proc].JoinWith(worklist.stateSpace[node]);
             ProcDependencies[proc].FixFormals(nodeToImpl[node]);
-
+            // top down taint can't flow up
+            ProcDependencies[proc].Values.Iter(d => d.Remove(Utils.VariableUtils.TopDownTaintVar));
             return node;
         }
     }
