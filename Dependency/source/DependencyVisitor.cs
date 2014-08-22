@@ -375,6 +375,7 @@ namespace Dependency
             }
 
             var calleeDependencies = ProcDependencies[callee];
+            bool nativeTaint = changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock);
 
             // first, for f(e1,...,ek) find the dependency set of each ei
             var inputExpressionsDependency = new List<HashSet<Variable>>();
@@ -391,7 +392,8 @@ namespace Dependency
                     {
                         inputExpressionsDependency[current].UnionWith(dependencies[v]);
                         if (calleeImpl != null && // not a stub
-                            (dependencies[v].Contains(Utils.VariableUtils.BottomUpTaintVar) ||
+                            (nativeTaint || // if the line syntactically changed, we assume all of the actuals introduce top-down taint
+                             dependencies[v].Contains(Utils.VariableUtils.BottomUpTaintVar) ||
                              dependencies[v].Contains(Utils.VariableUtils.TopDownTaintVar)))
                         {   // top down taint from input
                             var input = calleeImpl.InParams[i];
@@ -433,7 +435,7 @@ namespace Dependency
 
                 InferDominatorDependency(currBlock, dependencies[actualOutput], actualOutput); // conditionals may dominate/taint the return value
 
-                if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
+                if (nativeTaint) // native taint
                     dependencies[actualOutput].Add(Utils.VariableUtils.BottomUpTaintVar); // only applies to actual outputs (i.e. bottom up)
             }
 
