@@ -216,6 +216,28 @@ namespace Dependency
 
             RunDependencyAnalysis(program, allDepVisitor, Utils.StatisticsHelper.DataAndControl,true);
 
+            //// test SB deps
+            //Random rnd = new Random();
+            //foreach (var impl in program.Implementations())
+            //{
+            //    Console.WriteLine("Deps[" + impl + "] = " + allDeps[impl.Proc]);
+            //    Console.WriteLine("Superblock = " + Utils.DependenciesUtils.SuperBlockDependencies(impl.Blocks, allDepVisitor.worklist.stateSpace[impl.Blocks.Last().TransferCmd], allDeps));
+            //    int start = rnd.Next(0, impl.Blocks.Count);
+            //    int num = rnd.Next(1, impl.Blocks.Count - start);
+            //    var superBlock = impl.Blocks.GetRange(start, num);
+            //    var exitBlock = superBlock.Last();
+            //    if (!allDepVisitor.worklist.stateSpace.ContainsKey(exitBlock.TransferCmd))
+            //    {
+            //        Console.WriteLine("Block " + impl.Blocks[start + num] + " not in statspace");
+            //        Debug.Assert(false);
+            //    }
+            //    var deps = Utils.DependenciesUtils.SuperBlockDependencies(superBlock, allDepVisitor.worklist.stateSpace[exitBlock.TransferCmd], allDeps);
+            //    Console.Write("Deps for [");
+            //    impl.Blocks.GetRange(start, num).Iter(b => Console.Write(b + ","));
+            //    Console.Write("]:");
+            //    Console.WriteLine(deps);
+            //}
+
             allDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
             allDepVisitor = null;
             GC.Collect();
@@ -237,7 +259,7 @@ namespace Dependency
             }));
             #endregion
 
-            ReadSetVisitor rsVisitor = new ReadSetVisitor();
+            ProcReadSetVisitor rsVisitor = new ProcReadSetVisitor();
             if (ReadSet)
             {
                 RunReadSetAnalysis(program, rsVisitor);
@@ -266,6 +288,14 @@ namespace Dependency
 
             if (Refine)
                 RunRefinedDepAnalysis(filename, program, dataDeps, allDeps);
+
+            // TODO: create tainted blocks and block dependencies
+            Dictionary<Procedure,List<Block>> taintedBlocks = new Dictionary<Procedure,List<Block>>();
+            Dictionary<Block, Dependencies> blockDeps = new Dictionary<Block,Dependencies>();
+            AbstractedTaint.CreateAbstractedTaintProgram(program, allDeps,blockDeps, taintedBlocks);
+
+
+            
         }
 
         private static void RunDependencyAnalysis(Program program, DependencyVisitor visitor, string kind, bool printTaint = false)
@@ -308,7 +338,7 @@ namespace Dependency
             });
         }
 
-        private static void RunReadSetAnalysis(Program program, ReadSetVisitor rsVisitor)
+        private static void RunReadSetAnalysis(Program program, ProcReadSetVisitor rsVisitor)
         {
             rsVisitor.Visit(program);
             // prune

@@ -8,7 +8,7 @@ using Microsoft.Boogie.GraphUtil;
 
 namespace Dependency
 {
-    class ReadSetVisitor : StandardVisitor
+    class ProcReadSetVisitor : StandardVisitor
     {
 
         public Dictionary<Procedure, HashSet<Variable>> ProcReadSet = new Dictionary<Procedure, HashSet<Variable>>();
@@ -80,5 +80,65 @@ namespace Dependency
             return base.VisitCallCmd(node);
         }
         
+    }
+
+    class SimpleReadSetVisitor : StandardVisitor
+    {
+        public HashSet<Variable> ReadSet;
+        Dictionary<Procedure, Dependencies> procDependencies;
+
+        public SimpleReadSetVisitor(Dictionary<Procedure, Dependencies> procDependencies)
+        {
+            this.ReadSet = new HashSet<Variable>();
+            this.procDependencies = procDependencies;
+        }
+
+        public override Cmd VisitAssignCmd(AssignCmd node)
+        {
+            node.Lhss.Iter(lhs => ReadSet.UnionWith(Utils.VariableUtils.ExtractVars(lhs)));
+            return node;
+        }
+
+        public override Cmd VisitAssumeCmd(AssumeCmd node)
+        {
+            ReadSet.UnionWith(Utils.VariableUtils.ExtractVars(node.Expr));
+            return node;
+        }
+        
+        public override Cmd VisitCallCmd(CallCmd node)
+        {
+            node.Ins.Iter(i => ReadSet.UnionWith(Utils.VariableUtils.ExtractVars(i)));
+            ReadSet.UnionWith(procDependencies[node.Proc].ReadSet().Where(v => v is GlobalVariable));
+            return node;
+        }
+    }
+
+    class SimpleModSetVisitor : StandardVisitor
+    {
+        public HashSet<Variable> ModSet;
+        Dictionary<Procedure, Dependencies> procDependencies;
+
+        public SimpleModSetVisitor(Dictionary<Procedure, Dependencies> procDependencies)
+        {
+            this.ModSet = new HashSet<Variable>();
+            this.procDependencies = procDependencies;
+        }
+
+        public override Cmd VisitAssignCmd(AssignCmd node)
+        {
+            node.Rhss.Iter(rhs => ModSet.UnionWith(Utils.VariableUtils.ExtractVars(rhs)));
+            return node;
+        }
+        public override Cmd VisitHavocCmd(HavocCmd node)
+        {
+            node.Vars.Iter(e => ModSet.Add(e.Decl));
+            return node;
+        }
+        public override Cmd VisitCallCmd(CallCmd node)
+        {
+            node.Outs.Iter(o => ModSet.UnionWith(Utils.VariableUtils.ExtractVars(o)));
+            ModSet.UnionWith(procDependencies[node.Proc].ModSet().Where(v => v is GlobalVariable));
+            return node;
+        }
     }
 }

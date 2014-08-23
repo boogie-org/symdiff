@@ -14,6 +14,17 @@ using BType = Microsoft.Boogie.Type;
 
 namespace Dependency
 {
+    public static class Extensions
+    {
+        public static void Print(this HashSet<Variable> vars)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{ ");
+            vars.Iter(v => sb.Append(v.ToString() + (v == vars.Last() ? "" : ",")));
+            sb.Append(" }");
+            Console.WriteLine(sb.ToString());
+        }
+    }
     class Utils
     {
 
@@ -129,6 +140,29 @@ namespace Dependency
             {
                 procDependencies.Iter(pd => { var impl = program.Implementations().SingleOrDefault(i => i.Proc == pd.Key); if (impl != null) pd.Value.Prune(impl); });
             }
+
+            public static Dependencies SuperBlockDependencies(AbstractedTaint.SuperBlock superBlock, Dependencies exitBlockDeps, Dictionary<Procedure, Dependencies> procDependencies)
+            {
+                var result = new Dependencies();
+                var rsVisitor = new SimpleReadSetVisitor(procDependencies);
+                var msVisitor = new SimpleModSetVisitor(procDependencies);
+
+                // extract read & mod set from blocks
+                rsVisitor.Visit(superBlock.StartBlock); msVisitor.Visit(superBlock.StartBlock);
+                superBlock.AllBlocks.Iter(b => { rsVisitor.Visit(b); msVisitor.Visit(b); });
+
+                //Console.WriteLine("exitBlockDeps = " + exitBlockDeps);
+                //Console.WriteLine("readSet = ");
+                //rsVisitor.ReadSet.Print();
+                //Console.WriteLine("modSet = ");
+                //msVisitor.ModSet.Print();
+
+                // create the superblock dependencies using the exit block
+                exitBlockDeps.Where(d => msVisitor.ModSet.Contains(d.Key))
+                             .Iter(d => result[d.Key] = new HashSet<Variable>(d.Value.Intersect(rsVisitor.ReadSet)));
+
+                return result;
+            }
         }
 
         public static Dictionary<Absy, Implementation> ComputeNodeToImpl(Program program)
@@ -206,13 +240,12 @@ namespace Dependency
             public static GlobalVariable BottomUpTaintVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "^", Microsoft.Boogie.Type.Int));
             public static GlobalVariable TopDownTaintVar = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, "~", Microsoft.Boogie.Type.Int));
 
-            // TOOD: replace this with a static function that recieves an Absy and returns HashSet<Variable>
             private class VariableExtractor : StandardVisitor
             {
-                public HashSet<Variable> vars = new HashSet<Variable>();
+                public HashSet<Variable> Vars = new HashSet<Variable>();
                 public override Variable VisitVariable(Variable node)
                 {
-                    vars.Add(node);
+                    Vars.Add(node);
                     return node;
                 }
             }
@@ -220,9 +253,9 @@ namespace Dependency
             
             public static HashSet<Variable> ExtractVars(Absy node)
             {
-                varExtractor.vars = new HashSet<Variable>();
+                varExtractor.Vars = new HashSet<Variable>();
                 varExtractor.Visit(node);
-                return varExtractor.vars;
+                return varExtractor.Vars;
             }
 
             public static void PruneLocals(Implementation impl, HashSet<Variable> vars)
