@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="source\AbstractedTaint.cs" />
     <Compile Include="source\AbstractState.cs" />
     <Compile Include="source\Analysis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

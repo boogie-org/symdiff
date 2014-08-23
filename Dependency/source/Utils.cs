@@ -11,6 +11,7 @@ using Microsoft.Boogie.VCExprAST;
 using VC;
 using Microsoft.Basetypes;
 using BType = Microsoft.Boogie.Type;
+using Dependency;
 
 namespace Dependency
 {

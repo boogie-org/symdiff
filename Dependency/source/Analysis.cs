@@ -27,6 +27,7 @@ namespace Dependency
             public const string readSet = "/readSet";
             public const string noMinUnsatCore = "/noMinUnsatCore";
             public const string timeout = "/timeout";
+            public const string abstractNonTainted = "/abstractNonTainted"; //generate a program with non-tainted parts abstracted
         }
 
         static public bool DataOnly = false;
@@ -40,6 +41,7 @@ namespace Dependency
         static public int StackBound = 3;
         static public bool noMinUnsatCore = false;
         static public int Timeout = 1000;
+        static public bool AbstractNonTainted = false;
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
@@ -106,6 +108,8 @@ namespace Dependency
             ReadSet = args.Any(x => x.Contains(CmdLineOptsNames.readSet));
 
             noMinUnsatCore = args.Any(x => x.Contains(CmdLineOptsNames.noMinUnsatCore));
+
+            AbstractNonTainted = args.Any(x => x.Contains(CmdLineOptsNames.abstractNonTainted));
 
             if (args.Any(x => x.Contains(CmdLineOptsNames.debug)))
                 Debugger.Launch();
@@ -290,12 +294,12 @@ namespace Dependency
                 RunRefinedDepAnalysis(filename, program, dataDeps, allDeps);
 
             // TODO: create tainted blocks and block dependencies
-            Dictionary<Procedure,List<Block>> taintedBlocks = new Dictionary<Procedure,List<Block>>();
-            Dictionary<Block, Dependencies> blockDeps = new Dictionary<Block,Dependencies>();
-            AbstractedTaint.CreateAbstractedTaintProgram(program, allDeps,blockDeps, taintedBlocks);
-
-
-            
+            if (AbstractNonTainted)
+            {
+                Dictionary<Procedure, List<Block>> taintedBlocks = new Dictionary<Procedure, List<Block>>();
+                Dictionary<Block, Dependencies> blockDeps = new Dictionary<Block, Dependencies>();
+                AbstractedTaint.CreateAbstractedTaintProgram(program, allDeps, blockDeps, taintedBlocks);
+            }            
         }
 
         private static void RunDependencyAnalysis(Program program, DependencyVisitor visitor, string kind, bool printTaint = false)
