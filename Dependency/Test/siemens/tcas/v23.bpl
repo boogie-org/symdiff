@@ -537,397 +537,397 @@ var {:extern} Up_Separation: int;
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "Alt_Layer_Value"} {:sourceFile ".\source\tcas.c"} {:sourceLine 58} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "Alt_Layer_Value"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 58} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "Climb_Inhibit"} {:sourceFile ".\source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "Pred.2"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 118} unique __ctobpl_const_61: int;
 
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 97} unique __ctobpl_const_34: int;
 
-const {:extern} {:model_const "Up_Separation"} {:sourceFile ".\source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_7: int;
+const {:extern} {:model_const "Pred.8"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 97} unique __ctobpl_const_39: int;
 
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_8: int;
+const {:extern} {:model_const "Up_Separation"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 97} unique __ctobpl_const_37: int;
 
-const {:extern} {:model_const "Positive_RA_Alt_Thresh[Alt_Layer_Value]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 58} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "Pred.8"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 97} unique __ctobpl_const_38: int;
 
-const {:extern} {:model_const "Up_Separation"} {:sourceFile ".\source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 97} unique __ctobpl_const_40: int;
 
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tcas.c"} {:sourceLine 63} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "Pred.4"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 93} unique __ctobpl_const_49: int;
 
-const {:extern} {:model_const "Pred.6"} {:sourceFile ".\source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_77: int;
+const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 109} unique __ctobpl_const_52: int;
 
-const {:extern} {:model_const "alt_sep"} {:sourceFile ".\source\tcas.c"} {:sourceLine 132} unique __ctobpl_const_94: int;
+const {:extern} {:model_const "Pred.2"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 118} unique __ctobpl_const_59: int;
 
-const {:extern} {:model_const "Pred.3"} {:sourceFile ".\source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_69: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 165} unique __ctobpl_const_156: int;
 
-const {:extern} {:model_const "Pred.9"} {:sourceFile ".\source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_83: int;
+const {:extern} {:model_const "High_Confidence"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 118} unique __ctobpl_const_55: int;
 
-const {:extern} {:model_const "Pred.9"} {:sourceFile ".\source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_86: int;
+const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 104} unique __ctobpl_const_53: int;
 
-const {:extern} {:model_const "alt_sep"} {:sourceFile ".\source\tcas.c"} {:sourceLine 141} unique __ctobpl_const_95: int;
+const {:extern} {:model_const "result.ALIM"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 93} unique __ctobpl_const_44: int;
 
-const {:extern} {:model_const "Positive_RA_Alt_Thresh[0]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 50} unique __ctobpl_const_96: int;
+const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 93} unique __ctobpl_const_43: int;
 
-const {:extern} {:model_const "Positive_RA_Alt_Thresh[1]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 51} unique __ctobpl_const_97: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 166} unique __ctobpl_const_157: int;
 
-const {:extern} {:model_const "Positive_RA_Alt_Thresh[2]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 52} unique __ctobpl_const_98: int;
+const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 97} unique __ctobpl_const_35: int;
 
-const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile ".\source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_76: int;
+const {:extern} {:model_const "Pred.4"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 93} unique __ctobpl_const_46: int;
 
-const {:extern} {:model_const "enabled"} {:sourceFile ".\source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_71: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 99} unique __ctobpl_const_50: int;
 
-const {:extern} {:model_const "intent_not_known"} {:sourceFile ".\source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_73: int;
+const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 109} unique __ctobpl_const_51: int;
 
-const {:extern} {:model_const "intent_not_known"} {:sourceFile ".\source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_68: int;
+const {:extern} {:model_const "Down_Separation"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 93} unique __ctobpl_const_45: int;
 
-const {:extern} {:model_const "Pred.6"} {:sourceFile ".\source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_78: int;
+const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 104} unique __ctobpl_const_54: int;
 
-const {:extern} {:model_const "Pred.3"} {:sourceFile ".\source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_67: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 93} unique __ctobpl_const_48: int;
 
-const {:extern} {:model_const "alt_sep"} {:sourceFile ".\source\tcas.c"} {:sourceLine 122} unique __ctobpl_const_70: int;
+const {:extern} {:model_const "upward_preferred"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 91} unique __ctobpl_const_33: int;
 
-const {:extern} {:model_const "need_upward_RA"} {:sourceFile ".\source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_79: int;
+const {:extern} {:model_const "Own_Tracked_Alt_Rate"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 118} unique __ctobpl_const_56: int;
 
-const {:extern} {:model_const "need_downward_RA"} {:sourceFile ".\source\tcas.c"} {:sourceLine 128} unique __ctobpl_const_88: int;
+const {:extern} {:model_const "enabled"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 118} unique __ctobpl_const_60: int;
 
-const {:extern} {:model_const "Pred.9"} {:sourceFile ".\source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_84: int;
+const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 118} unique __ctobpl_const_57: int;
 
-const {:extern} {:model_const "need_upward_RA"} {:sourceFile ".\source\tcas.c"} {:sourceLine 133} unique __ctobpl_const_89: int;
+const {:extern} {:model_const "Pred.4"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 93} unique __ctobpl_const_47: int;
 
-const {:extern} {:model_const "tcas_equipped"} {:sourceFile ".\source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_74: int;
+const {:extern} {:model_const "result.ALIM"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 97} unique __ctobpl_const_36: int;
 
-const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile ".\source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_82: int;
+const {:extern} {:model_const "Pred.2"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 118} unique __ctobpl_const_58: int;
 
-const {:extern} {:model_const "Pred.6"} {:sourceFile ".\source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_80: int;
+const {:extern} {:model_const "Up_Separation"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 90} unique __ctobpl_const_32: int;
 
-const {:extern} {:model_const "need_upward_RA"} {:sourceFile ".\source\tcas.c"} {:sourceLine 128} unique __ctobpl_const_87: int;
+const {:extern} {:model_const "Pred.8"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 97} unique __ctobpl_const_41: int;
 
-const {:extern} {:model_const "need_downward_RA"} {:sourceFile ".\source\tcas.c"} {:sourceLine 135} unique __ctobpl_const_90: int;
+const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 93} unique __ctobpl_const_42: int;
 
-const {:extern} {:model_const "tcas_equipped"} {:sourceFile ".\source\tcas.c"} {:sourceLine 124} unique __ctobpl_const_72: int;
+const {:extern} {:model_const "Pred.9"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 127} unique __ctobpl_const_83: int;
 
-const {:extern} {:model_const "result.Non_Crossing_Biased_Climb"} {:sourceFile ".\source\tcas.c"} {:sourceLine 126} unique __ctobpl_const_75: int;
+const {:extern} {:model_const "Pred.9"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 127} unique __ctobpl_const_84: int;
 
-const {:extern} {:model_const "result.Non_Crossing_Biased_Descend"} {:sourceFile ".\source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_81: int;
+const {:extern} {:model_const "Two_of_Three_Reports_Valid"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 120} unique __ctobpl_const_64: int;
 
-const {:extern} {:model_const "need_downward_RA"} {:sourceFile ".\source\tcas.c"} {:sourceLine 127} unique __ctobpl_const_85: int;
+const {:extern} {:model_const "Pred.6"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 126} unique __ctobpl_const_78: int;
 
-const {:extern} {:model_const "alt_sep"} {:sourceFile ".\source\tcas.c"} {:sourceLine 138} unique __ctobpl_const_91: int;
+const {:extern} {:model_const "Pred.6"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 126} unique __ctobpl_const_80: int;
 
-const {:extern} {:model_const "alt_sep"} {:sourceFile ".\source\tcas.c"} {:sourceLine 136} unique __ctobpl_const_92: int;
+const {:extern} {:model_const "need_upward_RA"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 128} unique __ctobpl_const_87: int;
 
-const {:extern} {:model_const "alt_sep"} {:sourceFile ".\source\tcas.c"} {:sourceLine 134} unique __ctobpl_const_93: int;
+const {:extern} {:model_const "result.Non_Crossing_Biased_Climb"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 126} unique __ctobpl_const_75: int;
 
-const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile ".\source\tcas.c"} {:sourceLine 109} unique __ctobpl_const_51: int;
+const {:extern} {:model_const "need_upward_RA"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 126} unique __ctobpl_const_79: int;
 
-const {:extern} {:model_const "High_Confidence"} {:sourceFile ".\source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_55: int;
+const {:extern} {:model_const "need_downward_RA"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 127} unique __ctobpl_const_85: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_48: int;
+const {:extern} {:model_const "Pred.3"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 120} unique __ctobpl_const_66: int;
 
-const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile ".\source\tcas.c"} {:sourceLine 104} unique __ctobpl_const_53: int;
+const {:extern} {:model_const "need_downward_RA"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 128} unique __ctobpl_const_88: int;
 
-const {:extern} {:model_const "Pred.2"} {:sourceFile ".\source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_61: int;
+const {:extern} {:model_const "tcas_equipped"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 124} unique __ctobpl_const_72: int;
 
-const {:extern} {:model_const "tcas_equipped"} {:sourceFile ".\source\tcas.c"} {:sourceLine 119} unique __ctobpl_const_62: int;
+const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 127} unique __ctobpl_const_82: int;
 
-const {:extern} {:model_const "Other_Capability"} {:sourceFile ".\source\tcas.c"} {:sourceLine 119} unique __ctobpl_const_63: int;
+const {:extern} {:model_const "alt_sep"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 122} unique __ctobpl_const_70: int;
 
-const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile ".\source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_43: int;
+const {:extern} {:model_const "need_upward_RA"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 133} unique __ctobpl_const_89: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\tcas.c"} {:sourceLine 99} unique __ctobpl_const_50: int;
+const {:extern} {:model_const "need_downward_RA"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 135} unique __ctobpl_const_90: int;
 
-const {:extern} {:model_const "Pred.5"} {:sourceFile ".\source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_47: int;
+const {:extern} {:model_const "alt_sep"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 138} unique __ctobpl_const_91: int;
 
-const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile ".\source\tcas.c"} {:sourceLine 109} unique __ctobpl_const_52: int;
+const {:extern} {:model_const "alt_sep"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 136} unique __ctobpl_const_92: int;
 
-const {:extern} {:model_const "Pred.9"} {:sourceFile ".\source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_39: int;
+const {:extern} {:model_const "enabled"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 124} unique __ctobpl_const_71: int;
 
-const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile ".\source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_42: int;
+const {:extern} {:model_const "result.Non_Crossing_Biased_Descend"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 127} unique __ctobpl_const_81: int;
 
-const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile ".\source\tcas.c"} {:sourceLine 104} unique __ctobpl_const_54: int;
+const {:extern} {:model_const "Other_Capability"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 119} unique __ctobpl_const_63: int;
 
-const {:extern} {:model_const "Two_of_Three_Reports_Valid"} {:sourceFile ".\source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_64: int;
+const {:extern} {:model_const "Pred.3"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 120} unique __ctobpl_const_67: int;
 
-const {:extern} {:model_const "Pred.9"} {:sourceFile ".\source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_41: int;
+const {:extern} {:model_const "intent_not_known"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 124} unique __ctobpl_const_73: int;
 
-const {:extern} {:model_const "Pred.5"} {:sourceFile ".\source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_49: int;
+const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 126} unique __ctobpl_const_76: int;
 
-const {:extern} {:model_const "Other_RAC"} {:sourceFile ".\source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_65: int;
+const {:extern} {:model_const "tcas_equipped"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 119} unique __ctobpl_const_62: int;
 
-const {:extern} {:model_const "Pred.3"} {:sourceFile ".\source\tcas.c"} {:sourceLine 120} unique __ctobpl_const_66: int;
+const {:extern} {:model_const "Pred.3"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 120} unique __ctobpl_const_69: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_40: int;
+const {:extern} {:model_const "Pred.6"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 126} unique __ctobpl_const_77: int;
 
-const {:extern} {:model_const "Positive_RA_Alt_Thresh[3]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 53} unique __ctobpl_const_99: int;
+const {:extern} {:model_const "tcas_equipped"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 124} unique __ctobpl_const_74: int;
 
-const {:extern} {:model_const "Pred.5"} {:sourceFile ".\source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_46: int;
+const {:extern} {:model_const "Pred.9"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 127} unique __ctobpl_const_86: int;
 
-const {:extern} {:model_const "Down_Separation"} {:sourceFile ".\source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_45: int;
+const {:extern} {:model_const "Other_RAC"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 120} unique __ctobpl_const_65: int;
 
-const {:extern} {:model_const "Pred.9"} {:sourceFile ".\source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_38: int;
+const {:extern} {:model_const "intent_not_known"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 120} unique __ctobpl_const_68: int;
 
-const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile ".\source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_57: int;
+const {:extern} {:model_const "Positive_RA_Alt_Thresh[Alt_Layer_Value]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 58} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "enabled"} {:sourceFile ".\source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_60: int;
+const {:extern} {:model_const "Up_Separation"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 165} unique __ctobpl_const_155: int;
 
-const {:extern} {:model_const "Pred.2"} {:sourceFile ".\source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_59: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 164} unique __ctobpl_const_147: int;
 
-const {:extern} {:model_const "Own_Tracked_Alt_Rate"} {:sourceFile ".\source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_56: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 163} unique __ctobpl_const_139: int;
 
-const {:extern} {:model_const "Pred.2"} {:sourceFile ".\source\tcas.c"} {:sourceLine 118} unique __ctobpl_const_58: int;
+const {:extern} {:model_const "argv[8]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 165} unique __ctobpl_const_152: int;
 
-const {:extern} {:model_const "result.ALIM"} {:sourceFile ".\source\tcas.c"} {:sourceLine 93} unique __ctobpl_const_44: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 164} unique __ctobpl_const_146: int;
 
-const {:extern} {:model_const "argv[8]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_152: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 161} unique __ctobpl_const_126: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_147: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 164} unique __ctobpl_const_143: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_151: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 161} unique __ctobpl_const_128: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_135: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 161} unique __ctobpl_const_125: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_156: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 163} unique __ctobpl_const_137: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_158: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 162} unique __ctobpl_const_130: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_140: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 163} unique __ctobpl_const_140: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_157: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 162} unique __ctobpl_const_133: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_139: int;
+const {:extern} {:model_const "argv[6]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 163} unique __ctobpl_const_138: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_154: int;
+const {:extern} {:model_const "Own_Tracked_Alt_Rate"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 162} unique __ctobpl_const_134: int;
 
-const {:extern} {:model_const "Own_Tracked_Alt_Rate"} {:sourceFile ".\source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_134: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 162} unique __ctobpl_const_129: int;
 
-const {:extern} {:model_const "Up_Separation"} {:sourceFile ".\source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_155: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 165} unique __ctobpl_const_153: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_142: int;
+const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 163} unique __ctobpl_const_141: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_161: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 164} unique __ctobpl_const_144: int;
 
-const {:extern} {:model_const "Other_Tracked_Alt"} {:sourceFile ".\source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_141: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 162} unique __ctobpl_const_135: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_146: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 163} unique __ctobpl_const_136: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_149: int;
+const {:extern} {:model_const "argv[7]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 164} unique __ctobpl_const_145: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_137: int;
+const {:extern} {:model_const "argv[4]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 161} unique __ctobpl_const_124: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_150: int;
+const {:extern} {:model_const "Alt_Layer_Value"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 164} unique __ctobpl_const_148: int;
 
-const {:extern} {:model_const "Down_Separation"} {:sourceFile ".\source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_162: int;
+const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 161} unique __ctobpl_const_127: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_163: int;
+const {:extern} {:model_const "argv[5]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 162} unique __ctobpl_const_131: int;
 
-const {:extern} {:model_const "argv[6]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_138: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 162} unique __ctobpl_const_132: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_144: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 164} unique __ctobpl_const_149: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 165} unique __ctobpl_const_153: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 165} unique __ctobpl_const_150: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_164: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 165} unique __ctobpl_const_151: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_133: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 163} unique __ctobpl_const_142: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 163} unique __ctobpl_const_136: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 165} unique __ctobpl_const_154: int;
 
-const {:extern} {:model_const "Alt_Layer_Value"} {:sourceFile ".\source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_148: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 161} unique __ctobpl_const_123: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_143: int;
+const {:extern} {:model_const "alt_sep"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 132} unique __ctobpl_const_94: int;
 
-const {:extern} {:model_const "argv[9]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_159: int;
+const {:extern} {:model_const "argv[1]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 158} unique __ctobpl_const_103: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 166} unique __ctobpl_const_160: int;
+const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 158} unique __ctobpl_const_106: int;
 
-const {:extern} {:model_const "argv[7]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 164} unique __ctobpl_const_145: int;
+const {:extern} {:model_const "Positive_RA_Alt_Thresh[3]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 53} unique __ctobpl_const_99: int;
 
-const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile ".\source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_106: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 158} unique __ctobpl_const_107: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_107: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 159} unique __ctobpl_const_109: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_109: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 159} unique __ctobpl_const_114: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_104: int;
+const {:extern} {:model_const "alt_sep"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 141} unique __ctobpl_const_95: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_115: int;
+const {:extern} {:model_const "argv[2]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 159} unique __ctobpl_const_110: int;
 
-const {:extern} {:model_const "argv[3]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_117: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 158} unique __ctobpl_const_104: int;
 
-const {:extern} {:model_const "Two_of_Three_Reports_Valid"} {:sourceFile ".\source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_120: int;
+const {:extern} {:model_const "Positive_RA_Alt_Thresh[0]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 50} unique __ctobpl_const_96: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_121: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 160} unique __ctobpl_const_115: int;
 
-const {:extern} {:model_const "argv[4]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_124: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 159} unique __ctobpl_const_112: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_125: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 160} unique __ctobpl_const_116: int;
 
-const {:extern} {:model_const "argv[2]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_110: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 158} unique __ctobpl_const_102: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_118: int;
+const {:extern} {:model_const "Positive_RA_Alt_Thresh[1]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 51} unique __ctobpl_const_97: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_126: int;
+const {:extern} {:model_const "Positive_RA_Alt_Thresh[2]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 52} unique __ctobpl_const_98: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_114: int;
+const {:extern} {:model_const "argc"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 148} unique __ctobpl_const_100: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_119: int;
+const {:extern} {:model_const "High_Confidence"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 159} unique __ctobpl_const_113: int;
 
-const {:extern} {:model_const "Own_Tracked_Alt"} {:sourceFile ".\source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_127: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 159} unique __ctobpl_const_108: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_112: int;
+const {:extern} {:model_const "argv[3]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 160} unique __ctobpl_const_117: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_111: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 158} unique __ctobpl_const_105: int;
 
-const {:extern} {:model_const "High_Confidence"} {:sourceFile ".\source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_113: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 159} unique __ctobpl_const_111: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_102: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 160} unique __ctobpl_const_118: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_122: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 158} unique __ctobpl_const_101: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_123: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 160} unique __ctobpl_const_119: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 161} unique __ctobpl_const_128: int;
+const {:extern} {:model_const "Two_of_Three_Reports_Valid"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 160} unique __ctobpl_const_120: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_129: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 160} unique __ctobpl_const_121: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_130: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 161} unique __ctobpl_const_122: int;
 
-const {:extern} {:model_const "argv[5]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_131: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 79} unique __ctobpl_const_19: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 159} unique __ctobpl_const_108: int;
+const {:extern} {:model_const "Down_Separation"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 90} unique __ctobpl_const_31: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 160} unique __ctobpl_const_116: int;
+const {:extern} {:model_const "Up_Separation"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 63} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_105: int;
+const {:extern} {:model_const "result.ALIM"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 79} unique __ctobpl_const_15: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 162} unique __ctobpl_const_132: int;
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 63} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "argv[1]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_103: int;
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 63} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "Pred.6"} {:sourceFile ".\source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_28: int;
+const {:extern} {:model_const "Climb_Inhibit"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 63} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "result.ALIM"} {:sourceFile ".\source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_15: int;
+const {:extern} {:model_const "upward_preferred"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 72} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "Down_Separation"} {:sourceFile ".\source\tcas.c"} {:sourceLine 90} unique __ctobpl_const_31: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 166} unique __ctobpl_const_158: int;
 
-const {:extern} {:model_const "result.Inhibit_Biased_Climb"} {:sourceFile ".\source\tcas.c"} {:sourceLine 90} unique __ctobpl_const_32: int;
+const {:extern} {:model_const "upward_preferred"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 73} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "upward_preferred"} {:sourceFile ".\source\tcas.c"} {:sourceLine 91} unique __ctobpl_const_33: int;
+const {:extern} {:model_const "Pred.9"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 79} unique __ctobpl_const_17: int;
 
-const {:extern} {:model_const "Pred.9"} {:sourceFile ".\source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 75} unique __ctobpl_const_21: int;
 
-const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile ".\source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_34: int;
+const {:extern} {:model_const "Pred.9"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 79} unique __ctobpl_const_20: int;
 
-const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile ".\source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_35: int;
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 63} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "result.ALIM"} {:sourceFile ".\source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_36: int;
+const {:extern} {:model_const "Down_Separation"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 72} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile ".\source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_22: int;
+const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 75} unique __ctobpl_const_22: int;
 
-const {:extern} {:model_const "Up_Separation"} {:sourceFile ".\source\tcas.c"} {:sourceLine 97} unique __ctobpl_const_37: int;
+const {:extern} {:model_const "result.ALIM"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 75} unique __ctobpl_const_23: int;
 
-const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile ".\source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_14: int;
+const {:extern} {:model_const "result.Inhibit_Biased_Climb"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 72} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "upward_preferred"} {:sourceFile ".\source\tcas.c"} {:sourceLine 72} unique __ctobpl_const_9: int;
+const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 79} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "upward_preferred"} {:sourceFile ".\source\tcas.c"} {:sourceLine 73} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "Cur_Vertical_Sep"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 79} unique __ctobpl_const_14: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_19: int;
+const {:extern} {:model_const "Pred.6"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 75} unique __ctobpl_const_25: int;
 
-const {:extern} {:model_const "Down_Separation"} {:sourceFile ".\source\tcas.c"} {:sourceLine 72} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "Pred.6"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 75} unique __ctobpl_const_26: int;
 
-const {:extern} {:model_const "result.Own_Below_Threat"} {:sourceFile ".\source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_21: int;
+const {:extern} {:model_const "Pred.9"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 79} unique __ctobpl_const_18: int;
 
-const {:extern} {:model_const "result.ALIM"} {:sourceFile ".\source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_23: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 75} unique __ctobpl_const_27: int;
 
-const {:extern} {:model_const "argc"} {:sourceFile ".\source\tcas.c"} {:sourceLine 148} unique __ctobpl_const_100: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 81} unique __ctobpl_const_29: int;
 
-const {:extern} {:model_const "Down_Separation"} {:sourceFile ".\source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_24: int;
+const {:extern} {:model_const "Pred.6"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 75} unique __ctobpl_const_28: int;
 
-const {:extern} {:model_const "Pred.9"} {:sourceFile ".\source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_20: int;
+const {:extern} {:model_const "alt_sep"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 134} unique __ctobpl_const_93: int;
 
-const {:extern} {:model_const "result.Inhibit_Biased_Climb"} {:sourceFile ".\source\tcas.c"} {:sourceLine 72} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "Down_Separation"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 75} unique __ctobpl_const_24: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\tcas.c"} {:sourceLine 81} unique __ctobpl_const_29: int;
+const {:extern} {:model_const "Up_Separation"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 63} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 158} unique __ctobpl_const_101: int;
+const {:extern} {:model_const "upward_preferred"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 90} unique __ctobpl_const_30: int;
 
-const {:extern} {:model_const "Up_Separation"} {:sourceFile ".\source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "Up_Separation"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 79} unique __ctobpl_const_16: int;
 
-const {:extern} {:model_const "upward_preferred"} {:sourceFile ".\source\tcas.c"} {:sourceLine 90} unique __ctobpl_const_30: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 153} unique __ctobpl_const_193: int;
 
-const {:extern} {:model_const "result.Own_Above_Threat"} {:sourceFile ".\source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_13: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 151} unique __ctobpl_const_190: int;
 
-const {:extern} {:model_const "Pred.9"} {:sourceFile ".\source\tcas.c"} {:sourceLine 79} unique __ctobpl_const_18: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 154} unique __ctobpl_const_196: int;
 
-const {:extern} {:model_const "Pred.6"} {:sourceFile ".\source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_26: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 152} unique __ctobpl_const_192: int;
 
-const {:extern} {:model_const "Pred.6"} {:sourceFile ".\source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_25: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 154} unique __ctobpl_const_195: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\tcas.c"} {:sourceLine 75} unique __ctobpl_const_27: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 153} unique __ctobpl_const_194: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 152} unique __ctobpl_const_191: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 152} unique __ctobpl_const_191: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tcas.c"} {:sourceLine 152} unique __ctobpl_const_192: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 151} unique __ctobpl_const_189: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_172: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 171} unique __ctobpl_const_185: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tcas.c"} {:sourceLine 154} unique __ctobpl_const_196: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 166} unique __ctobpl_const_163: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_178: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 168} unique __ctobpl_const_172: int;
 
-const {:extern} {:model_const "Climb_Inhibit"} {:sourceFile ".\source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_183: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 168} unique __ctobpl_const_171: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 153} unique __ctobpl_const_193: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 167} unique __ctobpl_const_168: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tcas.c"} {:sourceLine 153} unique __ctobpl_const_194: int;
+const {:extern} {:model_const "Other_RAC"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 167} unique __ctobpl_const_169: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 154} unique __ctobpl_const_195: int;
+const {:extern} {:model_const "argv[10]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 167} unique __ctobpl_const_166: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_170: int;
+const {:extern} {:model_const "Down_Separation"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 166} unique __ctobpl_const_162: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_174: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 166} unique __ctobpl_const_161: int;
 
-const {:extern} {:model_const "argv[10]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_166: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 167} unique __ctobpl_const_165: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_171: int;
+const {:extern} {:model_const "argv[9]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 166} unique __ctobpl_const_159: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_181: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 167} unique __ctobpl_const_167: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 171} unique __ctobpl_const_185: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 167} unique __ctobpl_const_170: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_165: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 167} unique __ctobpl_const_164: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_167: int;
+const {:extern} {:model_const "Other_Capability"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 168} unique __ctobpl_const_176: int;
 
-const {:extern} {:model_const "Other_RAC"} {:sourceFile ".\source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_169: int;
+const {:extern} {:model_const "argv[11]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 168} unique __ctobpl_const_173: int;
 
-const {:extern} {:model_const "argv[11]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_173: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 168} unique __ctobpl_const_174: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_175: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 169} unique __ctobpl_const_179: int;
 
-const {:extern} {:model_const "Other_Capability"} {:sourceFile ".\source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_176: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 166} unique __ctobpl_const_160: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 167} unique __ctobpl_const_168: int;
+const {:extern} {:model_const "argv[12]"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 169} unique __ctobpl_const_180: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 168} unique __ctobpl_const_177: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 169} unique __ctobpl_const_181: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tcas.c"} {:sourceLine 171} unique __ctobpl_const_186: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 169} unique __ctobpl_const_182: int;
 
-const {:extern} {:model_const "argv[12]"} {:sourceFile ".\source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_180: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 169} unique __ctobpl_const_178: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 150} unique __ctobpl_const_187: int;
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 168} unique __ctobpl_const_175: int;
 
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_184: int;
+const {:extern} {:model_const "Climb_Inhibit"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 169} unique __ctobpl_const_183: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tcas.c"} {:sourceLine 150} unique __ctobpl_const_188: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 169} unique __ctobpl_const_184: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 151} unique __ctobpl_const_189: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 171} unique __ctobpl_const_186: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_179: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 150} unique __ctobpl_const_187: int;
 
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\source\tcas.c"} {:sourceLine 169} unique __ctobpl_const_182: int;
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 168} unique __ctobpl_const_177: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tcas.c"} {:sourceLine 151} unique __ctobpl_const_190: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v23\tcas.c"} {:sourceLine 150} unique __ctobpl_const_188: int;
 
 procedure {:extern} __iob_func() returns (__dummy_ret__iob_func: int);
   free requires INT_LT(0, alloc);
@@ -984,7 +984,7 @@ implementation {:extern} ALIM() returns (result.ALIM$1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 58} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 58} true;
     assert Positive_RA_Alt_Thresh != 0;
     result.ALIM$1 := Mem_T.INT4[PLUS(Positive_RA_Alt_Thresh, 4, Alt_Layer_Value)];
     assume value_is(__ctobpl_const_1, Alt_Layer_Value);
@@ -992,7 +992,7 @@ implementation {:extern} ALIM() returns (result.ALIM$1: int)
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 59} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 59} true;
     return;
 }
 
@@ -1041,7 +1041,7 @@ implementation {:extern} Inhibit_Biased_Climb() returns (result.Inhibit_Biased_C
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 63} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 63} true;
     goto label_3_true, label_3_false;
 
   label_3_false:
@@ -1050,20 +1050,20 @@ implementation {:extern} Inhibit_Biased_Climb() returns (result.Inhibit_Biased_C
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 63} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 63} true;
     $result.question.2$ := Up_Separation;
     assume value_is(__ctobpl_const_4, $result.question.2$);
     assume value_is(__ctobpl_const_5, Up_Separation);
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 63} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 63} true;
     result.Inhibit_Biased_Climb$1 := $result.question.2$;
     assume value_is(__ctobpl_const_8, $result.question.2$);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 64} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 64} true;
     return;
 
   label_3_true:
@@ -1072,7 +1072,7 @@ implementation {:extern} Inhibit_Biased_Climb() returns (result.Inhibit_Biased_C
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 63} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 63} true;
     $result.question.2$ := PLUS(Up_Separation, 1, 100);
     assume value_is(__ctobpl_const_6, $result.question.2$);
     assume value_is(__ctobpl_const_7, Up_Separation);
@@ -1144,24 +1144,24 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 68} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 68} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 69} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 69} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 70} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 70} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 72} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 72} true;
     call result.Inhibit_Biased_Climb$2 := Inhibit_Biased_Climb();
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 72} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 72} true;
     upward_preferred := LIFT(INT_LT(Down_Separation, result.Inhibit_Biased_Climb$2));
     assume value_is(__ctobpl_const_9, upward_preferred);
     assume value_is(__ctobpl_const_10, Down_Separation);
@@ -1169,7 +1169,7 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 73} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 73} true;
     goto label_10_true, label_10_false;
 
   label_10_false:
@@ -1178,12 +1178,12 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 79} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 79} true;
     call result.Own_Above_Threat$7 := Own_Above_Threat();
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 79} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 79} true;
     goto label_30_true, label_30_false;
 
   label_30_false:
@@ -1192,26 +1192,26 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 79} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 79} true;
     $Pred.9$ := 0;
     assume value_is(__ctobpl_const_17, $Pred.9$);
     goto label_38;
 
   label_38:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 79} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 79} true;
     result := $Pred.9$;
     assume value_is(__ctobpl_const_19, result);
     assume value_is(__ctobpl_const_20, $Pred.9$);
     goto label_29;
 
   label_29:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 81} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 81} true;
     result.Non_Crossing_Biased_Climb$1 := result;
     assume value_is(__ctobpl_const_29, result);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 82} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 82} true;
     return;
 
   label_30_true:
@@ -1220,7 +1220,7 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_32;
 
   label_32:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 79} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 79} true;
     goto label_32_true, label_32_false;
 
   label_32_false:
@@ -1234,12 +1234,12 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_33;
 
   label_33:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 79} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 79} true;
     call result.ALIM$8 := ALIM();
     goto label_36;
 
   label_36:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 79} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 79} true;
     goto label_36_true, label_36_false;
 
   label_36_false:
@@ -1255,7 +1255,7 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_37;
 
   label_37:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 79} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 79} true;
     $Pred.9$ := 1;
     assume value_is(__ctobpl_const_18, $Pred.9$);
     goto label_38;
@@ -1266,12 +1266,12 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 75} true;
     call result.Own_Below_Threat$3 := Own_Below_Threat();
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 75} true;
     goto label_17_true, label_17_false;
 
   label_17_false:
@@ -1280,13 +1280,13 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 75} true;
     $Pred.6$ := 1;
     assume value_is(__ctobpl_const_25, $Pred.6$);
     goto label_28;
 
   label_28:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 75} true;
     result := $Pred.6$;
     assume value_is(__ctobpl_const_27, result);
     assume value_is(__ctobpl_const_28, $Pred.6$);
@@ -1298,12 +1298,12 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 75} true;
     call result.Own_Below_Threat$4 := Own_Below_Threat();
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 75} true;
     goto label_22_true, label_22_false;
 
   label_22_false:
@@ -1312,7 +1312,7 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 75} true;
     $Pred.6$ := 0;
     assume value_is(__ctobpl_const_26, $Pred.6$);
     goto label_28;
@@ -1323,12 +1323,12 @@ implementation {:extern} Non_Crossing_Biased_Climb() returns (result.Non_Crossin
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 75} true;
     call result.ALIM$5 := ALIM();
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 75} true;
     goto label_27_true, label_27_false;
 
   label_27_false:
@@ -1357,15 +1357,14 @@ implementation {:extern} Non_Crossing_Biased_Descend() returns (result.Non_Cross
 {
   var {:extern} havoc_stringTemp: int;
   var {:extern} condVal: int;
-  var {:extern} $Pred.5$: int;
-  var {:extern} $Pred.9$: int;
+  var {:extern} $Pred.4$: int;
+  var {:extern} $Pred.8$: int;
   var {:extern} result: int;
-  var {:extern} result.ALIM$4: int;
-  var {:extern} result.ALIM$8: int;
-  var {:extern} result.Inhibit_Biased_Climb$2: int;
+  var {:extern} result.ALIM$3: int;
+  var {:extern} result.ALIM$7: int;
+  var {:extern} result.Own_Above_Threat$5: int;
   var {:extern} result.Own_Above_Threat$6: int;
-  var {:extern} result.Own_Above_Threat$7: int;
-  var {:extern} result.Own_Below_Threat$3: int;
+  var {:extern} result.Own_Below_Threat$2: int;
   var {:extern} upward_crossing_situation: int;
   var {:extern} upward_preferred: int;
   var {:extern} tempBoogie0: int;
@@ -1394,219 +1393,213 @@ implementation {:extern} Non_Crossing_Biased_Descend() returns (result.Non_Cross
     goto start;
 
   start:
-    $Pred.5$ := 0;
-    $Pred.9$ := 0;
+    $Pred.4$ := 0;
+    $Pred.8$ := 0;
     result := 0;
-    result.ALIM$4 := 0;
-    result.ALIM$8 := 0;
-    result.Inhibit_Biased_Climb$2 := 0;
+    result.ALIM$3 := 0;
+    result.ALIM$7 := 0;
     result.Non_Crossing_Biased_Descend$1 := 0;
+    result.Own_Above_Threat$5 := 0;
     result.Own_Above_Threat$6 := 0;
-    result.Own_Above_Threat$7 := 0;
-    result.Own_Below_Threat$3 := 0;
+    result.Own_Below_Threat$2 := 0;
     upward_crossing_situation := 0;
     upward_preferred := 0;
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 86} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 86} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 87} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 87} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 88} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 88} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 90} true;
-    call result.Inhibit_Biased_Climb$2 := Inhibit_Biased_Climb();
-    goto label_9;
-
-  label_9:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 90} true;
-    upward_preferred := LIFT(INT_LT(Down_Separation, result.Inhibit_Biased_Climb$2));
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 90} true;
+    upward_preferred := LIFT(INT_LT(Down_Separation, PLUS(Up_Separation, 1, 100)));
     assume value_is(__ctobpl_const_30, upward_preferred);
     assume value_is(__ctobpl_const_31, Down_Separation);
-    assume value_is(__ctobpl_const_32, result.Inhibit_Biased_Climb$2);
-    goto label_10;
+    assume value_is(__ctobpl_const_32, Up_Separation);
+    goto label_7;
 
-  label_10:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 91} true;
-    goto label_10_true, label_10_false;
+  label_7:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 91} true;
+    goto label_7_true, label_7_false;
 
-  label_10_false:
+  label_7_false:
     assume upward_preferred == 0;
     assume value_is(__ctobpl_const_33, upward_preferred);
-    goto label_11;
+    goto label_8;
 
-  label_11:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 97} true;
-    call result.Own_Above_Threat$6 := Own_Above_Threat();
-    goto label_27;
+  label_8:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 97} true;
+    call result.Own_Above_Threat$5 := Own_Above_Threat();
+    goto label_24;
 
-  label_27:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 97} true;
-    goto label_27_true, label_27_false;
+  label_24:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 97} true;
+    goto label_24_true, label_24_false;
 
-  label_27_false:
-    assume result.Own_Above_Threat$6 == 0;
-    assume value_is(__ctobpl_const_34, result.Own_Above_Threat$6);
-    goto label_28;
+  label_24_false:
+    assume result.Own_Above_Threat$5 == 0;
+    assume value_is(__ctobpl_const_34, result.Own_Above_Threat$5);
+    goto label_25;
 
-  label_28:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 97} true;
-    $Pred.9$ := 1;
-    assume value_is(__ctobpl_const_39, $Pred.9$);
-    goto label_38;
+  label_25:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 97} true;
+    $Pred.8$ := 1;
+    assume value_is(__ctobpl_const_39, $Pred.8$);
+    goto label_35;
 
-  label_38:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 97} true;
-    result := $Pred.9$;
+  label_35:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 97} true;
+    result := $Pred.8$;
     assume value_is(__ctobpl_const_40, result);
-    assume value_is(__ctobpl_const_41, $Pred.9$);
-    goto label_26;
+    assume value_is(__ctobpl_const_41, $Pred.8$);
+    goto label_23;
 
-  label_26:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 99} true;
+  label_23:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 99} true;
     result.Non_Crossing_Biased_Descend$1 := result;
     assume value_is(__ctobpl_const_50, result);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 100} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 100} true;
     return;
 
-  label_27_true:
-    assume result.Own_Above_Threat$6 != 0;
-    assume value_is(__ctobpl_const_34, result.Own_Above_Threat$6);
+  label_24_true:
+    assume result.Own_Above_Threat$5 != 0;
+    assume value_is(__ctobpl_const_34, result.Own_Above_Threat$5);
+    goto label_26;
+
+  label_26:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 97} true;
+    call result.Own_Above_Threat$6 := Own_Above_Threat();
     goto label_29;
 
   label_29:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 97} true;
-    call result.Own_Above_Threat$7 := Own_Above_Threat();
-    goto label_32;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 97} true;
+    goto label_29_true, label_29_false;
 
-  label_32:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 97} true;
-    goto label_32_true, label_32_false;
+  label_29_false:
+    assume result.Own_Above_Threat$6 == 0;
+    assume value_is(__ctobpl_const_35, result.Own_Above_Threat$6);
+    goto label_30;
 
-  label_32_false:
-    assume result.Own_Above_Threat$7 == 0;
-    assume value_is(__ctobpl_const_35, result.Own_Above_Threat$7);
-    goto label_33;
+  label_30:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 97} true;
+    $Pred.8$ := 0;
+    assume value_is(__ctobpl_const_38, $Pred.8$);
+    goto label_35;
 
-  label_33:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 97} true;
-    $Pred.9$ := 0;
-    assume value_is(__ctobpl_const_38, $Pred.9$);
-    goto label_38;
+  label_29_true:
+    assume result.Own_Above_Threat$6 != 0;
+    assume value_is(__ctobpl_const_35, result.Own_Above_Threat$6);
+    goto label_31;
 
-  label_32_true:
-    assume result.Own_Above_Threat$7 != 0;
-    assume value_is(__ctobpl_const_35, result.Own_Above_Threat$7);
+  label_31:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 97} true;
+    call result.ALIM$7 := ALIM();
     goto label_34;
 
   label_34:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 97} true;
-    call result.ALIM$8 := ALIM();
-    goto label_37;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 97} true;
+    goto label_34_true, label_34_false;
 
-  label_37:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 97} true;
-    goto label_37_true, label_37_false;
-
-  label_37_false:
-    assume !INT_LEQ(result.ALIM$8, Up_Separation);
-    assume value_is(__ctobpl_const_36, result.ALIM$8);
+  label_34_false:
+    assume !INT_LEQ(result.ALIM$7, Up_Separation);
+    assume value_is(__ctobpl_const_36, result.ALIM$7);
     assume value_is(__ctobpl_const_37, Up_Separation);
-    goto label_33;
+    goto label_30;
 
-  label_37_true:
-    assume INT_LEQ(result.ALIM$8, Up_Separation);
-    assume value_is(__ctobpl_const_36, result.ALIM$8);
+  label_34_true:
+    assume INT_LEQ(result.ALIM$7, Up_Separation);
+    assume value_is(__ctobpl_const_36, result.ALIM$7);
     assume value_is(__ctobpl_const_37, Up_Separation);
-    goto label_28;
+    goto label_25;
 
-  label_10_true:
+  label_7_true:
     assume upward_preferred != 0;
     assume value_is(__ctobpl_const_33, upward_preferred);
+    goto label_11;
+
+  label_11:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 93} true;
+    call result.Own_Below_Threat$2 := Own_Below_Threat();
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 93} true;
-    call result.Own_Below_Threat$3 := Own_Below_Threat();
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 93} true;
+    goto label_14_true, label_14_false;
+
+  label_14_false:
+    assume result.Own_Below_Threat$2 == 0;
+    assume value_is(__ctobpl_const_42, result.Own_Below_Threat$2);
+    goto label_15;
+
+  label_15:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 93} true;
+    $Pred.4$ := 0;
+    assume value_is(__ctobpl_const_46, $Pred.4$);
+    goto label_22;
+
+  label_22:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 93} true;
+    result := $Pred.4$;
+    assume value_is(__ctobpl_const_48, result);
+    assume value_is(__ctobpl_const_49, $Pred.4$);
+    goto label_23;
+
+  label_14_true:
+    assume result.Own_Below_Threat$2 != 0;
+    assume value_is(__ctobpl_const_42, result.Own_Below_Threat$2);
+    goto label_16;
+
+  label_16:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 93} true;
+    goto label_16_true, label_16_false;
+
+  label_16_false:
+    assume !INT_LEQ(300, Cur_Vertical_Sep);
+    assume value_is(__ctobpl_const_43, Cur_Vertical_Sep);
+    goto label_15;
+
+  label_16_true:
+    assume INT_LEQ(300, Cur_Vertical_Sep);
+    assume value_is(__ctobpl_const_43, Cur_Vertical_Sep);
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 93} true;
-    goto label_17_true, label_17_false;
-
-  label_17_false:
-    assume result.Own_Below_Threat$3 == 0;
-    assume value_is(__ctobpl_const_42, result.Own_Below_Threat$3);
-    goto label_18;
-
-  label_18:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 93} true;
-    $Pred.5$ := 0;
-    assume value_is(__ctobpl_const_46, $Pred.5$);
-    goto label_25;
-
-  label_25:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 93} true;
-    result := $Pred.5$;
-    assume value_is(__ctobpl_const_48, result);
-    assume value_is(__ctobpl_const_49, $Pred.5$);
-    goto label_26;
-
-  label_17_true:
-    assume result.Own_Below_Threat$3 != 0;
-    assume value_is(__ctobpl_const_42, result.Own_Below_Threat$3);
-    goto label_19;
-
-  label_19:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 93} true;
-    goto label_19_true, label_19_false;
-
-  label_19_false:
-    assume !INT_LEQ(300, Cur_Vertical_Sep);
-    assume value_is(__ctobpl_const_43, Cur_Vertical_Sep);
-    goto label_18;
-
-  label_19_true:
-    assume INT_LEQ(300, Cur_Vertical_Sep);
-    assume value_is(__ctobpl_const_43, Cur_Vertical_Sep);
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 93} true;
+    call result.ALIM$3 := ALIM();
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 93} true;
-    call result.ALIM$4 := ALIM();
-    goto label_23;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 93} true;
+    goto label_20_true, label_20_false;
 
-  label_23:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 93} true;
-    goto label_23_true, label_23_false;
-
-  label_23_false:
-    assume !INT_LEQ(result.ALIM$4, Down_Separation);
-    assume value_is(__ctobpl_const_44, result.ALIM$4);
+  label_20_false:
+    assume !INT_LEQ(result.ALIM$3, Down_Separation);
+    assume value_is(__ctobpl_const_44, result.ALIM$3);
     assume value_is(__ctobpl_const_45, Down_Separation);
-    goto label_18;
+    goto label_15;
 
-  label_23_true:
-    assume INT_LEQ(result.ALIM$4, Down_Separation);
-    assume value_is(__ctobpl_const_44, result.ALIM$4);
+  label_20_true:
+    assume INT_LEQ(result.ALIM$3, Down_Separation);
+    assume value_is(__ctobpl_const_44, result.ALIM$3);
     assume value_is(__ctobpl_const_45, Down_Separation);
-    goto label_24;
+    goto label_21;
 
-  label_24:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 93} true;
-    $Pred.5$ := 1;
-    assume value_is(__ctobpl_const_47, $Pred.5$);
-    goto label_25;
+  label_21:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 93} true;
+    $Pred.4$ := 1;
+    assume value_is(__ctobpl_const_47, $Pred.4$);
+    goto label_22;
 }
 
 
@@ -1652,14 +1645,14 @@ implementation {:extern} Own_Above_Threat() returns (result.Own_Above_Threat$1: 
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 109} true;
     result.Own_Above_Threat$1 := LIFT(INT_LT(Other_Tracked_Alt, Own_Tracked_Alt));
     assume value_is(__ctobpl_const_51, Other_Tracked_Alt);
     assume value_is(__ctobpl_const_52, Own_Tracked_Alt);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 110} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 110} true;
     return;
 }
 
@@ -1706,14 +1699,14 @@ implementation {:extern} Own_Below_Threat() returns (result.Own_Below_Threat$1: 
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 104} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 104} true;
     result.Own_Below_Threat$1 := LIFT(INT_LT(Own_Tracked_Alt, Other_Tracked_Alt));
     assume value_is(__ctobpl_const_53, Own_Tracked_Alt);
     assume value_is(__ctobpl_const_54, Other_Tracked_Alt);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 105} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 105} true;
     return;
 }
 
@@ -1788,31 +1781,31 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 114} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 114} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 114} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 114} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 114} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 114} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 115} true;
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 115} true;
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 116} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 116} true;
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 118} true;
     goto label_9_true, label_9_false;
 
   label_9_false:
@@ -1821,27 +1814,27 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 118} true;
     $Pred.2$ := 0;
     assume value_is(__ctobpl_const_58, $Pred.2$);
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 118} true;
     enabled := $Pred.2$;
     assume value_is(__ctobpl_const_60, enabled);
     assume value_is(__ctobpl_const_61, $Pred.2$);
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 119} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 119} true;
     tcas_equipped := LIFT(INT_EQ(Other_Capability, 1));
     assume value_is(__ctobpl_const_62, tcas_equipped);
     assume value_is(__ctobpl_const_63, Other_Capability);
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 120} true;
     goto label_16_true, label_16_false;
 
   label_16_false:
@@ -1850,26 +1843,26 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 120} true;
     $Pred.3$ := 0;
     assume value_is(__ctobpl_const_67, $Pred.3$);
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 120} true;
     intent_not_known := $Pred.3$;
     assume value_is(__ctobpl_const_68, intent_not_known);
     assume value_is(__ctobpl_const_69, $Pred.3$);
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 122} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 122} true;
     alt_sep := 0;
     assume value_is(__ctobpl_const_70, alt_sep);
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 124} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 124} true;
     goto label_22_true, label_22_false;
 
   label_22_false:
@@ -1878,13 +1871,13 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 141} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 141} true;
     result.alt_sep_test$1 := alt_sep;
     assume value_is(__ctobpl_const_95, alt_sep);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 142} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 142} true;
     return;
 
   label_22_true:
@@ -1893,7 +1886,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 124} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 124} true;
     goto label_24_true, label_24_false;
 
   label_24_false:
@@ -1902,7 +1895,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 124} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 124} true;
     goto label_25_true, label_25_false;
 
   label_25_false:
@@ -1911,12 +1904,12 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 126} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 126} true;
     call result.Non_Crossing_Biased_Climb$4 := Non_Crossing_Biased_Climb();
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 126} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 126} true;
     goto label_30_true, label_30_false;
 
   label_30_false:
@@ -1925,25 +1918,25 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 126} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 126} true;
     $Pred.6$ := 0;
     assume value_is(__ctobpl_const_77, $Pred.6$);
     goto label_37;
 
   label_37:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 126} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 126} true;
     need_upward_RA := $Pred.6$;
     assume value_is(__ctobpl_const_79, need_upward_RA);
     assume value_is(__ctobpl_const_80, $Pred.6$);
     goto label_38;
 
   label_38:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 127} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 127} true;
     call result.Non_Crossing_Biased_Descend$7 := Non_Crossing_Biased_Descend();
     goto label_41;
 
   label_41:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 127} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 127} true;
     goto label_41_true, label_41_false;
 
   label_41_false:
@@ -1952,20 +1945,20 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_42;
 
   label_42:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 127} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 127} true;
     $Pred.9$ := 0;
     assume value_is(__ctobpl_const_83, $Pred.9$);
     goto label_48;
 
   label_48:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 127} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 127} true;
     need_downward_RA := $Pred.9$;
     assume value_is(__ctobpl_const_85, need_downward_RA);
     assume value_is(__ctobpl_const_86, $Pred.9$);
     goto label_49;
 
   label_49:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 128} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 128} true;
     goto label_49_true, label_49_false;
 
   label_49_false:
@@ -1974,7 +1967,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_50;
 
   label_50:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 133} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 133} true;
     goto label_50_true, label_50_false;
 
   label_50_false:
@@ -1983,7 +1976,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_53;
 
   label_53:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 135} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 135} true;
     goto label_53_true, label_53_false;
 
   label_53_false:
@@ -1992,7 +1985,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_55;
 
   label_55:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 138} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 138} true;
     alt_sep := 0;
     assume value_is(__ctobpl_const_91, alt_sep);
     goto label_23;
@@ -2003,7 +1996,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_56;
 
   label_56:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 136} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 136} true;
     alt_sep := 2;
     assume value_is(__ctobpl_const_92, alt_sep);
     goto label_23;
@@ -2014,7 +2007,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_54;
 
   label_54:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 134} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 134} true;
     alt_sep := 1;
     assume value_is(__ctobpl_const_93, alt_sep);
     goto label_23;
@@ -2025,7 +2018,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_51;
 
   label_51:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 128} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 128} true;
     goto label_51_true, label_51_false;
 
   label_51_false:
@@ -2039,7 +2032,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_52;
 
   label_52:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 132} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 132} true;
     alt_sep := 0;
     assume value_is(__ctobpl_const_94, alt_sep);
     goto label_23;
@@ -2050,12 +2043,12 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_43;
 
   label_43:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 127} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 127} true;
     call result.Own_Above_Threat$8 := Own_Above_Threat();
     goto label_46;
 
   label_46:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 127} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 127} true;
     goto label_46_true, label_46_false;
 
   label_46_false:
@@ -2069,7 +2062,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_47;
 
   label_47:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 127} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 127} true;
     $Pred.9$ := 1;
     assume value_is(__ctobpl_const_84, $Pred.9$);
     goto label_48;
@@ -2080,12 +2073,12 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_32;
 
   label_32:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 126} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 126} true;
     call result.Own_Below_Threat$5 := Own_Below_Threat();
     goto label_35;
 
   label_35:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 126} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 126} true;
     goto label_35_true, label_35_false;
 
   label_35_false:
@@ -2099,7 +2092,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_36;
 
   label_36:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 126} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 126} true;
     $Pred.6$ := 1;
     assume value_is(__ctobpl_const_78, $Pred.6$);
     goto label_37;
@@ -2115,7 +2108,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 124} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 124} true;
     goto label_26_true, label_26_false;
 
   label_26_false:
@@ -2134,7 +2127,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 120} true;
     goto label_18_true, label_18_false;
 
   label_18_false:
@@ -2143,7 +2136,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 120} true;
     $Pred.3$ := 1;
     assume value_is(__ctobpl_const_66, $Pred.3$);
     goto label_20;
@@ -2159,7 +2152,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 118} true;
     goto label_11_true, label_11_false;
 
   label_11_false:
@@ -2173,7 +2166,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 118} true;
     goto label_12_true, label_12_false;
 
   label_12_false:
@@ -2187,7 +2180,7 @@ implementation {:extern} alt_sep_test() returns (result.alt_sep_test$1: int)
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 118} true;
     $Pred.2$ := 1;
     assume value_is(__ctobpl_const_59, $Pred.2$);
     goto label_14;
@@ -2235,35 +2228,35 @@ implementation {:extern} initialize()
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 50} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 50} true;
     assert Positive_RA_Alt_Thresh != 0;
     Mem_T.INT4 := Mem_T.INT4[PLUS(Positive_RA_Alt_Thresh, 4, 0) := 400];
     assume value_is(__ctobpl_const_96, Mem_T.INT4[PLUS(Positive_RA_Alt_Thresh, 4, 0)]);
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 51} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 51} true;
     assert Positive_RA_Alt_Thresh != 0;
     Mem_T.INT4 := Mem_T.INT4[PLUS(Positive_RA_Alt_Thresh, 4, 1) := 500];
     assume value_is(__ctobpl_const_97, Mem_T.INT4[PLUS(Positive_RA_Alt_Thresh, 4, 1)]);
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 52} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 52} true;
     assert Positive_RA_Alt_Thresh != 0;
     Mem_T.INT4 := Mem_T.INT4[PLUS(Positive_RA_Alt_Thresh, 4, 2) := 640];
     assume value_is(__ctobpl_const_98, Mem_T.INT4[PLUS(Positive_RA_Alt_Thresh, 4, 2)]);
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 53} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 53} true;
     assert Positive_RA_Alt_Thresh != 0;
     Mem_T.INT4 := Mem_T.INT4[PLUS(Positive_RA_Alt_Thresh, 4, 3) := 740];
     assume value_is(__ctobpl_const_99, Mem_T.INT4[PLUS(Positive_RA_Alt_Thresh, 4, 3)]);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 54} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 54} true;
     return;
 }
 
@@ -2282,49 +2275,51 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
   var {:extern} condVal: int;
   var {:extern} argc: int;
   var {:extern} argv: int;
-  var {:extern} $atoi.arg.1$18$: int;
-  var {:extern} $atoi.arg.1$20$: int;
-  var {:extern} $atoi.arg.1$22$: int;
-  var {:extern} $atoi.arg.1$24$: int;
-  var {:extern} $atoi.arg.1$26$: int;
-  var {:extern} $atoi.arg.1$28$: int;
-  var {:extern} $atoi.arg.1$30$: int;
-  var {:extern} $atoi.arg.1$32$: int;
-  var {:extern} $atoi.arg.1$34$: int;
-  var {:extern} $atoi.arg.1$36$: int;
-  var {:extern} $atoi.arg.1$38$: int;
-  var {:extern} $atoi.arg.1$40$: int;
+  var {:extern} $atoi.arg.1$19$: int;
+  var {:extern} $atoi.arg.1$21$: int;
+  var {:extern} $atoi.arg.1$23$: int;
+  var {:extern} $atoi.arg.1$25$: int;
+  var {:extern} $atoi.arg.1$27$: int;
+  var {:extern} $atoi.arg.1$29$: int;
+  var {:extern} $atoi.arg.1$31$: int;
+  var {:extern} $atoi.arg.1$33$: int;
+  var {:extern} $atoi.arg.1$35$: int;
+  var {:extern} $atoi.arg.1$37$: int;
+  var {:extern} $atoi.arg.1$39$: int;
+  var {:extern} $atoi.arg.1$41$: int;
   var {:extern} $fprintf.arg.1$10$: int;
   var {:extern} $fprintf.arg.1$13$: int;
   var {:extern} $fprintf.arg.1$16$: int;
   var {:extern} $fprintf.arg.1$4$: int;
-  var {:extern} $fprintf.arg.1$44$: int;
+  var {:extern} $fprintf.arg.1$45$: int;
   var {:extern} $fprintf.arg.1$7$: int;
   var {:extern} result.__iob_func$3: int;
   var {:extern} result.__iob_func$6: int;
   var {:extern} result.__iob_func$9: int;
   var {:extern} result.__iob_func$12: int;
   var {:extern} result.__iob_func$15: int;
-  var {:extern} result.__iob_func$43: int;
-  var {:extern} result.alt_sep_test$42: int;
-  var {:extern} result.atoi$17: int;
-  var {:extern} result.atoi$19: int;
-  var {:extern} result.atoi$21: int;
-  var {:extern} result.atoi$23: int;
-  var {:extern} result.atoi$25: int;
-  var {:extern} result.atoi$27: int;
-  var {:extern} result.atoi$29: int;
-  var {:extern} result.atoi$31: int;
-  var {:extern} result.atoi$33: int;
-  var {:extern} result.atoi$35: int;
-  var {:extern} result.atoi$37: int;
-  var {:extern} result.atoi$39: int;
+  var {:extern} result.__iob_func$44: int;
+  var {:extern} result.alt_sep_test$43: int;
+  var {:extern} result.atoi$18: int;
+  var {:extern} result.atoi$20: int;
+  var {:extern} result.atoi$22: int;
+  var {:extern} result.atoi$24: int;
+  var {:extern} result.atoi$26: int;
+  var {:extern} result.atoi$28: int;
+  var {:extern} result.atoi$30: int;
+  var {:extern} result.atoi$32: int;
+  var {:extern} result.atoi$34: int;
+  var {:extern} result.atoi$36: int;
+  var {:extern} result.atoi$38: int;
+  var {:extern} result.atoi$40: int;
+  var {:extern} result.exit$17: int;
+  var {:extern} result.exit$46: int;
   var {:extern} result.fprintf$2: int;
   var {:extern} result.fprintf$5: int;
   var {:extern} result.fprintf$8: int;
   var {:extern} result.fprintf$11: int;
   var {:extern} result.fprintf$14: int;
-  var {:extern} result.fprintf$41: int;
+  var {:extern} result.fprintf$42: int;
   var {:extern} tempBoogie0: int;
   var {:extern} tempBoogie1: int;
   var {:extern} tempBoogie2: int;
@@ -2354,56 +2349,58 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     assume INT_LT(argv.__1, alloc);
     argc := 0;
     argv := 0;
-    $atoi.arg.1$18$ := 0;
-    $atoi.arg.1$20$ := 0;
-    $atoi.arg.1$22$ := 0;
-    $atoi.arg.1$24$ := 0;
-    $atoi.arg.1$26$ := 0;
-    $atoi.arg.1$28$ := 0;
-    $atoi.arg.1$30$ := 0;
-    $atoi.arg.1$32$ := 0;
-    $atoi.arg.1$34$ := 0;
-    $atoi.arg.1$36$ := 0;
-    $atoi.arg.1$38$ := 0;
-    $atoi.arg.1$40$ := 0;
+    $atoi.arg.1$19$ := 0;
+    $atoi.arg.1$21$ := 0;
+    $atoi.arg.1$23$ := 0;
+    $atoi.arg.1$25$ := 0;
+    $atoi.arg.1$27$ := 0;
+    $atoi.arg.1$29$ := 0;
+    $atoi.arg.1$31$ := 0;
+    $atoi.arg.1$33$ := 0;
+    $atoi.arg.1$35$ := 0;
+    $atoi.arg.1$37$ := 0;
+    $atoi.arg.1$39$ := 0;
+    $atoi.arg.1$41$ := 0;
     $fprintf.arg.1$10$ := 0;
     $fprintf.arg.1$13$ := 0;
     $fprintf.arg.1$16$ := 0;
     $fprintf.arg.1$4$ := 0;
-    $fprintf.arg.1$44$ := 0;
+    $fprintf.arg.1$45$ := 0;
     $fprintf.arg.1$7$ := 0;
     result.__iob_func$3 := 0;
     result.__iob_func$6 := 0;
     result.__iob_func$9 := 0;
     result.__iob_func$12 := 0;
     result.__iob_func$15 := 0;
-    result.__iob_func$43 := 0;
-    result.alt_sep_test$42 := 0;
-    result.atoi$17 := 0;
-    result.atoi$19 := 0;
-    result.atoi$21 := 0;
-    result.atoi$23 := 0;
-    result.atoi$25 := 0;
-    result.atoi$27 := 0;
-    result.atoi$29 := 0;
-    result.atoi$31 := 0;
-    result.atoi$33 := 0;
-    result.atoi$35 := 0;
-    result.atoi$37 := 0;
-    result.atoi$39 := 0;
+    result.__iob_func$44 := 0;
+    result.alt_sep_test$43 := 0;
+    result.atoi$18 := 0;
+    result.atoi$20 := 0;
+    result.atoi$22 := 0;
+    result.atoi$24 := 0;
+    result.atoi$26 := 0;
+    result.atoi$28 := 0;
+    result.atoi$30 := 0;
+    result.atoi$32 := 0;
+    result.atoi$34 := 0;
+    result.atoi$36 := 0;
+    result.atoi$38 := 0;
+    result.atoi$40 := 0;
+    result.exit$17 := 0;
+    result.exit$46 := 0;
     result.fprintf$2 := 0;
     result.fprintf$5 := 0;
     result.fprintf$8 := 0;
     result.fprintf$11 := 0;
     result.fprintf$14 := 0;
-    result.fprintf$41 := 0;
+    result.fprintf$42 := 0;
     result.main$1 := 0;
     argc := argc.__1;
     argv := argv.__1;
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 148} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 148} true;
     goto label_3_true, label_3_false;
 
   label_3_false:
@@ -2412,316 +2409,312 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 157} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 157} true;
     call initialize();
-    goto label_43;
+    goto label_45;
 
-  label_43:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 158} true;
+  label_45:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 158} true;
     assert argv != 0;
-    $atoi.arg.1$18$ := Mem_T.PCHAR[PLUS(argv, 4, 1)];
-    assume value_is(__ctobpl_const_101, $atoi.arg.1$18$);
+    $atoi.arg.1$19$ := Mem_T.PCHAR[PLUS(argv, 4, 1)];
+    assume value_is(__ctobpl_const_101, $atoi.arg.1$19$);
     assume value_is(__ctobpl_const_102, argv);
     assume value_is(__ctobpl_const_103, Mem_T.PCHAR[PLUS(argv, 4, 1)]);
-    goto label_44;
+    goto label_46;
 
-  label_44:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 158} true;
-    call result.atoi$17 := atoi($atoi.arg.1$18$);
-    assume value_is(__ctobpl_const_104, $atoi.arg.1$18$);
-    assume value_is(__ctobpl_const_105, $atoi.arg.1$18$);
-    goto label_47;
-
-  label_47:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 158} true;
-    Cur_Vertical_Sep := result.atoi$17;
-    assume value_is(__ctobpl_const_106, Cur_Vertical_Sep);
-    assume value_is(__ctobpl_const_107, result.atoi$17);
-    goto label_48;
-
-  label_48:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 159} true;
-    assert argv != 0;
-    $atoi.arg.1$20$ := Mem_T.PCHAR[PLUS(argv, 4, 2)];
-    assume value_is(__ctobpl_const_108, $atoi.arg.1$20$);
-    assume value_is(__ctobpl_const_109, argv);
-    assume value_is(__ctobpl_const_110, Mem_T.PCHAR[PLUS(argv, 4, 2)]);
+  label_46:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 158} true;
+    call result.atoi$18 := atoi($atoi.arg.1$19$);
+    assume value_is(__ctobpl_const_104, $atoi.arg.1$19$);
+    assume value_is(__ctobpl_const_105, $atoi.arg.1$19$);
     goto label_49;
 
   label_49:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 159} true;
-    call result.atoi$19 := atoi($atoi.arg.1$20$);
-    assume value_is(__ctobpl_const_111, $atoi.arg.1$20$);
-    assume value_is(__ctobpl_const_112, $atoi.arg.1$20$);
-    goto label_52;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 158} true;
+    Cur_Vertical_Sep := result.atoi$18;
+    assume value_is(__ctobpl_const_106, Cur_Vertical_Sep);
+    assume value_is(__ctobpl_const_107, result.atoi$18);
+    goto label_50;
 
-  label_52:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 159} true;
-    High_Confidence := result.atoi$19;
-    assume value_is(__ctobpl_const_113, High_Confidence);
-    assume value_is(__ctobpl_const_114, result.atoi$19);
-    goto label_53;
-
-  label_53:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 160} true;
+  label_50:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 159} true;
     assert argv != 0;
-    $atoi.arg.1$22$ := Mem_T.PCHAR[PLUS(argv, 4, 3)];
-    assume value_is(__ctobpl_const_115, $atoi.arg.1$22$);
-    assume value_is(__ctobpl_const_116, argv);
-    assume value_is(__ctobpl_const_117, Mem_T.PCHAR[PLUS(argv, 4, 3)]);
+    $atoi.arg.1$21$ := Mem_T.PCHAR[PLUS(argv, 4, 2)];
+    assume value_is(__ctobpl_const_108, $atoi.arg.1$21$);
+    assume value_is(__ctobpl_const_109, argv);
+    assume value_is(__ctobpl_const_110, Mem_T.PCHAR[PLUS(argv, 4, 2)]);
+    goto label_51;
+
+  label_51:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 159} true;
+    call result.atoi$20 := atoi($atoi.arg.1$21$);
+    assume value_is(__ctobpl_const_111, $atoi.arg.1$21$);
+    assume value_is(__ctobpl_const_112, $atoi.arg.1$21$);
     goto label_54;
 
   label_54:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 160} true;
-    call result.atoi$21 := atoi($atoi.arg.1$22$);
-    assume value_is(__ctobpl_const_118, $atoi.arg.1$22$);
-    assume value_is(__ctobpl_const_119, $atoi.arg.1$22$);
-    goto label_57;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 159} true;
+    High_Confidence := result.atoi$20;
+    assume value_is(__ctobpl_const_113, High_Confidence);
+    assume value_is(__ctobpl_const_114, result.atoi$20);
+    goto label_55;
 
-  label_57:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 160} true;
-    Two_of_Three_Reports_Valid := result.atoi$21;
-    assume value_is(__ctobpl_const_120, Two_of_Three_Reports_Valid);
-    assume value_is(__ctobpl_const_121, result.atoi$21);
-    goto label_58;
-
-  label_58:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 161} true;
+  label_55:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 160} true;
     assert argv != 0;
-    $atoi.arg.1$24$ := Mem_T.PCHAR[PLUS(argv, 4, 4)];
-    assume value_is(__ctobpl_const_122, $atoi.arg.1$24$);
-    assume value_is(__ctobpl_const_123, argv);
-    assume value_is(__ctobpl_const_124, Mem_T.PCHAR[PLUS(argv, 4, 4)]);
+    $atoi.arg.1$23$ := Mem_T.PCHAR[PLUS(argv, 4, 3)];
+    assume value_is(__ctobpl_const_115, $atoi.arg.1$23$);
+    assume value_is(__ctobpl_const_116, argv);
+    assume value_is(__ctobpl_const_117, Mem_T.PCHAR[PLUS(argv, 4, 3)]);
+    goto label_56;
+
+  label_56:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 160} true;
+    call result.atoi$22 := atoi($atoi.arg.1$23$);
+    assume value_is(__ctobpl_const_118, $atoi.arg.1$23$);
+    assume value_is(__ctobpl_const_119, $atoi.arg.1$23$);
     goto label_59;
 
   label_59:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 161} true;
-    call result.atoi$23 := atoi($atoi.arg.1$24$);
-    assume value_is(__ctobpl_const_125, $atoi.arg.1$24$);
-    assume value_is(__ctobpl_const_126, $atoi.arg.1$24$);
-    goto label_62;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 160} true;
+    Two_of_Three_Reports_Valid := result.atoi$22;
+    assume value_is(__ctobpl_const_120, Two_of_Three_Reports_Valid);
+    assume value_is(__ctobpl_const_121, result.atoi$22);
+    goto label_60;
 
-  label_62:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 161} true;
-    Own_Tracked_Alt := result.atoi$23;
-    assume value_is(__ctobpl_const_127, Own_Tracked_Alt);
-    assume value_is(__ctobpl_const_128, result.atoi$23);
-    goto label_63;
-
-  label_63:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 162} true;
+  label_60:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 161} true;
     assert argv != 0;
-    $atoi.arg.1$26$ := Mem_T.PCHAR[PLUS(argv, 4, 5)];
-    assume value_is(__ctobpl_const_129, $atoi.arg.1$26$);
-    assume value_is(__ctobpl_const_130, argv);
-    assume value_is(__ctobpl_const_131, Mem_T.PCHAR[PLUS(argv, 4, 5)]);
+    $atoi.arg.1$25$ := Mem_T.PCHAR[PLUS(argv, 4, 4)];
+    assume value_is(__ctobpl_const_122, $atoi.arg.1$25$);
+    assume value_is(__ctobpl_const_123, argv);
+    assume value_is(__ctobpl_const_124, Mem_T.PCHAR[PLUS(argv, 4, 4)]);
+    goto label_61;
+
+  label_61:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 161} true;
+    call result.atoi$24 := atoi($atoi.arg.1$25$);
+    assume value_is(__ctobpl_const_125, $atoi.arg.1$25$);
+    assume value_is(__ctobpl_const_126, $atoi.arg.1$25$);
     goto label_64;
 
   label_64:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 162} true;
-    call result.atoi$25 := atoi($atoi.arg.1$26$);
-    assume value_is(__ctobpl_const_132, $atoi.arg.1$26$);
-    assume value_is(__ctobpl_const_133, $atoi.arg.1$26$);
-    goto label_67;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 161} true;
+    Own_Tracked_Alt := result.atoi$24;
+    assume value_is(__ctobpl_const_127, Own_Tracked_Alt);
+    assume value_is(__ctobpl_const_128, result.atoi$24);
+    goto label_65;
 
-  label_67:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 162} true;
-    Own_Tracked_Alt_Rate := result.atoi$25;
-    assume value_is(__ctobpl_const_134, Own_Tracked_Alt_Rate);
-    assume value_is(__ctobpl_const_135, result.atoi$25);
-    goto label_68;
-
-  label_68:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 163} true;
+  label_65:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 162} true;
     assert argv != 0;
-    $atoi.arg.1$28$ := Mem_T.PCHAR[PLUS(argv, 4, 6)];
-    assume value_is(__ctobpl_const_136, $atoi.arg.1$28$);
-    assume value_is(__ctobpl_const_137, argv);
-    assume value_is(__ctobpl_const_138, Mem_T.PCHAR[PLUS(argv, 4, 6)]);
+    $atoi.arg.1$27$ := Mem_T.PCHAR[PLUS(argv, 4, 5)];
+    assume value_is(__ctobpl_const_129, $atoi.arg.1$27$);
+    assume value_is(__ctobpl_const_130, argv);
+    assume value_is(__ctobpl_const_131, Mem_T.PCHAR[PLUS(argv, 4, 5)]);
+    goto label_66;
+
+  label_66:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 162} true;
+    call result.atoi$26 := atoi($atoi.arg.1$27$);
+    assume value_is(__ctobpl_const_132, $atoi.arg.1$27$);
+    assume value_is(__ctobpl_const_133, $atoi.arg.1$27$);
     goto label_69;
 
   label_69:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 163} true;
-    call result.atoi$27 := atoi($atoi.arg.1$28$);
-    assume value_is(__ctobpl_const_139, $atoi.arg.1$28$);
-    assume value_is(__ctobpl_const_140, $atoi.arg.1$28$);
-    goto label_72;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 162} true;
+    Own_Tracked_Alt_Rate := result.atoi$26;
+    assume value_is(__ctobpl_const_134, Own_Tracked_Alt_Rate);
+    assume value_is(__ctobpl_const_135, result.atoi$26);
+    goto label_70;
 
-  label_72:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 163} true;
-    Other_Tracked_Alt := result.atoi$27;
-    assume value_is(__ctobpl_const_141, Other_Tracked_Alt);
-    assume value_is(__ctobpl_const_142, result.atoi$27);
-    goto label_73;
-
-  label_73:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 164} true;
+  label_70:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 163} true;
     assert argv != 0;
-    $atoi.arg.1$30$ := Mem_T.PCHAR[PLUS(argv, 4, 7)];
-    assume value_is(__ctobpl_const_143, $atoi.arg.1$30$);
-    assume value_is(__ctobpl_const_144, argv);
-    assume value_is(__ctobpl_const_145, Mem_T.PCHAR[PLUS(argv, 4, 7)]);
+    $atoi.arg.1$29$ := Mem_T.PCHAR[PLUS(argv, 4, 6)];
+    assume value_is(__ctobpl_const_136, $atoi.arg.1$29$);
+    assume value_is(__ctobpl_const_137, argv);
+    assume value_is(__ctobpl_const_138, Mem_T.PCHAR[PLUS(argv, 4, 6)]);
+    goto label_71;
+
+  label_71:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 163} true;
+    call result.atoi$28 := atoi($atoi.arg.1$29$);
+    assume value_is(__ctobpl_const_139, $atoi.arg.1$29$);
+    assume value_is(__ctobpl_const_140, $atoi.arg.1$29$);
     goto label_74;
 
   label_74:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 164} true;
-    call result.atoi$29 := atoi($atoi.arg.1$30$);
-    assume value_is(__ctobpl_const_146, $atoi.arg.1$30$);
-    assume value_is(__ctobpl_const_147, $atoi.arg.1$30$);
-    goto label_77;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 163} true;
+    Other_Tracked_Alt := result.atoi$28;
+    assume value_is(__ctobpl_const_141, Other_Tracked_Alt);
+    assume value_is(__ctobpl_const_142, result.atoi$28);
+    goto label_75;
 
-  label_77:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 164} true;
-    Alt_Layer_Value := result.atoi$29;
-    assume value_is(__ctobpl_const_148, Alt_Layer_Value);
-    assume value_is(__ctobpl_const_149, result.atoi$29);
-    goto label_78;
-
-  label_78:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 165} true;
+  label_75:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 164} true;
     assert argv != 0;
-    $atoi.arg.1$32$ := Mem_T.PCHAR[PLUS(argv, 4, 8)];
-    assume value_is(__ctobpl_const_150, $atoi.arg.1$32$);
-    assume value_is(__ctobpl_const_151, argv);
-    assume value_is(__ctobpl_const_152, Mem_T.PCHAR[PLUS(argv, 4, 8)]);
+    $atoi.arg.1$31$ := Mem_T.PCHAR[PLUS(argv, 4, 7)];
+    assume value_is(__ctobpl_const_143, $atoi.arg.1$31$);
+    assume value_is(__ctobpl_const_144, argv);
+    assume value_is(__ctobpl_const_145, Mem_T.PCHAR[PLUS(argv, 4, 7)]);
+    goto label_76;
+
+  label_76:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 164} true;
+    call result.atoi$30 := atoi($atoi.arg.1$31$);
+    assume value_is(__ctobpl_const_146, $atoi.arg.1$31$);
+    assume value_is(__ctobpl_const_147, $atoi.arg.1$31$);
     goto label_79;
 
   label_79:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 165} true;
-    call result.atoi$31 := atoi($atoi.arg.1$32$);
-    assume value_is(__ctobpl_const_153, $atoi.arg.1$32$);
-    assume value_is(__ctobpl_const_154, $atoi.arg.1$32$);
-    goto label_82;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 164} true;
+    Alt_Layer_Value := result.atoi$30;
+    assume value_is(__ctobpl_const_148, Alt_Layer_Value);
+    assume value_is(__ctobpl_const_149, result.atoi$30);
+    goto label_80;
 
-  label_82:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 165} true;
-    Up_Separation := result.atoi$31;
-    assume value_is(__ctobpl_const_155, Up_Separation);
-    assume value_is(__ctobpl_const_156, result.atoi$31);
-    goto label_83;
-
-  label_83:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 166} true;
+  label_80:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 165} true;
     assert argv != 0;
-    $atoi.arg.1$34$ := Mem_T.PCHAR[PLUS(argv, 4, 9)];
-    assume value_is(__ctobpl_const_157, $atoi.arg.1$34$);
-    assume value_is(__ctobpl_const_158, argv);
-    assume value_is(__ctobpl_const_159, Mem_T.PCHAR[PLUS(argv, 4, 9)]);
+    $atoi.arg.1$33$ := Mem_T.PCHAR[PLUS(argv, 4, 8)];
+    assume value_is(__ctobpl_const_150, $atoi.arg.1$33$);
+    assume value_is(__ctobpl_const_151, argv);
+    assume value_is(__ctobpl_const_152, Mem_T.PCHAR[PLUS(argv, 4, 8)]);
+    goto label_81;
+
+  label_81:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 165} true;
+    call result.atoi$32 := atoi($atoi.arg.1$33$);
+    assume value_is(__ctobpl_const_153, $atoi.arg.1$33$);
+    assume value_is(__ctobpl_const_154, $atoi.arg.1$33$);
     goto label_84;
 
   label_84:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 166} true;
-    call result.atoi$33 := atoi($atoi.arg.1$34$);
-    assume value_is(__ctobpl_const_160, $atoi.arg.1$34$);
-    assume value_is(__ctobpl_const_161, $atoi.arg.1$34$);
-    goto label_87;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 165} true;
+    Up_Separation := result.atoi$32;
+    assume value_is(__ctobpl_const_155, Up_Separation);
+    assume value_is(__ctobpl_const_156, result.atoi$32);
+    goto label_85;
 
-  label_87:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 166} true;
-    Down_Separation := result.atoi$33;
-    assume value_is(__ctobpl_const_162, Down_Separation);
-    assume value_is(__ctobpl_const_163, result.atoi$33);
-    goto label_88;
-
-  label_88:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 167} true;
+  label_85:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 166} true;
     assert argv != 0;
-    $atoi.arg.1$36$ := Mem_T.PCHAR[PLUS(argv, 4, 10)];
-    assume value_is(__ctobpl_const_164, $atoi.arg.1$36$);
-    assume value_is(__ctobpl_const_165, argv);
-    assume value_is(__ctobpl_const_166, Mem_T.PCHAR[PLUS(argv, 4, 10)]);
+    $atoi.arg.1$35$ := Mem_T.PCHAR[PLUS(argv, 4, 9)];
+    assume value_is(__ctobpl_const_157, $atoi.arg.1$35$);
+    assume value_is(__ctobpl_const_158, argv);
+    assume value_is(__ctobpl_const_159, Mem_T.PCHAR[PLUS(argv, 4, 9)]);
+    goto label_86;
+
+  label_86:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 166} true;
+    call result.atoi$34 := atoi($atoi.arg.1$35$);
+    assume value_is(__ctobpl_const_160, $atoi.arg.1$35$);
+    assume value_is(__ctobpl_const_161, $atoi.arg.1$35$);
     goto label_89;
 
   label_89:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 167} true;
-    call result.atoi$35 := atoi($atoi.arg.1$36$);
-    assume value_is(__ctobpl_const_167, $atoi.arg.1$36$);
-    assume value_is(__ctobpl_const_168, $atoi.arg.1$36$);
-    goto label_92;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 166} true;
+    Down_Separation := result.atoi$34;
+    assume value_is(__ctobpl_const_162, Down_Separation);
+    assume value_is(__ctobpl_const_163, result.atoi$34);
+    goto label_90;
 
-  label_92:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 167} true;
-    Other_RAC := result.atoi$35;
-    assume value_is(__ctobpl_const_169, Other_RAC);
-    assume value_is(__ctobpl_const_170, result.atoi$35);
-    goto label_93;
-
-  label_93:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 168} true;
+  label_90:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 167} true;
     assert argv != 0;
-    $atoi.arg.1$38$ := Mem_T.PCHAR[PLUS(argv, 4, 11)];
-    assume value_is(__ctobpl_const_171, $atoi.arg.1$38$);
-    assume value_is(__ctobpl_const_172, argv);
-    assume value_is(__ctobpl_const_173, Mem_T.PCHAR[PLUS(argv, 4, 11)]);
+    $atoi.arg.1$37$ := Mem_T.PCHAR[PLUS(argv, 4, 10)];
+    assume value_is(__ctobpl_const_164, $atoi.arg.1$37$);
+    assume value_is(__ctobpl_const_165, argv);
+    assume value_is(__ctobpl_const_166, Mem_T.PCHAR[PLUS(argv, 4, 10)]);
+    goto label_91;
+
+  label_91:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 167} true;
+    call result.atoi$36 := atoi($atoi.arg.1$37$);
+    assume value_is(__ctobpl_const_167, $atoi.arg.1$37$);
+    assume value_is(__ctobpl_const_168, $atoi.arg.1$37$);
     goto label_94;
 
   label_94:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 168} true;
-    call result.atoi$37 := atoi($atoi.arg.1$38$);
-    assume value_is(__ctobpl_const_174, $atoi.arg.1$38$);
-    assume value_is(__ctobpl_const_175, $atoi.arg.1$38$);
-    goto label_97;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 167} true;
+    Other_RAC := result.atoi$36;
+    assume value_is(__ctobpl_const_169, Other_RAC);
+    assume value_is(__ctobpl_const_170, result.atoi$36);
+    goto label_95;
 
-  label_97:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 168} true;
-    Other_Capability := result.atoi$37;
-    assume value_is(__ctobpl_const_176, Other_Capability);
-    assume value_is(__ctobpl_const_177, result.atoi$37);
-    goto label_98;
-
-  label_98:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 169} true;
+  label_95:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 168} true;
     assert argv != 0;
-    $atoi.arg.1$40$ := Mem_T.PCHAR[PLUS(argv, 4, 12)];
-    assume value_is(__ctobpl_const_178, $atoi.arg.1$40$);
-    assume value_is(__ctobpl_const_179, argv);
-    assume value_is(__ctobpl_const_180, Mem_T.PCHAR[PLUS(argv, 4, 12)]);
+    $atoi.arg.1$39$ := Mem_T.PCHAR[PLUS(argv, 4, 11)];
+    assume value_is(__ctobpl_const_171, $atoi.arg.1$39$);
+    assume value_is(__ctobpl_const_172, argv);
+    assume value_is(__ctobpl_const_173, Mem_T.PCHAR[PLUS(argv, 4, 11)]);
+    goto label_96;
+
+  label_96:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 168} true;
+    call result.atoi$38 := atoi($atoi.arg.1$39$);
+    assume value_is(__ctobpl_const_174, $atoi.arg.1$39$);
+    assume value_is(__ctobpl_const_175, $atoi.arg.1$39$);
     goto label_99;
 
   label_99:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 169} true;
-    call result.atoi$39 := atoi($atoi.arg.1$40$);
-    assume value_is(__ctobpl_const_181, $atoi.arg.1$40$);
-    assume value_is(__ctobpl_const_182, $atoi.arg.1$40$);
-    goto label_102;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 168} true;
+    Other_Capability := result.atoi$38;
+    assume value_is(__ctobpl_const_176, Other_Capability);
+    assume value_is(__ctobpl_const_177, result.atoi$38);
+    goto label_100;
 
-  label_102:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 169} true;
-    Climb_Inhibit := result.atoi$39;
+  label_100:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 169} true;
+    assert argv != 0;
+    $atoi.arg.1$41$ := Mem_T.PCHAR[PLUS(argv, 4, 12)];
+    assume value_is(__ctobpl_const_178, $atoi.arg.1$41$);
+    assume value_is(__ctobpl_const_179, argv);
+    assume value_is(__ctobpl_const_180, Mem_T.PCHAR[PLUS(argv, 4, 12)]);
+    goto label_101;
+
+  label_101:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 169} true;
+    call result.atoi$40 := atoi($atoi.arg.1$41$);
+    assume value_is(__ctobpl_const_181, $atoi.arg.1$41$);
+    assume value_is(__ctobpl_const_182, $atoi.arg.1$41$);
+    goto label_104;
+
+  label_104:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 169} true;
+    Climb_Inhibit := result.atoi$40;
     assume value_is(__ctobpl_const_183, Climb_Inhibit);
-    assume value_is(__ctobpl_const_184, result.atoi$39);
-    goto label_103;
+    assume value_is(__ctobpl_const_184, result.atoi$40);
+    goto label_105;
 
-  label_103:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 171} true;
-    call result.alt_sep_test$42 := alt_sep_test();
-    goto label_106;
+  label_105:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 171} true;
+    call result.alt_sep_test$43 := alt_sep_test();
+    goto label_108;
 
-  label_106:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 171} true;
-    call result.__iob_func$43 := __iob_func();
-    goto label_109;
+  label_108:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 171} true;
+    call result.__iob_func$44 := __iob_func();
+    goto label_111;
 
-  label_109:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 171} true;
-    assert result.__iob_func$43 != 0;
-    $fprintf.arg.1$44$ := PLUS(result.__iob_func$43, 32, 1);
-    assume value_is(__ctobpl_const_185, $fprintf.arg.1$44$);
-    assume value_is(__ctobpl_const_186, result.__iob_func$43);
-    goto label_110;
+  label_111:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 171} true;
+    assert result.__iob_func$44 != 0;
+    $fprintf.arg.1$45$ := PLUS(result.__iob_func$44, 32, 1);
+    assume value_is(__ctobpl_const_185, $fprintf.arg.1$45$);
+    assume value_is(__ctobpl_const_186, result.__iob_func$44);
+    goto label_112;
 
-  label_110:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 171} true;
-    call result.fprintf$41 := det_choice();
-    goto label_113;
+  label_112:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 171} true;
+    call result.fprintf$42 := det_choice();
+    goto label_115;
 
-  label_113:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 172} true;
-    result.main$1 := 0;
-    goto label_1;
-
-  label_1:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 173} true;
+  label_115:
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 172} true;
+    call result.exit$46 := det_choice();
     return;
 
   label_3_true:
@@ -2730,12 +2723,12 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 150} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 150} true;
     call result.__iob_func$3 := __iob_func();
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 150} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 150} true;
     assert result.__iob_func$3 != 0;
     $fprintf.arg.1$4$ := PLUS(result.__iob_func$3, 32, 1);
     assume value_is(__ctobpl_const_187, $fprintf.arg.1$4$);
@@ -2743,17 +2736,17 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 150} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 150} true;
     call result.fprintf$2 := det_choice();
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 151} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 151} true;
     call result.__iob_func$6 := __iob_func();
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 151} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 151} true;
     assert result.__iob_func$6 != 0;
     $fprintf.arg.1$7$ := PLUS(result.__iob_func$6, 32, 1);
     assume value_is(__ctobpl_const_189, $fprintf.arg.1$7$);
@@ -2761,17 +2754,17 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 151} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 151} true;
     call result.fprintf$5 := det_choice();
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 152} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 152} true;
     call result.__iob_func$9 := __iob_func();
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 152} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 152} true;
     assert result.__iob_func$9 != 0;
     $fprintf.arg.1$10$ := PLUS(result.__iob_func$9, 32, 1);
     assume value_is(__ctobpl_const_191, $fprintf.arg.1$10$);
@@ -2779,17 +2772,17 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 152} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 152} true;
     call result.fprintf$8 := det_choice();
     goto label_28;
 
   label_28:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 153} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 153} true;
     call result.__iob_func$12 := __iob_func();
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 153} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 153} true;
     assert result.__iob_func$12 != 0;
     $fprintf.arg.1$13$ := PLUS(result.__iob_func$12, 32, 1);
     assume value_is(__ctobpl_const_193, $fprintf.arg.1$13$);
@@ -2797,17 +2790,17 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_32;
 
   label_32:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 153} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 153} true;
     call result.fprintf$11 := det_choice();
     goto label_35;
 
   label_35:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 154} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 154} true;
     call result.__iob_func$15 := __iob_func();
     goto label_38;
 
   label_38:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 154} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 154} true;
     assert result.__iob_func$15 != 0;
     $fprintf.arg.1$16$ := PLUS(result.__iob_func$15, 32, 1);
     assume value_is(__ctobpl_const_195, $fprintf.arg.1$16$);
@@ -2815,14 +2808,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_39;
 
   label_39:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 154} true;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 154} true;
     call result.fprintf$14 := det_choice();
     goto label_42;
 
   label_42:
-    assert {:sourcefile ".\source\tcas.c"} {:sourceline 155} true;
-    result.main$1 := 1;
-    goto label_1;
+    assert {:sourcefile ".\v23\tcas.c"} {:sourceline 155} true;
+    call result.exit$17 := det_choice();
+    return;
 }
 
 
