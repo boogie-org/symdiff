@@ -223,7 +223,6 @@ token_stream tstream_ptr;
                  case 9  :
                  case 11 :
                  case 13 :
-		 case 12 : /* added code */
                  case 16 : ch=get_char(tstream_ptr->ch_stream);
                            if(check_delimiter(ch)==TRUE)
                            {
@@ -279,7 +278,7 @@ int token_ind;
             token_ptr->token_id=ERROR;
             while(check_delimiter(ch)==FALSE)
 	    {
-		if(token_ind >= 80) break; /* Added protection - hf */
+		if(token_ind >= 10) break; /* Added protection - hf */
 		token_str[token_ind++]=ch=get_char(tstream_ptr->ch_stream);
 	    }
             unget_char(ch,tstream_ptr->ch_stream);

@@ -223,7 +223,6 @@ token_stream tstream_ptr;
                  case 9  :
                  case 11 :
                  case 13 :
-		 case 12 : /* added code */
                  case 16 : ch=get_char(tstream_ptr->ch_stream);
                            if(check_delimiter(ch)==TRUE)
                            {
@@ -251,7 +250,7 @@ token_stream tstream_ptr;
                            return(token_ptr);
                  case 30 :  /* This is COMMENT case */
                            skip(tstream_ptr->ch_stream);
-                           token_ind=next_st=0;
+                           /* missing code token_ind= */ next_st=0;
                            break;
             }
             cu_state=next_st;

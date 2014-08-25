@@ -223,7 +223,6 @@ token_stream tstream_ptr;
                  case 9  :
                  case 11 :
                  case 13 :
-		 case 12 : /* added code */
                  case 16 : ch=get_char(tstream_ptr->ch_stream);
                            if(check_delimiter(ch)==TRUE)
                            {
@@ -232,7 +231,7 @@ token_stream tstream_ptr;
                                  token_ptr->token_string[0]='\0';
                                  return(token_ptr);
                            }
-                           unget_char(ch,tstream_ptr->ch_stream);
+                           /*unget_char(ch,tstream_ptr->ch_stream);*/
                            break;
                  case 19 : /* These are all special SPECIAL character */
                  case 20 : /* cases */
