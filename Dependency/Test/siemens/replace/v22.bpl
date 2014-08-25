@@ -509,1599 +509,1591 @@ axiom (forall M: [name][int]int, x: int, y: int :: { Unified(M[Field(x) := M[Fie
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "outset"} {:sourceFile ".\source\replace.c"} {:sourceLine 58} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 58} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 58} unique __ctobpl_const_7: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 56} unique __ctobpl_const_16: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile ".\source\replace.c"} {:sourceLine 58} unique __ctobpl_const_8: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 560} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 59} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "src[* i + 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 116} unique __ctobpl_const_155: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile ".\source\replace.c"} {:sourceLine 55} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 55} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 58} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "* j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 55} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile ".\source\replace.c"} {:sourceLine 59} unique __ctobpl_const_14: int;
+const {:extern} {:model_const "outset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 58} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "outset[* j]"} {:sourceFile ".\source\replace.c"} {:sourceLine 58} unique __ctobpl_const_9: int;
+const {:extern} {:model_const "* j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 58} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile ".\source\replace.c"} {:sourceLine 59} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "pat[j]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 426} unique __ctobpl_const_22: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 59} unique __ctobpl_const_13: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 427} unique __ctobpl_const_24: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_76: int;
+const {:extern} {:model_const "pat[j]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 427} unique __ctobpl_const_25: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 561} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 446} unique __ctobpl_const_26: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\replace.c"} {:sourceLine 561} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "offset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 446} unique __ctobpl_const_27: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 55} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "* j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 59} unique __ctobpl_const_14: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile ".\source\replace.c"} {:sourceLine 55} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 62} unique __ctobpl_const_17: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 432} unique __ctobpl_const_64: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 426} unique __ctobpl_const_19: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 432} unique __ctobpl_const_65: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 427} unique __ctobpl_const_23: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 431} unique __ctobpl_const_56: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 446} unique __ctobpl_const_28: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 429} unique __ctobpl_const_49: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 446} unique __ctobpl_const_29: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 429} unique __ctobpl_const_47: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 60} unique __ctobpl_const_15: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 429} unique __ctobpl_const_48: int;
+const {:extern} {:model_const "* j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 59} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile ".\source\replace.c"} {:sourceLine 430} unique __ctobpl_const_54: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 59} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 432} unique __ctobpl_const_59: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 58} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 432} unique __ctobpl_const_62: int;
+const {:extern} {:model_const "dest"} {:sourceFile ".\v22\replace.c"} {:sourceLine 125} unique __ctobpl_const_156: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 429} unique __ctobpl_const_46: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v22\replace.c"} {:sourceLine 560} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 432} unique __ctobpl_const_63: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 59} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 432} unique __ctobpl_const_66: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 425} unique __ctobpl_const_18: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 432} unique __ctobpl_const_67: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 426} unique __ctobpl_const_20: int;
 
-const {:extern} {:model_const "result.omatch"} {:sourceFile ".\source\replace.c"} {:sourceLine 432} unique __ctobpl_const_68: int;
+const {:extern} {:model_const "outset[* j]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 58} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 433} unique __ctobpl_const_69: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 426} unique __ctobpl_const_21: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 434} unique __ctobpl_const_70: int;
+const {:extern} {:model_const "maxset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 55} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 452} unique __ctobpl_const_44: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_643: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 436} unique __ctobpl_const_71: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 349} unique __ctobpl_const_647: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 437} unique __ctobpl_const_72: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 349} unique __ctobpl_const_648: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile ".\source\replace.c"} {:sourceLine 437} unique __ctobpl_const_73: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_637: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 432} unique __ctobpl_const_61: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 357} unique __ctobpl_const_627: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 437} unique __ctobpl_const_74: int;
+const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 357} unique __ctobpl_const_630: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_75: int;
+const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 349} unique __ctobpl_const_650: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 429} unique __ctobpl_const_51: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 357} unique __ctobpl_const_628: int;
 
-const {:extern} {:model_const "result.patsize"} {:sourceFile ".\source\replace.c"} {:sourceLine 429} unique __ctobpl_const_52: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_640: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 429} unique __ctobpl_const_50: int;
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_642: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 430} unique __ctobpl_const_53: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 349} unique __ctobpl_const_651: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 431} unique __ctobpl_const_55: int;
+const {:extern} {:model_const "advance"} {:sourceFile ".\v22\replace.c"} {:sourceLine 358} unique __ctobpl_const_631: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 431} unique __ctobpl_const_57: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 349} unique __ctobpl_const_649: int;
 
-const {:extern} {:model_const "result.patsize"} {:sourceFile ".\source\replace.c"} {:sourceLine 452} unique __ctobpl_const_45: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 349} unique __ctobpl_const_652: int;
 
-const {:extern} {:model_const "lin[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 431} unique __ctobpl_const_58: int;
+const {:extern} {:model_const "result.locate"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_645: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 432} unique __ctobpl_const_60: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 357} unique __ctobpl_const_629: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 426} unique __ctobpl_const_18: int;
+const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_638: int;
 
-const {:extern} {:model_const "result.omatch"} {:sourceFile ".\source\replace.c"} {:sourceLine 447} unique __ctobpl_const_35: int;
+const {:extern} {:model_const "pat[j + 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 349} unique __ctobpl_const_653: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 428} unique __ctobpl_const_23: int;
+const {:extern} {:model_const "advance"} {:sourceFile ".\v22\replace.c"} {:sourceLine 350} unique __ctobpl_const_654: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 447} unique __ctobpl_const_30: int;
+const {:extern} {:model_const "advance"} {:sourceFile ".\v22\replace.c"} {:sourceLine 377} unique __ctobpl_const_655: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 427} unique __ctobpl_const_20: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 382} unique __ctobpl_const_656: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 448} unique __ctobpl_const_36: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 379} unique __ctobpl_const_657: int;
 
-const {:extern} {:model_const "result.isalnum"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_139: int;
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_644: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile ".\source\replace.c"} {:sourceLine 447} unique __ctobpl_const_27: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 379} unique __ctobpl_const_658: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 60} unique __ctobpl_const_15: int;
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_641: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 447} unique __ctobpl_const_28: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_635: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 447} unique __ctobpl_const_29: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_633: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 447} unique __ctobpl_const_33: int;
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_632: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile ".\source\replace.c"} {:sourceLine 449} unique __ctobpl_const_37: int;
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_634: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 450} unique __ctobpl_const_38: int;
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_639: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 452} unique __ctobpl_const_39: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 365} unique __ctobpl_const_636: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 447} unique __ctobpl_const_26: int;
+const {:extern} {:model_const "advance"} {:sourceFile ".\v22\replace.c"} {:sourceLine 366} unique __ctobpl_const_646: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 427} unique __ctobpl_const_19: int;
+const {:extern} {:model_const "* sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 281} unique __ctobpl_const_538: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 62} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 270} unique __ctobpl_const_552: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 452} unique __ctobpl_const_40: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 281} unique __ctobpl_const_542: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 452} unique __ctobpl_const_41: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 282} unique __ctobpl_const_545: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 452} unique __ctobpl_const_42: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 270} unique __ctobpl_const_553: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 427} unique __ctobpl_const_21: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 278} unique __ctobpl_const_533: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 428} unique __ctobpl_const_24: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 278} unique __ctobpl_const_534: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile ".\source\replace.c"} {:sourceLine 447} unique __ctobpl_const_31: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 278} unique __ctobpl_const_535: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 447} unique __ctobpl_const_34: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 273} unique __ctobpl_const_556: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 452} unique __ctobpl_const_43: int;
+const {:extern} {:model_const "* sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 281} unique __ctobpl_const_541: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 56} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 281} unique __ctobpl_const_539: int;
 
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_140: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 287} unique __ctobpl_const_550: int;
 
-const {:extern} {:model_const "pat[j]"} {:sourceFile ".\source\replace.c"} {:sourceLine 427} unique __ctobpl_const_22: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 273} unique __ctobpl_const_555: int;
 
-const {:extern} {:model_const "pat[j]"} {:sourceFile ".\source\replace.c"} {:sourceLine 428} unique __ctobpl_const_25: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 273} unique __ctobpl_const_557: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 447} unique __ctobpl_const_32: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 279} unique __ctobpl_const_549: int;
 
-const {:extern} {:model_const "src[* i - 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_136: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 283} unique __ctobpl_const_546: int;
 
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_137: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 281} unique __ctobpl_const_537: int;
 
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_138: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 274} unique __ctobpl_const_561: int;
 
-const {:extern} {:model_const "src[* i - 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 107} unique __ctobpl_const_121: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 274} unique __ctobpl_const_560: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 105} unique __ctobpl_const_114: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 273} unique __ctobpl_const_558: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 107} unique __ctobpl_const_118: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 270} unique __ctobpl_const_551: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 111} unique __ctobpl_const_124: int;
+const {:extern} {:model_const "result.esc"} {:sourceFile ".\v22\replace.c"} {:sourceLine 273} unique __ctobpl_const_559: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 105} unique __ctobpl_const_111: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 281} unique __ctobpl_const_543: int;
 
-const {:extern} {:model_const "src[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 111} unique __ctobpl_const_125: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 274} unique __ctobpl_const_562: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 113} unique __ctobpl_const_126: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 274} unique __ctobpl_const_563: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 516} unique __ctobpl_const_107: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 274} unique __ctobpl_const_564: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 107} unique __ctobpl_const_120: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 285} unique __ctobpl_const_548: int;
 
-const {:extern} {:model_const "src[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 105} unique __ctobpl_const_112: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 281} unique __ctobpl_const_540: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 105} unique __ctobpl_const_116: int;
+const {:extern} {:model_const "delim"} {:sourceFile ".\v22\replace.c"} {:sourceLine 278} unique __ctobpl_const_536: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 111} unique __ctobpl_const_122: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 273} unique __ctobpl_const_554: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 113} unique __ctobpl_const_130: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 281} unique __ctobpl_const_544: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 105} unique __ctobpl_const_109: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 285} unique __ctobpl_const_547: int;
 
-const {:extern} {:model_const "delim"} {:sourceFile ".\source\replace.c"} {:sourceLine 105} unique __ctobpl_const_113: int;
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 373} unique __ctobpl_const_594: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile ".\source\replace.c"} {:sourceLine 113} unique __ctobpl_const_127: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 373} unique __ctobpl_const_595: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 105} unique __ctobpl_const_110: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 274} unique __ctobpl_const_567: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 113} unique __ctobpl_const_128: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 271} unique __ctobpl_const_571: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 113} unique __ctobpl_const_129: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 274} unique __ctobpl_const_565: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 107} unique __ctobpl_const_119: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 336} unique __ctobpl_const_577: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 111} unique __ctobpl_const_123: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 274} unique __ctobpl_const_566: int;
 
-const {:extern} {:model_const "src[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 105} unique __ctobpl_const_117: int;
+const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 336} unique __ctobpl_const_580: int;
 
-const {:extern} {:model_const "result.getline"} {:sourceFile ".\source\replace.c"} {:sourceLine 516} unique __ctobpl_const_108: int;
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 340} unique __ctobpl_const_582: int;
 
-const {:extern} {:model_const "src[* i + 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 113} unique __ctobpl_const_131: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 346} unique __ctobpl_const_592: int;
 
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_132: int;
+const {:extern} {:model_const "pat[j]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 340} unique __ctobpl_const_585: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 105} unique __ctobpl_const_115: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 271} unique __ctobpl_const_573: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_133: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 276} unique __ctobpl_const_575: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_134: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 498} unique __ctobpl_const_786: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_135: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 336} unique __ctobpl_const_578: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 515} unique __ctobpl_const_106: int;
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 340} unique __ctobpl_const_586: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_82: int;
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 340} unique __ctobpl_const_587: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 515} unique __ctobpl_const_104: int;
+const {:extern} {:model_const "result.in_pat_set"} {:sourceFile ".\v22\replace.c"} {:sourceLine 340} unique __ctobpl_const_588: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 440} unique __ctobpl_const_95: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 271} unique __ctobpl_const_569: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_77: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 342} unique __ctobpl_const_589: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_88: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v22\replace.c"} {:sourceLine 342} unique __ctobpl_const_590: int;
 
-const {:extern} {:model_const "result.patsize"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_81: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 271} unique __ctobpl_const_570: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_86: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 271} unique __ctobpl_const_572: int;
 
-const {:extern} {:model_const "k"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_90: int;
+const {:extern} {:model_const "advance"} {:sourceFile ".\v22\replace.c"} {:sourceLine 335} unique __ctobpl_const_576: int;
 
-const {:extern} {:model_const "k"} {:sourceFile ".\source\replace.c"} {:sourceLine 439} unique __ctobpl_const_92: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 337} unique __ctobpl_const_581: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_84: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 336} unique __ctobpl_const_579: int;
 
-const {:extern} {:model_const "amatch.arg.4"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_85: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 340} unique __ctobpl_const_584: int;
 
-const {:extern} {:model_const "amatch.arg.4"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_79: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 271} unique __ctobpl_const_568: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 442} unique __ctobpl_const_93: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 340} unique __ctobpl_const_583: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 442} unique __ctobpl_const_94: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 346} unique __ctobpl_const_591: int;
 
-const {:extern} {:model_const "k"} {:sourceFile ".\source\replace.c"} {:sourceLine 444} unique __ctobpl_const_97: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 276} unique __ctobpl_const_574: int;
 
-const {:extern} {:model_const "result.amatch"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_91: int;
+const {:extern} {:model_const "pat[j]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 346} unique __ctobpl_const_593: int;
 
-const {:extern} {:model_const "amatch.arg.4"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_89: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_600: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 140} unique __ctobpl_const_266: int;
+const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 361} unique __ctobpl_const_622: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_80: int;
+const {:extern} {:model_const "advance"} {:sourceFile ".\v22\replace.c"} {:sourceLine 362} unique __ctobpl_const_623: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 513} unique __ctobpl_const_100: int;
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_606: int;
 
-const {:extern} {:model_const "result.getline"} {:sourceFile ".\source\replace.c"} {:sourceLine 513} unique __ctobpl_const_101: int;
+const {:extern} {:model_const "pat[j]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 373} unique __ctobpl_const_597: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile ".\source\replace.c"} {:sourceLine 454} unique __ctobpl_const_99: int;
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 373} unique __ctobpl_const_598: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 515} unique __ctobpl_const_103: int;
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 373} unique __ctobpl_const_599: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_87: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_601: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_78: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_602: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 438} unique __ctobpl_const_83: int;
+const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_603: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 445} unique __ctobpl_const_98: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_608: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 514} unique __ctobpl_const_102: int;
+const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_610: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile ".\source\replace.c"} {:sourceLine 444} unique __ctobpl_const_96: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_605: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 515} unique __ctobpl_const_105: int;
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_614: int;
 
-const {:extern} {:model_const "k"} {:sourceFile ".\source\replace.c"} {:sourceLine 120} unique __ctobpl_const_178: int;
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_616: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile ".\source\replace.c"} {:sourceLine 120} unique __ctobpl_const_181: int;
+const {:extern} {:model_const "result.locate"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_617: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile ".\source\replace.c"} {:sourceLine 120} unique __ctobpl_const_185: int;
+const {:extern} {:model_const "advance"} {:sourceFile ".\v22\replace.c"} {:sourceLine 370} unique __ctobpl_const_618: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile ".\source\replace.c"} {:sourceLine 114} unique __ctobpl_const_194: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 361} unique __ctobpl_const_619: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 114} unique __ctobpl_const_193: int;
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_604: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 114} unique __ctobpl_const_196: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 361} unique __ctobpl_const_620: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 122} unique __ctobpl_const_176: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 353} unique __ctobpl_const_625: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 120} unique __ctobpl_const_187: int;
+const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_611: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile ".\source\replace.c"} {:sourceLine 114} unique __ctobpl_const_191: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_612: int;
 
-const {:extern} {:model_const "dest"} {:sourceFile ".\source\replace.c"} {:sourceLine 120} unique __ctobpl_const_183: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 353} unique __ctobpl_const_624: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 120} unique __ctobpl_const_184: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_607: int;
 
-const {:extern} {:model_const "dest"} {:sourceFile ".\source\replace.c"} {:sourceLine 114} unique __ctobpl_const_192: int;
+const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_613: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 114} unique __ctobpl_const_195: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_615: int;
 
-const {:extern} {:model_const "src[* i + 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 118} unique __ctobpl_const_173: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 369} unique __ctobpl_const_609: int;
 
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_197: int;
+const {:extern} {:model_const "advance"} {:sourceFile ".\v22\replace.c"} {:sourceLine 354} unique __ctobpl_const_626: int;
 
-const {:extern} {:model_const "k"} {:sourceFile ".\source\replace.c"} {:sourceLine 118} unique __ctobpl_const_188: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 361} unique __ctobpl_const_621: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 118} unique __ctobpl_const_172: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 373} unique __ctobpl_const_596: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 122} unique __ctobpl_const_175: int;
+const {:extern} {:model_const "offset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 446} unique __ctobpl_const_31: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 120} unique __ctobpl_const_180: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 428} unique __ctobpl_const_48: int;
 
-const {:extern} {:model_const "dest"} {:sourceFile ".\source\replace.c"} {:sourceLine 120} unique __ctobpl_const_179: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 431} unique __ctobpl_const_61: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 120} unique __ctobpl_const_186: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 428} unique __ctobpl_const_46: int;
 
-const {:extern} {:model_const "dest"} {:sourceFile ".\source\replace.c"} {:sourceLine 114} unique __ctobpl_const_189: int;
+const {:extern} {:model_const "offset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 448} unique __ctobpl_const_37: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_198: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 428} unique __ctobpl_const_47: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 122} unique __ctobpl_const_177: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 446} unique __ctobpl_const_32: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_199: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 449} unique __ctobpl_const_38: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_200: int;
+const {:extern} {:model_const "offset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 429} unique __ctobpl_const_54: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 114} unique __ctobpl_const_190: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 431} unique __ctobpl_const_59: int;
 
-const {:extern} {:model_const "src[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_201: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 428} unique __ctobpl_const_51: int;
 
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_202: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 428} unique __ctobpl_const_50: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 122} unique __ctobpl_const_174: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 451} unique __ctobpl_const_39: int;
 
-const {:extern} {:model_const "k"} {:sourceFile ".\source\replace.c"} {:sourceLine 120} unique __ctobpl_const_182: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 430} unique __ctobpl_const_56: int;
 
-const {:extern} {:model_const "dest"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_203: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 446} unique __ctobpl_const_33: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 116} unique __ctobpl_const_148: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 446} unique __ctobpl_const_30: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 116} unique __ctobpl_const_150: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 451} unique __ctobpl_const_41: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_142: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 447} unique __ctobpl_const_36: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 125} unique __ctobpl_const_160: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 451} unique __ctobpl_const_43: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile ".\source\replace.c"} {:sourceLine 125} unique __ctobpl_const_161: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 451} unique __ctobpl_const_44: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 125} unique __ctobpl_const_162: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 428} unique __ctobpl_const_49: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 118} unique __ctobpl_const_165: int;
+const {:extern} {:model_const "result.patsize"} {:sourceFile ".\v22\replace.c"} {:sourceLine 428} unique __ctobpl_const_52: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 118} unique __ctobpl_const_166: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 446} unique __ctobpl_const_34: int;
 
-const {:extern} {:model_const "src[* i - 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 118} unique __ctobpl_const_168: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 451} unique __ctobpl_const_40: int;
 
-const {:extern} {:model_const "k"} {:sourceFile ".\source\replace.c"} {:sourceLine 118} unique __ctobpl_const_169: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 430} unique __ctobpl_const_55: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 118} unique __ctobpl_const_170: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 430} unique __ctobpl_const_57: int;
 
-const {:extern} {:model_const "k"} {:sourceFile ".\source\replace.c"} {:sourceLine 118} unique __ctobpl_const_164: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 451} unique __ctobpl_const_42: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 118} unique __ctobpl_const_167: int;
+const {:extern} {:model_const "result.patsize"} {:sourceFile ".\v22\replace.c"} {:sourceLine 451} unique __ctobpl_const_45: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_143: int;
+const {:extern} {:model_const "result.omatch"} {:sourceFile ".\v22\replace.c"} {:sourceLine 446} unique __ctobpl_const_35: int;
 
-const {:extern} {:model_const "src[* i - 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 116} unique __ctobpl_const_151: int;
+const {:extern} {:model_const "lin[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 430} unique __ctobpl_const_58: int;
 
-const {:extern} {:model_const "result.isalnum"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_147: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 429} unique __ctobpl_const_53: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_141: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 431} unique __ctobpl_const_60: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 116} unique __ctobpl_const_152: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_75: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 118} unique __ctobpl_const_171: int;
+const {:extern} {:model_const "amatch.arg.4"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_79: int;
 
-const {:extern} {:model_const "src[* i + 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_144: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_82: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 116} unique __ctobpl_const_153: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_83: int;
 
-const {:extern} {:model_const "dest"} {:sourceFile ".\source\replace.c"} {:sourceLine 125} unique __ctobpl_const_159: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_84: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 125} unique __ctobpl_const_163: int;
+const {:extern} {:model_const "amatch.arg.4"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_85: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 116} unique __ctobpl_const_149: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_87: int;
 
-const {:extern} {:model_const "src[* i + 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 116} unique __ctobpl_const_155: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 431} unique __ctobpl_const_64: int;
 
-const {:extern} {:model_const "dest"} {:sourceFile ".\source\replace.c"} {:sourceLine 125} unique __ctobpl_const_156: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_88: int;
 
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_145: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 431} unique __ctobpl_const_66: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 116} unique __ctobpl_const_154: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_78: int;
 
-const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 115} unique __ctobpl_const_146: int;
+const {:extern} {:model_const "result.patsize"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_81: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 125} unique __ctobpl_const_157: int;
+const {:extern} {:model_const "result.omatch"} {:sourceFile ".\v22\replace.c"} {:sourceLine 431} unique __ctobpl_const_68: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile ".\source\replace.c"} {:sourceLine 125} unique __ctobpl_const_158: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 431} unique __ctobpl_const_62: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 74} unique __ctobpl_const_237: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_77: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 74} unique __ctobpl_const_238: int;
+const {:extern} {:model_const "k"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_90: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 78} unique __ctobpl_const_241: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 436} unique __ctobpl_const_72: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 85} unique __ctobpl_const_256: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_76: int;
 
-const {:extern} {:model_const "s"} {:sourceFile ".\source\replace.c"} {:sourceLine 79} unique __ctobpl_const_245: int;
+const {:extern} {:model_const "result.amatch"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_91: int;
 
-const {:extern} {:model_const "s[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 79} unique __ctobpl_const_248: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 431} unique __ctobpl_const_63: int;
 
-const {:extern} {:model_const "s"} {:sourceFile ".\source\replace.c"} {:sourceLine 82} unique __ctobpl_const_249: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 432} unique __ctobpl_const_69: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 79} unique __ctobpl_const_246: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_80: int;
 
-const {:extern} {:model_const "s"} {:sourceFile ".\source\replace.c"} {:sourceLine 74} unique __ctobpl_const_236: int;
+const {:extern} {:model_const "amatch.arg.4"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_89: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 82} unique __ctobpl_const_250: int;
+const {:extern} {:model_const "k"} {:sourceFile ".\v22\replace.c"} {:sourceLine 438} unique __ctobpl_const_92: int;
 
-const {:extern} {:model_const "s[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 85} unique __ctobpl_const_257: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 437} unique __ctobpl_const_86: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 72} unique __ctobpl_const_260: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 436} unique __ctobpl_const_74: int;
 
-const {:extern} {:model_const "s"} {:sourceFile ".\source\replace.c"} {:sourceLine 72} unique __ctobpl_const_261: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 433} unique __ctobpl_const_70: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 71} unique __ctobpl_const_234: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 431} unique __ctobpl_const_65: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 78} unique __ctobpl_const_243: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 431} unique __ctobpl_const_67: int;
 
-const {:extern} {:model_const "s[* i + 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 74} unique __ctobpl_const_239: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 435} unique __ctobpl_const_71: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 83} unique __ctobpl_const_258: int;
+const {:extern} {:model_const "offset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 436} unique __ctobpl_const_73: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 72} unique __ctobpl_const_262: int;
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_132: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 75} unique __ctobpl_const_240: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_134: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 78} unique __ctobpl_const_244: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_135: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 79} unique __ctobpl_const_247: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 113} unique __ctobpl_const_126: int;
 
-const {:extern} {:model_const "s[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 82} unique __ctobpl_const_252: int;
+const {:extern} {:model_const "result.isalnum"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_139: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 85} unique __ctobpl_const_253: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_133: int;
 
-const {:extern} {:model_const "s[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 71} unique __ctobpl_const_235: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_141: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 78} unique __ctobpl_const_242: int;
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_137: int;
 
-const {:extern} {:model_const "s"} {:sourceFile ".\source\replace.c"} {:sourceLine 85} unique __ctobpl_const_254: int;
+const {:extern} {:model_const "src[* i + 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_144: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 85} unique __ctobpl_const_255: int;
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_145: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 80} unique __ctobpl_const_259: int;
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_146: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 72} unique __ctobpl_const_263: int;
+const {:extern} {:model_const "src[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 111} unique __ctobpl_const_125: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 82} unique __ctobpl_const_251: int;
+const {:extern} {:model_const "src[* i - 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 116} unique __ctobpl_const_151: int;
 
-const {:extern} {:model_const "s[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 72} unique __ctobpl_const_264: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 116} unique __ctobpl_const_153: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 87} unique __ctobpl_const_265: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 113} unique __ctobpl_const_130: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 108} unique __ctobpl_const_214: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 113} unique __ctobpl_const_128: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_211: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 116} unique __ctobpl_const_150: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 109} unique __ctobpl_const_220: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 116} unique __ctobpl_const_149: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 109} unique __ctobpl_const_227: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 116} unique __ctobpl_const_152: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 252} unique __ctobpl_const_329: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_143: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 71} unique __ctobpl_const_233: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 116} unique __ctobpl_const_154: int;
 
-const {:extern} {:model_const "dest"} {:sourceFile ".\source\replace.c"} {:sourceLine 109} unique __ctobpl_const_219: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 111} unique __ctobpl_const_124: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_210: int;
+const {:extern} {:model_const "* j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 113} unique __ctobpl_const_127: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 108} unique __ctobpl_const_213: int;
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_140: int;
 
-const {:extern} {:model_const "result.esc"} {:sourceFile ".\source\replace.c"} {:sourceLine 108} unique __ctobpl_const_217: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 113} unique __ctobpl_const_129: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile ".\source\replace.c"} {:sourceLine 109} unique __ctobpl_const_225: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_142: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile ".\source\replace.c"} {:sourceLine 109} unique __ctobpl_const_221: int;
+const {:extern} {:model_const "result.isalnum"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_147: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_204: int;
+const {:extern} {:model_const "isalnum.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_138: int;
 
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_206: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 111} unique __ctobpl_const_123: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_205: int;
+const {:extern} {:model_const "src[* i + 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 113} unique __ctobpl_const_131: int;
 
-const {:extern} {:model_const "escjunk"} {:sourceFile ".\source\replace.c"} {:sourceLine 108} unique __ctobpl_const_216: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 116} unique __ctobpl_const_148: int;
 
-const {:extern} {:model_const "escjunk"} {:sourceFile ".\source\replace.c"} {:sourceLine 109} unique __ctobpl_const_222: int;
+const {:extern} {:model_const "src[* i - 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 115} unique __ctobpl_const_136: int;
 
-const {:extern} {:model_const "dest"} {:sourceFile ".\source\replace.c"} {:sourceLine 109} unique __ctobpl_const_223: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 441} unique __ctobpl_const_94: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 109} unique __ctobpl_const_224: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 105} unique __ctobpl_const_116: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 109} unique __ctobpl_const_226: int;
+const {:extern} {:model_const "src[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 105} unique __ctobpl_const_112: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 126} unique __ctobpl_const_228: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 105} unique __ctobpl_const_111: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 126} unique __ctobpl_const_231: int;
+const {:extern} {:model_const "src[* i - 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 107} unique __ctobpl_const_121: int;
 
-const {:extern} {:model_const "s"} {:sourceFile ".\source\replace.c"} {:sourceLine 71} unique __ctobpl_const_232: int;
+const {:extern} {:model_const "k"} {:sourceFile ".\v22\replace.c"} {:sourceLine 443} unique __ctobpl_const_97: int;
 
-const {:extern} {:model_const "dest"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_207: int;
+const {:extern} {:model_const "offset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 443} unique __ctobpl_const_96: int;
 
-const {:extern} {:model_const "maxset"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_209: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 514} unique __ctobpl_const_104: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 108} unique __ctobpl_const_215: int;
+const {:extern} {:model_const "result.getline"} {:sourceFile ".\v22\replace.c"} {:sourceLine 515} unique __ctobpl_const_108: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 126} unique __ctobpl_const_229: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 105} unique __ctobpl_const_114: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 112} unique __ctobpl_const_208: int;
+const {:extern} {:model_const "src[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 105} unique __ctobpl_const_117: int;
 
-const {:extern} {:model_const "escjunk"} {:sourceFile ".\source\replace.c"} {:sourceLine 109} unique __ctobpl_const_218: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 111} unique __ctobpl_const_122: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 126} unique __ctobpl_const_230: int;
+const {:extern} {:model_const "result.getline"} {:sourceFile ".\v22\replace.c"} {:sourceLine 512} unique __ctobpl_const_101: int;
 
-const {:extern} {:model_const "src"} {:sourceFile ".\source\replace.c"} {:sourceLine 108} unique __ctobpl_const_212: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 513} unique __ctobpl_const_102: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\replace.c"} {:sourceLine 529} unique __ctobpl_const_400: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 444} unique __ctobpl_const_98: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 199} unique __ctobpl_const_401: int;
+const {:extern} {:model_const "offset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 453} unique __ctobpl_const_99: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 542} unique __ctobpl_const_394: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 515} unique __ctobpl_const_107: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 202} unique __ctobpl_const_405: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 514} unique __ctobpl_const_105: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 203} unique __ctobpl_const_407: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 514} unique __ctobpl_const_106: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 200} unique __ctobpl_const_402: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 105} unique __ctobpl_const_109: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 205} unique __ctobpl_const_418: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 107} unique __ctobpl_const_118: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 543} unique __ctobpl_const_396: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 107} unique __ctobpl_const_119: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 203} unique __ctobpl_const_408: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 107} unique __ctobpl_const_120: int;
 
-const {:extern} {:model_const "result.getsub"} {:sourceFile ".\source\replace.c"} {:sourceLine 542} unique __ctobpl_const_395: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 512} unique __ctobpl_const_100: int;
 
-const {:extern} {:model_const "getsub.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 542} unique __ctobpl_const_392: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 439} unique __ctobpl_const_95: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 203} unique __ctobpl_const_409: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 514} unique __ctobpl_const_103: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 203} unique __ctobpl_const_413: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 144} unique __ctobpl_const_282: int;
 
-const {:extern} {:model_const "lj"} {:sourceFile ".\source\replace.c"} {:sourceLine 204} unique __ctobpl_const_414: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 105} unique __ctobpl_const_110: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 205} unique __ctobpl_const_417: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 441} unique __ctobpl_const_93: int;
 
-const {:extern} {:model_const "getsub.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 542} unique __ctobpl_const_393: int;
+const {:extern} {:model_const "delim"} {:sourceFile ".\v22\replace.c"} {:sourceLine 105} unique __ctobpl_const_113: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 207} unique __ctobpl_const_419: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 105} unique __ctobpl_const_115: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 203} unique __ctobpl_const_406: int;
+const {:extern} {:model_const "Pred.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 182} unique __ctobpl_const_345: int;
 
-const {:extern} {:model_const "start"} {:sourceFile ".\source\replace.c"} {:sourceLine 200} unique __ctobpl_const_403: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 109} unique __ctobpl_const_226: int;
 
-const {:extern} {:model_const "lastj"} {:sourceFile ".\source\replace.c"} {:sourceLine 201} unique __ctobpl_const_404: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 71} unique __ctobpl_const_233: int;
 
-const {:extern} {:model_const "delim"} {:sourceFile ".\source\replace.c"} {:sourceLine 203} unique __ctobpl_const_410: int;
+const {:extern} {:model_const "s"} {:sourceFile ".\v22\replace.c"} {:sourceLine 79} unique __ctobpl_const_245: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 203} unique __ctobpl_const_411: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 79} unique __ctobpl_const_246: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 545} unique __ctobpl_const_397: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 79} unique __ctobpl_const_247: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 529} unique __ctobpl_const_399: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 126} unique __ctobpl_const_231: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 204} unique __ctobpl_const_415: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 71} unique __ctobpl_const_234: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 205} unique __ctobpl_const_416: int;
+const {:extern} {:model_const "s[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 71} unique __ctobpl_const_235: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 207} unique __ctobpl_const_420: int;
+const {:extern} {:model_const "s"} {:sourceFile ".\v22\replace.c"} {:sourceLine 74} unique __ctobpl_const_236: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 203} unique __ctobpl_const_412: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 109} unique __ctobpl_const_227: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 207} unique __ctobpl_const_421: int;
+const {:extern} {:model_const "maxset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 109} unique __ctobpl_const_221: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 283} unique __ctobpl_const_549: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 126} unique __ctobpl_const_230: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\replace.c"} {:sourceLine 545} unique __ctobpl_const_398: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 74} unique __ctobpl_const_237: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 143} unique __ctobpl_const_286: int;
+const {:extern} {:model_const "maxset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 109} unique __ctobpl_const_225: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 143} unique __ctobpl_const_287: int;
+const {:extern} {:model_const "s"} {:sourceFile ".\v22\replace.c"} {:sourceLine 71} unique __ctobpl_const_232: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 140} unique __ctobpl_const_269: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 75} unique __ctobpl_const_240: int;
 
-const {:extern} {:model_const "arg[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 141} unique __ctobpl_const_273: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 78} unique __ctobpl_const_242: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 145} unique __ctobpl_const_275: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 78} unique __ctobpl_const_243: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 145} unique __ctobpl_const_276: int;
+const {:extern} {:model_const "dest"} {:sourceFile ".\v22\replace.c"} {:sourceLine 109} unique __ctobpl_const_223: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 143} unique __ctobpl_const_289: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 109} unique __ctobpl_const_224: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 147} unique __ctobpl_const_293: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 78} unique __ctobpl_const_244: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 143} unique __ctobpl_const_288: int;
+const {:extern} {:model_const "s[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 79} unique __ctobpl_const_248: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 142} unique __ctobpl_const_284: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 126} unique __ctobpl_const_228: int;
 
-const {:extern} {:model_const "jstart"} {:sourceFile ".\source\replace.c"} {:sourceLine 146} unique __ctobpl_const_290: int;
+const {:extern} {:model_const "s"} {:sourceFile ".\v22\replace.c"} {:sourceLine 82} unique __ctobpl_const_249: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 145} unique __ctobpl_const_274: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 126} unique __ctobpl_const_229: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 147} unique __ctobpl_const_294: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 74} unique __ctobpl_const_238: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 145} unique __ctobpl_const_278: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 78} unique __ctobpl_const_241: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 147} unique __ctobpl_const_295: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 109} unique __ctobpl_const_222: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 142} unique __ctobpl_const_281: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 109} unique __ctobpl_const_220: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 142} unique __ctobpl_const_280: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 82} unique __ctobpl_const_250: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 142} unique __ctobpl_const_283: int;
+const {:extern} {:model_const "s[* i + 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 74} unique __ctobpl_const_239: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 140} unique __ctobpl_const_268: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 72} unique __ctobpl_const_263: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 142} unique __ctobpl_const_282: int;
+const {:extern} {:model_const "s"} {:sourceFile ".\v22\replace.c"} {:sourceLine 85} unique __ctobpl_const_254: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 142} unique __ctobpl_const_285: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 143} unique __ctobpl_const_270: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile ".\source\replace.c"} {:sourceLine 146} unique __ctobpl_const_292: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 85} unique __ctobpl_const_256: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 147} unique __ctobpl_const_296: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 87} unique __ctobpl_const_265: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 146} unique __ctobpl_const_291: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 80} unique __ctobpl_const_259: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 140} unique __ctobpl_const_267: int;
+const {:extern} {:model_const "s"} {:sourceFile ".\v22\replace.c"} {:sourceLine 72} unique __ctobpl_const_261: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 141} unique __ctobpl_const_271: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 143} unique __ctobpl_const_274: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 147} unique __ctobpl_const_297: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 72} unique __ctobpl_const_260: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 141} unique __ctobpl_const_272: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 141} unique __ctobpl_const_276: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 147} unique __ctobpl_const_298: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 85} unique __ctobpl_const_255: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 145} unique __ctobpl_const_279: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 83} unique __ctobpl_const_258: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 141} unique __ctobpl_const_270: int;
+const {:extern} {:model_const "s[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 85} unique __ctobpl_const_257: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 145} unique __ctobpl_const_277: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 143} unique __ctobpl_const_271: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 149} unique __ctobpl_const_310: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 143} unique __ctobpl_const_272: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\replace.c"} {:sourceLine 44} unique __ctobpl_const_318: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 143} unique __ctobpl_const_273: int;
 
-const {:extern} {:model_const "s"} {:sourceFile ".\source\replace.c"} {:sourceLine 44} unique __ctobpl_const_319: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 141} unique __ctobpl_const_277: int;
 
-const {:extern} {:model_const "maxsize"} {:sourceFile ".\source\replace.c"} {:sourceLine 44} unique __ctobpl_const_320: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 141} unique __ctobpl_const_278: int;
 
-const {:extern} {:model_const "jstart"} {:sourceFile ".\source\replace.c"} {:sourceLine 149} unique __ctobpl_const_308: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 141} unique __ctobpl_const_279: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 148} unique __ctobpl_const_304: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 82} unique __ctobpl_const_251: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 150} unique __ctobpl_const_315: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 141} unique __ctobpl_const_280: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 149} unique __ctobpl_const_307: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 143} unique __ctobpl_const_275: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 148} unique __ctobpl_const_301: int;
+const {:extern} {:model_const "s[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 82} unique __ctobpl_const_252: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 148} unique __ctobpl_const_306: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 72} unique __ctobpl_const_262: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile ".\source\replace.c"} {:sourceLine 149} unique __ctobpl_const_311: int;
+const {:extern} {:model_const "arg[* i + 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 140} unique __ctobpl_const_269: int;
 
-const {:extern} {:model_const "arg[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 150} unique __ctobpl_const_316: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 141} unique __ctobpl_const_281: int;
 
-const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\source\replace.c"} {:sourceLine 44} unique __ctobpl_const_321: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 140} unique __ctobpl_const_268: int;
 
-const {:extern} {:model_const "s"} {:sourceFile ".\source\replace.c"} {:sourceLine 44} unique __ctobpl_const_322: int;
+const {:extern} {:model_const "s[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 72} unique __ctobpl_const_264: int;
 
-const {:extern} {:model_const "maxsize"} {:sourceFile ".\source\replace.c"} {:sourceLine 44} unique __ctobpl_const_323: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 85} unique __ctobpl_const_253: int;
 
-const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\source\replace.c"} {:sourceLine 44} unique __ctobpl_const_324: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 140} unique __ctobpl_const_267: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 148} unique __ctobpl_const_299: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 140} unique __ctobpl_const_266: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 44} unique __ctobpl_const_325: int;
+const {:extern} {:model_const "maxset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 125} unique __ctobpl_const_161: int;
 
-const {:extern} {:model_const "result.fgets"} {:sourceFile ".\source\replace.c"} {:sourceLine 44} unique __ctobpl_const_326: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 118} unique __ctobpl_const_165: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 150} unique __ctobpl_const_313: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 118} unique __ctobpl_const_170: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 150} unique __ctobpl_const_314: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 118} unique __ctobpl_const_171: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 45} unique __ctobpl_const_327: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 125} unique __ctobpl_const_162: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 252} unique __ctobpl_const_328: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 122} unique __ctobpl_const_174: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 148} unique __ctobpl_const_303: int;
+const {:extern} {:model_const "maxset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 120} unique __ctobpl_const_181: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 148} unique __ctobpl_const_302: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 125} unique __ctobpl_const_163: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 148} unique __ctobpl_const_305: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 118} unique __ctobpl_const_172: int;
 
-const {:extern} {:model_const "pat[jstart]"} {:sourceFile ".\source\replace.c"} {:sourceLine 149} unique __ctobpl_const_309: int;
+const {:extern} {:model_const "k"} {:sourceFile ".\v22\replace.c"} {:sourceLine 118} unique __ctobpl_const_164: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 148} unique __ctobpl_const_300: int;
+const {:extern} {:model_const "k"} {:sourceFile ".\v22\replace.c"} {:sourceLine 120} unique __ctobpl_const_182: int;
 
-const {:extern} {:model_const "jstart"} {:sourceFile ".\source\replace.c"} {:sourceLine 149} unique __ctobpl_const_312: int;
+const {:extern} {:model_const "dest"} {:sourceFile ".\v22\replace.c"} {:sourceLine 120} unique __ctobpl_const_179: int;
 
-const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\source\replace.c"} {:sourceLine 44} unique __ctobpl_const_317: int;
+const {:extern} {:model_const "dest"} {:sourceFile ".\v22\replace.c"} {:sourceLine 120} unique __ctobpl_const_183: int;
 
-const {:extern} {:model_const "argv[2]"} {:sourceFile ".\source\replace.c"} {:sourceLine 542} unique __ctobpl_const_391: int;
+const {:extern} {:model_const "maxset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 125} unique __ctobpl_const_158: int;
 
-const {:extern} {:model_const "flag"} {:sourceFile ".\source\replace.c"} {:sourceLine 318} unique __ctobpl_const_373: int;
+const {:extern} {:model_const "maxset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 120} unique __ctobpl_const_185: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 314} unique __ctobpl_const_361: int;
+const {:extern} {:model_const "k"} {:sourceFile ".\v22\replace.c"} {:sourceLine 118} unique __ctobpl_const_169: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile ".\source\replace.c"} {:sourceLine 314} unique __ctobpl_const_360: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 120} unique __ctobpl_const_186: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 319} unique __ctobpl_const_374: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 120} unique __ctobpl_const_187: int;
 
-const {:extern} {:model_const "argc"} {:sourceFile ".\source\replace.c"} {:sourceLine 527} unique __ctobpl_const_376: int;
+const {:extern} {:model_const "dest"} {:sourceFile ".\v22\replace.c"} {:sourceLine 125} unique __ctobpl_const_159: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile ".\source\replace.c"} {:sourceLine 315} unique __ctobpl_const_364: int;
+const {:extern} {:model_const "k"} {:sourceFile ".\v22\replace.c"} {:sourceLine 118} unique __ctobpl_const_188: int;
 
-const {:extern} {:model_const "argc"} {:sourceFile ".\source\replace.c"} {:sourceLine 540} unique __ctobpl_const_387: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 122} unique __ctobpl_const_175: int;
 
-const {:extern} {:model_const "pat[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 317} unique __ctobpl_const_370: int;
+const {:extern} {:model_const "src[* i + 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 118} unique __ctobpl_const_173: int;
 
-const {:extern} {:model_const "flag"} {:sourceFile ".\source\replace.c"} {:sourceLine 323} unique __ctobpl_const_366: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 118} unique __ctobpl_const_166: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 317} unique __ctobpl_const_369: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 120} unique __ctobpl_const_180: int;
 
-const {:extern} {:model_const "argv[1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 533} unique __ctobpl_const_379: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 120} unique __ctobpl_const_184: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 533} unique __ctobpl_const_382: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 125} unique __ctobpl_const_160: int;
 
-const {:extern} {:model_const "getpat.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 533} unique __ctobpl_const_377: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 118} unique __ctobpl_const_167: int;
 
-const {:extern} {:model_const "getsub.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 542} unique __ctobpl_const_389: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 125} unique __ctobpl_const_157: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\replace.c"} {:sourceLine 536} unique __ctobpl_const_386: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 122} unique __ctobpl_const_177: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 207} unique __ctobpl_const_422: int;
+const {:extern} {:model_const "src[* i - 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 118} unique __ctobpl_const_168: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 534} unique __ctobpl_const_384: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 122} unique __ctobpl_const_176: int;
 
-const {:extern} {:model_const "getpat.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 533} unique __ctobpl_const_380: int;
+const {:extern} {:model_const "k"} {:sourceFile ".\v22\replace.c"} {:sourceLine 120} unique __ctobpl_const_178: int;
 
-const {:extern} {:model_const "sub[0]"} {:sourceFile ".\source\replace.c"} {:sourceLine 550} unique __ctobpl_const_388: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_199: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 317} unique __ctobpl_const_367: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_208: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 321} unique __ctobpl_const_372: int;
+const {:extern} {:model_const "dest"} {:sourceFile ".\v22\replace.c"} {:sourceLine 114} unique __ctobpl_const_189: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\replace.c"} {:sourceLine 533} unique __ctobpl_const_378: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 108} unique __ctobpl_const_212: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 536} unique __ctobpl_const_385: int;
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_197: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile ".\source\replace.c"} {:sourceLine 542} unique __ctobpl_const_390: int;
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_206: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 315} unique __ctobpl_const_365: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 114} unique __ctobpl_const_196: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile ".\source\replace.c"} {:sourceLine 319} unique __ctobpl_const_375: int;
+const {:extern} {:model_const "dest"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_207: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 317} unique __ctobpl_const_368: int;
+const {:extern} {:model_const "maxset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 114} unique __ctobpl_const_194: int;
 
-const {:extern} {:model_const "getpat.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 533} unique __ctobpl_const_381: int;
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_202: int;
 
-const {:extern} {:model_const "result.getpat"} {:sourceFile ".\source\replace.c"} {:sourceLine 533} unique __ctobpl_const_383: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_210: int;
 
-const {:extern} {:model_const "pat[offset]"} {:sourceFile ".\source\replace.c"} {:sourceLine 314} unique __ctobpl_const_363: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 108} unique __ctobpl_const_216: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 321} unique __ctobpl_const_371: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_211: int;
 
-const {:extern} {:model_const "offset"} {:sourceFile ".\source\replace.c"} {:sourceLine 314} unique __ctobpl_const_362: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 114} unique __ctobpl_const_193: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 183} unique __ctobpl_const_347: int;
+const {:extern} {:model_const "dest"} {:sourceFile ".\v22\replace.c"} {:sourceLine 114} unique __ctobpl_const_192: int;
 
-const {:extern} {:model_const "makeres"} {:sourceFile ".\source\replace.c"} {:sourceLine 298} unique __ctobpl_const_339: int;
+const {:extern} {:model_const "maxset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 114} unique __ctobpl_const_191: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 176} unique __ctobpl_const_353: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 114} unique __ctobpl_const_195: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 298} unique __ctobpl_const_335: int;
+const {:extern} {:model_const "dest"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_203: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 182} unique __ctobpl_const_342: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_204: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 183} unique __ctobpl_const_348: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_198: int;
 
-const {:extern} {:model_const "makeres"} {:sourceFile ".\source\replace.c"} {:sourceLine 252} unique __ctobpl_const_332: int;
+const {:extern} {:model_const "maxset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_205: int;
 
-const {:extern} {:model_const "Pred.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 176} unique __ctobpl_const_357: int;
+const {:extern} {:model_const "maxset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_209: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 298} unique __ctobpl_const_337: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 108} unique __ctobpl_const_213: int;
 
-const {:extern} {:model_const "flag"} {:sourceFile ".\source\replace.c"} {:sourceLine 313} unique __ctobpl_const_358: int;
+const {:extern} {:model_const "src"} {:sourceFile ".\v22\replace.c"} {:sourceLine 108} unique __ctobpl_const_214: int;
 
-const {:extern} {:model_const "Pred.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 182} unique __ctobpl_const_351: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 108} unique __ctobpl_const_215: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 298} unique __ctobpl_const_336: int;
+const {:extern} {:model_const "result.esc"} {:sourceFile ".\v22\replace.c"} {:sourceLine 108} unique __ctobpl_const_217: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 182} unique __ctobpl_const_343: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 109} unique __ctobpl_const_218: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 182} unique __ctobpl_const_344: int;
+const {:extern} {:model_const "src[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_201: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 176} unique __ctobpl_const_352: int;
+const {:extern} {:model_const "dest"} {:sourceFile ".\v22\replace.c"} {:sourceLine 109} unique __ctobpl_const_219: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 176} unique __ctobpl_const_354: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 114} unique __ctobpl_const_190: int;
 
-const {:extern} {:model_const "result.makesub"} {:sourceFile ".\source\replace.c"} {:sourceLine 298} unique __ctobpl_const_340: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 112} unique __ctobpl_const_200: int;
 
-const {:extern} {:model_const "Pred.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 176} unique __ctobpl_const_355: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 226} unique __ctobpl_const_442: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 298} unique __ctobpl_const_338: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 227} unique __ctobpl_const_448: int;
 
-const {:extern} {:model_const "Pred.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 176} unique __ctobpl_const_356: int;
+const {:extern} {:model_const "lj"} {:sourceFile ".\v22\replace.c"} {:sourceLine 218} unique __ctobpl_const_459: int;
 
-const {:extern} {:model_const "Pred.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 183} unique __ctobpl_const_350: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 221} unique __ctobpl_const_467: int;
 
-const {:extern} {:model_const "start"} {:sourceFile ".\source\replace.c"} {:sourceLine 207} unique __ctobpl_const_423: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 221} unique __ctobpl_const_468: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 252} unique __ctobpl_const_330: int;
+const {:extern} {:model_const "lastj"} {:sourceFile ".\v22\replace.c"} {:sourceLine 221} unique __ctobpl_const_469: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 252} unique __ctobpl_const_331: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 225} unique __ctobpl_const_440: int;
 
-const {:extern} {:model_const "result.makepat"} {:sourceFile ".\source\replace.c"} {:sourceLine 252} unique __ctobpl_const_333: int;
+const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 218} unique __ctobpl_const_462: int;
 
-const {:extern} {:model_const "Pred.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 183} unique __ctobpl_const_349: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 226} unique __ctobpl_const_444: int;
 
-const {:extern} {:model_const "makeres"} {:sourceFile ".\source\replace.c"} {:sourceLine 299} unique __ctobpl_const_341: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 226} unique __ctobpl_const_441: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 314} unique __ctobpl_const_359: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 226} unique __ctobpl_const_443: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 182} unique __ctobpl_const_345: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 227} unique __ctobpl_const_447: int;
 
-const {:extern} {:model_const "makeres"} {:sourceFile ".\source\replace.c"} {:sourceLine 253} unique __ctobpl_const_334: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 227} unique __ctobpl_const_451: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\replace.c"} {:sourceLine 183} unique __ctobpl_const_346: int;
+const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 218} unique __ctobpl_const_457: int;
 
-const {:extern} {:model_const "lastj"} {:sourceFile ".\source\replace.c"} {:sourceLine 218} unique __ctobpl_const_460: int;
+const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 218} unique __ctobpl_const_461: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 222} unique __ctobpl_const_471: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 221} unique __ctobpl_const_465: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 213} unique __ctobpl_const_482: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 225} unique __ctobpl_const_439: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 213} unique __ctobpl_const_479: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 227} unique __ctobpl_const_449: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 214} unique __ctobpl_const_485: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 226} unique __ctobpl_const_445: int;
 
-const {:extern} {:model_const "getres"} {:sourceFile ".\source\replace.c"} {:sourceLine 213} unique __ctobpl_const_483: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 227} unique __ctobpl_const_453: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 222} unique __ctobpl_const_468: int;
+const {:extern} {:model_const "lj"} {:sourceFile ".\v22\replace.c"} {:sourceLine 217} unique __ctobpl_const_455: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 222} unique __ctobpl_const_472: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 221} unique __ctobpl_const_464: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 213} unique __ctobpl_const_475: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 227} unique __ctobpl_const_452: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 228} unique __ctobpl_const_457: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 227} unique __ctobpl_const_454: int;
 
-const {:extern} {:model_const "lj"} {:sourceFile ".\source\replace.c"} {:sourceLine 219} unique __ctobpl_const_463: int;
+const {:extern} {:model_const "lastj"} {:sourceFile ".\v22\replace.c"} {:sourceLine 217} unique __ctobpl_const_456: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 222} unique __ctobpl_const_469: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 218} unique __ctobpl_const_458: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 220} unique __ctobpl_const_474: int;
+const {:extern} {:model_const "escjunk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 227} unique __ctobpl_const_450: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 213} unique __ctobpl_const_481: int;
+const {:extern} {:model_const "result.esc"} {:sourceFile ".\v22\replace.c"} {:sourceLine 226} unique __ctobpl_const_446: int;
 
-const {:extern} {:model_const "getres"} {:sourceFile ".\source\replace.c"} {:sourceLine 214} unique __ctobpl_const_486: int;
+const {:extern} {:model_const "pat[lj]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 218} unique __ctobpl_const_460: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 219} unique __ctobpl_const_462: int;
+const {:extern} {:model_const "result.in_set_2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 218} unique __ctobpl_const_463: int;
 
-const {:extern} {:model_const "pat[lj]"} {:sourceFile ".\source\replace.c"} {:sourceLine 219} unique __ctobpl_const_464: int;
+const {:extern} {:model_const "lastj"} {:sourceFile ".\v22\replace.c"} {:sourceLine 221} unique __ctobpl_const_466: int;
 
-const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 219} unique __ctobpl_const_466: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 144} unique __ctobpl_const_284: int;
 
-const {:extern} {:model_const "lastj"} {:sourceFile ".\source\replace.c"} {:sourceLine 222} unique __ctobpl_const_473: int;
+const {:extern} {:model_const "jstart"} {:sourceFile ".\v22\replace.c"} {:sourceLine 145} unique __ctobpl_const_286: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 213} unique __ctobpl_const_476: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 146} unique __ctobpl_const_292: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 228} unique __ctobpl_const_455: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 147} unique __ctobpl_const_295: int;
 
-const {:extern} {:model_const "lastj"} {:sourceFile ".\source\replace.c"} {:sourceLine 222} unique __ctobpl_const_470: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 147} unique __ctobpl_const_296: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 213} unique __ctobpl_const_478: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 147} unique __ctobpl_const_297: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 228} unique __ctobpl_const_458: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 147} unique __ctobpl_const_299: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 228} unique __ctobpl_const_456: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 147} unique __ctobpl_const_300: int;
 
-const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 219} unique __ctobpl_const_461: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 148} unique __ctobpl_const_303: int;
 
-const {:extern} {:model_const "lj"} {:sourceFile ".\source\replace.c"} {:sourceLine 218} unique __ctobpl_const_459: int;
+const {:extern} {:model_const "jstart"} {:sourceFile ".\v22\replace.c"} {:sourceLine 148} unique __ctobpl_const_304: int;
 
-const {:extern} {:model_const "result.in_set_2"} {:sourceFile ".\source\replace.c"} {:sourceLine 219} unique __ctobpl_const_467: int;
+const {:extern} {:model_const "pat[jstart]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 148} unique __ctobpl_const_305: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 213} unique __ctobpl_const_477: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 148} unique __ctobpl_const_306: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 213} unique __ctobpl_const_480: int;
+const {:extern} {:model_const "* j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 148} unique __ctobpl_const_307: int;
 
-const {:extern} {:model_const "result.getccl"} {:sourceFile ".\source\replace.c"} {:sourceLine 213} unique __ctobpl_const_484: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 149} unique __ctobpl_const_309: int;
 
-const {:extern} {:model_const "in_set_2.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 219} unique __ctobpl_const_465: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 149} unique __ctobpl_const_311: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 226} unique __ctobpl_const_439: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 147} unique __ctobpl_const_302: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 226} unique __ctobpl_const_444: int;
+const {:extern} {:model_const "arg[* i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 149} unique __ctobpl_const_312: int;
 
-const {:extern} {:model_const "result.esc"} {:sourceFile ".\source\replace.c"} {:sourceLine 227} unique __ctobpl_const_450: int;
+const {:extern} {:model_const "argv[1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 532} unique __ctobpl_const_375: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 228} unique __ctobpl_const_453: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 182} unique __ctobpl_const_344: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 211} unique __ctobpl_const_432: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 145} unique __ctobpl_const_287: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 227} unique __ctobpl_const_448: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 146} unique __ctobpl_const_291: int;
 
-const {:extern} {:model_const "escjunk"} {:sourceFile ".\source\replace.c"} {:sourceLine 228} unique __ctobpl_const_451: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 146} unique __ctobpl_const_290: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 228} unique __ctobpl_const_452: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 146} unique __ctobpl_const_293: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 226} unique __ctobpl_const_442: int;
+const {:extern} {:model_const "jstart"} {:sourceFile ".\v22\replace.c"} {:sourceLine 148} unique __ctobpl_const_308: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 216} unique __ctobpl_const_434: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 146} unique __ctobpl_const_289: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 226} unique __ctobpl_const_440: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 149} unique __ctobpl_const_310: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 226} unique __ctobpl_const_441: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 147} unique __ctobpl_const_301: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 209} unique __ctobpl_const_425: int;
+const {:extern} {:model_const "* j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 145} unique __ctobpl_const_288: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 227} unique __ctobpl_const_446: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 144} unique __ctobpl_const_285: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 216} unique __ctobpl_const_435: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 146} unique __ctobpl_const_294: int;
 
-const {:extern} {:model_const "start"} {:sourceFile ".\source\replace.c"} {:sourceLine 216} unique __ctobpl_const_437: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 147} unique __ctobpl_const_298: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 216} unique __ctobpl_const_438: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 144} unique __ctobpl_const_283: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 226} unique __ctobpl_const_443: int;
+const {:extern} {:model_const "result.makepat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 251} unique __ctobpl_const_329: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 211} unique __ctobpl_const_433: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 181} unique __ctobpl_const_338: int;
 
-const {:extern} {:model_const "escjunk"} {:sourceFile ".\source\replace.c"} {:sourceLine 227} unique __ctobpl_const_449: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 181} unique __ctobpl_const_339: int;
 
-const {:extern} {:model_const "escjunk"} {:sourceFile ".\source\replace.c"} {:sourceLine 228} unique __ctobpl_const_454: int;
+const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\v22\replace.c"} {:sourceLine 44} unique __ctobpl_const_320: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 209} unique __ctobpl_const_426: int;
+const {:extern} {:model_const "result.fgets"} {:sourceFile ".\v22\replace.c"} {:sourceLine 44} unique __ctobpl_const_322: int;
 
-const {:extern} {:model_const "delim"} {:sourceFile ".\source\replace.c"} {:sourceLine 209} unique __ctobpl_const_430: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 251} unique __ctobpl_const_324: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 209} unique __ctobpl_const_424: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 251} unique __ctobpl_const_326: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 209} unique __ctobpl_const_427: int;
+const {:extern} {:model_const "makeres"} {:sourceFile ".\v22\replace.c"} {:sourceLine 251} unique __ctobpl_const_328: int;
 
-const {:extern} {:model_const "arg[i + 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 209} unique __ctobpl_const_429: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 251} unique __ctobpl_const_325: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 211} unique __ctobpl_const_431: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 181} unique __ctobpl_const_340: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 227} unique __ctobpl_const_445: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 181} unique __ctobpl_const_341: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 227} unique __ctobpl_const_447: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 182} unique __ctobpl_const_342: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 216} unique __ctobpl_const_436: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 182} unique __ctobpl_const_343: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 209} unique __ctobpl_const_428: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 297} unique __ctobpl_const_334: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 206} unique __ctobpl_const_500: int;
+const {:extern} {:model_const "s"} {:sourceFile ".\v22\replace.c"} {:sourceLine 44} unique __ctobpl_const_315: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 206} unique __ctobpl_const_502: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 45} unique __ctobpl_const_323: int;
 
-const {:extern} {:model_const "lj"} {:sourceFile ".\source\replace.c"} {:sourceLine 230} unique __ctobpl_const_506: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 251} unique __ctobpl_const_327: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 206} unique __ctobpl_const_503: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 297} unique __ctobpl_const_331: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 231} unique __ctobpl_const_507: int;
+const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\v22\replace.c"} {:sourceLine 44} unique __ctobpl_const_317: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 232} unique __ctobpl_const_508: int;
+const {:extern} {:model_const "maxsize"} {:sourceFile ".\v22\replace.c"} {:sourceLine 44} unique __ctobpl_const_319: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 206} unique __ctobpl_const_501: int;
+const {:extern} {:model_const "makeres"} {:sourceFile ".\v22\replace.c"} {:sourceLine 252} unique __ctobpl_const_330: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 210} unique __ctobpl_const_487: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 297} unique __ctobpl_const_332: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 210} unique __ctobpl_const_488: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v22\replace.c"} {:sourceLine 44} unique __ctobpl_const_314: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 210} unique __ctobpl_const_492: int;
+const {:extern} {:model_const "makeres"} {:sourceFile ".\v22\replace.c"} {:sourceLine 297} unique __ctobpl_const_335: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 208} unique __ctobpl_const_493: int;
+const {:extern} {:model_const "result.makesub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 297} unique __ctobpl_const_336: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 206} unique __ctobpl_const_504: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 297} unique __ctobpl_const_333: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 232} unique __ctobpl_const_509: int;
+const {:extern} {:model_const "makeres"} {:sourceFile ".\v22\replace.c"} {:sourceLine 298} unique __ctobpl_const_337: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 206} unique __ctobpl_const_499: int;
+const {:extern} {:model_const "maxsize"} {:sourceFile ".\v22\replace.c"} {:sourceLine 44} unique __ctobpl_const_316: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 208} unique __ctobpl_const_496: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 44} unique __ctobpl_const_321: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 234} unique __ctobpl_const_511: int;
+const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\v22\replace.c"} {:sourceLine 44} unique __ctobpl_const_313: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 234} unique __ctobpl_const_513: int;
+const {:extern} {:model_const "s"} {:sourceFile ".\v22\replace.c"} {:sourceLine 44} unique __ctobpl_const_318: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 234} unique __ctobpl_const_514: int;
+const {:extern} {:model_const "Pred.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 175} unique __ctobpl_const_351: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 208} unique __ctobpl_const_498: int;
+const {:extern} {:model_const "Pred.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 181} unique __ctobpl_const_347: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 234} unique __ctobpl_const_510: int;
+const {:extern} {:model_const "Pred.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 182} unique __ctobpl_const_346: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 234} unique __ctobpl_const_515: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v22\replace.c"} {:sourceLine 532} unique __ctobpl_const_374: int;
 
-const {:extern} {:model_const "done"} {:sourceFile ".\source\replace.c"} {:sourceLine 235} unique __ctobpl_const_516: int;
+const {:extern} {:model_const "Pred.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 175} unique __ctobpl_const_353: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 234} unique __ctobpl_const_512: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 175} unique __ctobpl_const_350: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 235} unique __ctobpl_const_517: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 320} unique __ctobpl_const_367: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 235} unique __ctobpl_const_518: int;
+const {:extern} {:model_const "offset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 313} unique __ctobpl_const_356: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 208} unique __ctobpl_const_495: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 316} unique __ctobpl_const_364: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 208} unique __ctobpl_const_497: int;
+const {:extern} {:model_const "pat[offset]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 313} unique __ctobpl_const_359: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 210} unique __ctobpl_const_489: int;
+const {:extern} {:model_const "offset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 314} unique __ctobpl_const_360: int;
 
-const {:extern} {:model_const "lastj"} {:sourceFile ".\source\replace.c"} {:sourceLine 230} unique __ctobpl_const_505: int;
+const {:extern} {:model_const "pat[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 316} unique __ctobpl_const_366: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 210} unique __ctobpl_const_491: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 316} unique __ctobpl_const_365: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 208} unique __ctobpl_const_494: int;
+const {:extern} {:model_const "flag"} {:sourceFile ".\v22\replace.c"} {:sourceLine 317} unique __ctobpl_const_369: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 210} unique __ctobpl_const_490: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 175} unique __ctobpl_const_349: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 279} unique __ctobpl_const_537: int;
+const {:extern} {:model_const "offset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 313} unique __ctobpl_const_358: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 282} unique __ctobpl_const_541: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 313} unique __ctobpl_const_355: int;
 
-const {:extern} {:model_const "delim"} {:sourceFile ".\source\replace.c"} {:sourceLine 235} unique __ctobpl_const_520: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 318} unique __ctobpl_const_370: int;
 
-const {:extern} {:model_const "* sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 282} unique __ctobpl_const_542: int;
+const {:extern} {:model_const "argc"} {:sourceFile ".\v22\replace.c"} {:sourceLine 526} unique __ctobpl_const_372: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 270} unique __ctobpl_const_531: int;
+const {:extern} {:model_const "getpat.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 532} unique __ctobpl_const_373: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 282} unique __ctobpl_const_546: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 320} unique __ctobpl_const_368: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 282} unique __ctobpl_const_547: int;
+const {:extern} {:model_const "offset"} {:sourceFile ".\v22\replace.c"} {:sourceLine 318} unique __ctobpl_const_371: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 282} unique __ctobpl_const_548: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 316} unique __ctobpl_const_363: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 236} unique __ctobpl_const_525: int;
+const {:extern} {:model_const "Pred.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 175} unique __ctobpl_const_352: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 270} unique __ctobpl_const_530: int;
+const {:extern} {:model_const "flag"} {:sourceFile ".\v22\replace.c"} {:sourceLine 312} unique __ctobpl_const_354: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\replace.c"} {:sourceLine 394} unique __ctobpl_const_676: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 314} unique __ctobpl_const_361: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 270} unique __ctobpl_const_532: int;
+const {:extern} {:model_const "flag"} {:sourceFile ".\v22\replace.c"} {:sourceLine 322} unique __ctobpl_const_362: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 235} unique __ctobpl_const_519: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 313} unique __ctobpl_const_357: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 239} unique __ctobpl_const_522: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v22\replace.c"} {:sourceLine 175} unique __ctobpl_const_348: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 238} unique __ctobpl_const_521: int;
+const {:extern} {:model_const "delim"} {:sourceFile ".\v22\replace.c"} {:sourceLine 202} unique __ctobpl_const_406: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 242} unique __ctobpl_const_526: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 202} unique __ctobpl_const_407: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 268} unique __ctobpl_const_527: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 201} unique __ctobpl_const_401: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 269} unique __ctobpl_const_528: int;
+const {:extern} {:model_const "argv"} {:sourceFile ".\v22\replace.c"} {:sourceLine 541} unique __ctobpl_const_386: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 270} unique __ctobpl_const_534: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 544} unique __ctobpl_const_393: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 279} unique __ctobpl_const_538: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v22\replace.c"} {:sourceLine 544} unique __ctobpl_const_394: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 279} unique __ctobpl_const_539: int;
+const {:extern} {:model_const "getsub.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 541} unique __ctobpl_const_388: int;
 
-const {:extern} {:model_const "delim"} {:sourceFile ".\source\replace.c"} {:sourceLine 279} unique __ctobpl_const_540: int;
+const {:extern} {:model_const "sub[0]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 549} unique __ctobpl_const_384: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 282} unique __ctobpl_const_543: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 528} unique __ctobpl_const_395: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 241} unique __ctobpl_const_524: int;
+const {:extern} {:model_const "argv[2]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 541} unique __ctobpl_const_387: int;
 
-const {:extern} {:model_const "delim"} {:sourceFile ".\source\replace.c"} {:sourceLine 270} unique __ctobpl_const_533: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v22\replace.c"} {:sourceLine 528} unique __ctobpl_const_396: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 270} unique __ctobpl_const_536: int;
+const {:extern} {:model_const "start"} {:sourceFile ".\v22\replace.c"} {:sourceLine 199} unique __ctobpl_const_399: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 241} unique __ctobpl_const_523: int;
+const {:extern} {:model_const "getpat.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 532} unique __ctobpl_const_377: int;
 
-const {:extern} {:model_const "from"} {:sourceFile ".\source\replace.c"} {:sourceLine 269} unique __ctobpl_const_529: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 202} unique __ctobpl_const_402: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 282} unique __ctobpl_const_544: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 535} unique __ctobpl_const_381: int;
 
-const {:extern} {:model_const "* sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 282} unique __ctobpl_const_545: int;
+const {:extern} {:model_const "getpat.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 532} unique __ctobpl_const_376: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 270} unique __ctobpl_const_535: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 198} unique __ctobpl_const_397: int;
 
-const {:extern} {:model_const "advance"} {:sourceFile ".\source\replace.c"} {:sourceLine 378} unique __ctobpl_const_659: int;
+const {:extern} {:model_const "lastj"} {:sourceFile ".\v22\replace.c"} {:sourceLine 200} unique __ctobpl_const_400: int;
 
-const {:extern} {:model_const "result.in_pat_set"} {:sourceFile ".\source\replace.c"} {:sourceLine 393} unique __ctobpl_const_674: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 532} unique __ctobpl_const_378: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_644: int;
+const {:extern} {:model_const "result.getpat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 532} unique __ctobpl_const_379: int;
 
-const {:extern} {:model_const "pat[j + 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 350} unique __ctobpl_const_657: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 541} unique __ctobpl_const_390: int;
 
-const {:extern} {:model_const "advance"} {:sourceFile ".\source\replace.c"} {:sourceLine 351} unique __ctobpl_const_658: int;
+const {:extern} {:model_const "result.getsub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 541} unique __ctobpl_const_391: int;
 
-const {:extern} {:model_const "advance"} {:sourceFile ".\source\replace.c"} {:sourceLine 380} unique __ctobpl_const_665: int;
+const {:extern} {:model_const "getsub.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 541} unique __ctobpl_const_385: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 381} unique __ctobpl_const_666: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 269} unique __ctobpl_const_532: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 350} unique __ctobpl_const_653: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 199} unique __ctobpl_const_398: int;
 
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_646: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 533} unique __ctobpl_const_380: int;
 
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_645: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v22\replace.c"} {:sourceLine 535} unique __ctobpl_const_382: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_647: int;
+const {:extern} {:model_const "getsub.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 541} unique __ctobpl_const_389: int;
 
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_648: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 202} unique __ctobpl_const_403: int;
 
-const {:extern} {:model_const "advance"} {:sourceFile ".\source\replace.c"} {:sourceLine 367} unique __ctobpl_const_650: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 202} unique __ctobpl_const_405: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 350} unique __ctobpl_const_651: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 542} unique __ctobpl_const_392: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 350} unique __ctobpl_const_652: int;
+const {:extern} {:model_const "argc"} {:sourceFile ".\v22\replace.c"} {:sourceLine 539} unique __ctobpl_const_383: int;
 
-const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 350} unique __ctobpl_const_654: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 202} unique __ctobpl_const_404: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 350} unique __ctobpl_const_655: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 208} unique __ctobpl_const_423: int;
 
-const {:extern} {:model_const "result.locate"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_649: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 225} unique __ctobpl_const_435: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 350} unique __ctobpl_const_656: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 206} unique __ctobpl_const_418: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 380} unique __ctobpl_const_662: int;
+const {:extern} {:model_const "lj"} {:sourceFile ".\v22\replace.c"} {:sourceLine 203} unique __ctobpl_const_410: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 380} unique __ctobpl_const_663: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 210} unique __ctobpl_const_428: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 380} unique __ctobpl_const_664: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 225} unique __ctobpl_const_436: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 384} unique __ctobpl_const_667: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 202} unique __ctobpl_const_409: int;
 
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 393} unique __ctobpl_const_668: int;
+const {:extern} {:model_const "start"} {:sourceFile ".\v22\replace.c"} {:sourceLine 206} unique __ctobpl_const_419: int;
 
-const {:extern} {:model_const "n"} {:sourceFile ".\source\replace.c"} {:sourceLine 393} unique __ctobpl_const_670: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 208} unique __ctobpl_const_422: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 393} unique __ctobpl_const_669: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 215} unique __ctobpl_const_430: int;
 
-const {:extern} {:model_const "pat[n]"} {:sourceFile ".\source\replace.c"} {:sourceLine 393} unique __ctobpl_const_671: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 215} unique __ctobpl_const_431: int;
 
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 393} unique __ctobpl_const_672: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 204} unique __ctobpl_const_414: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 383} unique __ctobpl_const_660: int;
+const {:extern} {:model_const "start"} {:sourceFile ".\v22\replace.c"} {:sourceLine 215} unique __ctobpl_const_433: int;
 
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 393} unique __ctobpl_const_673: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 210} unique __ctobpl_const_429: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 380} unique __ctobpl_const_661: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 206} unique __ctobpl_const_415: int;
 
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_643: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 206} unique __ctobpl_const_416: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 286} unique __ctobpl_const_551: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 202} unique __ctobpl_const_408: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 394} unique __ctobpl_const_675: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 204} unique __ctobpl_const_413: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 288} unique __ctobpl_const_554: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 208} unique __ctobpl_const_420: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 272} unique __ctobpl_const_574: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 208} unique __ctobpl_const_424: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 275} unique __ctobpl_const_565: int;
+const {:extern} {:model_const "arg[i + 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 208} unique __ctobpl_const_425: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 272} unique __ctobpl_const_572: int;
+const {:extern} {:model_const "delim"} {:sourceFile ".\v22\replace.c"} {:sourceLine 208} unique __ctobpl_const_426: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 284} unique __ctobpl_const_550: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 210} unique __ctobpl_const_427: int;
 
-const {:extern} {:model_const "escjunk"} {:sourceFile ".\source\replace.c"} {:sourceLine 274} unique __ctobpl_const_562: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 215} unique __ctobpl_const_432: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 271} unique __ctobpl_const_555: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 204} unique __ctobpl_const_412: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 286} unique __ctobpl_const_552: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 215} unique __ctobpl_const_434: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 275} unique __ctobpl_const_568: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 225} unique __ctobpl_const_437: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 275} unique __ctobpl_const_570: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 206} unique __ctobpl_const_417: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 274} unique __ctobpl_const_559: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 225} unique __ctobpl_const_438: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 272} unique __ctobpl_const_575: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 208} unique __ctobpl_const_421: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 280} unique __ctobpl_const_553: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 203} unique __ctobpl_const_411: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 275} unique __ctobpl_const_571: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 234} unique __ctobpl_const_513: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 272} unique __ctobpl_const_577: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 235} unique __ctobpl_const_521: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 277} unique __ctobpl_const_578: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 269} unique __ctobpl_const_526: int;
 
-const {:extern} {:model_const "arg[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 271} unique __ctobpl_const_557: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 269} unique __ctobpl_const_527: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 271} unique __ctobpl_const_556: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 269} unique __ctobpl_const_528: int;
 
-const {:extern} {:model_const "result.esc"} {:sourceFile ".\source\replace.c"} {:sourceLine 274} unique __ctobpl_const_563: int;
+const {:extern} {:model_const "delim"} {:sourceFile ".\v22\replace.c"} {:sourceLine 269} unique __ctobpl_const_529: int;
 
-const {:extern} {:model_const "escjunk"} {:sourceFile ".\source\replace.c"} {:sourceLine 275} unique __ctobpl_const_564: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 269} unique __ctobpl_const_530: int;
 
-const {:extern} {:model_const "escjunk"} {:sourceFile ".\source\replace.c"} {:sourceLine 275} unique __ctobpl_const_567: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 269} unique __ctobpl_const_531: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 274} unique __ctobpl_const_558: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 234} unique __ctobpl_const_514: int;
 
-const {:extern} {:model_const "arg"} {:sourceFile ".\source\replace.c"} {:sourceLine 274} unique __ctobpl_const_560: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 241} unique __ctobpl_const_522: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 274} unique __ctobpl_const_561: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 233} unique __ctobpl_const_506: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 275} unique __ctobpl_const_569: int;
+const {:extern} {:model_const "from"} {:sourceFile ".\v22\replace.c"} {:sourceLine 268} unique __ctobpl_const_525: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 272} unique __ctobpl_const_573: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 231} unique __ctobpl_const_505: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 275} unique __ctobpl_const_566: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 233} unique __ctobpl_const_510: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 272} unique __ctobpl_const_576: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 234} unique __ctobpl_const_512: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 277} unique __ctobpl_const_579: int;
+const {:extern} {:model_const "arg[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 234} unique __ctobpl_const_515: int;
 
-const {:extern} {:model_const "pat[j]"} {:sourceFile ".\source\replace.c"} {:sourceLine 341} unique __ctobpl_const_589: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 230} unique __ctobpl_const_503: int;
 
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 341} unique __ctobpl_const_591: int;
+const {:extern} {:model_const "lastj"} {:sourceFile ".\v22\replace.c"} {:sourceLine 229} unique __ctobpl_const_501: int;
 
-const {:extern} {:model_const "result"} {:sourceFile ".\source\replace.c"} {:sourceLine 338} unique __ctobpl_const_585: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 240} unique __ctobpl_const_519: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 337} unique __ctobpl_const_583: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 268} unique __ctobpl_const_524: int;
 
-const {:extern} {:model_const "result.in_pat_set"} {:sourceFile ".\source\replace.c"} {:sourceLine 341} unique __ctobpl_const_592: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 238} unique __ctobpl_const_518: int;
 
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 341} unique __ctobpl_const_590: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 231} unique __ctobpl_const_504: int;
 
-const {:extern} {:model_const "pat[j]"} {:sourceFile ".\source\replace.c"} {:sourceLine 374} unique __ctobpl_const_601: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 233} unique __ctobpl_const_507: int;
 
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 374} unique __ctobpl_const_602: int;
+const {:extern} {:model_const "lj"} {:sourceFile ".\v22\replace.c"} {:sourceLine 229} unique __ctobpl_const_502: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 347} unique __ctobpl_const_596: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 233} unique __ctobpl_const_509: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 341} unique __ctobpl_const_588: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 233} unique __ctobpl_const_511: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 374} unique __ctobpl_const_600: int;
+const {:extern} {:model_const "delim"} {:sourceFile ".\v22\replace.c"} {:sourceLine 234} unique __ctobpl_const_516: int;
 
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 374} unique __ctobpl_const_603: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 240} unique __ctobpl_const_520: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_604: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 233} unique __ctobpl_const_508: int;
 
-const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_607: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 379} unique __ctobpl_const_659: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_605: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 267} unique __ctobpl_const_523: int;
 
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_608: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 237} unique __ctobpl_const_517: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_609: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 205} unique __ctobpl_const_497: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 337} unique __ctobpl_const_581: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 205} unique __ctobpl_const_496: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\replace.c"} {:sourceLine 343} unique __ctobpl_const_594: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 205} unique __ctobpl_const_498: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_606: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 213} unique __ctobpl_const_481: int;
 
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_610: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 207} unique __ctobpl_const_494: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_611: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 212} unique __ctobpl_const_476: int;
 
-const {:extern} {:model_const "advance"} {:sourceFile ".\source\replace.c"} {:sourceLine 336} unique __ctobpl_const_580: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 209} unique __ctobpl_const_486: int;
 
-const {:extern} {:model_const "pat[j]"} {:sourceFile ".\source\replace.c"} {:sourceLine 347} unique __ctobpl_const_597: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 209} unique __ctobpl_const_483: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 343} unique __ctobpl_const_593: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 209} unique __ctobpl_const_484: int;
 
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 374} unique __ctobpl_const_598: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 212} unique __ctobpl_const_472: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 347} unique __ctobpl_const_595: int;
+const {:extern} {:model_const "done"} {:sourceFile ".\v22\replace.c"} {:sourceLine 219} unique __ctobpl_const_470: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 341} unique __ctobpl_const_587: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 212} unique __ctobpl_const_473: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 374} unique __ctobpl_const_599: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 209} unique __ctobpl_const_487: int;
 
-const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 341} unique __ctobpl_const_586: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 212} unique __ctobpl_const_474: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 337} unique __ctobpl_const_582: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 207} unique __ctobpl_const_489: int;
 
-const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 337} unique __ctobpl_const_584: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 207} unique __ctobpl_const_491: int;
 
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_620: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 212} unique __ctobpl_const_471: int;
 
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_615: int;
+const {:extern} {:model_const "getres"} {:sourceFile ".\v22\replace.c"} {:sourceLine 212} unique __ctobpl_const_479: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_641: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 209} unique __ctobpl_const_485: int;
 
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_617: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 212} unique __ctobpl_const_477: int;
 
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_618: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 209} unique __ctobpl_const_488: int;
 
-const {:extern} {:model_const "advance"} {:sourceFile ".\source\replace.c"} {:sourceLine 359} unique __ctobpl_const_635: int;
+const {:extern} {:model_const "arg"} {:sourceFile ".\v22\replace.c"} {:sourceLine 212} unique __ctobpl_const_475: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 358} unique __ctobpl_const_632: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 212} unique __ctobpl_const_478: int;
 
-const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_642: int;
+const {:extern} {:model_const "result.getccl"} {:sourceFile ".\v22\replace.c"} {:sourceLine 212} unique __ctobpl_const_480: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 362} unique __ctobpl_const_623: int;
+const {:extern} {:model_const "getres"} {:sourceFile ".\v22\replace.c"} {:sourceLine 213} unique __ctobpl_const_482: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_612: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 207} unique __ctobpl_const_492: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_619: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 207} unique __ctobpl_const_493: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 362} unique __ctobpl_const_624: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 205} unique __ctobpl_const_495: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 362} unique __ctobpl_const_625: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 205} unique __ctobpl_const_499: int;
 
-const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 362} unique __ctobpl_const_626: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 207} unique __ctobpl_const_490: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 354} unique __ctobpl_const_628: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 205} unique __ctobpl_const_500: int;
 
-const {:extern} {:model_const "advance"} {:sourceFile ".\source\replace.c"} {:sourceLine 371} unique __ctobpl_const_622: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 470} unique __ctobpl_const_720: int;
 
-const {:extern} {:model_const "result.locate"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_621: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 465} unique __ctobpl_const_690: int;
 
-const {:extern} {:model_const "advance"} {:sourceFile ".\source\replace.c"} {:sourceLine 363} unique __ctobpl_const_627: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 467} unique __ctobpl_const_694: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 354} unique __ctobpl_const_629: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 474} unique __ctobpl_const_704: int;
 
-const {:extern} {:model_const "advance"} {:sourceFile ".\source\replace.c"} {:sourceLine 355} unique __ctobpl_const_630: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 476} unique __ctobpl_const_712: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_613: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 474} unique __ctobpl_const_700: int;
 
-const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 358} unique __ctobpl_const_634: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 474} unique __ctobpl_const_697: int;
 
-const {:extern} {:model_const "locate.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_638: int;
+const {:extern} {:model_const "sub[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 474} unique __ctobpl_const_702: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_639: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 466} unique __ctobpl_const_691: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 358} unique __ctobpl_const_631: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 468} unique __ctobpl_const_707: int;
 
-const {:extern} {:model_const "locate.arg.3"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_636: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 476} unique __ctobpl_const_711: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_640: int;
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 474} unique __ctobpl_const_703: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 366} unique __ctobpl_const_637: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 466} unique __ctobpl_const_692: int;
 
-const {:extern} {:model_const "* i"} {:sourceFile ".\source\replace.c"} {:sourceLine 358} unique __ctobpl_const_633: int;
+const {:extern} {:model_const "sub[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 466} unique __ctobpl_const_693: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_616: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v22\replace.c"} {:sourceLine 474} unique __ctobpl_const_698: int;
 
-const {:extern} {:model_const "lin[* i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 370} unique __ctobpl_const_614: int;
+const {:extern} {:model_const "s1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 468} unique __ctobpl_const_708: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 466} unique __ctobpl_const_694: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 474} unique __ctobpl_const_701: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 397} unique __ctobpl_const_677: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 467} unique __ctobpl_const_695: int;
 
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 411} unique __ctobpl_const_685: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 468} unique __ctobpl_const_709: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 411} unique __ctobpl_const_681: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 470} unique __ctobpl_const_713: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 468} unique __ctobpl_const_699: int;
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 470} unique __ctobpl_const_715: int;
 
-const {:extern} {:model_const "size"} {:sourceFile ".\source\replace.c"} {:sourceLine 408} unique __ctobpl_const_686: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 470} unique __ctobpl_const_716: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 467} unique __ctobpl_const_695: int;
+const {:extern} {:model_const "lin[j]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 470} unique __ctobpl_const_718: int;
 
-const {:extern} {:model_const "sub[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 468} unique __ctobpl_const_700: int;
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 470} unique __ctobpl_const_719: int;
 
-const {:extern} {:model_const "pat[n]"} {:sourceFile ".\source\replace.c"} {:sourceLine 411} unique __ctobpl_const_683: int;
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 470} unique __ctobpl_const_721: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 467} unique __ctobpl_const_696: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v22\replace.c"} {:sourceLine 470} unique __ctobpl_const_714: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 405} unique __ctobpl_const_689: int;
+const {:extern} {:model_const "sub[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 467} unique __ctobpl_const_696: int;
 
-const {:extern} {:model_const "sub[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 467} unique __ctobpl_const_697: int;
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 474} unique __ctobpl_const_705: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\replace.c"} {:sourceLine 475} unique __ctobpl_const_702: int;
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 474} unique __ctobpl_const_699: int;
 
-const {:extern} {:model_const "n"} {:sourceFile ".\source\replace.c"} {:sourceLine 397} unique __ctobpl_const_678: int;
+const {:extern} {:model_const "s2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 468} unique __ctobpl_const_710: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 468} unique __ctobpl_const_698: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 474} unique __ctobpl_const_706: int;
 
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 411} unique __ctobpl_const_680: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 470} unique __ctobpl_const_717: int;
 
-const {:extern} {:model_const "pat[n + 1]"} {:sourceFile ".\source\replace.c"} {:sourceLine 405} unique __ctobpl_const_691: int;
+const {:extern} {:model_const "pat[lastj]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 169} unique __ctobpl_const_735: int;
 
-const {:extern} {:model_const "pat[n]"} {:sourceFile ".\source\replace.c"} {:sourceLine 397} unique __ctobpl_const_679: int;
+const {:extern} {:model_const "jt"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_744: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 475} unique __ctobpl_const_703: int;
+const {:extern} {:model_const "pat[jp]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_741: int;
 
-const {:extern} {:model_const "sub[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 475} unique __ctobpl_const_706: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_746: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 475} unique __ctobpl_const_705: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 470} unique __ctobpl_const_722: int;
 
-const {:extern} {:model_const "size"} {:sourceFile ".\source\replace.c"} {:sourceLine 405} unique __ctobpl_const_688: int;
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_742: int;
 
-const {:extern} {:model_const "size"} {:sourceFile ".\source\replace.c"} {:sourceLine 402} unique __ctobpl_const_687: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_739: int;
 
-const {:extern} {:model_const "n"} {:sourceFile ".\source\replace.c"} {:sourceLine 411} unique __ctobpl_const_682: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_743: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 475} unique __ctobpl_const_704: int;
+const {:extern} {:model_const "jp"} {:sourceFile ".\v22\replace.c"} {:sourceLine 165} unique __ctobpl_const_737: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 475} unique __ctobpl_const_701: int;
+const {:extern} {:model_const "lastj"} {:sourceFile ".\v22\replace.c"} {:sourceLine 169} unique __ctobpl_const_734: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 475} unique __ctobpl_const_707: int;
+const {:extern} {:model_const "result.addstr"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_749: int;
 
-const {:extern} {:model_const "size"} {:sourceFile ".\source\replace.c"} {:sourceLine 413} unique __ctobpl_const_693: int;
+const {:extern} {:model_const "jp"} {:sourceFile ".\v22\replace.c"} {:sourceLine 163} unique __ctobpl_const_750: int;
 
-const {:extern} {:model_const "n"} {:sourceFile ".\source\replace.c"} {:sourceLine 405} unique __ctobpl_const_690: int;
+const {:extern} {:model_const "jt"} {:sourceFile ".\v22\replace.c"} {:sourceLine 165} unique __ctobpl_const_736: int;
 
-const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 411} unique __ctobpl_const_684: int;
+const {:extern} {:model_const "jp"} {:sourceFile ".\v22\replace.c"} {:sourceLine 163} unique __ctobpl_const_724: int;
 
-const {:extern} {:model_const "size"} {:sourceFile ".\source\replace.c"} {:sourceLine 399} unique __ctobpl_const_692: int;
+const {:extern} {:model_const "lastj"} {:sourceFile ".\v22\replace.c"} {:sourceLine 163} unique __ctobpl_const_727: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 471} unique __ctobpl_const_724: int;
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_738: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 477} unique __ctobpl_const_715: int;
+const {:extern} {:model_const "* j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 168} unique __ctobpl_const_732: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 164} unique __ctobpl_const_729: int;
+const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_745: int;
 
-const {:extern} {:model_const "lastj"} {:sourceFile ".\source\replace.c"} {:sourceLine 164} unique __ctobpl_const_731: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 163} unique __ctobpl_const_725: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 475} unique __ctobpl_const_708: int;
+const {:extern} {:model_const "lastm"} {:sourceFile ".\v22\replace.c"} {:sourceLine 488} unique __ctobpl_const_751: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 471} unique __ctobpl_const_726: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 489} unique __ctobpl_const_752: int;
 
-const {:extern} {:model_const "s1"} {:sourceFile ".\source\replace.c"} {:sourceLine 469} unique __ctobpl_const_712: int;
+const {:extern} {:model_const "* j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 163} unique __ctobpl_const_726: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 471} unique __ctobpl_const_717: int;
+const {:extern} {:model_const "junk"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_748: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 169} unique __ctobpl_const_733: int;
+const {:extern} {:model_const "jp"} {:sourceFile ".\v22\replace.c"} {:sourceLine 163} unique __ctobpl_const_728: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 469} unique __ctobpl_const_727: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 468} unique __ctobpl_const_723: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile ".\source\replace.c"} {:sourceLine 169} unique __ctobpl_const_734: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 490} unique __ctobpl_const_753: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 169} unique __ctobpl_const_735: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 168} unique __ctobpl_const_729: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 170} unique __ctobpl_const_737: int;
+const {:extern} {:model_const "jp"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_740: int;
 
-const {:extern} {:model_const "lastj"} {:sourceFile ".\source\replace.c"} {:sourceLine 170} unique __ctobpl_const_738: int;
+const {:extern} {:model_const "jt"} {:sourceFile ".\v22\replace.c"} {:sourceLine 166} unique __ctobpl_const_747: int;
 
-const {:extern} {:model_const "pat[lastj]"} {:sourceFile ".\source\replace.c"} {:sourceLine 170} unique __ctobpl_const_739: int;
+const {:extern} {:model_const "* j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 168} unique __ctobpl_const_730: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 469} unique __ctobpl_const_711: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 169} unique __ctobpl_const_733: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 475} unique __ctobpl_const_709: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v22\replace.c"} {:sourceLine 168} unique __ctobpl_const_731: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 471} unique __ctobpl_const_719: int;
+const {:extern} {:model_const "m"} {:sourceFile ".\v22\replace.c"} {:sourceLine 493} unique __ctobpl_const_764: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 471} unique __ctobpl_const_721: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 490} unique __ctobpl_const_754: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 471} unique __ctobpl_const_725: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 492} unique __ctobpl_const_756: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile ".\source\replace.c"} {:sourceLine 164} unique __ctobpl_const_730: int;
+const {:extern} {:model_const "m"} {:sourceFile ".\v22\replace.c"} {:sourceLine 492} unique __ctobpl_const_762: int;
 
-const {:extern} {:model_const "* j"} {:sourceFile ".\source\replace.c"} {:sourceLine 169} unique __ctobpl_const_736: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 494} unique __ctobpl_const_768: int;
 
-const {:extern} {:model_const "s2"} {:sourceFile ".\source\replace.c"} {:sourceLine 469} unique __ctobpl_const_714: int;
+const {:extern} {:model_const "m"} {:sourceFile ".\v22\replace.c"} {:sourceLine 495} unique __ctobpl_const_776: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 471} unique __ctobpl_const_723: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 492} unique __ctobpl_const_760: int;
 
-const {:extern} {:model_const "jp"} {:sourceFile ".\source\replace.c"} {:sourceLine 164} unique __ctobpl_const_732: int;
+const {:extern} {:model_const "lastm"} {:sourceFile ".\v22\replace.c"} {:sourceLine 493} unique __ctobpl_const_765: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 475} unique __ctobpl_const_710: int;
+const {:extern} {:model_const "m"} {:sourceFile ".\v22\replace.c"} {:sourceLine 494} unique __ctobpl_const_773: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\replace.c"} {:sourceLine 469} unique __ctobpl_const_713: int;
+const {:extern} {:model_const "m"} {:sourceFile ".\v22\replace.c"} {:sourceLine 497} unique __ctobpl_const_777: int;
 
-const {:extern} {:model_const "lin[j]"} {:sourceFile ".\source\replace.c"} {:sourceLine 471} unique __ctobpl_const_722: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 497} unique __ctobpl_const_779: int;
 
-const {:extern} {:model_const "jp"} {:sourceFile ".\source\replace.c"} {:sourceLine 164} unique __ctobpl_const_728: int;
+const {:extern} {:model_const "m"} {:sourceFile ".\v22\replace.c"} {:sourceLine 501} unique __ctobpl_const_781: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 477} unique __ctobpl_const_716: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v22\replace.c"} {:sourceLine 498} unique __ctobpl_const_783: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\replace.c"} {:sourceLine 471} unique __ctobpl_const_718: int;
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 498} unique __ctobpl_const_784: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 471} unique __ctobpl_const_720: int;
+const {:extern} {:model_const "lin[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 490} unique __ctobpl_const_755: int;
 
-const {:extern} {:model_const "junk"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_752: int;
+const {:extern} {:model_const "lastm"} {:sourceFile ".\v22\replace.c"} {:sourceLine 495} unique __ctobpl_const_775: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 491} unique __ctobpl_const_757: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 492} unique __ctobpl_const_761: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 493} unique __ctobpl_const_764: int;
+const {:extern} {:model_const "result.amatch"} {:sourceFile ".\v22\replace.c"} {:sourceLine 492} unique __ctobpl_const_763: int;
 
-const {:extern} {:model_const "m"} {:sourceFile ".\source\replace.c"} {:sourceLine 494} unique __ctobpl_const_770: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 492} unique __ctobpl_const_759: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 495} unique __ctobpl_const_771: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 494} unique __ctobpl_const_770: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 493} unique __ctobpl_const_763: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 494} unique __ctobpl_const_772: int;
 
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_749: int;
+const {:extern} {:model_const "sub"} {:sourceFile ".\v22\replace.c"} {:sourceLine 494} unique __ctobpl_const_774: int;
 
-const {:extern} {:model_const "jt"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_751: int;
+const {:extern} {:model_const "m"} {:sourceFile ".\v22\replace.c"} {:sourceLine 497} unique __ctobpl_const_778: int;
 
-const {:extern} {:model_const "m"} {:sourceFile ".\source\replace.c"} {:sourceLine 493} unique __ctobpl_const_766: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 501} unique __ctobpl_const_780: int;
 
-const {:extern} {:model_const "result.amatch"} {:sourceFile ".\source\replace.c"} {:sourceLine 493} unique __ctobpl_const_767: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 498} unique __ctobpl_const_785: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_750: int;
+const {:extern} {:model_const "m"} {:sourceFile ".\v22\replace.c"} {:sourceLine 494} unique __ctobpl_const_769: int;
 
-const {:extern} {:model_const "lin[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 491} unique __ctobpl_const_759: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 494} unique __ctobpl_const_771: int;
 
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_742: int;
+const {:extern} {:model_const "m"} {:sourceFile ".\v22\replace.c"} {:sourceLine 493} unique __ctobpl_const_766: int;
 
-const {:extern} {:model_const "jp"} {:sourceFile ".\source\replace.c"} {:sourceLine 164} unique __ctobpl_const_754: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 498} unique __ctobpl_const_782: int;
 
-const {:extern} {:model_const "jt"} {:sourceFile ".\source\replace.c"} {:sourceLine 166} unique __ctobpl_const_740: int;
+const {:extern} {:model_const "lin"} {:sourceFile ".\v22\replace.c"} {:sourceLine 494} unique __ctobpl_const_767: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 491} unique __ctobpl_const_758: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 492} unique __ctobpl_const_758: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 493} unique __ctobpl_const_762: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 492} unique __ctobpl_const_757: int;
 
-const {:extern} {:model_const "jp"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_744: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 380} unique __ctobpl_const_662: int;
 
-const {:extern} {:model_const "result.addstr"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_753: int;
+const {:extern} {:model_const "result"} {:sourceFile ".\v22\replace.c"} {:sourceLine 383} unique __ctobpl_const_663: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_747: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 392} unique __ctobpl_const_665: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 493} unique __ctobpl_const_761: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 396} unique __ctobpl_const_673: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 490} unique __ctobpl_const_756: int;
+const {:extern} {:model_const "n"} {:sourceFile ".\v22\replace.c"} {:sourceLine 396} unique __ctobpl_const_674: int;
 
-const {:extern} {:model_const "m"} {:sourceFile ".\source\replace.c"} {:sourceLine 494} unique __ctobpl_const_768: int;
+const {:extern} {:model_const "n"} {:sourceFile ".\v22\replace.c"} {:sourceLine 410} unique __ctobpl_const_678: int;
 
-const {:extern} {:model_const "jt"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_748: int;
+const {:extern} {:model_const "pat[n + 1]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 404} unique __ctobpl_const_687: int;
 
-const {:extern} {:model_const "lastm"} {:sourceFile ".\source\replace.c"} {:sourceLine 494} unique __ctobpl_const_769: int;
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 410} unique __ctobpl_const_680: int;
 
-const {:extern} {:model_const "addstr.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_746: int;
+const {:extern} {:model_const "size"} {:sourceFile ".\v22\replace.c"} {:sourceLine 398} unique __ctobpl_const_688: int;
 
-const {:extern} {:model_const "jp"} {:sourceFile ".\source\replace.c"} {:sourceLine 166} unique __ctobpl_const_741: int;
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 410} unique __ctobpl_const_676: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 493} unique __ctobpl_const_760: int;
+const {:extern} {:model_const "size"} {:sourceFile ".\v22\replace.c"} {:sourceLine 412} unique __ctobpl_const_689: int;
 
-const {:extern} {:model_const "lastm"} {:sourceFile ".\source\replace.c"} {:sourceLine 489} unique __ctobpl_const_755: int;
+const {:extern} {:model_const "n"} {:sourceFile ".\v22\replace.c"} {:sourceLine 404} unique __ctobpl_const_686: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 493} unique __ctobpl_const_765: int;
+const {:extern} {:model_const "n"} {:sourceFile ".\v22\replace.c"} {:sourceLine 392} unique __ctobpl_const_666: int;
 
-const {:extern} {:model_const "pat"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_743: int;
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 392} unique __ctobpl_const_669: int;
 
-const {:extern} {:model_const "pat[jp]"} {:sourceFile ".\source\replace.c"} {:sourceLine 167} unique __ctobpl_const_745: int;
+const {:extern} {:model_const "size"} {:sourceFile ".\v22\replace.c"} {:sourceLine 401} unique __ctobpl_const_683: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 495} unique __ctobpl_const_772: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 404} unique __ctobpl_const_685: int;
 
-const {:extern} {:model_const "lastm"} {:sourceFile ".\source\replace.c"} {:sourceLine 496} unique __ctobpl_const_779: int;
+const {:extern} {:model_const "pat[n]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 392} unique __ctobpl_const_667: int;
 
-const {:extern} {:model_const "m"} {:sourceFile ".\source\replace.c"} {:sourceLine 495} unique __ctobpl_const_773: int;
+const {:extern} {:model_const "* i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 379} unique __ctobpl_const_660: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 498} unique __ctobpl_const_783: int;
+const {:extern} {:model_const "result.in_pat_set"} {:sourceFile ".\v22\replace.c"} {:sourceLine 392} unique __ctobpl_const_670: int;
 
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 499} unique __ctobpl_const_789: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 393} unique __ctobpl_const_671: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 499} unique __ctobpl_const_794: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v22\replace.c"} {:sourceLine 393} unique __ctobpl_const_672: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 499} unique __ctobpl_const_786: int;
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 392} unique __ctobpl_const_664: int;
 
-const {:extern} {:model_const "m"} {:sourceFile ".\source\replace.c"} {:sourceLine 498} unique __ctobpl_const_782: int;
+const {:extern} {:model_const "pat[n]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 396} unique __ctobpl_const_675: int;
 
-const {:extern} {:model_const "m"} {:sourceFile ".\source\replace.c"} {:sourceLine 496} unique __ctobpl_const_780: int;
+const {:extern} {:model_const "pat"} {:sourceFile ".\v22\replace.c"} {:sourceLine 410} unique __ctobpl_const_677: int;
 
-const {:extern} {:model_const "lin[i]"} {:sourceFile ".\source\replace.c"} {:sourceLine 499} unique __ctobpl_const_791: int;
+const {:extern} {:model_const "pat[n]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 410} unique __ctobpl_const_679: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 499} unique __ctobpl_const_792: int;
+const {:extern} {:model_const "Caseerror.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 410} unique __ctobpl_const_681: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 499} unique __ctobpl_const_793: int;
+const {:extern} {:model_const "size"} {:sourceFile ".\v22\replace.c"} {:sourceLine 407} unique __ctobpl_const_682: int;
 
-const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\source\replace.c"} {:sourceLine 499} unique __ctobpl_const_788: int;
+const {:extern} {:model_const "size"} {:sourceFile ".\v22\replace.c"} {:sourceLine 404} unique __ctobpl_const_684: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 495} unique __ctobpl_const_774: int;
+const {:extern} {:model_const "in_pat_set.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 392} unique __ctobpl_const_668: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 500} unique __ctobpl_const_796: int;
+const {:extern} {:model_const "advance"} {:sourceFile ".\v22\replace.c"} {:sourceLine 379} unique __ctobpl_const_661: int;
 
-const {:extern} {:model_const "sub"} {:sourceFile ".\source\replace.c"} {:sourceLine 495} unique __ctobpl_const_778: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 499} unique __ctobpl_const_792: int;
 
-const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\source\replace.c"} {:sourceLine 499} unique __ctobpl_const_795: int;
+const {:extern} {:model_const "lin[i]"} {:sourceFile ".\v22\replace.c"} {:sourceLine 498} unique __ctobpl_const_787: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 495} unique __ctobpl_const_776: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 498} unique __ctobpl_const_791: int;
 
-const {:extern} {:model_const "m"} {:sourceFile ".\source\replace.c"} {:sourceLine 495} unique __ctobpl_const_777: int;
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 498} unique __ctobpl_const_790: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\replace.c"} {:sourceLine 499} unique __ctobpl_const_787: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v22\replace.c"} {:sourceLine 499} unique __ctobpl_const_793: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 500} unique __ctobpl_const_797: int;
+const {:extern} {:model_const "fputc.arg.1"} {:sourceFile ".\v22\replace.c"} {:sourceLine 498} unique __ctobpl_const_788: int;
 
-const {:extern} {:model_const "m"} {:sourceFile ".\source\replace.c"} {:sourceLine 498} unique __ctobpl_const_781: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 499} unique __ctobpl_const_790: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\source\replace.c"} {:sourceLine 502} unique __ctobpl_const_784: int;
-
-const {:extern} {:model_const "lin"} {:sourceFile ".\source\replace.c"} {:sourceLine 495} unique __ctobpl_const_775: int;
-
-const {:extern} {:model_const "m"} {:sourceFile ".\source\replace.c"} {:sourceLine 502} unique __ctobpl_const_785: int;
+const {:extern} {:model_const "fputc.arg.2"} {:sourceFile ".\v22\replace.c"} {:sourceLine 498} unique __ctobpl_const_789: int;
 
 procedure {:extern} __iob_func() returns (__dummy_ret__iob_func: int);
   free requires INT_LT(0, alloc);
@@ -2181,12 +2173,12 @@ implementation {:extern} Caseerror(n.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 561} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 560} true;
     call result.__iob_func$2 := __iob_func();
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 561} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 560} true;
     assert result.__iob_func$2 != 0;
     $fprintf.arg.1$3$ := PLUS(result.__iob_func$2, 32, 1);
     assume value_is(__ctobpl_const_1, $fprintf.arg.1$3$);
@@ -2194,12 +2186,12 @@ implementation {:extern} Caseerror(n.__1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 561} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 560} true;
     call result.fprintf$1 := det_choice();
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 562} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 561} true;
     return;
 }
 
@@ -2261,11 +2253,11 @@ implementation {:extern} addstr(c.__1: int, outset.__1: int, j.__1: int, maxset.
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 54} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 54} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 55} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 55} true;
     assert j != 0;
     goto label_4_true, label_4_false;
 
@@ -2277,7 +2269,7 @@ implementation {:extern} addstr(c.__1: int, outset.__1: int, j.__1: int, maxset.
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 58} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 58} true;
     assert j != 0;
     assert outset != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(outset, 1, Mem_T.INT4[j]) := c];
@@ -2289,7 +2281,7 @@ implementation {:extern} addstr(c.__1: int, outset.__1: int, j.__1: int, maxset.
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 59} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 59} true;
     assert j != 0;
     assert j != 0;
     Mem_T.INT4 := Mem_T.INT4[j := PLUS(Mem_T.INT4[j], 1, 1)];
@@ -2300,19 +2292,19 @@ implementation {:extern} addstr(c.__1: int, outset.__1: int, j.__1: int, maxset.
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 60} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 60} true;
     result := 1;
     assume value_is(__ctobpl_const_15, result);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 62} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 62} true;
     result.addstr$1 := result;
     assume value_is(__ctobpl_const_17, result);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 63} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 63} true;
     return;
 
   label_4_true:
@@ -2323,7 +2315,7 @@ implementation {:extern} addstr(c.__1: int, outset.__1: int, j.__1: int, maxset.
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 56} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 56} true;
     result := 0;
     assume value_is(__ctobpl_const_16, result);
     goto label_7;
@@ -2407,29 +2399,29 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 423} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 422} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 423} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 422} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 424} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 423} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 424} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 423} true;
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 426} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 425} true;
     done := 0;
     assume value_is(__ctobpl_const_18, done);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 427} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 426} true;
     goto label_8_head;
 
   label_8_head:
@@ -2442,7 +2434,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 427} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 426} true;
     assert pat != 0;
     goto label_9_true, label_9_false;
 
@@ -2454,13 +2446,13 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 454} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 453} true;
     result.amatch$1 := Mem_T.INT4[offset];
     assume value_is(__ctobpl_const_99, Mem_T.INT4[offset]);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 455} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 454} true;
     call __HAVOC_free(i);
     call __HAVOC_free(offset);
     return;
@@ -2473,7 +2465,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 428} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 427} true;
     assert pat != 0;
     goto label_11_true, label_11_false;
 
@@ -2485,7 +2477,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 447} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 446} true;
     call result.omatch$7 := omatch(lin, offset, pat, j);
     assume value_is(__ctobpl_const_26, lin);
     assume value_is(__ctobpl_const_27, Mem_T.INT4[offset]);
@@ -2498,14 +2490,14 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_44;
 
   label_44:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 447} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 446} true;
     result := result.omatch$7;
     assume value_is(__ctobpl_const_34, result);
     assume value_is(__ctobpl_const_35, result.omatch$7);
     goto label_45;
 
   label_45:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 448} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 447} true;
     goto label_45_true, label_45_false;
 
   label_45_false:
@@ -2514,13 +2506,13 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_46;
 
   label_46:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 449} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 448} true;
     Mem_T.INT4 := Mem_T.INT4[offset := -1];
     assume value_is(__ctobpl_const_37, Mem_T.INT4[offset]);
     goto label_51;
 
   label_51:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 450} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 449} true;
     done := 1;
     assume value_is(__ctobpl_const_38, done);
     goto label_51_dummy;
@@ -2531,7 +2523,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_47;
 
   label_47:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 452} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 451} true;
     call result.patsize$8 := patsize(pat, j);
     assume value_is(__ctobpl_const_39, pat);
     assume value_is(__ctobpl_const_40, j);
@@ -2540,7 +2532,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_50;
 
   label_50:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 452} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 451} true;
     j := PLUS(j, 1, result.patsize$8);
     assume value_is(__ctobpl_const_43, j);
     assume value_is(__ctobpl_const_44, j);
@@ -2555,7 +2547,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 429} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 428} true;
     call result.patsize$2 := patsize(pat, j);
     assume value_is(__ctobpl_const_46, pat);
     assume value_is(__ctobpl_const_47, j);
@@ -2564,7 +2556,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 429} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 428} true;
     j := PLUS(j, 1, result.patsize$2);
     assume value_is(__ctobpl_const_50, j);
     assume value_is(__ctobpl_const_51, j);
@@ -2572,14 +2564,14 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 430} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 429} true;
     Mem_T.INT4 := Mem_T.INT4[i := Mem_T.INT4[offset]];
     assume value_is(__ctobpl_const_53, Mem_T.INT4[i]);
     assume value_is(__ctobpl_const_54, Mem_T.INT4[offset]);
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 431} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 430} true;
     goto label_20_head;
 
   label_20_head:
@@ -2592,7 +2584,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 431} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 430} true;
     assert lin != 0;
     goto label_21_true, label_21_false;
 
@@ -2604,13 +2596,13 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 436} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 435} true;
     done := 0;
     assume value_is(__ctobpl_const_71, done);
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 437} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 436} true;
     goto label_23_head;
 
   label_23_head:
@@ -2623,7 +2615,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 437} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 436} true;
     goto label_24_true, label_24_false;
 
   label_24_false:
@@ -2633,14 +2625,14 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 444} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 443} true;
     Mem_T.INT4 := Mem_T.INT4[offset := k];
     assume value_is(__ctobpl_const_96, Mem_T.INT4[offset]);
     assume value_is(__ctobpl_const_97, k);
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 445} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 444} true;
     done := 1;
     assume value_is(__ctobpl_const_98, done);
     goto label_26_dummy;
@@ -2652,7 +2644,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     call result.patsize$5 := patsize(pat, j);
     assume value_is(__ctobpl_const_75, pat);
     assume value_is(__ctobpl_const_76, j);
@@ -2661,7 +2653,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     $amatch.arg.4$6$ := PLUS(j, 1, result.patsize$5);
     assume value_is(__ctobpl_const_79, $amatch.arg.4$6$);
     assume value_is(__ctobpl_const_80, j);
@@ -2669,7 +2661,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     call result.amatch$4 := amatch(lin, Mem_T.INT4[i], pat, $amatch.arg.4$6$);
     assume value_is(__ctobpl_const_82, lin);
     assume value_is(__ctobpl_const_83, Mem_T.INT4[i]);
@@ -2682,14 +2674,14 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_34;
 
   label_34:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     k := result.amatch$4;
     assume value_is(__ctobpl_const_90, k);
     assume value_is(__ctobpl_const_91, result.amatch$4);
     goto label_35;
 
   label_35:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 439} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 438} true;
     goto label_35_true, label_35_false;
 
   label_35_false:
@@ -2698,7 +2690,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_36;
 
   label_36:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 442} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 441} true;
     Mem_T.INT4 := Mem_T.INT4[i := MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.INT4[i], 1, 1)];
     assume value_is(__ctobpl_const_93, Mem_T.INT4[i]);
     assume value_is(__ctobpl_const_94, Mem_T.INT4[i]);
@@ -2710,7 +2702,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_37;
 
   label_37:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 440} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 439} true;
     done := 1;
     assume value_is(__ctobpl_const_95, done);
     goto label_37_dummy;
@@ -2728,7 +2720,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_38;
 
   label_38:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 432} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 431} true;
     call result.omatch$3 := omatch(lin, i, pat, j);
     assume value_is(__ctobpl_const_59, lin);
     assume value_is(__ctobpl_const_60, Mem_T.INT4[i]);
@@ -2741,14 +2733,14 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_41;
 
   label_41:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 432} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 431} true;
     result := result.omatch$3;
     assume value_is(__ctobpl_const_67, result);
     assume value_is(__ctobpl_const_68, result.omatch$3);
     goto label_42;
 
   label_42:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 433} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 432} true;
     goto label_42_true, label_42_false;
 
   label_42_false:
@@ -2757,7 +2749,7 @@ implementation {:extern} amatch(lin.__1: int, offset.__1: int, pat.__1: int, j._
     goto label_43;
 
   label_43:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 434} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 433} true;
     done := 1;
     assume value_is(__ctobpl_const_70, done);
     goto label_43_dummy;
@@ -2878,31 +2870,31 @@ implementation {:extern} change(pat.__1: int, sub.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 510} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 509} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 511} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 510} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 513} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 512} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 513} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 512} true;
     call result.getline$1 := getline($getline.arg.1$2$, 100);
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 513} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 512} true;
     result := result.getline$1;
     assume value_is(__ctobpl_const_100, result);
     assume value_is(__ctobpl_const_101, result.getline$1);
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 514} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 513} true;
     goto label_10_head;
 
   label_10_head:
@@ -2915,7 +2907,7 @@ implementation {:extern} change(pat.__1: int, sub.__1: int)
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 518} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 517} true;
     return;
 
   label_10_true:
@@ -2924,11 +2916,11 @@ implementation {:extern} change(pat.__1: int, sub.__1: int)
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 515} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 514} true;
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 515} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 514} true;
     call subline($subline.arg.1$3$, pat, sub);
     assume value_is(__ctobpl_const_103, pat);
     assume value_is(__ctobpl_const_104, sub);
@@ -2937,16 +2929,16 @@ implementation {:extern} change(pat.__1: int, sub.__1: int)
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 516} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 515} true;
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 516} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 515} true;
     call result.getline$4 := getline($getline.arg.1$5$, 100);
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 516} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 515} true;
     result := result.getline$4;
     assume value_is(__ctobpl_const_107, result);
     assume value_is(__ctobpl_const_108, result.getline$4);
@@ -3051,19 +3043,19 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 101} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 101} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 102} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 102} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 103} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 103} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 105} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 105} true;
     goto label_6_head;
 
   label_6_head:
@@ -3080,7 +3072,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 128} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 128} true;
     return;
 
   label_6_true:
@@ -3093,7 +3085,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 105} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 105} true;
     assert i != 0;
     assert src != 0;
     goto label_7_true, label_7_false;
@@ -3115,7 +3107,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 107} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 107} true;
     assert i != 0;
     assert src != 0;
     goto label_8_true, label_8_false;
@@ -3129,7 +3121,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 111} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 111} true;
     assert i != 0;
     assert src != 0;
     goto label_9_true, label_9_false;
@@ -3143,7 +3135,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 113} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 113} true;
     assert j != 0;
     goto label_19_true, label_19_false;
 
@@ -3154,7 +3146,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 113} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 113} true;
     assert i != 0;
     assert src != 0;
     goto label_25_true, label_25_false;
@@ -3168,7 +3160,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 114} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 114} true;
     call result.addstr$5 := addstr(45, dest, j, maxset);
     assume value_is(__ctobpl_const_189, dest);
     assume value_is(__ctobpl_const_190, j);
@@ -3179,14 +3171,14 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_29;
 
   label_29:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 114} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 114} true;
     junk := result.addstr$5;
     assume value_is(__ctobpl_const_195, junk);
     assume value_is(__ctobpl_const_196, result.addstr$5);
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 126} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 126} true;
     assert i != 0;
     assert i != 0;
     Mem_T.INT4 := Mem_T.INT4[i := PLUS(Mem_T.INT4[i], 1, 1)];
@@ -3205,7 +3197,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     assert i != 0;
     assert src != 0;
     $isalnum.arg.1$7$ := Mem_T.CHAR[PLUS(src, 1, MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.INT4[i], 1, 1))];
@@ -3217,14 +3209,14 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     call result.isalnum$6 := isalnum($isalnum.arg.1$7$);
     assume value_is(__ctobpl_const_137, $isalnum.arg.1$7$);
     assume value_is(__ctobpl_const_138, $isalnum.arg.1$7$);
     goto label_34;
 
   label_34:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     goto label_34_true, label_34_false;
 
   label_34_false:
@@ -3233,7 +3225,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_35;
 
   label_35:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 125} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 125} true;
     call result.addstr$11 := addstr(45, dest, j, maxset);
     assume value_is(__ctobpl_const_156, dest);
     assume value_is(__ctobpl_const_157, j);
@@ -3244,7 +3236,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_52;
 
   label_52:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 125} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 125} true;
     junk := result.addstr$11;
     assume value_is(__ctobpl_const_162, junk);
     assume value_is(__ctobpl_const_163, result.addstr$11);
@@ -3256,7 +3248,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_38;
 
   label_38:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     assert i != 0;
     assert src != 0;
     $isalnum.arg.1$9$ := Mem_T.CHAR[PLUS(src, 1, PLUS(Mem_T.INT4[i], 1, 1))];
@@ -3268,14 +3260,14 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_39;
 
   label_39:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     call result.isalnum$8 := isalnum($isalnum.arg.1$9$);
     assume value_is(__ctobpl_const_145, $isalnum.arg.1$9$);
     assume value_is(__ctobpl_const_146, $isalnum.arg.1$9$);
     goto label_42;
 
   label_42:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     goto label_42_true, label_42_false;
 
   label_42_false:
@@ -3289,7 +3281,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_43;
 
   label_43:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 116} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 116} true;
     assert i != 0;
     assert src != 0;
     assert i != 0;
@@ -3321,7 +3313,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_44;
 
   label_44:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 118} true;
     assert i != 0;
     assert src != 0;
     k := PLUS(Mem_T.CHAR[PLUS(src, 1, MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.INT4[i], 1, 1))], 1, 1);
@@ -3333,7 +3325,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_45;
 
   label_45:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 118} true;
     goto label_45_head;
 
   label_45_head:
@@ -3350,7 +3342,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_46;
 
   label_46:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 122} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 122} true;
     assert i != 0;
     assert i != 0;
     Mem_T.INT4 := Mem_T.INT4[i := PLUS(Mem_T.INT4[i], 1, 1)];
@@ -3370,7 +3362,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_47;
 
   label_47:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 120} true;
     call result.addstr$10 := addstr(k, dest, j, maxset);
     assume value_is(__ctobpl_const_178, k);
     assume value_is(__ctobpl_const_179, dest);
@@ -3383,14 +3375,14 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_50;
 
   label_50:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 120} true;
     junk := result.addstr$10;
     assume value_is(__ctobpl_const_186, junk);
     assume value_is(__ctobpl_const_187, result.addstr$10);
     goto label_51;
 
   label_51:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 118} true;
     assume value_is(__ctobpl_const_188, k);
     k := PLUS(k, 1, 1);
     goto label_51_dummy;
@@ -3410,7 +3402,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 112} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 112} true;
     assert i != 0;
     assert src != 0;
     $addstr.arg.1$4$ := Mem_T.CHAR[PLUS(src, 1, Mem_T.INT4[i])];
@@ -3422,7 +3414,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 112} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 112} true;
     call result.addstr$3 := addstr($addstr.arg.1$4$, dest, j, maxset);
     assume value_is(__ctobpl_const_202, $addstr.arg.1$4$);
     assume value_is(__ctobpl_const_203, dest);
@@ -3435,7 +3427,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 112} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 112} true;
     junk := result.addstr$3;
     assume value_is(__ctobpl_const_210, junk);
     assume value_is(__ctobpl_const_211, result.addstr$3);
@@ -3450,7 +3442,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 108} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 108} true;
     call result.esc$1 := esc(src, i);
     assume value_is(__ctobpl_const_212, src);
     assume value_is(__ctobpl_const_213, i);
@@ -3459,14 +3451,14 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 108} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 108} true;
     escjunk := result.esc$1;
     assume value_is(__ctobpl_const_216, escjunk);
     assume value_is(__ctobpl_const_217, result.esc$1);
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 109} true;
     call result.addstr$2 := addstr(escjunk, dest, j, maxset);
     assume value_is(__ctobpl_const_218, escjunk);
     assume value_is(__ctobpl_const_219, dest);
@@ -3479,7 +3471,7 @@ implementation {:extern} dodash(delim.__1: int, src.__1: int, i.__1: int, dest._
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 109} true;
     junk := result.addstr$2;
     assume value_is(__ctobpl_const_226, junk);
     assume value_is(__ctobpl_const_227, result.addstr$2);
@@ -3556,11 +3548,11 @@ implementation {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 70} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 70} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 71} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 71} true;
     assert i != 0;
     assert s != 0;
     goto label_4_true, label_4_false;
@@ -3574,7 +3566,7 @@ implementation {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int)
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 74} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 74} true;
     assert i != 0;
     assert s != 0;
     goto label_5_true, label_5_false;
@@ -3588,19 +3580,19 @@ implementation {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int)
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 75} true;
     result := 64;
     assume value_is(__ctobpl_const_240, result);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 87} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 87} true;
     result.esc$1 := result;
     assume value_is(__ctobpl_const_265, result);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 88} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 88} true;
     return;
 
   label_5_true:
@@ -3612,7 +3604,7 @@ implementation {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int)
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 78} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 78} true;
     assert i != 0;
     assert i != 0;
     Mem_T.INT4 := Mem_T.INT4[i := PLUS(Mem_T.INT4[i], 1, 1)];
@@ -3623,7 +3615,7 @@ implementation {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 79} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 79} true;
     assert i != 0;
     assert s != 0;
     goto label_10_true, label_10_false;
@@ -3637,7 +3629,7 @@ implementation {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int)
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 82} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 82} true;
     assert i != 0;
     assert s != 0;
     goto label_11_true, label_11_false;
@@ -3651,7 +3643,7 @@ implementation {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int)
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 85} true;
     assert i != 0;
     assert s != 0;
     result := Mem_T.CHAR[PLUS(s, 1, Mem_T.INT4[i])];
@@ -3671,7 +3663,7 @@ implementation {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int)
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 83} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 83} true;
     result := 9;
     assume value_is(__ctobpl_const_258, result);
     goto label_7;
@@ -3685,7 +3677,7 @@ implementation {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int)
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 80} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 80} true;
     result := 10;
     assume value_is(__ctobpl_const_259, result);
     goto label_7;
@@ -3699,7 +3691,7 @@ implementation {:extern} esc(s.__1: int, i.__1: int) returns (result.esc$1: int)
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 72} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 72} true;
     assert i != 0;
     assert s != 0;
     result := Mem_T.CHAR[PLUS(s, 1, Mem_T.INT4[i])];
@@ -3779,154 +3771,143 @@ implementation {:extern} getccl(arg.__1: int, i.__1: int, pat.__1: int, j.__1: i
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 137} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 137} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 138} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 138} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 140} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 140} true;
     assert i != 0;
-    assert i != 0;
-    Mem_T.INT4 := Mem_T.INT4[i := PLUS(Mem_T.INT4[i], 1, 1)];
-    assume value_is(__ctobpl_const_266, i);
-    assume value_is(__ctobpl_const_267, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_268, i);
-    assume value_is(__ctobpl_const_269, Mem_T.INT4[i]);
+    assert arg != 0;
+    goto label_5_true, label_5_false;
+
+  label_5_false:
+    assume !INT_EQ(Mem_T.CHAR[PLUS(arg, 1, PLUS(Mem_T.INT4[i], 1, 1))], 94);
+    assume value_is(__ctobpl_const_266, arg);
+    assume value_is(__ctobpl_const_267, i);
+    assume value_is(__ctobpl_const_268, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_269, Mem_T.CHAR[PLUS(arg, 1, PLUS(Mem_T.INT4[i], 1, 1))]);
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 141} true;
-    assert i != 0;
-    assert arg != 0;
-    goto label_6_true, label_6_false;
-
-  label_6_false:
-    assume !INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 94);
-    assume value_is(__ctobpl_const_270, arg);
-    assume value_is(__ctobpl_const_271, i);
-    assume value_is(__ctobpl_const_272, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_273, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
-    goto label_7;
-
-  label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 145} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 143} true;
     call result.addstr$3 := addstr(91, pat, j, 100);
-    assume value_is(__ctobpl_const_274, pat);
-    assume value_is(__ctobpl_const_275, j);
-    assume value_is(__ctobpl_const_276, pat);
-    assume value_is(__ctobpl_const_277, j);
-    goto label_25;
+    assume value_is(__ctobpl_const_270, pat);
+    assume value_is(__ctobpl_const_271, j);
+    assume value_is(__ctobpl_const_272, pat);
+    assume value_is(__ctobpl_const_273, j);
+    goto label_24;
 
-  label_25:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 145} true;
+  label_24:
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 143} true;
     junk := result.addstr$3;
-    assume value_is(__ctobpl_const_278, junk);
-    assume value_is(__ctobpl_const_279, result.addstr$3);
+    assume value_is(__ctobpl_const_274, junk);
+    assume value_is(__ctobpl_const_275, result.addstr$3);
+    goto label_13;
+
+  label_13:
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 144} true;
+    assert i != 0;
+    assert i != 0;
+    Mem_T.INT4 := Mem_T.INT4[i := PLUS(Mem_T.INT4[i], 1, 1)];
+    assume value_is(__ctobpl_const_282, i);
+    assume value_is(__ctobpl_const_283, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_284, i);
+    assume value_is(__ctobpl_const_285, Mem_T.INT4[i]);
+    goto label_14;
+
+  label_14:
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 145} true;
+    assert j != 0;
+    jstart := Mem_T.INT4[j];
+    assume value_is(__ctobpl_const_286, jstart);
+    assume value_is(__ctobpl_const_287, j);
+    assume value_is(__ctobpl_const_288, Mem_T.INT4[j]);
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 146} true;
-    assert j != 0;
-    jstart := Mem_T.INT4[j];
-    assume value_is(__ctobpl_const_290, jstart);
-    assume value_is(__ctobpl_const_291, j);
-    assume value_is(__ctobpl_const_292, Mem_T.INT4[j]);
-    goto label_16;
-
-  label_16:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 147} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 146} true;
     call result.addstr$4 := addstr(0, pat, j, 100);
-    assume value_is(__ctobpl_const_293, pat);
-    assume value_is(__ctobpl_const_294, j);
-    assume value_is(__ctobpl_const_295, pat);
-    assume value_is(__ctobpl_const_296, j);
+    assume value_is(__ctobpl_const_289, pat);
+    assume value_is(__ctobpl_const_290, j);
+    assume value_is(__ctobpl_const_291, pat);
+    assume value_is(__ctobpl_const_292, j);
+    goto label_18;
+
+  label_18:
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 146} true;
+    junk := result.addstr$4;
+    assume value_is(__ctobpl_const_293, junk);
+    assume value_is(__ctobpl_const_294, result.addstr$4);
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 147} true;
-    junk := result.addstr$4;
-    assume value_is(__ctobpl_const_297, junk);
-    assume value_is(__ctobpl_const_298, result.addstr$4);
-    goto label_20;
-
-  label_20:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 148} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 147} true;
     call dodash(93, arg, i, pat, j, 100);
+    assume value_is(__ctobpl_const_295, arg);
+    assume value_is(__ctobpl_const_296, i);
+    assume value_is(__ctobpl_const_297, pat);
+    assume value_is(__ctobpl_const_298, j);
     assume value_is(__ctobpl_const_299, arg);
     assume value_is(__ctobpl_const_300, i);
     assume value_is(__ctobpl_const_301, pat);
     assume value_is(__ctobpl_const_302, j);
-    assume value_is(__ctobpl_const_303, arg);
-    assume value_is(__ctobpl_const_304, i);
-    assume value_is(__ctobpl_const_305, pat);
-    assume value_is(__ctobpl_const_306, j);
-    goto label_23;
+    goto label_22;
 
-  label_23:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 149} true;
+  label_22:
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 148} true;
     assert pat != 0;
     assert j != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(pat, 1, jstart) := MINUS_BOTH_PTR_OR_BOTH_INT(MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.INT4[j], jstart, 1), 1, 1)];
-    assume value_is(__ctobpl_const_307, pat);
+    assume value_is(__ctobpl_const_303, pat);
+    assume value_is(__ctobpl_const_304, jstart);
+    assume value_is(__ctobpl_const_305, Mem_T.CHAR[PLUS(pat, 1, jstart)]);
+    assume value_is(__ctobpl_const_306, j);
+    assume value_is(__ctobpl_const_307, Mem_T.INT4[j]);
     assume value_is(__ctobpl_const_308, jstart);
-    assume value_is(__ctobpl_const_309, Mem_T.CHAR[PLUS(pat, 1, jstart)]);
-    assume value_is(__ctobpl_const_310, j);
-    assume value_is(__ctobpl_const_311, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_312, jstart);
-    goto label_24;
+    goto label_23;
 
-  label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 150} true;
+  label_23:
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 149} true;
     assert i != 0;
     assert arg != 0;
     result.getccl$1 := LIFT(INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 93));
-    assume value_is(__ctobpl_const_313, arg);
-    assume value_is(__ctobpl_const_314, i);
-    assume value_is(__ctobpl_const_315, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_316, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_309, arg);
+    assume value_is(__ctobpl_const_310, i);
+    assume value_is(__ctobpl_const_311, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_312, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 151} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 150} true;
     return;
 
-  label_6_true:
-    assume INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 94);
-    assume value_is(__ctobpl_const_270, arg);
-    assume value_is(__ctobpl_const_271, i);
-    assume value_is(__ctobpl_const_272, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_273, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
-    goto label_10;
+  label_5_true:
+    assume INT_EQ(Mem_T.CHAR[PLUS(arg, 1, PLUS(Mem_T.INT4[i], 1, 1))], 94);
+    assume value_is(__ctobpl_const_266, arg);
+    assume value_is(__ctobpl_const_267, i);
+    assume value_is(__ctobpl_const_268, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_269, Mem_T.CHAR[PLUS(arg, 1, PLUS(Mem_T.INT4[i], 1, 1))]);
+    goto label_9;
 
-  label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 142} true;
+  label_9:
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 141} true;
     call result.addstr$2 := addstr(33, pat, j, 100);
-    assume value_is(__ctobpl_const_280, pat);
-    assume value_is(__ctobpl_const_281, j);
-    assume value_is(__ctobpl_const_282, pat);
-    assume value_is(__ctobpl_const_283, j);
-    goto label_13;
+    assume value_is(__ctobpl_const_276, pat);
+    assume value_is(__ctobpl_const_277, j);
+    assume value_is(__ctobpl_const_278, pat);
+    assume value_is(__ctobpl_const_279, j);
+    goto label_12;
 
-  label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 142} true;
+  label_12:
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 141} true;
     junk := result.addstr$2;
-    assume value_is(__ctobpl_const_284, junk);
-    assume value_is(__ctobpl_const_285, result.addstr$2);
-    goto label_14;
-
-  label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 143} true;
-    assert i != 0;
-    assert i != 0;
-    Mem_T.INT4 := Mem_T.INT4[i := PLUS(Mem_T.INT4[i], 1, 1)];
-    assume value_is(__ctobpl_const_286, i);
-    assume value_is(__ctobpl_const_287, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_288, i);
-    assume value_is(__ctobpl_const_289, Mem_T.INT4[i]);
-    goto label_15;
+    assume value_is(__ctobpl_const_280, junk);
+    assume value_is(__ctobpl_const_281, result.addstr$2);
+    goto label_13;
 }
 
 
@@ -3986,48 +3967,48 @@ implementation {:extern} getline(s.__1: int, maxsize.__1: int) returns (result.g
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 43} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 43} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 44} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 44} true;
     call result.__iob_func$3 := __iob_func();
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 44} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 44} true;
     assert result.__iob_func$3 != 0;
     $fgets.arg.3$4$ := PLUS(result.__iob_func$3, 32, 0);
-    assume value_is(__ctobpl_const_317, $fgets.arg.3$4$);
-    assume value_is(__ctobpl_const_318, result.__iob_func$3);
+    assume value_is(__ctobpl_const_313, $fgets.arg.3$4$);
+    assume value_is(__ctobpl_const_314, result.__iob_func$3);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 44} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 44} true;
     call result.fgets$2 := fgets(s, maxsize, $fgets.arg.3$4$);
-    assume value_is(__ctobpl_const_319, s);
-    assume value_is(__ctobpl_const_320, maxsize);
-    assume value_is(__ctobpl_const_321, $fgets.arg.3$4$);
-    assume value_is(__ctobpl_const_322, s);
-    assume value_is(__ctobpl_const_323, maxsize);
-    assume value_is(__ctobpl_const_324, $fgets.arg.3$4$);
+    assume value_is(__ctobpl_const_315, s);
+    assume value_is(__ctobpl_const_316, maxsize);
+    assume value_is(__ctobpl_const_317, $fgets.arg.3$4$);
+    assume value_is(__ctobpl_const_318, s);
+    assume value_is(__ctobpl_const_319, maxsize);
+    assume value_is(__ctobpl_const_320, $fgets.arg.3$4$);
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 44} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 44} true;
     result := result.fgets$2;
-    assume value_is(__ctobpl_const_325, result);
-    assume value_is(__ctobpl_const_326, result.fgets$2);
+    assume value_is(__ctobpl_const_321, result);
+    assume value_is(__ctobpl_const_322, result.fgets$2);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 45} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 45} true;
     result.getline$1 := LIFT(INT_NEQ(result, 0));
-    assume value_is(__ctobpl_const_327, result);
+    assume value_is(__ctobpl_const_323, result);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 46} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 46} true;
     return;
 }
 
@@ -4085,33 +4066,33 @@ implementation {:extern} getpat(arg.__1: int, pat.__1: int) returns (result.getp
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 250} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 249} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 252} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 251} true;
     call result.makepat$2 := makepat(arg, 0, 0, pat);
-    assume value_is(__ctobpl_const_328, arg);
-    assume value_is(__ctobpl_const_329, pat);
-    assume value_is(__ctobpl_const_330, arg);
-    assume value_is(__ctobpl_const_331, pat);
+    assume value_is(__ctobpl_const_324, arg);
+    assume value_is(__ctobpl_const_325, pat);
+    assume value_is(__ctobpl_const_326, arg);
+    assume value_is(__ctobpl_const_327, pat);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 252} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 251} true;
     makeres := result.makepat$2;
-    assume value_is(__ctobpl_const_332, makeres);
-    assume value_is(__ctobpl_const_333, result.makepat$2);
+    assume value_is(__ctobpl_const_328, makeres);
+    assume value_is(__ctobpl_const_329, result.makepat$2);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 253} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 252} true;
     result.getpat$1 := LIFT(INT_LT(0, makeres));
-    assume value_is(__ctobpl_const_334, makeres);
+    assume value_is(__ctobpl_const_330, makeres);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 254} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 253} true;
     return;
 }
 
@@ -4169,33 +4150,33 @@ implementation {:extern} getsub(arg.__1: int, sub.__1: int) returns (result.gets
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 296} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 295} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 298} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 297} true;
     call result.makesub$2 := makesub(arg, 0, 0, sub);
-    assume value_is(__ctobpl_const_335, arg);
-    assume value_is(__ctobpl_const_336, sub);
-    assume value_is(__ctobpl_const_337, arg);
-    assume value_is(__ctobpl_const_338, sub);
+    assume value_is(__ctobpl_const_331, arg);
+    assume value_is(__ctobpl_const_332, sub);
+    assume value_is(__ctobpl_const_333, arg);
+    assume value_is(__ctobpl_const_334, sub);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 298} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 297} true;
     makeres := result.makesub$2;
-    assume value_is(__ctobpl_const_339, makeres);
-    assume value_is(__ctobpl_const_340, result.makesub$2);
+    assume value_is(__ctobpl_const_335, makeres);
+    assume value_is(__ctobpl_const_336, result.makesub$2);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 299} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 298} true;
     result.getsub$1 := LIFT(INT_LT(0, makeres));
-    assume value_is(__ctobpl_const_341, makeres);
+    assume value_is(__ctobpl_const_337, makeres);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 300} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 299} true;
     return;
 }
 
@@ -4246,123 +4227,123 @@ implementation {:extern} in_pat_set(c.__1: int) returns (result.in_pat_set$1: in
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 182} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 181} true;
     goto label_3_true, label_3_false;
 
   label_3_false:
     assume !INT_EQ(c, 99);
-    assume value_is(__ctobpl_const_342, c);
+    assume value_is(__ctobpl_const_338, c);
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 182} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 181} true;
     goto label_4_true, label_4_false;
 
   label_4_false:
     assume !INT_EQ(c, 37);
-    assume value_is(__ctobpl_const_343, c);
+    assume value_is(__ctobpl_const_339, c);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 182} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 181} true;
     goto label_7_true, label_7_false;
 
   label_7_false:
     assume !INT_EQ(c, 36);
-    assume value_is(__ctobpl_const_344, c);
+    assume value_is(__ctobpl_const_340, c);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 182} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 181} true;
     goto label_8_true, label_8_false;
 
   label_8_false:
     assume !INT_EQ(c, 63);
-    assume value_is(__ctobpl_const_345, c);
+    assume value_is(__ctobpl_const_341, c);
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 183} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 182} true;
     goto label_9_true, label_9_false;
 
   label_9_false:
     assume !INT_EQ(c, 91);
-    assume value_is(__ctobpl_const_346, c);
+    assume value_is(__ctobpl_const_342, c);
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 183} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 182} true;
     goto label_10_true, label_10_false;
 
   label_10_false:
     assume !INT_EQ(c, 33);
-    assume value_is(__ctobpl_const_347, c);
+    assume value_is(__ctobpl_const_343, c);
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 183} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 182} true;
     goto label_11_true, label_11_false;
 
   label_11_false:
     assume !INT_EQ(c, 42);
-    assume value_is(__ctobpl_const_348, c);
+    assume value_is(__ctobpl_const_344, c);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 183} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 182} true;
     $Pred.2$ := 0;
-    assume value_is(__ctobpl_const_349, $Pred.2$);
+    assume value_is(__ctobpl_const_345, $Pred.2$);
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 182} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 181} true;
     result.in_pat_set$1 := $Pred.2$;
-    assume value_is(__ctobpl_const_351, $Pred.2$);
+    assume value_is(__ctobpl_const_347, $Pred.2$);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 184} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 183} true;
     return;
 
   label_11_true:
     assume INT_EQ(c, 42);
-    assume value_is(__ctobpl_const_348, c);
+    assume value_is(__ctobpl_const_344, c);
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 183} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 182} true;
     $Pred.2$ := 1;
-    assume value_is(__ctobpl_const_350, $Pred.2$);
+    assume value_is(__ctobpl_const_346, $Pred.2$);
     goto label_6;
 
   label_10_true:
     assume INT_EQ(c, 33);
-    assume value_is(__ctobpl_const_347, c);
+    assume value_is(__ctobpl_const_343, c);
     goto label_5;
 
   label_9_true:
     assume INT_EQ(c, 91);
-    assume value_is(__ctobpl_const_346, c);
+    assume value_is(__ctobpl_const_342, c);
     goto label_5;
 
   label_8_true:
     assume INT_EQ(c, 63);
-    assume value_is(__ctobpl_const_345, c);
+    assume value_is(__ctobpl_const_341, c);
     goto label_5;
 
   label_7_true:
     assume INT_EQ(c, 36);
-    assume value_is(__ctobpl_const_344, c);
+    assume value_is(__ctobpl_const_340, c);
     goto label_5;
 
   label_4_true:
     assume INT_EQ(c, 37);
-    assume value_is(__ctobpl_const_343, c);
+    assume value_is(__ctobpl_const_339, c);
     goto label_5;
 
   label_3_true:
     assume INT_EQ(c, 99);
-    assume value_is(__ctobpl_const_342, c);
+    assume value_is(__ctobpl_const_338, c);
     goto label_5;
 }
 
@@ -4413,67 +4394,67 @@ implementation {:extern} in_set_2(c.__1: int) returns (result.in_set_2$1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 176} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 175} true;
     goto label_3_true, label_3_false;
 
   label_3_false:
     assume !INT_EQ(c, 37);
-    assume value_is(__ctobpl_const_352, c);
+    assume value_is(__ctobpl_const_348, c);
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 176} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 175} true;
     goto label_4_true, label_4_false;
 
   label_4_false:
     assume !INT_EQ(c, 36);
-    assume value_is(__ctobpl_const_353, c);
+    assume value_is(__ctobpl_const_349, c);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 176} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 175} true;
     goto label_7_true, label_7_false;
 
   label_7_false:
     assume !INT_EQ(c, 42);
-    assume value_is(__ctobpl_const_354, c);
+    assume value_is(__ctobpl_const_350, c);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 176} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 175} true;
     $Pred.2$ := 0;
-    assume value_is(__ctobpl_const_355, $Pred.2$);
+    assume value_is(__ctobpl_const_351, $Pred.2$);
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 176} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 175} true;
     result.in_set_2$1 := $Pred.2$;
-    assume value_is(__ctobpl_const_357, $Pred.2$);
+    assume value_is(__ctobpl_const_353, $Pred.2$);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 177} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 176} true;
     return;
 
   label_7_true:
     assume INT_EQ(c, 42);
-    assume value_is(__ctobpl_const_354, c);
+    assume value_is(__ctobpl_const_350, c);
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 176} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 175} true;
     $Pred.2$ := 1;
-    assume value_is(__ctobpl_const_356, $Pred.2$);
+    assume value_is(__ctobpl_const_352, $Pred.2$);
     goto label_6;
 
   label_4_true:
     assume INT_EQ(c, 36);
-    assume value_is(__ctobpl_const_353, c);
+    assume value_is(__ctobpl_const_349, c);
     goto label_5;
 
   label_3_true:
     assume INT_EQ(c, 37);
-    assume value_is(__ctobpl_const_352, c);
+    assume value_is(__ctobpl_const_348, c);
     goto label_5;
 }
 
@@ -4533,32 +4514,32 @@ implementation {:extern} locate(c.__1: int, pat.__1: int, offset.__1: int) retur
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 310} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 309} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 311} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 310} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 313} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 312} true;
     flag := 0;
-    assume value_is(__ctobpl_const_358, flag);
+    assume value_is(__ctobpl_const_354, flag);
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 314} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 313} true;
     assert pat != 0;
     i := PLUS(offset, 1, Mem_T.CHAR[PLUS(pat, 1, offset)]);
-    assume value_is(__ctobpl_const_359, i);
-    assume value_is(__ctobpl_const_360, offset);
-    assume value_is(__ctobpl_const_361, pat);
-    assume value_is(__ctobpl_const_362, offset);
-    assume value_is(__ctobpl_const_363, Mem_T.CHAR[PLUS(pat, 1, offset)]);
+    assume value_is(__ctobpl_const_355, i);
+    assume value_is(__ctobpl_const_356, offset);
+    assume value_is(__ctobpl_const_357, pat);
+    assume value_is(__ctobpl_const_358, offset);
+    assume value_is(__ctobpl_const_359, Mem_T.CHAR[PLUS(pat, 1, offset)]);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 315} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 314} true;
     goto label_7_head;
 
   label_7_head:
@@ -4567,65 +4548,65 @@ implementation {:extern} locate(c.__1: int, pat.__1: int, offset.__1: int) retur
 
   label_7_false:
     assume !INT_LT(offset, i);
-    assume value_is(__ctobpl_const_364, offset);
-    assume value_is(__ctobpl_const_365, i);
+    assume value_is(__ctobpl_const_360, offset);
+    assume value_is(__ctobpl_const_361, i);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 323} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 322} true;
     result.locate$1 := flag;
-    assume value_is(__ctobpl_const_366, flag);
+    assume value_is(__ctobpl_const_362, flag);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 324} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 323} true;
     return;
 
   label_7_true:
     assume INT_LT(offset, i);
-    assume value_is(__ctobpl_const_364, offset);
-    assume value_is(__ctobpl_const_365, i);
+    assume value_is(__ctobpl_const_360, offset);
+    assume value_is(__ctobpl_const_361, i);
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 317} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 316} true;
     assert pat != 0;
     goto label_9_true, label_9_false;
 
   label_9_false:
     assume !INT_EQ(c, Mem_T.CHAR[PLUS(pat, 1, i)]);
-    assume value_is(__ctobpl_const_367, c);
-    assume value_is(__ctobpl_const_368, pat);
-    assume value_is(__ctobpl_const_369, i);
-    assume value_is(__ctobpl_const_370, Mem_T.CHAR[PLUS(pat, 1, i)]);
+    assume value_is(__ctobpl_const_363, c);
+    assume value_is(__ctobpl_const_364, pat);
+    assume value_is(__ctobpl_const_365, i);
+    assume value_is(__ctobpl_const_366, Mem_T.CHAR[PLUS(pat, 1, i)]);
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 321} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 320} true;
     i := MINUS_BOTH_PTR_OR_BOTH_INT(i, 1, 1);
-    assume value_is(__ctobpl_const_371, i);
-    assume value_is(__ctobpl_const_372, i);
+    assume value_is(__ctobpl_const_367, i);
+    assume value_is(__ctobpl_const_368, i);
     goto label_10_dummy;
 
   label_9_true:
     assume INT_EQ(c, Mem_T.CHAR[PLUS(pat, 1, i)]);
-    assume value_is(__ctobpl_const_367, c);
-    assume value_is(__ctobpl_const_368, pat);
-    assume value_is(__ctobpl_const_369, i);
-    assume value_is(__ctobpl_const_370, Mem_T.CHAR[PLUS(pat, 1, i)]);
+    assume value_is(__ctobpl_const_363, c);
+    assume value_is(__ctobpl_const_364, pat);
+    assume value_is(__ctobpl_const_365, i);
+    assume value_is(__ctobpl_const_366, Mem_T.CHAR[PLUS(pat, 1, i)]);
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 318} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 317} true;
     flag := 1;
-    assume value_is(__ctobpl_const_373, flag);
+    assume value_is(__ctobpl_const_369, flag);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 319} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 318} true;
     i := offset;
-    assume value_is(__ctobpl_const_374, i);
-    assume value_is(__ctobpl_const_375, offset);
+    assume value_is(__ctobpl_const_370, i);
+    assume value_is(__ctobpl_const_371, offset);
     goto label_12_dummy;
 
   label_10_dummy:
@@ -4729,221 +4710,221 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 524} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 523} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 524} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 523} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 525} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 524} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 527} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 526} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
     assume !INT_LT(argc, 2);
-    assume value_is(__ctobpl_const_376, argc);
+    assume value_is(__ctobpl_const_372, argc);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 533} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 532} true;
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 533} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 532} true;
     assert argv != 0;
     $getpat.arg.1$7$ := Mem_T.PCHAR[PLUS(argv, 4, 1)];
-    assume value_is(__ctobpl_const_377, $getpat.arg.1$7$);
-    assume value_is(__ctobpl_const_378, argv);
-    assume value_is(__ctobpl_const_379, Mem_T.PCHAR[PLUS(argv, 4, 1)]);
+    assume value_is(__ctobpl_const_373, $getpat.arg.1$7$);
+    assume value_is(__ctobpl_const_374, argv);
+    assume value_is(__ctobpl_const_375, Mem_T.PCHAR[PLUS(argv, 4, 1)]);
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 533} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 532} true;
     call result.getpat$5 := getpat($getpat.arg.1$7$, $getpat.arg.2$6$);
-    assume value_is(__ctobpl_const_380, $getpat.arg.1$7$);
-    assume value_is(__ctobpl_const_381, $getpat.arg.1$7$);
+    assume value_is(__ctobpl_const_376, $getpat.arg.1$7$);
+    assume value_is(__ctobpl_const_377, $getpat.arg.1$7$);
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 533} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 532} true;
     result := result.getpat$5;
-    assume value_is(__ctobpl_const_382, result);
-    assume value_is(__ctobpl_const_383, result.getpat$5);
+    assume value_is(__ctobpl_const_378, result);
+    assume value_is(__ctobpl_const_379, result.getpat$5);
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 534} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 533} true;
     goto label_23_true, label_23_false;
 
   label_23_false:
     assume result == 0;
-    assume value_is(__ctobpl_const_384, result);
+    assume value_is(__ctobpl_const_380, result);
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 536} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 535} true;
     call result.__iob_func$9 := __iob_func();
     goto label_52;
 
   label_52:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 536} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 535} true;
     assert result.__iob_func$9 != 0;
     $fprintf.arg.1$10$ := PLUS(result.__iob_func$9, 32, 1);
-    assume value_is(__ctobpl_const_385, $fprintf.arg.1$10$);
-    assume value_is(__ctobpl_const_386, result.__iob_func$9);
+    assume value_is(__ctobpl_const_381, $fprintf.arg.1$10$);
+    assume value_is(__ctobpl_const_382, result.__iob_func$9);
     goto label_53;
 
   label_53:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 536} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 535} true;
     call result.fprintf$8 := det_choice();
     goto label_56;
 
   label_56:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 537} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 536} true;
     return;
 
   label_23_true:
     assume result != 0;
-    assume value_is(__ctobpl_const_384, result);
+    assume value_is(__ctobpl_const_380, result);
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 540} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 539} true;
     goto label_27_true, label_27_false;
 
   label_27_false:
     assume !INT_LEQ(3, argc);
-    assume value_is(__ctobpl_const_387, argc);
+    assume value_is(__ctobpl_const_383, argc);
     goto label_28;
 
   label_28:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 550} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 549} true;
     assert sub != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(sub, 1, 0) := 0];
-    assume value_is(__ctobpl_const_388, Mem_T.CHAR[PLUS(sub, 1, 0)]);
+    assume value_is(__ctobpl_const_384, Mem_T.CHAR[PLUS(sub, 1, 0)]);
     goto label_39;
 
   label_39:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 553} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 552} true;
     goto label_40;
 
   label_40:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 553} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 552} true;
     goto label_41;
 
   label_41:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 553} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 552} true;
     call change($change.arg.1$18$, $change.arg.2$17$);
     goto label_44;
 
   label_44:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 554} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 553} true;
     result.main$1 := 0;
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 555} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 554} true;
     call __HAVOC_free(sub);
     return;
 
   label_27_true:
     assume INT_LEQ(3, argc);
-    assume value_is(__ctobpl_const_387, argc);
+    assume value_is(__ctobpl_const_383, argc);
     goto label_29;
 
   label_29:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 542} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 541} true;
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 542} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 541} true;
     assert argv != 0;
     $getsub.arg.1$13$ := Mem_T.PCHAR[PLUS(argv, 4, 2)];
-    assume value_is(__ctobpl_const_389, $getsub.arg.1$13$);
-    assume value_is(__ctobpl_const_390, argv);
-    assume value_is(__ctobpl_const_391, Mem_T.PCHAR[PLUS(argv, 4, 2)]);
+    assume value_is(__ctobpl_const_385, $getsub.arg.1$13$);
+    assume value_is(__ctobpl_const_386, argv);
+    assume value_is(__ctobpl_const_387, Mem_T.PCHAR[PLUS(argv, 4, 2)]);
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 542} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 541} true;
     call result.getsub$11 := getsub($getsub.arg.1$13$, $getsub.arg.2$12$);
-    assume value_is(__ctobpl_const_392, $getsub.arg.1$13$);
-    assume value_is(__ctobpl_const_393, $getsub.arg.1$13$);
+    assume value_is(__ctobpl_const_388, $getsub.arg.1$13$);
+    assume value_is(__ctobpl_const_389, $getsub.arg.1$13$);
     goto label_34;
 
   label_34:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 542} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 541} true;
     result := result.getsub$11;
-    assume value_is(__ctobpl_const_394, result);
-    assume value_is(__ctobpl_const_395, result.getsub$11);
+    assume value_is(__ctobpl_const_390, result);
+    assume value_is(__ctobpl_const_391, result.getsub$11);
     goto label_35;
 
   label_35:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 543} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 542} true;
     goto label_35_true, label_35_false;
 
   label_35_false:
     assume result == 0;
-    assume value_is(__ctobpl_const_396, result);
+    assume value_is(__ctobpl_const_392, result);
     goto label_36;
 
   label_36:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 545} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 544} true;
     call result.__iob_func$15 := __iob_func();
     goto label_45;
 
   label_45:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 545} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 544} true;
     assert result.__iob_func$15 != 0;
     $fprintf.arg.1$16$ := PLUS(result.__iob_func$15, 32, 1);
-    assume value_is(__ctobpl_const_397, $fprintf.arg.1$16$);
-    assume value_is(__ctobpl_const_398, result.__iob_func$15);
+    assume value_is(__ctobpl_const_393, $fprintf.arg.1$16$);
+    assume value_is(__ctobpl_const_394, result.__iob_func$15);
     goto label_46;
 
   label_46:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 545} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 544} true;
     call result.fprintf$14 := det_choice();
     goto label_49;
 
   label_49:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 546} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 545} true;
     return;
 
   label_35_true:
     assume result != 0;
-    assume value_is(__ctobpl_const_396, result);
+    assume value_is(__ctobpl_const_392, result);
     goto label_39;
 
   label_6_true:
     assume INT_LT(argc, 2);
-    assume value_is(__ctobpl_const_376, argc);
+    assume value_is(__ctobpl_const_372, argc);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 529} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 528} true;
     call result.__iob_func$3 := __iob_func();
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 529} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 528} true;
     assert result.__iob_func$3 != 0;
     $fprintf.arg.1$4$ := PLUS(result.__iob_func$3, 32, 1);
-    assume value_is(__ctobpl_const_399, $fprintf.arg.1$4$);
-    assume value_is(__ctobpl_const_400, result.__iob_func$3);
+    assume value_is(__ctobpl_const_395, $fprintf.arg.1$4$);
+    assume value_is(__ctobpl_const_396, result.__iob_func$3);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 529} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 528} true;
     call result.fprintf$2 := det_choice();
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 530} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 529} true;
     return;
 }
 
@@ -5041,68 +5022,68 @@ implementation {:extern} makepat(arg.__1: int, start.__1: int, delim.__1: int, p
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 193} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 192} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 194} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 193} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 194} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 193} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 194} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 193} true;
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 194} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 193} true;
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 195} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 194} true;
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 195} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 194} true;
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 196} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 195} true;
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 197} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 196} true;
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 199} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 198} true;
     Mem_T.INT4 := Mem_T.INT4[j := 0];
-    assume value_is(__ctobpl_const_401, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_397, Mem_T.INT4[j]);
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 199} true;
     Mem_T.INT4 := Mem_T.INT4[i := start];
-    assume value_is(__ctobpl_const_402, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_403, start);
+    assume value_is(__ctobpl_const_398, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_399, start);
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 201} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 200} true;
     lastj := 0;
-    assume value_is(__ctobpl_const_404, lastj);
+    assume value_is(__ctobpl_const_400, lastj);
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 202} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 201} true;
     done := 0;
-    assume value_is(__ctobpl_const_405, done);
+    assume value_is(__ctobpl_const_401, done);
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 203} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 202} true;
     goto label_16_head;
 
   label_16_head:
@@ -5111,511 +5092,511 @@ implementation {:extern} makepat(arg.__1: int, start.__1: int, delim.__1: int, p
 
   label_16_false:
     assume done == 0;
-    assume value_is(__ctobpl_const_406, done);
+    assume value_is(__ctobpl_const_402, done);
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 203} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 202} true;
     assert arg != 0;
     goto label_17_true, label_17_false;
 
   label_17_false:
     assume !INT_NEQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], delim);
-    assume value_is(__ctobpl_const_407, arg);
-    assume value_is(__ctobpl_const_408, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_409, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
-    assume value_is(__ctobpl_const_410, delim);
+    assume value_is(__ctobpl_const_403, arg);
+    assume value_is(__ctobpl_const_404, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_405, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_406, delim);
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 234} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 233} true;
     call result.addstr$11 := addstr(0, pat, j, 100);
-    assume value_is(__ctobpl_const_510, pat);
-    assume value_is(__ctobpl_const_511, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_512, pat);
-    assume value_is(__ctobpl_const_513, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_506, pat);
+    assume value_is(__ctobpl_const_507, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_508, pat);
+    assume value_is(__ctobpl_const_509, Mem_T.INT4[j]);
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 234} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 233} true;
     junk := result.addstr$11;
-    assume value_is(__ctobpl_const_514, junk);
-    assume value_is(__ctobpl_const_515, result.addstr$11);
+    assume value_is(__ctobpl_const_510, junk);
+    assume value_is(__ctobpl_const_511, result.addstr$11);
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 235} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 234} true;
     goto label_22_true, label_22_false;
 
   label_22_false:
     assume done == 0;
-    assume value_is(__ctobpl_const_516, done);
+    assume value_is(__ctobpl_const_512, done);
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 235} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 234} true;
     assert arg != 0;
     goto label_23_true, label_23_false;
 
   label_23_false:
     assume !INT_NEQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], delim);
-    assume value_is(__ctobpl_const_517, arg);
-    assume value_is(__ctobpl_const_518, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_519, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
-    assume value_is(__ctobpl_const_520, delim);
+    assume value_is(__ctobpl_const_513, arg);
+    assume value_is(__ctobpl_const_514, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_515, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_516, delim);
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 238} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 237} true;
     goto label_26_true, label_26_false;
 
   label_26_false:
     assume junk == 0;
-    assume value_is(__ctobpl_const_521, junk);
+    assume value_is(__ctobpl_const_517, junk);
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 239} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 238} true;
     result := 0;
-    assume value_is(__ctobpl_const_522, result);
+    assume value_is(__ctobpl_const_518, result);
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 242} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 241} true;
     result.makepat$1 := result;
-    assume value_is(__ctobpl_const_526, result);
+    assume value_is(__ctobpl_const_522, result);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 243} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 242} true;
     call __HAVOC_free(i);
     call __HAVOC_free(j);
     return;
 
   label_26_true:
     assume junk != 0;
-    assume value_is(__ctobpl_const_521, junk);
+    assume value_is(__ctobpl_const_517, junk);
     goto label_28;
 
   label_28:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 241} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 240} true;
     result := Mem_T.INT4[i];
-    assume value_is(__ctobpl_const_523, result);
-    assume value_is(__ctobpl_const_524, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_519, result);
+    assume value_is(__ctobpl_const_520, Mem_T.INT4[i]);
     goto label_25;
 
   label_23_true:
     assume INT_NEQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], delim);
-    assume value_is(__ctobpl_const_517, arg);
-    assume value_is(__ctobpl_const_518, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_519, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
-    assume value_is(__ctobpl_const_520, delim);
+    assume value_is(__ctobpl_const_513, arg);
+    assume value_is(__ctobpl_const_514, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_515, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_516, delim);
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 236} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 235} true;
     result := 0;
-    assume value_is(__ctobpl_const_525, result);
+    assume value_is(__ctobpl_const_521, result);
     goto label_25;
 
   label_22_true:
     assume done != 0;
-    assume value_is(__ctobpl_const_516, done);
+    assume value_is(__ctobpl_const_512, done);
     goto label_24;
 
   label_17_true:
     assume INT_NEQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], delim);
-    assume value_is(__ctobpl_const_407, arg);
-    assume value_is(__ctobpl_const_408, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_409, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
-    assume value_is(__ctobpl_const_410, delim);
+    assume value_is(__ctobpl_const_403, arg);
+    assume value_is(__ctobpl_const_404, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_405, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_406, delim);
     goto label_29;
 
   label_29:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 203} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 202} true;
     assert arg != 0;
     goto label_29_true, label_29_false;
 
   label_29_false:
     assume Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])] == 0;
-    assume value_is(__ctobpl_const_411, arg);
-    assume value_is(__ctobpl_const_412, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_413, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_407, arg);
+    assume value_is(__ctobpl_const_408, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_409, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_18;
 
   label_29_true:
     assume Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])] != 0;
-    assume value_is(__ctobpl_const_411, arg);
-    assume value_is(__ctobpl_const_412, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_413, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_407, arg);
+    assume value_is(__ctobpl_const_408, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_409, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 204} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 203} true;
     lj := Mem_T.INT4[j];
-    assume value_is(__ctobpl_const_414, lj);
-    assume value_is(__ctobpl_const_415, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_410, lj);
+    assume value_is(__ctobpl_const_411, Mem_T.INT4[j]);
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 205} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 204} true;
     assert arg != 0;
     goto label_31_true, label_31_false;
 
   label_31_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 63);
-    assume value_is(__ctobpl_const_416, arg);
-    assume value_is(__ctobpl_const_417, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_418, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_412, arg);
+    assume value_is(__ctobpl_const_413, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_414, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_32;
 
   label_32:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 207} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 206} true;
     assert arg != 0;
     goto label_32_true, label_32_false;
 
   label_32_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 37);
-    assume value_is(__ctobpl_const_419, arg);
-    assume value_is(__ctobpl_const_420, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_421, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_415, arg);
+    assume value_is(__ctobpl_const_416, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_417, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_40;
 
   label_40:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 209} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 208} true;
     assert arg != 0;
     goto label_40_true, label_40_false;
 
   label_40_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 36);
-    assume value_is(__ctobpl_const_424, arg);
-    assume value_is(__ctobpl_const_425, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_426, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_420, arg);
+    assume value_is(__ctobpl_const_421, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_422, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_46;
 
   label_46:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 211} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 210} true;
     assert arg != 0;
     goto label_46_true, label_46_false;
 
   label_46_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 91);
-    assume value_is(__ctobpl_const_431, arg);
-    assume value_is(__ctobpl_const_432, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_433, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_427, arg);
+    assume value_is(__ctobpl_const_428, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_429, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_52;
 
   label_52:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 216} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 215} true;
     assert arg != 0;
     goto label_52_true, label_52_false;
 
   label_52_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 42);
-    assume value_is(__ctobpl_const_434, arg);
-    assume value_is(__ctobpl_const_435, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_436, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_430, arg);
+    assume value_is(__ctobpl_const_431, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_432, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_58;
 
   label_58:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 226} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 225} true;
     call result.addstr$8 := addstr(99, pat, j, 100);
-    assume value_is(__ctobpl_const_439, pat);
-    assume value_is(__ctobpl_const_440, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_441, pat);
-    assume value_is(__ctobpl_const_442, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_435, pat);
+    assume value_is(__ctobpl_const_436, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_437, pat);
+    assume value_is(__ctobpl_const_438, Mem_T.INT4[j]);
     goto label_72;
 
   label_72:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 226} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 225} true;
     junk := result.addstr$8;
-    assume value_is(__ctobpl_const_443, junk);
-    assume value_is(__ctobpl_const_444, result.addstr$8);
+    assume value_is(__ctobpl_const_439, junk);
+    assume value_is(__ctobpl_const_440, result.addstr$8);
     goto label_73;
 
   label_73:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 227} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 226} true;
     call result.esc$9 := esc(arg, i);
-    assume value_is(__ctobpl_const_445, arg);
-    assume value_is(__ctobpl_const_446, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_447, arg);
-    assume value_is(__ctobpl_const_448, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_441, arg);
+    assume value_is(__ctobpl_const_442, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_443, arg);
+    assume value_is(__ctobpl_const_444, Mem_T.INT4[i]);
     goto label_76;
 
   label_76:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 227} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 226} true;
     escjunk := result.esc$9;
-    assume value_is(__ctobpl_const_449, escjunk);
-    assume value_is(__ctobpl_const_450, result.esc$9);
+    assume value_is(__ctobpl_const_445, escjunk);
+    assume value_is(__ctobpl_const_446, result.esc$9);
     goto label_77;
 
   label_77:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 228} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 227} true;
     call result.addstr$10 := addstr(escjunk, pat, j, 100);
-    assume value_is(__ctobpl_const_451, escjunk);
-    assume value_is(__ctobpl_const_452, pat);
-    assume value_is(__ctobpl_const_453, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_454, escjunk);
-    assume value_is(__ctobpl_const_455, pat);
-    assume value_is(__ctobpl_const_456, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_447, escjunk);
+    assume value_is(__ctobpl_const_448, pat);
+    assume value_is(__ctobpl_const_449, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_450, escjunk);
+    assume value_is(__ctobpl_const_451, pat);
+    assume value_is(__ctobpl_const_452, Mem_T.INT4[j]);
     goto label_80;
 
   label_80:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 228} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 227} true;
     junk := result.addstr$10;
-    assume value_is(__ctobpl_const_457, junk);
-    assume value_is(__ctobpl_const_458, result.addstr$10);
+    assume value_is(__ctobpl_const_453, junk);
+    assume value_is(__ctobpl_const_454, result.addstr$10);
     goto label_37;
 
   label_37:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 230} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 229} true;
     lastj := lj;
-    assume value_is(__ctobpl_const_505, lastj);
-    assume value_is(__ctobpl_const_506, lj);
+    assume value_is(__ctobpl_const_501, lastj);
+    assume value_is(__ctobpl_const_502, lj);
     goto label_38;
 
   label_38:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 231} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 230} true;
     goto label_38_true, label_38_false;
 
   label_38_false:
     assume done == 0;
-    assume value_is(__ctobpl_const_507, done);
+    assume value_is(__ctobpl_const_503, done);
     goto label_39;
 
   label_39:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 232} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 231} true;
     Mem_T.INT4 := Mem_T.INT4[i := PLUS(Mem_T.INT4[i], 1, 1)];
-    assume value_is(__ctobpl_const_508, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_509, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_504, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_505, Mem_T.INT4[i]);
     goto label_39_dummy;
 
   label_38_true:
     assume done != 0;
-    assume value_is(__ctobpl_const_507, done);
+    assume value_is(__ctobpl_const_503, done);
     goto label_38_true_dummy;
 
   label_52_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 42);
-    assume value_is(__ctobpl_const_434, arg);
-    assume value_is(__ctobpl_const_435, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_436, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_430, arg);
+    assume value_is(__ctobpl_const_431, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_432, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_61;
 
   label_61:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 216} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 215} true;
     goto label_61_true, label_61_false;
 
   label_61_false:
     assume !INT_LT(start, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_437, start);
-    assume value_is(__ctobpl_const_438, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_433, start);
+    assume value_is(__ctobpl_const_434, Mem_T.INT4[i]);
     goto label_58;
 
   label_61_true:
     assume INT_LT(start, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_437, start);
-    assume value_is(__ctobpl_const_438, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_433, start);
+    assume value_is(__ctobpl_const_434, Mem_T.INT4[i]);
     goto label_62;
 
   label_62:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 218} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 217} true;
     lj := lastj;
-    assume value_is(__ctobpl_const_459, lj);
-    assume value_is(__ctobpl_const_460, lastj);
+    assume value_is(__ctobpl_const_455, lj);
+    assume value_is(__ctobpl_const_456, lastj);
     goto label_63;
 
   label_63:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 219} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 218} true;
     assert pat != 0;
     $in_set_2.arg.1$7$ := Mem_T.CHAR[PLUS(pat, 1, lj)];
-    assume value_is(__ctobpl_const_461, $in_set_2.arg.1$7$);
-    assume value_is(__ctobpl_const_462, pat);
-    assume value_is(__ctobpl_const_463, lj);
-    assume value_is(__ctobpl_const_464, Mem_T.CHAR[PLUS(pat, 1, lj)]);
+    assume value_is(__ctobpl_const_457, $in_set_2.arg.1$7$);
+    assume value_is(__ctobpl_const_458, pat);
+    assume value_is(__ctobpl_const_459, lj);
+    assume value_is(__ctobpl_const_460, Mem_T.CHAR[PLUS(pat, 1, lj)]);
     goto label_64;
 
   label_64:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 219} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 218} true;
     call result.in_set_2$6 := in_set_2($in_set_2.arg.1$7$);
-    assume value_is(__ctobpl_const_465, $in_set_2.arg.1$7$);
-    assume value_is(__ctobpl_const_466, $in_set_2.arg.1$7$);
+    assume value_is(__ctobpl_const_461, $in_set_2.arg.1$7$);
+    assume value_is(__ctobpl_const_462, $in_set_2.arg.1$7$);
     goto label_67;
 
   label_67:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 219} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 218} true;
     goto label_67_true, label_67_false;
 
   label_67_false:
     assume result.in_set_2$6 == 0;
-    assume value_is(__ctobpl_const_467, result.in_set_2$6);
+    assume value_is(__ctobpl_const_463, result.in_set_2$6);
     goto label_68;
 
   label_68:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 222} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 221} true;
     call stclose(pat, j, lastj);
-    assume value_is(__ctobpl_const_468, pat);
-    assume value_is(__ctobpl_const_469, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_470, lastj);
-    assume value_is(__ctobpl_const_471, pat);
-    assume value_is(__ctobpl_const_472, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_473, lastj);
+    assume value_is(__ctobpl_const_464, pat);
+    assume value_is(__ctobpl_const_465, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_466, lastj);
+    assume value_is(__ctobpl_const_467, pat);
+    assume value_is(__ctobpl_const_468, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_469, lastj);
     goto label_37;
 
   label_67_true:
     assume result.in_set_2$6 != 0;
-    assume value_is(__ctobpl_const_467, result.in_set_2$6);
+    assume value_is(__ctobpl_const_463, result.in_set_2$6);
     goto label_71;
 
   label_71:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 220} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 219} true;
     done := 1;
-    assume value_is(__ctobpl_const_474, done);
+    assume value_is(__ctobpl_const_470, done);
     goto label_37;
 
   label_46_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 91);
-    assume value_is(__ctobpl_const_431, arg);
-    assume value_is(__ctobpl_const_432, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_433, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_427, arg);
+    assume value_is(__ctobpl_const_428, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_429, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_53;
 
   label_53:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 213} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 212} true;
     call result.getccl$5 := getccl(arg, i, pat, j);
+    assume value_is(__ctobpl_const_471, arg);
+    assume value_is(__ctobpl_const_472, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_473, pat);
+    assume value_is(__ctobpl_const_474, Mem_T.INT4[j]);
     assume value_is(__ctobpl_const_475, arg);
     assume value_is(__ctobpl_const_476, Mem_T.INT4[i]);
     assume value_is(__ctobpl_const_477, pat);
     assume value_is(__ctobpl_const_478, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_479, arg);
-    assume value_is(__ctobpl_const_480, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_481, pat);
-    assume value_is(__ctobpl_const_482, Mem_T.INT4[j]);
     goto label_56;
 
   label_56:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 213} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 212} true;
     getres := result.getccl$5;
-    assume value_is(__ctobpl_const_483, getres);
-    assume value_is(__ctobpl_const_484, result.getccl$5);
+    assume value_is(__ctobpl_const_479, getres);
+    assume value_is(__ctobpl_const_480, result.getccl$5);
     goto label_57;
 
   label_57:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 214} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 213} true;
     done := LIFT(INT_EQ(getres, 0));
-    assume value_is(__ctobpl_const_485, done);
-    assume value_is(__ctobpl_const_486, getres);
+    assume value_is(__ctobpl_const_481, done);
+    assume value_is(__ctobpl_const_482, getres);
     goto label_37;
 
   label_40_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 36);
-    assume value_is(__ctobpl_const_424, arg);
-    assume value_is(__ctobpl_const_425, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_426, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_420, arg);
+    assume value_is(__ctobpl_const_421, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_422, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_47;
 
   label_47:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 209} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 208} true;
     assert arg != 0;
     goto label_47_true, label_47_false;
 
   label_47_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(arg, 1, PLUS(Mem_T.INT4[i], 1, 1))], delim);
-    assume value_is(__ctobpl_const_427, arg);
-    assume value_is(__ctobpl_const_428, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_429, Mem_T.CHAR[PLUS(arg, 1, PLUS(Mem_T.INT4[i], 1, 1))]);
-    assume value_is(__ctobpl_const_430, delim);
+    assume value_is(__ctobpl_const_423, arg);
+    assume value_is(__ctobpl_const_424, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_425, Mem_T.CHAR[PLUS(arg, 1, PLUS(Mem_T.INT4[i], 1, 1))]);
+    assume value_is(__ctobpl_const_426, delim);
     goto label_46;
 
   label_47_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(arg, 1, PLUS(Mem_T.INT4[i], 1, 1))], delim);
-    assume value_is(__ctobpl_const_427, arg);
-    assume value_is(__ctobpl_const_428, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_429, Mem_T.CHAR[PLUS(arg, 1, PLUS(Mem_T.INT4[i], 1, 1))]);
-    assume value_is(__ctobpl_const_430, delim);
+    assume value_is(__ctobpl_const_423, arg);
+    assume value_is(__ctobpl_const_424, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_425, Mem_T.CHAR[PLUS(arg, 1, PLUS(Mem_T.INT4[i], 1, 1))]);
+    assume value_is(__ctobpl_const_426, delim);
     goto label_48;
 
   label_48:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 210} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 209} true;
     call result.addstr$4 := addstr(36, pat, j, 100);
-    assume value_is(__ctobpl_const_487, pat);
-    assume value_is(__ctobpl_const_488, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_489, pat);
-    assume value_is(__ctobpl_const_490, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_483, pat);
+    assume value_is(__ctobpl_const_484, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_485, pat);
+    assume value_is(__ctobpl_const_486, Mem_T.INT4[j]);
     goto label_51;
 
   label_51:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 210} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 209} true;
     junk := result.addstr$4;
-    assume value_is(__ctobpl_const_491, junk);
-    assume value_is(__ctobpl_const_492, result.addstr$4);
+    assume value_is(__ctobpl_const_487, junk);
+    assume value_is(__ctobpl_const_488, result.addstr$4);
     goto label_37;
 
   label_32_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 37);
-    assume value_is(__ctobpl_const_419, arg);
-    assume value_is(__ctobpl_const_420, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_421, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_415, arg);
+    assume value_is(__ctobpl_const_416, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_417, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_41;
 
   label_41:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 207} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 206} true;
     goto label_41_true, label_41_false;
 
   label_41_false:
     assume !INT_EQ(Mem_T.INT4[i], start);
-    assume value_is(__ctobpl_const_422, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_423, start);
+    assume value_is(__ctobpl_const_418, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_419, start);
     goto label_40;
 
   label_41_true:
     assume INT_EQ(Mem_T.INT4[i], start);
-    assume value_is(__ctobpl_const_422, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_423, start);
+    assume value_is(__ctobpl_const_418, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_419, start);
     goto label_42;
 
   label_42:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 208} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 207} true;
     call result.addstr$3 := addstr(37, pat, j, 100);
-    assume value_is(__ctobpl_const_493, pat);
-    assume value_is(__ctobpl_const_494, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_495, pat);
-    assume value_is(__ctobpl_const_496, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_489, pat);
+    assume value_is(__ctobpl_const_490, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_491, pat);
+    assume value_is(__ctobpl_const_492, Mem_T.INT4[j]);
     goto label_45;
 
   label_45:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 208} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 207} true;
     junk := result.addstr$3;
-    assume value_is(__ctobpl_const_497, junk);
-    assume value_is(__ctobpl_const_498, result.addstr$3);
+    assume value_is(__ctobpl_const_493, junk);
+    assume value_is(__ctobpl_const_494, result.addstr$3);
     goto label_37;
 
   label_31_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 63);
-    assume value_is(__ctobpl_const_416, arg);
-    assume value_is(__ctobpl_const_417, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_418, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_412, arg);
+    assume value_is(__ctobpl_const_413, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_414, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_33;
 
   label_33:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 206} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 205} true;
     call result.addstr$2 := addstr(63, pat, j, 100);
-    assume value_is(__ctobpl_const_499, pat);
-    assume value_is(__ctobpl_const_500, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_501, pat);
-    assume value_is(__ctobpl_const_502, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_495, pat);
+    assume value_is(__ctobpl_const_496, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_497, pat);
+    assume value_is(__ctobpl_const_498, Mem_T.INT4[j]);
     goto label_36;
 
   label_36:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 206} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 205} true;
     junk := result.addstr$2;
-    assume value_is(__ctobpl_const_503, junk);
-    assume value_is(__ctobpl_const_504, result.addstr$2);
+    assume value_is(__ctobpl_const_499, junk);
+    assume value_is(__ctobpl_const_500, result.addstr$2);
     goto label_37;
 
   label_16_true:
     assume done != 0;
-    assume value_is(__ctobpl_const_406, done);
+    assume value_is(__ctobpl_const_402, done);
     goto label_18;
 
   label_39_dummy:
@@ -5704,40 +5685,40 @@ implementation {:extern} makesub(arg.__1: int, from.__1: int, delim.__1: int, su
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 263} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 262} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 264} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 263} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 264} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 263} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 265} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 264} true;
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 266} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 265} true;
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 268} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 267} true;
     Mem_T.INT4 := Mem_T.INT4[j := 0];
-    assume value_is(__ctobpl_const_527, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_523, Mem_T.INT4[j]);
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 269} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 268} true;
     Mem_T.INT4 := Mem_T.INT4[i := from];
-    assume value_is(__ctobpl_const_528, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_529, from);
+    assume value_is(__ctobpl_const_524, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_525, from);
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 270} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 269} true;
     goto label_10_head;
 
   label_10_head:
@@ -5746,199 +5727,199 @@ implementation {:extern} makesub(arg.__1: int, from.__1: int, delim.__1: int, su
 
   label_10_false:
     assume !INT_NEQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], delim);
-    assume value_is(__ctobpl_const_530, arg);
-    assume value_is(__ctobpl_const_531, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_532, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
-    assume value_is(__ctobpl_const_533, delim);
+    assume value_is(__ctobpl_const_526, arg);
+    assume value_is(__ctobpl_const_527, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_528, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_529, delim);
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 279} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 278} true;
     assert arg != 0;
     goto label_11_true, label_11_false;
 
   label_11_false:
     assume !INT_NEQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], delim);
-    assume value_is(__ctobpl_const_537, arg);
-    assume value_is(__ctobpl_const_538, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_539, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
-    assume value_is(__ctobpl_const_540, delim);
+    assume value_is(__ctobpl_const_533, arg);
+    assume value_is(__ctobpl_const_534, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_535, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_536, delim);
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 282} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 281} true;
     assert sub != 0;
     assert sub != 0;
     call result.addstr$5 := addstr(0, sub, j, 100);
-    assume value_is(__ctobpl_const_541, sub);
-    assume value_is(__ctobpl_const_542, Mem_T.CHAR[sub]);
-    assume value_is(__ctobpl_const_543, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_544, sub);
-    assume value_is(__ctobpl_const_545, Mem_T.CHAR[sub]);
-    assume value_is(__ctobpl_const_546, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_537, sub);
+    assume value_is(__ctobpl_const_538, Mem_T.CHAR[sub]);
+    assume value_is(__ctobpl_const_539, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_540, sub);
+    assume value_is(__ctobpl_const_541, Mem_T.CHAR[sub]);
+    assume value_is(__ctobpl_const_542, Mem_T.INT4[j]);
     goto label_32;
 
   label_32:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 282} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 281} true;
     junk := result.addstr$5;
-    assume value_is(__ctobpl_const_547, junk);
-    assume value_is(__ctobpl_const_548, result.addstr$5);
+    assume value_is(__ctobpl_const_543, junk);
+    assume value_is(__ctobpl_const_544, result.addstr$5);
     goto label_33;
 
   label_33:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 283} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 282} true;
     goto label_33_true, label_33_false;
 
   label_33_false:
     assume junk == 0;
-    assume value_is(__ctobpl_const_549, junk);
+    assume value_is(__ctobpl_const_545, junk);
     goto label_34;
 
   label_34:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 284} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 283} true;
     result := 0;
-    assume value_is(__ctobpl_const_550, result);
+    assume value_is(__ctobpl_const_546, result);
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 288} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 287} true;
     result.makesub$1 := result;
-    assume value_is(__ctobpl_const_554, result);
+    assume value_is(__ctobpl_const_550, result);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 289} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 288} true;
     call __HAVOC_free(i);
     call __HAVOC_free(j);
     return;
 
   label_33_true:
     assume junk != 0;
-    assume value_is(__ctobpl_const_549, junk);
+    assume value_is(__ctobpl_const_545, junk);
     goto label_35;
 
   label_35:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 286} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 285} true;
     result := Mem_T.INT4[i];
-    assume value_is(__ctobpl_const_551, result);
-    assume value_is(__ctobpl_const_552, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_547, result);
+    assume value_is(__ctobpl_const_548, Mem_T.INT4[i]);
     goto label_31;
 
   label_11_true:
     assume INT_NEQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], delim);
-    assume value_is(__ctobpl_const_537, arg);
-    assume value_is(__ctobpl_const_538, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_539, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
-    assume value_is(__ctobpl_const_540, delim);
+    assume value_is(__ctobpl_const_533, arg);
+    assume value_is(__ctobpl_const_534, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_535, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_536, delim);
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 280} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 279} true;
     result := 0;
-    assume value_is(__ctobpl_const_553, result);
+    assume value_is(__ctobpl_const_549, result);
     goto label_31;
 
   label_10_true:
     assume INT_NEQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], delim);
-    assume value_is(__ctobpl_const_530, arg);
-    assume value_is(__ctobpl_const_531, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_532, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
-    assume value_is(__ctobpl_const_533, delim);
+    assume value_is(__ctobpl_const_526, arg);
+    assume value_is(__ctobpl_const_527, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_528, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_529, delim);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 270} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 269} true;
     assert arg != 0;
     goto label_12_true, label_12_false;
 
   label_12_false:
     assume Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])] == 0;
-    assume value_is(__ctobpl_const_534, arg);
-    assume value_is(__ctobpl_const_535, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_536, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_530, arg);
+    assume value_is(__ctobpl_const_531, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_532, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_11;
 
   label_12_true:
     assume Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])] != 0;
-    assume value_is(__ctobpl_const_534, arg);
-    assume value_is(__ctobpl_const_535, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_536, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_530, arg);
+    assume value_is(__ctobpl_const_531, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_532, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 271} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 270} true;
     assert arg != 0;
     goto label_13_true, label_13_false;
 
   label_13_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 38);
-    assume value_is(__ctobpl_const_555, arg);
-    assume value_is(__ctobpl_const_556, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_557, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_551, arg);
+    assume value_is(__ctobpl_const_552, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_553, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 274} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 273} true;
     call result.esc$3 := esc(arg, i);
-    assume value_is(__ctobpl_const_558, arg);
-    assume value_is(__ctobpl_const_559, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_560, arg);
-    assume value_is(__ctobpl_const_561, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_554, arg);
+    assume value_is(__ctobpl_const_555, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_556, arg);
+    assume value_is(__ctobpl_const_557, Mem_T.INT4[i]);
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 274} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 273} true;
     escjunk := result.esc$3;
-    assume value_is(__ctobpl_const_562, escjunk);
-    assume value_is(__ctobpl_const_563, result.esc$3);
+    assume value_is(__ctobpl_const_558, escjunk);
+    assume value_is(__ctobpl_const_559, result.esc$3);
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 275} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 274} true;
     call result.addstr$4 := addstr(escjunk, sub, j, 100);
-    assume value_is(__ctobpl_const_564, escjunk);
-    assume value_is(__ctobpl_const_565, sub);
-    assume value_is(__ctobpl_const_566, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_567, escjunk);
-    assume value_is(__ctobpl_const_568, sub);
-    assume value_is(__ctobpl_const_569, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_560, escjunk);
+    assume value_is(__ctobpl_const_561, sub);
+    assume value_is(__ctobpl_const_562, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_563, escjunk);
+    assume value_is(__ctobpl_const_564, sub);
+    assume value_is(__ctobpl_const_565, Mem_T.INT4[j]);
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 275} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 274} true;
     junk := result.addstr$4;
-    assume value_is(__ctobpl_const_570, junk);
-    assume value_is(__ctobpl_const_571, result.addstr$4);
+    assume value_is(__ctobpl_const_566, junk);
+    assume value_is(__ctobpl_const_567, result.addstr$4);
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 277} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 276} true;
     Mem_T.INT4 := Mem_T.INT4[i := PLUS(Mem_T.INT4[i], 1, 1)];
-    assume value_is(__ctobpl_const_578, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_579, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_574, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_575, Mem_T.INT4[i]);
     goto label_21_dummy;
 
   label_13_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])], 38);
-    assume value_is(__ctobpl_const_555, arg);
-    assume value_is(__ctobpl_const_556, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_557, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_551, arg);
+    assume value_is(__ctobpl_const_552, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_553, Mem_T.CHAR[PLUS(arg, 1, Mem_T.INT4[i])]);
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 272} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 271} true;
     call result.addstr$2 := addstr(-1, sub, j, 100);
-    assume value_is(__ctobpl_const_572, sub);
-    assume value_is(__ctobpl_const_573, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_574, sub);
-    assume value_is(__ctobpl_const_575, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_568, sub);
+    assume value_is(__ctobpl_const_569, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_570, sub);
+    assume value_is(__ctobpl_const_571, Mem_T.INT4[j]);
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 272} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 271} true;
     junk := result.addstr$2;
-    assume value_is(__ctobpl_const_576, junk);
-    assume value_is(__ctobpl_const_577, result.addstr$2);
+    assume value_is(__ctobpl_const_572, junk);
+    assume value_is(__ctobpl_const_573, result.addstr$2);
     goto label_21;
 
   label_21_dummy:
@@ -6037,163 +6018,163 @@ implementation {:extern} omatch(lin.__1: int, i.__1: int, pat.__1: int, j.__1: i
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 333} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 332} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 334} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 333} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 336} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 335} true;
     advance := -1;
-    assume value_is(__ctobpl_const_580, advance);
+    assume value_is(__ctobpl_const_576, advance);
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 337} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 336} true;
     assert i != 0;
     assert lin != 0;
     goto label_6_true, label_6_false;
 
   label_6_false:
     assume Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])] == 0;
-    assume value_is(__ctobpl_const_581, lin);
-    assume value_is(__ctobpl_const_582, i);
-    assume value_is(__ctobpl_const_583, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_584, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_577, lin);
+    assume value_is(__ctobpl_const_578, i);
+    assume value_is(__ctobpl_const_579, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_580, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 338} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 337} true;
     result := 0;
-    assume value_is(__ctobpl_const_585, result);
+    assume value_is(__ctobpl_const_581, result);
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 378} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 377} true;
     goto label_26_true, label_26_false;
 
   label_26_false:
     assume !INT_LEQ(0, advance);
-    assume value_is(__ctobpl_const_659, advance);
+    assume value_is(__ctobpl_const_655, advance);
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 383} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 382} true;
     result := 0;
-    assume value_is(__ctobpl_const_660, result);
+    assume value_is(__ctobpl_const_656, result);
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 384} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 383} true;
     result.omatch$1 := result;
-    assume value_is(__ctobpl_const_667, result);
+    assume value_is(__ctobpl_const_663, result);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 385} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 384} true;
     return;
 
   label_26_true:
     assume INT_LEQ(0, advance);
-    assume value_is(__ctobpl_const_659, advance);
+    assume value_is(__ctobpl_const_655, advance);
     goto label_28;
 
   label_28:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 380} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 379} true;
     assert i != 0;
     assert i != 0;
     Mem_T.INT4 := Mem_T.INT4[i := PLUS(Mem_T.INT4[i], 1, advance)];
-    assume value_is(__ctobpl_const_661, i);
-    assume value_is(__ctobpl_const_662, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_663, i);
-    assume value_is(__ctobpl_const_664, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_665, advance);
+    assume value_is(__ctobpl_const_657, i);
+    assume value_is(__ctobpl_const_658, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_659, i);
+    assume value_is(__ctobpl_const_660, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_661, advance);
     goto label_29;
 
   label_29:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 381} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 380} true;
     result := 1;
-    assume value_is(__ctobpl_const_666, result);
+    assume value_is(__ctobpl_const_662, result);
     goto label_30;
 
   label_6_true:
     assume Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])] != 0;
-    assume value_is(__ctobpl_const_581, lin);
-    assume value_is(__ctobpl_const_582, i);
-    assume value_is(__ctobpl_const_583, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_584, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_577, lin);
+    assume value_is(__ctobpl_const_578, i);
+    assume value_is(__ctobpl_const_579, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_580, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 341} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 340} true;
     assert pat != 0;
     $in_pat_set.arg.1$3$ := Mem_T.CHAR[PLUS(pat, 1, j)];
-    assume value_is(__ctobpl_const_586, $in_pat_set.arg.1$3$);
-    assume value_is(__ctobpl_const_587, pat);
-    assume value_is(__ctobpl_const_588, j);
-    assume value_is(__ctobpl_const_589, Mem_T.CHAR[PLUS(pat, 1, j)]);
+    assume value_is(__ctobpl_const_582, $in_pat_set.arg.1$3$);
+    assume value_is(__ctobpl_const_583, pat);
+    assume value_is(__ctobpl_const_584, j);
+    assume value_is(__ctobpl_const_585, Mem_T.CHAR[PLUS(pat, 1, j)]);
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 341} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 340} true;
     call result.in_pat_set$2 := in_pat_set($in_pat_set.arg.1$3$);
-    assume value_is(__ctobpl_const_590, $in_pat_set.arg.1$3$);
-    assume value_is(__ctobpl_const_591, $in_pat_set.arg.1$3$);
+    assume value_is(__ctobpl_const_586, $in_pat_set.arg.1$3$);
+    assume value_is(__ctobpl_const_587, $in_pat_set.arg.1$3$);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 341} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 340} true;
     goto label_12_true, label_12_false;
 
   label_12_false:
     assume result.in_pat_set$2 == 0;
-    assume value_is(__ctobpl_const_592, result.in_pat_set$2);
+    assume value_is(__ctobpl_const_588, result.in_pat_set$2);
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 343} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 342} true;
     call result.__iob_func$5 := __iob_func();
     goto label_55;
 
   label_55:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 343} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 342} true;
     assert result.__iob_func$5 != 0;
     $fprintf.arg.1$6$ := PLUS(result.__iob_func$5, 32, 1);
-    assume value_is(__ctobpl_const_593, $fprintf.arg.1$6$);
-    assume value_is(__ctobpl_const_594, result.__iob_func$5);
+    assume value_is(__ctobpl_const_589, $fprintf.arg.1$6$);
+    assume value_is(__ctobpl_const_590, result.__iob_func$5);
     goto label_56;
 
   label_56:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 343} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 342} true;
     call result.fprintf$4 := det_choice();
     goto label_59;
 
   label_59:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 344} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 343} true;
     call result.abort$7 := abort();
     return;
 
   label_12_true:
     assume result.in_pat_set$2 != 0;
-    assume value_is(__ctobpl_const_592, result.in_pat_set$2);
+    assume value_is(__ctobpl_const_588, result.in_pat_set$2);
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 347} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 346} true;
     assert pat != 0;
     goto label_16_case_0, label_16_case_1, label_16_case_2, label_16_case_3, label_16_case_4, label_16_case_5, label_16_case_6;
 
   label_16_case_6:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, j)], 99);
-    assume value_is(__ctobpl_const_595, pat);
-    assume value_is(__ctobpl_const_596, j);
-    assume value_is(__ctobpl_const_597, Mem_T.CHAR[PLUS(pat, 1, j)]);
+    assume value_is(__ctobpl_const_591, pat);
+    assume value_is(__ctobpl_const_592, j);
+    assume value_is(__ctobpl_const_593, Mem_T.CHAR[PLUS(pat, 1, j)]);
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 350} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 349} true;
     assert i != 0;
     assert lin != 0;
     assert pat != 0;
@@ -6201,290 +6182,290 @@ implementation {:extern} omatch(lin.__1: int, i.__1: int, pat.__1: int, j.__1: i
 
   label_23_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])], Mem_T.CHAR[PLUS(pat, 1, PLUS(j, 1, 1))]);
-    assume value_is(__ctobpl_const_651, lin);
-    assume value_is(__ctobpl_const_652, i);
-    assume value_is(__ctobpl_const_653, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_654, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
-    assume value_is(__ctobpl_const_655, pat);
-    assume value_is(__ctobpl_const_656, j);
-    assume value_is(__ctobpl_const_657, Mem_T.CHAR[PLUS(pat, 1, PLUS(j, 1, 1))]);
+    assume value_is(__ctobpl_const_647, lin);
+    assume value_is(__ctobpl_const_648, i);
+    assume value_is(__ctobpl_const_649, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_650, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_651, pat);
+    assume value_is(__ctobpl_const_652, j);
+    assume value_is(__ctobpl_const_653, Mem_T.CHAR[PLUS(pat, 1, PLUS(j, 1, 1))]);
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 352} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 351} true;
     goto label_26;
 
   label_23_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])], Mem_T.CHAR[PLUS(pat, 1, PLUS(j, 1, 1))]);
-    assume value_is(__ctobpl_const_651, lin);
-    assume value_is(__ctobpl_const_652, i);
-    assume value_is(__ctobpl_const_653, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_654, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
-    assume value_is(__ctobpl_const_655, pat);
-    assume value_is(__ctobpl_const_656, j);
-    assume value_is(__ctobpl_const_657, Mem_T.CHAR[PLUS(pat, 1, PLUS(j, 1, 1))]);
+    assume value_is(__ctobpl_const_647, lin);
+    assume value_is(__ctobpl_const_648, i);
+    assume value_is(__ctobpl_const_649, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_650, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_651, pat);
+    assume value_is(__ctobpl_const_652, j);
+    assume value_is(__ctobpl_const_653, Mem_T.CHAR[PLUS(pat, 1, PLUS(j, 1, 1))]);
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 351} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 350} true;
     advance := 1;
-    assume value_is(__ctobpl_const_658, advance);
+    assume value_is(__ctobpl_const_654, advance);
     goto label_24;
 
   label_16_case_5:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, j)], 91);
-    assume value_is(__ctobpl_const_595, pat);
-    assume value_is(__ctobpl_const_596, j);
-    assume value_is(__ctobpl_const_597, Mem_T.CHAR[PLUS(pat, 1, j)]);
+    assume value_is(__ctobpl_const_591, pat);
+    assume value_is(__ctobpl_const_592, j);
+    assume value_is(__ctobpl_const_593, Mem_T.CHAR[PLUS(pat, 1, j)]);
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 366} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 365} true;
     $locate.arg.3$9$ := PLUS(j, 1, 1);
-    assume value_is(__ctobpl_const_636, $locate.arg.3$9$);
-    assume value_is(__ctobpl_const_637, j);
+    assume value_is(__ctobpl_const_632, $locate.arg.3$9$);
+    assume value_is(__ctobpl_const_633, j);
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 366} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 365} true;
     assert i != 0;
     assert lin != 0;
     $locate.arg.1$10$ := Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])];
-    assume value_is(__ctobpl_const_638, $locate.arg.1$10$);
-    assume value_is(__ctobpl_const_639, lin);
-    assume value_is(__ctobpl_const_640, i);
-    assume value_is(__ctobpl_const_641, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_642, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_634, $locate.arg.1$10$);
+    assume value_is(__ctobpl_const_635, lin);
+    assume value_is(__ctobpl_const_636, i);
+    assume value_is(__ctobpl_const_637, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_638, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
     goto label_32;
 
   label_32:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 366} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 365} true;
     call result.locate$8 := locate($locate.arg.1$10$, pat, $locate.arg.3$9$);
-    assume value_is(__ctobpl_const_643, $locate.arg.1$10$);
-    assume value_is(__ctobpl_const_644, pat);
-    assume value_is(__ctobpl_const_645, $locate.arg.3$9$);
-    assume value_is(__ctobpl_const_646, $locate.arg.1$10$);
-    assume value_is(__ctobpl_const_647, pat);
-    assume value_is(__ctobpl_const_648, $locate.arg.3$9$);
+    assume value_is(__ctobpl_const_639, $locate.arg.1$10$);
+    assume value_is(__ctobpl_const_640, pat);
+    assume value_is(__ctobpl_const_641, $locate.arg.3$9$);
+    assume value_is(__ctobpl_const_642, $locate.arg.1$10$);
+    assume value_is(__ctobpl_const_643, pat);
+    assume value_is(__ctobpl_const_644, $locate.arg.3$9$);
     goto label_35;
 
   label_35:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 366} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 365} true;
     goto label_35_true, label_35_false;
 
   label_35_false:
     assume result.locate$8 == 0;
-    assume value_is(__ctobpl_const_649, result.locate$8);
+    assume value_is(__ctobpl_const_645, result.locate$8);
     goto label_36;
 
   label_36:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 368} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 367} true;
     goto label_26;
 
   label_35_true:
     assume result.locate$8 != 0;
-    assume value_is(__ctobpl_const_649, result.locate$8);
+    assume value_is(__ctobpl_const_645, result.locate$8);
     goto label_37;
 
   label_37:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 367} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 366} true;
     advance := 1;
-    assume value_is(__ctobpl_const_650, advance);
+    assume value_is(__ctobpl_const_646, advance);
     goto label_36;
 
   label_16_case_4:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, j)], 63);
-    assume value_is(__ctobpl_const_595, pat);
-    assume value_is(__ctobpl_const_596, j);
-    assume value_is(__ctobpl_const_597, Mem_T.CHAR[PLUS(pat, 1, j)]);
+    assume value_is(__ctobpl_const_591, pat);
+    assume value_is(__ctobpl_const_592, j);
+    assume value_is(__ctobpl_const_593, Mem_T.CHAR[PLUS(pat, 1, j)]);
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 358} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 357} true;
     assert i != 0;
     assert lin != 0;
     goto label_21_true, label_21_false;
 
   label_21_false:
     assume !INT_NEQ(Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])], 10);
-    assume value_is(__ctobpl_const_631, lin);
-    assume value_is(__ctobpl_const_632, i);
-    assume value_is(__ctobpl_const_633, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_634, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_627, lin);
+    assume value_is(__ctobpl_const_628, i);
+    assume value_is(__ctobpl_const_629, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_630, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
     goto label_38;
 
   label_38:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 360} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 359} true;
     goto label_26;
 
   label_21_true:
     assume INT_NEQ(Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])], 10);
-    assume value_is(__ctobpl_const_631, lin);
-    assume value_is(__ctobpl_const_632, i);
-    assume value_is(__ctobpl_const_633, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_634, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_627, lin);
+    assume value_is(__ctobpl_const_628, i);
+    assume value_is(__ctobpl_const_629, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_630, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
     goto label_39;
 
   label_39:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 359} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 358} true;
     advance := 1;
-    assume value_is(__ctobpl_const_635, advance);
+    assume value_is(__ctobpl_const_631, advance);
     goto label_38;
 
   label_16_case_3:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, j)], 37);
-    assume value_is(__ctobpl_const_595, pat);
-    assume value_is(__ctobpl_const_596, j);
-    assume value_is(__ctobpl_const_597, Mem_T.CHAR[PLUS(pat, 1, j)]);
+    assume value_is(__ctobpl_const_591, pat);
+    assume value_is(__ctobpl_const_592, j);
+    assume value_is(__ctobpl_const_593, Mem_T.CHAR[PLUS(pat, 1, j)]);
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 354} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 353} true;
     assert i != 0;
     goto label_20_true, label_20_false;
 
   label_20_false:
     assume Mem_T.INT4[i] == 0;
-    assume value_is(__ctobpl_const_628, i);
-    assume value_is(__ctobpl_const_629, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_624, i);
+    assume value_is(__ctobpl_const_625, Mem_T.INT4[i]);
     goto label_40;
 
   label_40:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 355} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 354} true;
     advance := 0;
-    assume value_is(__ctobpl_const_630, advance);
+    assume value_is(__ctobpl_const_626, advance);
     goto label_41;
 
   label_41:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 356} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 355} true;
     goto label_26;
 
   label_20_true:
     assume Mem_T.INT4[i] != 0;
-    assume value_is(__ctobpl_const_628, i);
-    assume value_is(__ctobpl_const_629, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_624, i);
+    assume value_is(__ctobpl_const_625, Mem_T.INT4[i]);
     goto label_41;
 
   label_16_case_2:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, j)], 36);
-    assume value_is(__ctobpl_const_595, pat);
-    assume value_is(__ctobpl_const_596, j);
-    assume value_is(__ctobpl_const_597, Mem_T.CHAR[PLUS(pat, 1, j)]);
+    assume value_is(__ctobpl_const_591, pat);
+    assume value_is(__ctobpl_const_592, j);
+    assume value_is(__ctobpl_const_593, Mem_T.CHAR[PLUS(pat, 1, j)]);
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 362} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 361} true;
     assert i != 0;
     assert lin != 0;
     goto label_19_true, label_19_false;
 
   label_19_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])], 10);
-    assume value_is(__ctobpl_const_623, lin);
-    assume value_is(__ctobpl_const_624, i);
-    assume value_is(__ctobpl_const_625, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_626, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_619, lin);
+    assume value_is(__ctobpl_const_620, i);
+    assume value_is(__ctobpl_const_621, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_622, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
     goto label_42;
 
   label_42:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 364} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 363} true;
     goto label_26;
 
   label_19_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])], 10);
-    assume value_is(__ctobpl_const_623, lin);
-    assume value_is(__ctobpl_const_624, i);
-    assume value_is(__ctobpl_const_625, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_626, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_619, lin);
+    assume value_is(__ctobpl_const_620, i);
+    assume value_is(__ctobpl_const_621, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_622, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
     goto label_43;
 
   label_43:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 363} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 362} true;
     advance := 0;
-    assume value_is(__ctobpl_const_627, advance);
+    assume value_is(__ctobpl_const_623, advance);
     goto label_42;
 
   label_16_case_1:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, j)], 33);
-    assume value_is(__ctobpl_const_595, pat);
-    assume value_is(__ctobpl_const_596, j);
-    assume value_is(__ctobpl_const_597, Mem_T.CHAR[PLUS(pat, 1, j)]);
+    assume value_is(__ctobpl_const_591, pat);
+    assume value_is(__ctobpl_const_592, j);
+    assume value_is(__ctobpl_const_593, Mem_T.CHAR[PLUS(pat, 1, j)]);
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 370} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 369} true;
     assert i != 0;
     assert lin != 0;
     goto label_18_true, label_18_false;
 
   label_18_false:
     assume !INT_NEQ(Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])], 10);
-    assume value_is(__ctobpl_const_604, lin);
-    assume value_is(__ctobpl_const_605, i);
-    assume value_is(__ctobpl_const_606, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_607, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_600, lin);
+    assume value_is(__ctobpl_const_601, i);
+    assume value_is(__ctobpl_const_602, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_603, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
     goto label_44;
 
   label_44:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 372} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 371} true;
     goto label_26;
 
   label_18_true:
     assume INT_NEQ(Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])], 10);
-    assume value_is(__ctobpl_const_604, lin);
-    assume value_is(__ctobpl_const_605, i);
-    assume value_is(__ctobpl_const_606, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_607, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_600, lin);
+    assume value_is(__ctobpl_const_601, i);
+    assume value_is(__ctobpl_const_602, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_603, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
     goto label_45;
 
   label_45:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 370} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 369} true;
     $locate.arg.3$12$ := PLUS(j, 1, 1);
-    assume value_is(__ctobpl_const_608, $locate.arg.3$12$);
-    assume value_is(__ctobpl_const_609, j);
+    assume value_is(__ctobpl_const_604, $locate.arg.3$12$);
+    assume value_is(__ctobpl_const_605, j);
     goto label_46;
 
   label_46:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 370} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 369} true;
     assert i != 0;
     assert lin != 0;
     $locate.arg.1$13$ := Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])];
-    assume value_is(__ctobpl_const_610, $locate.arg.1$13$);
-    assume value_is(__ctobpl_const_611, lin);
-    assume value_is(__ctobpl_const_612, i);
-    assume value_is(__ctobpl_const_613, Mem_T.INT4[i]);
-    assume value_is(__ctobpl_const_614, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
+    assume value_is(__ctobpl_const_606, $locate.arg.1$13$);
+    assume value_is(__ctobpl_const_607, lin);
+    assume value_is(__ctobpl_const_608, i);
+    assume value_is(__ctobpl_const_609, Mem_T.INT4[i]);
+    assume value_is(__ctobpl_const_610, Mem_T.CHAR[PLUS(lin, 1, Mem_T.INT4[i])]);
     goto label_47;
 
   label_47:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 370} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 369} true;
     call result.locate$11 := locate($locate.arg.1$13$, pat, $locate.arg.3$12$);
-    assume value_is(__ctobpl_const_615, $locate.arg.1$13$);
-    assume value_is(__ctobpl_const_616, pat);
-    assume value_is(__ctobpl_const_617, $locate.arg.3$12$);
-    assume value_is(__ctobpl_const_618, $locate.arg.1$13$);
-    assume value_is(__ctobpl_const_619, pat);
-    assume value_is(__ctobpl_const_620, $locate.arg.3$12$);
+    assume value_is(__ctobpl_const_611, $locate.arg.1$13$);
+    assume value_is(__ctobpl_const_612, pat);
+    assume value_is(__ctobpl_const_613, $locate.arg.3$12$);
+    assume value_is(__ctobpl_const_614, $locate.arg.1$13$);
+    assume value_is(__ctobpl_const_615, pat);
+    assume value_is(__ctobpl_const_616, $locate.arg.3$12$);
     goto label_50;
 
   label_50:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 370} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 369} true;
     goto label_50_true, label_50_false;
 
   label_50_false:
     assume result.locate$11 == 0;
-    assume value_is(__ctobpl_const_621, result.locate$11);
+    assume value_is(__ctobpl_const_617, result.locate$11);
     goto label_51;
 
   label_51:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 371} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 370} true;
     advance := 1;
-    assume value_is(__ctobpl_const_622, advance);
+    assume value_is(__ctobpl_const_618, advance);
     goto label_44;
 
   label_50_true:
     assume result.locate$11 != 0;
-    assume value_is(__ctobpl_const_621, result.locate$11);
+    assume value_is(__ctobpl_const_617, result.locate$11);
     goto label_44;
 
   label_16_case_0:
@@ -6494,26 +6475,26 @@ implementation {:extern} omatch(lin.__1: int, i.__1: int, pat.__1: int, j.__1: i
     assume INT_NEQ(Mem_T.CHAR[PLUS(pat, 1, j)], 63);
     assume INT_NEQ(Mem_T.CHAR[PLUS(pat, 1, j)], 91);
     assume INT_NEQ(Mem_T.CHAR[PLUS(pat, 1, j)], 99);
-    assume value_is(__ctobpl_const_595, pat);
-    assume value_is(__ctobpl_const_596, j);
-    assume value_is(__ctobpl_const_597, Mem_T.CHAR[PLUS(pat, 1, j)]);
+    assume value_is(__ctobpl_const_591, pat);
+    assume value_is(__ctobpl_const_592, j);
+    assume value_is(__ctobpl_const_593, Mem_T.CHAR[PLUS(pat, 1, j)]);
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 374} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 373} true;
     assert pat != 0;
     $Caseerror.arg.1$14$ := Mem_T.CHAR[PLUS(pat, 1, j)];
-    assume value_is(__ctobpl_const_598, $Caseerror.arg.1$14$);
-    assume value_is(__ctobpl_const_599, pat);
-    assume value_is(__ctobpl_const_600, j);
-    assume value_is(__ctobpl_const_601, Mem_T.CHAR[PLUS(pat, 1, j)]);
+    assume value_is(__ctobpl_const_594, $Caseerror.arg.1$14$);
+    assume value_is(__ctobpl_const_595, pat);
+    assume value_is(__ctobpl_const_596, j);
+    assume value_is(__ctobpl_const_597, Mem_T.CHAR[PLUS(pat, 1, j)]);
     goto label_52;
 
   label_52:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 374} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 373} true;
     call Caseerror($Caseerror.arg.1$14$);
-    assume value_is(__ctobpl_const_602, $Caseerror.arg.1$14$);
-    assume value_is(__ctobpl_const_603, $Caseerror.arg.1$14$);
+    assume value_is(__ctobpl_const_598, $Caseerror.arg.1$14$);
+    assume value_is(__ctobpl_const_599, $Caseerror.arg.1$14$);
     goto label_26;
 }
 
@@ -6582,169 +6563,169 @@ implementation {:extern} patsize(pat.__1: int, n.__1: int) returns (result.patsi
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 392} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 391} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 393} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 392} true;
     assert pat != 0;
     $in_pat_set.arg.1$3$ := Mem_T.CHAR[PLUS(pat, 1, n)];
-    assume value_is(__ctobpl_const_668, $in_pat_set.arg.1$3$);
-    assume value_is(__ctobpl_const_669, pat);
-    assume value_is(__ctobpl_const_670, n);
-    assume value_is(__ctobpl_const_671, Mem_T.CHAR[PLUS(pat, 1, n)]);
+    assume value_is(__ctobpl_const_664, $in_pat_set.arg.1$3$);
+    assume value_is(__ctobpl_const_665, pat);
+    assume value_is(__ctobpl_const_666, n);
+    assume value_is(__ctobpl_const_667, Mem_T.CHAR[PLUS(pat, 1, n)]);
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 393} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 392} true;
     call result.in_pat_set$2 := in_pat_set($in_pat_set.arg.1$3$);
-    assume value_is(__ctobpl_const_672, $in_pat_set.arg.1$3$);
-    assume value_is(__ctobpl_const_673, $in_pat_set.arg.1$3$);
+    assume value_is(__ctobpl_const_668, $in_pat_set.arg.1$3$);
+    assume value_is(__ctobpl_const_669, $in_pat_set.arg.1$3$);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 393} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 392} true;
     goto label_8_true, label_8_false;
 
   label_8_false:
     assume result.in_pat_set$2 == 0;
-    assume value_is(__ctobpl_const_674, result.in_pat_set$2);
+    assume value_is(__ctobpl_const_670, result.in_pat_set$2);
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 394} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 393} true;
     call result.__iob_func$5 := __iob_func();
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 394} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 393} true;
     assert result.__iob_func$5 != 0;
     $fprintf.arg.1$6$ := PLUS(result.__iob_func$5, 32, 1);
-    assume value_is(__ctobpl_const_675, $fprintf.arg.1$6$);
-    assume value_is(__ctobpl_const_676, result.__iob_func$5);
+    assume value_is(__ctobpl_const_671, $fprintf.arg.1$6$);
+    assume value_is(__ctobpl_const_672, result.__iob_func$5);
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 394} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 393} true;
     call result.fprintf$4 := det_choice();
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 395} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 394} true;
     call result.abort$7 := abort();
     return;
 
   label_8_true:
     assume result.in_pat_set$2 != 0;
-    assume value_is(__ctobpl_const_674, result.in_pat_set$2);
+    assume value_is(__ctobpl_const_670, result.in_pat_set$2);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 397} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 396} true;
     assert pat != 0;
     goto label_12_case_0, label_12_case_1, label_12_case_2, label_12_case_3, label_12_case_4, label_12_case_5, label_12_case_6, label_12_case_7;
 
   label_12_case_7:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, n)], 99);
-    assume value_is(__ctobpl_const_677, pat);
-    assume value_is(__ctobpl_const_678, n);
-    assume value_is(__ctobpl_const_679, Mem_T.CHAR[PLUS(pat, 1, n)]);
+    assume value_is(__ctobpl_const_673, pat);
+    assume value_is(__ctobpl_const_674, n);
+    assume value_is(__ctobpl_const_675, Mem_T.CHAR[PLUS(pat, 1, n)]);
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 399} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 398} true;
     size := 2;
-    assume value_is(__ctobpl_const_692, size);
+    assume value_is(__ctobpl_const_688, size);
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 399} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 398} true;
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 413} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 412} true;
     result.patsize$1 := size;
-    assume value_is(__ctobpl_const_693, size);
+    assume value_is(__ctobpl_const_689, size);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 414} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 413} true;
     return;
 
   label_12_case_6:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, n)], 91);
-    assume value_is(__ctobpl_const_677, pat);
-    assume value_is(__ctobpl_const_678, n);
-    assume value_is(__ctobpl_const_679, Mem_T.CHAR[PLUS(pat, 1, n)]);
+    assume value_is(__ctobpl_const_673, pat);
+    assume value_is(__ctobpl_const_674, n);
+    assume value_is(__ctobpl_const_675, Mem_T.CHAR[PLUS(pat, 1, n)]);
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 405} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 404} true;
     assert pat != 0;
     size := PLUS(Mem_T.CHAR[PLUS(pat, 1, PLUS(n, 1, 1))], 1, 2);
-    assume value_is(__ctobpl_const_688, size);
-    assume value_is(__ctobpl_const_689, pat);
-    assume value_is(__ctobpl_const_690, n);
-    assume value_is(__ctobpl_const_691, Mem_T.CHAR[PLUS(pat, 1, PLUS(n, 1, 1))]);
+    assume value_is(__ctobpl_const_684, size);
+    assume value_is(__ctobpl_const_685, pat);
+    assume value_is(__ctobpl_const_686, n);
+    assume value_is(__ctobpl_const_687, Mem_T.CHAR[PLUS(pat, 1, PLUS(n, 1, 1))]);
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 406} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 405} true;
     goto label_19;
 
   label_12_case_5:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, n)], 63);
-    assume value_is(__ctobpl_const_677, pat);
-    assume value_is(__ctobpl_const_678, n);
-    assume value_is(__ctobpl_const_679, Mem_T.CHAR[PLUS(pat, 1, n)]);
+    assume value_is(__ctobpl_const_673, pat);
+    assume value_is(__ctobpl_const_674, n);
+    assume value_is(__ctobpl_const_675, Mem_T.CHAR[PLUS(pat, 1, n)]);
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 402} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 401} true;
     size := 1;
-    assume value_is(__ctobpl_const_687, size);
+    assume value_is(__ctobpl_const_683, size);
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 403} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 402} true;
     goto label_19;
 
   label_12_case_4:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, n)], 42);
-    assume value_is(__ctobpl_const_677, pat);
-    assume value_is(__ctobpl_const_678, n);
-    assume value_is(__ctobpl_const_679, Mem_T.CHAR[PLUS(pat, 1, n)]);
+    assume value_is(__ctobpl_const_673, pat);
+    assume value_is(__ctobpl_const_674, n);
+    assume value_is(__ctobpl_const_675, Mem_T.CHAR[PLUS(pat, 1, n)]);
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 408} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 407} true;
     size := 1;
-    assume value_is(__ctobpl_const_686, size);
+    assume value_is(__ctobpl_const_682, size);
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 409} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 408} true;
     goto label_19;
 
   label_12_case_3:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, n)], 37);
-    assume value_is(__ctobpl_const_677, pat);
-    assume value_is(__ctobpl_const_678, n);
-    assume value_is(__ctobpl_const_679, Mem_T.CHAR[PLUS(pat, 1, n)]);
+    assume value_is(__ctobpl_const_673, pat);
+    assume value_is(__ctobpl_const_674, n);
+    assume value_is(__ctobpl_const_675, Mem_T.CHAR[PLUS(pat, 1, n)]);
     goto label_15;
 
   label_12_case_2:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, n)], 36);
-    assume value_is(__ctobpl_const_677, pat);
-    assume value_is(__ctobpl_const_678, n);
-    assume value_is(__ctobpl_const_679, Mem_T.CHAR[PLUS(pat, 1, n)]);
+    assume value_is(__ctobpl_const_673, pat);
+    assume value_is(__ctobpl_const_674, n);
+    assume value_is(__ctobpl_const_675, Mem_T.CHAR[PLUS(pat, 1, n)]);
     goto label_15;
 
   label_12_case_1:
     assume INT_EQ(Mem_T.CHAR[PLUS(pat, 1, n)], 33);
-    assume value_is(__ctobpl_const_677, pat);
-    assume value_is(__ctobpl_const_678, n);
-    assume value_is(__ctobpl_const_679, Mem_T.CHAR[PLUS(pat, 1, n)]);
+    assume value_is(__ctobpl_const_673, pat);
+    assume value_is(__ctobpl_const_674, n);
+    assume value_is(__ctobpl_const_675, Mem_T.CHAR[PLUS(pat, 1, n)]);
     goto label_14;
 
   label_12_case_0:
@@ -6755,26 +6736,26 @@ implementation {:extern} patsize(pat.__1: int, n.__1: int) returns (result.patsi
     assume INT_NEQ(Mem_T.CHAR[PLUS(pat, 1, n)], 63);
     assume INT_NEQ(Mem_T.CHAR[PLUS(pat, 1, n)], 91);
     assume INT_NEQ(Mem_T.CHAR[PLUS(pat, 1, n)], 99);
-    assume value_is(__ctobpl_const_677, pat);
-    assume value_is(__ctobpl_const_678, n);
-    assume value_is(__ctobpl_const_679, Mem_T.CHAR[PLUS(pat, 1, n)]);
+    assume value_is(__ctobpl_const_673, pat);
+    assume value_is(__ctobpl_const_674, n);
+    assume value_is(__ctobpl_const_675, Mem_T.CHAR[PLUS(pat, 1, n)]);
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 411} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 410} true;
     assert pat != 0;
     $Caseerror.arg.1$8$ := Mem_T.CHAR[PLUS(pat, 1, n)];
-    assume value_is(__ctobpl_const_680, $Caseerror.arg.1$8$);
-    assume value_is(__ctobpl_const_681, pat);
-    assume value_is(__ctobpl_const_682, n);
-    assume value_is(__ctobpl_const_683, Mem_T.CHAR[PLUS(pat, 1, n)]);
+    assume value_is(__ctobpl_const_676, $Caseerror.arg.1$8$);
+    assume value_is(__ctobpl_const_677, pat);
+    assume value_is(__ctobpl_const_678, n);
+    assume value_is(__ctobpl_const_679, Mem_T.CHAR[PLUS(pat, 1, n)]);
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 411} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 410} true;
     call Caseerror($Caseerror.arg.1$8$);
-    assume value_is(__ctobpl_const_684, $Caseerror.arg.1$8$);
-    assume value_is(__ctobpl_const_685, $Caseerror.arg.1$8$);
+    assume value_is(__ctobpl_const_680, $Caseerror.arg.1$8$);
+    assume value_is(__ctobpl_const_681, $Caseerror.arg.1$8$);
     goto label_19;
 }
 
@@ -6853,21 +6834,21 @@ implementation {:extern} putsub(lin.__1: int, s1.__1: int, s2.__1: int, sub.__1:
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 463} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 462} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 464} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 463} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 466} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 465} true;
     i := 0;
-    assume value_is(__ctobpl_const_694, i);
+    assume value_is(__ctobpl_const_690, i);
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 467} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 466} true;
     goto label_6_head;
 
   label_6_head:
@@ -6876,89 +6857,89 @@ implementation {:extern} putsub(lin.__1: int, s1.__1: int, s2.__1: int, sub.__1:
 
   label_6_false:
     assume Mem_T.CHAR[PLUS(sub, 1, i)] == 0;
-    assume value_is(__ctobpl_const_695, sub);
-    assume value_is(__ctobpl_const_696, i);
-    assume value_is(__ctobpl_const_697, Mem_T.CHAR[PLUS(sub, 1, i)]);
+    assume value_is(__ctobpl_const_691, sub);
+    assume value_is(__ctobpl_const_692, i);
+    assume value_is(__ctobpl_const_693, Mem_T.CHAR[PLUS(sub, 1, i)]);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 479} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 478} true;
     return;
 
   label_6_true:
     assume Mem_T.CHAR[PLUS(sub, 1, i)] != 0;
-    assume value_is(__ctobpl_const_695, sub);
-    assume value_is(__ctobpl_const_696, i);
-    assume value_is(__ctobpl_const_697, Mem_T.CHAR[PLUS(sub, 1, i)]);
+    assume value_is(__ctobpl_const_691, sub);
+    assume value_is(__ctobpl_const_692, i);
+    assume value_is(__ctobpl_const_693, Mem_T.CHAR[PLUS(sub, 1, i)]);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 468} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 467} true;
     assert sub != 0;
     goto label_7_true, label_7_false;
 
   label_7_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(sub, 1, i)], -1);
-    assume value_is(__ctobpl_const_698, sub);
-    assume value_is(__ctobpl_const_699, i);
-    assume value_is(__ctobpl_const_700, Mem_T.CHAR[PLUS(sub, 1, i)]);
+    assume value_is(__ctobpl_const_694, sub);
+    assume value_is(__ctobpl_const_695, i);
+    assume value_is(__ctobpl_const_696, Mem_T.CHAR[PLUS(sub, 1, i)]);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 475} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 474} true;
     call result.__iob_func$6 := __iob_func();
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 475} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 474} true;
     assert result.__iob_func$6 != 0;
     $fputc.arg.2$7$ := PLUS(result.__iob_func$6, 32, 1);
-    assume value_is(__ctobpl_const_701, $fputc.arg.2$7$);
-    assume value_is(__ctobpl_const_702, result.__iob_func$6);
+    assume value_is(__ctobpl_const_697, $fputc.arg.2$7$);
+    assume value_is(__ctobpl_const_698, result.__iob_func$6);
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 475} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 474} true;
     assert sub != 0;
     $fputc.arg.1$8$ := Mem_T.CHAR[PLUS(sub, 1, i)];
-    assume value_is(__ctobpl_const_703, $fputc.arg.1$8$);
-    assume value_is(__ctobpl_const_704, sub);
-    assume value_is(__ctobpl_const_705, i);
-    assume value_is(__ctobpl_const_706, Mem_T.CHAR[PLUS(sub, 1, i)]);
+    assume value_is(__ctobpl_const_699, $fputc.arg.1$8$);
+    assume value_is(__ctobpl_const_700, sub);
+    assume value_is(__ctobpl_const_701, i);
+    assume value_is(__ctobpl_const_702, Mem_T.CHAR[PLUS(sub, 1, i)]);
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 475} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 474} true;
     call result.fputc$5 := fputc($fputc.arg.1$8$, $fputc.arg.2$7$);
-    assume value_is(__ctobpl_const_707, $fputc.arg.1$8$);
-    assume value_is(__ctobpl_const_708, $fputc.arg.2$7$);
-    assume value_is(__ctobpl_const_709, $fputc.arg.1$8$);
-    assume value_is(__ctobpl_const_710, $fputc.arg.2$7$);
+    assume value_is(__ctobpl_const_703, $fputc.arg.1$8$);
+    assume value_is(__ctobpl_const_704, $fputc.arg.2$7$);
+    assume value_is(__ctobpl_const_705, $fputc.arg.1$8$);
+    assume value_is(__ctobpl_const_706, $fputc.arg.2$7$);
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 477} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 476} true;
     i := PLUS(i, 1, 1);
-    assume value_is(__ctobpl_const_715, i);
-    assume value_is(__ctobpl_const_716, i);
+    assume value_is(__ctobpl_const_711, i);
+    assume value_is(__ctobpl_const_712, i);
     goto label_13_dummy;
 
   label_7_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(sub, 1, i)], -1);
-    assume value_is(__ctobpl_const_698, sub);
-    assume value_is(__ctobpl_const_699, i);
-    assume value_is(__ctobpl_const_700, Mem_T.CHAR[PLUS(sub, 1, i)]);
+    assume value_is(__ctobpl_const_694, sub);
+    assume value_is(__ctobpl_const_695, i);
+    assume value_is(__ctobpl_const_696, Mem_T.CHAR[PLUS(sub, 1, i)]);
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 469} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 468} true;
     j := s1;
-    assume value_is(__ctobpl_const_711, j);
-    assume value_is(__ctobpl_const_712, s1);
+    assume value_is(__ctobpl_const_707, j);
+    assume value_is(__ctobpl_const_708, s1);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 469} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 468} true;
     goto label_12_head;
 
   label_12_head:
@@ -6967,51 +6948,51 @@ implementation {:extern} putsub(lin.__1: int, s1.__1: int, s2.__1: int, sub.__1:
 
   label_12_false:
     assume !INT_LT(j, s2);
-    assume value_is(__ctobpl_const_713, j);
-    assume value_is(__ctobpl_const_714, s2);
+    assume value_is(__ctobpl_const_709, j);
+    assume value_is(__ctobpl_const_710, s2);
     goto label_13;
 
   label_12_true:
     assume INT_LT(j, s2);
-    assume value_is(__ctobpl_const_713, j);
-    assume value_is(__ctobpl_const_714, s2);
+    assume value_is(__ctobpl_const_709, j);
+    assume value_is(__ctobpl_const_710, s2);
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     call result.__iob_func$2 := __iob_func();
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     assert result.__iob_func$2 != 0;
     $fputc.arg.2$3$ := PLUS(result.__iob_func$2, 32, 1);
-    assume value_is(__ctobpl_const_717, $fputc.arg.2$3$);
-    assume value_is(__ctobpl_const_718, result.__iob_func$2);
+    assume value_is(__ctobpl_const_713, $fputc.arg.2$3$);
+    assume value_is(__ctobpl_const_714, result.__iob_func$2);
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     assert lin != 0;
     $fputc.arg.1$4$ := Mem_T.CHAR[PLUS(lin, 1, j)];
-    assume value_is(__ctobpl_const_719, $fputc.arg.1$4$);
-    assume value_is(__ctobpl_const_720, lin);
-    assume value_is(__ctobpl_const_721, j);
-    assume value_is(__ctobpl_const_722, Mem_T.CHAR[PLUS(lin, 1, j)]);
+    assume value_is(__ctobpl_const_715, $fputc.arg.1$4$);
+    assume value_is(__ctobpl_const_716, lin);
+    assume value_is(__ctobpl_const_717, j);
+    assume value_is(__ctobpl_const_718, Mem_T.CHAR[PLUS(lin, 1, j)]);
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     call result.fputc$1 := fputc($fputc.arg.1$4$, $fputc.arg.2$3$);
-    assume value_is(__ctobpl_const_723, $fputc.arg.1$4$);
-    assume value_is(__ctobpl_const_724, $fputc.arg.2$3$);
-    assume value_is(__ctobpl_const_725, $fputc.arg.1$4$);
-    assume value_is(__ctobpl_const_726, $fputc.arg.2$3$);
+    assume value_is(__ctobpl_const_719, $fputc.arg.1$4$);
+    assume value_is(__ctobpl_const_720, $fputc.arg.2$3$);
+    assume value_is(__ctobpl_const_721, $fputc.arg.1$4$);
+    assume value_is(__ctobpl_const_722, $fputc.arg.2$3$);
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 469} true;
-    assume value_is(__ctobpl_const_727, j);
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 468} true;
+    assume value_is(__ctobpl_const_723, j);
     j := PLUS(j, 1, 1);
     goto label_22_dummy;
 
@@ -7093,28 +7074,28 @@ implementation {:extern} stclose(pat.__1: int, j.__1: int, lastj.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 159} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 158} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 160} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 159} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 161} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 160} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 164} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 163} true;
     assert j != 0;
     jp := MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.INT4[j], 1, 1);
-    assume value_is(__ctobpl_const_728, jp);
-    assume value_is(__ctobpl_const_729, j);
-    assume value_is(__ctobpl_const_730, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_724, jp);
+    assume value_is(__ctobpl_const_725, j);
+    assume value_is(__ctobpl_const_726, Mem_T.INT4[j]);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 164} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 163} true;
     goto label_7_head;
 
   label_7_head:
@@ -7123,79 +7104,79 @@ implementation {:extern} stclose(pat.__1: int, j.__1: int, lastj.__1: int)
 
   label_7_false:
     assume !INT_LEQ(lastj, jp);
-    assume value_is(__ctobpl_const_731, lastj);
-    assume value_is(__ctobpl_const_732, jp);
+    assume value_is(__ctobpl_const_727, lastj);
+    assume value_is(__ctobpl_const_728, jp);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 169} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 168} true;
     assert j != 0;
     assert j != 0;
     Mem_T.INT4 := Mem_T.INT4[j := PLUS(Mem_T.INT4[j], 1, 1)];
-    assume value_is(__ctobpl_const_733, j);
-    assume value_is(__ctobpl_const_734, Mem_T.INT4[j]);
-    assume value_is(__ctobpl_const_735, j);
-    assume value_is(__ctobpl_const_736, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_729, j);
+    assume value_is(__ctobpl_const_730, Mem_T.INT4[j]);
+    assume value_is(__ctobpl_const_731, j);
+    assume value_is(__ctobpl_const_732, Mem_T.INT4[j]);
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 170} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 169} true;
     assert pat != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(pat, 1, lastj) := 42];
-    assume value_is(__ctobpl_const_737, pat);
-    assume value_is(__ctobpl_const_738, lastj);
-    assume value_is(__ctobpl_const_739, Mem_T.CHAR[PLUS(pat, 1, lastj)]);
+    assume value_is(__ctobpl_const_733, pat);
+    assume value_is(__ctobpl_const_734, lastj);
+    assume value_is(__ctobpl_const_735, Mem_T.CHAR[PLUS(pat, 1, lastj)]);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 171} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 170} true;
     call __HAVOC_free(jt);
     return;
 
   label_7_true:
     assume INT_LEQ(lastj, jp);
-    assume value_is(__ctobpl_const_731, lastj);
-    assume value_is(__ctobpl_const_732, jp);
+    assume value_is(__ctobpl_const_727, lastj);
+    assume value_is(__ctobpl_const_728, jp);
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 166} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 165} true;
     Mem_T.INT4 := Mem_T.INT4[jt := PLUS(jp, 1, 1)];
-    assume value_is(__ctobpl_const_740, Mem_T.INT4[jt]);
-    assume value_is(__ctobpl_const_741, jp);
+    assume value_is(__ctobpl_const_736, Mem_T.INT4[jt]);
+    assume value_is(__ctobpl_const_737, jp);
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 167} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 166} true;
     assert pat != 0;
     $addstr.arg.1$2$ := Mem_T.CHAR[PLUS(pat, 1, jp)];
-    assume value_is(__ctobpl_const_742, $addstr.arg.1$2$);
-    assume value_is(__ctobpl_const_743, pat);
-    assume value_is(__ctobpl_const_744, jp);
-    assume value_is(__ctobpl_const_745, Mem_T.CHAR[PLUS(pat, 1, jp)]);
+    assume value_is(__ctobpl_const_738, $addstr.arg.1$2$);
+    assume value_is(__ctobpl_const_739, pat);
+    assume value_is(__ctobpl_const_740, jp);
+    assume value_is(__ctobpl_const_741, Mem_T.CHAR[PLUS(pat, 1, jp)]);
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 167} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 166} true;
     call result.addstr$1 := addstr($addstr.arg.1$2$, pat, jt, 100);
-    assume value_is(__ctobpl_const_746, $addstr.arg.1$2$);
-    assume value_is(__ctobpl_const_747, pat);
-    assume value_is(__ctobpl_const_748, Mem_T.INT4[jt]);
-    assume value_is(__ctobpl_const_749, $addstr.arg.1$2$);
-    assume value_is(__ctobpl_const_750, pat);
-    assume value_is(__ctobpl_const_751, Mem_T.INT4[jt]);
+    assume value_is(__ctobpl_const_742, $addstr.arg.1$2$);
+    assume value_is(__ctobpl_const_743, pat);
+    assume value_is(__ctobpl_const_744, Mem_T.INT4[jt]);
+    assume value_is(__ctobpl_const_745, $addstr.arg.1$2$);
+    assume value_is(__ctobpl_const_746, pat);
+    assume value_is(__ctobpl_const_747, Mem_T.INT4[jt]);
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 167} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 166} true;
     junk := result.addstr$1;
-    assume value_is(__ctobpl_const_752, junk);
-    assume value_is(__ctobpl_const_753, result.addstr$1);
+    assume value_is(__ctobpl_const_748, junk);
+    assume value_is(__ctobpl_const_749, result.addstr$1);
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 164} true;
-    assume value_is(__ctobpl_const_754, jp);
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 163} true;
+    assume value_is(__ctobpl_const_750, jp);
     jp := MINUS_BOTH_PTR_OR_BOTH_INT(jp, 1, 1);
     goto label_15_dummy;
 
@@ -7276,31 +7257,31 @@ implementation {:extern} subline(lin.__1: int, pat.__1: int, sub.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 487} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 486} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 487} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 486} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 487} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 486} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 489} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 488} true;
     lastm := -1;
-    assume value_is(__ctobpl_const_755, lastm);
+    assume value_is(__ctobpl_const_751, lastm);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 490} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 489} true;
     i := 0;
-    assume value_is(__ctobpl_const_756, i);
+    assume value_is(__ctobpl_const_752, i);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 491} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 490} true;
     goto label_8_head;
 
   label_8_head:
@@ -7309,164 +7290,164 @@ implementation {:extern} subline(lin.__1: int, pat.__1: int, sub.__1: int)
 
   label_8_false:
     assume Mem_T.CHAR[PLUS(lin, 1, i)] == 0;
-    assume value_is(__ctobpl_const_757, lin);
-    assume value_is(__ctobpl_const_758, i);
-    assume value_is(__ctobpl_const_759, Mem_T.CHAR[PLUS(lin, 1, i)]);
+    assume value_is(__ctobpl_const_753, lin);
+    assume value_is(__ctobpl_const_754, i);
+    assume value_is(__ctobpl_const_755, Mem_T.CHAR[PLUS(lin, 1, i)]);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 504} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 503} true;
     return;
 
   label_8_true:
     assume Mem_T.CHAR[PLUS(lin, 1, i)] != 0;
-    assume value_is(__ctobpl_const_757, lin);
-    assume value_is(__ctobpl_const_758, i);
-    assume value_is(__ctobpl_const_759, Mem_T.CHAR[PLUS(lin, 1, i)]);
+    assume value_is(__ctobpl_const_753, lin);
+    assume value_is(__ctobpl_const_754, i);
+    assume value_is(__ctobpl_const_755, Mem_T.CHAR[PLUS(lin, 1, i)]);
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 493} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 492} true;
     call result.amatch$1 := amatch(lin, i, pat, 0);
-    assume value_is(__ctobpl_const_760, lin);
-    assume value_is(__ctobpl_const_761, i);
-    assume value_is(__ctobpl_const_762, pat);
-    assume value_is(__ctobpl_const_763, lin);
-    assume value_is(__ctobpl_const_764, i);
-    assume value_is(__ctobpl_const_765, pat);
+    assume value_is(__ctobpl_const_756, lin);
+    assume value_is(__ctobpl_const_757, i);
+    assume value_is(__ctobpl_const_758, pat);
+    assume value_is(__ctobpl_const_759, lin);
+    assume value_is(__ctobpl_const_760, i);
+    assume value_is(__ctobpl_const_761, pat);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 493} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 492} true;
     m := result.amatch$1;
-    assume value_is(__ctobpl_const_766, m);
-    assume value_is(__ctobpl_const_767, result.amatch$1);
+    assume value_is(__ctobpl_const_762, m);
+    assume value_is(__ctobpl_const_763, result.amatch$1);
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 494} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 493} true;
     goto label_13_true, label_13_false;
 
   label_13_false:
     assume !INT_LEQ(0, m);
-    assume value_is(__ctobpl_const_768, m);
+    assume value_is(__ctobpl_const_764, m);
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 498} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 497} true;
     goto label_14_true, label_14_false;
 
   label_14_false:
     assume !INT_EQ(m, -1);
-    assume value_is(__ctobpl_const_781, m);
+    assume value_is(__ctobpl_const_777, m);
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 498} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 497} true;
     goto label_20_true, label_20_false;
 
   label_20_false:
     assume !INT_EQ(m, i);
-    assume value_is(__ctobpl_const_782, m);
-    assume value_is(__ctobpl_const_783, i);
+    assume value_is(__ctobpl_const_778, m);
+    assume value_is(__ctobpl_const_779, i);
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 502} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 501} true;
     i := m;
-    assume value_is(__ctobpl_const_784, i);
-    assume value_is(__ctobpl_const_785, m);
+    assume value_is(__ctobpl_const_780, i);
+    assume value_is(__ctobpl_const_781, m);
     goto label_30_dummy;
 
   label_20_true:
     assume INT_EQ(m, i);
-    assume value_is(__ctobpl_const_782, m);
-    assume value_is(__ctobpl_const_783, i);
+    assume value_is(__ctobpl_const_778, m);
+    assume value_is(__ctobpl_const_779, i);
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 499} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 498} true;
     call result.__iob_func$3 := __iob_func();
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 499} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 498} true;
     assert result.__iob_func$3 != 0;
     $fputc.arg.2$4$ := PLUS(result.__iob_func$3, 32, 1);
-    assume value_is(__ctobpl_const_786, $fputc.arg.2$4$);
-    assume value_is(__ctobpl_const_787, result.__iob_func$3);
+    assume value_is(__ctobpl_const_782, $fputc.arg.2$4$);
+    assume value_is(__ctobpl_const_783, result.__iob_func$3);
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 499} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 498} true;
     assert lin != 0;
     $fputc.arg.1$5$ := Mem_T.CHAR[PLUS(lin, 1, i)];
-    assume value_is(__ctobpl_const_788, $fputc.arg.1$5$);
-    assume value_is(__ctobpl_const_789, lin);
-    assume value_is(__ctobpl_const_790, i);
-    assume value_is(__ctobpl_const_791, Mem_T.CHAR[PLUS(lin, 1, i)]);
+    assume value_is(__ctobpl_const_784, $fputc.arg.1$5$);
+    assume value_is(__ctobpl_const_785, lin);
+    assume value_is(__ctobpl_const_786, i);
+    assume value_is(__ctobpl_const_787, Mem_T.CHAR[PLUS(lin, 1, i)]);
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 499} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 498} true;
     call result.fputc$2 := fputc($fputc.arg.1$5$, $fputc.arg.2$4$);
-    assume value_is(__ctobpl_const_792, $fputc.arg.1$5$);
-    assume value_is(__ctobpl_const_793, $fputc.arg.2$4$);
-    assume value_is(__ctobpl_const_794, $fputc.arg.1$5$);
-    assume value_is(__ctobpl_const_795, $fputc.arg.2$4$);
+    assume value_is(__ctobpl_const_788, $fputc.arg.1$5$);
+    assume value_is(__ctobpl_const_789, $fputc.arg.2$4$);
+    assume value_is(__ctobpl_const_790, $fputc.arg.1$5$);
+    assume value_is(__ctobpl_const_791, $fputc.arg.2$4$);
     goto label_29;
 
   label_29:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 500} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 499} true;
     i := PLUS(i, 1, 1);
-    assume value_is(__ctobpl_const_796, i);
-    assume value_is(__ctobpl_const_797, i);
+    assume value_is(__ctobpl_const_792, i);
+    assume value_is(__ctobpl_const_793, i);
     goto label_29_dummy;
 
   label_14_true:
     assume INT_EQ(m, -1);
-    assume value_is(__ctobpl_const_781, m);
+    assume value_is(__ctobpl_const_777, m);
     goto label_21;
 
   label_13_true:
     assume INT_LEQ(0, m);
-    assume value_is(__ctobpl_const_768, m);
+    assume value_is(__ctobpl_const_764, m);
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 494} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 493} true;
     goto label_15_true, label_15_false;
 
   label_15_false:
     assume !INT_NEQ(lastm, m);
-    assume value_is(__ctobpl_const_769, lastm);
-    assume value_is(__ctobpl_const_770, m);
+    assume value_is(__ctobpl_const_765, lastm);
+    assume value_is(__ctobpl_const_766, m);
     goto label_14;
 
   label_15_true:
     assume INT_NEQ(lastm, m);
-    assume value_is(__ctobpl_const_769, lastm);
-    assume value_is(__ctobpl_const_770, m);
+    assume value_is(__ctobpl_const_765, lastm);
+    assume value_is(__ctobpl_const_766, m);
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 495} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 494} true;
     call putsub(lin, i, m, sub);
+    assume value_is(__ctobpl_const_767, lin);
+    assume value_is(__ctobpl_const_768, i);
+    assume value_is(__ctobpl_const_769, m);
+    assume value_is(__ctobpl_const_770, sub);
     assume value_is(__ctobpl_const_771, lin);
     assume value_is(__ctobpl_const_772, i);
     assume value_is(__ctobpl_const_773, m);
     assume value_is(__ctobpl_const_774, sub);
-    assume value_is(__ctobpl_const_775, lin);
-    assume value_is(__ctobpl_const_776, i);
-    assume value_is(__ctobpl_const_777, m);
-    assume value_is(__ctobpl_const_778, sub);
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 496} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 495} true;
     lastm := m;
-    assume value_is(__ctobpl_const_779, lastm);
-    assume value_is(__ctobpl_const_780, m);
+    assume value_is(__ctobpl_const_775, lastm);
+    assume value_is(__ctobpl_const_776, m);
     goto label_14;
 
   label_30_dummy:
@@ -7502,7 +7483,7 @@ implementation amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int,
     return;
 
   label_36:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 442} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 441} true;
     Mem_T.INT4 := Mem_T.INT4[in_i := MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.INT4[in_i], 1, 1)];
     assume value_is(__ctobpl_const_93, Mem_T.INT4[in_i]);
     assume value_is(__ctobpl_const_94, Mem_T.INT4[in_i]);
@@ -7514,7 +7495,7 @@ implementation amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int,
     goto label_36;
 
   label_35:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 439} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 438} true;
     goto label_35_true, label_35_false;
 
   label_35_true:
@@ -7525,14 +7506,14 @@ implementation amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int,
     goto label_37;
 
   label_34:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     out_k := out_result.amatch$4;
     assume value_is(__ctobpl_const_90, out_k);
     assume value_is(__ctobpl_const_91, out_result.amatch$4);
     goto label_35;
 
   label_31:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     call out_result.amatch$4 := amatch(in_lin, Mem_T.INT4[in_i], in_pat, out_$amatch.arg.4$6$);
     assume value_is(__ctobpl_const_82, in_lin);
     assume value_is(__ctobpl_const_83, Mem_T.INT4[in_i]);
@@ -7545,7 +7526,7 @@ implementation amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int,
     goto label_34;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     out_$amatch.arg.4$6$ := PLUS(in_j, 1, out_result.patsize$5);
     assume value_is(__ctobpl_const_79, out_$amatch.arg.4$6$);
     assume value_is(__ctobpl_const_80, in_j);
@@ -7553,7 +7534,7 @@ implementation amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int,
     goto label_31;
 
   label_27:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     call out_result.patsize$5 := patsize(in_pat, in_j);
     assume value_is(__ctobpl_const_75, in_pat);
     assume value_is(__ctobpl_const_76, in_j);
@@ -7568,7 +7549,7 @@ implementation amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int,
     goto label_27;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 437} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 436} true;
     goto label_24_true, label_24_false;
 
   label_24_false:
@@ -7589,7 +7570,7 @@ implementation amatch_loop_label_23_head(in_$amatch.arg.4$6$: int, in_done: int,
     return;
 
   label_37:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 440} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 439} true;
     out_done := 1;
     assume value_is(__ctobpl_const_95, out_done);
     goto label_37_dummy;
@@ -7626,7 +7607,7 @@ implementation amatch_loop_label_20_head(in_done: int, in_i: int, in_j: int, in_
     return;
 
   label_43:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 434} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 433} true;
     out_done := 1;
     assume value_is(__ctobpl_const_70, out_done);
     goto label_43_dummy;
@@ -7637,7 +7618,7 @@ implementation amatch_loop_label_20_head(in_done: int, in_i: int, in_j: int, in_
     goto label_43;
 
   label_42:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 433} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 432} true;
     goto label_42_true, label_42_false;
 
   label_42_true:
@@ -7647,14 +7628,14 @@ implementation amatch_loop_label_20_head(in_done: int, in_i: int, in_j: int, in_
     goto label_42_true_dummy;
 
   label_41:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 432} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 431} true;
     out_result := out_result.omatch$3;
     assume value_is(__ctobpl_const_67, out_result);
     assume value_is(__ctobpl_const_68, out_result.omatch$3);
     goto label_42;
 
   label_38:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 432} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 431} true;
     call out_result.omatch$3 := omatch(in_lin, in_i, in_pat, in_j);
     assume value_is(__ctobpl_const_59, in_lin);
     assume value_is(__ctobpl_const_60, Mem_T.INT4[in_i]);
@@ -7674,7 +7655,7 @@ implementation amatch_loop_label_20_head(in_done: int, in_i: int, in_j: int, in_
     goto label_38;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 431} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 430} true;
     assert in_lin != 0;
     goto label_21_true, label_21_false;
 
@@ -7727,13 +7708,13 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     return;
 
   label_51:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 450} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 449} true;
     out_done := 1;
     assume value_is(__ctobpl_const_38, out_done);
     goto label_51_dummy;
 
   label_46:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 449} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 448} true;
     Mem_T.INT4 := Mem_T.INT4[in_offset := -1];
     assume value_is(__ctobpl_const_37, Mem_T.INT4[in_offset]);
     goto label_51;
@@ -7744,7 +7725,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_46;
 
   label_45:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 448} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 447} true;
     goto label_45_true, label_45_false;
 
   label_45_true:
@@ -7755,14 +7736,14 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_47;
 
   label_44:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 447} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 446} true;
     out_result := out_result.omatch$7;
     assume value_is(__ctobpl_const_34, out_result);
     assume value_is(__ctobpl_const_35, out_result.omatch$7);
     goto label_45;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 447} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 446} true;
     call out_result.omatch$7 := omatch(in_lin, in_offset, in_pat, out_j);
     assume value_is(__ctobpl_const_26, in_lin);
     assume value_is(__ctobpl_const_27, Mem_T.INT4[in_offset]);
@@ -7782,7 +7763,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_12;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 428} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 427} true;
     assert in_pat != 0;
     goto label_11_true, label_11_false;
 
@@ -7803,7 +7784,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_11;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 427} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 426} true;
     assert in_pat != 0;
     goto label_9_true, label_9_false;
 
@@ -7826,7 +7807,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     return;
 
   label_50:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 452} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 451} true;
     out_j := PLUS(out_j, 1, out_result.patsize$8);
     assume value_is(__ctobpl_const_43, out_j);
     assume value_is(__ctobpl_const_44, out_j);
@@ -7834,7 +7815,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_50_dummy;
 
   label_47:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 452} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 451} true;
     call out_result.patsize$8 := patsize(in_pat, out_j);
     assume value_is(__ctobpl_const_39, in_pat);
     assume value_is(__ctobpl_const_40, out_j);
@@ -7847,13 +7828,13 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     return;
 
   label_26:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 445} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 444} true;
     out_done := 1;
     assume value_is(__ctobpl_const_98, out_done);
     goto label_26_dummy;
 
   label_25:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 444} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 443} true;
     Mem_T.INT4 := Mem_T.INT4[in_offset := out_k];
     assume value_is(__ctobpl_const_96, Mem_T.INT4[in_offset]);
     assume value_is(__ctobpl_const_97, out_k);
@@ -7880,11 +7861,11 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_23_true, label_23_false;
 
   label_23:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 437} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 436} true;
     goto label_23_head;
 
   label_36:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 442} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 441} true;
     Mem_T.INT4 := Mem_T.INT4[in_i := MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.INT4[in_i], 1, 1)];
     assume value_is(__ctobpl_const_93, Mem_T.INT4[in_i]);
     assume value_is(__ctobpl_const_94, Mem_T.INT4[in_i]);
@@ -7897,7 +7878,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     return;
 
   label_37:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 440} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 439} true;
     out_done := 1;
     assume value_is(__ctobpl_const_95, out_done);
     goto label_37_dummy;
@@ -7914,18 +7895,18 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_37;
 
   label_35:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 439} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 438} true;
     goto label_35_true, label_35_false;
 
   label_34:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     out_k := out_result.amatch$4;
     assume value_is(__ctobpl_const_90, out_k);
     assume value_is(__ctobpl_const_91, out_result.amatch$4);
     goto label_35;
 
   label_31:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     call out_result.amatch$4 := amatch(in_lin, Mem_T.INT4[in_i], in_pat, out_$amatch.arg.4$6$);
     assume value_is(__ctobpl_const_82, in_lin);
     assume value_is(__ctobpl_const_83, Mem_T.INT4[in_i]);
@@ -7938,7 +7919,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_34;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     out_$amatch.arg.4$6$ := PLUS(out_j, 1, out_result.patsize$5);
     assume value_is(__ctobpl_const_79, out_$amatch.arg.4$6$);
     assume value_is(__ctobpl_const_80, out_j);
@@ -7946,7 +7927,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_31;
 
   label_27:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 438} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 437} true;
     call out_result.patsize$5 := patsize(in_pat, out_j);
     assume value_is(__ctobpl_const_75, in_pat);
     assume value_is(__ctobpl_const_76, out_j);
@@ -7961,7 +7942,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_27;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 437} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 436} true;
     goto label_24_true, label_24_false;
 
   label_23_false:
@@ -7975,7 +7956,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_36;
 
   label_22:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 436} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 435} true;
     out_done := 0;
     assume value_is(__ctobpl_const_71, out_done);
     goto label_23;
@@ -8002,11 +7983,11 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_20_true, label_20_false;
 
   label_20:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 431} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 430} true;
     goto label_20_head;
 
   label_43:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 434} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 433} true;
     out_done := 1;
     assume value_is(__ctobpl_const_70, out_done);
     goto label_43_dummy;
@@ -8029,18 +8010,18 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     return;
 
   label_42:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 433} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 432} true;
     goto label_42_true, label_42_false;
 
   label_41:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 432} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 431} true;
     out_result := out_result.omatch$3;
     assume value_is(__ctobpl_const_67, out_result);
     assume value_is(__ctobpl_const_68, out_result.omatch$3);
     goto label_42;
 
   label_38:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 432} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 431} true;
     call out_result.omatch$3 := omatch(in_lin, in_i, in_pat, out_j);
     assume value_is(__ctobpl_const_59, in_lin);
     assume value_is(__ctobpl_const_60, Mem_T.INT4[in_i]);
@@ -8060,7 +8041,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_38;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 431} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 430} true;
     assert in_lin != 0;
     goto label_21_true, label_21_false;
 
@@ -8075,14 +8056,14 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_43;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 430} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 429} true;
     Mem_T.INT4 := Mem_T.INT4[in_i := Mem_T.INT4[in_offset]];
     assume value_is(__ctobpl_const_53, Mem_T.INT4[in_i]);
     assume value_is(__ctobpl_const_54, Mem_T.INT4[in_offset]);
     goto label_20;
 
   label_18:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 429} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 428} true;
     out_j := PLUS(out_j, 1, out_result.patsize$2);
     assume value_is(__ctobpl_const_50, out_j);
     assume value_is(__ctobpl_const_51, out_j);
@@ -8090,7 +8071,7 @@ implementation amatch_loop_label_8_head(in_$amatch.arg.4$6$: int, in_done: int, 
     goto label_19;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 429} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 428} true;
     call out_result.patsize$2 := patsize(in_pat, out_j);
     assume value_is(__ctobpl_const_46, in_pat);
     assume value_is(__ctobpl_const_47, out_j);
@@ -8130,23 +8111,23 @@ implementation change_loop_label_10_head(in_$getline.arg.1$5$: int, in_pat: int,
     return;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 516} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 515} true;
     out_result := out_result.getline$4;
     assume value_is(__ctobpl_const_107, out_result);
     assume value_is(__ctobpl_const_108, out_result.getline$4);
     goto label_19_dummy;
 
   label_16:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 516} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 515} true;
     call out_result.getline$4 := getline(in_$getline.arg.1$5$, 100);
     goto label_19;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 516} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 515} true;
     goto label_16;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 515} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 514} true;
     call subline(in_$subline.arg.1$3$, in_pat, in_sub);
     assume value_is(__ctobpl_const_103, in_pat);
     assume value_is(__ctobpl_const_104, in_sub);
@@ -8155,7 +8136,7 @@ implementation change_loop_label_10_head(in_$getline.arg.1$5$: int, in_pat: int,
     goto label_15;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 515} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 514} true;
     goto label_12;
 
   label_10_true:
@@ -8200,20 +8181,20 @@ implementation dodash_loop_label_45_head(in_dest: int, in_i: int, in_j: int, in_
     return;
 
   label_51:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 118} true;
     assume value_is(__ctobpl_const_188, out_k);
     out_k := PLUS(out_k, 1, 1);
     goto label_51_dummy;
 
   label_50:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 120} true;
     out_junk := out_result.addstr$10;
     assume value_is(__ctobpl_const_186, out_junk);
     assume value_is(__ctobpl_const_187, out_result.addstr$10);
     goto label_51;
 
   label_47:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 120} true;
     call out_result.addstr$10 := addstr(out_k, in_dest, in_j, in_maxset);
     assume value_is(__ctobpl_const_178, out_k);
     assume value_is(__ctobpl_const_179, in_dest);
@@ -8272,7 +8253,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     return;
 
   label_18:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 126} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 126} true;
     assert in_i != 0;
     assert in_i != 0;
     Mem_T.INT4 := Mem_T.INT4[in_i := PLUS(Mem_T.INT4[in_i], 1, 1)];
@@ -8283,21 +8264,21 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_18_dummy;
 
   label_29:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 114} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 114} true;
     out_junk := out_result.addstr$5;
     assume value_is(__ctobpl_const_195, out_junk);
     assume value_is(__ctobpl_const_196, out_result.addstr$5);
     goto label_18;
 
   label_52:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 125} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 125} true;
     out_junk := out_result.addstr$11;
     assume value_is(__ctobpl_const_162, out_junk);
     assume value_is(__ctobpl_const_163, out_result.addstr$11);
     goto label_18;
 
   label_46:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 122} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 122} true;
     assert in_i != 0;
     assert in_i != 0;
     Mem_T.INT4 := Mem_T.INT4[in_i := PLUS(Mem_T.INT4[in_i], 1, 1)];
@@ -8308,21 +8289,21 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_18;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 112} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 112} true;
     out_junk := out_result.addstr$3;
     assume value_is(__ctobpl_const_210, out_junk);
     assume value_is(__ctobpl_const_211, out_result.addstr$3);
     goto label_18;
 
   label_17:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 109} true;
     out_junk := out_result.addstr$2;
     assume value_is(__ctobpl_const_226, out_junk);
     assume value_is(__ctobpl_const_227, out_result.addstr$2);
     goto label_18;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 109} true;
     call out_result.addstr$2 := addstr(out_escjunk, in_dest, in_j, in_maxset);
     assume value_is(__ctobpl_const_218, out_escjunk);
     assume value_is(__ctobpl_const_219, in_dest);
@@ -8335,14 +8316,14 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_17;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 108} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 108} true;
     out_escjunk := out_result.esc$1;
     assume value_is(__ctobpl_const_216, out_escjunk);
     assume value_is(__ctobpl_const_217, out_result.esc$1);
     goto label_14;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 108} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 108} true;
     call out_result.esc$1 := esc(in_src, in_i);
     assume value_is(__ctobpl_const_212, in_src);
     assume value_is(__ctobpl_const_213, in_i);
@@ -8359,7 +8340,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_10;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 107} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 107} true;
     assert in_i != 0;
     assert in_src != 0;
     goto label_8_true, label_8_false;
@@ -8373,7 +8354,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_8;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 105} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 105} true;
     assert in_i != 0;
     assert in_src != 0;
     goto label_7_true, label_7_false;
@@ -8398,7 +8379,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_7;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 112} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 112} true;
     call out_result.addstr$3 := addstr(out_$addstr.arg.1$4$, in_dest, in_j, in_maxset);
     assume value_is(__ctobpl_const_202, out_$addstr.arg.1$4$);
     assume value_is(__ctobpl_const_203, in_dest);
@@ -8411,7 +8392,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_24;
 
   label_20:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 112} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 112} true;
     assert in_i != 0;
     assert in_src != 0;
     out_$addstr.arg.1$4$ := Mem_T.CHAR[PLUS(in_src, 1, Mem_T.INT4[in_i])];
@@ -8431,7 +8412,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_20;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 111} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 111} true;
     assert in_i != 0;
     assert in_src != 0;
     goto label_9_true, label_9_false;
@@ -8465,11 +8446,11 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_45_true, label_45_false;
 
   label_45:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 118} true;
     goto label_45_head;
 
   label_51:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 118} true;
     assume value_is(__ctobpl_const_188, out_k);
     out_k := PLUS(out_k, 1, 1);
     goto label_51_dummy;
@@ -8481,14 +8462,14 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     return;
 
   label_50:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 120} true;
     out_junk := out_result.addstr$10;
     assume value_is(__ctobpl_const_186, out_junk);
     assume value_is(__ctobpl_const_187, out_result.addstr$10);
     goto label_51;
 
   label_47:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 120} true;
     call out_result.addstr$10 := addstr(out_k, in_dest, in_j, in_maxset);
     assume value_is(__ctobpl_const_178, out_k);
     assume value_is(__ctobpl_const_179, in_dest);
@@ -8510,7 +8491,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_47;
 
   label_44:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 118} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 118} true;
     assert in_i != 0;
     assert in_src != 0;
     out_k := PLUS(Mem_T.CHAR[PLUS(in_src, 1, MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.INT4[in_i], 1, 1))], 1, 1);
@@ -8534,7 +8515,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_44;
 
   label_43:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 116} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 116} true;
     assert in_i != 0;
     assert in_src != 0;
     assert in_i != 0;
@@ -8547,18 +8528,18 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_43;
 
   label_42:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     goto label_42_true, label_42_false;
 
   label_39:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     call out_result.isalnum$8 := isalnum(out_$isalnum.arg.1$9$);
     assume value_is(__ctobpl_const_145, out_$isalnum.arg.1$9$);
     assume value_is(__ctobpl_const_146, out_$isalnum.arg.1$9$);
     goto label_42;
 
   label_38:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     assert in_i != 0;
     assert in_src != 0;
     out_$isalnum.arg.1$9$ := Mem_T.CHAR[PLUS(in_src, 1, PLUS(Mem_T.INT4[in_i], 1, 1))];
@@ -8575,18 +8556,18 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_38;
 
   label_34:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     goto label_34_true, label_34_false;
 
   label_31:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     call out_result.isalnum$6 := isalnum(out_$isalnum.arg.1$7$);
     assume value_is(__ctobpl_const_137, out_$isalnum.arg.1$7$);
     assume value_is(__ctobpl_const_138, out_$isalnum.arg.1$7$);
     goto label_34;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 115} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 115} true;
     assert in_i != 0;
     assert in_src != 0;
     out_$isalnum.arg.1$7$ := Mem_T.CHAR[PLUS(in_src, 1, MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.INT4[in_i], 1, 1))];
@@ -8606,7 +8587,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_30;
 
   label_25:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 113} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 113} true;
     assert in_i != 0;
     assert in_src != 0;
     goto label_25_true, label_25_false;
@@ -8618,7 +8599,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_25;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 113} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 113} true;
     assert in_j != 0;
     goto label_19_true, label_19_false;
 
@@ -8631,7 +8612,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_19;
 
   label_35:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 125} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 125} true;
     call out_result.addstr$11 := addstr(45, in_dest, in_j, in_maxset);
     assume value_is(__ctobpl_const_156, in_dest);
     assume value_is(__ctobpl_const_157, in_j);
@@ -8664,7 +8645,7 @@ implementation dodash_loop_label_6_head(in_$addstr.arg.1$4$: int, in_delim: int,
     goto label_35;
 
   label_26:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 114} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 114} true;
     call out_result.addstr$5 := addstr(45, in_dest, in_j, in_maxset);
     assume value_is(__ctobpl_const_189, in_dest);
     assume value_is(__ctobpl_const_190, in_j);
@@ -8715,44 +8696,44 @@ implementation locate_loop_label_7_head(in_c: int, in_flag: int, in_i: int, in_o
 
   label_7_false:
     assume !INT_LT(in_offset, out_i);
-    assume value_is(__ctobpl_const_364, in_offset);
-    assume value_is(__ctobpl_const_365, out_i);
+    assume value_is(__ctobpl_const_360, in_offset);
+    assume value_is(__ctobpl_const_361, out_i);
     out_flag, out_i := in_flag, in_i;
     return;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 321} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 320} true;
     out_i := MINUS_BOTH_PTR_OR_BOTH_INT(out_i, 1, 1);
-    assume value_is(__ctobpl_const_371, out_i);
-    assume value_is(__ctobpl_const_372, out_i);
+    assume value_is(__ctobpl_const_367, out_i);
+    assume value_is(__ctobpl_const_368, out_i);
     goto label_10_dummy;
 
   label_9_false:
     assume !INT_EQ(in_c, Mem_T.CHAR[PLUS(in_pat, 1, out_i)]);
-    assume value_is(__ctobpl_const_367, in_c);
-    assume value_is(__ctobpl_const_368, in_pat);
-    assume value_is(__ctobpl_const_369, out_i);
-    assume value_is(__ctobpl_const_370, Mem_T.CHAR[PLUS(in_pat, 1, out_i)]);
+    assume value_is(__ctobpl_const_363, in_c);
+    assume value_is(__ctobpl_const_364, in_pat);
+    assume value_is(__ctobpl_const_365, out_i);
+    assume value_is(__ctobpl_const_366, Mem_T.CHAR[PLUS(in_pat, 1, out_i)]);
     goto label_10;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 317} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 316} true;
     assert in_pat != 0;
     goto label_9_true, label_9_false;
 
   label_9_true:
     assume INT_EQ(in_c, Mem_T.CHAR[PLUS(in_pat, 1, out_i)]);
-    assume value_is(__ctobpl_const_367, in_c);
-    assume value_is(__ctobpl_const_368, in_pat);
-    assume value_is(__ctobpl_const_369, out_i);
-    assume value_is(__ctobpl_const_370, Mem_T.CHAR[PLUS(in_pat, 1, out_i)]);
+    assume value_is(__ctobpl_const_363, in_c);
+    assume value_is(__ctobpl_const_364, in_pat);
+    assume value_is(__ctobpl_const_365, out_i);
+    assume value_is(__ctobpl_const_366, Mem_T.CHAR[PLUS(in_pat, 1, out_i)]);
     out_flag, out_i := in_flag, in_i;
     goto label_11;
 
   label_7_true:
     assume INT_LT(in_offset, out_i);
-    assume value_is(__ctobpl_const_364, in_offset);
-    assume value_is(__ctobpl_const_365, out_i);
+    assume value_is(__ctobpl_const_360, in_offset);
+    assume value_is(__ctobpl_const_361, out_i);
     goto label_9;
 
   label_10_dummy:
@@ -8760,16 +8741,16 @@ implementation locate_loop_label_7_head(in_c: int, in_flag: int, in_i: int, in_o
     return;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 319} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 318} true;
     out_i := in_offset;
-    assume value_is(__ctobpl_const_374, out_i);
-    assume value_is(__ctobpl_const_375, in_offset);
+    assume value_is(__ctobpl_const_370, out_i);
+    assume value_is(__ctobpl_const_371, in_offset);
     goto label_12_dummy;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 318} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 317} true;
     out_flag := 1;
-    assume value_is(__ctobpl_const_373, out_flag);
+    assume value_is(__ctobpl_const_369, out_flag);
     goto label_12;
 
   label_12_dummy:
@@ -8798,423 +8779,423 @@ implementation makepat_loop_label_16_head(in_arg: int, in_delim: int, in_done: i
 
   label_16_true:
     assume out_done != 0;
-    assume value_is(__ctobpl_const_406, out_done);
+    assume value_is(__ctobpl_const_402, out_done);
     out_done, out_escjunk, out_getres, out_$in_set_2.arg.1$7$, out_junk, out_lastj, out_lj, out_result.addstr$2, out_result.addstr$3, out_result.addstr$4, out_result.addstr$8, out_result.addstr$10, out_result.esc$9, out_result.getccl$5, out_result.in_set_2$6 := in_done, in_escjunk, in_getres, in_$in_set_2.arg.1$7$, in_junk, in_lastj, in_lj, in_result.addstr$2, in_result.addstr$3, in_result.addstr$4, in_result.addstr$8, in_result.addstr$10, in_result.esc$9, in_result.getccl$5, in_result.in_set_2$6;
     Mem_T.INT4 := old(Mem_T.INT4);
     return;
 
   label_39:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 232} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 231} true;
     Mem_T.INT4 := Mem_T.INT4[in_i := PLUS(Mem_T.INT4[in_i], 1, 1)];
-    assume value_is(__ctobpl_const_508, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_509, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_504, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_505, Mem_T.INT4[in_i]);
     goto label_39_dummy;
 
   label_38_false:
     assume out_done == 0;
-    assume value_is(__ctobpl_const_507, out_done);
+    assume value_is(__ctobpl_const_503, out_done);
     goto label_39;
 
   label_38:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 231} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 230} true;
     goto label_38_true, label_38_false;
 
   label_38_true:
     assume out_done != 0;
-    assume value_is(__ctobpl_const_507, out_done);
+    assume value_is(__ctobpl_const_503, out_done);
     out_done, out_escjunk, out_getres, out_$in_set_2.arg.1$7$, out_junk, out_lastj, out_lj, out_result.addstr$2, out_result.addstr$3, out_result.addstr$4, out_result.addstr$8, out_result.addstr$10, out_result.esc$9, out_result.getccl$5, out_result.in_set_2$6 := in_done, in_escjunk, in_getres, in_$in_set_2.arg.1$7$, in_junk, in_lastj, in_lj, in_result.addstr$2, in_result.addstr$3, in_result.addstr$4, in_result.addstr$8, in_result.addstr$10, in_result.esc$9, in_result.getccl$5, in_result.in_set_2$6;
     Mem_T.INT4 := old(Mem_T.INT4);
     goto label_38_true_dummy;
 
   label_37:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 230} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 229} true;
     out_lastj := out_lj;
-    assume value_is(__ctobpl_const_505, out_lastj);
-    assume value_is(__ctobpl_const_506, out_lj);
+    assume value_is(__ctobpl_const_501, out_lastj);
+    assume value_is(__ctobpl_const_502, out_lj);
     goto label_38;
 
   label_80:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 228} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 227} true;
     out_junk := out_result.addstr$10;
-    assume value_is(__ctobpl_const_457, out_junk);
-    assume value_is(__ctobpl_const_458, out_result.addstr$10);
+    assume value_is(__ctobpl_const_453, out_junk);
+    assume value_is(__ctobpl_const_454, out_result.addstr$10);
     goto label_37;
 
   label_68:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 222} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 221} true;
     call stclose(in_pat, in_j, out_lastj);
-    assume value_is(__ctobpl_const_468, in_pat);
-    assume value_is(__ctobpl_const_469, Mem_T.INT4[in_j]);
-    assume value_is(__ctobpl_const_470, out_lastj);
-    assume value_is(__ctobpl_const_471, in_pat);
-    assume value_is(__ctobpl_const_472, Mem_T.INT4[in_j]);
-    assume value_is(__ctobpl_const_473, out_lastj);
+    assume value_is(__ctobpl_const_464, in_pat);
+    assume value_is(__ctobpl_const_465, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_466, out_lastj);
+    assume value_is(__ctobpl_const_467, in_pat);
+    assume value_is(__ctobpl_const_468, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_469, out_lastj);
     goto label_37;
 
   label_71:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 220} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 219} true;
     out_done := 1;
-    assume value_is(__ctobpl_const_474, out_done);
+    assume value_is(__ctobpl_const_470, out_done);
     goto label_37;
 
   label_57:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 214} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 213} true;
     out_done := LIFT(INT_EQ(out_getres, 0));
-    assume value_is(__ctobpl_const_485, out_done);
-    assume value_is(__ctobpl_const_486, out_getres);
+    assume value_is(__ctobpl_const_481, out_done);
+    assume value_is(__ctobpl_const_482, out_getres);
     goto label_37;
 
   label_51:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 210} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 209} true;
     out_junk := out_result.addstr$4;
-    assume value_is(__ctobpl_const_491, out_junk);
-    assume value_is(__ctobpl_const_492, out_result.addstr$4);
+    assume value_is(__ctobpl_const_487, out_junk);
+    assume value_is(__ctobpl_const_488, out_result.addstr$4);
     goto label_37;
 
   label_45:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 208} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 207} true;
     out_junk := out_result.addstr$3;
-    assume value_is(__ctobpl_const_497, out_junk);
-    assume value_is(__ctobpl_const_498, out_result.addstr$3);
+    assume value_is(__ctobpl_const_493, out_junk);
+    assume value_is(__ctobpl_const_494, out_result.addstr$3);
     goto label_37;
 
   label_36:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 206} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 205} true;
     out_junk := out_result.addstr$2;
-    assume value_is(__ctobpl_const_503, out_junk);
-    assume value_is(__ctobpl_const_504, out_result.addstr$2);
+    assume value_is(__ctobpl_const_499, out_junk);
+    assume value_is(__ctobpl_const_500, out_result.addstr$2);
     goto label_37;
 
   label_33:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 206} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 205} true;
     call out_result.addstr$2 := addstr(63, in_pat, in_j, 100);
-    assume value_is(__ctobpl_const_499, in_pat);
-    assume value_is(__ctobpl_const_500, Mem_T.INT4[in_j]);
-    assume value_is(__ctobpl_const_501, in_pat);
-    assume value_is(__ctobpl_const_502, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_495, in_pat);
+    assume value_is(__ctobpl_const_496, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_497, in_pat);
+    assume value_is(__ctobpl_const_498, Mem_T.INT4[in_j]);
     goto label_36;
 
   label_31_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 63);
-    assume value_is(__ctobpl_const_416, in_arg);
-    assume value_is(__ctobpl_const_417, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_418, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_412, in_arg);
+    assume value_is(__ctobpl_const_413, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_414, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_33;
 
   label_31:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 205} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 204} true;
     assert in_arg != 0;
     goto label_31_true, label_31_false;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 204} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 203} true;
     out_lj := Mem_T.INT4[in_j];
-    assume value_is(__ctobpl_const_414, out_lj);
-    assume value_is(__ctobpl_const_415, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_410, out_lj);
+    assume value_is(__ctobpl_const_411, Mem_T.INT4[in_j]);
     goto label_31;
 
   label_29_true:
     assume Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])] != 0;
-    assume value_is(__ctobpl_const_411, in_arg);
-    assume value_is(__ctobpl_const_412, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_413, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_407, in_arg);
+    assume value_is(__ctobpl_const_408, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_409, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_30;
 
   label_29:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 203} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 202} true;
     assert in_arg != 0;
     goto label_29_true, label_29_false;
 
   label_29_false:
     assume Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])] == 0;
-    assume value_is(__ctobpl_const_411, in_arg);
-    assume value_is(__ctobpl_const_412, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_413, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_407, in_arg);
+    assume value_is(__ctobpl_const_408, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_409, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     out_done, out_escjunk, out_getres, out_$in_set_2.arg.1$7$, out_junk, out_lastj, out_lj, out_result.addstr$2, out_result.addstr$3, out_result.addstr$4, out_result.addstr$8, out_result.addstr$10, out_result.esc$9, out_result.getccl$5, out_result.in_set_2$6 := in_done, in_escjunk, in_getres, in_$in_set_2.arg.1$7$, in_junk, in_lastj, in_lj, in_result.addstr$2, in_result.addstr$3, in_result.addstr$4, in_result.addstr$8, in_result.addstr$10, in_result.esc$9, in_result.getccl$5, in_result.in_set_2$6;
     Mem_T.INT4 := old(Mem_T.INT4);
     return;
 
   label_17_true:
     assume INT_NEQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], in_delim);
-    assume value_is(__ctobpl_const_407, in_arg);
-    assume value_is(__ctobpl_const_408, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_409, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
-    assume value_is(__ctobpl_const_410, in_delim);
+    assume value_is(__ctobpl_const_403, in_arg);
+    assume value_is(__ctobpl_const_404, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_405, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_406, in_delim);
     goto label_29;
 
   label_17:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 203} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 202} true;
     assert in_arg != 0;
     goto label_17_true, label_17_false;
 
   label_17_false:
     assume !INT_NEQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], in_delim);
-    assume value_is(__ctobpl_const_407, in_arg);
-    assume value_is(__ctobpl_const_408, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_409, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
-    assume value_is(__ctobpl_const_410, in_delim);
+    assume value_is(__ctobpl_const_403, in_arg);
+    assume value_is(__ctobpl_const_404, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_405, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_406, in_delim);
     out_done, out_escjunk, out_getres, out_$in_set_2.arg.1$7$, out_junk, out_lastj, out_lj, out_result.addstr$2, out_result.addstr$3, out_result.addstr$4, out_result.addstr$8, out_result.addstr$10, out_result.esc$9, out_result.getccl$5, out_result.in_set_2$6 := in_done, in_escjunk, in_getres, in_$in_set_2.arg.1$7$, in_junk, in_lastj, in_lj, in_result.addstr$2, in_result.addstr$3, in_result.addstr$4, in_result.addstr$8, in_result.addstr$10, in_result.esc$9, in_result.getccl$5, in_result.in_set_2$6;
     Mem_T.INT4 := old(Mem_T.INT4);
     return;
 
   label_16_false:
     assume out_done == 0;
-    assume value_is(__ctobpl_const_406, out_done);
+    assume value_is(__ctobpl_const_402, out_done);
     goto label_17;
 
   label_42:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 208} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 207} true;
     call out_result.addstr$3 := addstr(37, in_pat, in_j, 100);
-    assume value_is(__ctobpl_const_493, in_pat);
-    assume value_is(__ctobpl_const_494, Mem_T.INT4[in_j]);
-    assume value_is(__ctobpl_const_495, in_pat);
-    assume value_is(__ctobpl_const_496, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_489, in_pat);
+    assume value_is(__ctobpl_const_490, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_491, in_pat);
+    assume value_is(__ctobpl_const_492, Mem_T.INT4[in_j]);
     goto label_45;
 
   label_41_true:
     assume INT_EQ(Mem_T.INT4[in_i], in_start);
-    assume value_is(__ctobpl_const_422, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_423, in_start);
+    assume value_is(__ctobpl_const_418, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_419, in_start);
     goto label_42;
 
   label_41:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 207} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 206} true;
     goto label_41_true, label_41_false;
 
   label_32_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 37);
-    assume value_is(__ctobpl_const_419, in_arg);
-    assume value_is(__ctobpl_const_420, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_421, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_415, in_arg);
+    assume value_is(__ctobpl_const_416, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_417, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_41;
 
   label_32:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 207} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 206} true;
     assert in_arg != 0;
     goto label_32_true, label_32_false;
 
   label_31_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 63);
-    assume value_is(__ctobpl_const_416, in_arg);
-    assume value_is(__ctobpl_const_417, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_418, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_412, in_arg);
+    assume value_is(__ctobpl_const_413, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_414, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_32;
 
   label_48:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 210} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 209} true;
     call out_result.addstr$4 := addstr(36, in_pat, in_j, 100);
-    assume value_is(__ctobpl_const_487, in_pat);
-    assume value_is(__ctobpl_const_488, Mem_T.INT4[in_j]);
-    assume value_is(__ctobpl_const_489, in_pat);
-    assume value_is(__ctobpl_const_490, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_483, in_pat);
+    assume value_is(__ctobpl_const_484, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_485, in_pat);
+    assume value_is(__ctobpl_const_486, Mem_T.INT4[in_j]);
     goto label_51;
 
   label_47_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, PLUS(Mem_T.INT4[in_i], 1, 1))], in_delim);
-    assume value_is(__ctobpl_const_427, in_arg);
-    assume value_is(__ctobpl_const_428, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_429, Mem_T.CHAR[PLUS(in_arg, 1, PLUS(Mem_T.INT4[in_i], 1, 1))]);
-    assume value_is(__ctobpl_const_430, in_delim);
+    assume value_is(__ctobpl_const_423, in_arg);
+    assume value_is(__ctobpl_const_424, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_425, Mem_T.CHAR[PLUS(in_arg, 1, PLUS(Mem_T.INT4[in_i], 1, 1))]);
+    assume value_is(__ctobpl_const_426, in_delim);
     goto label_48;
 
   label_47:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 209} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 208} true;
     assert in_arg != 0;
     goto label_47_true, label_47_false;
 
   label_40_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 36);
-    assume value_is(__ctobpl_const_424, in_arg);
-    assume value_is(__ctobpl_const_425, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_426, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_420, in_arg);
+    assume value_is(__ctobpl_const_421, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_422, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_47;
 
   label_40:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 209} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 208} true;
     assert in_arg != 0;
     goto label_40_true, label_40_false;
 
   label_32_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 37);
-    assume value_is(__ctobpl_const_419, in_arg);
-    assume value_is(__ctobpl_const_420, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_421, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_415, in_arg);
+    assume value_is(__ctobpl_const_416, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_417, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_40;
 
   label_41_false:
     assume !INT_EQ(Mem_T.INT4[in_i], in_start);
-    assume value_is(__ctobpl_const_422, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_423, in_start);
+    assume value_is(__ctobpl_const_418, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_419, in_start);
     goto label_40;
 
   label_56:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 213} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 212} true;
     out_getres := out_result.getccl$5;
-    assume value_is(__ctobpl_const_483, out_getres);
-    assume value_is(__ctobpl_const_484, out_result.getccl$5);
+    assume value_is(__ctobpl_const_479, out_getres);
+    assume value_is(__ctobpl_const_480, out_result.getccl$5);
     goto label_57;
 
   label_53:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 213} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 212} true;
     call out_result.getccl$5 := getccl(in_arg, in_i, in_pat, in_j);
+    assume value_is(__ctobpl_const_471, in_arg);
+    assume value_is(__ctobpl_const_472, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_473, in_pat);
+    assume value_is(__ctobpl_const_474, Mem_T.INT4[in_j]);
     assume value_is(__ctobpl_const_475, in_arg);
     assume value_is(__ctobpl_const_476, Mem_T.INT4[in_i]);
     assume value_is(__ctobpl_const_477, in_pat);
     assume value_is(__ctobpl_const_478, Mem_T.INT4[in_j]);
-    assume value_is(__ctobpl_const_479, in_arg);
-    assume value_is(__ctobpl_const_480, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_481, in_pat);
-    assume value_is(__ctobpl_const_482, Mem_T.INT4[in_j]);
     goto label_56;
 
   label_46_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 91);
-    assume value_is(__ctobpl_const_431, in_arg);
-    assume value_is(__ctobpl_const_432, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_433, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_427, in_arg);
+    assume value_is(__ctobpl_const_428, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_429, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_53;
 
   label_46:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 211} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 210} true;
     assert in_arg != 0;
     goto label_46_true, label_46_false;
 
   label_40_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 36);
-    assume value_is(__ctobpl_const_424, in_arg);
-    assume value_is(__ctobpl_const_425, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_426, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_420, in_arg);
+    assume value_is(__ctobpl_const_421, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_422, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_46;
 
   label_47_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, PLUS(Mem_T.INT4[in_i], 1, 1))], in_delim);
-    assume value_is(__ctobpl_const_427, in_arg);
-    assume value_is(__ctobpl_const_428, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_429, Mem_T.CHAR[PLUS(in_arg, 1, PLUS(Mem_T.INT4[in_i], 1, 1))]);
-    assume value_is(__ctobpl_const_430, in_delim);
+    assume value_is(__ctobpl_const_423, in_arg);
+    assume value_is(__ctobpl_const_424, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_425, Mem_T.CHAR[PLUS(in_arg, 1, PLUS(Mem_T.INT4[in_i], 1, 1))]);
+    assume value_is(__ctobpl_const_426, in_delim);
     goto label_46;
 
   label_67_true:
     assume out_result.in_set_2$6 != 0;
-    assume value_is(__ctobpl_const_467, out_result.in_set_2$6);
+    assume value_is(__ctobpl_const_463, out_result.in_set_2$6);
     goto label_71;
 
   label_67:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 219} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 218} true;
     goto label_67_true, label_67_false;
 
   label_64:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 219} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 218} true;
     call out_result.in_set_2$6 := in_set_2(out_$in_set_2.arg.1$7$);
-    assume value_is(__ctobpl_const_465, out_$in_set_2.arg.1$7$);
-    assume value_is(__ctobpl_const_466, out_$in_set_2.arg.1$7$);
+    assume value_is(__ctobpl_const_461, out_$in_set_2.arg.1$7$);
+    assume value_is(__ctobpl_const_462, out_$in_set_2.arg.1$7$);
     goto label_67;
 
   label_63:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 219} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 218} true;
     assert in_pat != 0;
     out_$in_set_2.arg.1$7$ := Mem_T.CHAR[PLUS(in_pat, 1, out_lj)];
-    assume value_is(__ctobpl_const_461, out_$in_set_2.arg.1$7$);
-    assume value_is(__ctobpl_const_462, in_pat);
-    assume value_is(__ctobpl_const_463, out_lj);
-    assume value_is(__ctobpl_const_464, Mem_T.CHAR[PLUS(in_pat, 1, out_lj)]);
+    assume value_is(__ctobpl_const_457, out_$in_set_2.arg.1$7$);
+    assume value_is(__ctobpl_const_458, in_pat);
+    assume value_is(__ctobpl_const_459, out_lj);
+    assume value_is(__ctobpl_const_460, Mem_T.CHAR[PLUS(in_pat, 1, out_lj)]);
     goto label_64;
 
   label_62:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 218} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 217} true;
     out_lj := out_lastj;
-    assume value_is(__ctobpl_const_459, out_lj);
-    assume value_is(__ctobpl_const_460, out_lastj);
+    assume value_is(__ctobpl_const_455, out_lj);
+    assume value_is(__ctobpl_const_456, out_lastj);
     goto label_63;
 
   label_61_true:
     assume INT_LT(in_start, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_437, in_start);
-    assume value_is(__ctobpl_const_438, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_433, in_start);
+    assume value_is(__ctobpl_const_434, Mem_T.INT4[in_i]);
     goto label_62;
 
   label_61:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 216} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 215} true;
     goto label_61_true, label_61_false;
 
   label_52_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 42);
-    assume value_is(__ctobpl_const_434, in_arg);
-    assume value_is(__ctobpl_const_435, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_436, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_430, in_arg);
+    assume value_is(__ctobpl_const_431, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_432, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_61;
 
   label_52:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 216} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 215} true;
     assert in_arg != 0;
     goto label_52_true, label_52_false;
 
   label_46_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 91);
-    assume value_is(__ctobpl_const_431, in_arg);
-    assume value_is(__ctobpl_const_432, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_433, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_427, in_arg);
+    assume value_is(__ctobpl_const_428, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_429, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_52;
 
   label_67_false:
     assume out_result.in_set_2$6 == 0;
-    assume value_is(__ctobpl_const_467, out_result.in_set_2$6);
+    assume value_is(__ctobpl_const_463, out_result.in_set_2$6);
     goto label_68;
 
   label_77:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 228} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 227} true;
     call out_result.addstr$10 := addstr(out_escjunk, in_pat, in_j, 100);
-    assume value_is(__ctobpl_const_451, out_escjunk);
-    assume value_is(__ctobpl_const_452, in_pat);
-    assume value_is(__ctobpl_const_453, Mem_T.INT4[in_j]);
-    assume value_is(__ctobpl_const_454, out_escjunk);
-    assume value_is(__ctobpl_const_455, in_pat);
-    assume value_is(__ctobpl_const_456, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_447, out_escjunk);
+    assume value_is(__ctobpl_const_448, in_pat);
+    assume value_is(__ctobpl_const_449, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_450, out_escjunk);
+    assume value_is(__ctobpl_const_451, in_pat);
+    assume value_is(__ctobpl_const_452, Mem_T.INT4[in_j]);
     goto label_80;
 
   label_76:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 227} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 226} true;
     out_escjunk := out_result.esc$9;
-    assume value_is(__ctobpl_const_449, out_escjunk);
-    assume value_is(__ctobpl_const_450, out_result.esc$9);
+    assume value_is(__ctobpl_const_445, out_escjunk);
+    assume value_is(__ctobpl_const_446, out_result.esc$9);
     goto label_77;
 
   label_73:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 227} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 226} true;
     call out_result.esc$9 := esc(in_arg, in_i);
-    assume value_is(__ctobpl_const_445, in_arg);
-    assume value_is(__ctobpl_const_446, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_447, in_arg);
-    assume value_is(__ctobpl_const_448, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_441, in_arg);
+    assume value_is(__ctobpl_const_442, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_443, in_arg);
+    assume value_is(__ctobpl_const_444, Mem_T.INT4[in_i]);
     goto label_76;
 
   label_72:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 226} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 225} true;
     out_junk := out_result.addstr$8;
-    assume value_is(__ctobpl_const_443, out_junk);
-    assume value_is(__ctobpl_const_444, out_result.addstr$8);
+    assume value_is(__ctobpl_const_439, out_junk);
+    assume value_is(__ctobpl_const_440, out_result.addstr$8);
     goto label_73;
 
   label_58:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 226} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 225} true;
     call out_result.addstr$8 := addstr(99, in_pat, in_j, 100);
-    assume value_is(__ctobpl_const_439, in_pat);
-    assume value_is(__ctobpl_const_440, Mem_T.INT4[in_j]);
-    assume value_is(__ctobpl_const_441, in_pat);
-    assume value_is(__ctobpl_const_442, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_435, in_pat);
+    assume value_is(__ctobpl_const_436, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_437, in_pat);
+    assume value_is(__ctobpl_const_438, Mem_T.INT4[in_j]);
     goto label_72;
 
   label_52_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 42);
-    assume value_is(__ctobpl_const_434, in_arg);
-    assume value_is(__ctobpl_const_435, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_436, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_430, in_arg);
+    assume value_is(__ctobpl_const_431, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_432, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_58;
 
   label_61_false:
     assume !INT_LT(in_start, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_437, in_start);
-    assume value_is(__ctobpl_const_438, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_433, in_start);
+    assume value_is(__ctobpl_const_434, Mem_T.INT4[in_i]);
     goto label_58;
 
   label_39_dummy:
@@ -9249,117 +9230,117 @@ implementation makesub_loop_label_10_head(in_arg: int, in_delim: int, in_escjunk
 
   label_10_false:
     assume !INT_NEQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], in_delim);
-    assume value_is(__ctobpl_const_530, in_arg);
-    assume value_is(__ctobpl_const_531, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_532, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
-    assume value_is(__ctobpl_const_533, in_delim);
+    assume value_is(__ctobpl_const_526, in_arg);
+    assume value_is(__ctobpl_const_527, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_528, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_529, in_delim);
     out_escjunk, out_junk, out_result.addstr$2, out_result.addstr$4, out_result.esc$3 := in_escjunk, in_junk, in_result.addstr$2, in_result.addstr$4, in_result.esc$3;
     Mem_T.INT4 := old(Mem_T.INT4);
     return;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 277} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 276} true;
     Mem_T.INT4 := Mem_T.INT4[in_i := PLUS(Mem_T.INT4[in_i], 1, 1)];
-    assume value_is(__ctobpl_const_578, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_579, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_574, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_575, Mem_T.INT4[in_i]);
     goto label_21_dummy;
 
   label_26:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 275} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 274} true;
     out_junk := out_result.addstr$4;
-    assume value_is(__ctobpl_const_570, out_junk);
-    assume value_is(__ctobpl_const_571, out_result.addstr$4);
+    assume value_is(__ctobpl_const_566, out_junk);
+    assume value_is(__ctobpl_const_567, out_result.addstr$4);
     goto label_21;
 
   label_20:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 272} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 271} true;
     out_junk := out_result.addstr$2;
-    assume value_is(__ctobpl_const_576, out_junk);
-    assume value_is(__ctobpl_const_577, out_result.addstr$2);
+    assume value_is(__ctobpl_const_572, out_junk);
+    assume value_is(__ctobpl_const_573, out_result.addstr$2);
     goto label_21;
 
   label_17:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 272} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 271} true;
     call out_result.addstr$2 := addstr(-1, in_sub, in_j, 100);
-    assume value_is(__ctobpl_const_572, in_sub);
-    assume value_is(__ctobpl_const_573, Mem_T.INT4[in_j]);
-    assume value_is(__ctobpl_const_574, in_sub);
-    assume value_is(__ctobpl_const_575, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_568, in_sub);
+    assume value_is(__ctobpl_const_569, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_570, in_sub);
+    assume value_is(__ctobpl_const_571, Mem_T.INT4[in_j]);
     goto label_20;
 
   label_13_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 38);
-    assume value_is(__ctobpl_const_555, in_arg);
-    assume value_is(__ctobpl_const_556, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_557, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_551, in_arg);
+    assume value_is(__ctobpl_const_552, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_553, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_17;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 271} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 270} true;
     assert in_arg != 0;
     goto label_13_true, label_13_false;
 
   label_12_true:
     assume Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])] != 0;
-    assume value_is(__ctobpl_const_534, in_arg);
-    assume value_is(__ctobpl_const_535, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_536, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_530, in_arg);
+    assume value_is(__ctobpl_const_531, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_532, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_13;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 270} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 269} true;
     assert in_arg != 0;
     goto label_12_true, label_12_false;
 
   label_12_false:
     assume Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])] == 0;
-    assume value_is(__ctobpl_const_534, in_arg);
-    assume value_is(__ctobpl_const_535, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_536, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_530, in_arg);
+    assume value_is(__ctobpl_const_531, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_532, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     out_escjunk, out_junk, out_result.addstr$2, out_result.addstr$4, out_result.esc$3 := in_escjunk, in_junk, in_result.addstr$2, in_result.addstr$4, in_result.esc$3;
     Mem_T.INT4 := old(Mem_T.INT4);
     return;
 
   label_10_true:
     assume INT_NEQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], in_delim);
-    assume value_is(__ctobpl_const_530, in_arg);
-    assume value_is(__ctobpl_const_531, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_532, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
-    assume value_is(__ctobpl_const_533, in_delim);
+    assume value_is(__ctobpl_const_526, in_arg);
+    assume value_is(__ctobpl_const_527, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_528, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_529, in_delim);
     goto label_12;
 
   label_23:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 275} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 274} true;
     call out_result.addstr$4 := addstr(out_escjunk, in_sub, in_j, 100);
-    assume value_is(__ctobpl_const_564, out_escjunk);
-    assume value_is(__ctobpl_const_565, in_sub);
-    assume value_is(__ctobpl_const_566, Mem_T.INT4[in_j]);
-    assume value_is(__ctobpl_const_567, out_escjunk);
-    assume value_is(__ctobpl_const_568, in_sub);
-    assume value_is(__ctobpl_const_569, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_560, out_escjunk);
+    assume value_is(__ctobpl_const_561, in_sub);
+    assume value_is(__ctobpl_const_562, Mem_T.INT4[in_j]);
+    assume value_is(__ctobpl_const_563, out_escjunk);
+    assume value_is(__ctobpl_const_564, in_sub);
+    assume value_is(__ctobpl_const_565, Mem_T.INT4[in_j]);
     goto label_26;
 
   label_22:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 274} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 273} true;
     out_escjunk := out_result.esc$3;
-    assume value_is(__ctobpl_const_562, out_escjunk);
-    assume value_is(__ctobpl_const_563, out_result.esc$3);
+    assume value_is(__ctobpl_const_558, out_escjunk);
+    assume value_is(__ctobpl_const_559, out_result.esc$3);
     goto label_23;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 274} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 273} true;
     call out_result.esc$3 := esc(in_arg, in_i);
-    assume value_is(__ctobpl_const_558, in_arg);
-    assume value_is(__ctobpl_const_559, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_560, in_arg);
-    assume value_is(__ctobpl_const_561, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_554, in_arg);
+    assume value_is(__ctobpl_const_555, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_556, in_arg);
+    assume value_is(__ctobpl_const_557, Mem_T.INT4[in_i]);
     goto label_22;
 
   label_13_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])], 38);
-    assume value_is(__ctobpl_const_555, in_arg);
-    assume value_is(__ctobpl_const_556, Mem_T.INT4[in_i]);
-    assume value_is(__ctobpl_const_557, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
+    assume value_is(__ctobpl_const_551, in_arg);
+    assume value_is(__ctobpl_const_552, Mem_T.INT4[in_i]);
+    assume value_is(__ctobpl_const_553, Mem_T.CHAR[PLUS(in_arg, 1, Mem_T.INT4[in_i])]);
     goto label_14;
 
   label_21_dummy:
@@ -9389,53 +9370,53 @@ implementation putsub_loop_label_12_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.
 
   label_12_false:
     assume !INT_LT(out_j, in_s2);
-    assume value_is(__ctobpl_const_713, out_j);
-    assume value_is(__ctobpl_const_714, in_s2);
+    assume value_is(__ctobpl_const_709, out_j);
+    assume value_is(__ctobpl_const_710, in_s2);
     out_$fputc.arg.1$4$, out_$fputc.arg.2$3$, out_j, out_result.__iob_func$2, out_result.fputc$1 := in_$fputc.arg.1$4$, in_$fputc.arg.2$3$, in_j, in_result.__iob_func$2, in_result.fputc$1;
     return;
 
   label_22:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 469} true;
-    assume value_is(__ctobpl_const_727, out_j);
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 468} true;
+    assume value_is(__ctobpl_const_723, out_j);
     out_j := PLUS(out_j, 1, 1);
     goto label_22_dummy;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     call out_result.fputc$1 := fputc(out_$fputc.arg.1$4$, out_$fputc.arg.2$3$);
-    assume value_is(__ctobpl_const_723, out_$fputc.arg.1$4$);
-    assume value_is(__ctobpl_const_724, out_$fputc.arg.2$3$);
-    assume value_is(__ctobpl_const_725, out_$fputc.arg.1$4$);
-    assume value_is(__ctobpl_const_726, out_$fputc.arg.2$3$);
+    assume value_is(__ctobpl_const_719, out_$fputc.arg.1$4$);
+    assume value_is(__ctobpl_const_720, out_$fputc.arg.2$3$);
+    assume value_is(__ctobpl_const_721, out_$fputc.arg.1$4$);
+    assume value_is(__ctobpl_const_722, out_$fputc.arg.2$3$);
     goto label_22;
 
   label_18:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     assert in_lin != 0;
     out_$fputc.arg.1$4$ := Mem_T.CHAR[PLUS(in_lin, 1, out_j)];
-    assume value_is(__ctobpl_const_719, out_$fputc.arg.1$4$);
-    assume value_is(__ctobpl_const_720, in_lin);
-    assume value_is(__ctobpl_const_721, out_j);
-    assume value_is(__ctobpl_const_722, Mem_T.CHAR[PLUS(in_lin, 1, out_j)]);
+    assume value_is(__ctobpl_const_715, out_$fputc.arg.1$4$);
+    assume value_is(__ctobpl_const_716, in_lin);
+    assume value_is(__ctobpl_const_717, out_j);
+    assume value_is(__ctobpl_const_718, Mem_T.CHAR[PLUS(in_lin, 1, out_j)]);
     goto label_19;
 
   label_17:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     assert out_result.__iob_func$2 != 0;
     out_$fputc.arg.2$3$ := PLUS(out_result.__iob_func$2, 32, 1);
-    assume value_is(__ctobpl_const_717, out_$fputc.arg.2$3$);
-    assume value_is(__ctobpl_const_718, out_result.__iob_func$2);
+    assume value_is(__ctobpl_const_713, out_$fputc.arg.2$3$);
+    assume value_is(__ctobpl_const_714, out_result.__iob_func$2);
     goto label_18;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     call out_result.__iob_func$2 := __iob_func();
     goto label_17;
 
   label_12_true:
     assume INT_LT(out_j, in_s2);
-    assume value_is(__ctobpl_const_713, out_j);
-    assume value_is(__ctobpl_const_714, in_s2);
+    assume value_is(__ctobpl_const_709, out_j);
+    assume value_is(__ctobpl_const_710, in_s2);
     goto label_14;
 
   label_22_dummy:
@@ -9465,32 +9446,32 @@ implementation putsub_loop_label_6_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.1
 
   label_6_false:
     assume Mem_T.CHAR[PLUS(in_sub, 1, out_i)] == 0;
-    assume value_is(__ctobpl_const_695, in_sub);
-    assume value_is(__ctobpl_const_696, out_i);
-    assume value_is(__ctobpl_const_697, Mem_T.CHAR[PLUS(in_sub, 1, out_i)]);
+    assume value_is(__ctobpl_const_691, in_sub);
+    assume value_is(__ctobpl_const_692, out_i);
+    assume value_is(__ctobpl_const_693, Mem_T.CHAR[PLUS(in_sub, 1, out_i)]);
     out_$fputc.arg.1$4$, out_$fputc.arg.1$8$, out_$fputc.arg.2$3$, out_$fputc.arg.2$7$, out_i, out_j, out_result.__iob_func$2, out_result.__iob_func$6, out_result.fputc$1, out_result.fputc$5 := in_$fputc.arg.1$4$, in_$fputc.arg.1$8$, in_$fputc.arg.2$3$, in_$fputc.arg.2$7$, in_i, in_j, in_result.__iob_func$2, in_result.__iob_func$6, in_result.fputc$1, in_result.fputc$5;
     return;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 477} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 476} true;
     out_i := PLUS(out_i, 1, 1);
-    assume value_is(__ctobpl_const_715, out_i);
-    assume value_is(__ctobpl_const_716, out_i);
+    assume value_is(__ctobpl_const_711, out_i);
+    assume value_is(__ctobpl_const_712, out_i);
     goto label_13_dummy;
 
   label_25:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 475} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 474} true;
     call out_result.fputc$5 := fputc(out_$fputc.arg.1$8$, out_$fputc.arg.2$7$);
-    assume value_is(__ctobpl_const_707, out_$fputc.arg.1$8$);
-    assume value_is(__ctobpl_const_708, out_$fputc.arg.2$7$);
-    assume value_is(__ctobpl_const_709, out_$fputc.arg.1$8$);
-    assume value_is(__ctobpl_const_710, out_$fputc.arg.2$7$);
+    assume value_is(__ctobpl_const_703, out_$fputc.arg.1$8$);
+    assume value_is(__ctobpl_const_704, out_$fputc.arg.2$7$);
+    assume value_is(__ctobpl_const_705, out_$fputc.arg.1$8$);
+    assume value_is(__ctobpl_const_706, out_$fputc.arg.2$7$);
     goto label_13;
 
   label_12_false:
     assume !INT_LT(out_j, in_s2);
-    assume value_is(__ctobpl_const_713, out_j);
-    assume value_is(__ctobpl_const_714, in_s2);
+    assume value_is(__ctobpl_const_709, out_j);
+    assume value_is(__ctobpl_const_710, in_s2);
     goto label_13;
 
   label_12_head:
@@ -9502,12 +9483,12 @@ implementation putsub_loop_label_6_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.1
     goto label_12_true, label_12_false;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 469} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 468} true;
     goto label_12_head;
 
   label_22:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 469} true;
-    assume value_is(__ctobpl_const_727, out_j);
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 468} true;
+    assume value_is(__ctobpl_const_723, out_j);
     out_j := PLUS(out_j, 1, 1);
     goto label_22_dummy;
 
@@ -9517,97 +9498,97 @@ implementation putsub_loop_label_6_head(in_$fputc.arg.1$4$: int, in_$fputc.arg.1
     return;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     call out_result.fputc$1 := fputc(out_$fputc.arg.1$4$, out_$fputc.arg.2$3$);
-    assume value_is(__ctobpl_const_723, out_$fputc.arg.1$4$);
-    assume value_is(__ctobpl_const_724, out_$fputc.arg.2$3$);
-    assume value_is(__ctobpl_const_725, out_$fputc.arg.1$4$);
-    assume value_is(__ctobpl_const_726, out_$fputc.arg.2$3$);
+    assume value_is(__ctobpl_const_719, out_$fputc.arg.1$4$);
+    assume value_is(__ctobpl_const_720, out_$fputc.arg.2$3$);
+    assume value_is(__ctobpl_const_721, out_$fputc.arg.1$4$);
+    assume value_is(__ctobpl_const_722, out_$fputc.arg.2$3$);
     goto label_22;
 
   label_18:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     assert in_lin != 0;
     out_$fputc.arg.1$4$ := Mem_T.CHAR[PLUS(in_lin, 1, out_j)];
-    assume value_is(__ctobpl_const_719, out_$fputc.arg.1$4$);
-    assume value_is(__ctobpl_const_720, in_lin);
-    assume value_is(__ctobpl_const_721, out_j);
-    assume value_is(__ctobpl_const_722, Mem_T.CHAR[PLUS(in_lin, 1, out_j)]);
+    assume value_is(__ctobpl_const_715, out_$fputc.arg.1$4$);
+    assume value_is(__ctobpl_const_716, in_lin);
+    assume value_is(__ctobpl_const_717, out_j);
+    assume value_is(__ctobpl_const_718, Mem_T.CHAR[PLUS(in_lin, 1, out_j)]);
     goto label_19;
 
   label_17:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     assert out_result.__iob_func$2 != 0;
     out_$fputc.arg.2$3$ := PLUS(out_result.__iob_func$2, 32, 1);
-    assume value_is(__ctobpl_const_717, out_$fputc.arg.2$3$);
-    assume value_is(__ctobpl_const_718, out_result.__iob_func$2);
+    assume value_is(__ctobpl_const_713, out_$fputc.arg.2$3$);
+    assume value_is(__ctobpl_const_714, out_result.__iob_func$2);
     goto label_18;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 471} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 470} true;
     call out_result.__iob_func$2 := __iob_func();
     goto label_17;
 
   label_12_true:
     assume INT_LT(out_j, in_s2);
-    assume value_is(__ctobpl_const_713, out_j);
-    assume value_is(__ctobpl_const_714, in_s2);
+    assume value_is(__ctobpl_const_709, out_j);
+    assume value_is(__ctobpl_const_710, in_s2);
     goto label_14;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 469} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 468} true;
     out_j := in_s1;
-    assume value_is(__ctobpl_const_711, out_j);
-    assume value_is(__ctobpl_const_712, in_s1);
+    assume value_is(__ctobpl_const_707, out_j);
+    assume value_is(__ctobpl_const_708, in_s1);
     goto label_12;
 
   label_7_true:
     assume INT_EQ(Mem_T.CHAR[PLUS(in_sub, 1, out_i)], -1);
-    assume value_is(__ctobpl_const_698, in_sub);
-    assume value_is(__ctobpl_const_699, out_i);
-    assume value_is(__ctobpl_const_700, Mem_T.CHAR[PLUS(in_sub, 1, out_i)]);
+    assume value_is(__ctobpl_const_694, in_sub);
+    assume value_is(__ctobpl_const_695, out_i);
+    assume value_is(__ctobpl_const_696, Mem_T.CHAR[PLUS(in_sub, 1, out_i)]);
     goto label_11;
 
   label_7:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 468} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 467} true;
     assert in_sub != 0;
     goto label_7_true, label_7_false;
 
   label_6_true:
     assume Mem_T.CHAR[PLUS(in_sub, 1, out_i)] != 0;
-    assume value_is(__ctobpl_const_695, in_sub);
-    assume value_is(__ctobpl_const_696, out_i);
-    assume value_is(__ctobpl_const_697, Mem_T.CHAR[PLUS(in_sub, 1, out_i)]);
+    assume value_is(__ctobpl_const_691, in_sub);
+    assume value_is(__ctobpl_const_692, out_i);
+    assume value_is(__ctobpl_const_693, Mem_T.CHAR[PLUS(in_sub, 1, out_i)]);
     goto label_7;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 475} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 474} true;
     assert in_sub != 0;
     out_$fputc.arg.1$8$ := Mem_T.CHAR[PLUS(in_sub, 1, out_i)];
-    assume value_is(__ctobpl_const_703, out_$fputc.arg.1$8$);
-    assume value_is(__ctobpl_const_704, in_sub);
-    assume value_is(__ctobpl_const_705, out_i);
-    assume value_is(__ctobpl_const_706, Mem_T.CHAR[PLUS(in_sub, 1, out_i)]);
+    assume value_is(__ctobpl_const_699, out_$fputc.arg.1$8$);
+    assume value_is(__ctobpl_const_700, in_sub);
+    assume value_is(__ctobpl_const_701, out_i);
+    assume value_is(__ctobpl_const_702, Mem_T.CHAR[PLUS(in_sub, 1, out_i)]);
     goto label_25;
 
   label_23:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 475} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 474} true;
     assert out_result.__iob_func$6 != 0;
     out_$fputc.arg.2$7$ := PLUS(out_result.__iob_func$6, 32, 1);
-    assume value_is(__ctobpl_const_701, out_$fputc.arg.2$7$);
-    assume value_is(__ctobpl_const_702, out_result.__iob_func$6);
+    assume value_is(__ctobpl_const_697, out_$fputc.arg.2$7$);
+    assume value_is(__ctobpl_const_698, out_result.__iob_func$6);
     goto label_24;
 
   label_8:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 475} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 474} true;
     call out_result.__iob_func$6 := __iob_func();
     goto label_23;
 
   label_7_false:
     assume !INT_EQ(Mem_T.CHAR[PLUS(in_sub, 1, out_i)], -1);
-    assume value_is(__ctobpl_const_698, in_sub);
-    assume value_is(__ctobpl_const_699, out_i);
-    assume value_is(__ctobpl_const_700, Mem_T.CHAR[PLUS(in_sub, 1, out_i)]);
+    assume value_is(__ctobpl_const_694, in_sub);
+    assume value_is(__ctobpl_const_695, out_i);
+    assume value_is(__ctobpl_const_696, Mem_T.CHAR[PLUS(in_sub, 1, out_i)]);
     goto label_8;
 
   label_13_dummy:
@@ -9636,57 +9617,57 @@ implementation stclose_loop_label_7_head(in_$addstr.arg.1$2$: int, in_jp: int, i
 
   label_7_false:
     assume !INT_LEQ(in_lastj, out_jp);
-    assume value_is(__ctobpl_const_731, in_lastj);
-    assume value_is(__ctobpl_const_732, out_jp);
+    assume value_is(__ctobpl_const_727, in_lastj);
+    assume value_is(__ctobpl_const_728, out_jp);
     out_$addstr.arg.1$2$, out_jp, out_junk, out_result.addstr$1 := in_$addstr.arg.1$2$, in_jp, in_junk, in_result.addstr$1;
     Mem_T.INT4 := old(Mem_T.INT4);
     return;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 164} true;
-    assume value_is(__ctobpl_const_754, out_jp);
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 163} true;
+    assume value_is(__ctobpl_const_750, out_jp);
     out_jp := MINUS_BOTH_PTR_OR_BOTH_INT(out_jp, 1, 1);
     goto label_15_dummy;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 167} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 166} true;
     out_junk := out_result.addstr$1;
-    assume value_is(__ctobpl_const_752, out_junk);
-    assume value_is(__ctobpl_const_753, out_result.addstr$1);
+    assume value_is(__ctobpl_const_748, out_junk);
+    assume value_is(__ctobpl_const_749, out_result.addstr$1);
     goto label_15;
 
   label_11:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 167} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 166} true;
     call out_result.addstr$1 := addstr(out_$addstr.arg.1$2$, in_pat, in_jt, 100);
-    assume value_is(__ctobpl_const_746, out_$addstr.arg.1$2$);
-    assume value_is(__ctobpl_const_747, in_pat);
-    assume value_is(__ctobpl_const_748, Mem_T.INT4[in_jt]);
-    assume value_is(__ctobpl_const_749, out_$addstr.arg.1$2$);
-    assume value_is(__ctobpl_const_750, in_pat);
-    assume value_is(__ctobpl_const_751, Mem_T.INT4[in_jt]);
+    assume value_is(__ctobpl_const_742, out_$addstr.arg.1$2$);
+    assume value_is(__ctobpl_const_743, in_pat);
+    assume value_is(__ctobpl_const_744, Mem_T.INT4[in_jt]);
+    assume value_is(__ctobpl_const_745, out_$addstr.arg.1$2$);
+    assume value_is(__ctobpl_const_746, in_pat);
+    assume value_is(__ctobpl_const_747, Mem_T.INT4[in_jt]);
     goto label_14;
 
   label_10:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 167} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 166} true;
     assert in_pat != 0;
     out_$addstr.arg.1$2$ := Mem_T.CHAR[PLUS(in_pat, 1, out_jp)];
-    assume value_is(__ctobpl_const_742, out_$addstr.arg.1$2$);
-    assume value_is(__ctobpl_const_743, in_pat);
-    assume value_is(__ctobpl_const_744, out_jp);
-    assume value_is(__ctobpl_const_745, Mem_T.CHAR[PLUS(in_pat, 1, out_jp)]);
+    assume value_is(__ctobpl_const_738, out_$addstr.arg.1$2$);
+    assume value_is(__ctobpl_const_739, in_pat);
+    assume value_is(__ctobpl_const_740, out_jp);
+    assume value_is(__ctobpl_const_741, Mem_T.CHAR[PLUS(in_pat, 1, out_jp)]);
     goto label_11;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 166} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 165} true;
     Mem_T.INT4 := Mem_T.INT4[in_jt := PLUS(out_jp, 1, 1)];
-    assume value_is(__ctobpl_const_740, Mem_T.INT4[in_jt]);
-    assume value_is(__ctobpl_const_741, out_jp);
+    assume value_is(__ctobpl_const_736, Mem_T.INT4[in_jt]);
+    assume value_is(__ctobpl_const_737, out_jp);
     goto label_10;
 
   label_7_true:
     assume INT_LEQ(in_lastj, out_jp);
-    assume value_is(__ctobpl_const_731, in_lastj);
-    assume value_is(__ctobpl_const_732, out_jp);
+    assume value_is(__ctobpl_const_727, in_lastj);
+    assume value_is(__ctobpl_const_728, out_jp);
     goto label_9;
 
   label_15_dummy:
@@ -9717,124 +9698,124 @@ implementation subline_loop_label_8_head(in_$fputc.arg.1$5$: int, in_$fputc.arg.
 
   label_8_false:
     assume Mem_T.CHAR[PLUS(in_lin, 1, out_i)] == 0;
-    assume value_is(__ctobpl_const_757, in_lin);
-    assume value_is(__ctobpl_const_758, out_i);
-    assume value_is(__ctobpl_const_759, Mem_T.CHAR[PLUS(in_lin, 1, out_i)]);
+    assume value_is(__ctobpl_const_753, in_lin);
+    assume value_is(__ctobpl_const_754, out_i);
+    assume value_is(__ctobpl_const_755, Mem_T.CHAR[PLUS(in_lin, 1, out_i)]);
     out_$fputc.arg.1$5$, out_$fputc.arg.2$4$, out_i, out_lastm, out_m, out_result.__iob_func$3, out_result.amatch$1, out_result.fputc$2 := in_$fputc.arg.1$5$, in_$fputc.arg.2$4$, in_i, in_lastm, in_m, in_result.__iob_func$3, in_result.amatch$1, in_result.fputc$2;
     return;
 
   label_30:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 502} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 501} true;
     out_i := out_m;
-    assume value_is(__ctobpl_const_784, out_i);
-    assume value_is(__ctobpl_const_785, out_m);
+    assume value_is(__ctobpl_const_780, out_i);
+    assume value_is(__ctobpl_const_781, out_m);
     goto label_30_dummy;
 
   label_20_false:
     assume !INT_EQ(out_m, out_i);
-    assume value_is(__ctobpl_const_782, out_m);
-    assume value_is(__ctobpl_const_783, out_i);
+    assume value_is(__ctobpl_const_778, out_m);
+    assume value_is(__ctobpl_const_779, out_i);
     goto label_30;
 
   label_20:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 498} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 497} true;
     goto label_20_true, label_20_false;
 
   label_20_true:
     assume INT_EQ(out_m, out_i);
-    assume value_is(__ctobpl_const_782, out_m);
-    assume value_is(__ctobpl_const_783, out_i);
+    assume value_is(__ctobpl_const_778, out_m);
+    assume value_is(__ctobpl_const_779, out_i);
     out_$fputc.arg.1$5$, out_$fputc.arg.2$4$, out_i, out_lastm, out_m, out_result.__iob_func$3, out_result.amatch$1, out_result.fputc$2 := in_$fputc.arg.1$5$, in_$fputc.arg.2$4$, in_i, in_lastm, in_m, in_result.__iob_func$3, in_result.amatch$1, in_result.fputc$2;
     goto label_21;
 
   label_14_false:
     assume !INT_EQ(out_m, -1);
-    assume value_is(__ctobpl_const_781, out_m);
+    assume value_is(__ctobpl_const_777, out_m);
     goto label_20;
 
   label_14:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 498} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 497} true;
     goto label_14_true, label_14_false;
 
   label_14_true:
     assume INT_EQ(out_m, -1);
-    assume value_is(__ctobpl_const_781, out_m);
+    assume value_is(__ctobpl_const_777, out_m);
     out_$fputc.arg.1$5$, out_$fputc.arg.2$4$, out_i, out_lastm, out_m, out_result.__iob_func$3, out_result.amatch$1, out_result.fputc$2 := in_$fputc.arg.1$5$, in_$fputc.arg.2$4$, in_i, in_lastm, in_m, in_result.__iob_func$3, in_result.amatch$1, in_result.fputc$2;
     goto label_21;
 
   label_13_false:
     assume !INT_LEQ(0, out_m);
-    assume value_is(__ctobpl_const_768, out_m);
+    assume value_is(__ctobpl_const_764, out_m);
     goto label_14;
 
   label_15_false:
     assume !INT_NEQ(out_lastm, out_m);
-    assume value_is(__ctobpl_const_769, out_lastm);
-    assume value_is(__ctobpl_const_770, out_m);
+    assume value_is(__ctobpl_const_765, out_lastm);
+    assume value_is(__ctobpl_const_766, out_m);
     goto label_14;
 
   label_19:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 496} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 495} true;
     out_lastm := out_m;
-    assume value_is(__ctobpl_const_779, out_lastm);
-    assume value_is(__ctobpl_const_780, out_m);
+    assume value_is(__ctobpl_const_775, out_lastm);
+    assume value_is(__ctobpl_const_776, out_m);
     goto label_14;
 
   label_16:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 495} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 494} true;
     call putsub(in_lin, out_i, out_m, in_sub);
+    assume value_is(__ctobpl_const_767, in_lin);
+    assume value_is(__ctobpl_const_768, out_i);
+    assume value_is(__ctobpl_const_769, out_m);
+    assume value_is(__ctobpl_const_770, in_sub);
     assume value_is(__ctobpl_const_771, in_lin);
     assume value_is(__ctobpl_const_772, out_i);
     assume value_is(__ctobpl_const_773, out_m);
     assume value_is(__ctobpl_const_774, in_sub);
-    assume value_is(__ctobpl_const_775, in_lin);
-    assume value_is(__ctobpl_const_776, out_i);
-    assume value_is(__ctobpl_const_777, out_m);
-    assume value_is(__ctobpl_const_778, in_sub);
     goto label_19;
 
   label_15_true:
     assume INT_NEQ(out_lastm, out_m);
-    assume value_is(__ctobpl_const_769, out_lastm);
-    assume value_is(__ctobpl_const_770, out_m);
+    assume value_is(__ctobpl_const_765, out_lastm);
+    assume value_is(__ctobpl_const_766, out_m);
     goto label_16;
 
   label_15:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 494} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 493} true;
     goto label_15_true, label_15_false;
 
   label_13_true:
     assume INT_LEQ(0, out_m);
-    assume value_is(__ctobpl_const_768, out_m);
+    assume value_is(__ctobpl_const_764, out_m);
     goto label_15;
 
   label_13:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 494} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 493} true;
     goto label_13_true, label_13_false;
 
   label_12:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 493} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 492} true;
     out_m := out_result.amatch$1;
-    assume value_is(__ctobpl_const_766, out_m);
-    assume value_is(__ctobpl_const_767, out_result.amatch$1);
+    assume value_is(__ctobpl_const_762, out_m);
+    assume value_is(__ctobpl_const_763, out_result.amatch$1);
     goto label_13;
 
   label_9:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 493} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 492} true;
     call out_result.amatch$1 := amatch(in_lin, out_i, in_pat, 0);
-    assume value_is(__ctobpl_const_760, in_lin);
-    assume value_is(__ctobpl_const_761, out_i);
-    assume value_is(__ctobpl_const_762, in_pat);
-    assume value_is(__ctobpl_const_763, in_lin);
-    assume value_is(__ctobpl_const_764, out_i);
-    assume value_is(__ctobpl_const_765, in_pat);
+    assume value_is(__ctobpl_const_756, in_lin);
+    assume value_is(__ctobpl_const_757, out_i);
+    assume value_is(__ctobpl_const_758, in_pat);
+    assume value_is(__ctobpl_const_759, in_lin);
+    assume value_is(__ctobpl_const_760, out_i);
+    assume value_is(__ctobpl_const_761, in_pat);
     goto label_12;
 
   label_8_true:
     assume Mem_T.CHAR[PLUS(in_lin, 1, out_i)] != 0;
-    assume value_is(__ctobpl_const_757, in_lin);
-    assume value_is(__ctobpl_const_758, out_i);
-    assume value_is(__ctobpl_const_759, Mem_T.CHAR[PLUS(in_lin, 1, out_i)]);
+    assume value_is(__ctobpl_const_753, in_lin);
+    assume value_is(__ctobpl_const_754, out_i);
+    assume value_is(__ctobpl_const_755, Mem_T.CHAR[PLUS(in_lin, 1, out_i)]);
     goto label_9;
 
   label_30_dummy:
@@ -9842,41 +9823,41 @@ implementation subline_loop_label_8_head(in_$fputc.arg.1$5$: int, in_$fputc.arg.
     return;
 
   label_29:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 500} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 499} true;
     out_i := PLUS(out_i, 1, 1);
-    assume value_is(__ctobpl_const_796, out_i);
-    assume value_is(__ctobpl_const_797, out_i);
+    assume value_is(__ctobpl_const_792, out_i);
+    assume value_is(__ctobpl_const_793, out_i);
     goto label_29_dummy;
 
   label_26:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 499} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 498} true;
     call out_result.fputc$2 := fputc(out_$fputc.arg.1$5$, out_$fputc.arg.2$4$);
-    assume value_is(__ctobpl_const_792, out_$fputc.arg.1$5$);
-    assume value_is(__ctobpl_const_793, out_$fputc.arg.2$4$);
-    assume value_is(__ctobpl_const_794, out_$fputc.arg.1$5$);
-    assume value_is(__ctobpl_const_795, out_$fputc.arg.2$4$);
+    assume value_is(__ctobpl_const_788, out_$fputc.arg.1$5$);
+    assume value_is(__ctobpl_const_789, out_$fputc.arg.2$4$);
+    assume value_is(__ctobpl_const_790, out_$fputc.arg.1$5$);
+    assume value_is(__ctobpl_const_791, out_$fputc.arg.2$4$);
     goto label_29;
 
   label_25:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 499} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 498} true;
     assert in_lin != 0;
     out_$fputc.arg.1$5$ := Mem_T.CHAR[PLUS(in_lin, 1, out_i)];
-    assume value_is(__ctobpl_const_788, out_$fputc.arg.1$5$);
-    assume value_is(__ctobpl_const_789, in_lin);
-    assume value_is(__ctobpl_const_790, out_i);
-    assume value_is(__ctobpl_const_791, Mem_T.CHAR[PLUS(in_lin, 1, out_i)]);
+    assume value_is(__ctobpl_const_784, out_$fputc.arg.1$5$);
+    assume value_is(__ctobpl_const_785, in_lin);
+    assume value_is(__ctobpl_const_786, out_i);
+    assume value_is(__ctobpl_const_787, Mem_T.CHAR[PLUS(in_lin, 1, out_i)]);
     goto label_26;
 
   label_24:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 499} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 498} true;
     assert out_result.__iob_func$3 != 0;
     out_$fputc.arg.2$4$ := PLUS(out_result.__iob_func$3, 32, 1);
-    assume value_is(__ctobpl_const_786, out_$fputc.arg.2$4$);
-    assume value_is(__ctobpl_const_787, out_result.__iob_func$3);
+    assume value_is(__ctobpl_const_782, out_$fputc.arg.2$4$);
+    assume value_is(__ctobpl_const_783, out_result.__iob_func$3);
     goto label_25;
 
   label_21:
-    assert {:sourcefile ".\source\replace.c"} {:sourceline 499} true;
+    assert {:sourcefile ".\v22\replace.c"} {:sourceline 498} true;
     call out_result.__iob_func$3 := __iob_func();
     goto label_24;
 
