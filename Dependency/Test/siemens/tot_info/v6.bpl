@@ -36,8 +36,6 @@ var {:extern} Mem_T.A18CHAR: [int]int;
 
 var {:extern} Mem_T.A21CHAR: [int]int;
 
-var {:extern} Mem_T.A256CHAR: [int]int;
-
 var {:extern} Mem_T.A29CHAR: [int]int;
 
 var {:extern} Mem_T.A34CHAR: [int]int;
@@ -45,6 +43,8 @@ var {:extern} Mem_T.A34CHAR: [int]int;
 var {:extern} Mem_T.A37CHAR: [int]int;
 
 var {:extern} Mem_T.A41CHAR: [int]int;
+
+var {:extern} Mem_T.A56CHAR: [int]int;
 
 var {:extern} Mem_T.A5CHAR: [int]int;
 
@@ -92,8 +92,6 @@ const {:extern} unique T.A18CHAR: name;
 
 const {:extern} unique T.A21CHAR: name;
 
-const {:extern} unique T.A256CHAR: name;
-
 const {:extern} unique T.A29CHAR: name;
 
 const {:extern} unique T.A34CHAR: name;
@@ -101,6 +99,8 @@ const {:extern} unique T.A34CHAR: name;
 const {:extern} unique T.A37CHAR: name;
 
 const {:extern} unique T.A41CHAR: name;
+
+const {:extern} unique T.A56CHAR: name;
 
 const {:extern} unique T.A5CHAR: name;
 
@@ -124,8 +124,6 @@ const {:extern} unique T.PA18CHAR: name;
 
 const {:extern} unique T.PA21CHAR: name;
 
-const {:extern} unique T.PA256CHAR: name;
-
 const {:extern} unique T.PA29CHAR: name;
 
 const {:extern} unique T.PA34CHAR: name;
@@ -133,6 +131,8 @@ const {:extern} unique T.PA34CHAR: name;
 const {:extern} unique T.PA37CHAR: name;
 
 const {:extern} unique T.PA41CHAR: name;
+
+const {:extern} unique T.PA56CHAR: name;
 
 const {:extern} unique T.PA5CHAR: name;
 
@@ -623,863 +623,863 @@ const {:extern} unique BOOGIE_FLOAT_CONST_5.5: int;
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "r"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 305} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "cdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 306} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 306} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "rdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 308} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 307} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "cdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 308} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "rdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 308} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "r"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 305} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "cdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 308} unique __ctobpl_const_7: int;
+const {:extern} {:model_const "pdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 314} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "rdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 305} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 324} unique __ctobpl_const_29: int;
 
-const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_165: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 360} unique __ctobpl_const_37: int;
 
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 170} unique __ctobpl_const_138: int;
+const {:extern} {:model_const "rdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 314} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_145: int;
+const {:extern} {:model_const "xj"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_28: int;
 
-const {:extern} {:model_const "result.log"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_148: int;
+const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_16: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 175} unique __ctobpl_const_150: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 332} unique __ctobpl_const_32: int;
 
-const {:extern} {:model_const "result.log"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 170} unique __ctobpl_const_139: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 332} unique __ctobpl_const_31: int;
 
-const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_146: int;
+const {:extern} {:model_const "r"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 332} unique __ctobpl_const_33: int;
 
-const {:extern} {:model_const "ser"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_144: int;
+const {:extern} {:model_const "xi"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_19: int;
 
-const {:extern} {:model_const "tmp"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 170} unique __ctobpl_const_137: int;
+const {:extern} {:model_const "N"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 330} unique __ctobpl_const_30: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 174} unique __ctobpl_const_141: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 360} unique __ctobpl_const_35: int;
 
-const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_143: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_22: int;
 
-const {:extern} {:model_const "tmp"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_147: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 360} unique __ctobpl_const_36: int;
 
-const {:extern} {:model_const "cof[j]"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 175} unique __ctobpl_const_151: int;
+const {:extern} {:model_const "* pdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 314} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 164} unique __ctobpl_const_155: int;
+const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_14: int;
 
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 175} unique __ctobpl_const_152: int;
+const {:extern} {:model_const "xi"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_17: int;
 
-const {:extern} {:model_const "pix"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_156: int;
+const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "pix"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_157: int;
+const {:extern} {:model_const "r"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_158: int;
+const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_24: int;
 
-const {:extern} {:model_const "ser"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 172} unique __ctobpl_const_140: int;
+const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_25: int;
 
-const {:extern} {:model_const "tmp"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 170} unique __ctobpl_const_136: int;
+const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_23: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 174} unique __ctobpl_const_142: int;
+const {:extern} {:model_const "cdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 314} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_153: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 318} unique __ctobpl_const_20: int;
 
-const {:extern} {:model_const "pix"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 164} unique __ctobpl_const_154: int;
+const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_15: int;
 
-const {:extern} {:model_const "pix"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_159: int;
+const {:extern} {:model_const "result.malloc"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_18: int;
 
-const {:extern} {:model_const "ser"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 175} unique __ctobpl_const_149: int;
+const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_21: int;
 
-const {:extern} {:model_const "result.sin"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_160: int;
+const {:extern} {:model_const "xj"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_26: int;
 
-const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_161: int;
+const {:extern} {:model_const "result.malloc"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_27: int;
 
-const {:extern} {:model_const "tmp"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 170} unique __ctobpl_const_135: int;
+const {:extern} {:model_const "N"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 352} unique __ctobpl_const_34: int;
 
-const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_162: int;
+const {:extern} {:model_const "N"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 372} unique __ctobpl_const_38: int;
 
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 169} unique __ctobpl_const_134: int;
+const {:extern} {:model_const "rdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 305} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_163: int;
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 307} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_164: int;
+const {:extern} {:model_const "pj"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 395} unique __ctobpl_const_56: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 336} unique __ctobpl_const_106: int;
+const {:extern} {:model_const "N"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 372} unique __ctobpl_const_41: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 336} unique __ctobpl_const_108: int;
+const {:extern} {:model_const "pj"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 395} unique __ctobpl_const_55: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_117: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 336} unique __ctobpl_const_107: int;
-
-const {:extern} {:model_const "b1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 224} unique __ctobpl_const_228: int;
-
-const {:extern} {:model_const "k"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 340} unique __ctobpl_const_121: int;
-
-const {:extern} {:model_const "xi"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 403} unique __ctobpl_const_128: int;
-
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 346} unique __ctobpl_const_122: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_119: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 162} unique __ctobpl_const_132: int;
-
-const {:extern} {:model_const "tmp"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 169} unique __ctobpl_const_133: int;
-
-const {:extern} {:model_const "f[i * c + j]"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_120: int;
-
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 342} unique __ctobpl_const_125: int;
-
-const {:extern} {:model_const "k"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_115: int;
-
-const {:extern} {:model_const "xi[i]"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 349} unique __ctobpl_const_112: int;
-
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 354} unique __ctobpl_const_104: int;
-
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 349} unique __ctobpl_const_113: int;
-
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_118: int;
-
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 310} unique __ctobpl_const_130: int;
-
-const {:extern} {:model_const "xi"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 349} unique __ctobpl_const_110: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 349} unique __ctobpl_const_111: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_114: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_124: int;
-
-const {:extern} {:model_const "N"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 349} unique __ctobpl_const_109: int;
-
-const {:extern} {:model_const "f"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_116: int;
-
-const {:extern} {:model_const "k"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 346} unique __ctobpl_const_123: int;
-
-const {:extern} {:model_const "xj"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 401} unique __ctobpl_const_126: int;
-
-const {:extern} {:model_const "xj"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 401} unique __ctobpl_const_127: int;
-
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 405} unique __ctobpl_const_131: int;
-
-const {:extern} {:model_const "xi"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 403} unique __ctobpl_const_129: int;
-
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 334} unique __ctobpl_const_105: int;
-
-const {:extern} {:model_const "cdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 306} unique __ctobpl_const_3: int;
-
-const {:extern} {:model_const "pdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 314} unique __ctobpl_const_8: int;
-
-const {:extern} {:model_const "* pdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 314} unique __ctobpl_const_9: int;
-
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_283: int;
-
-const {:extern} {:model_const "n"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_261: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_269: int;
-
-const {:extern} {:model_const "ap"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_278: int;
-
-const {:extern} {:model_const "g"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 236} unique __ctobpl_const_260: int;
-
-const {:extern} {:model_const "g"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_276: int;
-
-const {:extern} {:model_const "result.exp"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_275: int;
-
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_280: int;
-
-const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_273: int;
-
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 69} unique __ctobpl_const_354: int;
-
-const {:extern} {:model_const "ap"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_281: int;
-
-const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_274: int;
-
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 198} unique __ctobpl_const_286: int;
-
-const {:extern} {:model_const "del"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 198} unique __ctobpl_const_287: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 198} unique __ctobpl_const_288: int;
-
-const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_267: int;
-
-const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_268: int;
-
-const {:extern} {:model_const "result.LGamma"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_272: int;
-
-const {:extern} {:model_const "ap"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 198} unique __ctobpl_const_289: int;
-
-const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_264: int;
-
-const {:extern} {:model_const "del"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_290: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_262: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_263: int;
-
-const {:extern} {:model_const "a"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_265: int;
-
-const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_266: int;
-
-const {:extern} {:model_const "a"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_270: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 191} unique __ctobpl_const_277: int;
-
-const {:extern} {:model_const "a"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_279: int;
-
-const {:extern} {:model_const "n"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 196} unique __ctobpl_const_284: int;
-
-const {:extern} {:model_const "n"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 196} unique __ctobpl_const_285: int;
-
-const {:extern} {:model_const "result.log"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_271: int;
-
-const {:extern} {:model_const "del"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_282: int;
-
-const {:extern} {:model_const "a0"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 225} unique __ctobpl_const_235: int;
-
-const {:extern} {:model_const "b1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 224} unique __ctobpl_const_232: int;
-
-const {:extern} {:model_const "result.question.3"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_253: int;
-
-const {:extern} {:model_const "a1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 225} unique __ctobpl_const_237: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_257: int;
-
-const {:extern} {:model_const "result.question.3"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_258: int;
-
-const {:extern} {:model_const "gold"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 236} unique __ctobpl_const_259: int;
-
-const {:extern} {:model_const "b0"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 224} unique __ctobpl_const_230: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_250: int;
-
-const {:extern} {:model_const "anf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 225} unique __ctobpl_const_236: int;
-
-const {:extern} {:model_const "g"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_252: int;
-
-const {:extern} {:model_const "gold"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_249: int;
-
-const {:extern} {:model_const "gold"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_251: int;
-
-const {:extern} {:model_const "fac"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 229} unique __ctobpl_const_239: int;
-
-const {:extern} {:model_const "g"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 231} unique __ctobpl_const_245: int;
-
-const {:extern} {:model_const "gold"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 231} unique __ctobpl_const_246: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 225} unique __ctobpl_const_234: int;
-
-const {:extern} {:model_const "gold"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 231} unique __ctobpl_const_244: int;
-
-const {:extern} {:model_const "g"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_254: int;
-
-const {:extern} {:model_const "a1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 225} unique __ctobpl_const_233: int;
-
-const {:extern} {:model_const "b1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 229} unique __ctobpl_const_242: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_248: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 224} unique __ctobpl_const_229: int;
-
-const {:extern} {:model_const "a1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 227} unique __ctobpl_const_238: int;
-
-const {:extern} {:model_const "g"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 229} unique __ctobpl_const_241: int;
-
-const {:extern} {:model_const "fac"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 229} unique __ctobpl_const_243: int;
-
-const {:extern} {:model_const "anf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 224} unique __ctobpl_const_231: int;
-
-const {:extern} {:model_const "result.question.3"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_255: int;
-
-const {:extern} {:model_const "gold"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_247: int;
-
-const {:extern} {:model_const "a1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 229} unique __ctobpl_const_240: int;
-
-const {:extern} {:model_const "g"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_256: int;
-
-const {:extern} {:model_const "ana"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 221} unique __ctobpl_const_218: int;
-
-const {:extern} {:model_const "ana"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 222} unique __ctobpl_const_223: int;
-
-const {:extern} {:model_const "fac"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 222} unique __ctobpl_const_224: int;
-
-const {:extern} {:model_const "anf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 223} unique __ctobpl_const_225: int;
-
-const {:extern} {:model_const "an"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 223} unique __ctobpl_const_226: int;
-
-const {:extern} {:model_const "a0"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 221} unique __ctobpl_const_217: int;
-
-const {:extern} {:model_const "fac"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 223} unique __ctobpl_const_227: int;
-
-const {:extern} {:model_const "gser.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_196: int;
-
-const {:extern} {:model_const "b0"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 213} unique __ctobpl_const_204: int;
-
-const {:extern} {:model_const "a1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 213} unique __ctobpl_const_206: int;
-
-const {:extern} {:model_const "b1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 212} unique __ctobpl_const_203: int;
-
-const {:extern} {:model_const "fac"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 221} unique __ctobpl_const_219: int;
-
-const {:extern} {:model_const "n"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 218} unique __ctobpl_const_211: int;
-
-const {:extern} {:model_const "b0"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 222} unique __ctobpl_const_222: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_198: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_200: int;
-
-const {:extern} {:model_const "a0"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 213} unique __ctobpl_const_205: int;
-
-const {:extern} {:model_const "n"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 215} unique __ctobpl_const_208: int;
-
-const {:extern} {:model_const "ana"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 219} unique __ctobpl_const_212: int;
-
-const {:extern} {:model_const "a1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 221} unique __ctobpl_const_216: int;
-
-const {:extern} {:model_const "gser.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_197: int;
-
-const {:extern} {:model_const "b0"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 222} unique __ctobpl_const_220: int;
-
-const {:extern} {:model_const "b1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 222} unique __ctobpl_const_221: int;
-
-const {:extern} {:model_const "n"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 215} unique __ctobpl_const_209: int;
-
-const {:extern} {:model_const "an"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 218} unique __ctobpl_const_210: int;
-
-const {:extern} {:model_const "result.gser"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_199: int;
-
-const {:extern} {:model_const "gold"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 212} unique __ctobpl_const_201: int;
-
-const {:extern} {:model_const "fac"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 212} unique __ctobpl_const_202: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 213} unique __ctobpl_const_207: int;
-
-const {:extern} {:model_const "an"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 219} unique __ctobpl_const_213: int;
-
-const {:extern} {:model_const "a"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 219} unique __ctobpl_const_214: int;
-
-const {:extern} {:model_const "a0"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 221} unique __ctobpl_const_215: int;
-
-const {:extern} {:model_const "chisq"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_170: int;
-
-const {:extern} {:model_const "result.gcf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_189: int;
-
-const {:extern} {:model_const "QGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_171: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_291: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_178: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_181: int;
-
-const {:extern} {:model_const "gcf.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_182: int;
-
-const {:extern} {:model_const "gcf.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_186: int;
-
-const {:extern} {:model_const "gser.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_194: int;
-
-const {:extern} {:model_const "gser.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_195: int;
-
-const {:extern} {:model_const "a"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_179: int;
-
-const {:extern} {:model_const "gcf.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_184: int;
-
-const {:extern} {:model_const "result.QGamma"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_177: int;
-
-const {:extern} {:model_const "QGamma.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_169: int;
-
-const {:extern} {:model_const "gser.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_190: int;
-
-const {:extern} {:model_const "QGamma.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_174: int;
-
-const {:extern} {:model_const "a"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_183: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_191: int;
-
-const {:extern} {:model_const "QGamma.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_176: int;
-
-const {:extern} {:model_const "gcf.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_180: int;
-
-const {:extern} {:model_const "gcf.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_187: int;
-
-const {:extern} {:model_const "QGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_173: int;
-
-const {:extern} {:model_const "QGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_175: int;
-
-const {:extern} {:model_const "gcf.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_185: int;
-
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_188: int;
-
-const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_166: int;
-
-const {:extern} {:model_const "result.log"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_167: int;
-
-const {:extern} {:model_const "result.LGamma"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_168: int;
-
-const {:extern} {:model_const "df"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_172: int;
-
-const {:extern} {:model_const "gser.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_192: int;
-
-const {:extern} {:model_const "a"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_193: int;
-
-const {:extern} {:model_const "pj"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 395} unique __ctobpl_const_55: int;
-
-const {:extern} {:model_const "pi"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 376} unique __ctobpl_const_61: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 381} unique __ctobpl_const_71: int;
-
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 395} unique __ctobpl_const_57: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 381} unique __ctobpl_const_72: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 392} unique __ctobpl_const_52: int;
-
-const {:extern} {:model_const "result.log"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 395} unique __ctobpl_const_59: int;
-
-const {:extern} {:model_const "pj"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 395} unique __ctobpl_const_58: int;
-
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 390} unique __ctobpl_const_48: int;
-
-const {:extern} {:model_const "xi[i]"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 376} unique __ctobpl_const_64: int;
-
-const {:extern} {:model_const "pi"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 379} unique __ctobpl_const_66: int;
-
-const {:extern} {:model_const "xi"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 376} unique __ctobpl_const_62: int;
-
-const {:extern} {:model_const "pj"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 395} unique __ctobpl_const_56: int;
-
-const {:extern} {:model_const "xj[j]"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 392} unique __ctobpl_const_53: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 374} unique __ctobpl_const_44: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 374} unique __ctobpl_const_43: int;
-
-const {:extern} {:model_const "pi"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 379} unique __ctobpl_const_67: int;
-
-const {:extern} {:model_const "pj"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 394} unique __ctobpl_const_54: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 390} unique __ctobpl_const_46: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 390} unique __ctobpl_const_47: int;
-
-const {:extern} {:model_const "pi"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 378} unique __ctobpl_const_65: int;
-
-const {:extern} {:model_const "pj"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 392} unique __ctobpl_const_50: int;
-
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 398} unique __ctobpl_const_49: int;
-
-const {:extern} {:model_const "xj"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 392} unique __ctobpl_const_51: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 376} unique __ctobpl_const_63: int;
-
-const {:extern} {:model_const "result.log"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 372} unique __ctobpl_const_42: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 395} unique __ctobpl_const_57: int;
 
 const {:extern} {:model_const "j"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_60: int;
 
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 379} unique __ctobpl_const_68: int;
+const {:extern} {:model_const "pi"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 376} unique __ctobpl_const_61: int;
 
-const {:extern} {:model_const "pi"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 379} unique __ctobpl_const_69: int;
+const {:extern} {:model_const "xi"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 376} unique __ctobpl_const_62: int;
 
-const {:extern} {:model_const "N"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 372} unique __ctobpl_const_41: int;
+const {:extern} {:model_const "pi"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 378} unique __ctobpl_const_65: int;
 
-const {:extern} {:model_const "result.log"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 379} unique __ctobpl_const_70: int;
+const {:extern} {:model_const "xj"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 392} unique __ctobpl_const_51: int;
 
-const {:extern} {:model_const "r"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 374} unique __ctobpl_const_45: int;
+const {:extern} {:model_const "result.log"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 395} unique __ctobpl_const_59: int;
 
-const {:extern} {:model_const "pij"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 386} unique __ctobpl_const_85: int;
+const {:extern} {:model_const "xi[i]"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 376} unique __ctobpl_const_64: int;
 
-const {:extern} {:model_const "pij"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 385} unique __ctobpl_const_81: int;
+const {:extern} {:model_const "pi"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 379} unique __ctobpl_const_67: int;
 
-const {:extern} {:model_const "j"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_87: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 374} unique __ctobpl_const_44: int;
 
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 367} unique __ctobpl_const_95: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 379} unique __ctobpl_const_68: int;
 
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_97: int;
+const {:extern} {:model_const "pi"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 379} unique __ctobpl_const_69: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 374} unique __ctobpl_const_43: int;
+
+const {:extern} {:model_const "pj"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 395} unique __ctobpl_const_58: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 376} unique __ctobpl_const_63: int;
+
+const {:extern} {:model_const "pi"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 379} unique __ctobpl_const_66: int;
+
+const {:extern} {:model_const "result.log"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 379} unique __ctobpl_const_70: int;
+
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 372} unique __ctobpl_const_40: int;
+
+const {:extern} {:model_const "result.log"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 372} unique __ctobpl_const_42: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 390} unique __ctobpl_const_46: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 390} unique __ctobpl_const_47: int;
+
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 398} unique __ctobpl_const_49: int;
+
+const {:extern} {:model_const "N"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 372} unique __ctobpl_const_39: int;
+
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 390} unique __ctobpl_const_48: int;
+
+const {:extern} {:model_const "pj"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 392} unique __ctobpl_const_50: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 392} unique __ctobpl_const_52: int;
+
+const {:extern} {:model_const "r"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 374} unique __ctobpl_const_45: int;
+
+const {:extern} {:model_const "xj[j]"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 392} unique __ctobpl_const_53: int;
+
+const {:extern} {:model_const "pj"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 394} unique __ctobpl_const_54: int;
+
+const {:extern} {:model_const "pij"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 386} unique __ctobpl_const_85: int;
+
+const {:extern} {:model_const "pij"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_75: int;
+
+const {:extern} {:model_const "f"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_76: int;
+
+const {:extern} {:model_const "result.log"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 386} unique __ctobpl_const_86: int;
+
+const {:extern} {:model_const "xj"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 367} unique __ctobpl_const_92: int;
+
+const {:extern} {:model_const "r"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 364} unique __ctobpl_const_91: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 364} unique __ctobpl_const_90: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 367} unique __ctobpl_const_93: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_74: int;
 
-const {:extern} {:model_const "xj[j]"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 367} unique __ctobpl_const_94: int;
+const {:extern} {:model_const "f[i * c + j]"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_80: int;
 
-const {:extern} {:model_const "f"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_76: int;
+const {:extern} {:model_const "pij"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 386} unique __ctobpl_const_82: int;
 
-const {:extern} {:model_const "f"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_98: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 386} unique __ctobpl_const_84: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 364} unique __ctobpl_const_90: int;
+const {:extern} {:model_const "xj[j]"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 367} unique __ctobpl_const_94: int;
 
-const {:extern} {:model_const "f[i * c + j]"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_102: int;
+const {:extern} {:model_const "j"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_87: int;
 
-const {:extern} {:model_const "i"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_103: int;
-
-const {:extern} {:model_const "f[i * c + j]"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_80: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_79: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 367} unique __ctobpl_const_93: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_101: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_99: int;
-
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_78: int;
-
-const {:extern} {:model_const "pij"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 386} unique __ctobpl_const_82: int;
-
-const {:extern} {:model_const "pij"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 386} unique __ctobpl_const_83: int;
-
-const {:extern} {:model_const "pij"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_75: int;
-
-const {:extern} {:model_const "result.log"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 386} unique __ctobpl_const_86: int;
-
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 381} unique __ctobpl_const_73: int;
-
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 362} unique __ctobpl_const_88: int;
-
-const {:extern} {:model_const "xj"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 367} unique __ctobpl_const_92: int;
-
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_100: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_77: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 364} unique __ctobpl_const_89: int;
-
-const {:extern} {:model_const "r"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 364} unique __ctobpl_const_91: int;
-
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 386} unique __ctobpl_const_84: int;
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 367} unique __ctobpl_const_95: int;
 
 const {:extern} {:model_const "j"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_96: int;
 
-const {:extern} {:model_const "r"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_13: int;
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_97: int;
 
-const {:extern} {:model_const "rdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 314} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "f"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_98: int;
 
-const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_15: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_99: int;
 
-const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 364} unique __ctobpl_const_89: int;
 
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 318} unique __ctobpl_const_20: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_79: int;
 
-const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_23: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 381} unique __ctobpl_const_73: int;
 
-const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_14: int;
+const {:extern} {:model_const "pij"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 386} unique __ctobpl_const_83: int;
 
-const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_21: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_100: int;
 
-const {:extern} {:model_const "result.malloc"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_18: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_101: int;
 
-const {:extern} {:model_const "result.malloc"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_27: int;
+const {:extern} {:model_const "pij"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 385} unique __ctobpl_const_81: int;
 
-const {:extern} {:model_const "N"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 330} unique __ctobpl_const_30: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_78: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 332} unique __ctobpl_const_32: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 381} unique __ctobpl_const_72: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 332} unique __ctobpl_const_31: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 381} unique __ctobpl_const_71: int;
 
-const {:extern} {:model_const "r"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 332} unique __ctobpl_const_33: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 383} unique __ctobpl_const_77: int;
 
-const {:extern} {:model_const "xi"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_19: int;
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 362} unique __ctobpl_const_88: int;
 
-const {:extern} {:model_const "xi"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "gser.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_196: int;
 
-const {:extern} {:model_const "N"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 352} unique __ctobpl_const_34: int;
+const {:extern} {:model_const "gser.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_194: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 360} unique __ctobpl_const_35: int;
+const {:extern} {:model_const "a0"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 221} unique __ctobpl_const_215: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 360} unique __ctobpl_const_36: int;
+const {:extern} {:model_const "b0"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 222} unique __ctobpl_const_222: int;
 
-const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_25: int;
+const {:extern} {:model_const "anf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 223} unique __ctobpl_const_225: int;
 
-const {:extern} {:model_const "xj"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_28: int;
+const {:extern} {:model_const "gold"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 212} unique __ctobpl_const_201: int;
 
-const {:extern} {:model_const "xj"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_26: int;
+const {:extern} {:model_const "fac"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 212} unique __ctobpl_const_202: int;
 
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 324} unique __ctobpl_const_29: int;
+const {:extern} {:model_const "gser.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_197: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 360} unique __ctobpl_const_37: int;
+const {:extern} {:model_const "a0"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 213} unique __ctobpl_const_205: int;
 
-const {:extern} {:model_const "N"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 372} unique __ctobpl_const_38: int;
+const {:extern} {:model_const "a1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 221} unique __ctobpl_const_216: int;
 
-const {:extern} {:model_const "cdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 314} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "ana"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 221} unique __ctobpl_const_218: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_22: int;
+const {:extern} {:model_const "b1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 222} unique __ctobpl_const_221: int;
 
-const {:extern} {:model_const "N"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 372} unique __ctobpl_const_39: int;
+const {:extern} {:model_const "a1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 213} unique __ctobpl_const_206: int;
 
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 372} unique __ctobpl_const_40: int;
+const {:extern} {:model_const "n"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 215} unique __ctobpl_const_208: int;
 
-const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 322} unique __ctobpl_const_24: int;
+const {:extern} {:model_const "fac"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 221} unique __ctobpl_const_219: int;
 
-const {:extern} {:model_const "malloc.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 316} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "b1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 212} unique __ctobpl_const_203: int;
 
-const {:extern} {:model_const "p"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_341: int;
+const {:extern} {:model_const "n"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 218} unique __ctobpl_const_211: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 119} unique __ctobpl_const_337: int;
+const {:extern} {:model_const "an"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 219} unique __ctobpl_const_213: int;
 
-const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 55} unique __ctobpl_const_322: int;
+const {:extern} {:model_const "a0"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 221} unique __ctobpl_const_217: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 119} unique __ctobpl_const_339: int;
+const {:extern} {:model_const "b0"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 213} unique __ctobpl_const_204: int;
 
-const {:extern} {:model_const "* p"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_342: int;
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_200: int;
 
-const {:extern} {:model_const "p"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_344: int;
+const {:extern} {:model_const "result.gser"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_199: int;
 
-const {:extern} {:model_const "result.isspace"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_348: int;
+const {:extern} {:model_const "ana"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 219} unique __ctobpl_const_212: int;
 
-const {:extern} {:model_const "totdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_331: int;
+const {:extern} {:model_const "b0"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 222} unique __ctobpl_const_220: int;
 
-const {:extern} {:model_const "p"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 60} unique __ctobpl_const_349: int;
+const {:extern} {:model_const "ana"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 222} unique __ctobpl_const_223: int;
 
-const {:extern} {:model_const "totdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_329: int;
+const {:extern} {:model_const "fac"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 222} unique __ctobpl_const_224: int;
 
-const {:extern} {:model_const "* p"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 60} unique __ctobpl_const_350: int;
+const {:extern} {:model_const "n"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 215} unique __ctobpl_const_209: int;
 
-const {:extern} {:model_const "* p"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_345: int;
+const {:extern} {:model_const "a"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 219} unique __ctobpl_const_214: int;
 
-const {:extern} {:model_const "* p"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 63} unique __ctobpl_const_352: int;
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_198: int;
 
-const {:extern} {:model_const "totinfo"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_327: int;
+const {:extern} {:model_const "gser.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_195: int;
 
-const {:extern} {:model_const "printf.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 124} unique __ctobpl_const_334: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 213} unique __ctobpl_const_207: int;
 
-const {:extern} {:model_const "totinfo"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 124} unique __ctobpl_const_335: int;
+const {:extern} {:model_const "an"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 218} unique __ctobpl_const_210: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 119} unique __ctobpl_const_336: int;
+const {:extern} {:model_const "result.log"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_167: int;
 
-const {:extern} {:model_const "isspace.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_343: int;
+const {:extern} {:model_const "a"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_193: int;
 
-const {:extern} {:model_const "p"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 63} unique __ctobpl_const_351: int;
+const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_165: int;
 
-const {:extern} {:model_const "r"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 69} unique __ctobpl_const_353: int;
+const {:extern} {:model_const "result.LGamma"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_168: int;
 
-const {:extern} {:model_const "isspace.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_347: int;
+const {:extern} {:model_const "QGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_173: int;
 
-const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 55} unique __ctobpl_const_323: int;
+const {:extern} {:model_const "QGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_175: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 119} unique __ctobpl_const_338: int;
+const {:extern} {:model_const "QGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_171: int;
 
-const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_330: int;
+const {:extern} {:model_const "QGamma.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_176: int;
 
-const {:extern} {:model_const "isspace.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_346: int;
+const {:extern} {:model_const "result.QGamma"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_177: int;
 
-const {:extern} {:model_const "result.fgets"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 55} unique __ctobpl_const_324: int;
+const {:extern} {:model_const "ap"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 198} unique __ctobpl_const_289: int;
 
-const {:extern} {:model_const "totdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 117} unique __ctobpl_const_325: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_164: int;
 
-const {:extern} {:model_const "printf.arg.4"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_332: int;
+const {:extern} {:model_const "a"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_179: int;
 
-const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_326: int;
+const {:extern} {:model_const "gcf.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_180: int;
 
-const {:extern} {:model_const "result.QChiSq"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_333: int;
+const {:extern} {:model_const "gcf.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_182: int;
 
-const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_328: int;
+const {:extern} {:model_const "QGamma.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_169: int;
 
-const {:extern} {:model_const "p"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_340: int;
+const {:extern} {:model_const "a"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_183: int;
 
-const {:extern} {:model_const "result.exp"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_317: int;
+const {:extern} {:model_const "gcf.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_184: int;
 
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_310: int;
+const {:extern} {:model_const "gcf.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_185: int;
 
-const {:extern} {:model_const "totdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 53} unique __ctobpl_const_319: int;
+const {:extern} {:model_const "gcf.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_186: int;
+
+const {:extern} {:model_const "gcf.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_187: int;
+
+const {:extern} {:model_const "result.gcf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_189: int;
+
+const {:extern} {:model_const "chisq"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_170: int;
+
+const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_166: int;
+
+const {:extern} {:model_const "df"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_172: int;
+
+const {:extern} {:model_const "QGamma.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 256} unique __ctobpl_const_174: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_178: int;
+
+const {:extern} {:model_const "gser.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_190: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_191: int;
+
+const {:extern} {:model_const "gser.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_192: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_181: int;
+
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 248} unique __ctobpl_const_188: int;
+
+const {:extern} {:model_const "xi[i]"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 349} unique __ctobpl_const_112: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_117: int;
+
+const {:extern} {:model_const "f[i * c + j]"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_120: int;
+
+const {:extern} {:model_const "k"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 346} unique __ctobpl_const_123: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_124: int;
+
+const {:extern} {:model_const "xj"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 401} unique __ctobpl_const_127: int;
+
+const {:extern} {:model_const "f"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_116: int;
+
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 349} unique __ctobpl_const_113: int;
+
+const {:extern} {:model_const "k"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_115: int;
+
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 346} unique __ctobpl_const_122: int;
+
+const {:extern} {:model_const "xi"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 403} unique __ctobpl_const_129: int;
+
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 405} unique __ctobpl_const_131: int;
+
+const {:extern} {:model_const "xj"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 401} unique __ctobpl_const_126: int;
+
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_118: int;
+
+const {:extern} {:model_const "an"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 223} unique __ctobpl_const_226: int;
+
+const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_163: int;
+
+const {:extern} {:model_const "xi"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 349} unique __ctobpl_const_110: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_114: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 338} unique __ctobpl_const_119: int;
+
+const {:extern} {:model_const "k"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 340} unique __ctobpl_const_121: int;
+
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 342} unique __ctobpl_const_125: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 336} unique __ctobpl_const_107: int;
+
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 354} unique __ctobpl_const_104: int;
+
+const {:extern} {:model_const "xi"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 403} unique __ctobpl_const_128: int;
+
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 310} unique __ctobpl_const_130: int;
+
+const {:extern} {:model_const "f[i * c + j]"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 365} unique __ctobpl_const_102: int;
+
+const {:extern} {:model_const "N"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 349} unique __ctobpl_const_109: int;
+
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 334} unique __ctobpl_const_105: int;
+
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 336} unique __ctobpl_const_108: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 349} unique __ctobpl_const_111: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 336} unique __ctobpl_const_106: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_103: int;
+
+const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_146: int;
+
+const {:extern} {:model_const "pix"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 164} unique __ctobpl_const_154: int;
+
+const {:extern} {:model_const "tmp"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 170} unique __ctobpl_const_136: int;
+
+const {:extern} {:model_const "pix"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_157: int;
+
+const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_158: int;
+
+const {:extern} {:model_const "ser"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 172} unique __ctobpl_const_140: int;
+
+const {:extern} {:model_const "result.sin"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_160: int;
+
+const {:extern} {:model_const "tmp"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 170} unique __ctobpl_const_137: int;
+
+const {:extern} {:model_const "j"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_153: int;
+
+const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_161: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 175} unique __ctobpl_const_152: int;
+
+const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_143: int;
+
+const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_162: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 162} unique __ctobpl_const_132: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 175} unique __ctobpl_const_150: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 164} unique __ctobpl_const_155: int;
+
+const {:extern} {:model_const "ser"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 175} unique __ctobpl_const_149: int;
+
+const {:extern} {:model_const "tmp"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_147: int;
+
+const {:extern} {:model_const "cof[j]"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 175} unique __ctobpl_const_151: int;
+
+const {:extern} {:model_const "result.log"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 170} unique __ctobpl_const_139: int;
+
+const {:extern} {:model_const "pix"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_156: int;
+
+const {:extern} {:model_const "pix"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 166} unique __ctobpl_const_159: int;
+
+const {:extern} {:model_const "ser"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_144: int;
+
+const {:extern} {:model_const "tmp"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 170} unique __ctobpl_const_135: int;
+
+const {:extern} {:model_const "result.log"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_148: int;
+
+const {:extern} {:model_const "log.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 177} unique __ctobpl_const_145: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 170} unique __ctobpl_const_138: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 174} unique __ctobpl_const_142: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 169} unique __ctobpl_const_134: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 174} unique __ctobpl_const_141: int;
+
+const {:extern} {:model_const "tmp"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 169} unique __ctobpl_const_133: int;
+
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 306} unique __ctobpl_const_4: int;
+
+const {:extern} {:model_const "result.question.3"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_258: int;
+
+const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_267: int;
+
+const {:extern} {:model_const "result.log"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_271: int;
+
+const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_273: int;
+
+const {:extern} {:model_const "result.exp"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_275: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 191} unique __ctobpl_const_277: int;
+
+const {:extern} {:model_const "ap"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_278: int;
+
+const {:extern} {:model_const "a"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_279: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_269: int;
+
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_280: int;
+
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_283: int;
+
+const {:extern} {:model_const "n"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 196} unique __ctobpl_const_284: int;
+
+const {:extern} {:model_const "n"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 196} unique __ctobpl_const_285: int;
+
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 198} unique __ctobpl_const_286: int;
+
+const {:extern} {:model_const "gold"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 236} unique __ctobpl_const_259: int;
+
+const {:extern} {:model_const "g"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_276: int;
+
+const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_274: int;
+
+const {:extern} {:model_const "ap"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_281: int;
+
+const {:extern} {:model_const "del"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 194} unique __ctobpl_const_282: int;
+
+const {:extern} {:model_const "del"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 198} unique __ctobpl_const_287: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 198} unique __ctobpl_const_288: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_262: int;
+
+const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_266: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_263: int;
+
+const {:extern} {:model_const "n"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_261: int;
+
+const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_264: int;
+
+const {:extern} {:model_const "a"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_270: int;
+
+const {:extern} {:model_const "result.LGamma"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_272: int;
+
+const {:extern} {:model_const "* p"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 63} unique __ctobpl_const_352: int;
+
+const {:extern} {:model_const "g"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 236} unique __ctobpl_const_260: int;
+
+const {:extern} {:model_const "a"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_265: int;
+
+const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 234} unique __ctobpl_const_268: int;
+
+const {:extern} {:model_const "result.question.3"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_255: int;
+
+const {:extern} {:model_const "b0"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 224} unique __ctobpl_const_230: int;
+
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_257: int;
+
+const {:extern} {:model_const "a1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 225} unique __ctobpl_const_233: int;
+
+const {:extern} {:model_const "a1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 227} unique __ctobpl_const_238: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 224} unique __ctobpl_const_229: int;
+
+const {:extern} {:model_const "g"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 229} unique __ctobpl_const_241: int;
+
+const {:extern} {:model_const "gold"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_247: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 225} unique __ctobpl_const_234: int;
+
+const {:extern} {:model_const "a1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 225} unique __ctobpl_const_237: int;
+
+const {:extern} {:model_const "gold"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 231} unique __ctobpl_const_246: int;
+
+const {:extern} {:model_const "g"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_252: int;
+
+const {:extern} {:model_const "b1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 224} unique __ctobpl_const_232: int;
+
+const {:extern} {:model_const "fac"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 229} unique __ctobpl_const_239: int;
+
+const {:extern} {:model_const "g"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_254: int;
+
+const {:extern} {:model_const "anf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 224} unique __ctobpl_const_231: int;
+
+const {:extern} {:model_const "a1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 229} unique __ctobpl_const_240: int;
+
+const {:extern} {:model_const "fac"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 229} unique __ctobpl_const_243: int;
+
+const {:extern} {:model_const "b1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 229} unique __ctobpl_const_242: int;
+
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_248: int;
+
+const {:extern} {:model_const "a0"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 225} unique __ctobpl_const_235: int;
+
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_250: int;
+
+const {:extern} {:model_const "gold"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_251: int;
+
+const {:extern} {:model_const "g"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 231} unique __ctobpl_const_245: int;
+
+const {:extern} {:model_const "fac"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 223} unique __ctobpl_const_227: int;
+
+const {:extern} {:model_const "result.question.3"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_253: int;
+
+const {:extern} {:model_const "g"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_256: int;
+
+const {:extern} {:model_const "b1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 224} unique __ctobpl_const_228: int;
+
+const {:extern} {:model_const "gold"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 231} unique __ctobpl_const_244: int;
+
+const {:extern} {:model_const "gold"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 233} unique __ctobpl_const_249: int;
+
+const {:extern} {:model_const "anf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 225} unique __ctobpl_const_236: int;
+
+const {:extern} {:model_const "result.question.3"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_298: int;
+
+const {:extern} {:model_const "a"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_306: int;
+
+const {:extern} {:model_const "totinfo"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 50} unique __ctobpl_const_318: int;
+
+const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_309: int;
+
+const {:extern} {:model_const "a"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_311: int;
+
+const {:extern} {:model_const "result.LGamma"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_313: int;
+
+const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_305: int;
+
+const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_315: int;
+
+const {:extern} {:model_const "result.question.3"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_301: int;
+
+const {:extern} {:model_const "del"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_292: int;
 
 const {:extern} {:model_const "n"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_302: int;
 
-const {:extern} {:model_const "del"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_292: int;
+const {:extern} {:model_const "totdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 53} unique __ctobpl_const_319: int;
 
-const {:extern} {:model_const "totinfo"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 50} unique __ctobpl_const_318: int;
+const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 55} unique __ctobpl_const_320: int;
 
-const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 55} unique __ctobpl_const_320: int;
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_297: int;
 
-const {:extern} {:model_const "result.question.3"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_296: int;
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_293: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 55} unique __ctobpl_const_321: int;
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_291: int;
 
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_299: int;
+const {:extern} {:model_const "result.question.3"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_296: int;
 
-const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_315: int;
+const {:extern} {:model_const "result.question.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_300: int;
 
-const {:extern} {:model_const "result.log"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_312: int;
+const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_308: int;
 
-const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_305: int;
+const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_307: int;
 
-const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_309: int;
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_295: int;
 
-const {:extern} {:model_const "result.question.3"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_301: int;
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_299: int;
 
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_316: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_304: int;
 
-const {:extern} {:model_const "result.question.3"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_298: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_303: int;
 
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_295: int;
+const {:extern} {:model_const "result.log"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_312: int;
 
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_303: int;
+const {:extern} {:model_const "del"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_290: int;
 
-const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_308: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_310: int;
 
-const {:extern} {:model_const "a"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_311: int;
+const {:extern} {:model_const "del"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_294: int;
 
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_300: int;
+const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_314: int;
 
-const {:extern} {:model_const "LGamma.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_307: int;
+const {:extern} {:model_const "result.exp"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_317: int;
 
-const {:extern} {:model_const "result.LGamma"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_313: int;
+const {:extern} {:model_const "sum"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_316: int;
 
-const {:extern} {:model_const "exp.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_314: int;
+const {:extern} {:model_const "p"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 60} unique __ctobpl_const_349: int;
 
-const {:extern} {:model_const "result.question.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_293: int;
+const {:extern} {:model_const "* p"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 60} unique __ctobpl_const_350: int;
 
-const {:extern} {:model_const "a"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_306: int;
+const {:extern} {:model_const "isspace.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_346: int;
 
-const {:extern} {:model_const "del"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_294: int;
+const {:extern} {:model_const "totinfo"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 124} unique __ctobpl_const_335: int;
 
-const {:extern} {:model_const "x"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 201} unique __ctobpl_const_304: int;
+const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 55} unique __ctobpl_const_322: int;
 
-const {:extern} {:model_const "sum"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 200} unique __ctobpl_const_297: int;
+const {:extern} {:model_const "p"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_344: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 65} unique __ctobpl_const_428: int;
+const {:extern} {:model_const "isspace.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_347: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 65} unique __ctobpl_const_426: int;
+const {:extern} {:model_const "p"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 63} unique __ctobpl_const_351: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 65} unique __ctobpl_const_427: int;
+const {:extern} {:model_const "totdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_329: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 71} unique __ctobpl_const_422: int;
+const {:extern} {:model_const "printf.arg.4"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_332: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 65} unique __ctobpl_const_425: int;
+const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_326: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 55} unique __ctobpl_const_321: int;
+
+const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_330: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 119} unique __ctobpl_const_336: int;
+
+const {:extern} {:model_const "* p"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_342: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 119} unique __ctobpl_const_337: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 119} unique __ctobpl_const_339: int;
+
+const {:extern} {:model_const "totdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 117} unique __ctobpl_const_325: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 119} unique __ctobpl_const_338: int;
+
+const {:extern} {:model_const "p"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_340: int;
+
+const {:extern} {:model_const "p"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_341: int;
+
+const {:extern} {:model_const "isspace.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_343: int;
+
+const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_328: int;
+
+const {:extern} {:model_const "totinfo"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_327: int;
+
+const {:extern} {:model_const "totdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_331: int;
+
+const {:extern} {:model_const "result.QChiSq"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 125} unique __ctobpl_const_333: int;
+
+const {:extern} {:model_const "printf.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 124} unique __ctobpl_const_334: int;
+
+const {:extern} {:model_const "* p"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_345: int;
+
+const {:extern} {:model_const "result.fgets"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 55} unique __ctobpl_const_324: int;
+
+const {:extern} {:model_const "fgets.arg.3"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 55} unique __ctobpl_const_323: int;
+
+const {:extern} {:model_const "result.isspace"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 57} unique __ctobpl_const_348: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 77} unique __ctobpl_const_419: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 65} unique __ctobpl_const_427: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 77} unique __ctobpl_const_420: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 77} unique __ctobpl_const_418: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 71} unique __ctobpl_const_424: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 65} unique __ctobpl_const_425: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 65} unique __ctobpl_const_426: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 71} unique __ctobpl_const_423: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 65} unique __ctobpl_const_428: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 87} unique __ctobpl_const_416: int;
+
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 71} unique __ctobpl_const_421: int;
 
 const {:extern} {:model_const "p"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_429: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 71} unique __ctobpl_const_424: int;
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 77} unique __ctobpl_const_417: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 77} unique __ctobpl_const_420: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 71} unique __ctobpl_const_422: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 71} unique __ctobpl_const_421: int;
+const {:extern} {:model_const "infodf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_363: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 77} unique __ctobpl_const_418: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 113} unique __ctobpl_const_371: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 77} unique __ctobpl_const_419: int;
+const {:extern} {:model_const "result.InfoTbl"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_368: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 71} unique __ctobpl_const_423: int;
+const {:extern} {:model_const "result.question.32"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_382: int;
 
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 110} unique __ctobpl_const_373: int;
+const {:extern} {:model_const "result.question.33"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_381: int;
 
-const {:extern} {:model_const "result.question.34"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 111} unique __ctobpl_const_376: int;
+const {:extern} {:model_const "r"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 69} unique __ctobpl_const_353: int;
 
-const {:extern} {:model_const "result.question.32"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_385: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 110} unique __ctobpl_const_373: int;
 
-const {:extern} {:model_const "r"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 75} unique __ctobpl_const_356: int;
+const {:extern} {:model_const "result.question.32"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_383: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 75} unique __ctobpl_const_357: int;
+const {:extern} {:model_const "result.sscanf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 69} unique __ctobpl_const_355: int;
 
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 111} unique __ctobpl_const_374: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 83} unique __ctobpl_const_358: int;
 
-const {:extern} {:model_const "result.question.33"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 110} unique __ctobpl_const_377: int;
+const {:extern} {:model_const "infodf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_366: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_386: int;
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 113} unique __ctobpl_const_370: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_362: int;
+const {:extern} {:model_const "result.question.33"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 110} unique __ctobpl_const_377: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 113} unique __ctobpl_const_371: int;
+const {:extern} {:model_const "result.question.33"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 110} unique __ctobpl_const_379: int;
 
-const {:extern} {:model_const "result.question.33"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_381: int;
+const {:extern} {:model_const "result.question.34"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 110} unique __ctobpl_const_378: int;
 
-const {:extern} {:model_const "infodf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_363: int;
+const {:extern} {:model_const "result.question.32"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_380: int;
 
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_367: int;
+const {:extern} {:model_const "result.question.34"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 111} unique __ctobpl_const_376: int;
 
-const {:extern} {:model_const "r"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_361: int;
+const {:extern} {:model_const "r"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 83} unique __ctobpl_const_360: int;
 
-const {:extern} {:model_const "result.question.32"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_383: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_362: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_384: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 83} unique __ctobpl_const_359: int;
 
-const {:extern} {:model_const "r"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_364: int;
+const {:extern} {:model_const "r"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_364: int;
 
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 99} unique __ctobpl_const_369: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_365: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 83} unique __ctobpl_const_358: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_372: int;
 
-const {:extern} {:model_const "infodf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_366: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 111} unique __ctobpl_const_374: int;
 
-const {:extern} {:model_const "r"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 83} unique __ctobpl_const_360: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_367: int;
 
-const {:extern} {:model_const "result.question.34"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 110} unique __ctobpl_const_378: int;
+const {:extern} {:model_const "result.question.34"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 111} unique __ctobpl_const_375: int;
 
-const {:extern} {:model_const "result.question.33"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 110} unique __ctobpl_const_379: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 75} unique __ctobpl_const_357: int;
 
-const {:extern} {:model_const "result.question.32"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_382: int;
+const {:extern} {:model_const "r"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_361: int;
 
-const {:extern} {:model_const "result.sscanf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 69} unique __ctobpl_const_355: int;
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_384: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 83} unique __ctobpl_const_359: int;
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 69} unique __ctobpl_const_354: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 113} unique __ctobpl_const_370: int;
+const {:extern} {:model_const "r"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 75} unique __ctobpl_const_356: int;
 
-const {:extern} {:model_const "result.question.34"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 111} unique __ctobpl_const_375: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 99} unique __ctobpl_const_369: int;
 
-const {:extern} {:model_const "result.question.32"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_380: int;
+const {:extern} {:model_const "result.scanf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_411: int;
 
-const {:extern} {:model_const "result.InfoTbl"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_368: int;
+const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_389: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 95} unique __ctobpl_const_365: int;
+const {:extern} {:model_const "infodf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_390: int;
 
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_372: int;
+const {:extern} {:model_const "infodf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_392: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_406: int;
+const {:extern} {:model_const "j"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_412: int;
 
-const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_387: int;
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 88} unique __ctobpl_const_413: int;
 
-const {:extern} {:model_const "infodf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_390: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 105} unique __ctobpl_const_398: int;
 
-const {:extern} {:model_const "infodf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_392: int;
+const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_387: int;
 
-const {:extern} {:model_const "result.QChiSq"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_394: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 88} unique __ctobpl_const_414: int;
 
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 84} unique __ctobpl_const_402: int;
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 87} unique __ctobpl_const_415: int;
 
-const {:extern} {:model_const "f[i * c + j]"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_409: int;
+const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_386: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 88} unique __ctobpl_const_414: int;
+const {:extern} {:model_const "totinfo"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 105} unique __ctobpl_const_397: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 87} unique __ctobpl_const_416: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 102} unique __ctobpl_const_396: int;
 
-const {:extern} {:model_const "printf.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 102} unique __ctobpl_const_395: int;
+const {:extern} {:model_const "totdf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 106} unique __ctobpl_const_399: int;
 
-const {:extern} {:model_const "totinfo"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 105} unique __ctobpl_const_397: int;
+const {:extern} {:model_const "infodf"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 106} unique __ctobpl_const_400: int;
 
-const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_389: int;
+const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_391: int;
 
-const {:extern} {:model_const "totdf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 106} unique __ctobpl_const_399: int;
+const {:extern} {:model_const "printf.arg.4"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_393: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 88} unique __ctobpl_const_413: int;
+const {:extern} {:model_const "info"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_388: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 87} unique __ctobpl_const_415: int;
+const {:extern} {:model_const "result.question.32"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 109} unique __ctobpl_const_385: int;
 
-const {:extern} {:model_const "scanf.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_405: int;
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 84} unique __ctobpl_const_401: int;
 
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_407: int;
+const {:extern} {:model_const "scanf.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_405: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 84} unique __ctobpl_const_402: int;
+
+const {:extern} {:model_const "result.QChiSq"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_394: int;
+
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 84} unique __ctobpl_const_403: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_406: int;
+
+const {:extern} {:model_const "printf.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 102} unique __ctobpl_const_395: int;
+
+const {:extern} {:model_const "c"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_407: int;
+
+const {:extern} {:model_const "j"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_408: int;
 
 const {:extern} {:model_const "i"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_404: int;
 
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_388: int;
+const {:extern} {:model_const "f[i * c + j]"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_409: int;
 
-const {:extern} {:model_const "fputs.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 77} unique __ctobpl_const_417: int;
-
-const {:extern} {:model_const "QChiSq.arg.1"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_391: int;
-
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 102} unique __ctobpl_const_396: int;
-
-const {:extern} {:model_const "info"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 105} unique __ctobpl_const_398: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 84} unique __ctobpl_const_401: int;
-
-const {:extern} {:model_const "printf.arg.4"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 103} unique __ctobpl_const_393: int;
-
-const {:extern} {:model_const "c"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 84} unique __ctobpl_const_403: int;
-
-const {:extern} {:model_const "j"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_408: int;
-
-const {:extern} {:model_const "scanf.arg.2"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_410: int;
-
-const {:extern} {:model_const "infodf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 106} unique __ctobpl_const_400: int;
-
-const {:extern} {:model_const "result.scanf"} {:sourceFile ".\source\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_411: int;
-
-const {:extern} {:model_const "j"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_412: int;
+const {:extern} {:model_const "scanf.arg.2"} {:sourceFile ".\v6\tot_info.c"} {:sourceLine 85} unique __ctobpl_const_410: int;
 
 procedure {:extern} __iob_func() returns (__dummy_ret__iob_func: int);
   free requires INT_LT(0, alloc);
@@ -1619,63 +1619,63 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 299} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 299} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 300} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 300} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 301} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 301} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 302} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 302} true;
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 303} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 303} true;
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 304} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 304} true;
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 305} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 305} true;
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 305} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 305} true;
     rdf := MINUS_BOTH_PTR_OR_BOTH_INT(r, 1, 1);
     assume value_is(__ctobpl_const_1, rdf);
     assume value_is(__ctobpl_const_2, r);
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 306} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 306} true;
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 306} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 306} true;
     cdf := MINUS_BOTH_PTR_OR_BOTH_INT(c, 1, 1);
     assume value_is(__ctobpl_const_3, cdf);
     assume value_is(__ctobpl_const_4, c);
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 307} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 307} true;
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 307} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 307} true;
     sum := 0;
     assume value_is(__ctobpl_const_5, sum);
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 308} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 308} true;
     goto label_15_true, label_15_false;
 
   label_15_false:
@@ -1684,7 +1684,7 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 308} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 308} true;
     goto label_16_true, label_16_false;
 
   label_16_false:
@@ -1693,7 +1693,7 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 314} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 314} true;
     assert pdf != 0;
     Mem_T.INT4 := Mem_T.INT4[pdf := MULT(rdf, cdf)];
     assume value_is(__ctobpl_const_8, pdf);
@@ -1703,14 +1703,14 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 316} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 316} true;
     $malloc.arg.1$3$ := MULT(r, 8);
     assume value_is(__ctobpl_const_12, $malloc.arg.1$3$);
     assume value_is(__ctobpl_const_13, r);
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 316} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 316} true;
     call result.malloc$2 := __HAVOC_det_malloc($malloc.arg.1$3$);
     assume value_is(__ctobpl_const_14, $malloc.arg.1$3$);
     assume value_is(__ctobpl_const_15, $malloc.arg.1$3$);
@@ -1718,14 +1718,14 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 316} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 316} true;
     xi := result.malloc$2;
     assume value_is(__ctobpl_const_17, xi);
     assume value_is(__ctobpl_const_18, result.malloc$2);
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 316} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 316} true;
     goto label_26_true, label_26_false;
 
   label_26_false:
@@ -1734,23 +1734,23 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 318} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 318} true;
     info := -4;
     assume value_is(__ctobpl_const_20, info);
     goto label_104;
 
   label_104:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 319} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 319} true;
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 405} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 405} true;
     result.InfoTbl$1 := info;
     assume value_is(__ctobpl_const_131, info);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 406} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 406} true;
     return;
 
   label_26_true:
@@ -1759,14 +1759,14 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_28;
 
   label_28:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 322} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 322} true;
     $malloc.arg.1$5$ := MULT(c, 8);
     assume value_is(__ctobpl_const_21, $malloc.arg.1$5$);
     assume value_is(__ctobpl_const_22, c);
     goto label_29;
 
   label_29:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 322} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 322} true;
     call result.malloc$4 := __HAVOC_det_malloc($malloc.arg.1$5$);
     assume value_is(__ctobpl_const_23, $malloc.arg.1$5$);
     assume value_is(__ctobpl_const_24, $malloc.arg.1$5$);
@@ -1774,14 +1774,14 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_32;
 
   label_32:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 322} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 322} true;
     xj := result.malloc$4;
     assume value_is(__ctobpl_const_26, xj);
     assume value_is(__ctobpl_const_27, result.malloc$4);
     goto label_33;
 
   label_33:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 322} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 322} true;
     goto label_33_true, label_33_false;
 
   label_33_false:
@@ -1790,17 +1790,17 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_34;
 
   label_34:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 324} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 324} true;
     info := -4;
     assume value_is(__ctobpl_const_29, info);
     goto label_103;
 
   label_103:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 325} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 325} true;
     goto label_52;
 
   label_52:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 403} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 403} true;
     call __HAVOC_free(xi);
     assume value_is(__ctobpl_const_128, xi);
     assume value_is(__ctobpl_const_129, xi);
@@ -1812,19 +1812,19 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_35;
 
   label_35:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 330} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 330} true;
     N := 0;
     assume value_is(__ctobpl_const_30, N);
     goto label_36;
 
   label_36:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 332} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 332} true;
     i := 0;
     assume value_is(__ctobpl_const_31, i);
     goto label_37;
 
   label_37:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 332} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 332} true;
     goto label_37_head;
 
   label_37_head:
@@ -1838,7 +1838,7 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_38;
 
   label_38:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 352} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 352} true;
     goto label_38_true, label_38_false;
 
   label_38_false:
@@ -1847,13 +1847,13 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_57;
 
   label_57:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 360} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 360} true;
     j := 0;
     assume value_is(__ctobpl_const_35, j);
     goto label_60;
 
   label_60:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 360} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 360} true;
     goto label_60_head;
 
   label_60_head:
@@ -1867,14 +1867,14 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_61;
 
   label_61:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 372} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 372} true;
     call result.log$6 := log(N);
     assume value_is(__ctobpl_const_38, N);
     assume value_is(__ctobpl_const_39, N);
     goto label_71;
 
   label_71:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 372} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 372} true;
     info := MULT(N, result.log$6);
     assume value_is(__ctobpl_const_40, info);
     assume value_is(__ctobpl_const_41, N);
@@ -1882,13 +1882,13 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_72;
 
   label_72:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 374} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 374} true;
     i := 0;
     assume value_is(__ctobpl_const_43, i);
     goto label_73;
 
   label_73:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 374} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 374} true;
     goto label_73_head;
 
   label_73_head:
@@ -1902,13 +1902,13 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_74;
 
   label_74:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 390} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 390} true;
     j := 0;
     assume value_is(__ctobpl_const_46, j);
     goto label_93;
 
   label_93:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 390} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 390} true;
     goto label_93_head;
 
   label_93_head:
@@ -1922,14 +1922,14 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_94;
 
   label_94:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 398} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 398} true;
     tempBoogie0 := INT_MULT(info, 2);
     info := tempBoogie0;
     assume value_is(__ctobpl_const_49, info);
     goto label_49;
 
   label_49:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 401} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 401} true;
     call __HAVOC_free(xj);
     assume value_is(__ctobpl_const_126, xj);
     assume value_is(__ctobpl_const_127, xj);
@@ -1942,11 +1942,11 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_95;
 
   label_95:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 392} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 392} true;
     goto label_96;
 
   label_96:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 392} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 392} true;
     assert xj != 0;
     pj := Mem_T.FLOAT[PLUS(xj, 8, j)];
     assume value_is(__ctobpl_const_50, pj);
@@ -1956,7 +1956,7 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_97;
 
   label_97:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 394} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 394} true;
     goto label_97_true, label_97_false;
 
   label_97_false:
@@ -1976,14 +1976,14 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_99;
 
   label_99:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 395} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 395} true;
     call result.log$9 := log(pj);
     assume value_is(__ctobpl_const_55, pj);
     assume value_is(__ctobpl_const_56, pj);
     goto label_102;
 
   label_102:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 395} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 395} true;
     tempBoogie0 := MINUS_BOTH_PTR_OR_BOTH_INT(info, MULT(pj, result.log$9), 1);
     info := tempBoogie0;
     assume value_is(__ctobpl_const_57, info);
@@ -1998,11 +1998,11 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_75;
 
   label_75:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 376} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 376} true;
     goto label_76;
 
   label_76:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 376} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 376} true;
     assert xi != 0;
     pi := Mem_T.FLOAT[PLUS(xi, 8, i)];
     assume value_is(__ctobpl_const_61, pi);
@@ -2012,7 +2012,7 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_77;
 
   label_77:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 378} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 378} true;
     goto label_77_true, label_77_false;
 
   label_77_false:
@@ -2021,13 +2021,13 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_78;
 
   label_78:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 381} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 381} true;
     j := 0;
     assume value_is(__ctobpl_const_71, j);
     goto label_83;
 
   label_83:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 381} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 381} true;
     goto label_83_head;
 
   label_83_head:
@@ -2053,11 +2053,11 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_85;
 
   label_85:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 383} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 383} true;
     goto label_86;
 
   label_86:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 383} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 383} true;
     assert f != 0;
     pij := Mem_T.INT4[PLUS(f, 4, PLUS(MULT(i, c), 1, j))];
     assume value_is(__ctobpl_const_75, pij);
@@ -2069,7 +2069,7 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_87;
 
   label_87:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 385} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 385} true;
     goto label_87_true, label_87_false;
 
   label_87_false:
@@ -2089,14 +2089,14 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_89;
 
   label_89:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 386} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 386} true;
     call result.log$8 := log(pij);
     assume value_is(__ctobpl_const_82, pij);
     assume value_is(__ctobpl_const_83, pij);
     goto label_92;
 
   label_92:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 386} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 386} true;
     tempBoogie0 := PLUS(info, 1, MULT(pij, result.log$8));
     info := tempBoogie0;
     assume value_is(__ctobpl_const_84, info);
@@ -2110,14 +2110,14 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_79;
 
   label_79:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 379} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 379} true;
     call result.log$7 := log(pi);
     assume value_is(__ctobpl_const_66, pi);
     assume value_is(__ctobpl_const_67, pi);
     goto label_82;
 
   label_82:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 379} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 379} true;
     tempBoogie0 := MINUS_BOTH_PTR_OR_BOTH_INT(info, MULT(pi, result.log$7), 1);
     info := tempBoogie0;
     assume value_is(__ctobpl_const_68, info);
@@ -2132,19 +2132,19 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_64;
 
   label_64:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 362} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 362} true;
     sum := 0;
     assume value_is(__ctobpl_const_88, sum);
     goto label_65;
 
   label_65:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 364} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 364} true;
     i := 0;
     assume value_is(__ctobpl_const_89, i);
     goto label_66;
 
   label_66:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 364} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 364} true;
     goto label_66_head;
 
   label_66_head:
@@ -2158,7 +2158,7 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_67;
 
   label_67:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 367} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 367} true;
     assert xj != 0;
     Mem_T.FLOAT := Mem_T.FLOAT[PLUS(xj, 8, j) := sum];
     assume value_is(__ctobpl_const_92, xj);
@@ -2180,7 +2180,7 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_68;
 
   label_68:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 365} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 365} true;
     assert f != 0;
     tempBoogie0 := PLUS(sum, 1, Mem_T.INT4[PLUS(f, 4, PLUS(MULT(i, c), 1, j))]);
     sum := tempBoogie0;
@@ -2204,13 +2204,13 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_58;
 
   label_58:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 354} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 354} true;
     info := -1;
     assume value_is(__ctobpl_const_104, info);
     goto label_59;
 
   label_59:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 355} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 355} true;
     goto label_49;
 
   label_37_true:
@@ -2220,19 +2220,19 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_39;
 
   label_39:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 334} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 334} true;
     sum := 0;
     assume value_is(__ctobpl_const_105, sum);
     goto label_40;
 
   label_40:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 336} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 336} true;
     j := 0;
     assume value_is(__ctobpl_const_106, j);
     goto label_41;
 
   label_41:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 336} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 336} true;
     goto label_41_head;
 
   label_41_head:
@@ -2246,7 +2246,7 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_42;
 
   label_42:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 349} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 349} true;
     assert xi != 0;
     Mem_T.FLOAT := Mem_T.FLOAT[PLUS(xi, 8, i) := sum];
     tempBoogie0 := PLUS(N, 1, Mem_T.FLOAT[PLUS(xi, 8, i)]);
@@ -2271,11 +2271,11 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_43;
 
   label_43:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 338} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 338} true;
     goto label_44;
 
   label_44:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 338} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 338} true;
     assert f != 0;
     k := Mem_T.INT4[PLUS(f, 4, PLUS(MULT(i, c), 1, j))];
     assume value_is(__ctobpl_const_115, k);
@@ -2287,7 +2287,7 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_45;
 
   label_45:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 340} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 340} true;
     goto label_45_true, label_45_false;
 
   label_45_false:
@@ -2296,7 +2296,7 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_46;
 
   label_46:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 346} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 346} true;
     tempBoogie0 := PLUS(sum, 1, k);
     sum := tempBoogie0;
     assume value_is(__ctobpl_const_122, sum);
@@ -2315,13 +2315,13 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_47;
 
   label_47:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 342} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 342} true;
     info := -2;
     assume value_is(__ctobpl_const_125, info);
     goto label_48;
 
   label_48:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 343} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 343} true;
     goto label_49;
 
   label_16_true:
@@ -2330,13 +2330,13 @@ implementation {:extern} InfoTbl(r.__1: int, c.__1: int, f.__1: int, pdf.__1: in
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 310} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 310} true;
     info := -3;
     assume value_is(__ctobpl_const_130, info);
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 311} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 311} true;
     goto label_19;
 
   label_15_true:
@@ -2463,19 +2463,19 @@ implementation {:extern} LGamma(x.__1: int) returns (result.LGamma$1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 158} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 158} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 158} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 158} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 159} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 159} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 162} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 162} true;
     x := MINUS_BOTH_PTR_OR_BOTH_INT(x, 1, 1);
     goto label_6_true, label_6_false;
 
@@ -2485,21 +2485,21 @@ implementation {:extern} LGamma(x.__1: int) returns (result.LGamma$1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 169} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 169} true;
     tmp := PLUS(x, 1, BOOGIE_FLOAT_CONST_5.5);
     assume value_is(__ctobpl_const_133, tmp);
     assume value_is(__ctobpl_const_134, x);
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 170} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 170} true;
     call result.log$7 := log(tmp);
     assume value_is(__ctobpl_const_135, tmp);
     assume value_is(__ctobpl_const_136, tmp);
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 170} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 170} true;
     tempBoogie0 := MINUS_BOTH_PTR_OR_BOTH_INT(tmp, MULT(PLUS(x, 1, BOOGIE_FLOAT_CONST_0.5), result.log$7), 1);
     tmp := tempBoogie0;
     assume value_is(__ctobpl_const_137, tmp);
@@ -2508,19 +2508,19 @@ implementation {:extern} LGamma(x.__1: int) returns (result.LGamma$1: int)
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 172} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 172} true;
     ser := 1;
     assume value_is(__ctobpl_const_140, ser);
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 174} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 174} true;
     j := 0;
     assume value_is(__ctobpl_const_141, j);
     goto label_28;
 
   label_28:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 174} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 174} true;
     goto label_28_head;
 
   label_28_head:
@@ -2533,28 +2533,28 @@ implementation {:extern} LGamma(x.__1: int) returns (result.LGamma$1: int)
     goto label_29;
 
   label_29:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 177} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 177} true;
     $log.arg.1$9$ := MULT(BOOGIE_FLOAT_CONST_2.50663, ser);
     assume value_is(__ctobpl_const_143, $log.arg.1$9$);
     assume value_is(__ctobpl_const_144, ser);
     goto label_32;
 
   label_32:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 177} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 177} true;
     call result.log$8 := log($log.arg.1$9$);
     assume value_is(__ctobpl_const_145, $log.arg.1$9$);
     assume value_is(__ctobpl_const_146, $log.arg.1$9$);
     goto label_35;
 
   label_35:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 177} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 177} true;
     result.LGamma$1 := PLUS(-tmp, 1, result.log$8);
     assume value_is(__ctobpl_const_147, tmp);
     assume value_is(__ctobpl_const_148, result.log$8);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 178} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 178} true;
     return;
 
   label_28_true:
@@ -2563,7 +2563,7 @@ implementation {:extern} LGamma(x.__1: int) returns (result.LGamma$1: int)
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 175} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 175} true;
     assert cof != 0;
     x := PLUS(x, 1, 1);
     tempBoogie0 := PLUS(ser, 1, BINARY_BOTH_INT(Mem_T.FLOAT[PLUS(cof, 8, j)], x));
@@ -2586,25 +2586,25 @@ implementation {:extern} LGamma(x.__1: int) returns (result.LGamma$1: int)
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 164} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 164} true;
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 164} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 164} true;
     pix := MULT(BOOGIE_FLOAT_CONST_3.14159, x);
     assume value_is(__ctobpl_const_154, pix);
     assume value_is(__ctobpl_const_155, x);
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 166} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 166} true;
     call result.sin$3 := sin(pix);
     assume value_is(__ctobpl_const_156, pix);
     assume value_is(__ctobpl_const_157, pix);
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 166} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 166} true;
     $log.arg.1$4$ := BINARY_BOTH_INT(pix, result.sin$3);
     assume value_is(__ctobpl_const_158, $log.arg.1$4$);
     assume value_is(__ctobpl_const_159, pix);
@@ -2612,28 +2612,28 @@ implementation {:extern} LGamma(x.__1: int) returns (result.LGamma$1: int)
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 166} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 166} true;
     call result.log$2 := log($log.arg.1$4$);
     assume value_is(__ctobpl_const_161, $log.arg.1$4$);
     assume value_is(__ctobpl_const_162, $log.arg.1$4$);
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 166} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 166} true;
     $LGamma.arg.1$6$ := MINUS_BOTH_PTR_OR_BOTH_INT(1, x, 1);
     assume value_is(__ctobpl_const_163, $LGamma.arg.1$6$);
     assume value_is(__ctobpl_const_164, x);
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 166} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 166} true;
     call result.LGamma$5 := LGamma($LGamma.arg.1$6$);
     assume value_is(__ctobpl_const_165, $LGamma.arg.1$6$);
     assume value_is(__ctobpl_const_166, $LGamma.arg.1$6$);
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 166} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 166} true;
     result.LGamma$1 := MINUS_BOTH_PTR_OR_BOTH_INT(result.log$2, result.LGamma$5, 1);
     assume value_is(__ctobpl_const_167, result.log$2);
     assume value_is(__ctobpl_const_168, result.LGamma$5);
@@ -2701,21 +2701,21 @@ implementation {:extern} QChiSq(chisq.__1: int, df.__1: int) returns (result.QCh
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 256} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 256} true;
     $QGamma.arg.2$3$ := BINARY_BOTH_INT(chisq, 2);
     assume value_is(__ctobpl_const_169, $QGamma.arg.2$3$);
     assume value_is(__ctobpl_const_170, chisq);
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 256} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 256} true;
     $QGamma.arg.1$4$ := BINARY_BOTH_INT(df, 2);
     assume value_is(__ctobpl_const_171, $QGamma.arg.1$4$);
     assume value_is(__ctobpl_const_172, df);
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 256} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 256} true;
     call result.QGamma$2 := QGamma($QGamma.arg.1$4$, $QGamma.arg.2$3$);
     assume value_is(__ctobpl_const_173, $QGamma.arg.1$4$);
     assume value_is(__ctobpl_const_174, $QGamma.arg.2$3$);
@@ -2724,13 +2724,13 @@ implementation {:extern} QChiSq(chisq.__1: int, df.__1: int) returns (result.QCh
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 256} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 256} true;
     result.QChiSq$1 := result.QGamma$2;
     assume value_is(__ctobpl_const_177, result.QGamma$2);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 257} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 257} true;
     return;
 }
 
@@ -2796,7 +2796,7 @@ implementation {:extern} QGamma(a.__1: int, x.__1: int) returns (result.QGamma$1
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 248} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 248} true;
     goto label_3_true, label_3_false;
 
   label_3_false:
@@ -2806,21 +2806,21 @@ implementation {:extern} QGamma(a.__1: int, x.__1: int) returns (result.QGamma$1
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 248} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 248} true;
     $gcf.arg.2$7$ := x;
     assume value_is(__ctobpl_const_180, $gcf.arg.2$7$);
     assume value_is(__ctobpl_const_181, x);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 248} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 248} true;
     $gcf.arg.1$8$ := a;
     assume value_is(__ctobpl_const_182, $gcf.arg.1$8$);
     assume value_is(__ctobpl_const_183, a);
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 248} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 248} true;
     call result.gcf$6 := gcf($gcf.arg.1$8$, $gcf.arg.2$7$);
     assume value_is(__ctobpl_const_184, $gcf.arg.1$8$);
     assume value_is(__ctobpl_const_185, $gcf.arg.2$7$);
@@ -2829,20 +2829,20 @@ implementation {:extern} QGamma(a.__1: int, x.__1: int) returns (result.QGamma$1
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 248} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 248} true;
     $result.question.2$ := result.gcf$6;
     assume value_is(__ctobpl_const_188, $result.question.2$);
     assume value_is(__ctobpl_const_189, result.gcf$6);
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 248} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 248} true;
     result.QGamma$1 := $result.question.2$;
     assume value_is(__ctobpl_const_200, $result.question.2$);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 249} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 249} true;
     return;
 
   label_3_true:
@@ -2852,21 +2852,21 @@ implementation {:extern} QGamma(a.__1: int, x.__1: int) returns (result.QGamma$1
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 248} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 248} true;
     $gser.arg.2$4$ := x;
     assume value_is(__ctobpl_const_190, $gser.arg.2$4$);
     assume value_is(__ctobpl_const_191, x);
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 248} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 248} true;
     $gser.arg.1$5$ := a;
     assume value_is(__ctobpl_const_192, $gser.arg.1$5$);
     assume value_is(__ctobpl_const_193, a);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 248} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 248} true;
     call result.gser$3 := gser($gser.arg.1$5$, $gser.arg.2$4$);
     assume value_is(__ctobpl_const_194, $gser.arg.1$5$);
     assume value_is(__ctobpl_const_195, $gser.arg.2$4$);
@@ -2875,7 +2875,7 @@ implementation {:extern} QGamma(a.__1: int, x.__1: int) returns (result.QGamma$1
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 248} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 248} true;
     $result.question.2$ := MINUS_BOTH_PTR_OR_BOTH_INT(1, result.gser$3, 1);
     assume value_is(__ctobpl_const_198, $result.question.2$);
     assume value_is(__ctobpl_const_199, result.gser$3);
@@ -2966,78 +2966,78 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 211} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 211} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 212} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 212} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 212} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 212} true;
     gold := 0;
     assume value_is(__ctobpl_const_201, gold);
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 212} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 212} true;
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 212} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 212} true;
     fac := 1;
     assume value_is(__ctobpl_const_202, fac);
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 212} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 212} true;
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 212} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 212} true;
     b1 := 1;
     assume value_is(__ctobpl_const_203, b1);
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 213} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 213} true;
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 213} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 213} true;
     b0 := 0;
     assume value_is(__ctobpl_const_204, b0);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 213} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 213} true;
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 213} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 213} true;
     a0 := 1;
     assume value_is(__ctobpl_const_205, a0);
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 213} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 213} true;
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 213} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 213} true;
     a1 := x;
     assume value_is(__ctobpl_const_206, a1);
     assume value_is(__ctobpl_const_207, x);
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 215} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 215} true;
     n := 1;
     assume value_is(__ctobpl_const_208, n);
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 215} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 215} true;
     goto label_17_head;
 
   label_17_head:
@@ -3050,7 +3050,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 241} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 241} true;
     return;
 
   label_17_true:
@@ -3059,26 +3059,26 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 217} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 217} true;
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 218} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 218} true;
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 218} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 218} true;
     an := n;
     assume value_is(__ctobpl_const_210, an);
     assume value_is(__ctobpl_const_211, n);
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 219} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 219} true;
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 219} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 219} true;
     ana := MINUS_BOTH_PTR_OR_BOTH_INT(an, a, 1);
     assume value_is(__ctobpl_const_212, ana);
     assume value_is(__ctobpl_const_213, an);
@@ -3086,7 +3086,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 221} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 221} true;
     a0 := MULT(PLUS(a1, 1, MULT(a0, ana)), fac);
     assume value_is(__ctobpl_const_215, a0);
     assume value_is(__ctobpl_const_216, a1);
@@ -3096,7 +3096,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 222} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 222} true;
     b0 := MULT(PLUS(b1, 1, MULT(b0, ana)), fac);
     assume value_is(__ctobpl_const_220, b0);
     assume value_is(__ctobpl_const_221, b1);
@@ -3106,7 +3106,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 223} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 223} true;
     anf := MULT(an, fac);
     assume value_is(__ctobpl_const_225, anf);
     assume value_is(__ctobpl_const_226, an);
@@ -3114,7 +3114,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 224} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 224} true;
     b1 := PLUS(MULT(x, b0), 1, MULT(anf, b1));
     assume value_is(__ctobpl_const_228, b1);
     assume value_is(__ctobpl_const_229, x);
@@ -3124,7 +3124,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 225} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 225} true;
     a1 := PLUS(MULT(x, a0), 1, MULT(anf, a1));
     assume value_is(__ctobpl_const_233, a1);
     assume value_is(__ctobpl_const_234, x);
@@ -3134,7 +3134,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_28;
 
   label_28:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 227} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 227} true;
     goto label_28_true, label_28_false;
 
   label_28_false:
@@ -3154,18 +3154,18 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 229} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 229} true;
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 229} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 229} true;
     fac := BINARY_BOTH_INT(1, a1);
     assume value_is(__ctobpl_const_239, fac);
     assume value_is(__ctobpl_const_240, a1);
     goto label_32;
 
   label_32:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 229} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 229} true;
     g := MULT(b1, fac);
     assume value_is(__ctobpl_const_241, g);
     assume value_is(__ctobpl_const_242, b1);
@@ -3173,7 +3173,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_33;
 
   label_33:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 231} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 231} true;
     gold := MINUS_BOTH_PTR_OR_BOTH_INT(g, gold, 1);
     assume value_is(__ctobpl_const_244, gold);
     assume value_is(__ctobpl_const_245, g);
@@ -3181,7 +3181,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_34;
 
   label_34:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     goto label_34_true, label_34_false;
 
   label_34_false:
@@ -3190,14 +3190,14 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_35;
 
   label_35:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     $result.question.2$_123_$static$ := gold;
     assume value_is(__ctobpl_const_248, $result.question.2$_123_$static$);
     assume value_is(__ctobpl_const_249, gold);
     goto label_37;
 
   label_37:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     goto label_37_true, label_37_false;
 
   label_37_false:
@@ -3206,14 +3206,14 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_38;
 
   label_38:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     $result.question.3$_123_$static$ := g;
     assume value_is(__ctobpl_const_253, $result.question.3$_123_$static$);
     assume value_is(__ctobpl_const_254, g);
     goto label_40;
 
   label_40:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     goto label_40_true, label_40_false;
 
   label_40_false:
@@ -3223,7 +3223,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_41;
 
   label_41:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 236} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 236} true;
     gold := g;
     assume value_is(__ctobpl_const_259, gold);
     assume value_is(__ctobpl_const_260, g);
@@ -3236,28 +3236,28 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_42;
 
   label_42:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 234} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 234} true;
     call result.log$5 := log(x);
     assume value_is(__ctobpl_const_262, x);
     assume value_is(__ctobpl_const_263, x);
     goto label_45;
 
   label_45:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 234} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 234} true;
     $LGamma.arg.1$7$_123_$static$ := a;
     assume value_is(__ctobpl_const_264, $LGamma.arg.1$7$_123_$static$);
     assume value_is(__ctobpl_const_265, a);
     goto label_46;
 
   label_46:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 234} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 234} true;
     call result.LGamma$6 := LGamma($LGamma.arg.1$7$_123_$static$);
     assume value_is(__ctobpl_const_266, $LGamma.arg.1$7$_123_$static$);
     assume value_is(__ctobpl_const_267, $LGamma.arg.1$7$_123_$static$);
     goto label_49;
 
   label_49:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 234} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 234} true;
     $exp.arg.1$8$_123_$static$ := MINUS_BOTH_PTR_OR_BOTH_INT(PLUS(-x, 1, MULT(a, result.log$5)), result.LGamma$6, 1);
     assume value_is(__ctobpl_const_268, $exp.arg.1$8$_123_$static$);
     assume value_is(__ctobpl_const_269, x);
@@ -3267,14 +3267,14 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_50;
 
   label_50:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 234} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 234} true;
     call result.exp$4 := exp($exp.arg.1$8$_123_$static$);
     assume value_is(__ctobpl_const_273, $exp.arg.1$8$_123_$static$);
     assume value_is(__ctobpl_const_274, $exp.arg.1$8$_123_$static$);
     goto label_53;
 
   label_53:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 234} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 234} true;
     result.gcf$1 := MULT(result.exp$4, g);
     assume value_is(__ctobpl_const_275, result.exp$4);
     assume value_is(__ctobpl_const_276, g);
@@ -3286,7 +3286,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_39;
 
   label_39:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     $result.question.3$_123_$static$ := -g;
     assume value_is(__ctobpl_const_255, $result.question.3$_123_$static$);
     assume value_is(__ctobpl_const_256, g);
@@ -3298,7 +3298,7 @@ implementation {:extern} gcf(a.__1: int, x.__1: int) returns (result.gcf$1: int)
     goto label_36;
 
   label_36:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     $result.question.2$_123_$static$ := -gold;
     assume value_is(__ctobpl_const_250, $result.question.2$_123_$static$);
     assume value_is(__ctobpl_const_251, gold);
@@ -3382,23 +3382,23 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 187} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 187} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 187} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 187} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 187} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 187} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 188} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 188} true;
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 191} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 191} true;
     goto label_7_true, label_7_false;
 
   label_7_false:
@@ -3407,34 +3407,34 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 194} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 194} true;
     ap := a;
     assume value_is(__ctobpl_const_278, ap);
     assume value_is(__ctobpl_const_279, a);
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 194} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 194} true;
     sum := BINARY_BOTH_INT(1, ap);
     assume value_is(__ctobpl_const_280, sum);
     assume value_is(__ctobpl_const_281, ap);
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 194} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 194} true;
     del := sum;
     assume value_is(__ctobpl_const_282, del);
     assume value_is(__ctobpl_const_283, sum);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 196} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 196} true;
     n := 1;
     assume value_is(__ctobpl_const_284, n);
     goto label_13;
 
   label_13:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 196} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 196} true;
     goto label_13_head;
 
   label_13_head:
@@ -3447,7 +3447,7 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 205} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 205} true;
     return;
 
   label_13_true:
@@ -3456,7 +3456,7 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_14;
 
   label_14:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 198} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 198} true;
     ap := PLUS(ap, 1, 1);
     tempBoogie0 := INT_MULT(del, BINARY_BOTH_INT(x, ap));
     del := tempBoogie0;
@@ -3469,7 +3469,7 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_15;
 
   label_15:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     goto label_15_true, label_15_false;
 
   label_15_false:
@@ -3478,14 +3478,14 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     $result.question.2$_123_$static$ := del;
     assume value_is(__ctobpl_const_291, $result.question.2$_123_$static$);
     assume value_is(__ctobpl_const_292, del);
     goto label_18;
 
   label_18:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     goto label_18_true, label_18_false;
 
   label_18_false:
@@ -3494,14 +3494,14 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     $result.question.3$_123_$static$ := sum;
     assume value_is(__ctobpl_const_296, $result.question.3$_123_$static$);
     assume value_is(__ctobpl_const_297, sum);
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     goto label_21_true, label_21_false;
 
   label_21_false:
@@ -3523,28 +3523,28 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 201} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 201} true;
     call result.log$5 := log(x);
     assume value_is(__ctobpl_const_303, x);
     assume value_is(__ctobpl_const_304, x);
     goto label_26;
 
   label_26:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 201} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 201} true;
     $LGamma.arg.1$7$_123_$static$ := a;
     assume value_is(__ctobpl_const_305, $LGamma.arg.1$7$_123_$static$);
     assume value_is(__ctobpl_const_306, a);
     goto label_27;
 
   label_27:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 201} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 201} true;
     call result.LGamma$6 := LGamma($LGamma.arg.1$7$_123_$static$);
     assume value_is(__ctobpl_const_307, $LGamma.arg.1$7$_123_$static$);
     assume value_is(__ctobpl_const_308, $LGamma.arg.1$7$_123_$static$);
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 201} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 201} true;
     $exp.arg.1$8$_123_$static$ := MINUS_BOTH_PTR_OR_BOTH_INT(PLUS(-x, 1, MULT(a, result.log$5)), result.LGamma$6, 1);
     assume value_is(__ctobpl_const_309, $exp.arg.1$8$_123_$static$);
     assume value_is(__ctobpl_const_310, x);
@@ -3554,14 +3554,14 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 201} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 201} true;
     call result.exp$4 := exp($exp.arg.1$8$_123_$static$);
     assume value_is(__ctobpl_const_314, $exp.arg.1$8$_123_$static$);
     assume value_is(__ctobpl_const_315, $exp.arg.1$8$_123_$static$);
     goto label_34;
 
   label_34:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 201} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 201} true;
     result.gser$1 := MULT(sum, result.exp$4);
     assume value_is(__ctobpl_const_316, sum);
     assume value_is(__ctobpl_const_317, result.exp$4);
@@ -3573,7 +3573,7 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     $result.question.3$_123_$static$ := -sum;
     assume value_is(__ctobpl_const_298, $result.question.3$_123_$static$);
     assume value_is(__ctobpl_const_299, sum);
@@ -3585,7 +3585,7 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_17;
 
   label_17:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     $result.question.2$_123_$static$ := -del;
     assume value_is(__ctobpl_const_293, $result.question.2$_123_$static$);
     assume value_is(__ctobpl_const_294, del);
@@ -3597,7 +3597,7 @@ implementation {:extern} gser(a.__1: int, x.__1: int) returns (result.gser$1: in
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 192} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 192} true;
     result.gser$1 := 0;
     goto label_1;
 
@@ -3754,47 +3754,47 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 45} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 45} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 46} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 46} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 47} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 47} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 48} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 48} true;
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 49} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 49} true;
     goto label_8;
 
   label_8:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 50} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 50} true;
     goto label_9;
 
   label_9:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 50} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 50} true;
     totinfo := 0;
     assume value_is(__ctobpl_const_318, totinfo);
     goto label_10;
 
   label_10:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 51} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 51} true;
     goto label_11;
 
   label_11:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 53} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 53} true;
     totdf := 0;
     assume value_is(__ctobpl_const_319, totdf);
     goto label_12;
 
   label_12:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 55} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 55} true;
     goto label_12_head;
 
   label_12_head:
@@ -3802,7 +3802,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_12_head_last;
 
   label_15:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 55} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 55} true;
     assert result.__iob_func$3 != 0;
     $fgets.arg.3$4$ := PLUS(result.__iob_func$3, 32, 0);
     assume value_is(__ctobpl_const_320, $fgets.arg.3$4$);
@@ -3810,14 +3810,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_16;
 
   label_16:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 55} true;
-    call result.fgets$2 := fgets(line, 256, $fgets.arg.3$4$);
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 55} true;
+    call result.fgets$2 := fgets(line, 56, $fgets.arg.3$4$);
     assume value_is(__ctobpl_const_322, $fgets.arg.3$4$);
     assume value_is(__ctobpl_const_323, $fgets.arg.3$4$);
     goto label_19;
 
   label_19:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 55} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 55} true;
     goto label_19_true, label_19_false;
 
   label_19_false:
@@ -3826,7 +3826,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_20;
 
   label_20:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 117} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 117} true;
     goto label_20_true, label_20_false;
 
   label_20_false:
@@ -3835,14 +3835,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_113;
 
   label_113:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 125} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 125} true;
     $QChiSq.arg.1$40$ := totinfo;
     assume value_is(__ctobpl_const_326, $QChiSq.arg.1$40$);
     assume value_is(__ctobpl_const_327, totinfo);
     goto label_122;
 
   label_122:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 125} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 125} true;
     call result.QChiSq$39 := QChiSq($QChiSq.arg.1$40$, totdf);
     assume value_is(__ctobpl_const_328, $QChiSq.arg.1$40$);
     assume value_is(__ctobpl_const_329, totdf);
@@ -3851,31 +3851,31 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_125;
 
   label_125:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 125} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 125} true;
     $printf.arg.4$41$ := result.QChiSq$39;
     assume value_is(__ctobpl_const_332, $printf.arg.4$41$);
     assume value_is(__ctobpl_const_333, result.QChiSq$39);
     goto label_126;
 
   label_126:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 124} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 124} true;
     $printf.arg.2$42$ := totinfo;
     assume value_is(__ctobpl_const_334, $printf.arg.2$42$);
     assume value_is(__ctobpl_const_335, totinfo);
     goto label_127;
 
   label_127:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 123} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 123} true;
     call result.printf$38 := det_choice();
     goto label_130;
 
   label_130:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 127} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 127} true;
     result.main$1 := 0;
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 128} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 128} true;
     call __HAVOC_free(infodf);
     return;
 
@@ -3885,12 +3885,12 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_114;
 
   label_114:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 119} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 119} true;
     call result.__iob_func$36 := __iob_func();
     goto label_117;
 
   label_117:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 119} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 119} true;
     assert result.__iob_func$36 != 0;
     $fputs.arg.2$37$ := PLUS(result.__iob_func$36, 32, 1);
     assume value_is(__ctobpl_const_336, $fputs.arg.2$37$);
@@ -3898,14 +3898,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_118;
 
   label_118:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 119} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 119} true;
     call result.fputs$35 := fputs(havoc_stringTemp, $fputs.arg.2$37$);
     assume value_is(__ctobpl_const_338, $fputs.arg.2$37$);
     assume value_is(__ctobpl_const_339, $fputs.arg.2$37$);
     goto label_121;
 
   label_121:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 120} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 120} true;
     result.main$1 := 1;
     goto label_1;
 
@@ -3915,13 +3915,13 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_21;
 
   label_21:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     p := line;
     assume value_is(__ctobpl_const_340, p);
     goto label_22;
 
   label_22:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     goto label_22_head;
 
   label_22_head:
@@ -3935,7 +3935,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_23;
 
   label_23:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 60} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 60} true;
     assert p != 0;
     goto label_23_true, label_23_false;
 
@@ -3946,7 +3946,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_30;
 
   label_30:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 61} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 61} true;
     goto label_30_dummy;
 
   label_23_true:
@@ -3956,7 +3956,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_31;
 
   label_31:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 63} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 63} true;
     assert p != 0;
     goto label_31_true, label_31_false;
 
@@ -3967,7 +3967,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_32;
 
   label_32:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 69} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 69} true;
     call result.sscanf$10 := det_choice();
     call tempBoogie0 := det_choice();
     Mem_T.INT4[r] := tempBoogie0;
@@ -3978,7 +3978,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_43;
 
   label_43:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 69} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 69} true;
     goto label_43_true, label_43_false;
 
   label_43_false:
@@ -3987,7 +3987,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_44;
 
   label_44:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 75} true;
     goto label_44_true, label_44_false;
 
   label_44_false:
@@ -3997,13 +3997,13 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_53;
 
   label_53:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 83} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 83} true;
     i := 0;
     assume value_is(__ctobpl_const_358, i);
     goto label_62;
 
   label_62:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 83} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 83} true;
     goto label_62_head;
 
   label_62_head:
@@ -4017,11 +4017,11 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_63;
 
   label_63:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 95} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 95} true;
     goto label_81;
 
   label_81:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 95} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 95} true;
     call result.InfoTbl$22 := InfoTbl(Mem_T.INT4[r], Mem_T.INT4[c], $InfoTbl.arg.3$23$, infodf);
     assume value_is(__ctobpl_const_361, Mem_T.INT4[r]);
     assume value_is(__ctobpl_const_362, Mem_T.INT4[c]);
@@ -4032,14 +4032,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_84;
 
   label_84:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 95} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 95} true;
     info := result.InfoTbl$22;
     assume value_is(__ctobpl_const_367, info);
     assume value_is(__ctobpl_const_368, result.InfoTbl$22);
     goto label_85;
 
   label_85:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 99} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 99} true;
     goto label_85_true, label_85_false;
 
   label_85_false:
@@ -4048,12 +4048,12 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_86;
 
   label_86:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 113} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 113} true;
     call result.__iob_func$30 := __iob_func();
     goto label_100;
 
   label_100:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 113} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 113} true;
     assert result.__iob_func$30 != 0;
     $fputs.arg.2$31$ := PLUS(result.__iob_func$30, 32, 1);
     assume value_is(__ctobpl_const_370, $fputs.arg.2$31$);
@@ -4061,7 +4061,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_101;
 
   label_101:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 109} true;
     goto label_101_true, label_101_false;
 
   label_101_false:
@@ -4070,7 +4070,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_102;
 
   label_102:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 110} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 110} true;
     goto label_102_true, label_102_false;
 
   label_102_false:
@@ -4079,7 +4079,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_107;
 
   label_107:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 111} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 111} true;
     goto label_107_true, label_107_false;
 
   label_107_false:
@@ -4088,27 +4088,27 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_110;
 
   label_110:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 111} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 111} true;
     $result.question.34$ := havoc_stringTemp;
     assume value_is(__ctobpl_const_375, $result.question.34$);
     goto label_112;
 
   label_112:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 110} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 110} true;
     $result.question.33$ := $result.question.34$;
     assume value_is(__ctobpl_const_377, $result.question.33$);
     assume value_is(__ctobpl_const_378, $result.question.34$);
     goto label_109;
 
   label_109:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 109} true;
     $result.question.32$ := $result.question.33$;
     assume value_is(__ctobpl_const_380, $result.question.32$);
     assume value_is(__ctobpl_const_381, $result.question.33$);
     goto label_104;
 
   label_104:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 109} true;
     call result.fputs$29 := fputs($result.question.32$, $fputs.arg.2$31$);
     assume value_is(__ctobpl_const_383, $result.question.32$);
     assume value_is(__ctobpl_const_384, $fputs.arg.2$31$);
@@ -4122,7 +4122,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_111;
 
   label_111:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 111} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 111} true;
     $result.question.34$ := havoc_stringTemp;
     assume value_is(__ctobpl_const_376, $result.question.34$);
     goto label_112;
@@ -4133,7 +4133,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_108;
 
   label_108:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 110} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 110} true;
     $result.question.33$ := havoc_stringTemp;
     assume value_is(__ctobpl_const_379, $result.question.33$);
     goto label_109;
@@ -4144,7 +4144,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_103;
 
   label_103:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 109} true;
     $result.question.32$ := havoc_stringTemp;
     assume value_is(__ctobpl_const_382, $result.question.32$);
     goto label_104;
@@ -4155,14 +4155,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_89;
 
   label_89:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 103} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 103} true;
     $QChiSq.arg.1$26$ := info;
     assume value_is(__ctobpl_const_387, $QChiSq.arg.1$26$);
     assume value_is(__ctobpl_const_388, info);
     goto label_90;
 
   label_90:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 103} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 103} true;
     call result.QChiSq$25 := QChiSq($QChiSq.arg.1$26$, Mem_T.INT4[infodf]);
     assume value_is(__ctobpl_const_389, $QChiSq.arg.1$26$);
     assume value_is(__ctobpl_const_390, Mem_T.INT4[infodf]);
@@ -4171,26 +4171,26 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_93;
 
   label_93:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 103} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 103} true;
     $printf.arg.4$27$ := result.QChiSq$25;
     assume value_is(__ctobpl_const_393, $printf.arg.4$27$);
     assume value_is(__ctobpl_const_394, result.QChiSq$25);
     goto label_94;
 
   label_94:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 102} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 102} true;
     $printf.arg.2$28$ := info;
     assume value_is(__ctobpl_const_395, $printf.arg.2$28$);
     assume value_is(__ctobpl_const_396, info);
     goto label_95;
 
   label_95:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 101} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 101} true;
     call result.printf$24 := det_choice();
     goto label_98;
 
   label_98:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 105} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 105} true;
     tempBoogie0 := PLUS(totinfo, 1, info);
     totinfo := tempBoogie0;
     assume value_is(__ctobpl_const_397, totinfo);
@@ -4198,7 +4198,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_99;
 
   label_99:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 106} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 106} true;
     tempBoogie0 := PLUS(totdf, 1, Mem_T.INT4[infodf]);
     totdf := tempBoogie0;
     assume value_is(__ctobpl_const_399, totdf);
@@ -4212,13 +4212,13 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_64;
 
   label_64:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 84} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 84} true;
     j := 0;
     assume value_is(__ctobpl_const_401, j);
     goto label_65;
 
   label_65:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 84} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 84} true;
     goto label_65_head;
 
   label_65_head:
@@ -4244,7 +4244,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_67;
 
   label_67:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     assert f != 0;
     $scanf.arg.2$18$ := PLUS(f, 4, PLUS(MULT(i, Mem_T.INT4[c]), 1, j));
     assume value_is(__ctobpl_const_405, $scanf.arg.2$18$);
@@ -4255,7 +4255,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_68;
 
   label_68:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     call result.scanf$17 := det_choice();
     call tempBoogie0 := det_choice();
     Mem_T.INT4[$scanf.arg.2$18$] := tempBoogie0;
@@ -4263,7 +4263,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_71;
 
   label_71:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     goto label_71_true, label_71_false;
 
   label_71_false:
@@ -4283,12 +4283,12 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_73;
 
   label_73:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 88} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 88} true;
     call result.__iob_func$20 := __iob_func();
     goto label_76;
 
   label_76:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 88} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 88} true;
     assert result.__iob_func$20 != 0;
     $fputs.arg.2$21$ := PLUS(result.__iob_func$20, 32, 1);
     assume value_is(__ctobpl_const_413, $fputs.arg.2$21$);
@@ -4296,14 +4296,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_77;
 
   label_77:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 87} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 87} true;
     call result.fputs$19 := fputs(havoc_stringTemp, $fputs.arg.2$21$);
     assume value_is(__ctobpl_const_415, $fputs.arg.2$21$);
     assume value_is(__ctobpl_const_416, $fputs.arg.2$21$);
     goto label_80;
 
   label_80:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 90} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 90} true;
     result.main$1 := 1;
     goto label_1;
 
@@ -4314,12 +4314,12 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_54;
 
   label_54:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 77} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 77} true;
     call result.__iob_func$15 := __iob_func();
     goto label_57;
 
   label_57:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 77} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 77} true;
     assert result.__iob_func$15 != 0;
     $fputs.arg.2$16$ := PLUS(result.__iob_func$15, 32, 1);
     assume value_is(__ctobpl_const_417, $fputs.arg.2$16$);
@@ -4327,14 +4327,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_58;
 
   label_58:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 77} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 77} true;
     call result.fputs$14 := fputs(havoc_stringTemp, $fputs.arg.2$16$);
     assume value_is(__ctobpl_const_419, $fputs.arg.2$16$);
     assume value_is(__ctobpl_const_420, $fputs.arg.2$16$);
     goto label_61;
 
   label_61:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 78} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 78} true;
     result.main$1 := 1;
     goto label_1;
 
@@ -4344,12 +4344,12 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_45;
 
   label_45:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 71} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 71} true;
     call result.__iob_func$12 := __iob_func();
     goto label_48;
 
   label_48:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 71} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 71} true;
     assert result.__iob_func$12 != 0;
     $fputs.arg.2$13$ := PLUS(result.__iob_func$12, 32, 1);
     assume value_is(__ctobpl_const_421, $fputs.arg.2$13$);
@@ -4357,14 +4357,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_49;
 
   label_49:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 71} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 71} true;
     call result.fputs$11 := fputs(havoc_stringTemp, $fputs.arg.2$13$);
     assume value_is(__ctobpl_const_423, $fputs.arg.2$13$);
     assume value_is(__ctobpl_const_424, $fputs.arg.2$13$);
     goto label_52;
 
   label_52:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 72} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 72} true;
     result.main$1 := 1;
     goto label_1;
 
@@ -4375,12 +4375,12 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_35;
 
   label_35:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 65} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 65} true;
     call result.__iob_func$8 := __iob_func();
     goto label_38;
 
   label_38:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 65} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 65} true;
     assert result.__iob_func$8 != 0;
     $fputs.arg.2$9$ := PLUS(result.__iob_func$8, 32, 1);
     assume value_is(__ctobpl_const_425, $fputs.arg.2$9$);
@@ -4388,14 +4388,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_39;
 
   label_39:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 65} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 65} true;
     call result.fputs$7 := fputs(line, $fputs.arg.2$9$);
     assume value_is(__ctobpl_const_427, $fputs.arg.2$9$);
     assume value_is(__ctobpl_const_428, $fputs.arg.2$9$);
     goto label_42;
 
   label_42:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 66} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 66} true;
     goto label_42_dummy;
 
   label_22_true:
@@ -4405,7 +4405,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_24;
 
   label_24:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     assert p != 0;
     $isspace.arg.1$6$ := Mem_T.CHAR[p];
     assume value_is(__ctobpl_const_343, $isspace.arg.1$6$);
@@ -4414,14 +4414,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_25;
 
   label_25:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     call result.isspace$5 := isspace($isspace.arg.1$6$);
     assume value_is(__ctobpl_const_346, $isspace.arg.1$6$);
     assume value_is(__ctobpl_const_347, $isspace.arg.1$6$);
     goto label_28;
 
   label_28:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     goto label_28_true, label_28_false;
 
   label_28_false:
@@ -4514,7 +4514,7 @@ implementation InfoTbl_loop_label_93_head(in_c: int, in_info: int, in_j: int, in
     goto label_98;
 
   label_102:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 395} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 395} true;
     out_tempBoogie0 := MINUS_BOTH_PTR_OR_BOTH_INT(out_info, MULT(out_pj, out_result.log$9), 1);
     out_info := out_tempBoogie0;
     assume value_is(__ctobpl_const_57, out_info);
@@ -4523,7 +4523,7 @@ implementation InfoTbl_loop_label_93_head(in_c: int, in_info: int, in_j: int, in
     goto label_98;
 
   label_99:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 395} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 395} true;
     call out_result.log$9 := log(out_pj);
     assume value_is(__ctobpl_const_55, out_pj);
     assume value_is(__ctobpl_const_56, out_pj);
@@ -4535,11 +4535,11 @@ implementation InfoTbl_loop_label_93_head(in_c: int, in_info: int, in_j: int, in
     goto label_99;
 
   label_97:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 394} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 394} true;
     goto label_97_true, label_97_false;
 
   label_96:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 392} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 392} true;
     assert in_xj != 0;
     out_pj := Mem_T.FLOAT[PLUS(in_xj, 8, out_j)];
     assume value_is(__ctobpl_const_50, out_pj);
@@ -4549,7 +4549,7 @@ implementation InfoTbl_loop_label_93_head(in_c: int, in_info: int, in_j: int, in
     goto label_97;
 
   label_95:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 392} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 392} true;
     goto label_96;
 
   label_93_true:
@@ -4601,7 +4601,7 @@ implementation InfoTbl_loop_label_83_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_88;
 
   label_92:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 386} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 386} true;
     out_tempBoogie0 := PLUS(out_info, 1, MULT(out_pij, out_result.log$8));
     out_info := out_tempBoogie0;
     assume value_is(__ctobpl_const_84, out_info);
@@ -4610,7 +4610,7 @@ implementation InfoTbl_loop_label_83_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_88;
 
   label_89:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 386} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 386} true;
     call out_result.log$8 := log(out_pij);
     assume value_is(__ctobpl_const_82, out_pij);
     assume value_is(__ctobpl_const_83, out_pij);
@@ -4622,11 +4622,11 @@ implementation InfoTbl_loop_label_83_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_89;
 
   label_87:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 385} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 385} true;
     goto label_87_true, label_87_false;
 
   label_86:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 383} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 383} true;
     assert in_f != 0;
     out_pij := Mem_T.INT4[PLUS(in_f, 4, PLUS(MULT(in_i, in_c), 1, out_j))];
     assume value_is(__ctobpl_const_75, out_pij);
@@ -4638,7 +4638,7 @@ implementation InfoTbl_loop_label_83_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_87;
 
   label_85:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 383} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 383} true;
     goto label_86;
 
   label_83_true:
@@ -4699,7 +4699,7 @@ implementation InfoTbl_loop_label_73_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_83_true, label_83_false;
 
   label_83:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 381} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 381} true;
     goto label_83_head;
 
   label_88:
@@ -4719,7 +4719,7 @@ implementation InfoTbl_loop_label_73_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_88;
 
   label_92:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 386} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 386} true;
     out_tempBoogie0 := PLUS(out_info, 1, MULT(out_pij, out_result.log$8));
     out_info := out_tempBoogie0;
     assume value_is(__ctobpl_const_84, out_info);
@@ -4728,7 +4728,7 @@ implementation InfoTbl_loop_label_73_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_88;
 
   label_89:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 386} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 386} true;
     call out_result.log$8 := log(out_pij);
     assume value_is(__ctobpl_const_82, out_pij);
     assume value_is(__ctobpl_const_83, out_pij);
@@ -4740,11 +4740,11 @@ implementation InfoTbl_loop_label_73_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_89;
 
   label_87:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 385} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 385} true;
     goto label_87_true, label_87_false;
 
   label_86:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 383} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 383} true;
     assert in_f != 0;
     out_pij := Mem_T.INT4[PLUS(in_f, 4, PLUS(MULT(out_i, in_c), 1, out_j))];
     assume value_is(__ctobpl_const_75, out_pij);
@@ -4756,7 +4756,7 @@ implementation InfoTbl_loop_label_73_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_87;
 
   label_85:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 383} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 383} true;
     goto label_86;
 
   label_83_true:
@@ -4766,7 +4766,7 @@ implementation InfoTbl_loop_label_73_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_85;
 
   label_78:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 381} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 381} true;
     out_j := 0;
     assume value_is(__ctobpl_const_71, out_j);
     goto label_83;
@@ -4777,7 +4777,7 @@ implementation InfoTbl_loop_label_73_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_78;
 
   label_82:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 379} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 379} true;
     out_tempBoogie0 := MINUS_BOTH_PTR_OR_BOTH_INT(out_info, MULT(out_pi, out_result.log$7), 1);
     out_info := out_tempBoogie0;
     assume value_is(__ctobpl_const_68, out_info);
@@ -4786,7 +4786,7 @@ implementation InfoTbl_loop_label_73_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_78;
 
   label_79:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 379} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 379} true;
     call out_result.log$7 := log(out_pi);
     assume value_is(__ctobpl_const_66, out_pi);
     assume value_is(__ctobpl_const_67, out_pi);
@@ -4798,11 +4798,11 @@ implementation InfoTbl_loop_label_73_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_79;
 
   label_77:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 378} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 378} true;
     goto label_77_true, label_77_false;
 
   label_76:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 376} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 376} true;
     assert in_xi != 0;
     out_pi := Mem_T.FLOAT[PLUS(in_xi, 8, out_i)];
     assume value_is(__ctobpl_const_61, out_pi);
@@ -4812,7 +4812,7 @@ implementation InfoTbl_loop_label_73_head(in_c: int, in_f: int, in_i: int, in_in
     goto label_77;
 
   label_75:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 376} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 376} true;
     goto label_76;
 
   label_73_true:
@@ -4859,7 +4859,7 @@ implementation InfoTbl_loop_label_66_head(in_c: int, in_f: int, in_i: int, in_j:
     goto label_69_dummy;
 
   label_68:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 365} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 365} true;
     assert in_f != 0;
     out_tempBoogie0 := PLUS(out_sum, 1, Mem_T.INT4[PLUS(in_f, 4, PLUS(MULT(out_i, in_c), 1, in_j))]);
     out_sum := out_tempBoogie0;
@@ -4916,7 +4916,7 @@ implementation InfoTbl_loop_label_60_head(in_c: int, in_f: int, in_i: int, in_j:
     goto label_70_dummy;
 
   label_67:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 367} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 367} true;
     assert in_xj != 0;
     Mem_T.FLOAT := Mem_T.FLOAT[PLUS(in_xj, 8, out_j) := out_sum];
     assume value_is(__ctobpl_const_92, in_xj);
@@ -4941,7 +4941,7 @@ implementation InfoTbl_loop_label_60_head(in_c: int, in_f: int, in_i: int, in_j:
     goto label_66_true, label_66_false;
 
   label_66:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 364} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 364} true;
     goto label_66_head;
 
   label_69:
@@ -4957,7 +4957,7 @@ implementation InfoTbl_loop_label_60_head(in_c: int, in_f: int, in_i: int, in_j:
     return;
 
   label_68:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 365} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 365} true;
     assert in_f != 0;
     out_tempBoogie0 := PLUS(out_sum, 1, Mem_T.INT4[PLUS(in_f, 4, PLUS(MULT(out_i, in_c), 1, out_j))]);
     out_sum := out_tempBoogie0;
@@ -4976,13 +4976,13 @@ implementation InfoTbl_loop_label_60_head(in_c: int, in_f: int, in_i: int, in_j:
     goto label_68;
 
   label_65:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 364} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 364} true;
     out_i := 0;
     assume value_is(__ctobpl_const_89, out_i);
     goto label_66;
 
   label_64:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 362} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 362} true;
     out_sum := 0;
     assume value_is(__ctobpl_const_88, out_sum);
     goto label_65;
@@ -5032,7 +5032,7 @@ implementation InfoTbl_loop_label_41_head(in_c: int, in_f: int, in_i: int, in_j:
     goto label_55_dummy;
 
   label_46:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 346} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 346} true;
     out_tempBoogie0 := PLUS(out_sum, 1, out_k);
     out_sum := out_tempBoogie0;
     assume value_is(__ctobpl_const_122, out_sum);
@@ -5045,7 +5045,7 @@ implementation InfoTbl_loop_label_41_head(in_c: int, in_f: int, in_i: int, in_j:
     goto label_46;
 
   label_45:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 340} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 340} true;
     goto label_45_true, label_45_false;
 
   label_45_true:
@@ -5055,7 +5055,7 @@ implementation InfoTbl_loop_label_41_head(in_c: int, in_f: int, in_i: int, in_j:
     return;
 
   label_44:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 338} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 338} true;
     assert in_f != 0;
     out_k := Mem_T.INT4[PLUS(in_f, 4, PLUS(MULT(in_i, in_c), 1, out_j))];
     assume value_is(__ctobpl_const_115, out_k);
@@ -5067,7 +5067,7 @@ implementation InfoTbl_loop_label_41_head(in_c: int, in_f: int, in_i: int, in_j:
     goto label_45;
 
   label_43:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 338} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 338} true;
     goto label_44;
 
   label_41_true:
@@ -5115,7 +5115,7 @@ implementation InfoTbl_loop_label_37_head(in_N: int, in_c: int, in_f: int, in_i:
     goto label_56_dummy;
 
   label_42:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 349} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 349} true;
     assert in_xi != 0;
     Mem_T.FLOAT := Mem_T.FLOAT[PLUS(in_xi, 8, out_i) := out_sum];
     out_tempBoogie0 := PLUS(out_N, 1, Mem_T.FLOAT[PLUS(in_xi, 8, out_i)]);
@@ -5143,7 +5143,7 @@ implementation InfoTbl_loop_label_37_head(in_N: int, in_c: int, in_f: int, in_i:
     goto label_41_true, label_41_false;
 
   label_41:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 336} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 336} true;
     goto label_41_head;
 
   label_55:
@@ -5159,7 +5159,7 @@ implementation InfoTbl_loop_label_37_head(in_N: int, in_c: int, in_f: int, in_i:
     return;
 
   label_46:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 346} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 346} true;
     out_tempBoogie0 := PLUS(out_sum, 1, out_k);
     out_sum := out_tempBoogie0;
     assume value_is(__ctobpl_const_122, out_sum);
@@ -5172,7 +5172,7 @@ implementation InfoTbl_loop_label_37_head(in_N: int, in_c: int, in_f: int, in_i:
     goto label_46;
 
   label_45:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 340} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 340} true;
     goto label_45_true, label_45_false;
 
   label_45_true:
@@ -5183,7 +5183,7 @@ implementation InfoTbl_loop_label_37_head(in_N: int, in_c: int, in_f: int, in_i:
     return;
 
   label_44:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 338} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 338} true;
     assert in_f != 0;
     out_k := Mem_T.INT4[PLUS(in_f, 4, PLUS(MULT(out_i, in_c), 1, out_j))];
     assume value_is(__ctobpl_const_115, out_k);
@@ -5195,7 +5195,7 @@ implementation InfoTbl_loop_label_37_head(in_N: int, in_c: int, in_f: int, in_i:
     goto label_45;
 
   label_43:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 338} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 338} true;
     goto label_44;
 
   label_41_true:
@@ -5205,13 +5205,13 @@ implementation InfoTbl_loop_label_37_head(in_N: int, in_c: int, in_f: int, in_i:
     goto label_43;
 
   label_40:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 336} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 336} true;
     out_j := 0;
     assume value_is(__ctobpl_const_106, out_j);
     goto label_41;
 
   label_39:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 334} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 334} true;
     out_sum := 0;
     assume value_is(__ctobpl_const_105, out_sum);
     goto label_40;
@@ -5260,7 +5260,7 @@ implementation LGamma_loop_label_28_head(in_j: int, in_ser: int, in_x: int, in_t
     goto label_31_dummy;
 
   label_30:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 175} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 175} true;
     assert cof != 0;
     out_x := PLUS(out_x, 1, 1);
     out_tempBoogie0 := PLUS(out_ser, 1, BINARY_BOTH_INT(Mem_T.FLOAT[PLUS(cof, 8, out_j)], out_x));
@@ -5318,7 +5318,7 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_29;
 
   label_41:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 236} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 236} true;
     out_gold := out_g;
     assume value_is(__ctobpl_const_259, out_gold);
     assume value_is(__ctobpl_const_260, out_g);
@@ -5331,7 +5331,7 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_41;
 
   label_40:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     goto label_40_true, label_40_false;
 
   label_40_true:
@@ -5342,14 +5342,14 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     return;
 
   label_38:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     out_$result.question.3$_123_$static$ := out_g;
     assume value_is(__ctobpl_const_253, out_$result.question.3$_123_$static$);
     assume value_is(__ctobpl_const_254, out_g);
     goto label_40;
 
   label_39:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     out_$result.question.3$_123_$static$ := -out_g;
     assume value_is(__ctobpl_const_255, out_$result.question.3$_123_$static$);
     assume value_is(__ctobpl_const_256, out_g);
@@ -5361,18 +5361,18 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_39;
 
   label_37:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     goto label_37_true, label_37_false;
 
   label_35:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     out_$result.question.2$_123_$static$ := out_gold;
     assume value_is(__ctobpl_const_248, out_$result.question.2$_123_$static$);
     assume value_is(__ctobpl_const_249, out_gold);
     goto label_37;
 
   label_36:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     out_$result.question.2$_123_$static$ := -out_gold;
     assume value_is(__ctobpl_const_250, out_$result.question.2$_123_$static$);
     assume value_is(__ctobpl_const_251, out_gold);
@@ -5384,11 +5384,11 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_36;
 
   label_34:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 233} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 233} true;
     goto label_34_true, label_34_false;
 
   label_33:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 231} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 231} true;
     out_gold := MINUS_BOTH_PTR_OR_BOTH_INT(out_g, out_gold, 1);
     assume value_is(__ctobpl_const_244, out_gold);
     assume value_is(__ctobpl_const_245, out_g);
@@ -5396,7 +5396,7 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_34;
 
   label_32:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 229} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 229} true;
     out_g := MULT(out_b1, out_fac);
     assume value_is(__ctobpl_const_241, out_g);
     assume value_is(__ctobpl_const_242, out_b1);
@@ -5404,14 +5404,14 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_33;
 
   label_31:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 229} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 229} true;
     out_fac := BINARY_BOTH_INT(1, out_a1);
     assume value_is(__ctobpl_const_239, out_fac);
     assume value_is(__ctobpl_const_240, out_a1);
     goto label_32;
 
   label_30:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 229} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 229} true;
     goto label_31;
 
   label_28_true:
@@ -5420,11 +5420,11 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_30;
 
   label_28:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 227} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 227} true;
     goto label_28_true, label_28_false;
 
   label_27:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 225} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 225} true;
     out_a1 := PLUS(MULT(in_x, out_a0), 1, MULT(out_anf, out_a1));
     assume value_is(__ctobpl_const_233, out_a1);
     assume value_is(__ctobpl_const_234, in_x);
@@ -5434,7 +5434,7 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_28;
 
   label_26:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 224} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 224} true;
     out_b1 := PLUS(MULT(in_x, out_b0), 1, MULT(out_anf, out_b1));
     assume value_is(__ctobpl_const_228, out_b1);
     assume value_is(__ctobpl_const_229, in_x);
@@ -5444,7 +5444,7 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_27;
 
   label_25:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 223} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 223} true;
     out_anf := MULT(out_an, out_fac);
     assume value_is(__ctobpl_const_225, out_anf);
     assume value_is(__ctobpl_const_226, out_an);
@@ -5452,7 +5452,7 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_26;
 
   label_24:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 222} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 222} true;
     out_b0 := MULT(PLUS(out_b1, 1, MULT(out_b0, out_ana)), out_fac);
     assume value_is(__ctobpl_const_220, out_b0);
     assume value_is(__ctobpl_const_221, out_b1);
@@ -5462,7 +5462,7 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_25;
 
   label_23:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 221} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 221} true;
     out_a0 := MULT(PLUS(out_a1, 1, MULT(out_a0, out_ana)), out_fac);
     assume value_is(__ctobpl_const_215, out_a0);
     assume value_is(__ctobpl_const_216, out_a1);
@@ -5472,7 +5472,7 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_24;
 
   label_22:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 219} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 219} true;
     out_ana := MINUS_BOTH_PTR_OR_BOTH_INT(out_an, in_a, 1);
     assume value_is(__ctobpl_const_212, out_ana);
     assume value_is(__ctobpl_const_213, out_an);
@@ -5480,22 +5480,22 @@ implementation gcf_loop_label_17_head(in_a: int, in_a0: int, in_a1: int, in_an: 
     goto label_23;
 
   label_21:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 219} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 219} true;
     goto label_22;
 
   label_20:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 218} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 218} true;
     out_an := out_n;
     assume value_is(__ctobpl_const_210, out_an);
     assume value_is(__ctobpl_const_211, out_n);
     goto label_21;
 
   label_19:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 218} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 218} true;
     goto label_20;
 
   label_18:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 217} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 217} true;
     goto label_19;
 
   label_17_true:
@@ -5556,7 +5556,7 @@ implementation gser_loop_label_13_head(in_ap: int, in_del: int, in_n: int, in_$r
     goto label_22;
 
   label_21:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     goto label_21_true, label_21_false;
 
   label_21_true:
@@ -5567,14 +5567,14 @@ implementation gser_loop_label_13_head(in_ap: int, in_del: int, in_n: int, in_$r
     return;
 
   label_19:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     out_$result.question.3$_123_$static$ := out_sum;
     assume value_is(__ctobpl_const_296, out_$result.question.3$_123_$static$);
     assume value_is(__ctobpl_const_297, out_sum);
     goto label_21;
 
   label_20:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     out_$result.question.3$_123_$static$ := -out_sum;
     assume value_is(__ctobpl_const_298, out_$result.question.3$_123_$static$);
     assume value_is(__ctobpl_const_299, out_sum);
@@ -5586,18 +5586,18 @@ implementation gser_loop_label_13_head(in_ap: int, in_del: int, in_n: int, in_$r
     goto label_20;
 
   label_18:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     goto label_18_true, label_18_false;
 
   label_16:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     out_$result.question.2$_123_$static$ := out_del;
     assume value_is(__ctobpl_const_291, out_$result.question.2$_123_$static$);
     assume value_is(__ctobpl_const_292, out_del);
     goto label_18;
 
   label_17:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     out_$result.question.2$_123_$static$ := -out_del;
     assume value_is(__ctobpl_const_293, out_$result.question.2$_123_$static$);
     assume value_is(__ctobpl_const_294, out_del);
@@ -5609,11 +5609,11 @@ implementation gser_loop_label_13_head(in_ap: int, in_del: int, in_n: int, in_$r
     goto label_17;
 
   label_15:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 200} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 200} true;
     goto label_15_true, label_15_false;
 
   label_14:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 198} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 198} true;
     out_ap := PLUS(out_ap, 1, 1);
     out_tempBoogie0 := INT_MULT(out_del, BINARY_BOTH_INT(in_x, out_ap));
     out_del := out_tempBoogie0;
@@ -5684,7 +5684,7 @@ implementation main_loop_label_65_head(in_i: int, in_j: int, in_result.scanf$17:
     goto label_72;
 
   label_71:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     goto label_71_true, label_71_false;
 
   label_71_true:
@@ -5695,7 +5695,7 @@ implementation main_loop_label_65_head(in_i: int, in_j: int, in_result.scanf$17:
     return;
 
   label_68:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     call out_result.scanf$17 := det_choice();
     call out_tempBoogie0 := det_choice();
     Mem_T.INT4[out_$scanf.arg.2$18$] := out_tempBoogie0;
@@ -5703,7 +5703,7 @@ implementation main_loop_label_65_head(in_i: int, in_j: int, in_result.scanf$17:
     goto label_71;
 
   label_67:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     assert f != 0;
     out_$scanf.arg.2$18$ := PLUS(f, 4, PLUS(MULT(in_i, Mem_T.INT4[c]), 1, out_j));
     assume value_is(__ctobpl_const_405, out_$scanf.arg.2$18$);
@@ -5774,7 +5774,7 @@ implementation main_loop_label_62_head(in_i: int, in_j: int, in_result.scanf$17:
     goto label_65_true, label_65_false;
 
   label_65:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 84} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 84} true;
     goto label_65_head;
 
   label_72:
@@ -5795,7 +5795,7 @@ implementation main_loop_label_62_head(in_i: int, in_j: int, in_result.scanf$17:
     goto label_72;
 
   label_71:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     goto label_71_true, label_71_false;
 
   label_71_true:
@@ -5806,7 +5806,7 @@ implementation main_loop_label_62_head(in_i: int, in_j: int, in_result.scanf$17:
     return;
 
   label_68:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     call out_result.scanf$17 := det_choice();
     call out_tempBoogie0 := det_choice();
     Mem_T.INT4[out_$scanf.arg.2$18$] := out_tempBoogie0;
@@ -5814,7 +5814,7 @@ implementation main_loop_label_62_head(in_i: int, in_j: int, in_result.scanf$17:
     goto label_71;
 
   label_67:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     assert f != 0;
     out_$scanf.arg.2$18$ := PLUS(f, 4, PLUS(MULT(out_i, Mem_T.INT4[c]), 1, out_j));
     assume value_is(__ctobpl_const_405, out_$scanf.arg.2$18$);
@@ -5831,7 +5831,7 @@ implementation main_loop_label_62_head(in_i: int, in_j: int, in_result.scanf$17:
     goto label_67;
 
   label_64:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 84} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 84} true;
     out_j := 0;
     assume value_is(__ctobpl_const_401, out_j);
     goto label_65;
@@ -5887,7 +5887,7 @@ implementation main_loop_label_22_head(in_$isspace.arg.1$6$: int, in_p: int, in_
     goto label_29;
 
   label_28:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     goto label_28_true, label_28_false;
 
   label_28_false:
@@ -5897,14 +5897,14 @@ implementation main_loop_label_22_head(in_$isspace.arg.1$6$: int, in_p: int, in_
     return;
 
   label_25:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     call out_result.isspace$5 := isspace(out_$isspace.arg.1$6$);
     assume value_is(__ctobpl_const_346, out_$isspace.arg.1$6$);
     assume value_is(__ctobpl_const_347, out_$isspace.arg.1$6$);
     goto label_28;
 
   label_24:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     assert out_p != 0;
     out_$isspace.arg.1$6$ := Mem_T.CHAR[out_p];
     assume value_is(__ctobpl_const_343, out_$isspace.arg.1$6$);
@@ -5944,7 +5944,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_15;
 
   label_30:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 61} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 61} true;
     goto label_30_dummy;
 
   label_23_false:
@@ -5954,7 +5954,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_30;
 
   label_23:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 60} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 60} true;
     assert out_p != 0;
     goto label_23_true, label_23_false;
 
@@ -5978,18 +5978,18 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_23;
 
   label_28:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     goto label_28_true, label_28_false;
 
   label_25:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     call out_result.isspace$5 := isspace(out_$isspace.arg.1$6$);
     assume value_is(__ctobpl_const_346, out_$isspace.arg.1$6$);
     assume value_is(__ctobpl_const_347, out_$isspace.arg.1$6$);
     goto label_28;
 
   label_24:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     assert out_p != 0;
     out_$isspace.arg.1$6$ := Mem_T.CHAR[out_p];
     assume value_is(__ctobpl_const_343, out_$isspace.arg.1$6$);
@@ -6014,7 +6014,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_22_true, label_22_false;
 
   label_22:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     goto label_22_head;
 
   label_29:
@@ -6035,7 +6035,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_29;
 
   label_21:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 57} true;
     out_p := line;
     assume value_is(__ctobpl_const_340, out_p);
     goto label_22;
@@ -6046,7 +6046,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_21;
 
   label_19:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 55} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 55} true;
     goto label_19_true, label_19_false;
 
   label_19_false:
@@ -6057,14 +6057,14 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     return;
 
   label_16:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 55} true;
-    call out_result.fgets$2 := fgets(line, 256, out_$fgets.arg.3$4$);
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 55} true;
+    call out_result.fgets$2 := fgets(line, 56, out_$fgets.arg.3$4$);
     assume value_is(__ctobpl_const_322, out_$fgets.arg.3$4$);
     assume value_is(__ctobpl_const_323, out_$fgets.arg.3$4$);
     goto label_19;
 
   label_15:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 55} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 55} true;
     assert out_result.__iob_func$3 != 0;
     out_$fgets.arg.3$4$ := PLUS(out_result.__iob_func$3, 32, 0);
     assume value_is(__ctobpl_const_320, out_$fgets.arg.3$4$);
@@ -6076,7 +6076,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     return;
 
   label_104:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 109} true;
     call out_result.fputs$29 := fputs(out_$result.question.32$, out_$fputs.arg.2$31$);
     assume value_is(__ctobpl_const_383, out_$result.question.32$);
     assume value_is(__ctobpl_const_384, out_$fputs.arg.2$31$);
@@ -6085,14 +6085,14 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_104_dummy;
 
   label_109:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 109} true;
     out_$result.question.32$ := out_$result.question.33$;
     assume value_is(__ctobpl_const_380, out_$result.question.32$);
     assume value_is(__ctobpl_const_381, out_$result.question.33$);
     goto label_104;
 
   label_103:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 109} true;
     out_$result.question.32$ := in_havoc_stringTemp;
     assume value_is(__ctobpl_const_382, out_$result.question.32$);
     goto label_104;
@@ -6103,11 +6103,11 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_103;
 
   label_101:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 109} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 109} true;
     goto label_101_true, label_101_false;
 
   label_100:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 113} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 113} true;
     assert out_result.__iob_func$30 != 0;
     out_$fputs.arg.2$31$ := PLUS(out_result.__iob_func$30, 32, 1);
     assume value_is(__ctobpl_const_370, out_$fputs.arg.2$31$);
@@ -6115,7 +6115,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_101;
 
   label_86:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 113} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 113} true;
     call out_result.__iob_func$30 := __iob_func();
     goto label_100;
 
@@ -6125,7 +6125,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_86;
 
   label_85:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 99} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 99} true;
     goto label_85_true, label_85_false;
 
   label_85_true:
@@ -6136,14 +6136,14 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_89;
 
   label_84:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 95} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 95} true;
     out_info := out_result.InfoTbl$22;
     assume value_is(__ctobpl_const_367, out_info);
     assume value_is(__ctobpl_const_368, out_result.InfoTbl$22);
     goto label_85;
 
   label_81:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 95} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 95} true;
     call out_result.InfoTbl$22 := InfoTbl(Mem_T.INT4[r], Mem_T.INT4[c], in_$InfoTbl.arg.3$23$, in_infodf);
     assume value_is(__ctobpl_const_361, Mem_T.INT4[r]);
     assume value_is(__ctobpl_const_362, Mem_T.INT4[c]);
@@ -6154,7 +6154,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_84;
 
   label_63:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 95} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 95} true;
     goto label_81;
 
   label_62_false:
@@ -6173,7 +6173,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_62_true, label_62_false;
 
   label_62:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 83} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 83} true;
     goto label_62_head;
 
   label_66:
@@ -6204,7 +6204,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_65_true, label_65_false;
 
   label_65:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 84} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 84} true;
     goto label_65_head;
 
   label_72:
@@ -6225,7 +6225,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_72;
 
   label_71:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     goto label_71_true, label_71_false;
 
   label_71_true:
@@ -6236,7 +6236,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     return;
 
   label_68:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     call out_result.scanf$17 := det_choice();
     call out_tempBoogie0 := det_choice();
     Mem_T.INT4[out_$scanf.arg.2$18$] := out_tempBoogie0;
@@ -6244,7 +6244,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_71;
 
   label_67:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 85} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 85} true;
     assert f != 0;
     out_$scanf.arg.2$18$ := PLUS(f, 4, PLUS(MULT(out_i, Mem_T.INT4[c]), 1, out_j));
     assume value_is(__ctobpl_const_405, out_$scanf.arg.2$18$);
@@ -6261,7 +6261,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_67;
 
   label_64:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 84} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 84} true;
     out_j := 0;
     assume value_is(__ctobpl_const_401, out_j);
     goto label_65;
@@ -6273,7 +6273,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_64;
 
   label_53:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 83} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 83} true;
     out_i := 0;
     assume value_is(__ctobpl_const_358, out_i);
     goto label_62;
@@ -6285,7 +6285,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_53;
 
   label_44:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 75} true;
     goto label_44_true, label_44_false;
 
   label_44_true:
@@ -6302,7 +6302,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_44;
 
   label_43:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 69} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 69} true;
     goto label_43_true, label_43_false;
 
   label_43_true:
@@ -6313,7 +6313,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     return;
 
   label_32:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 69} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 69} true;
     call out_result.sscanf$10 := det_choice();
     call out_tempBoogie0 := det_choice();
     Mem_T.INT4[r] := out_tempBoogie0;
@@ -6330,7 +6330,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_32;
 
   label_31:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 63} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 63} true;
     assert out_p != 0;
     goto label_31_true, label_31_false;
 
@@ -6343,14 +6343,14 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_35;
 
   label_112:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 110} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 110} true;
     out_$result.question.33$ := out_$result.question.34$;
     assume value_is(__ctobpl_const_377, out_$result.question.33$);
     assume value_is(__ctobpl_const_378, out_$result.question.34$);
     goto label_109;
 
   label_108:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 110} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 110} true;
     out_$result.question.33$ := in_havoc_stringTemp;
     assume value_is(__ctobpl_const_379, out_$result.question.33$);
     goto label_109;
@@ -6361,7 +6361,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_108;
 
   label_102:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 110} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 110} true;
     goto label_102_true, label_102_false;
 
   label_101_false:
@@ -6370,13 +6370,13 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_102;
 
   label_110:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 111} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 111} true;
     out_$result.question.34$ := in_havoc_stringTemp;
     assume value_is(__ctobpl_const_375, out_$result.question.34$);
     goto label_112;
 
   label_111:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 111} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 111} true;
     out_$result.question.34$ := in_havoc_stringTemp;
     assume value_is(__ctobpl_const_376, out_$result.question.34$);
     goto label_112;
@@ -6387,7 +6387,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_111;
 
   label_107:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 111} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 111} true;
     goto label_107_true, label_107_false;
 
   label_102_false:
@@ -6405,7 +6405,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     return;
 
   label_99:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 106} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 106} true;
     out_tempBoogie0 := PLUS(out_totdf, 1, Mem_T.INT4[in_infodf]);
     out_totdf := out_tempBoogie0;
     assume value_is(__ctobpl_const_399, out_totdf);
@@ -6413,7 +6413,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_99_dummy;
 
   label_98:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 105} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 105} true;
     out_tempBoogie0 := PLUS(out_totinfo, 1, out_info);
     out_totinfo := out_tempBoogie0;
     assume value_is(__ctobpl_const_397, out_totinfo);
@@ -6421,26 +6421,26 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_99;
 
   label_95:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 101} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 101} true;
     call out_result.printf$24 := det_choice();
     goto label_98;
 
   label_94:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 102} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 102} true;
     out_$printf.arg.2$28$ := out_info;
     assume value_is(__ctobpl_const_395, out_$printf.arg.2$28$);
     assume value_is(__ctobpl_const_396, out_info);
     goto label_95;
 
   label_93:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 103} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 103} true;
     out_$printf.arg.4$27$ := out_result.QChiSq$25;
     assume value_is(__ctobpl_const_393, out_$printf.arg.4$27$);
     assume value_is(__ctobpl_const_394, out_result.QChiSq$25);
     goto label_94;
 
   label_90:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 103} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 103} true;
     call out_result.QChiSq$25 := QChiSq(out_$QChiSq.arg.1$26$, Mem_T.INT4[in_infodf]);
     assume value_is(__ctobpl_const_389, out_$QChiSq.arg.1$26$);
     assume value_is(__ctobpl_const_390, Mem_T.INT4[in_infodf]);
@@ -6449,7 +6449,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_93;
 
   label_89:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 103} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 103} true;
     out_$QChiSq.arg.1$26$ := out_info;
     assume value_is(__ctobpl_const_387, out_$QChiSq.arg.1$26$);
     assume value_is(__ctobpl_const_388, out_info);
@@ -6460,18 +6460,18 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     return;
 
   label_42:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 66} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 66} true;
     goto label_42_dummy;
 
   label_39:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 65} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 65} true;
     call out_result.fputs$7 := fputs(line, out_$fputs.arg.2$9$);
     assume value_is(__ctobpl_const_427, out_$fputs.arg.2$9$);
     assume value_is(__ctobpl_const_428, out_$fputs.arg.2$9$);
     goto label_42;
 
   label_38:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 65} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 65} true;
     assert out_result.__iob_func$8 != 0;
     out_$fputs.arg.2$9$ := PLUS(out_result.__iob_func$8, 32, 1);
     assume value_is(__ctobpl_const_425, out_$fputs.arg.2$9$);
@@ -6479,7 +6479,7 @@ implementation main_loop_label_12_head(in_havoc_stringTemp: int, in_$InfoTbl.arg
     goto label_39;
 
   label_35:
-    assert {:sourcefile ".\source\tot_info.c"} {:sourceline 65} true;
+    assert {:sourcefile ".\v6\tot_info.c"} {:sourceline 65} true;
     call out_result.__iob_func$8 := __iob_func();
     goto label_38;
 
