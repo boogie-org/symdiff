@@ -193,9 +193,8 @@ namespace Dependency
         public override Program VisitProgram(Program node)
         {
             program.Implementations().Iter(impl => Visit(impl));
+
             // compute top down taint
-            var topDownTaintWL = new HashSet<Implementation>();
-            topDownTaintWL.UnionWith(program.Implementations());
             bool done = false;
             while (!done)
 	        {
@@ -377,9 +376,18 @@ namespace Dependency
             var calleeDependencies = ProcDependencies[callee];
             bool nativeTaint = changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock);
 
+            var topDownTaint = new Dependencies();
+            if (nativeTaint)
+            {// if the line syntactically changed, we assume all of the actuals introduce top-down taint
+                foreach (var input in calleeImpl.InParams)
+                {
+                    topDownTaint[input] = new HashSet<Variable>();
+                    topDownTaint[input].Add(Utils.VariableUtils.TopDownTaintVar);
+                }
+            }
+
             // first, for f(e1,...,ek) find the dependency set of each ei
             var inputExpressionsDependency = new List<HashSet<Variable>>();
-            var topDownTaint = new Dependencies();
             for (int i = 0; i < node.Ins.Count; ++i)
             {
                 var inExpr = node.Ins[i];
@@ -392,8 +400,7 @@ namespace Dependency
                     {
                         inputExpressionsDependency[current].UnionWith(dependencies[v]);
                         if (calleeImpl != null && // not a stub
-                            (nativeTaint || // if the line syntactically changed, we assume all of the actuals introduce top-down taint
-                             dependencies[v].Contains(Utils.VariableUtils.BottomUpTaintVar) ||
+                            (dependencies[v].Contains(Utils.VariableUtils.BottomUpTaintVar) ||
                              dependencies[v].Contains(Utils.VariableUtils.TopDownTaintVar)))
                         {   // top down taint from input
                             var input = calleeImpl.InParams[i];
