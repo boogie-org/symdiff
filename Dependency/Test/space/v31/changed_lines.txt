@@ -1,0 +1,3 @@
+griddef1, 4045
+trigrdef, 8716
+trigrdef, 8724

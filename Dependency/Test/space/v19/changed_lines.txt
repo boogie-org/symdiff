@@ -1,0 +1,6 @@
+main, 552
+simpol, 8376
+simpol, 8377
+simpol, 8379
+simpol, 8380
+simpol, 8403
