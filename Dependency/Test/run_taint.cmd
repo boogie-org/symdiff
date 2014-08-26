@@ -30,9 +30,9 @@ my $depBinary = "$rootdir\\..\\bin\\debug\\dependency.exe";
 # [" /dataOnly /detStubs ", "_data_detstubs_"],
 # ["           /detStubs ", "_control_detstubs"],
 # [" /readSet  /detStubs ", "_readset_detstubs"],
- [" /dataOnly "          , "_data_"],
- ["           ", "_control_"],
- [" /readSet  ", "_readset_"]
+ [" /dataOnly /prune "          , "_data_"],
+ ["           /prune ", "_control_"],
+ [" /readSet  /prune ", "_readset_"]
 );
 
 
