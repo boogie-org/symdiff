@@ -615,635 +615,635 @@ const {:extern} unique BOOGIE_FLOAT_CONST_1: int;
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "result.new_process"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 277} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 277} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 277} unique __ctobpl_const_1: int;
+
+const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_8: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_9: int;
 
 const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 277} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 105} unique __ctobpl_const_80: int;
+const {:extern} {:model_const "result.new_process"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 277} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "f_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 106} unique __ctobpl_const_83: int;
+const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "f_ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 106} unique __ctobpl_const_84: int;
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 160} unique __ctobpl_const_96: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 171} unique __ctobpl_const_88: int;
-
-const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 128} unique __ctobpl_const_68: int;
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 277} unique __ctobpl_const_2: int;
 
 const {:extern} {:model_const "d_ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 128} unique __ctobpl_const_69: int;
 
-const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 128} unique __ctobpl_const_65: int;
+const {:extern} {:model_const "d_ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 130} unique __ctobpl_const_64: int;
 
-const {:extern} {:model_const "d_ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 128} unique __ctobpl_const_66: int;
+const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_42: int;
+
+const {:extern} {:model_const "d_ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 126} unique __ctobpl_const_53: int;
 
 const {:extern} {:model_const "d_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 132} unique __ctobpl_const_70: int;
 
-const {:extern} {:model_const "d_list->mem_count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 132} unique __ctobpl_const_71: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 355} unique __ctobpl_const_133: int;
 
-const {:extern} {:model_const "d_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 133} unique __ctobpl_const_72: int;
+const {:extern} {:model_const "d_ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 123} unique __ctobpl_const_49: int;
 
-const {:extern} {:model_const "f_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 104} unique __ctobpl_const_75: int;
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_41: int;
 
-const {:extern} {:model_const "num_processes"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 170} unique __ctobpl_const_87: int;
+const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 126} unique __ctobpl_const_52: int;
 
-const {:extern} {:model_const "f_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 106} unique __ctobpl_const_82: int;
+const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 123} unique __ctobpl_const_48: int;
 
-const {:extern} {:model_const "total"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 171} unique __ctobpl_const_90: int;
+const {:extern} {:model_const "d_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 126} unique __ctobpl_const_50: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 171} unique __ctobpl_const_91: int;
+const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_45: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 105} unique __ctobpl_const_79: int;
+const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 124} unique __ctobpl_const_54: int;
 
-const {:extern} {:model_const "f_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 102} unique __ctobpl_const_73: int;
+const {:extern} {:model_const "d_ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 124} unique __ctobpl_const_58: int;
 
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 157} unique __ctobpl_const_92: int;
+const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 127} unique __ctobpl_const_59: int;
 
-const {:extern} {:model_const "f_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 104} unique __ctobpl_const_74: int;
+const {:extern} {:model_const "d_ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 124} unique __ctobpl_const_55: int;
+
+const {:extern} {:model_const "d_ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 127} unique __ctobpl_const_60: int;
+
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_43: int;
+
+const {:extern} {:model_const "d_ele->next->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 124} unique __ctobpl_const_56: int;
+
+const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_40: int;
+
+const {:extern} {:model_const "d_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 130} unique __ctobpl_const_61: int;
+
+const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 128} unique __ctobpl_const_65: int;
+
+const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 120} unique __ctobpl_const_47: int;
+
+const {:extern} {:model_const "d_ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 128} unique __ctobpl_const_66: int;
 
 const {:extern} {:model_const "d_ele->prev->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 128} unique __ctobpl_const_67: int;
 
-const {:extern} {:model_const "f_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 105} unique __ctobpl_const_78: int;
+const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_44: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 105} unique __ctobpl_const_85: int;
+const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 130} unique __ctobpl_const_63: int;
 
-const {:extern} {:model_const "total"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 170} unique __ctobpl_const_86: int;
+const {:extern} {:model_const "d_list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 126} unique __ctobpl_const_51: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 171} unique __ctobpl_const_89: int;
+const {:extern} {:model_const "d_list->first"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 130} unique __ctobpl_const_62: int;
+
+const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 128} unique __ctobpl_const_68: int;
+
+const {:extern} {:model_const "d_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 120} unique __ctobpl_const_46: int;
+
+const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 124} unique __ctobpl_const_57: int;
 
 const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 159} unique __ctobpl_const_93: int;
 
 const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 159} unique __ctobpl_const_94: int;
 
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 160} unique __ctobpl_const_96: int;
+
+const {:extern} {:model_const "f_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 102} unique __ctobpl_const_73: int;
+
+const {:extern} {:model_const "num_processes"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 161} unique __ctobpl_const_97: int;
+
+const {:extern} {:model_const "ptr"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 144} unique __ctobpl_const_98: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 105} unique __ctobpl_const_79: int;
+
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 160} unique __ctobpl_const_95: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 171} unique __ctobpl_const_88: int;
+
+const {:extern} {:model_const "total"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 171} unique __ctobpl_const_90: int;
+
+const {:extern} {:model_const "total"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 170} unique __ctobpl_const_86: int;
+
+const {:extern} {:model_const "ptr"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 144} unique __ctobpl_const_99: int;
+
+const {:extern} {:model_const "f_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 105} unique __ctobpl_const_78: int;
+
+const {:extern} {:model_const "result.new_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 289} unique __ctobpl_const_101: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 290} unique __ctobpl_const_102: int;
+
+const {:extern} {:model_const "f_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 106} unique __ctobpl_const_83: int;
+
 const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 105} unique __ctobpl_const_77: int;
 
 const {:extern} {:model_const "f_list->first"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 104} unique __ctobpl_const_76: int;
 
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 160} unique __ctobpl_const_95: int;
+const {:extern} {:model_const "f_ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 106} unique __ctobpl_const_84: int;
+
+const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 105} unique __ctobpl_const_80: int;
 
 const {:extern} {:model_const "f_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 107} unique __ctobpl_const_81: int;
 
-const {:extern} {:model_const "d_ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 127} unique __ctobpl_const_60: int;
+const {:extern} {:model_const "f_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 106} unique __ctobpl_const_82: int;
 
-const {:extern} {:model_const "d_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 120} unique __ctobpl_const_46: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 105} unique __ctobpl_const_85: int;
 
-const {:extern} {:model_const "a_list->mem_count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 87} unique __ctobpl_const_37: int;
+const {:extern} {:model_const "d_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 133} unique __ctobpl_const_72: int;
 
-const {:extern} {:model_const "a_ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 86} unique __ctobpl_const_35: int;
+const {:extern} {:model_const "num_processes"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 170} unique __ctobpl_const_87: int;
 
-const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 123} unique __ctobpl_const_48: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 171} unique __ctobpl_const_89: int;
 
-const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 88} unique __ctobpl_const_38: int;
+const {:extern} {:model_const "f_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 104} unique __ctobpl_const_74: int;
 
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_41: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 171} unique __ctobpl_const_91: int;
 
-const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_40: int;
+const {:extern} {:model_const "d_list->mem_count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 132} unique __ctobpl_const_71: int;
 
-const {:extern} {:model_const "unblock_process.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 342} unique __ctobpl_const_160: int;
+const {:extern} {:model_const "f_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 104} unique __ctobpl_const_75: int;
 
-const {:extern} {:model_const "d_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 126} unique __ctobpl_const_50: int;
-
-const {:extern} {:model_const "d_list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 126} unique __ctobpl_const_51: int;
-
-const {:extern} {:model_const "d_ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 126} unique __ctobpl_const_53: int;
-
-const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 87} unique __ctobpl_const_36: int;
-
-const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 124} unique __ctobpl_const_54: int;
-
-const {:extern} {:model_const "d_ele->next->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 124} unique __ctobpl_const_56: int;
-
-const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_44: int;
-
-const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 120} unique __ctobpl_const_47: int;
-
-const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 127} unique __ctobpl_const_59: int;
-
-const {:extern} {:model_const "d_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 130} unique __ctobpl_const_61: int;
-
-const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_45: int;
-
-const {:extern} {:model_const "d_list->first"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 130} unique __ctobpl_const_62: int;
-
-const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 130} unique __ctobpl_const_63: int;
-
-const {:extern} {:model_const "d_ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 124} unique __ctobpl_const_58: int;
-
-const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 124} unique __ctobpl_const_57: int;
-
-const {:extern} {:model_const "d_ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 130} unique __ctobpl_const_64: int;
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 157} unique __ctobpl_const_92: int;
 
 const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 257} unique __ctobpl_const_39: int;
 
-const {:extern} {:model_const "d_ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 123} unique __ctobpl_const_49: int;
-
-const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_42: int;
-
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 259} unique __ctobpl_const_43: int;
-
-const {:extern} {:model_const "d_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 126} unique __ctobpl_const_52: int;
-
-const {:extern} {:model_const "d_ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 124} unique __ctobpl_const_55: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 277} unique __ctobpl_const_1: int;
-
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_220: int;
-
-const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_221: int;
-
-const {:extern} {:model_const "proc->priority"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 268} unique __ctobpl_const_208: int;
-
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_222: int;
-
-const {:extern} {:model_const "result.malloc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 60} unique __ctobpl_const_193: int;
-
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 246} unique __ctobpl_const_212: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_217: int;
-
-const {:extern} {:model_const "alloc_proc_num"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_202: int;
-
-const {:extern} {:model_const "result.new_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_206: int;
-
-const {:extern} {:model_const "list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 64} unique __ctobpl_const_198: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 248} unique __ctobpl_const_213: int;
-
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 248} unique __ctobpl_const_214: int;
-
-const {:extern} {:model_const "list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 60} unique __ctobpl_const_192: int;
-
-const {:extern} {:model_const "list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 62} unique __ctobpl_const_194: int;
-
-const {:extern} {:model_const "ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 47} unique __ctobpl_const_191: int;
-
-const {:extern} {:model_const "list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 65} unique __ctobpl_const_200: int;
-
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 268} unique __ctobpl_const_207: int;
-
-const {:extern} {:model_const "num_processes"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 269} unique __ctobpl_const_210: int;
-
-const {:extern} {:model_const "cur_proc->priority"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 248} unique __ctobpl_const_215: int;
-
-const {:extern} {:model_const "new_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_204: int;
-
-const {:extern} {:model_const "new_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_201: int;
-
-const {:extern} {:model_const "new_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_203: int;
-
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_205: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 268} unique __ctobpl_const_209: int;
-
-const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_218: int;
-
-const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_219: int;
-
-const {:extern} {:model_const "list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 63} unique __ctobpl_const_196: int;
-
-const {:extern} {:model_const "list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 63} unique __ctobpl_const_197: int;
-
-const {:extern} {:model_const "list->first"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 62} unique __ctobpl_const_195: int;
-
-const {:extern} {:model_const "list->mem_count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 64} unique __ctobpl_const_199: int;
-
-const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_216: int;
-
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 270} unique __ctobpl_const_211: int;
-
-const {:extern} {:model_const "ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 44} unique __ctobpl_const_185: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_169: int;
-
-const {:extern} {:model_const "command"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 327} unique __ctobpl_const_166: int;
-
-const {:extern} {:model_const "argv[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_172: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_174: int;
-
-const {:extern} {:model_const "status"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 327} unique __ctobpl_const_167: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 327} unique __ctobpl_const_165: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 321} unique __ctobpl_const_179: int;
-
-const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 342} unique __ctobpl_const_161: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 316} unique __ctobpl_const_180: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 316} unique __ctobpl_const_181: int;
-
-const {:extern} {:model_const "ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 44} unique __ctobpl_const_184: int;
-
-const {:extern} {:model_const "argv"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_170: int;
-
-const {:extern} {:model_const "ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 45} unique __ctobpl_const_186: int;
-
-const {:extern} {:model_const "ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 45} unique __ctobpl_const_187: int;
-
-const {:extern} {:model_const "unblock_process.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 342} unique __ctobpl_const_162: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_171: int;
-
-const {:extern} {:model_const "ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 46} unique __ctobpl_const_188: int;
-
-const {:extern} {:model_const "unblock_process.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 342} unique __ctobpl_const_163: int;
-
-const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_173: int;
-
-const {:extern} {:model_const "result.fscanf"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 327} unique __ctobpl_const_168: int;
-
-const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 327} unique __ctobpl_const_164: int;
-
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_176: int;
-
-const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 232} unique __ctobpl_const_254: int;
-
-const {:extern} {:model_const "ele->val"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 46} unique __ctobpl_const_189: int;
-
-const {:extern} {:model_const "new_num"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 46} unique __ctobpl_const_190: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_177: int;
-
-const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_178: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_175: int;
-
-const {:extern} {:model_const "ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 43} unique __ctobpl_const_182: int;
-
-const {:extern} {:model_const "result.malloc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 43} unique __ctobpl_const_183: int;
-
-const {:extern} {:model_const "a_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 84} unique __ctobpl_const_26: int;
-
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_9: int;
-
-const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 84} unique __ctobpl_const_24: int;
-
-const {:extern} {:model_const "a_list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 82} unique __ctobpl_const_28: int;
-
-const {:extern} {:model_const "a_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 82} unique __ctobpl_const_30: int;
-
 const {:extern} {:model_const "a_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 86} unique __ctobpl_const_34: int;
 
-const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_8: int;
-
-const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 77} unique __ctobpl_const_15: int;
-
-const {:extern} {:model_const "a_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 80} unique __ctobpl_const_18: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_12: int;
-
-const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_7: int;
-
-const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_13: int;
-
-const {:extern} {:model_const "a_list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 81} unique __ctobpl_const_23: int;
-
-const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 82} unique __ctobpl_const_27: int;
-
-const {:extern} {:model_const "a_list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 85} unique __ctobpl_const_32: int;
-
-const {:extern} {:model_const "result.new_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 78} unique __ctobpl_const_17: int;
-
-const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_14: int;
-
-const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_5: int;
-
-const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_10: int;
-
-const {:extern} {:model_const "a_ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 80} unique __ctobpl_const_19: int;
-
-const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 81} unique __ctobpl_const_22: int;
-
-const {:extern} {:model_const "num_processes"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 161} unique __ctobpl_const_97: int;
+const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 87} unique __ctobpl_const_36: int;
 
 const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 78} unique __ctobpl_const_16: int;
 
-const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 80} unique __ctobpl_const_20: int;
+const {:extern} {:model_const "a_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 84} unique __ctobpl_const_26: int;
 
-const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 85} unique __ctobpl_const_31: int;
+const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_14: int;
 
-const {:extern} {:model_const "a_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 85} unique __ctobpl_const_33: int;
+const {:extern} {:model_const "a_list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 85} unique __ctobpl_const_32: int;
 
-const {:extern} {:model_const "a_list->first"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 84} unique __ctobpl_const_25: int;
+const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "a_list->last->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 82} unique __ctobpl_const_29: int;
-
-const {:extern} {:model_const "a_list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 80} unique __ctobpl_const_21: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 77} unique __ctobpl_const_15: int;
 
 const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 355} unique __ctobpl_const_134: int;
+const {:extern} {:model_const "a_list->last->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 82} unique __ctobpl_const_29: int;
 
-const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_150: int;
+const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 85} unique __ctobpl_const_31: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 355} unique __ctobpl_const_133: int;
+const {:extern} {:model_const "a_list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 82} unique __ctobpl_const_28: int;
 
-const {:extern} {:model_const "upgrade_process_prio.arg.2"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_152: int;
+const {:extern} {:model_const "a_list->mem_count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 87} unique __ctobpl_const_37: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 348} unique __ctobpl_const_155: int;
+const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 82} unique __ctobpl_const_27: int;
 
-const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 346} unique __ctobpl_const_146: int;
+const {:extern} {:model_const "a_list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 80} unique __ctobpl_const_21: int;
 
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 361} unique __ctobpl_const_138: int;
+const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 88} unique __ctobpl_const_38: int;
 
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 356} unique __ctobpl_const_136: int;
+const {:extern} {:model_const "a_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 85} unique __ctobpl_const_33: int;
 
-const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 355} unique __ctobpl_const_132: int;
+const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 345} unique __ctobpl_const_142: int;
+const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 81} unique __ctobpl_const_22: int;
 
-const {:extern} {:model_const "status"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 326} unique __ctobpl_const_130: int;
-
-const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 346} unique __ctobpl_const_144: int;
-
-const {:extern} {:model_const "result.fscanf"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 325} unique __ctobpl_const_128: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 347} unique __ctobpl_const_147: int;
-
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 357} unique __ctobpl_const_139: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_153: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_151: int;
-
-const {:extern} {:model_const "upgrade_process_prio.arg.2"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_154: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 348} unique __ctobpl_const_156: int;
-
-const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 341} unique __ctobpl_const_157: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 341} unique __ctobpl_const_158: int;
-
-const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 341} unique __ctobpl_const_159: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 356} unique __ctobpl_const_135: int;
-
-const {:extern} {:model_const "status"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 326} unique __ctobpl_const_129: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 361} unique __ctobpl_const_137: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 357} unique __ctobpl_const_140: int;
-
-const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 345} unique __ctobpl_const_141: int;
-
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 346} unique __ctobpl_const_145: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 347} unique __ctobpl_const_148: int;
-
-const {:extern} {:model_const "command"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 329} unique __ctobpl_const_131: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 345} unique __ctobpl_const_143: int;
-
-const {:extern} {:model_const "upgrade_process_prio.arg.2"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_149: int;
-
-const {:extern} {:model_const "queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 295} unique __ctobpl_const_107: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 290} unique __ctobpl_const_118: int;
-
-const {:extern} {:model_const "queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_116: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 290} unique __ctobpl_const_103: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 292} unique __ctobpl_const_108: int;
-
-const {:extern} {:model_const "result.new_process"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 292} unique __ctobpl_const_111: int;
-
-const {:extern} {:model_const "argc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 314} unique __ctobpl_const_121: int;
-
-const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_117: int;
-
-const {:extern} {:model_const "alloc_proc_num"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 300} unique __ctobpl_const_119: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 290} unique __ctobpl_const_102: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 295} unique __ctobpl_const_105: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_223: int;
-
-const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 325} unique __ctobpl_const_124: int;
-
-const {:extern} {:model_const "ptr"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 144} unique __ctobpl_const_99: int;
-
-const {:extern} {:model_const "num_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 290} unique __ctobpl_const_104: int;
-
-const {:extern} {:model_const "ptr"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 144} unique __ctobpl_const_98: int;
+const {:extern} {:model_const "a_ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 86} unique __ctobpl_const_35: int;
 
 const {:extern} {:model_const "queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 289} unique __ctobpl_const_100: int;
 
-const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 295} unique __ctobpl_const_106: int;
+const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 84} unique __ctobpl_const_24: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 292} unique __ctobpl_const_110: int;
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 278} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_113: int;
+const {:extern} {:model_const "a_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 80} unique __ctobpl_const_18: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_115: int;
+const {:extern} {:model_const "a_ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 80} unique __ctobpl_const_19: int;
 
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 321} unique __ctobpl_const_123: int;
+const {:extern} {:model_const "a_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 80} unique __ctobpl_const_20: int;
+
+const {:extern} {:model_const "a_list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 81} unique __ctobpl_const_23: int;
+
+const {:extern} {:model_const "result.new_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 78} unique __ctobpl_const_17: int;
+
+const {:extern} {:model_const "a_list->first"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 84} unique __ctobpl_const_25: int;
+
+const {:extern} {:model_const "a_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 82} unique __ctobpl_const_30: int;
 
 const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 325} unique __ctobpl_const_125: int;
 
-const {:extern} {:model_const "command"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 325} unique __ctobpl_const_126: int;
+const {:extern} {:model_const "queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 295} unique __ctobpl_const_107: int;
 
-const {:extern} {:model_const "num_processes"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 301} unique __ctobpl_const_120: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 292} unique __ctobpl_const_109: int;
-
-const {:extern} {:model_const "queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_112: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 321} unique __ctobpl_const_122: int;
-
-const {:extern} {:model_const "queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_114: int;
+const {:extern} {:model_const "alloc_proc_num"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 300} unique __ctobpl_const_119: int;
 
 const {:extern} {:model_const "status"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 325} unique __ctobpl_const_127: int;
 
-const {:extern} {:model_const "result.new_list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 289} unique __ctobpl_const_101: int;
+const {:extern} {:model_const "status"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 326} unique __ctobpl_const_129: int;
+
+const {:extern} {:model_const "status"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 326} unique __ctobpl_const_130: int;
+
+const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 355} unique __ctobpl_const_132: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 290} unique __ctobpl_const_103: int;
+
+const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 295} unique __ctobpl_const_106: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 292} unique __ctobpl_const_109: int;
+
+const {:extern} {:model_const "result.new_process"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 292} unique __ctobpl_const_111: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 292} unique __ctobpl_const_110: int;
+
+const {:extern} {:model_const "queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_112: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 295} unique __ctobpl_const_105: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_113: int;
+
+const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_117: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 290} unique __ctobpl_const_118: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 321} unique __ctobpl_const_123: int;
+
+const {:extern} {:model_const "command"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 325} unique __ctobpl_const_126: int;
+
+const {:extern} {:model_const "queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_114: int;
+
+const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 325} unique __ctobpl_const_124: int;
+
+const {:extern} {:model_const "num_processes"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 301} unique __ctobpl_const_120: int;
+
+const {:extern} {:model_const "argc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 314} unique __ctobpl_const_121: int;
+
+const {:extern} {:model_const "result.fscanf"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 325} unique __ctobpl_const_128: int;
+
+const {:extern} {:model_const "command"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 329} unique __ctobpl_const_131: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_115: int;
+
+const {:extern} {:model_const "list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 63} unique __ctobpl_const_196: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 292} unique __ctobpl_const_108: int;
+
+const {:extern} {:model_const "queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 293} unique __ctobpl_const_116: int;
+
+const {:extern} {:model_const "num_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 290} unique __ctobpl_const_104: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 321} unique __ctobpl_const_122: int;
 
 const {:extern} {:model_const "(prio_queue[i])->first"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 184} unique __ctobpl_const_236: int;
 
-const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 215} unique __ctobpl_const_315: int;
-
 const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 228} unique __ctobpl_const_247: int;
-
-const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 230} unique __ctobpl_const_249: int;
-
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_243: int;
-
-const {:extern} {:model_const "block_queue->mem_count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 230} unique __ctobpl_const_250: int;
-
-const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 231} unique __ctobpl_const_251: int;
 
 const {:extern} {:model_const "(prio_queue[i])->mem_count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 182} unique __ctobpl_const_231: int;
 
-const {:extern} {:model_const "count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 230} unique __ctobpl_const_248: int;
-
-const {:extern} {:model_const "prio_queue[i]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 182} unique __ctobpl_const_230: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 184} unique __ctobpl_const_234: int;
-
-const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_224: int;
-
-const {:extern} {:model_const "del_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_237: int;
-
-const {:extern} {:model_const "del_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_242: int;
-
-const {:extern} {:model_const "prio_queue[i]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_245: int;
-
-const {:extern} {:model_const "count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 231} unique __ctobpl_const_252: int;
-
-const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 231} unique __ctobpl_const_253: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 180} unique __ctobpl_const_227: int;
 
 const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 180} unique __ctobpl_const_232: int;
 
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 179} unique __ctobpl_const_226: int;
+const {:extern} {:model_const "block_queue->mem_count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 230} unique __ctobpl_const_250: int;
 
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 182} unique __ctobpl_const_229: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 180} unique __ctobpl_const_227: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_238: int;
-
-const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_225: int;
-
-const {:extern} {:model_const "prio_queue[i]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 184} unique __ctobpl_const_235: int;
-
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_241: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_244: int;
-
-const {:extern} {:model_const "result.del_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_246: int;
-
-const {:extern} {:model_const "del_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_240: int;
-
-const {:extern} {:model_const "prio_queue[i]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_239: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 180} unique __ctobpl_const_228: int;
-
-const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 184} unique __ctobpl_const_233: int;
-
-const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_275: int;
-
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_276: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 201} unique __ctobpl_const_280: int;
-
-const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_278: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 203} unique __ctobpl_const_282: int;
-
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 236} unique __ctobpl_const_267: int;
-
-const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_261: int;
-
-const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_270: int;
-
-const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_265: int;
-
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_262: int;
-
-const {:extern} {:model_const "proc->priority"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 236} unique __ctobpl_const_269: int;
+const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 231} unique __ctobpl_const_253: int;
 
 const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 232} unique __ctobpl_const_257: int;
 
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_271: int;
+const {:extern} {:model_const "result.del_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_246: int;
 
-const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_272: int;
+const {:extern} {:model_const "prio_queue[i]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_239: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 233} unique __ctobpl_const_260: int;
+const {:extern} {:model_const "del_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_240: int;
 
-const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_263: int;
+const {:extern} {:model_const "prio_queue[i]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 182} unique __ctobpl_const_230: int;
 
-const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_273: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_244: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 232} unique __ctobpl_const_258: int;
+const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 230} unique __ctobpl_const_249: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_274: int;
+const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 231} unique __ctobpl_const_251: int;
 
-const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_279: int;
+const {:extern} {:model_const "count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 231} unique __ctobpl_const_252: int;
+
+const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 232} unique __ctobpl_const_254: int;
 
 const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 232} unique __ctobpl_const_255: int;
 
 const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 232} unique __ctobpl_const_256: int;
 
-const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 203} unique __ctobpl_const_281: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 184} unique __ctobpl_const_234: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 236} unique __ctobpl_const_268: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 182} unique __ctobpl_const_229: int;
 
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_277: int;
+const {:extern} {:model_const "del_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_237: int;
 
-const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 203} unique __ctobpl_const_283: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_238: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_264: int;
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_243: int;
 
-const {:extern} {:model_const "result.find_nth"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 232} unique __ctobpl_const_259: int;
+const {:extern} {:model_const "count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 230} unique __ctobpl_const_248: int;
 
-const {:extern} {:model_const "result.del_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_266: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 180} unique __ctobpl_const_228: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_302: int;
+const {:extern} {:model_const "prio_queue[i]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 184} unique __ctobpl_const_235: int;
 
-const {:extern} {:model_const "count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 209} unique __ctobpl_const_292: int;
+const {:extern} {:model_const "del_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_242: int;
 
-const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_303: int;
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_241: int;
 
-const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_297: int;
+const {:extern} {:model_const "prio_queue[i]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 185} unique __ctobpl_const_245: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_304: int;
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 179} unique __ctobpl_const_226: int;
 
-const {:extern} {:model_const "count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 205} unique __ctobpl_const_287: int;
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 184} unique __ctobpl_const_233: int;
+
+const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_221: int;
+
+const {:extern} {:model_const "num_processes"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 269} unique __ctobpl_const_210: int;
+
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 248} unique __ctobpl_const_214: int;
+
+const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_216: int;
+
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 246} unique __ctobpl_const_212: int;
+
+const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_224: int;
+
+const {:extern} {:model_const "list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 65} unique __ctobpl_const_200: int;
+
+const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_225: int;
+
+const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_218: int;
+
+const {:extern} {:model_const "list->last"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 63} unique __ctobpl_const_197: int;
+
+const {:extern} {:model_const "new_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_203: int;
+
+const {:extern} {:model_const "proc->priority"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 268} unique __ctobpl_const_208: int;
+
+const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_219: int;
+
+const {:extern} {:model_const "list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 64} unique __ctobpl_const_198: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 232} unique __ctobpl_const_258: int;
+
+const {:extern} {:model_const "new_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_201: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 270} unique __ctobpl_const_211: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 268} unique __ctobpl_const_209: int;
+
+const {:extern} {:model_const "new_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_204: int;
+
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_222: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_223: int;
+
+const {:extern} {:model_const "alloc_proc_num"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_202: int;
+
+const {:extern} {:model_const "list->mem_count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 64} unique __ctobpl_const_199: int;
+
+const {:extern} {:model_const "result.new_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_206: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 268} unique __ctobpl_const_207: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 267} unique __ctobpl_const_205: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 248} unique __ctobpl_const_213: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_217: int;
+
+const {:extern} {:model_const "cur_proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 249} unique __ctobpl_const_220: int;
+
+const {:extern} {:model_const "cur_proc->priority"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 248} unique __ctobpl_const_215: int;
+
+const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_294: int;
+
+const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_295: int;
+
+const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 209} unique __ctobpl_const_293: int;
 
 const {:extern} {:model_const "proc->priority"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 214} unique __ctobpl_const_308: int;
 
-const {:extern} {:model_const "dest_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 215} unique __ctobpl_const_312: int;
+const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_301: int;
 
-const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 204} unique __ctobpl_const_285: int;
+const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_303: int;
 
-const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 205} unique __ctobpl_const_288: int;
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_304: int;
+
+const {:extern} {:model_const "count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 209} unique __ctobpl_const_292: int;
 
 const {:extern} {:model_const "src_queue->mem_count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 205} unique __ctobpl_const_289: int;
 
-const {:extern} {:model_const "result.find_nth"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_299: int;
+const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 209} unique __ctobpl_const_291: int;
+
+const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_296: int;
+
+const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_297: int;
+
+const {:extern} {:model_const "count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 207} unique __ctobpl_const_290: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 211} unique __ctobpl_const_300: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_302: int;
+
+const {:extern} {:model_const "result.del_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_306: int;
+
+const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_305: int;
 
 const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 214} unique __ctobpl_const_309: int;
 
 const {:extern} {:model_const "dest_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 215} unique __ctobpl_const_310: int;
 
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 215} unique __ctobpl_const_311: int;
+
+const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 205} unique __ctobpl_const_288: int;
+
+const {:extern} {:model_const "result.find_nth"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_299: int;
+
 const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 215} unique __ctobpl_const_313: int;
-
-const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_295: int;
-
-const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_296: int;
 
 const {:extern} {:model_const "dest_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 215} unique __ctobpl_const_314: int;
 
-const {:extern} {:model_const "n"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 209} unique __ctobpl_const_291: int;
-
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_298: int;
-
-const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 209} unique __ctobpl_const_293: int;
-
-const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_305: int;
-
-const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_294: int;
-
-const {:extern} {:model_const "result.del_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_306: int;
+const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 215} unique __ctobpl_const_315: int;
 
 const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 214} unique __ctobpl_const_307: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 215} unique __ctobpl_const_311: int;
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 210} unique __ctobpl_const_298: int;
 
-const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 211} unique __ctobpl_const_300: int;
+const {:extern} {:model_const "dest_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 215} unique __ctobpl_const_312: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 236} unique __ctobpl_const_268: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 233} unique __ctobpl_const_260: int;
+
+const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_278: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 201} unique __ctobpl_const_280: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_264: int;
+
+const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_275: int;
+
+const {:extern} {:model_const "proc->priority"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 236} unique __ctobpl_const_269: int;
+
+const {:extern} {:model_const "result.del_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_266: int;
+
+const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_261: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_271: int;
+
+const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_273: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 203} unique __ctobpl_const_282: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_262: int;
+
+const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_265: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_274: int;
+
+const {:extern} {:model_const "proc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_276: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_277: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 236} unique __ctobpl_const_267: int;
+
+const {:extern} {:model_const "result.append_ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_279: int;
+
+const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 203} unique __ctobpl_const_281: int;
+
+const {:extern} {:model_const "append_ele.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_270: int;
+
+const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 203} unique __ctobpl_const_283: int;
+
+const {:extern} {:model_const "dest_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 204} unique __ctobpl_const_284: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 204} unique __ctobpl_const_285: int;
 
 const {:extern} {:model_const "prio_queue[prio + 1]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 204} unique __ctobpl_const_286: int;
 
-const {:extern} {:model_const "count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 207} unique __ctobpl_const_290: int;
+const {:extern} {:model_const "count"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 205} unique __ctobpl_const_287: int;
 
-const {:extern} {:model_const "src_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 212} unique __ctobpl_const_301: int;
+const {:extern} {:model_const "block_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 234} unique __ctobpl_const_263: int;
 
-const {:extern} {:model_const "dest_queue"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 204} unique __ctobpl_const_284: int;
+const {:extern} {:model_const "prio_queue[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 237} unique __ctobpl_const_272: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 356} unique __ctobpl_const_135: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 346} unique __ctobpl_const_145: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 361} unique __ctobpl_const_137: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 345} unique __ctobpl_const_142: int;
+
+const {:extern} {:model_const "upgrade_process_prio.arg.2"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_149: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_151: int;
+
+const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 346} unique __ctobpl_const_146: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 355} unique __ctobpl_const_134: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 357} unique __ctobpl_const_139: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 345} unique __ctobpl_const_143: int;
+
+const {:extern} {:model_const "upgrade_process_prio.arg.2"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_154: int;
+
+const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 346} unique __ctobpl_const_144: int;
+
+const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 341} unique __ctobpl_const_159: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 356} unique __ctobpl_const_136: int;
+
+const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 342} unique __ctobpl_const_161: int;
+
+const {:extern} {:model_const "unblock_process.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 342} unique __ctobpl_const_162: int;
+
+const {:extern} {:model_const "unblock_process.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 342} unique __ctobpl_const_163: int;
+
+const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 341} unique __ctobpl_const_157: int;
+
+const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 327} unique __ctobpl_const_164: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 348} unique __ctobpl_const_155: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 341} unique __ctobpl_const_158: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 327} unique __ctobpl_const_165: int;
+
+const {:extern} {:model_const "fscanf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 345} unique __ctobpl_const_141: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 361} unique __ctobpl_const_138: int;
+
+const {:extern} {:model_const "upgrade_process_prio.arg.2"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_152: int;
+
+const {:extern} {:model_const "unblock_process.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 342} unique __ctobpl_const_160: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 347} unique __ctobpl_const_147: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 357} unique __ctobpl_const_140: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 347} unique __ctobpl_const_148: int;
+
+const {:extern} {:model_const "ratio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_150: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 352} unique __ctobpl_const_153: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 348} unique __ctobpl_const_156: int;
+
+const {:extern} {:model_const "argv"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_170: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_176: int;
+
+const {:extern} {:model_const "ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 43} unique __ctobpl_const_182: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_177: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 321} unique __ctobpl_const_179: int;
+
+const {:extern} {:model_const "ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 46} unique __ctobpl_const_188: int;
+
+const {:extern} {:model_const "ele->prev"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 45} unique __ctobpl_const_187: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_171: int;
+
+const {:extern} {:model_const "ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 44} unique __ctobpl_const_184: int;
+
+const {:extern} {:model_const "ele->next"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 44} unique __ctobpl_const_185: int;
+
+const {:extern} {:model_const "new_num"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 46} unique __ctobpl_const_190: int;
+
+const {:extern} {:model_const "argv[prio]"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_172: int;
+
+const {:extern} {:model_const "result.find_nth"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 232} unique __ctobpl_const_259: int;
+
+const {:extern} {:model_const "status"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 327} unique __ctobpl_const_167: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_169: int;
+
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 316} unique __ctobpl_const_181: int;
+
+const {:extern} {:model_const "command"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 327} unique __ctobpl_const_166: int;
+
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 316} unique __ctobpl_const_180: int;
+
+const {:extern} {:model_const "result.malloc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 43} unique __ctobpl_const_183: int;
+
+const {:extern} {:model_const "result.atoi"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_178: int;
+
+const {:extern} {:model_const "ele->val"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 46} unique __ctobpl_const_189: int;
+
+const {:extern} {:model_const "ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 47} unique __ctobpl_const_191: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_173: int;
+
+const {:extern} {:model_const "result.fscanf"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 327} unique __ctobpl_const_168: int;
+
+const {:extern} {:model_const "prio"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_175: int;
+
+const {:extern} {:model_const "ele"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 45} unique __ctobpl_const_186: int;
+
+const {:extern} {:model_const "result.malloc"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 60} unique __ctobpl_const_193: int;
+
+const {:extern} {:model_const "atoi.arg.1"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 323} unique __ctobpl_const_174: int;
+
+const {:extern} {:model_const "list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 62} unique __ctobpl_const_194: int;
+
+const {:extern} {:model_const "list"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 60} unique __ctobpl_const_192: int;
+
+const {:extern} {:model_const "list->first"} {:sourceFile ".\v6\schedule.c"} {:sourceLine 62} unique __ctobpl_const_195: int;
 
 procedure {:extern} __iob_func() returns (__dummy_ret__iob_func: int);
   free requires INT_LT(0, alloc);

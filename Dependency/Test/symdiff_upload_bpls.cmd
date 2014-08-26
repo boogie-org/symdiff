@@ -82,8 +82,10 @@ sub AddToGitRepo {
   my ($src, $ver) = @_;
   
   MyExec("git add $src.bpl $ver.bpl");
-  MyExec("git add $src\\*.c $src\\*.h $src\\makefile $src\\changed*.txt");
-  MyExec("git add $ver\\*.c $ver\\*.h $ver\\makefile $ver\\changed*.txt");
+  MyExec("git add $src\\*.c $src\\makefile $src\\changed*.txt");
+  MyExec("git add $src\\*.h");
+  MyExec("git add $ver\\*.c $ver\\makefile $ver\\changed*.txt");
+  MyExec("git add $ver\\*.h");
   
 }
 
