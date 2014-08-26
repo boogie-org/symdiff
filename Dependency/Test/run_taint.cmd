@@ -27,10 +27,12 @@ my $depBinary = "$rootdir\\..\\bin\\debug\\dependency.exe";
 
 @options = 
 (
- [" /dataOnly /detStubs ", "_data_detstubs_"],
- ["           /detStubs ", "_control_detstubs"],
- [" /readSet  /detStubs ", "_readset_detstubs"],
+# [" /dataOnly /detStubs ", "_data_detstubs_"],
+# ["           /detStubs ", "_control_detstubs"],
+# [" /readSet  /detStubs ", "_readset_detstubs"],
  [" /dataOnly "          , "_data_"]
+ ["           ", "_control_"],
+ [" /readSet  ", "_readset_"],
 );
 
 
