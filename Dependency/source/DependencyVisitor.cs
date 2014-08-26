@@ -377,7 +377,7 @@ namespace Dependency
             bool nativeTaint = changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock);
 
             var topDownTaint = new Dependencies();
-            if (nativeTaint)
+            if (nativeTaint && calleeImpl != null)
             {// if the line syntactically changed, we assume all of the actuals introduce top-down taint
                 foreach (var input in calleeImpl.InParams)
                 {

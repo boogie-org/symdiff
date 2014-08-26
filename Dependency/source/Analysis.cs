@@ -142,6 +142,10 @@ namespace Dependency
                 Utils.StatisticsHelper.GenerateCSVOutput(statsFile, statsLog);
                 Console.WriteLine("Statistics generated in " + statsFile);
             }
+
+            // print number of tainted lines
+            Console.WriteLine("#Tainted = {0}", taintLog.GroupBy(t => t.Item3).Count());
+
             #endregion
             sw.Stop();
             return 0;
@@ -208,17 +212,19 @@ namespace Dependency
             var dataDepVisitor = new DependencyVisitor(filename, program, changeLog, true, DetStubs);
             var dataDeps = dataDepVisitor.ProcDependencies;
             
-            if (Refine || BothDependencies)
-                RunDependencyAnalysis(program, dataDepVisitor, Utils.StatisticsHelper.DataOnly);
+            if (Refine || BothDependencies || DataOnly) {
+                RunDependencyAnalysis(program, dataDepVisitor, Utils.StatisticsHelper.DataOnly, DataOnly);
+                if (DataOnly)
+                    return;
+            }
 
             dataDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
-            dataDepVisitor = null;
             GC.Collect();
 
             var allDepVisitor = new DependencyVisitor(filename, program, changeLog, DataOnly, DetStubs);
             var allDeps = allDepVisitor.ProcDependencies;
 
-            RunDependencyAnalysis(program, allDepVisitor, Utils.StatisticsHelper.DataAndControl,true);
+            RunDependencyAnalysis(program, allDepVisitor, Utils.StatisticsHelper.DataAndControl, !ReadSet); // !ReadSet in the case we want to compute taint using the read set as the baseline dependency
 
             //// test SB deps
             //Random rnd = new Random();
@@ -243,7 +249,6 @@ namespace Dependency
             //}
 
             allDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
-            allDepVisitor = null;
             GC.Collect();
 
             #region Control+Data dependencies must contain the Data dependencies
@@ -266,7 +271,7 @@ namespace Dependency
             ProcReadSetVisitor rsVisitor = new ProcReadSetVisitor();
             if (ReadSet)
             {
-                RunReadSetAnalysis(program, rsVisitor);
+                RunReadSetAnalysis(program, rsVisitor, new DependencyVisitor(filename, program, changeLog, DataOnly, DetStubs));
                 #region ReadSet must contain the Control+Data dependencies
                 Debug.Assert(rsVisitor.ProcReadSet.All(prs =>
                 {
@@ -289,6 +294,7 @@ namespace Dependency
                 }));
                 #endregion
             }
+
 
             if (Refine)
                 RunRefinedDepAnalysis(filename, program, dataDeps, allDeps);
@@ -331,7 +337,7 @@ namespace Dependency
             refineDepsWL.RunFixedPoint(sw);
             Utils.LogStopwatch(sw, "After refined dependency analysis", Analysis.Timeout);
             // print
-            refineDepsWL.currDependencies.Iter(pd => PopulateDependencyLog(program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name), pd.Value, "Refined"));
+            refineDepsWL.currDependencies.Iter(pd => PopulateDependencyLog(program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name), pd.Value, Utils.StatisticsHelper.Refined));
 
             // stats
             refineDepsWL.currDependencies.Iter(pd =>
@@ -342,12 +348,31 @@ namespace Dependency
             });
         }
 
-        private static void RunReadSetAnalysis(Program program, ProcReadSetVisitor rsVisitor)
+        private static void RunReadSetAnalysis(Program program, ProcReadSetVisitor rsVisitor, DependencyVisitor depVisitor = null)
         {
             rsVisitor.Visit(program);
             // prune
             if (Prune)
                 rsVisitor.ProcReadSet.Keys.Iter(p => Utils.VariableUtils.PruneLocals(program.Implementations().SingleOrDefault(i => i.Proc.Name == p.Name), rsVisitor.ProcReadSet[p]));
+
+            // create a dependency set \foreach r \in ReadSet: r <- ReadSet
+            Dictionary<Procedure,Dependencies> rsProcDeps = new Dictionary<Procedure,Dependencies>();
+            rsVisitor.ProcReadSet.Keys.Iter(p => { rsProcDeps[p] = new Dependencies(); rsVisitor.ProcReadSet[p].Iter(r => rsProcDeps[p][r] = rsVisitor.ProcReadSet[p]); });
+
+            // taint
+            if (changeLog.Count > 0)
+            {
+                depVisitor.ProcDependencies = rsProcDeps;
+                depVisitor.Visit(program); // reminder: taint is essentially a dependecy analysis
+                // extract taint from dependencies and print
+                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(depVisitor.worklist)));
+                // remove the special taint var
+                rsProcDeps.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));
+            }
+
+            // print
+            program.Implementations().Iter(impl => PopulateDependencyLog(impl, rsProcDeps[impl.Proc], Utils.StatisticsHelper.ReadSet));
+
 
             // stats
             if (PrintStats)
@@ -358,6 +383,7 @@ namespace Dependency
                     if (impl != null) // conservatively each output\global is dependent on all of the readset
                         readSet.Where(v => v is GlobalVariable || proc.OutParams.Contains(v)).Iter(v => PopulateStatsLog(Utils.StatisticsHelper.ReadSet, impl, v, readSet));
                 });
+
         }
 
 
