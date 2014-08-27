@@ -28,6 +28,7 @@ namespace Dependency
             public const string noMinUnsatCore = "/noMinUnsatCore";
             public const string timeout = "/timeout";
             public const string abstractNonTainted = "/abstractNonTainted"; //generate a program with non-tainted parts abstracted
+            public const string splitMapsWithAliasAnalysis = "/splitMapsWithAliasAnalysis";
         }
 
         static public bool DataOnly = false;
@@ -42,6 +43,7 @@ namespace Dependency
         static public bool noMinUnsatCore = false;
         static public int Timeout = 1000;
         static public bool AbstractNonTainted = false;
+        static public bool SplitMapsWithAliasAnalysis = false;
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
@@ -99,6 +101,8 @@ namespace Dependency
             args.Where(x => x.StartsWith(CmdLineOptsNames.timeout + ":"))
                 .Iter(s => Timeout = int.Parse(s.Split(':')[1]));
 
+            SplitMapsWithAliasAnalysis = args.Any(x => x.StartsWith(CmdLineOptsNames.splitMapsWithAliasAnalysis));
+
             // refined must have pruned dependencies
             Prune = Refine || args.Any(x => x.ToLower() == CmdLineOptsNames.prune.ToLower());
 
@@ -125,6 +129,13 @@ namespace Dependency
 
             //cleanup assume value_is, as we are not printing a trace now
             (new Utils.RemoveValueIsAssumes()).Visit(program);
+
+            if (SplitMapsWithAliasAnalysis)
+            {
+                var s = new SplitHeapUsingAliasAnalysis(program, filename);
+                s.Run();
+                return 0;
+            }
 
             Utils.CallGraphHelper.WriteCallGraph(filename + ".cg.dot", Utils.CallGraphHelper.ComputeCallGraph(program));
 
