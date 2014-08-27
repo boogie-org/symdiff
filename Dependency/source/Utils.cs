@@ -203,14 +203,16 @@ namespace Dependency
             {
                 foreach (var changesPerProc in changesPerFile.GroupBy(t => t.Item2))
                 {
-                    var impl = program.Implementations().FirstOrDefault(i => i.Proc.Name == changesPerProc.Key);
-                    if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) == null)
-                        foreach (var procChange in changesPerProc)
-                        {
-                            // add in the block pertaining to the changed line
-                            impl.Blocks.Where(b => Utils.AttributeUtils.GetSourceLine(b) == procChange.Item3)
-                                                .Iter(b => result.Add(b));
-                        }
+                    foreach (var impl in program.Implementations().Where(i => i.Proc.Name.StartsWith(changesPerProc.Key))) // dealing with loops which are procs with name <orig_proc>_loop_head etc.
+                    {
+                        if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) == null)
+                            foreach (var procChange in changesPerProc)
+                            {
+                                // add in the block pertaining to the changed line
+                                impl.Blocks.Where(b => Utils.AttributeUtils.GetSourceLine(b) == procChange.Item3)
+                                                    .Iter(b => result.Add(b));
+                            }
+                    }
                 }
             }
             return result;
