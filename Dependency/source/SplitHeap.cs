@@ -18,6 +18,7 @@ namespace Dependency
         public const string allocSiteStr = "allocationsites";
         public const string allocSiteFnName= "allocSiteFn";
         public const string allocAssumeAttr = "allocSiteAssume";
+        public const string allocInstrumentedFileExtention = ".mapLookupAssumes.bpl";
     }
 
     public class SplitHeapUsingAliasAnalysis
@@ -30,22 +31,22 @@ namespace Dependency
         {
             //add allocation site info and assumes
             var asi = new AllocationSiteInstrumentation(prog, filename);
-            asi.PerformAllocationSiteInstrumentation();
+            var instrFilename = asi.PerformAllocationSiteInstrumentation();
 
             //run alias analysis and dump the split program
             string prunedFilename; //the file where the output of alias analysis is generated
-            RunAliasAnalysis(out prunedFilename);
+            RunAliasAnalysis(instrFilename, out prunedFilename);
 
             //massage the output of alias analysis (new program)
             var saAA = new SplitHeapHelper(prunedFilename);
             return saAA.Run();
         }
 
-        private void RunAliasAnalysis(out string prunedFilename)
+        private void RunAliasAnalysis(string instrFilename, out string prunedFilename)
         {
             //AliasAnalysis.exe f8.bpl /prune:out.bpl
             prunedFilename = filename + ".aliasanalysis.bpl";
-            string args = string.Format(" {0} /prune:{1}", filename, prunedFilename);
+            string args = string.Format(" {0} /prune:{1} ", instrFilename, prunedFilename);
             //TODO: make the path relative
             Utils.ExecuteBinary(@"d:\corral-codeplex\corral\addons\aliasAnalysis\aliasAnalysis\bin\debug\AliasAnalysis.exe", args);
         }
@@ -66,14 +67,16 @@ namespace Dependency
                 this.prog = prog;
                 this.filename = filename;
             }
-            internal void PerformAllocationSiteInstrumentation()
+            internal string PerformAllocationSiteInstrumentation()
             {
                 IdentifyAndAddAllocators();
                 //DeclareAllocationSiteFuncs();
                 InstrumentAllocationSiteAssumes();
-                var tuo = new TokenTextWriter(filename + ".mapLookupAssumes.bpl", true);
+                var instrumentedFilename = filename + SplitConsts.allocInstrumentedFileExtention;
+                var tuo = new TokenTextWriter(instrumentedFilename, true);
                 prog.Emit(tuo);
                 tuo.Close();
+                return instrumentedFilename;
             }
             private void InstrumentAllocationSiteAssumes()
             {
