@@ -140,7 +140,7 @@ namespace Dependency
         public Dictionary<Procedure, Dependencies> ProcDependencies;
 
         private Dictionary<Block, HashSet<Block>> dominatedBy;
-        private Dictionary<Block, HashSet<Variable>> branchCondVars; // a mapping: branching Block -> { Variables in the branch conditional }
+        public Dictionary<Block, HashSet<Variable>> branchCondVars; // a mapping: branching Block -> { Variables in the branch conditional }
         public WorkList<Dependencies> worklist;
 
         private Dictionary<Procedure, Dependencies> procTDTaint;
@@ -167,24 +167,8 @@ namespace Dependency
 
             this.procTDTaint = new Dictionary<Procedure, Dependencies>();
             // populate changedProcs,changedBlock from changedLines
-            this.changedProcs = new HashSet<Procedure>();
-            this.changedBlocks = new HashSet<Block>();
-            foreach (var changesPerFile in changeLog.GroupBy(t => t.Item1))
-            {
-                foreach (var changesPerProc in changesPerFile.GroupBy(t => t.Item2))
-                {
-                    var impl = program.Implementations().FirstOrDefault(i => i.Proc.Name == changesPerProc.Key);
-                    if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) != null)
-                        this.changedProcs.Add(impl.Proc); // whole procedure changed
-                    else foreach (var procChange in changesPerProc)
-                        {
-                            // add in the block pertaining to the changed line
-                            impl.Blocks.Where(b => b.Cmds != null && b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd &&
-                                              Utils.AttributeUtils.GetSourceLine(b.Cmds[0] as AssertCmd) == procChange.Item3)
-                                                .Iter(b => changedBlocks.Add(b));
-                        }
-                }
-            }
+            this.changedBlocks = Utils.ComputeChangedBlocks(program, changeLog);
+            this.changedProcs = Utils.ComputeChangedProcs(program, changeLog);
 
             this.dataOnly = dataOnly;
             this.detStubs = detStubs;
@@ -400,8 +384,7 @@ namespace Dependency
                     {
                         inputExpressionsDependency[current].UnionWith(dependencies[v]);
                         if (calleeImpl != null && // not a stub
-                            (dependencies[v].Contains(Utils.VariableUtils.BottomUpTaintVar) ||
-                             dependencies[v].Contains(Utils.VariableUtils.TopDownTaintVar)))
+                            Utils.VariableUtils.IsTainted(dependencies[v]))
                         {   // top down taint from input
                             var input = calleeImpl.InParams[i];
                             topDownTaint[input] = new HashSet<Variable>();
@@ -414,8 +397,7 @@ namespace Dependency
             foreach (var g in dependencies.Keys.Where(v => v is GlobalVariable && callee.Modifies.Exists(m => Utils.VariableUtils.ExtractVars(m).Contains(v))))
             {
                 if (calleeImpl != null && // not a stub
-                    (dependencies[g].Contains(Utils.VariableUtils.BottomUpTaintVar) ||
-                     dependencies[g].Contains(Utils.VariableUtils.TopDownTaintVar)))
+                    Utils.VariableUtils.IsTainted(dependencies[g]))
                 {   // top down taint from global
                     topDownTaint[g] = new HashSet<Variable>();
                     topDownTaint[g].Add(Utils.VariableUtils.TopDownTaintVar);

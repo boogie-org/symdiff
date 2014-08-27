@@ -82,11 +82,11 @@ namespace Dependency
             args.Where(x => x.StartsWith(CmdLineOptsNames.taint + ":"))
                 .Iter(s => changeList = s.Split(':')[1]);
 
-            DataOnly = args.Any(x => x == CmdLineOptsNames.dataOnly);
-            BothDependencies = args.Any(x => x == CmdLineOptsNames.both) && !DataOnly;
-            DetStubs = args.Any(x => x == CmdLineOptsNames.detStubs);
+            DataOnly = args.Any(x => x.ToLower() == CmdLineOptsNames.dataOnly.ToLower());
+            BothDependencies = args.Any(x => x.ToLower() == CmdLineOptsNames.both.ToLower()) && !DataOnly;
+            DetStubs = args.Any(x => x.ToLower() == CmdLineOptsNames.detStubs.ToLower());
 
-            PrintStats = args.Any(x => x == CmdLineOptsNames.stats || x.StartsWith(CmdLineOptsNames.stats + ":"));
+            PrintStats = args.Any(x => x.ToLower() == CmdLineOptsNames.stats.ToLower() || x.StartsWith(CmdLineOptsNames.stats + ":"));
             args.Where(x => x.StartsWith(CmdLineOptsNames.stats + ":"))
                 .Iter(s => statsFile = s.Split(':')[1]);
 
@@ -100,18 +100,18 @@ namespace Dependency
                 .Iter(s => Timeout = int.Parse(s.Split(':')[1]));
 
             // refined must have pruned dependencies
-            Prune = Refine || args.Any(x => x == CmdLineOptsNames.prune);
+            Prune = Refine || args.Any(x => x.ToLower() == CmdLineOptsNames.prune.ToLower());
 
             if (StackBound < 2)
                 throw new Exception("Argument k to /refine:k has to be > 1");
 
-            ReadSet = args.Any(x => x.Contains(CmdLineOptsNames.readSet));
+            ReadSet = args.Any(x => x.ToLower() == CmdLineOptsNames.readSet.ToLower());
 
-            noMinUnsatCore = args.Any(x => x.Contains(CmdLineOptsNames.noMinUnsatCore));
+            noMinUnsatCore = args.Any(x => x.ToLower() == CmdLineOptsNames.noMinUnsatCore.ToLower());
 
-            AbstractNonTainted = args.Any(x => x.Contains(CmdLineOptsNames.abstractNonTainted));
+            AbstractNonTainted = args.Any(x => x.ToLower() == CmdLineOptsNames.abstractNonTainted.ToLower());
 
-            if (args.Any(x => x.Contains(CmdLineOptsNames.debug)))
+            if (args.Any(x => x.ToLower() == CmdLineOptsNames.debug.ToLower()))
                 Debugger.Launch();
             #endregion 
 
@@ -144,7 +144,7 @@ namespace Dependency
             }
 
             // print number of tainted lines
-            Console.WriteLine("#Tainted = {0}", taintLog.GroupBy(t => t.Item3).Count());
+            Console.WriteLine("#Tainted:\n {0}", taintLog.GroupBy(t => t.Item3).Count());
 
             #endregion
             sw.Stop();
@@ -165,7 +165,7 @@ namespace Dependency
                     string procName = items[0].Trim(), procFile = null;
                     // locate the source file for the procedure
                     var impl = program.Implementations().Single(i => i.Name == procName);
-                    impl.Blocks.Find(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd && (procFile = Utils.AttributeUtils.GetSourceFile(b.Cmds[0] as AssertCmd)) != null);
+                    impl.Blocks.Find(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd && (procFile = Utils.AttributeUtils.GetSourceFile(b)) != null);
                     changeLog.Add(Tuple.Create(procFile, procName, int.Parse(items[1])));
                 }
                 catch (Exception)
@@ -181,22 +181,21 @@ namespace Dependency
             if (impl == null) return; //if this is a stub
             var proc = impl.Proc;
             string sourcefile = Utils.AttributeUtils.GetImplSourceFile(impl);
-            var sourceLines = impl.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.AttributeUtils.GetSourceLine((AssertCmd)b.Cmds[0]));
+            var sourceLines = impl.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.AttributeUtils.GetSourceLine(b));
             if (sourceLines.Count() == 0)
                 return;
             int lastSourceLine = sourceLines.Max();
 
             string depStr = "<b> " + which + " for " + proc.Name + "(): (Size = " + deps.Sum(d => d.Value.Count) + ")</b> " + deps.ToString();
-
             dependenciesLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, depStr));
         }
 
-        static public void PopulateTaintLog(Implementation node, HashSet<Block> taintedBlocks)
+        static public void PopulateTaintLog(Implementation node, IEnumerable<Block> taintedBlocks)
         {
             string sourcefile = Utils.AttributeUtils.GetImplSourceFile(node);
             foreach (var block in taintedBlocks)
             {
-                int sourceline = Utils.AttributeUtils.GetSourceLine(block.Cmds[0] as AssertCmd);
+                int sourceline = Utils.AttributeUtils.GetSourceLine(block);
                 if (sourceline >= 0)
                     taintLog.Add(new Tuple<string, string, int>(sourcefile, node.Proc.Name, sourceline));
             }
@@ -224,7 +223,8 @@ namespace Dependency
             var allDepVisitor = new DependencyVisitor(filename, program, changeLog, DataOnly, DetStubs);
             var allDeps = allDepVisitor.ProcDependencies;
 
-            RunDependencyAnalysis(program, allDepVisitor, Utils.StatisticsHelper.DataAndControl, !ReadSet); // !ReadSet in the case we want to compute taint using the read set as the baseline dependency
+            if (Refine || !ReadSet)
+                RunDependencyAnalysis(program, allDepVisitor, Utils.StatisticsHelper.DataAndControl, !ReadSet); // !ReadSet in the case we want to compute taint using the read set as the baseline dependency
 
             //// test SB deps
             //Random rnd = new Random();
@@ -315,7 +315,7 @@ namespace Dependency
 
             if (printTaint && changeLog.Count > 0)
                 // extract taint from dependencies and print
-                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(visitor.worklist)));
+                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(visitor)));
 
             if (Prune)
                 Utils.DependenciesUtils.PruneProcDependencies(program, deps);
@@ -365,13 +365,13 @@ namespace Dependency
                 depVisitor.ProcDependencies = rsProcDeps;
                 depVisitor.Visit(program); // reminder: taint is essentially a dependecy analysis
                 // extract taint from dependencies and print
-                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(depVisitor.worklist)));
+                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(depVisitor)));
                 // remove the special taint var
                 rsProcDeps.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));
             }
 
             // print
-            program.Implementations().Iter(impl => PopulateDependencyLog(impl, rsProcDeps[impl.Proc], Utils.StatisticsHelper.ReadSet));
+            //program.Implementations().Iter(impl => PopulateDependencyLog(impl, rsProcDeps[impl.Proc], Utils.StatisticsHelper.ReadSet));
 
 
             // stats
