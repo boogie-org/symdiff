@@ -72,6 +72,32 @@ namespace Dependency
                 throw new Exception(string.Format("Timeout exceeded after {0} seconds", t));
         }
 
+        public static void ExecuteBinary(string binaryName, string arguments)
+        {
+            try
+            {
+                ProcessStartInfo procInfo = new ProcessStartInfo();
+                procInfo.UseShellExecute = false;
+                procInfo.FileName = binaryName;
+                procInfo.Arguments = arguments;
+                procInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                procInfo.RedirectStandardOutput = true;
+                Process proc = new Process();
+                proc.StartInfo = procInfo;
+                proc.EnableRaisingEvents = false;
+                proc.Start();
+                string output = "";
+                output = proc.StandardOutput.ReadToEnd();
+                proc.WaitForExit();
+                Console.WriteLine("\tEND Executing {0} {1}", binaryName, arguments);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("\tEND Executing {0} {1} with Exceptin {2}", binaryName, arguments, e.Message);
+            }
+        }
+
+
         public static class AttributeUtils
         {
             public const int WholeProcChangeAttributeVal = -1;
