@@ -601,15 +601,6 @@ namespace Dependency
                  dependUpperBnd[x].Count() > dependLowerBnd[x].Count())
                  .Count();
             if (potential == 0) return lowerBoundDependencies;
- 
-            //make any asserts/requires/ensures free on the entire program (as procedures get inlined)
-            prog.TopLevelDeclarations.OfType<Procedure>().Iter
-                (proc =>
-                    {
-                        proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
-                        proc.Ensures = proc.Ensures.Select(x => new Ensures(true, x.Condition)).ToList();
-                    });
-             (new Utils.RemoveAsserts()).Visit(prog);
 
             var refineImpl = RefineDependencyProgramCreator.CreateCheckDependencyImpl(upperBoundDependencies, lowerBoundDependencies, impl, prog);
             ModSetCollector c = new ModSetCollector();

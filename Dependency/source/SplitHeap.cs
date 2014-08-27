@@ -99,7 +99,7 @@ namespace Dependency
         {
             private Program prog;
             private HashSet<Function> queryFuncs;
-            private Dictionary<Cmd, HashSet<Expr>> lookupExprsPerCmd;
+            private Dictionary<Cmd, HashSet<Tuple<Expr,Expr>>> lookupExprsPerCmd;
             private Cmd currCmd;
             private int aliasFnCount;
 
@@ -113,7 +113,7 @@ namespace Dependency
             }
             public override Block VisitBlock(Block node)
             {
-                lookupExprsPerCmd = new Dictionary<Cmd, HashSet<Expr>>();
+                lookupExprsPerCmd = new Dictionary<Cmd, HashSet<Tuple<Expr, Expr>>>();
                 var b = base.VisitBlock(node); //recurse down to find the lookups for all cmds
                 var newCmds = new List<Cmd>();
                 node.Cmds
@@ -127,17 +127,17 @@ namespace Dependency
                                 {
                                     Function aliasingFunc = new Function(Token.NoToken,
                                           SplitConsts.allocSiteFnName + "_" + aliasFnCount++, 
-                                          new List<Variable>() {new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "_x_", y.Type), false)}, 
+                                          new List<Variable>() {new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "_x_", y.Item2.Type), false)}, 
                                           new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "__ret__", Microsoft.Boogie.Type.Bool), false)
                                           );
                                     aliasingFunc.AddAttribute(SplitConsts.aliasQueryAttr, new object[] { SplitConsts.allocSiteStr });
                                     prog.TopLevelDeclarations.Add(aliasingFunc);
                                     var callFunc = new FunctionCall(aliasingFunc);
-                                    var expr = new NAryExpr(new Token(), callFunc, new List<Expr>() {y});
+                                    var expr = new NAryExpr(new Token(), callFunc, new List<Expr>() {y.Item2});
 
                                     AssumeCmd aCmd = new AssumeCmd(Token.NoToken, expr);
                                     aCmd.Attributes = new QKeyValue(Token.NoToken,
-                                        SplitConsts.allocAssumeAttr, new List<object>() {}, aCmd.Attributes);
+                                        SplitConsts.allocAssumeAttr, new List<object>() {y.Item1.ToString()}, aCmd.Attributes);
                                     newCmds.Add(aCmd);
                                 });
                         }
@@ -174,8 +174,8 @@ namespace Dependency
                     if (currCmd != null)
                     {
                         if (!lookupExprsPerCmd.ContainsKey(currCmd))
-                            lookupExprsPerCmd[currCmd] = new HashSet<Expr>();
-                        lookupExprsPerCmd[currCmd].Add(node.Args[1]);
+                            lookupExprsPerCmd[currCmd] = new HashSet<Tuple<Expr, Expr>>();
+                        lookupExprsPerCmd[currCmd].Add(Tuple.Create(node.Args[0], node.Args[1]));
                     }
                 return base.VisitNAryExpr(node);
             }
@@ -185,8 +185,8 @@ namespace Dependency
 
     /// <summary>
     /// Goes from a program with 
-    /// assume (AS(a) == A1 || AS(a) == A3); x := M[a]; to x := {M@A1[a], M@A3[a]}
-    /// assume (AS(a) == A1 || AS(a) == A3); M[a] := x; to M@A1[a], M@A3[a] := {M@A1[a],y}, {M@A3[a], y};  
+    /// assume (AS(a) == A1 || AS(a) == A3); x := M[a]; |--> x := {M@1[a], M@3[a]}
+    /// assume (AS(a) == A1 || AS(a) == A3); M[a] := x; |--> M@1[a], M@3[a] := {M@1[a],y}, {M@3[a], y};  
     /// 
     /// </summary>
     class SplitHeapHelper
@@ -202,9 +202,60 @@ namespace Dependency
 
         internal Program Run()
         {
-            throw new NotImplementedException();
             if (!Utils.ParseProgram(prunedFilename, out splitHeapProgram)) return null;
+            return splitHeapProgram;
+        }
 
+        class MapRewriteUsingAllocSites : StandardVisitor
+        {
+            private Program prog;
+            private Cmd currCmd;
+            private Tuple<string, List<string>> currMapInfo;
+            private int splitFnCount;
+
+            public MapRewriteUsingAllocSites(Program prog)
+            {
+                this.prog = prog;
+                currCmd = null;
+                splitFnCount = 0;
+                currMapInfo = null;
+            }
+            public override Block VisitBlock(Block node)
+            {
+                var b = base.VisitBlock(node); //recurse down to find the lookups for all cmds
+                var newCmds = new List<Cmd>();
+                node.Cmds = newCmds;
+                return base.VisitBlock(node);
+            }
+            public override Cmd VisitAssumeCmd(AssumeCmd node)
+            {
+                currCmd = node;
+                var mapName = QKeyValue.FindStringAttribute(node.Attributes, SplitConsts.allocAssumeAttr);
+                if (mapName != null)
+                {
+                    //node.Expr should be AS(..) == A1 || AS(..) == A2
+                    currMapInfo = Tuple.Create(mapName, new List<string>());
+                }
+                var b = base.VisitAssumeCmd(node);
+                return b;
+            }
+ 
+            public override Cmd VisitCallCmd(CallCmd node)
+            {
+                currCmd = node;
+                var b = base.VisitCallCmd(node);
+                currCmd = null;
+                return b;
+            }
+            public override Expr VisitNAryExpr(NAryExpr node)
+            {
+                if (node.Fun is MapSelect && node.Fun.ArgumentCount == 2 ||
+                    node.Fun is MapStore && node.Fun.ArgumentCount == 3)
+                    if (currCmd != null)
+                    {
+                    }
+                return base.VisitNAryExpr(node);
+            }
         }
     }
 }

@@ -127,13 +127,17 @@ namespace Dependency
                 return -1;
             }
 
+            #region Cleanups 
+            //turn asserts/requires/ensures to free counterparts (assume/free req/free ens)
+            Utils.StripContracts(program);
             //cleanup assume value_is, as we are not printing a trace now
             (new Utils.RemoveValueIsAssumes()).Visit(program);
+            #endregion 
 
             if (SplitMapsWithAliasAnalysis)
             {
                 var s = new SplitHeapUsingAliasAnalysis(program, filename);
-                s.Run();
+                program = s.Run(); //the program is overwritten, no more use of 
                 return 0;
             }
 

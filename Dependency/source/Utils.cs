@@ -97,6 +97,17 @@ namespace Dependency
             }
         }
 
+        public static void StripContracts(Program prog)
+        {
+            //make any asserts/requires/ensures free on the entire program (as procedures get inlined)
+            prog.TopLevelDeclarations.OfType<Procedure>().Iter
+                (proc =>
+                {
+                    proc.Requires = proc.Requires.Select(x => new Requires(true, x.Condition)).ToList();
+                    proc.Ensures = proc.Ensures.Select(x => new Ensures(true, x.Condition)).ToList();
+                });
+            (new Utils.RemoveAsserts()).Visit(prog);
+        }
 
         public static class AttributeUtils
         {
