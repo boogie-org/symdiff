@@ -121,21 +121,24 @@ namespace Dependency
                 return new List<object>();
             }
 
-            static public string GetSourceFile(AssertCmd node)
+            static public string GetSourceFile(Block block)
             {
-                if (node == null) return null;
+                AssertCmd cmd = (block.Cmds != null && block.Cmds.Count > 0) ?  block.Cmds[0] as AssertCmd : null;
+                if (cmd == null) return null;
                 // TODO: magic strings
-                var file = QKeyValue.FindStringAttribute(node.Attributes, "sourceFile");
-                if (file == null) file = QKeyValue.FindStringAttribute(node.Attributes, "sourcefile");
+                var file = QKeyValue.FindStringAttribute(cmd.Attributes, "sourceFile");
+                if (file == null) file = QKeyValue.FindStringAttribute(cmd.Attributes, "sourcefile");
+                if (file == "unknown") return null;
                 return file;
             }
 
-            static public int GetSourceLine(AssertCmd node)
+            static public int GetSourceLine(Block block)
             {
-                if (node == null) return -1;
+                AssertCmd cmd = (block.Cmds != null && block.Cmds.Count > 0) ? block.Cmds[0] as AssertCmd : null;
+                if (cmd == null) return -1;
                 // TODO: magic strings
-                var line = QKeyValue.FindIntAttribute(node.Attributes, "sourceLine", -1);
-                if (line == -1) line = QKeyValue.FindIntAttribute(node.Attributes, "sourceline", -1);
+                var line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceLine", -1);
+                if (line == -1) line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceline", -1);
                 return line;
             }
 
@@ -143,10 +146,10 @@ namespace Dependency
             static public string GetImplSourceFile(Implementation node)
             {
                 string sourcefile = null;
-                foreach (var b in node.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd))
+                foreach (var b in node.Blocks)
                 {
-                    sourcefile = GetSourceFile((AssertCmd)b.Cmds[0]);
-                    if (sourcefile != null)
+                    sourcefile = GetSourceFile(b);
+                    if (sourcefile != null) // TODO: magic string
                         break;
                 }
                 return sourcefile;
@@ -203,6 +206,44 @@ namespace Dependency
             }
         }
 
+
+        public static HashSet<Block> ComputeChangedBlocks(Program program, List<Tuple<string, string, int>> changeLog)
+        {
+            var result = new HashSet<Block>();
+            foreach (var changesPerFile in changeLog.GroupBy(t => t.Item1))
+            {
+                foreach (var changesPerProc in changesPerFile.GroupBy(t => t.Item2))
+                {
+                    foreach (var impl in program.Implementations().Where(i => i.Proc.Name.StartsWith(changesPerProc.Key))) // dealing with loops which are procs with name <orig_proc>_loop_head etc.
+                    {
+                        if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) == null)
+                            foreach (var procChange in changesPerProc)
+                            {
+                                // add in the block pertaining to the changed line
+                                impl.Blocks.Where(b => Utils.AttributeUtils.GetSourceLine(b) == procChange.Item3)
+                                                    .Iter(b => result.Add(b));
+                            }
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static HashSet<Procedure> ComputeChangedProcs(Program program, List<Tuple<string, string, int>> changeLog)
+        {
+            var result = new HashSet<Procedure>();
+            foreach (var changesPerFile in changeLog.GroupBy(t => t.Item1))
+            {
+                foreach (var changesPerProc in changesPerFile.GroupBy(t => t.Item2))
+                {
+                    var impl = program.Implementations().FirstOrDefault(i => i.Proc.Name == changesPerProc.Key);
+                    if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) != null)
+                        result.Add(impl.Proc); // whole procedure changed
+                }
+            }
+            return result;
+        }
+
         public static Dictionary<Absy, Implementation> ComputeNodeToImpl(Program program)
         {
             Dictionary<Absy, Implementation> result = new Dictionary<Absy, Implementation>();
@@ -256,17 +297,19 @@ namespace Dependency
 
         }
 
-        public static HashSet<Block> ExtractTaint(WorkList<Dependencies> worklist)
+        public static HashSet<Block> ExtractTaint(DependencyVisitor visitor)
         {
+            var worklist = visitor.worklist;
             var result = new HashSet<Block>();
             foreach (var stmt in worklist.stateSpace.Keys)
 	        {
+                var block = visitor.worklist.cmdBlocks[stmt];
                 var deps = worklist.stateSpace[stmt];
-                foreach (var v in VariableUtils.ExtractVars(stmt))
-		            if (deps.ContainsKey(v) && 
-                        (deps[v].Contains(VariableUtils.BottomUpTaintVar) ||
-                         deps[v].Contains(VariableUtils.TopDownTaintVar)))
-                        result.Add(worklist.cmdBlocks[stmt]);
+                if (visitor.branchCondVars.ContainsKey(block) &&
+                    visitor.branchCondVars[block].Any(v => deps.ContainsKey(v) && VariableUtils.IsTainted(deps[v])))
+                        result.Add(block);
+                else if (VariableUtils.ExtractVars(stmt).Any(v => deps.ContainsKey(v) && VariableUtils.IsTainted(deps[v])))
+                    result.Add(block);
 	        }
             return result;
         }
@@ -341,6 +384,11 @@ namespace Dependency
                     return v; // leave non-outputs as is
             }
 
+
+            public static bool IsTainted(HashSet<Variable> vars)
+            {
+                return vars.Contains(BottomUpTaintVar) || vars.Contains(TopDownTaintVar);
+            }
         }
 
         public static class StatisticsHelper
@@ -465,6 +513,10 @@ namespace Dependency
                 //     elseif tainted(l) then tainted-marker l
                 //     elseif l is last line then l proc-deps 
                 var changesByFile = changedLines.GroupBy(x => x.Item1).ToDictionary(x => x.Key, x => x);
+                if (dependenciesLines.Count == 0)
+                { // TODO: in the case where dependencies log is empty (printing it is heavy), only print taint
+
+                }
                 foreach (var depsInFile in dependenciesLines.GroupBy(x => x.Item1))
                 {
                     string srcFile = depsInFile.Key;

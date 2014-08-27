@@ -22,6 +22,7 @@ use Cwd;
 
 my $rootdir = getcwd();
 my $depBinary = "$rootdir\\..\\bin\\debug\\dependency.exe";
+open(my $reportFile, '>', 'taint_report.txt');
 
 ## List of options to run it with
 
@@ -30,7 +31,7 @@ my $depBinary = "$rootdir\\..\\bin\\debug\\dependency.exe";
 # [" /dataOnly /detStubs ", "_data_detstubs_"],
 # ["           /detStubs ", "_control_detstubs"],
 # [" /readSet  /detStubs ", "_readset_detstubs"],
- [" /dataOnly /prune "          , "_data_"],
+ [" /dataOnly /prune ", "_data_"],
  ["           /prune ", "_control_"],
  [" /readSet  /prune ", "_readset_"]
 );
@@ -82,7 +83,9 @@ sub ProcessExample {
   for($n = 2; $n < $len; $n++) {
     $ver = @tokens[$n];
     print "\n\t Version $ver\n";
+    print $reportFile "@tokens[0] $ver, ";
     ProcessVersion(@tokens[1], $ver);
+    print $reportFile "\n";
   }
   chdir $olddir;
 }
@@ -97,6 +100,13 @@ sub ProcessVersion {
     my $tag = "$ex->[1]";
     # TODO: do the other direction as well
     MyExec("$depBinary $ver.bpl /taint:$ver\\changed_lines.txt $ex->[0] > taint_output.$ver.$tag.log.txt");
+    # print the number of tainted lines
+    open TAINT, "<taint_output.$ver.$tag.log.txt";
+    my $last;
+    while (<TAINT>) { $last = $_ }
+    close TAINT;
+    $last =~ s/\s+$//;
+    print $reportFile "$last, ";
     MyExec("move $ver.bpl.html $ver.bpl.taint.$tag.html");
   }
   MyExec("$cmd");
@@ -129,6 +139,8 @@ sub Main {
   foreach $ex (@examples) {
     ProcessExample($ex);
   }
+
+  close $reportFile;
 }
 
 Main();
