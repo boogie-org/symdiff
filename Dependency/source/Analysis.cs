@@ -376,6 +376,9 @@ namespace Dependency
             Dictionary<Procedure,Dependencies> rsProcDeps = new Dictionary<Procedure,Dependencies>();
             rsVisitor.ProcReadSet.Keys.Iter(p => { rsProcDeps[p] = new Dependencies(); rsVisitor.ProcReadSet[p].Iter(r => rsProcDeps[p][r] = rsVisitor.ProcReadSet[p]); });
 
+            // print
+            //program.Implementations().Iter(impl => PopulateDependencyLog(impl, rsProcDeps[impl.Proc], Utils.StatisticsHelper.ReadSet));
+
             // taint
             if (changeLog.Count > 0)
             {
@@ -386,10 +389,6 @@ namespace Dependency
                 // remove the special taint var
                 rsProcDeps.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));
             }
-
-            // print
-            //program.Implementations().Iter(impl => PopulateDependencyLog(impl, rsProcDeps[impl.Proc], Utils.StatisticsHelper.ReadSet));
-
 
             // stats
             if (PrintStats)
