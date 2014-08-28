@@ -503,14 +503,19 @@ namespace Dependency
 
         public class DisplayHtmlHelper
         {
+            HashSet<string> srcFiles;
             List<Tuple<string, string, int>> changedLines;  //{(file, func, line),..}
             List<Tuple<string, string, int>> taintedLines; //{(file, func, line), ..}
             List<Tuple<string, string, int, string>> dependenciesLines; //{(file, func, line, {v1 <- {...},... vn <- {...}})}
-            public DisplayHtmlHelper(List<Tuple<string, string, int>> changes, List<Tuple<string, string, int>> taints, List<Tuple<string, string, int, string>> dependencies)
+            public DisplayHtmlHelper(List<Tuple<string, string, int>> changedLines, List<Tuple<string, string, int>> taintedLines, List<Tuple<string, string, int, string>> dependenciesLines)
             {
-                changedLines = changes;
-                taintedLines = taints;
-                dependenciesLines = dependencies;
+                this.changedLines = changedLines;
+                this.taintedLines = taintedLines;
+                this.dependenciesLines = dependenciesLines;
+                this.srcFiles = new HashSet<string>();
+                this.srcFiles.UnionWith(changedLines.Select(t => t.Item1));
+                this.srcFiles.UnionWith(taintedLines.Select(t => t.Item1));
+                this.srcFiles.UnionWith(dependenciesLines.Select(t => t.Item1));
             }
             public void GenerateHtmlOutput(string outFileName)
             {
@@ -544,14 +549,8 @@ namespace Dependency
                 //     if changed(l) then change-marker l
                 //     elseif tainted(l) then tainted-marker l
                 //     elseif l is last line then l proc-deps 
-                var changesByFile = changedLines.GroupBy(x => x.Item1).ToDictionary(x => x.Key, x => x);
-                if (dependenciesLines.Count == 0)
-                { // TODO: in the case where dependencies log is empty (printing it is heavy), only print taint
-
-                }
-                foreach (var depsInFile in dependenciesLines.GroupBy(x => x.Item1))
+                foreach (var srcFile in srcFiles)
                 {
-                    string srcFile = depsInFile.Key;
                     StreamReader sr = null;
                     try
                     {
@@ -562,45 +561,27 @@ namespace Dependency
                         Console.WriteLine("Could not generate HTML for file " + srcFile + ". (file not found)");
                         continue;
                     }
+                    // get all line from the file and close it
                     string ln;
                     List<string> srcLines = new List<string>();
                     while ((ln = sr.ReadLine()) != null)
                         srcLines.Add(ln);
                     sr.Close();
-                    var changes = new HashSet<int> ();
-                    if (changesByFile.ContainsKey(srcFile))
-                        foreach(var x in changesByFile[srcFile]) 
-                            changes.Add(x.Item3);
-                    var depLines = depsInFile.Select(x => x.Item3);                   
-                    for (int i = 0; i < srcLines.Count; ++i)
+
+                    for (int lineNum = 1; lineNum <= srcLines.Count; ++lineNum)
                     {
-                        var l = srcLines[i];
-                        string str = l;
-                        if (changes.Contains(i+1))
-                            str = string.Format("<b> <i> {0}  </i> </b>", l);
-
-                        else if (taintedLines.Find(x => x.Item3 == i + 1) != null)
-                            {
-                            string vars = "[ ";
-                            foreach (var t in depsInFile.Where(x => x.Item3 == i + 1))
-                            {
-                                foreach (var v in t.Item4)
-                                {
-                                    vars += v + " ";
-                                }
-                            }
-                            vars += "]";
-                            str = string.Format("<b> <u> {0} </u> </b>", l/*, vars*/);
-                        }
-                            
-                        else if (depLines.Contains(i + 1))
-                        {
-                            foreach (var dep in dependenciesLines.Where(x => x.Item3 == i + 1))
-                                str += string.Format("<pre> {0} </pre>", dep.Item4);
-                        }
-
-                        output.Write("[{0}] &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  {1} <br>", i+1, str);
+                        StringBuilder line = new StringBuilder(srcLines[lineNum - 1]);
+                        if (changedLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // changed
+                            line.Append(string.Format("<b> <i> {0}  </i> </b>", line));
+                        else if (taintedLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // tainted
+                            line.Append(string.Format("<b> <u> {0} </u> </b>", line));
+                        else if (dependenciesLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // dependencies
+                            dependenciesLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).Iter(dep => line.Append(string.Format("<pre> {0} </pre>", dep.Item4)));
+                        line.Insert(0, ("[" + lineNum + "]").PadRight(6) + "   ");
+                        line.Append("<br>\n");
+                        output.Write(line.ToString().Replace(" ", "&nbsp;").Replace("\t","&nbsp;&nbsp;&nbsp;"));
                     }
+
                 }
 
                 output.WriteLine("</body>");
