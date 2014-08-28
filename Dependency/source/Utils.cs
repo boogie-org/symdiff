@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -198,6 +197,23 @@ namespace Dependency
         public static class DependenciesUtils
         {
 
+            public static void AddCalleeDependencySpecs(Program prog, Procedure p, Dependencies dep)
+            {
+                //return;
+                foreach (Variable o in dep.Keys)
+                {
+                    if (o is LocalVariable) continue; //the dependency contains locals
+                    if (p.InParams.Contains(o)) continue; //sometimes in params also show up
+                    //var oDeps = dep[o].Select(x => (Variable) new Formal(Token.NoToken, x.TypedIdent, false)).ToList();
+                    if (dep[o].Where(x => x.Name == Utils.VariableUtils.NonDetVar.Name).Count() != 0) continue;
+                    var fnName = "FunctionOf__" + p.Name + "_" + o.Name;
+                    Function oFunc = Utils.DeclUtils.MkOrGetFunc(prog, fnName, o.TypedIdent.Type, dep[o].Select(x => x.TypedIdent.Type).ToList());
+                    var fExpr = Utils.DeclUtils.MkFuncApp(oFunc, dep[o].Select(x => (Expr)Expr.Ident(x)).ToList());
+                    var ens = Expr.Eq(Expr.Ident(o),
+                        new OldExpr(Token.NoToken, fExpr));
+                    p.Ensures.Add(new Ensures(true, ens));
+                }
+            }
 
             public static Dictionary<Procedure, Dependencies> BaseDependencies(Program program)
             {
@@ -221,28 +237,28 @@ namespace Dependency
                 procDependencies.Iter(pd => { var impl = program.Implementations().SingleOrDefault(i => i.Proc == pd.Key); if (impl != null) pd.Value.Prune(impl); });
             }
 
-            public static Dependencies SuperBlockDependencies(AbstractedTaint.SuperBlock superBlock, Dependencies exitBlockDeps, Dictionary<Procedure, Dependencies> procDependencies)
-            {
-                var result = new Dependencies();
-                var rsVisitor = new SimpleReadSetVisitor(procDependencies);
-                var msVisitor = new SimpleModSetVisitor(procDependencies);
+            //public static Dependencies SuperBlockDependencies(AbstractedTaint.SuperBlock superBlock, Dependencies exitBlockDeps, Dictionary<Procedure, Dependencies> procDependencies)
+            //{
+            //    var result = new Dependencies();
+            //    var rsVisitor = new SimpleReadSetVisitor(procDependencies);
+            //    var msVisitor = new SimpleModSetVisitor(procDependencies);
 
-                // extract read & mod set from blocks
-                rsVisitor.Visit(superBlock.StartBlock); msVisitor.Visit(superBlock.StartBlock);
-                superBlock.AllBlocks.Iter(b => { rsVisitor.Visit(b); msVisitor.Visit(b); });
+            //    // extract read & mod set from blocks
+            //    rsVisitor.Visit(superBlock.StartBlock); msVisitor.Visit(superBlock.StartBlock);
+            //    superBlock.AllBlocks.Iter(b => { rsVisitor.Visit(b); msVisitor.Visit(b); });
 
-                //Console.WriteLine("exitBlockDeps = " + exitBlockDeps);
-                //Console.WriteLine("readSet = ");
-                //rsVisitor.ReadSet.Print();
-                //Console.WriteLine("modSet = ");
-                //msVisitor.ModSet.Print();
+            //    //Console.WriteLine("exitBlockDeps = " + exitBlockDeps);
+            //    //Console.WriteLine("readSet = ");
+            //    //rsVisitor.ReadSet.Print();
+            //    //Console.WriteLine("modSet = ");
+            //    //msVisitor.ModSet.Print();
 
-                // create the superblock dependencies using the exit block
-                exitBlockDeps.Where(d => msVisitor.ModSet.Contains(d.Key))
-                             .Iter(d => result[d.Key] = new HashSet<Variable>(d.Value.Intersect(rsVisitor.ReadSet)));
+            //    // create the superblock dependencies using the exit block
+            //    exitBlockDeps.Where(d => msVisitor.ModSet.Contains(d.Key))
+            //                 .Iter(d => result[d.Key] = new HashSet<Variable>(d.Value.Intersect(rsVisitor.ReadSet)));
 
-                return result;
-            }
+            //    return result;
+            //}
         }
 
 
@@ -570,15 +586,14 @@ namespace Dependency
 
                     for (int lineNum = 1; lineNum <= srcLines.Count; ++lineNum)
                     {
-                        StringBuilder line = new StringBuilder(srcLines[lineNum - 1]);
+                        string line = srcLines[lineNum - 1];
                         if (changedLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // changed
-                            line.Append(string.Format("<b> <i> {0}  </i> </b>", line));
+                            line = string.Format("<b> <i> {0}  </i> </b>", line);
                         else if (taintedLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // tainted
-                            line.Append(string.Format("<b> <u> {0} </u> </b>", line));
+                            line = string.Format("<b> <u> {0} </u> </b>", line);
                         else if (dependenciesLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // dependencies
-                            dependenciesLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).Iter(dep => line.Append(string.Format("<pre> {0} </pre>", dep.Item4)));
-                        line.Insert(0, ("[" + lineNum + "]").PadRight(6) + "   ");
-                        line.Append("<br>\n");
+                            dependenciesLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).Iter(dep => line = string.Format("<pre> {0} </pre>", dep.Item4));
+                        line = ("[" + lineNum + "]").PadRight(6) + "   " + line + "<br>\n";
                         output.Write(line.ToString().Replace(" ", "&nbsp;").Replace("\t","&nbsp;&nbsp;&nbsp;"));
                     }
 
@@ -1035,4 +1050,3 @@ namespace Dependency
     }
 
 }
-

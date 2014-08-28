@@ -7,25 +7,66 @@ using Microsoft.Boogie;
 
 namespace Dependency
 {
-    public class AbstractedTaint
+    public class AbstractNonTaintProgram
     {
+        Program program; 
+        Dictionary<Procedure, Dependencies> allDeps;
+        Dictionary<Block, Dependencies> blockDeps;
+        Dictionary<Procedure, List<Block>> taintedBlocks;
+
+
+        public AbstractNonTaintProgram(Program program, Dictionary<Procedure, Dependencies> allDeps, Dictionary<Block, Dependencies> blockDeps, Dictionary<Procedure, List<Block>> taintedBlocks)
+        {
+            this.program = program;
+            this.allDeps = allDeps;
+            this.blockDeps = blockDeps;
+            this.taintedBlocks = taintedBlocks;
+
+        }
+
+        public void AbstractNonTaintedImplementations()
+        {
+            var impls = program.TopLevelDeclarations.OfType<Implementation>();
+            var taintedImpls =
+                impls.Where(x => 
+                    allDeps[x.Proc].Values.Any(d => Utils.VariableUtils.IsTainted(d))
+                    );
+            var nonTaintedImpls = new HashSet<Implementation>(impls.Where(x => !taintedImpls.Contains(x))); //make a copy since topleveldecl changes
+            //TODO: add to the mod set of proc since we remove the impl
+            nonTaintedImpls
+                .Iter(x =>
+                    {
+                        var modset = new HashSet<Variable>(allDeps[x.Proc].ModSet());
+                        Utils.VariableUtils.PruneLocals(x, modset);
+                        modset.RemoveWhere(v => x.Proc.OutParams.Contains(v));
+                        x.Proc.Modifies = modset.Select(v => IdentifierExpr.Ident(v)).ToList();
+                        //TODO: add free ensures to say that each output is function of input (same as refinedependency!!!)
+                       Utils.DependenciesUtils.AddCalleeDependencySpecs(program, x.Proc, allDeps[x.Proc]);
+                    }
+                );
+            Console.WriteLine("[Abstract non-taint] Abstracted {0} procedures [{1}]", nonTaintedImpls.Count(),
+                String.Join(",", nonTaintedImpls.Select(x => x.Name)));
+
+            //Do the removal after you are done with nonTaintedImpls, otherwise that becomes an empty set
+            program.TopLevelDeclarations
+                .RemoveAll(x => nonTaintedImpls.Contains(x));
+        }
+
+        private static void CreateNonTaintedSB(Dictionary<Procedure, Dependencies> procDeps, Dictionary<Block, Dependencies> blockDeps)
+        {
+            // do worklist for creating supergraph
+
+            // getting the dependencies for a superblocks (once it is created)
+            SuperBlock superBlock = new SuperBlock();
+            //Utils.DependenciesUtils.SuperBlockDependencies(superBlock, blockDeps[superBlock.SuccBlock], procDeps);
+
+            // transform the program
+        }
         public class SuperBlock
         {
             public Block StartBlock, SuccBlock;
             public List<Block> AllBlocks;
         }
 
-        public static void CreateAbstractedTaintProgram(Program program, Dictionary<Procedure, Dependencies> procDeps, Dictionary<Block, Dependencies> blockDeps, Dictionary<Procedure, List<Block>> taintedBlocks)
-        {
-            throw new NotImplementedException();
-
-            // do worklist for creating supergraph
-
-            // getting the dependencies for a superblocks (once it is created)
-            SuperBlock superBlock = new SuperBlock();
-            Utils.DependenciesUtils.SuperBlockDependencies(superBlock, blockDeps[superBlock.SuccBlock], procDeps);
-            
-            // transform the program
-        }
     }
 }

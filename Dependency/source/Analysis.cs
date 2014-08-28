@@ -319,9 +319,12 @@ namespace Dependency
             // TODO: create tainted blocks and block dependencies
             if (AbstractNonTainted)
             {
-                Dictionary<Procedure, List<Block>> taintedBlocks = new Dictionary<Procedure, List<Block>>();
-                Dictionary<Block, Dependencies> blockDeps = new Dictionary<Block, Dependencies>();
-                AbstractedTaint.CreateAbstractedTaintProgram(program, allDeps, blockDeps, taintedBlocks);
+                Utils.DependenciesUtils.PruneProcDependencies(program, allDeps); //for now we prune it
+                var antc = new AbstractNonTaintProgram(program, allDeps, null, null);
+                antc.AbstractNonTaintedImplementations();
+                var absFilename = filename + ".taintAbstract.bpl";
+                Utils.PrintProgram(program, absFilename);
+                Console.WriteLine("Printing non-taint abstracted program to {0}", absFilename);
             }            
         }
 
