@@ -445,95 +445,95 @@ axiom (forall M: [name][int]int, x: int, y: int :: { Unified(M[Field(x) := M[Fie
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 20} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 20} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 20} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 20} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 23} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 23} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 29} unique __ctobpl_const_9: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 29} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 29} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 29} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "result.nd"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 28} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "result.nd"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 28} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "result.nd"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 19} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "result.nd"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 19} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 32} unique __ctobpl_const_8: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 32} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 32} unique __ctobpl_const_7: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 32} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 23} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 23} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 51} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 38} unique __ctobpl_const_15: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 48} unique __ctobpl_const_19: int;
+const {:extern} {:model_const "result.nd"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 37} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 38} unique __ctobpl_const_15: int;
+const {:extern} {:model_const "result.nd"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 47} unique __ctobpl_const_16: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 51} unique __ctobpl_const_18: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 51} unique __ctobpl_const_17: int;
 
-const {:extern} {:model_const "result.nd"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 56} unique __ctobpl_const_21: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 51} unique __ctobpl_const_18: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 60} unique __ctobpl_const_22: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 48} unique __ctobpl_const_20: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 60} unique __ctobpl_const_23: int;
+const {:extern} {:model_const "result.nd"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 56} unique __ctobpl_const_21: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 48} unique __ctobpl_const_20: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 41} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 57} unique __ctobpl_const_24: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 60} unique __ctobpl_const_23: int;
 
-const {:extern} {:model_const "result.nd"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 37} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 38} unique __ctobpl_const_14: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 38} unique __ctobpl_const_14: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 48} unique __ctobpl_const_19: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 41} unique __ctobpl_const_13: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 60} unique __ctobpl_const_22: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 41} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 57} unique __ctobpl_const_24: int;
 
-const {:extern} {:model_const "result.nd"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 47} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 41} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 84} unique __ctobpl_const_39: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 66} unique __ctobpl_const_29: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 96} unique __ctobpl_const_42: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 84} unique __ctobpl_const_40: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 93} unique __ctobpl_const_45: int;
+const {:extern} {:model_const "result.nd"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 65} unique __ctobpl_const_26: int;
 
-const {:extern} {:model_const "result.nd"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 83} unique __ctobpl_const_36: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 75} unique __ctobpl_const_34: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 75} unique __ctobpl_const_34: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 87} unique __ctobpl_const_38: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 75} unique __ctobpl_const_35: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 69} unique __ctobpl_const_27: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 69} unique __ctobpl_const_27: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 75} unique __ctobpl_const_35: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 57} unique __ctobpl_const_25: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 87} unique __ctobpl_const_37: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 96} unique __ctobpl_const_43: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 69} unique __ctobpl_const_28: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 84} unique __ctobpl_const_40: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 78} unique __ctobpl_const_32: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 93} unique __ctobpl_const_44: int;
+const {:extern} {:model_const "result.nd"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 92} unique __ctobpl_const_41: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 66} unique __ctobpl_const_29: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 96} unique __ctobpl_const_42: int;
 
-const {:extern} {:model_const "result.nd"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 92} unique __ctobpl_const_41: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 57} unique __ctobpl_const_25: int;
 
-const {:extern} {:model_const "result.nd"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 65} unique __ctobpl_const_26: int;
+const {:extern} {:model_const "result.nd"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 74} unique __ctobpl_const_31: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 69} unique __ctobpl_const_28: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 66} unique __ctobpl_const_30: int;
 
-const {:extern} {:model_const "result.nd"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 74} unique __ctobpl_const_31: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 78} unique __ctobpl_const_33: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 66} unique __ctobpl_const_30: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 96} unique __ctobpl_const_43: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 78} unique __ctobpl_const_33: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 84} unique __ctobpl_const_39: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 87} unique __ctobpl_const_37: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 93} unique __ctobpl_const_44: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 87} unique __ctobpl_const_38: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 93} unique __ctobpl_const_45: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceLine 78} unique __ctobpl_const_32: int;
+const {:extern} {:model_const "result.nd"} {:sourceFile ".\source\testtopdowntaint.c"} {:sourceLine 83} unique __ctobpl_const_36: int;
 
 procedure {:extern} nd() returns (__dummy_retnd: int);
   free requires INT_LT(0, alloc);
@@ -581,17 +581,17 @@ implementation {:extern} f0() returns (result.f0$1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 14} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 14} true;
     call f1(1, 2);
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 15} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 15} true;
     result.f0$1 := 0;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 16} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 16} true;
     return;
 }
 
@@ -644,12 +644,12 @@ implementation {:extern} f1(x.__1: int, y.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 19} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 19} true;
     call result.nd$1 := nd();
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 19} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 19} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -658,14 +658,14 @@ implementation {:extern} f1(x.__1: int, y.__1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 23} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 23} true;
     call f2(0, y);
     assume value_is(__ctobpl_const_2, y);
     assume value_is(__ctobpl_const_3, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 25} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 25} true;
     return;
 
   label_6_true:
@@ -674,7 +674,7 @@ implementation {:extern} f1(x.__1: int, y.__1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 20} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 20} true;
     call f2(x, 0);
     assume value_is(__ctobpl_const_4, x);
     assume value_is(__ctobpl_const_5, x);
@@ -728,7 +728,7 @@ implementation {:extern} f10(x.__1: int, y.__1: int)
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 102} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 102} true;
     return;
 }
 
@@ -781,12 +781,12 @@ implementation {:extern} f2(x.__1: int, y.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 28} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 28} true;
     call result.nd$1 := nd();
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 28} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 28} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -795,14 +795,14 @@ implementation {:extern} f2(x.__1: int, y.__1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 32} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 32} true;
     call f3(0, y);
     assume value_is(__ctobpl_const_7, y);
     assume value_is(__ctobpl_const_8, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 34} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 34} true;
     return;
 
   label_6_true:
@@ -811,7 +811,7 @@ implementation {:extern} f2(x.__1: int, y.__1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 29} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 29} true;
     call f3(x, 0);
     assume value_is(__ctobpl_const_9, x);
     assume value_is(__ctobpl_const_10, x);
@@ -867,12 +867,12 @@ implementation {:extern} f3(x.__1: int, y.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 37} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 37} true;
     call result.nd$1 := nd();
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 37} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 37} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -881,14 +881,14 @@ implementation {:extern} f3(x.__1: int, y.__1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 41} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 41} true;
     call f4(0, y);
     assume value_is(__ctobpl_const_12, y);
     assume value_is(__ctobpl_const_13, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 43} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 43} true;
     return;
 
   label_6_true:
@@ -897,7 +897,7 @@ implementation {:extern} f3(x.__1: int, y.__1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 38} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 38} true;
     call f4(x, 0);
     assume value_is(__ctobpl_const_14, x);
     assume value_is(__ctobpl_const_15, x);
@@ -953,12 +953,12 @@ implementation {:extern} f4(x.__1: int, y.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 47} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 47} true;
     call result.nd$1 := nd();
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 47} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 47} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -967,14 +967,14 @@ implementation {:extern} f4(x.__1: int, y.__1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 51} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 51} true;
     call f5(0, y);
     assume value_is(__ctobpl_const_17, y);
     assume value_is(__ctobpl_const_18, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 53} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 53} true;
     return;
 
   label_6_true:
@@ -983,7 +983,7 @@ implementation {:extern} f4(x.__1: int, y.__1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 48} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 48} true;
     call f5(x, 0);
     assume value_is(__ctobpl_const_19, x);
     assume value_is(__ctobpl_const_20, x);
@@ -1039,12 +1039,12 @@ implementation {:extern} f5(x.__1: int, y.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 56} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 56} true;
     call result.nd$1 := nd();
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 56} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 56} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -1053,14 +1053,14 @@ implementation {:extern} f5(x.__1: int, y.__1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 60} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 60} true;
     call f6(0, y);
     assume value_is(__ctobpl_const_22, y);
     assume value_is(__ctobpl_const_23, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 62} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 62} true;
     return;
 
   label_6_true:
@@ -1069,7 +1069,7 @@ implementation {:extern} f5(x.__1: int, y.__1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 57} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 57} true;
     call f6(x, 0);
     assume value_is(__ctobpl_const_24, x);
     assume value_is(__ctobpl_const_25, x);
@@ -1125,12 +1125,12 @@ implementation {:extern} f6(x.__1: int, y.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 65} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 65} true;
     call result.nd$1 := nd();
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 65} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 65} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -1139,14 +1139,14 @@ implementation {:extern} f6(x.__1: int, y.__1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 69} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 69} true;
     call f7(0, y);
     assume value_is(__ctobpl_const_27, y);
     assume value_is(__ctobpl_const_28, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 71} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 71} true;
     return;
 
   label_6_true:
@@ -1155,7 +1155,7 @@ implementation {:extern} f6(x.__1: int, y.__1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 66} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 66} true;
     call f7(x, 0);
     assume value_is(__ctobpl_const_29, x);
     assume value_is(__ctobpl_const_30, x);
@@ -1211,12 +1211,12 @@ implementation {:extern} f7(x.__1: int, y.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 74} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 74} true;
     call result.nd$1 := nd();
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 74} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 74} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -1225,14 +1225,14 @@ implementation {:extern} f7(x.__1: int, y.__1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 78} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 78} true;
     call f8(0, y);
     assume value_is(__ctobpl_const_32, y);
     assume value_is(__ctobpl_const_33, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 80} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 80} true;
     return;
 
   label_6_true:
@@ -1241,7 +1241,7 @@ implementation {:extern} f7(x.__1: int, y.__1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 75} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 75} true;
     call f8(x, 0);
     assume value_is(__ctobpl_const_34, x);
     assume value_is(__ctobpl_const_35, x);
@@ -1297,12 +1297,12 @@ implementation {:extern} f8(x.__1: int, y.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 83} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 83} true;
     call result.nd$1 := nd();
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 83} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 83} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -1311,14 +1311,14 @@ implementation {:extern} f8(x.__1: int, y.__1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 87} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 87} true;
     call f9(0, y);
     assume value_is(__ctobpl_const_37, y);
     assume value_is(__ctobpl_const_38, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 89} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 89} true;
     return;
 
   label_6_true:
@@ -1327,7 +1327,7 @@ implementation {:extern} f8(x.__1: int, y.__1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 84} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 84} true;
     call f9(x, 0);
     assume value_is(__ctobpl_const_39, x);
     assume value_is(__ctobpl_const_40, x);
@@ -1383,12 +1383,12 @@ implementation {:extern} f9(x.__1: int, y.__1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 92} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 92} true;
     call result.nd$1 := nd();
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 92} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 92} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -1397,14 +1397,14 @@ implementation {:extern} f9(x.__1: int, y.__1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 96} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 96} true;
     call f10(0, y);
     assume value_is(__ctobpl_const_42, y);
     assume value_is(__ctobpl_const_43, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 98} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 98} true;
     return;
 
   label_6_true:
@@ -1413,7 +1413,7 @@ implementation {:extern} f9(x.__1: int, y.__1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\regression\testtopdowntaint\source\testtopdowntaint.c"} {:sourceline 93} true;
+    assert {:sourcefile ".\source\testtopdowntaint.c"} {:sourceline 93} true;
     call f10(x, 0);
     assume value_is(__ctobpl_const_44, x);
     assume value_is(__ctobpl_const_45, x);

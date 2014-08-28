@@ -445,43 +445,42 @@ axiom (forall M: [name][int]int, x: int, y: int :: { Unified(M[Field(x) := M[Fie
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 10} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 16} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 9} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 16} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 10} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 9} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 16} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "source\testtaint.c"} {:sourceLine 9} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 17} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 17} unique __ctobpl_const_7: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 15} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 15} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_14: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 16} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_15: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 9} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "result.TestTaintBottom"} {:sourceFile "source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 4} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "result.TestTaintBottom"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "result.TestTaintMiddle"} {:sourceFile "source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 4} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 23} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_13: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_15: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "result.TestTaintMiddle"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_16: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_8: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_14: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_9: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 23} unique __ctobpl_const_17: int;
 
 procedure {:extern} TestTaintBottom(x.__1: int) returns (result.TestTaintBottom$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
 
 
@@ -525,24 +524,24 @@ implementation {:extern} TestTaintBottom(x.__1: int) returns (result.TestTaintBo
     goto label_3;
 
   label_3:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 8} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 8} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 9} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 9} true;
     y := x;
     assume value_is(__ctobpl_const_1, y);
     assume value_is(__ctobpl_const_2, x);
     goto label_5;
 
   label_5:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 10} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 10} true;
     result.TestTaintBottom$1 := y;
     assume value_is(__ctobpl_const_3, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 11} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 11} true;
     return;
 }
 
@@ -550,7 +549,6 @@ implementation {:extern} TestTaintBottom(x.__1: int) returns (result.TestTaintBo
 
 procedure {:extern} TestTaintMiddle(x.__1: int) returns (result.TestTaintMiddle$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
 
 
@@ -596,30 +594,30 @@ implementation {:extern} TestTaintMiddle(x.__1: int) returns (result.TestTaintMi
     goto label_3;
 
   label_3:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 14} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 14} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 15} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 15} true;
     assume value_is(__ctobpl_const_4, y);
     y := PLUS(y, 1, 1);
     goto label_5;
 
   label_5:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 16} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 16} true;
     call result.TestTaintBottom$2 := TestTaintBottom(y);
     assume value_is(__ctobpl_const_5, y);
     assume value_is(__ctobpl_const_6, y);
     goto label_8;
 
   label_8:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 17} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 17} true;
     result.TestTaintMiddle$1 := y;
     assume value_is(__ctobpl_const_7, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 18} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 18} true;
     return;
 }
 
@@ -627,7 +625,6 @@ implementation {:extern} TestTaintMiddle(x.__1: int) returns (result.TestTaintMi
 
 procedure {:extern} TestTaintOther(x.__1: int) returns (result.TestTaintOther$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
 
 
@@ -673,31 +670,31 @@ implementation {:extern} TestTaintOther(x.__1: int) returns (result.TestTaintOth
     goto label_3;
 
   label_3:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 2} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 2} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 3} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 3} true;
     call result.TestTaintBottom$2 := TestTaintBottom(y);
     assume value_is(__ctobpl_const_8, y);
     assume value_is(__ctobpl_const_9, y);
     goto label_7;
 
   label_7:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 3} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 3} true;
     y := result.TestTaintBottom$2;
     assume value_is(__ctobpl_const_10, y);
     assume value_is(__ctobpl_const_11, result.TestTaintBottom$2);
     goto label_8;
 
   label_8:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 4} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 4} true;
     result.TestTaintOther$1 := y;
     assume value_is(__ctobpl_const_12, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 5} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 5} true;
     return;
 }
 
@@ -705,7 +702,6 @@ implementation {:extern} TestTaintOther(x.__1: int) returns (result.TestTaintOth
 
 procedure {:extern} TestTaintTop(x.__1: int) returns (result.TestTaintTop$1: int);
   free requires INT_LT(0, alloc);
-  modifies alloc, detChoiceCnt;
   free ensures INT_LEQ(old(alloc), alloc);
 
 
@@ -751,31 +747,31 @@ implementation {:extern} TestTaintTop(x.__1: int) returns (result.TestTaintTop$1
     goto label_3;
 
   label_3:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 21} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 21} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 22} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 22} true;
     call result.TestTaintMiddle$2 := TestTaintMiddle(x);
     assume value_is(__ctobpl_const_13, x);
     assume value_is(__ctobpl_const_14, x);
     goto label_7;
 
   label_7:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 22} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 22} true;
     y := result.TestTaintMiddle$2;
     assume value_is(__ctobpl_const_15, y);
     assume value_is(__ctobpl_const_16, result.TestTaintMiddle$2);
     goto label_8;
 
   label_8:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 23} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 23} true;
     result.TestTaintTop$1 := y;
     assume value_is(__ctobpl_const_17, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "source\testtaint.c"} {:sourceline 24} true;
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 24} true;
     return;
 }
 
