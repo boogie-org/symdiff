@@ -132,6 +132,8 @@ namespace Dependency
             Utils.StripContracts(program);
             //cleanup assume value_is, as we are not printing a trace now
             (new Utils.RemoveValueIsAssumes()).Visit(program);
+            // create explicit variables for conditionals
+            (new Utils.AddExplicitConditionalVars()).Visit(program);
             #endregion 
 
             if (SplitMapsWithAliasAnalysis)
