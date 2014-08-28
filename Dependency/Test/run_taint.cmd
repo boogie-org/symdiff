@@ -33,6 +33,7 @@ open(my $reportFile, '>', 'taint_report.txt');
 # [" /readSet  /detStubs ", "_readset_detstubs"],
  [" /dataOnly /prune ", "_data_"],
  ["           /prune ", "_control_"],
+ [" /refine:2 /prune ", "_refined_"],
  [" /readSet  /prune ", "_readset_"]
 );
 

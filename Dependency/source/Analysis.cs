@@ -339,9 +339,9 @@ namespace Dependency
 
             program.Implementations().Iter(impl => PopulateDependencyLog(impl, deps[impl.Proc], kind));
 
-            if (changeLog.Count > 0)
+            //if (changeLog.Count > 0)
                 // remove the special taint var
-                deps.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));
+                //deps.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));
 
             if (PrintStats)
                 program.Implementations().Iter(impl => deps[impl.Proc].Iter(dep => PopulateStatsLog(kind, impl, dep.Key, dep.Value)));
@@ -349,6 +349,10 @@ namespace Dependency
 
         private static void RunRefinedDepAnalysis(string filename, Program program, Dictionary<Procedure, Dependencies> lowerBound, Dictionary<Procedure, Dependencies> upperBound)
         {
+            // remove the special taint var
+            lowerBound.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));
+            upperBound.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));
+
             var refineDepsWL = new RefineDependencyWL(filename, program, lowerBound, upperBound, StackBound);
             Utils.LogStopwatch(sw, "Initial analysis", Analysis.Timeout);
             refineDepsWL.RunFixedPoint(sw);
@@ -363,6 +367,16 @@ namespace Dependency
                 if (impl != null)
                     pd.Value.Iter(dep => PopulateStatsLog(Utils.StatisticsHelper.Refined, impl, dep.Key, dep.Value));
             });
+
+            //taint 
+            if (changeLog.Count > 0)
+            {
+                DependencyVisitor visitor = new DependencyVisitor(filename, program, changeLog);
+                visitor.ProcDependencies = refineDepsWL.currDependencies;
+                visitor.Visit(program); // reminder: taint is essentially a dependecy analysis
+                // extract taint from dependencies and print
+                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(visitor)));
+            }
         }
 
         private static void RunReadSetAnalysis(Program program, ProcReadSetVisitor rsVisitor, DependencyVisitor depVisitor = null)

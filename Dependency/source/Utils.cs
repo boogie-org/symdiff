@@ -594,9 +594,16 @@ namespace Dependency
         public class AddExplicitConditionalVars : StandardVisitor
         {
             private Block currBlock = null;
+            private Implementation currImpl = null;
             public override Block VisitBlock(Block node)
             {
                 currBlock = node; base.VisitBlock(node); currBlock = null;
+                return node;
+            }
+
+            public override Implementation VisitImplementation(Implementation node)
+            {
+                currImpl = node; base.VisitImplementation(node); currImpl = null;
                 return node;
             }
             public override GotoCmd VisitGotoCmd(GotoCmd node)
@@ -616,16 +623,18 @@ namespace Dependency
                                      s1.Expr.ToString().Replace("!=", "==") == s2.Expr.ToString() ||
                                      s2.Expr.ToString().Replace("!=", "==") == s1.Expr.ToString());
                         // create a fresh variable
-                        var v = new IdentifierExpr(Token.NoToken,new LocalVariable(Token.NoToken,new TypedIdent(Token.NoToken, currBlock.Label + "_Cond", Microsoft.Boogie.Type.Bool)));
+                        var v = new LocalVariable(Token.NoToken,new TypedIdent(Token.NoToken, currBlock.Label + "_Cond", Microsoft.Boogie.Type.Bool));
+                        currImpl.LocVars.Add(v);
+                        var id = new IdentifierExpr(Token.NoToken, new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, currBlock.Label + "_Cond", Microsoft.Boogie.Type.Bool)));
                         // create and add the assignment
                         var lhs = new List<AssignLhs>();
-                        lhs.Add(new SimpleAssignLhs(Token.NoToken, v));
+                        lhs.Add(new SimpleAssignLhs(Token.NoToken, id));
                         var rhs = new List<Expr>();
                         rhs.Add(s1.Expr);
                         currBlock.Cmds.Add(new AssignCmd(Token.NoToken,lhs, rhs));
                         // replace the goto destinations expressions
-                        s1.Expr = v;
-                        s2.Expr = Expr.Not(v);
+                        s1.Expr = id;
+                        s2.Expr = Expr.Not(id);
                     }
                 }
                 return node;
