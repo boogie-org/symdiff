@@ -110,6 +110,13 @@ namespace Dependency
             (new Utils.RemoveAsserts()).Visit(prog);
         }
 
+        public static void PrintProgram(Program prog, string filename)
+        {
+            var tuo = new TokenTextWriter(filename, true);
+            prog.Emit(tuo);
+            tuo.Close();
+        }
+
         public static class AttributeUtils
         {
             public const int WholeProcChangeAttributeVal = -1;
@@ -831,9 +838,7 @@ namespace Dependency
             public static Program ReplicateProgram(Program prog, string origFilename)
             {
                 var filename = origFilename + ".tmp." + (++replicateProgramCount) + ".bpl";
-                var tuo = new TokenTextWriter(filename, true);
-                prog.Emit(tuo);
-                tuo.Close();
+                PrintProgram(prog, filename);
                 //Parsing stuff
                 Program newProg;
                 if (!Utils.ParseProgram(filename, out newProg)) return null;

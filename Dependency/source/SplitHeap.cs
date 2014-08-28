@@ -16,6 +16,7 @@ namespace Dependency
         public const string allocatorAttr = "allocator";
         public const string aliasQueryAttr = "aliasingQuery";
         public const string allocSiteStr = "allocationsites";
+        public const string computedAllocSiteAttr = "computedallocationsites";
         public const string allocSiteFnName= "allocSiteFn";
         public const string allocAssumeAttr = "allocSiteAssume";
         public const string allocInstrumentedFileExtention = ".mapLookupAssumes.bpl";
@@ -73,9 +74,7 @@ namespace Dependency
                 //DeclareAllocationSiteFuncs();
                 InstrumentAllocationSiteAssumes();
                 var instrumentedFilename = filename + SplitConsts.allocInstrumentedFileExtention;
-                var tuo = new TokenTextWriter(instrumentedFilename, true);
-                prog.Emit(tuo);
-                tuo.Close();
+                Utils.PrintProgram(prog, instrumentedFilename);
                 return instrumentedFilename;
             }
             private void InstrumentAllocationSiteAssumes()
@@ -203,6 +202,9 @@ namespace Dependency
         internal Program Run()
         {
             if (!Utils.ParseProgram(prunedFilename, out splitHeapProgram)) return null;
+            var mapRewriter = new MapRewriteUsingAllocSites(splitHeapProgram);
+            mapRewriter.Visit(splitHeapProgram);
+            Utils.PrintProgram(splitHeapProgram, prunedFilename + ".mapsplit.bpl");
             return splitHeapProgram;
         }
 
@@ -220,13 +222,6 @@ namespace Dependency
                 splitFnCount = 0;
                 currMapInfo = null;
             }
-            public override Block VisitBlock(Block node)
-            {
-                var b = base.VisitBlock(node); //recurse down to find the lookups for all cmds
-                var newCmds = new List<Cmd>();
-                node.Cmds = newCmds;
-                return base.VisitBlock(node);
-            }
             public override Cmd VisitAssumeCmd(AssumeCmd node)
             {
                 currCmd = node;
@@ -236,31 +231,58 @@ namespace Dependency
                     //node.Expr should be AS(..) == A1 || AS(..) == A2
                     List<string> allocSites = ExtractAllocSitesFromExpr(node.Expr);
                     currMapInfo = Tuple.Create(mapName, allocSites);
+                    /*
+                    Console.WriteLine("The list of allocSite consts = {0}, {1}",
+                        currMapInfo.Item1,
+                        string.Join(" ", currMapInfo.Item2)); */
+                    node.Attributes.AddLast(new QKeyValue(Token.NoToken, SplitConsts.computedAllocSiteAttr, 
+                   
+                        allocSites.Select(x => (object) x).ToList(), null));
                 }
                 var b = base.VisitAssumeCmd(node);
                 return b;
             } 
             public override Cmd VisitCallCmd(CallCmd node)
             {
+                if (node.Outs.Any(x => x.Decl.TypedIdent.Type.IsMap))
+                    throw new Exception(string.Format("Assume that calls only assign to non-map variables. Found {0}", node.ToString()));
                 currCmd = node;
                 var b = base.VisitCallCmd(node);
                 currCmd = null;
                 return b;
             }
-            public override Expr VisitNAryExpr(NAryExpr node)
+            public override Expr VisitIdentifierExpr(IdentifierExpr node)
             {
-                if (node.Fun is MapSelect && node.Fun.ArgumentCount == 2 ||
-                    node.Fun is MapStore && node.Fun.ArgumentCount == 3)
-                    if (currCmd != null)
-                    {
-                    }
-                return base.VisitNAryExpr(node);
+                if (node.Decl.TypedIdent.Type.IsMap)
+                {
+                    if (node.Decl.Name != currMapInfo.Item1)
+                        throw new Exception(string.Format("Expecting the map name {0} to match up with map name in last {:allocSiteAssume {1}}",
+                            node.Decl.Name, currMapInfo.Item1));
+                }
+
+                return base.VisitIdentifierExpr(node);
             }
 
             //return {A1,A2} from AS(..) == A1 || AS(..) == A2
             private List<string> ExtractAllocSitesFromExpr(Expr expr)
             {
-                throw new NotImplementedException();
+                var asExtractor = new AllocSiteExtractor();
+                asExtractor.Visit(expr);
+                return asExtractor.allocSites;
+            }
+
+
+            class AllocSiteExtractor : StandardVisitor
+            {
+                public List<string> allocSites;
+                public AllocSiteExtractor() { allocSites = new List<string>(); }
+                public override Expr VisitNAryExpr(NAryExpr node)
+                {
+                    if (node.Fun is BinaryOperator &&
+                        ((BinaryOperator)node.Fun).Op == BinaryOperator.Opcode.Eq)
+                        allocSites.Add(node.Args[1].ToString());
+                    return base.VisitNAryExpr(node);
+                }
             }
         }
     }

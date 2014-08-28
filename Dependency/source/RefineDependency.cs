@@ -622,9 +622,7 @@ namespace Dependency
             CommandLineOptions.Clo.ProcedureInlining = CommandLineOptions.Inlining.Spec; //inline and then use spec, no unsoundness
             Utils.BoogieInlineUtils.Inline(prog);
 
-            var tuo = new TokenTextWriter(impl.Name + "_checkdep.bpl", true);
-            prog.Emit(tuo);
-            tuo.Close();
+            Utils.PrintProgram(prog, impl.Name + "_checkdep.bpl");
 
             var newDepImpl = RefineDependencyChecker.Analyze(prog, lowerBoundDependencies[impl.Proc], refineImpl);
 
