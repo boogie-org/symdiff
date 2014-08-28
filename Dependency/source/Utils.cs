@@ -117,6 +117,37 @@ namespace Dependency
             tuo.Close();
         }
 
+        public static class DeclUtils
+        {
+            public static Function MkOrGetFunc(Program prog, string name, BType retType, List<BType> inTypes)
+            {
+                var fns = prog.TopLevelDeclarations.OfType<Function>().Where(x => x.Name == name);
+                if (fns.Count() != 0)
+                    return fns.FirstOrDefault();
+                Function func = new Function(
+                    Token.NoToken,
+                    name,
+                    inTypes.Select(t => (Variable)Utils.DeclUtils.MkFormal(t)).ToList(),
+                    Utils.DeclUtils.MkFormal(retType));
+                prog.TopLevelDeclarations.Add(func);
+                return func;
+            }
+            public static NAryExpr MkFuncApp(Function f, List<Expr> args)
+            {
+                return new NAryExpr(new Token(), new FunctionCall(f), args);
+            }
+            public static Formal MkFormal(BType t)
+            {
+                return new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "ret", t), false);
+            }
+            public static Variable MkGlobalVariable(Program prog, string name, BType type)
+            {
+                var g = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, type));
+                prog.TopLevelDeclarations.Add(g);
+                return g;
+            }
+        }
+
         public static class AttributeUtils
         {
             public const int WholeProcChangeAttributeVal = -1;

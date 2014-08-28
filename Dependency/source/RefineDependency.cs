@@ -636,19 +636,17 @@ namespace Dependency
             foreach(Variable o in dep.Keys)
             {
                 if (o is LocalVariable) continue; //the dependency contains locals
-                var oDeps = dep[o].Select(x => (Variable) new Formal(Token.NoToken, x.TypedIdent, false)).ToList();
-                if (dep[o].Where(x => x.Name == Utils.VariableUtils.NonDetVar.Name).Count() != 0) continue; 
-                Function oFunc = new Function(Token.NoToken, 
-                    "FunctionOf__" + p.Name + "_" + o.Name,
-                    oDeps,
-                    new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "__ret__",o.TypedIdent.Type), false));
-                prog.TopLevelDeclarations.Add(oFunc);
-                var callFunc = new FunctionCall(oFunc);
-                var argsFunc = dep[o].Select(x => (Expr) Expr.Ident(x)).ToList();
-                var ens = Expr.Eq(Expr.Ident(o), new OldExpr(Token.NoToken, new NAryExpr(new Token(), callFunc, argsFunc)));
+                //var oDeps = dep[o].Select(x => (Variable) new Formal(Token.NoToken, x.TypedIdent, false)).ToList();
+                if (dep[o].Where(x => x.Name == Utils.VariableUtils.NonDetVar.Name).Count() != 0) continue;
+                var fnName = "FunctionOf__" + p.Name + "_" + o.Name;
+                Function oFunc = Utils.DeclUtils.MkOrGetFunc(prog, fnName, o.TypedIdent.Type, dep[o].Select(x => x.TypedIdent.Type).ToList());
+                var fExpr = Utils.DeclUtils.MkFuncApp(oFunc, dep[o].Select(x => (Expr) Expr.Ident(x)).ToList());
+                var ens = Expr.Eq(Expr.Ident(o), 
+                    new OldExpr(Token.NoToken, fExpr));
                 p.Ensures.Add(new Ensures(true, ens));
             }
         }
+
 
     }
 
