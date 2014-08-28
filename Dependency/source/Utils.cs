@@ -247,14 +247,7 @@ namespace Dependency
         public static Dictionary<Absy, Implementation> ComputeNodeToImpl(Program program)
         {
             Dictionary<Absy, Implementation> result = new Dictionary<Absy, Implementation>();
-            var implementations = new List<Declaration>(program.TopLevelDeclarations.Where(x => x is Implementation));
-            foreach (Implementation impl in implementations)
-                foreach (var b in impl.Blocks)
-                {
-                    foreach (var s in b.Cmds)
-                        result[s] = impl;
-                    result[b.TransferCmd] = impl;
-                }
+            program.Implementations().Iter(impl => impl.Blocks.Iter(b => { b.Cmds.Iter(c => result[c] = impl); result[b.TransferCmd] = impl; }));
             return result;
         }
 
@@ -591,26 +584,28 @@ namespace Dependency
                 // replace {goto A,B;} {A: assume (e); ... } {B: assume (!e); ... }
                 // with {c = e; goto A,B;} {A: assume (c); ... } {B: assume(!c); ... }
                 var succs = node.labelTargets;
-                if (succs.Count > 1)
+                if (succs.Count == 2)
                 {
                     var s1 = succs[0].Cmds[0] as AssumeCmd;
                     var s2 = succs[1].Cmds[0] as AssumeCmd;
-                    if (s1 != null && s2 != null && (s1.Expr == Expr.Not(s2.Expr) || s2.Expr == Expr.Not(s1.Expr)))
+                    if (s1 != null && s2 != null)
                     {
+                        // TODO: hacky, this assertion is here to strengthen the assumption that gotos with 2 successors will always be a negation of one another
+                        Debug.Assert(Expr.Not(s2.Expr).ToString() == s1.Expr.ToString() ||
+                                     Expr.Not(s1.Expr).ToString() == s2.Expr.ToString() ||
+                                     s1.Expr.ToString().Replace("!=", "==") == s2.Expr.ToString() ||
+                                     s2.Expr.ToString().Replace("!=", "==") == s1.Expr.ToString());
                         // create a fresh variable
                         var v = new IdentifierExpr(Token.NoToken,new LocalVariable(Token.NoToken,new TypedIdent(Token.NoToken, currBlock.Label + "_Cond", Microsoft.Boogie.Type.Bool)));
                         // create and add the assignment
                         var lhs = new List<AssignLhs>();
                         lhs.Add(new SimpleAssignLhs(Token.NoToken, v));
                         var rhs = new List<Expr>();
-                        rhs.Add(s1.Expr == Expr.Not(s2.Expr) ? s2.Expr : s1.Expr);
+                        rhs.Add(s1.Expr);
                         currBlock.Cmds.Add(new AssignCmd(Token.NoToken,lhs, rhs));
-                        Console.WriteLine(currBlock.Cmds.Last());
                         // replace the goto destinations expressions
-                        s1.Expr = (s1.Expr == Expr.Not(s2.Expr)) ? Expr.Not(v) : v;
-                        s2.Expr = (s2.Expr == Expr.Not(s1.Expr)) ? Expr.Not(v) : v;
-                        Console.WriteLine(s1);
-                        Console.WriteLine(s2);
+                        s1.Expr = v;
+                        s2.Expr = Expr.Not(v);
                     }
                 }
                 return node;

@@ -155,6 +155,9 @@ namespace Dependency
             this.filename = filename;
             this.program = program;
 
+            // create explicit variables for conditionals
+            (new Utils.AddExplicitConditionalVars()).Visit(program);
+
             this.callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);
             this.nodeToImpl = Utils.ComputeNodeToImpl(program);
 
