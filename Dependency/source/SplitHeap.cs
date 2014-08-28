@@ -234,12 +234,12 @@ namespace Dependency
                 if (mapName != null)
                 {
                     //node.Expr should be AS(..) == A1 || AS(..) == A2
-                    currMapInfo = Tuple.Create(mapName, new List<string>());
+                    List<string> allocSites = ExtractAllocSitesFromExpr(node.Expr);
+                    currMapInfo = Tuple.Create(mapName, allocSites);
                 }
                 var b = base.VisitAssumeCmd(node);
                 return b;
-            }
- 
+            } 
             public override Cmd VisitCallCmd(CallCmd node)
             {
                 currCmd = node;
@@ -255,6 +255,12 @@ namespace Dependency
                     {
                     }
                 return base.VisitNAryExpr(node);
+            }
+
+            //return {A1,A2} from AS(..) == A1 || AS(..) == A2
+            private List<string> ExtractAllocSitesFromExpr(Expr expr)
+            {
+                throw new NotImplementedException();
             }
         }
     }
