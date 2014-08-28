@@ -567,6 +567,45 @@ namespace Dependency
 
         }
 
+        public class AddExplicitConditionalVars : StandardVisitor
+        {
+            private Block currBlock = null;
+            public override Block VisitBlock(Block node)
+            {
+                currBlock = node; base.VisitBlock(node); currBlock = null;
+                return node;
+            }
+            public override GotoCmd VisitGotoCmd(GotoCmd node)
+            {
+                // replace {goto A,B;} {A: assume (e); ... } {B: assume (!e); ... }
+                // with {c = e; goto A,B;} {A: assume (c); ... } {B: assume(!c); ... }
+                var succs = node.labelTargets;
+                if (succs.Count > 1)
+                {
+                    var s1 = succs[0].Cmds[0] as AssumeCmd;
+                    var s2 = succs[1].Cmds[0] as AssumeCmd;
+                    if (s1 != null && s2 != null && (s1.Expr == Expr.Not(s2.Expr) || s2.Expr == Expr.Not(s1.Expr)))
+                    {
+                        // create a fresh variable
+                        var v = new IdentifierExpr(Token.NoToken,new LocalVariable(Token.NoToken,new TypedIdent(Token.NoToken, currBlock.Label + "_Cond", Microsoft.Boogie.Type.Bool)));
+                        // create and add the assignment
+                        var lhs = new List<AssignLhs>();
+                        lhs.Add(new SimpleAssignLhs(Token.NoToken, v));
+                        var rhs = new List<Expr>();
+                        rhs.Add(s1.Expr == Expr.Not(s2.Expr) ? s2.Expr : s1.Expr);
+                        currBlock.Cmds.Add(new AssignCmd(Token.NoToken,lhs, rhs));
+                        Console.WriteLine(currBlock.Cmds.Last());
+                        // replace the goto destinations expressions
+                        s1.Expr = (s1.Expr == Expr.Not(s2.Expr)) ? Expr.Not(v) : v;
+                        s2.Expr = (s2.Expr == Expr.Not(s1.Expr)) ? Expr.Not(v) : v;
+                        Console.WriteLine(s1);
+                        Console.WriteLine(s2);
+                    }
+                }
+                return node;
+            }
+        }
+
         public class RemoveAsserts : StandardVisitor
         {
             public override Cmd VisitAssertCmd(AssertCmd node)
