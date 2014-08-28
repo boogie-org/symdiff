@@ -443,102 +443,65 @@ axiom (forall M: [name][int]int, x: int :: { Unified(M)[x] } Unified(M)[x] == M[
 
 axiom (forall M: [name][int]int, x: int, y: int :: { Unified(M[Field(x) := M[Field(x)][x := y]]) } Unified(M[Field(x) := M[Field(x)][x := y]]) == Unified(M)[x := y]);
 
+var {:extern} global1: int;
+
+var {:extern} global2: int;
+
+var {:extern} global3: int;
+
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "y"} {:sourceFile ".\source\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 16} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "result.foo"} {:sourceFile ".\source\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "global1"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 19} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "x"} {:sourceFile ".\source\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "global1"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 8} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "x"} {:sourceFile ".\source\testhavoc.c"} {:sourceLine 5} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 9} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "result.non_det"} {:sourceFile ".\source\testhavoc.c"} {:sourceLine 10} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 7} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "y"} {:sourceFile ".\source\testhavoc.c"} {:sourceLine 6} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "global2"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 34} unique __ctobpl_const_13: int;
 
-procedure {:extern} foo(__dummy_formal_foo_0.__1: int) returns (__dummy_retfoo: int);
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 33} unique __ctobpl_const_12: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 47} unique __ctobpl_const_16: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 51} unique __ctobpl_const_17: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 52} unique __ctobpl_const_18: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 17} unique __ctobpl_const_7: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 31} unique __ctobpl_const_9: int;
+
+const {:extern} {:model_const "global1"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 48} unique __ctobpl_const_19: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 49} unique __ctobpl_const_20: int;
+
+const {:extern} {:model_const "global3"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 38} unique __ctobpl_const_14: int;
+
+const {:extern} {:model_const "global1"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 36} unique __ctobpl_const_10: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 20} unique __ctobpl_const_8: int;
+
+const {:extern} {:model_const "z"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 32} unique __ctobpl_const_11: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 39} unique __ctobpl_const_15: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testdomination.c"} {:sourceLine 6} unique __ctobpl_const_1: int;
+
+procedure {:extern} TestIfDomination(x.__1: int) returns (result.TestIfDomination$1: int);
   free requires INT_LT(0, alloc);
+  modifies global1, global2, global3;
   free ensures INT_LEQ(old(alloc), alloc);
 
 
 
-procedure {:extern} non_det() returns (__dummy_retnon_det: int);
-  free requires INT_LT(0, alloc);
-  free ensures INT_LEQ(old(alloc), alloc);
-
-
-
-procedure {:extern} doo() returns (result.doo$1: int);
-  free requires INT_LT(0, alloc);
-  free ensures INT_LEQ(old(alloc), alloc);
-
-
-
-implementation {:extern} doo() returns (result.doo$1: int)
+implementation {:extern} TestIfDomination(x.__1: int) returns (result.TestIfDomination$1: int)
 {
   var {:extern} havoc_stringTemp: int;
   var {:extern} condVal: int;
-  var {:extern} result.non_det$2: int;
-  var {:extern} tempBoogie0: int;
-  var {:extern} tempBoogie1: int;
-  var {:extern} tempBoogie2: int;
-  var {:extern} tempBoogie3: int;
-  var {:extern} tempBoogie4: int;
-  var {:extern} tempBoogie5: int;
-  var {:extern} tempBoogie6: int;
-  var {:extern} tempBoogie7: int;
-  var {:extern} tempBoogie8: int;
-  var {:extern} tempBoogie9: int;
-  var {:extern} tempBoogie10: int;
-  var {:extern} tempBoogie11: int;
-  var {:extern} tempBoogie12: int;
-  var {:extern} tempBoogie13: int;
-  var {:extern} tempBoogie14: int;
-  var {:extern} tempBoogie15: int;
-  var {:extern} tempBoogie16: int;
-  var {:extern} tempBoogie17: int;
-  var {:extern} tempBoogie18: int;
-  var {:extern} tempBoogie19: int;
-
-  anon0:
-    havoc_stringTemp := 0;
-    goto start;
-
-  start:
-    result.doo$1 := 0;
-    result.non_det$2 := 0;
-    goto label_3;
-
-  label_3:
-    assert {:sourcefile ".\source\testhavoc.c"} {:sourceline 10} true;
-    call result.non_det$2 := non_det();
-    goto label_6;
-
-  label_6:
-    assert {:sourcefile ".\source\testhavoc.c"} {:sourceline 10} true;
-    result.doo$1 := result.non_det$2;
-    assume value_is(__ctobpl_const_1, result.non_det$2);
-    goto label_1;
-
-  label_1:
-    assert {:sourcefile ".\source\testhavoc.c"} {:sourceline 11} true;
-    return;
-}
-
-
-
-procedure {:extern} goo(x.__1: int) returns (result.goo$1: int);
-  free requires INT_LT(0, alloc);
-  free ensures INT_LEQ(old(alloc), alloc);
-
-
-
-implementation {:extern} goo(x.__1: int) returns (result.goo$1: int)
-{
-  var {:extern} havoc_stringTemp: int;
-  var {:extern} condVal: int;
-  var {:extern} result.foo$2: int;
   var {:extern} x: int;
   var {:extern} y: int;
   var {:extern} tempBoogie0: int;
@@ -567,40 +530,410 @@ implementation {:extern} goo(x.__1: int) returns (result.goo$1: int)
     goto start;
 
   start:
-    result.foo$2 := 0;
-    result.goo$1 := 0;
+    result.TestIfDomination$1 := 0;
     x := 0;
     y := 0;
     x := x.__1;
     goto label_3;
 
   label_3:
-    assert {:sourcefile ".\source\testhavoc.c"} {:sourceline 4} true;
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 5} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile ".\source\testhavoc.c"} {:sourceline 5} true;
-    call result.foo$2 := foo(x);
-    assume value_is(__ctobpl_const_2, x);
-    assume value_is(__ctobpl_const_3, x);
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 6} true;
+    goto label_4_true, label_4_false;
+
+  label_4_false:
+    assume !INT_LT(0, x);
+    assume value_is(__ctobpl_const_1, x);
+    goto label_5;
+
+  label_5:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 8} true;
+    global1 := 2;
+    assume value_is(__ctobpl_const_3, global1);
     goto label_7;
 
   label_7:
-    assert {:sourcefile ".\source\testhavoc.c"} {:sourceline 5} true;
-    y := result.foo$2;
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 9} true;
+    result.TestIfDomination$1 := y;
     assume value_is(__ctobpl_const_4, y);
-    assume value_is(__ctobpl_const_5, result.foo$2);
-    goto label_8;
-
-  label_8:
-    assert {:sourcefile ".\source\testhavoc.c"} {:sourceline 6} true;
-    result.goo$1 := y;
-    assume value_is(__ctobpl_const_6, y);
     goto label_1;
 
   label_1:
-    assert {:sourcefile ".\source\testhavoc.c"} {:sourceline 7} true;
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 10} true;
+    return;
+
+  label_4_true:
+    assume INT_LT(0, x);
+    assume value_is(__ctobpl_const_1, x);
+    goto label_6;
+
+  label_6:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 7} true;
+    y := 1;
+    assume value_is(__ctobpl_const_2, y);
+    goto label_5;
+}
+
+
+
+procedure {:extern} TestIfElseDomination(x.__1: int) returns (result.TestIfElseDomination$1: int);
+  free requires INT_LT(0, alloc);
+  modifies global1, global2, global3;
+  free ensures INT_LEQ(old(alloc), alloc);
+
+
+
+implementation {:extern} TestIfElseDomination(x.__1: int) returns (result.TestIfElseDomination$1: int)
+{
+  var {:extern} havoc_stringTemp: int;
+  var {:extern} condVal: int;
+  var {:extern} x: int;
+  var {:extern} y: int;
+  var {:extern} tempBoogie0: int;
+  var {:extern} tempBoogie1: int;
+  var {:extern} tempBoogie2: int;
+  var {:extern} tempBoogie3: int;
+  var {:extern} tempBoogie4: int;
+  var {:extern} tempBoogie5: int;
+  var {:extern} tempBoogie6: int;
+  var {:extern} tempBoogie7: int;
+  var {:extern} tempBoogie8: int;
+  var {:extern} tempBoogie9: int;
+  var {:extern} tempBoogie10: int;
+  var {:extern} tempBoogie11: int;
+  var {:extern} tempBoogie12: int;
+  var {:extern} tempBoogie13: int;
+  var {:extern} tempBoogie14: int;
+  var {:extern} tempBoogie15: int;
+  var {:extern} tempBoogie16: int;
+  var {:extern} tempBoogie17: int;
+  var {:extern} tempBoogie18: int;
+  var {:extern} tempBoogie19: int;
+
+  anon0:
+    havoc_stringTemp := 0;
+    goto start;
+
+  start:
+    result.TestIfElseDomination$1 := 0;
+    x := 0;
+    y := 0;
+    x := x.__1;
+    goto label_3;
+
+  label_3:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 15} true;
+    goto label_4;
+
+  label_4:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 16} true;
+    goto label_4_true, label_4_false;
+
+  label_4_false:
+    assume !INT_LT(0, x);
+    assume value_is(__ctobpl_const_5, x);
+    goto label_5;
+
+  label_5:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 19} true;
+    global1 := 2;
+    assume value_is(__ctobpl_const_6, global1);
+    goto label_7;
+
+  label_7:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 20} true;
+    result.TestIfElseDomination$1 := y;
+    assume value_is(__ctobpl_const_8, y);
+    goto label_1;
+
+  label_1:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 21} true;
+    return;
+
+  label_4_true:
+    assume INT_LT(0, x);
+    assume value_is(__ctobpl_const_5, x);
+    goto label_6;
+
+  label_6:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 17} true;
+    y := 1;
+    assume value_is(__ctobpl_const_7, y);
+    goto label_7;
+}
+
+
+
+procedure {:extern} TestNestedIfDomination(x.__1: int, z.__1: int) returns (result.TestNestedIfDomination$1: int);
+  free requires INT_LT(0, alloc);
+  modifies global1, global2, global3;
+  free ensures INT_LEQ(old(alloc), alloc);
+
+
+
+implementation {:extern} TestNestedIfDomination(x.__1: int, z.__1: int) returns (result.TestNestedIfDomination$1: int)
+{
+  var {:extern} havoc_stringTemp: int;
+  var {:extern} condVal: int;
+  var {:extern} x: int;
+  var {:extern} y: int;
+  var {:extern} z: int;
+  var {:extern} tempBoogie0: int;
+  var {:extern} tempBoogie1: int;
+  var {:extern} tempBoogie2: int;
+  var {:extern} tempBoogie3: int;
+  var {:extern} tempBoogie4: int;
+  var {:extern} tempBoogie5: int;
+  var {:extern} tempBoogie6: int;
+  var {:extern} tempBoogie7: int;
+  var {:extern} tempBoogie8: int;
+  var {:extern} tempBoogie9: int;
+  var {:extern} tempBoogie10: int;
+  var {:extern} tempBoogie11: int;
+  var {:extern} tempBoogie12: int;
+  var {:extern} tempBoogie13: int;
+  var {:extern} tempBoogie14: int;
+  var {:extern} tempBoogie15: int;
+  var {:extern} tempBoogie16: int;
+  var {:extern} tempBoogie17: int;
+  var {:extern} tempBoogie18: int;
+  var {:extern} tempBoogie19: int;
+
+  anon0:
+    havoc_stringTemp := 0;
+    goto start;
+
+  start:
+    result.TestNestedIfDomination$1 := 0;
+    x := 0;
+    y := 0;
+    z := 0;
+    x := x.__1;
+    z := z.__1;
+    goto label_3;
+
+  label_3:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 30} true;
+    goto label_4;
+
+  label_4:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 31} true;
+    goto label_4_true, label_4_false;
+
+  label_4_false:
+    assume !INT_LT(0, x);
+    assume value_is(__ctobpl_const_9, x);
+    goto label_5;
+
+  label_5:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 36} true;
+    global1 := 2;
+    assume value_is(__ctobpl_const_10, global1);
+    goto label_9;
+
+  label_9:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 38} true;
+    global3 := 3;
+    assume value_is(__ctobpl_const_14, global3);
+    goto label_10;
+
+  label_10:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 39} true;
+    result.TestNestedIfDomination$1 := y;
+    assume value_is(__ctobpl_const_15, y);
+    goto label_1;
+
+  label_1:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 40} true;
+    return;
+
+  label_4_true:
+    assume INT_LT(0, x);
+    assume value_is(__ctobpl_const_9, x);
+    goto label_6;
+
+  label_6:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 32} true;
+    goto label_6_true, label_6_false;
+
+  label_6_false:
+    assume !INT_LT(0, z);
+    assume value_is(__ctobpl_const_11, z);
+    goto label_7;
+
+  label_7:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 34} true;
+    global2 := 1;
+    assume value_is(__ctobpl_const_13, global2);
+    goto label_9;
+
+  label_6_true:
+    assume INT_LT(0, z);
+    assume value_is(__ctobpl_const_11, z);
+    goto label_8;
+
+  label_8:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 33} true;
+    y := 1;
+    assume value_is(__ctobpl_const_12, y);
+    goto label_7;
+}
+
+
+
+procedure {:extern} TestWhileDomination(x.__1: int) returns (result.TestWhileDomination$1: int);
+  free requires INT_LT(0, alloc);
+  modifies global1, global2, global3;
+  free ensures INT_LEQ(old(alloc), alloc);
+
+
+
+implementation {:extern} TestWhileDomination(x.__1: int) returns (result.TestWhileDomination$1: int)
+{
+  var {:extern} havoc_stringTemp: int;
+  var {:extern} condVal: int;
+  var {:extern} x: int;
+  var {:extern} y: int;
+  var {:extern} tempBoogie0: int;
+  var {:extern} tempBoogie1: int;
+  var {:extern} tempBoogie2: int;
+  var {:extern} tempBoogie3: int;
+  var {:extern} tempBoogie4: int;
+  var {:extern} tempBoogie5: int;
+  var {:extern} tempBoogie6: int;
+  var {:extern} tempBoogie7: int;
+  var {:extern} tempBoogie8: int;
+  var {:extern} tempBoogie9: int;
+  var {:extern} tempBoogie10: int;
+  var {:extern} tempBoogie11: int;
+  var {:extern} tempBoogie12: int;
+  var {:extern} tempBoogie13: int;
+  var {:extern} tempBoogie14: int;
+  var {:extern} tempBoogie15: int;
+  var {:extern} tempBoogie16: int;
+  var {:extern} tempBoogie17: int;
+  var {:extern} tempBoogie18: int;
+  var {:extern} tempBoogie19: int;
+
+  anon0:
+    havoc_stringTemp := 0;
+    goto start;
+
+  start:
+    result.TestWhileDomination$1 := 0;
+    x := 0;
+    y := 0;
+    x := x.__1;
+    goto label_3;
+
+  label_3:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 46} true;
+    goto label_4;
+
+  label_4:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 47} true;
+    goto label_4_head;
+
+  label_4_head:
+    call x := TestWhileDomination_loop_label_4_head(x);
+    goto label_4_head_last;
+
+  label_4_false:
+    assume !INT_LT(0, x);
+    assume value_is(__ctobpl_const_16, x);
+    goto label_5;
+
+  label_5:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 51} true;
+    y := 3;
+    assume value_is(__ctobpl_const_17, y);
+    goto label_8;
+
+  label_8:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 52} true;
+    result.TestWhileDomination$1 := y;
+    assume value_is(__ctobpl_const_18, y);
+    goto label_1;
+
+  label_1:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 53} true;
+    return;
+
+  label_4_true:
+    assume INT_LT(0, x);
+    assume value_is(__ctobpl_const_16, x);
+    goto label_6;
+
+  label_6:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 48} true;
+    assume value_is(__ctobpl_const_19, global1);
+    global1 := PLUS(global1, 1, 1);
+    goto label_7;
+
+  label_7:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 49} true;
+    assume value_is(__ctobpl_const_20, x);
+    x := MINUS_BOTH_PTR_OR_BOTH_INT(x, 1, 1);
+    goto label_7_dummy;
+
+  label_7_dummy:
+    assume false;
+    return;
+
+  label_4_head_last:
+    goto label_4_true, label_4_false;
+}
+
+
+
+implementation TestWhileDomination_loop_label_4_head(in_x: int) returns (out_x: int)
+{
+
+  entry:
+    out_x := in_x;
+    goto label_4_head;
+
+  label_4_head:
+    goto label_4_true, label_4_false;
+
+  label_4_false:
+    assume !INT_LT(0, out_x);
+    assume value_is(__ctobpl_const_16, out_x);
+    out_x := in_x;
+    global1 := old(global1);
+    return;
+
+  label_7:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 49} true;
+    assume value_is(__ctobpl_const_20, out_x);
+    out_x := MINUS_BOTH_PTR_OR_BOTH_INT(out_x, 1, 1);
+    goto label_7_dummy;
+
+  label_6:
+    assert {:sourcefile ".\source\testdomination.c"} {:sourceline 48} true;
+    assume value_is(__ctobpl_const_19, global1);
+    global1 := PLUS(global1, 1, 1);
+    goto label_7;
+
+  label_4_true:
+    assume INT_LT(0, out_x);
+    assume value_is(__ctobpl_const_16, out_x);
+    goto label_6;
+
+  label_7_dummy:
+    call {:si_unique_call 1} out_x := TestWhileDomination_loop_label_4_head(out_x);
+    return;
+
+  exit:
     return;
 }
+
+
+
+procedure TestWhileDomination_loop_label_4_head(in_x: int) returns (out_x: int);
+  modifies global1;
 
 
