@@ -278,6 +278,33 @@ namespace Dependency
                 currCmd = null;
                 return b;
             }
+            public override Cmd VisitAssignCmd(AssignCmd node)
+            {
+                var ac = base.VisitAssignCmd(node);
+                var lhss = node.Lhss;
+                var containsMapAssign = lhss.Any(x => x.DeepAssignedVariable.TypedIdent.Type.IsMap);
+                if (!containsMapAssign)
+                    return ac;
+                if (lhss.Count > 1)
+                    throw new Exception(string.Format("Currently only handle single assignment per assign cmd, found {0}", node));
+                if (currMapInfo == null)
+                    return ac;
+                var assign = ac as AssignCmd;
+                var rhs = assign.Rhss[0];
+                var lhs = lhss[0];
+                if (lhs.DeepAssignedVariable.TypedIdent.Type.IsMap)
+                {
+                    var mv = lhs.DeepAssignedVariable;
+                    if (currMapInfo.Item2.Count() != 1)
+                        throw new NotImplementedException("Can only handle cases with unique allocation site");
+                    if (mv.Name != currMapInfo.Item1)
+                        throw new Exception(string.Format("Map {0} in expression against {1} in allocSiteAssume", mv, currMapInfo.Item1));
+                    var splitMapVar = GetOrCreateSplitMap(mv, currMapInfo.Item2[0].Item2.ToString());
+                    assign.Lhss = new List<AssignLhs>() { new SimpleAssignLhs(Token.NoToken, IdentifierExpr.Ident(splitMapVar)) };
+                    return assign;
+                }
+                throw new NotImplementedException();
+            }
             public override Expr VisitIdentifierExpr(IdentifierExpr node)
             {
                 if (node.Decl.TypedIdent.Type.IsMap && currMapInfo != null) //currInfo == null means no assume was encountered (e.g. requires/ensures)
@@ -303,7 +330,7 @@ namespace Dependency
                 if (ret.Fun is MapSelect && ret.Fun.ArgumentCount == 2)
                     return VisitMapSelect(ret.Args[0], ret.Args[1], node.Type);
                 if (ret.Fun is MapStore && ret.Fun.ArgumentCount == 3)
-                    return e; // VisitMapStore(ret.Args[0], ret.Args[1], ret.Args[2], node.Type);
+                    return VisitMapStore(ret.Args[0], ret.Args[1], ret.Args[2], node.Type);
                 return ret;
             }
 
@@ -313,9 +340,34 @@ namespace Dependency
                 //create m@1,..
                 //create n parallel assignments with 1 ite
                 //m@1, ... = ite(AS(index) == a1, m@1, value), ...
+                if (currMapInfo.Item2.Count() != 1)
+                    throw new NotImplementedException("Can only handle cases with unique allocation site");
+                var mv = map as IdentifierExpr;
+                if (mv == null) throw new Exception(string.Format("Expecting an identifier as map in Select, found {0}", map));
+                if (mv.Name != currMapInfo.Item1)
+                    throw new Exception(string.Format("Map {0} in expression against {1} in allocSiteAssume", map, currMapInfo.Item1));
+
+
+                var iteArgs = new List<Tuple<Expr, Expr>>(); //list of (cond,expr) pair
+                currMapInfo.Item2
+                    .Iter(x =>
+                    {
+                        var tmp = Utils.DeclUtils.MkFuncApp(allocSiteFunc, new List<Expr>() { index });
+                        var cond = Expr.Eq(tmp, x.Item2);
+                        var splitMapVar = GetOrCreateSplitMap(mv.Decl, x.Item2.ToString());
+                        var arg = new NAryExpr(Token.NoToken,
+                            new MapStore(Token.NoToken, 1), //arity is args.Count - 2
+                            new List<Expr>() { IdentifierExpr.Ident(splitMapVar), index, value});
+                        iteArgs.Add(Tuple.Create((Expr)cond, (Expr)arg));
+                    }
+                    );
+                return iteArgs[0].Item2;
+                //var iteFunc = Utils.DeclUtils.MkOrGetFunc(prog, SplitConsts.iteFuncName, btype,
+                //    new List<Microsoft.Boogie.Type>() { Microsoft.Boogie.Type.Bool, btype, btype });
+                //create the nested n-1 level ite expression
+
                 throw new NotImplementedException();
             }
-
             private Expr VisitMapSelect(Expr map, Expr index, Microsoft.Boogie.Type btype)
             {
                 //get AS set and ASFunc for this map. lookup by name
@@ -334,17 +386,17 @@ namespace Dependency
                         var cond = Expr.Eq(tmp, x.Item2);
                         var splitMapVar = GetOrCreateSplitMap(mv.Decl, x.Item2.ToString());
                         var arg = new NAryExpr(Token.NoToken,
-                            new MapSelect(Token.NoToken, 1),
+                            new MapSelect(Token.NoToken, 1), //arity is args.Count - 1
                             new List<Expr>() {IdentifierExpr.Ident(splitMapVar), index});
                         iteArgs.Add(Tuple.Create((Expr)cond, (Expr) arg));
                     }
                     );
-                var iteFunc = Utils.DeclUtils.MkOrGetFunc(prog, SplitConsts.iteFuncName, btype, 
-                    new List<Microsoft.Boogie.Type>(){Microsoft.Boogie.Type.Bool, btype, btype});
                 //create the nested n-1 level ite expression
                 if (currMapInfo.Item2.Count() == 1)
                     return iteArgs[0].Item2;
-                throw new NotImplementedException();
+                var iteFunc = Utils.DeclUtils.MkOrGetFunc(prog, SplitConsts.iteFuncName, btype,
+                    new List<Microsoft.Boogie.Type>() { Microsoft.Boogie.Type.Bool, btype, btype });
+                throw new NotImplementedException("Can only handle cases with unique allocation site");
             }
 
             /// <summary>
