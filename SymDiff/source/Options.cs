@@ -48,24 +48,24 @@ namespace SDiff
     public static int NumCex = -1; //-1 denotes find all cex
     public static HashSet<string> syntacticEqProcs = new HashSet<string>();
 
+    public static bool splitOutputEqualities = false;  // if true, splits one ensures into n ensures for each output var
+
     //flag and settings for generating C traces
     public const bool GenerateCTrace = true;
 
     public static string GetBoogieOptions()
     {
         string boogieOptions = "";
-        if (Options.NumCex == -1)
+        if (!Options.splitOutputEqualities)
         {
-            boogieOptions += "-z3multipleErrors "; //this means a default of 5 in Boogie
-        }
-        else
+            boogieOptions += " -z3multipleErrors ";
+            if (Options.NumCex != -1)
+                boogieOptions += " -errorLimit:" + Options.NumCex + " ";
+        } else
         {
-            if (Options.DifferentialInline)
-            {
-                throw new Exception("Differential inlining is unsound with -cex:k option\n");
-            }
-            boogieOptions += "-z3multipleErrors -errorLimit:" + Options.NumCex + " ";
+            boogieOptions += " -errorLimit:100 "; //a large number as we count how many outs are disequal
         }
+
         boogieOptions += " -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0  " + Options.BoogieUserOpts;
         if (Options.DoSymEx)
             boogieOptions += " -printModel:1 /printModelToFile:model.dmp "; // don't penalize enumerate all paths wiht printing z3 models

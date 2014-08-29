@@ -229,11 +229,13 @@ namespace SDiff
         body.Add(c);
       body.Add(assgnCmd);
 
-      Ensures outputPostCondition;
-      if (!Options.EnumerateAllPaths)
-          outputPostCondition = new Ensures(false, B.U.BigAnd(outputEqualityState.Idents));
+      List<Ensures> outputPostConditions = new List<Ensures>();
+      if (Options.splitOutputEqualities)
+          outputPostConditions.AddRange(outputEqualityState.Idents.Map(y => new Ensures(false, y)));
+      else if (!Options.EnumerateAllPaths)
+          outputPostConditions.Add(new Ensures(false, B.U.BigAnd(outputEqualityState.Idents)));
       else //assert(false) causes all the paths to be enumerated
-          outputPostCondition = new Ensures(false, Expr.False); //to get exhaustive paths
+          outputPostConditions.Add(new Ensures(false, Expr.False)); //to get exhaustive paths
       
       var eqModifiesDupe = new List<IdentifierExpr>(d1.Modifies);
       eqModifiesDupe.AddRange(d2.Modifies);
@@ -258,7 +260,7 @@ namespace SDiff
       Procedure eqProc =
         new Procedure(Token.NoToken, procName, B.C.empTypeVariableSeq, unionIns,
           new List<Variable>(outputEqualityState.Decls),
-          B.C.empRequiresSeq, eqModifies, new List<Ensures>{outputPostCondition});
+          B.C.empRequiresSeq, eqModifies, new List<Ensures>(outputPostConditions));
 
       BigBlock bl =
         new BigBlock(Token.NoToken, "AA_INSTR_EQ_BODY", body, null, B.C.dmyTransferCmd);

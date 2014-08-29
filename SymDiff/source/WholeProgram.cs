@@ -37,7 +37,7 @@ namespace SDiff
         static bool inlineWhenMissing;
         static bool deactivateHacks;
         static bool okInfer;
-        static bool ignoreMainDuringInlineAll = true; // default true for siemens benchmarks as main has exits for returns
+        static bool ignoreMainDuringInlineAll = false; // default true for siemens benchmarks as main has exits for returns
         static bool onlyAnalyzeRootsOfCallGraphsForInlineAll = true; //default true
         static bool freeContracts = false; //instead of dropping requires/ensures, makes them free requires/ensures
 
@@ -83,6 +83,7 @@ namespace SDiff
           Console.WriteLine("\t -timeout:n      sets the timeout to n seconds");
           Console.WriteLine("\t -boogieOpts:s   passes the string s to Boogie");
           Console.WriteLine("\t -cex:k          limits the number of cex per method to k (default 5)");
+          Console.WriteLine("\t -splitOutputEqualities splits each output equality per procedure (max 100)");
           Console.WriteLine("\t -synEq:<file>   <file> contains a list of procedure names that are trusted syntactically equivalent");
           Console.WriteLine("\t -wrapper        run boogie in a separate process (to avoid memory bottleneck)");
           Console.WriteLine("\t -freeContracts  treat single program contracts (requires, ensures) into free (requires,ensures)");
@@ -178,6 +179,8 @@ namespace SDiff
                     foreach (var s in Options.syntacticEqProcs)
                         Console.WriteLine("Added " + s + " to syntacticEqProcs");
                 }
+                else if (args[i].Contains("-splitOutputEqualities") || args[i].Contains("/splitOutputEqualities"))
+                    Options.splitOutputEqualities= true; 
                 else
                 {
                     throw new Exception("Unexpected option " + args[i]);
