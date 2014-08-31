@@ -199,7 +199,12 @@ namespace SDiff
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d1.Name + "_" + globals[i].Name, savedc1Globals.Decls[i]));
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d2.Name + "_" + globals[i].Name, globals[i]));
       }
+      //new: we translate equalities as havoc lhs; lhs := lhs || x == x'; to enable diff counterexamples for each equality
+      //havoc all lhs
+      HavocCmd hcmd = new HavocCmd(Token.NoToken, outputEqualityState.Idents.ToList());
       List<Expr> rhs = new List<Expr>(outputEqualityExprs);
+      for (int i = 0; i < rhs.Count; ++i)
+          rhs[i] = Expr.Or(outputEqualityState.Idents[i], rhs[i]); 
       List<AssignLhs> lhs =
         new List<AssignLhs>(outputEqualityState.Idents.Map(x => new SimpleAssignLhs(Token.NoToken, x)));
       Cmd assgnCmd = new AssignCmd(Token.NoToken, lhs, rhs);
@@ -227,6 +232,7 @@ namespace SDiff
       body.Add(c2);
       foreach (Cmd c in saveOutputsIntoGlobals)
         body.Add(c);
+      body.Add(hcmd);
       body.Add(assgnCmd);
 
       List<Ensures> outputPostConditions = new List<Ensures>();
