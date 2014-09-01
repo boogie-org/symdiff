@@ -118,6 +118,7 @@ namespace Dependency
 
         public static class DeclUtils
         {
+            static int retCnt = 0;
             public static Function MkOrGetFunc(Program prog, string name, BType retType, List<BType> inTypes)
             {
                 var fns = prog.TopLevelDeclarations.OfType<Function>().Where(x => x.Name == name);
@@ -137,7 +138,7 @@ namespace Dependency
             }
             public static Formal MkFormal(BType t)
             {
-                return new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "ret", t), false);
+                return new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "ret" + retCnt++, t), false);
             }
             public static Variable MkGlobalVariable(Program prog, string name, BType type)
             {

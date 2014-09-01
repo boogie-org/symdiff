@@ -12,7 +12,7 @@ int TestTaintBottom(int x) {
 
 int TestTaintMiddle(int x) {
 	int y;
-	y++; // line change
+	y--; // line change
 	TestTaintBottom(y); // taint
 	return y; // taint
 }
