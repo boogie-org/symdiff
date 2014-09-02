@@ -160,8 +160,19 @@ namespace Dependency
                 Console.WriteLine("Statistics generated in " + statsFile);
             }
 
+            Dictionary<string,HashSet<int>> sourceLines = new Dictionary<string,HashSet<int>>();
+            program.Implementations().Iter(i => i.Blocks.Iter(b =>
+            {
+                var sourceFile = Utils.AttributeUtils.GetSourceFile(b);
+                if (sourceFile != null)
+                {
+                    if (!sourceLines.ContainsKey(sourceFile))
+                        sourceLines[sourceFile] = new HashSet<int>();
+                    sourceLines[sourceFile].Add(Utils.AttributeUtils.GetSourceLine(b));
+                }
+            }));
             // print number of tainted lines
-            Console.WriteLine("#Tainted:\n {0}", taintLog.GroupBy(t => t.Item3).Count());
+            Console.WriteLine("#Tainted, Out of Overall #Lines:\n {0}, {1}", taintLog.GroupBy(t => t.Item3).Count(), sourceLines.Sum(fl => fl.Value.Count));
 
             #endregion
             sw.Stop();
