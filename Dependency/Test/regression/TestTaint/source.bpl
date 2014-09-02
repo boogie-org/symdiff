@@ -445,29 +445,39 @@ axiom (forall M: [name][int]int, x: int, y: int :: { Unified(M[Field(x) := M[Fie
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 9} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 9} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 9} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 10} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 10} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 15} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 16} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_9: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 17} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 16} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 16} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 17} unique __ctobpl_const_7: int;
+const {:extern} {:model_const "result.TestTaintBottom"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 3} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 4} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "result.TestTaintMiddle"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 15} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 23} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 16} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "x"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_8: int;
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 9} unique __ctobpl_const_1: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_15: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 23} unique __ctobpl_const_17: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_13: int;
+
+const {:extern} {:model_const "result.TestTaintMiddle"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_16: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\source\testtaint.c"} {:sourceLine 22} unique __ctobpl_const_14: int;
 
 procedure {:extern} TestTaintBottom(x.__1: int) returns (result.TestTaintBottom$1: int);
   free requires INT_LT(0, alloc);
@@ -502,36 +512,36 @@ implementation {:extern} TestTaintBottom(x.__1: int) returns (result.TestTaintBo
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
 
-  anon0#2:
+  anon0:
     havoc_stringTemp := 0;
-    goto start#2;
+    goto start;
 
-  start#2:
+  start:
     result.TestTaintBottom$1 := 0;
     x := 0;
     y := 0;
     x := x.__1;
-    goto label_3#2;
+    goto label_3;
 
-  label_3#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 8} true;
-    goto label_4#2;
+  label_3:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 8} true;
+    goto label_4;
 
-  label_4#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 9} true;
+  label_4:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 9} true;
     y := x;
     assume value_is(__ctobpl_const_1, y);
     assume value_is(__ctobpl_const_2, x);
-    goto label_5#2;
+    goto label_5;
 
-  label_5#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 10} true;
+  label_5:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 10} true;
     result.TestTaintBottom$1 := y;
     assume value_is(__ctobpl_const_3, y);
-    goto label_1#2;
+    goto label_1;
 
-  label_1#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 11} true;
+  label_1:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 11} true;
     return;
 }
 
@@ -571,43 +581,120 @@ implementation {:extern} TestTaintMiddle(x.__1: int) returns (result.TestTaintMi
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
 
-  anon0#2:
+  anon0:
     havoc_stringTemp := 0;
-    goto start#2;
+    goto start;
 
-  start#2:
+  start:
     result.TestTaintBottom$2 := 0;
     result.TestTaintMiddle$1 := 0;
     x := 0;
     y := 0;
     x := x.__1;
-    goto label_3#2;
+    goto label_3;
 
-  label_3#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 14} true;
-    goto label_4#2;
+  label_3:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 14} true;
+    goto label_4;
 
-  label_4#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 15} true;
+  label_4:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 15} true;
     assume value_is(__ctobpl_const_4, y);
     y := PLUS(y, 1, 1);
-    goto label_5#2;
+    goto label_5;
 
-  label_5#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 16} true;
+  label_5:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 16} true;
     call result.TestTaintBottom$2 := TestTaintBottom(y);
     assume value_is(__ctobpl_const_5, y);
     assume value_is(__ctobpl_const_6, y);
-    goto label_8#2;
+    goto label_8;
 
-  label_8#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 17} true;
+  label_8:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 17} true;
     result.TestTaintMiddle$1 := y;
     assume value_is(__ctobpl_const_7, y);
-    goto label_1#2;
+    goto label_1;
 
-  label_1#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 18} true;
+  label_1:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 18} true;
+    return;
+}
+
+
+
+procedure {:extern} TestTaintOther(x.__1: int) returns (result.TestTaintOther$1: int);
+  free requires INT_LT(0, alloc);
+  free ensures INT_LEQ(old(alloc), alloc);
+
+
+
+implementation {:extern} TestTaintOther(x.__1: int) returns (result.TestTaintOther$1: int)
+{
+  var {:extern} havoc_stringTemp: int;
+  var {:extern} condVal: int;
+  var {:extern} result.TestTaintBottom$2: int;
+  var {:extern} x: int;
+  var {:extern} y: int;
+  var {:extern} tempBoogie0: int;
+  var {:extern} tempBoogie1: int;
+  var {:extern} tempBoogie2: int;
+  var {:extern} tempBoogie3: int;
+  var {:extern} tempBoogie4: int;
+  var {:extern} tempBoogie5: int;
+  var {:extern} tempBoogie6: int;
+  var {:extern} tempBoogie7: int;
+  var {:extern} tempBoogie8: int;
+  var {:extern} tempBoogie9: int;
+  var {:extern} tempBoogie10: int;
+  var {:extern} tempBoogie11: int;
+  var {:extern} tempBoogie12: int;
+  var {:extern} tempBoogie13: int;
+  var {:extern} tempBoogie14: int;
+  var {:extern} tempBoogie15: int;
+  var {:extern} tempBoogie16: int;
+  var {:extern} tempBoogie17: int;
+  var {:extern} tempBoogie18: int;
+  var {:extern} tempBoogie19: int;
+
+  anon0:
+    havoc_stringTemp := 0;
+    goto start;
+
+  start:
+    result.TestTaintBottom$2 := 0;
+    result.TestTaintOther$1 := 0;
+    x := 0;
+    y := 0;
+    x := x.__1;
+    goto label_3;
+
+  label_3:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 2} true;
+    goto label_4;
+
+  label_4:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 3} true;
+    call result.TestTaintBottom$2 := TestTaintBottom(y);
+    assume value_is(__ctobpl_const_8, y);
+    assume value_is(__ctobpl_const_9, y);
+    goto label_7;
+
+  label_7:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 3} true;
+    y := result.TestTaintBottom$2;
+    assume value_is(__ctobpl_const_10, y);
+    assume value_is(__ctobpl_const_11, result.TestTaintBottom$2);
+    goto label_8;
+
+  label_8:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 4} true;
+    result.TestTaintOther$1 := y;
+    assume value_is(__ctobpl_const_12, y);
+    goto label_1;
+
+  label_1:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 5} true;
     return;
 }
 
@@ -647,44 +734,44 @@ implementation {:extern} TestTaintTop(x.__1: int) returns (result.TestTaintTop$1
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
 
-  anon0#2:
+  anon0:
     havoc_stringTemp := 0;
-    goto start#2;
+    goto start;
 
-  start#2:
+  start:
     result.TestTaintMiddle$2 := 0;
     result.TestTaintTop$1 := 0;
     x := 0;
     y := 0;
     x := x.__1;
-    goto label_3#2;
+    goto label_3;
 
-  label_3#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 21} true;
-    goto label_4#2;
+  label_3:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 21} true;
+    goto label_4;
 
-  label_4#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 22} true;
+  label_4:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 22} true;
     call result.TestTaintMiddle$2 := TestTaintMiddle(x);
-    assume value_is(__ctobpl_const_8, x);
-    assume value_is(__ctobpl_const_9, x);
-    goto label_7#2;
+    assume value_is(__ctobpl_const_13, x);
+    assume value_is(__ctobpl_const_14, x);
+    goto label_7;
 
-  label_7#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 22} true;
+  label_7:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 22} true;
     y := result.TestTaintMiddle$2;
-    assume value_is(__ctobpl_const_10, y);
-    assume value_is(__ctobpl_const_11, result.TestTaintMiddle$2);
-    goto label_8#2;
+    assume value_is(__ctobpl_const_15, y);
+    assume value_is(__ctobpl_const_16, result.TestTaintMiddle$2);
+    goto label_8;
 
-  label_8#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 23} true;
+  label_8:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 23} true;
     result.TestTaintTop$1 := y;
-    assume value_is(__ctobpl_const_12, y);
-    goto label_1#2;
+    assume value_is(__ctobpl_const_17, y);
+    goto label_1;
 
-  label_1#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testtaint\source\testtaint.c"} {:sourceline 24} true;
+  label_1:
+    assert {:sourcefile ".\source\testtaint.c"} {:sourceline 24} true;
     return;
 }
 
