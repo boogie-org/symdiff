@@ -143,7 +143,8 @@ namespace Dependency
         public Dictionary<Block, HashSet<Variable>> branchCondVars; // a mapping: branching Block -> { Variables in the branch conditional }
         public WorkList<Dependencies> worklist;
 
-        private Dictionary<Procedure, Dependencies> procTDTaint;
+        private Dictionary<Procedure, Dependencies> procEntryTDTaint;
+        private Dictionary<Procedure, Dependencies> procExitTDTaint;
         private HashSet<Procedure> changedProcs;
         private HashSet<Block> changedBlocks;
 
@@ -165,7 +166,8 @@ namespace Dependency
 
             this.worklist = new WorkList<Dependencies>();
 
-            this.procTDTaint = new Dictionary<Procedure, Dependencies>();
+            this.procEntryTDTaint = new Dictionary<Procedure, Dependencies>();
+            this.procExitTDTaint = new Dictionary<Procedure, Dependencies>();
             // populate changedProcs,changedBlock from changedLines
             this.changedBlocks = Utils.ComputeChangedBlocks(program, changeLog);
             this.changedProcs = Utils.ComputeChangedProcs(program, changeLog);
@@ -183,11 +185,11 @@ namespace Dependency
             while (!done)
 	        {
                 done = true;
-                foreach (var proc in procTDTaint.Keys)
+                foreach (var proc in procEntryTDTaint.Keys)
                 {
                     var impl = program.Implementations().Single(i => i.Proc == proc);
                     var entry = Utils.GetImplEntry(impl);
-                    if (worklist.stateSpace[entry].JoinWith(procTDTaint[impl.Proc]))
+                    if (worklist.stateSpace[entry].JoinWith(procEntryTDTaint[impl.Proc]))
                     {
                         worklist.Propagate(entry);
                         VisitImplementation(impl);
@@ -195,6 +197,9 @@ namespace Dependency
                     }
                 }
 	        }
+
+            // the top down taint was removed from ProcDependencies so it won't flow up, so add it back in now
+            procExitTDTaint.Iter(pd => ProcDependencies[pd.Key].JoinWith(pd.Value));
             return node;
         }
 
@@ -407,9 +412,9 @@ namespace Dependency
             if (calleeImpl != null)
             {
                 // propagate tainted inputs\globals to the callsite
-                if (!procTDTaint.ContainsKey(callee))
-                    procTDTaint[callee] = new Dependencies();
-                procTDTaint[callee].JoinWith(topDownTaint);
+                if (!procEntryTDTaint.ContainsKey(callee))
+                    procEntryTDTaint[callee] = new Dependencies();
+                procEntryTDTaint[callee].JoinWith(topDownTaint);
             }
 
             // handle outputs affected by the call
@@ -466,7 +471,13 @@ namespace Dependency
             ProcDependencies[proc].JoinWith(worklist.stateSpace[node]);
             ProcDependencies[proc].FixFormals(nodeToImpl[node]);
             // top down taint can't flow up
-            ProcDependencies[proc].Values.Iter(d => d.Remove(Utils.VariableUtils.TopDownTaintVar));
+            if (!procExitTDTaint.ContainsKey(proc))
+                procExitTDTaint[proc] = new Dependencies();
+            ProcDependencies[proc].Where(d => d.Value.Contains(Utils.VariableUtils.TopDownTaintVar)).Iter(dep => { 
+                dep.Value.Remove(Utils.VariableUtils.TopDownTaintVar); 
+                procExitTDTaint[proc][dep.Key] = new HashSet<Variable>(); 
+                procExitTDTaint[proc][dep.Key].Add(Utils.VariableUtils.TopDownTaintVar);
+            });
             return node;
         }
     }
