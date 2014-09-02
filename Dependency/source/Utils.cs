@@ -587,15 +587,21 @@ namespace Dependency
 
                     for (int lineNum = 1; lineNum <= srcLines.Count; ++lineNum)
                     {
-                        string line = srcLines[lineNum - 1];
+                        string line = srcLines[lineNum - 1].ToString().Replace(" ", "&nbsp;").Replace("\t", "&nbsp;&nbsp;&nbsp;");
                         if (changedLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // changed
-                            line = string.Format("<b> <i> {0}  </i> </b>", line);
+                            //line = string.Format("<b> <i> {0}  </i> </b>", line);
+                            line = string.Format("<b> <font color=\"red\"> {0} </font> </b>", line);
                         else if (taintedLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // tainted
-                            line = string.Format("<b> <u> {0} </u> </b>", line);
-                        else if (dependenciesLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // dependencies
-                            dependenciesLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).Iter(dep => line = string.Format("<pre> {0} </pre>", dep.Item4));
-                        line = ("[" + lineNum + "]").PadRight(6) + "   " + line + "<br>\n";
-                        output.Write(line.ToString().Replace(" ", "&nbsp;").Replace("\t","&nbsp;&nbsp;&nbsp;"));
+                            //line = string.Format("<b> <u> {0} </u> </b>", line);
+                            line = string.Format("<b> <font color=\"blue\"> {0} </font> </b>", line);
+                        else if (dependenciesLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum))
+                        {// dependencies
+                            string deps = null;
+                            dependenciesLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).Iter(dep => deps = string.Format("<pre> {0} </pre>", dep.Item4));
+                            line += deps;
+                        }
+                        line = ("[" + lineNum + "]").PadRight(6).ToString().Replace(" ", "&nbsp;") + "   " + line + "<br>\n";
+                        output.Write(line);
                     }
 
                 }
