@@ -677,10 +677,10 @@ namespace SDiff
           List<Declaration> impls = program.TopLevelDeclarations.Filter(x => x is Implementation);
           foreach (Implementation impl in impls)
           {
-              BigNum bigOne = BigNum.FromInt(1);
-              Expr one = Expr.Literal(bigOne);
+              BigNum bigDepth = BigNum.FromInt(Options.inlineAllRecursionDepth);
+              Expr depth = Expr.Literal(bigDepth);
               if (!Util.IsInlinedProc(impl.Proc))
-                  impl.AddAttribute("inline", one);
+                  impl.AddAttribute("inline", depth);
               impl.OriginalBlocks = impl.Blocks;
               impl.OriginalLocVars = impl.LocVars;
           }

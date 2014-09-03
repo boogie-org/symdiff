@@ -19,6 +19,7 @@ namespace SDiff
 
         //RS: flags recorded here and then discarded
         static bool inlineAll;
+        static bool inlineAllRecursionDepth; 
         static bool asserts;
         static bool justMain; //run Boogie only on main (rest are skip)
         static bool dumpEq;
@@ -74,6 +75,7 @@ namespace SDiff
           //          Console.WriteLine("\t -di             enable differential inlining");
           Console.WriteLine("\n[Options for different modes of checking]");
           Console.WriteLine("\t -nonmodular     inline callees");
+          Console.WriteLine("\t -recursionDepth:k     inline procedures upto k depth");
           Console.WriteLine("\t -localcheck     only checks the syntactically changed procedures");
           Console.WriteLine("\t -asserts        performs differential assertion checking (wrt assertions present)");
           Console.WriteLine("\t -rvt            Godlin & Strichman's method for dealing with recursion (not tested well)");
@@ -160,7 +162,7 @@ namespace SDiff
                     }
                 }
                 else if (args[i].Contains("-timeout:") || args[i].Contains("/timeout:")) {
-                    string s = args[i].Substring(9).Trim();
+                    string s = args[i].Substring(9).Trim(); //REALLY BAD CODE
                     int t = 0;
                     if (Int32.TryParse(s, out t))
                         Options.Timeout = t;
@@ -168,6 +170,19 @@ namespace SDiff
                         Console.WriteLine("Illegal argument of /timeout:n");
                         return false;
                     }
+                }
+                else if (args[i].Contains("-recursionDepth:") || args[i].Contains("/recursionDepth:"))
+                {
+                    string s = args[i].Substring("-recursionDepth:".Length).Trim();
+                    int t = 0;
+                    if (Int32.TryParse(s, out t))
+                        Options.inlineAllRecursionDepth = t;
+                    if (t <= 0)
+                    {
+                        Console.WriteLine("Illegal argument of /recursionDepth:n");
+                        return false;
+                    }
+                    Console.WriteLine("Recursion Depth = {0}", Options.inlineAllRecursionDepth);
                 }
                 else if (args[i].Contains("-boogieOpt:") || args[i].Contains("/boogieOpt:")) {
                     Options.BoogieUserOpts += " " + args[i].Substring(11).Trim();

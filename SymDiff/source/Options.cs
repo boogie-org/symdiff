@@ -41,6 +41,8 @@ namespace SDiff
     public static string BoogieUserOpts = "/doModSetAnalysis";
     public static bool OnlyConsiderReturnAsOutput = false;
 
+    public static int inlineAllRecursionDepth = 1; 
+
     public static string LoopStringIdentifier = "_loop_"; // if a function name contains this string we assume it was a loop converted into a recursive function.
     //mode where a procedure is inlined when not equal (non-recursive only) [For evaluation of diff inlining]
     public const bool InlineWhenFail = false; //make sure DifferentialInline is turned off
