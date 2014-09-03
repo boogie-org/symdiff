@@ -583,65 +583,65 @@ const {:extern} {:model_const "x"} {:sourceFile "e:\symdiff_codeplex\symdiff\dep
 
 const {:extern} {:model_const "x"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 20} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "a"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 3} unique __ctobpl_const_22: int;
-
-const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 5} unique __ctobpl_const_28: int;
-
-const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 7} unique __ctobpl_const_31: int;
-
-const {:extern} {:model_const "result.leaf"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 20} unique __ctobpl_const_15: int;
-
-const {:extern} {:model_const "d"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 8} unique __ctobpl_const_34: int;
-
-const {:extern} {:model_const "d"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 8} unique __ctobpl_const_35: int;
-
-const {:extern} {:model_const "res"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 20} unique __ctobpl_const_14: int;
-
-const {:extern} {:model_const "a"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 3} unique __ctobpl_const_21: int;
-
-const {:extern} {:model_const "result.tainted"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 4} unique __ctobpl_const_27: int;
-
-const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 7} unique __ctobpl_const_30: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_16: int;
-
-const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 6} unique __ctobpl_const_29: int;
-
-const {:extern} {:model_const "d"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 8} unique __ctobpl_const_36: int;
+const {:extern} {:model_const "c"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 7} unique __ctobpl_const_32: int;
 
 const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 27} unique __ctobpl_const_40: int;
 
-const {:extern} {:model_const "result.after"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 7} unique __ctobpl_const_33: int;
-
-const {:extern} {:model_const "c"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 7} unique __ctobpl_const_32: int;
-
-const {:extern} {:model_const "p"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 28} unique __ctobpl_const_41: int;
-
-const {:extern} {:model_const "result.before"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 3} unique __ctobpl_const_23: int;
-
 const {:extern} {:model_const "result.alias"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 8} unique __ctobpl_const_37: int;
 
-const {:extern} {:model_const "a"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 3} unique __ctobpl_const_20: int;
-
-const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 13} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "result.tainted"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 4} unique __ctobpl_const_27: int;
 
 const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 29} unique __ctobpl_const_42: int;
 
+const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 5} unique __ctobpl_const_28: int;
+
+const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 6} unique __ctobpl_const_29: int;
+
+const {:extern} {:model_const "d"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 8} unique __ctobpl_const_35: int;
+
+const {:extern} {:model_const "a"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 3} unique __ctobpl_const_20: int;
+
 const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 26} unique __ctobpl_const_39: int;
+
+const {:extern} {:model_const "i"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_16: int;
+
+const {:extern} {:model_const "result.before"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 3} unique __ctobpl_const_23: int;
+
+const {:extern} {:model_const "result.after"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 7} unique __ctobpl_const_33: int;
+
+const {:extern} {:model_const "a"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 3} unique __ctobpl_const_21: int;
+
+const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 7} unique __ctobpl_const_30: int;
 
 const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 4} unique __ctobpl_const_25: int;
 
+const {:extern} {:model_const "p"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 28} unique __ctobpl_const_41: int;
+
+const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 4} unique __ctobpl_const_26: int;
+
 const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 29} unique __ctobpl_const_43: int;
 
+const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 4} unique __ctobpl_const_24: int;
+
+const {:extern} {:model_const "res"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 20} unique __ctobpl_const_14: int;
+
+const {:extern} {:model_const "result.leaf"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 20} unique __ctobpl_const_15: int;
+
+const {:extern} {:model_const "a"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 3} unique __ctobpl_const_22: int;
+
+const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 7} unique __ctobpl_const_31: int;
+
+const {:extern} {:model_const "d"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 8} unique __ctobpl_const_36: int;
+
+const {:extern} {:model_const "d"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 8} unique __ctobpl_const_34: int;
+
 const {:extern} {:model_const "p"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 26} unique __ctobpl_const_38: int;
+
+const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 13} unique __ctobpl_const_17: int;
 
 const {:extern} {:model_const "x"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 13} unique __ctobpl_const_18: int;
 
 const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 14} unique __ctobpl_const_19: int;
-
-const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 4} unique __ctobpl_const_24: int;
-
-const {:extern} {:model_const "b"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 4} unique __ctobpl_const_26: int;
 
 const {:extern} {:model_const "y"} {:sourceFile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceLine 30} unique __ctobpl_const_44: int;
 
@@ -678,44 +678,44 @@ implementation {:extern} after(x.__1: int) returns (result.after$1: int)
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
 
-  anon0#2:
+  anon0:
     havoc_stringTemp := 0;
-    goto start#2;
+    goto start;
 
-  start#2:
+  start:
     result.after$1 := 0;
     x := 0;
     x := x.__1;
-    goto label_3#2;
+    goto label_3;
 
-  label_3#2:
+  label_3:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 34} true;
-    goto label_3_true#2, label_3_false#2;
+    goto label_3_true, label_3_false;
 
-  label_3_false#2:
+  label_3_false:
     assume !INT_LT(x, 0);
     assume value_is(__ctobpl_const_1, x);
-    goto label_4#2;
+    goto label_4;
 
-  label_4#2:
+  label_4:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 36} true;
     result.after$1 := 0;
-    goto label_1#2;
+    goto label_1;
 
-  label_3_true#2:
+  label_1:
+    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 37} true;
+    return;
+
+  label_3_true:
     assume INT_LT(x, 0);
     assume value_is(__ctobpl_const_1, x);
-    goto label_5#2;
+    goto label_5;
 
-  label_5#2:
+  label_5:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 35} true;
     result.after$1 := x;
     assume value_is(__ctobpl_const_2, x);
-    goto label_1#2;
-
-  label_1#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 37} true;
-    return;
+    goto label_1;
 }
 
 
@@ -755,48 +755,48 @@ implementation {:extern} alias(x.__1: int) returns (result.alias$1: int)
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
 
-  anon0#2:
+  anon0:
     havoc_stringTemp := 0;
-    goto start#2;
+    goto start;
 
-  start#2:
+  start:
     q := 0;
     result.alias$1 := 0;
     x := 0;
     call y := __HAVOC_det_malloc(4);
     x := x.__1;
-    goto label_3#2;
+    goto label_3;
 
-  label_3#2:
+  label_3:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 40} true;
-    goto label_4#2;
+    goto label_4;
 
-  label_4#2:
+  label_4:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 41} true;
-    goto label_5#2;
+    goto label_5;
 
-  label_5#2:
+  label_5:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 41} true;
     q := y;
     assume value_is(__ctobpl_const_3, q);
     assume value_is(__ctobpl_const_4, Mem_T.INT4[y]);
-    goto label_6#2;
+    goto label_6;
 
-  label_6#2:
+  label_6:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 42} true;
     assert q != 0;
     Mem_T.INT4 := Mem_T.INT4[q := 2];
     assume value_is(__ctobpl_const_5, q);
     assume value_is(__ctobpl_const_6, Mem_T.INT4[q]);
-    goto label_7#2;
+    goto label_7;
 
-  label_7#2:
+  label_7:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 43} true;
     result.alias$1 := Mem_T.INT4[y];
     assume value_is(__ctobpl_const_7, Mem_T.INT4[y]);
-    goto label_1#2;
+    goto label_1;
 
-  label_1#2:
+  label_1:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 44} true;
     call __HAVOC_free(y);
     return;
@@ -840,119 +840,94 @@ implementation {:extern} before(x.__1: int) returns (result.before$1: int)
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
 
-  anon0#2:
+  anon0:
     havoc_stringTemp := 0;
-    goto start#2;
+    goto start;
 
-  start#2:
+  start:
     i := 0;
     res := 0;
     result.before$1 := 0;
     result.leaf$2 := 0;
     x := 0;
     x := x.__1;
-    goto label_3#2;
+    goto label_3;
 
-  label_3#2:
+  label_3:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 18} true;
-    goto label_4#2;
+    goto label_4;
 
-  label_4#2:
+  label_4:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 18} true;
-    goto label_5#2;
+    goto label_5;
 
-  label_5#2:
+  label_5:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 18} true;
     res := 0;
     assume value_is(__ctobpl_const_8, res);
-    goto label_6#2;
+    goto label_6;
 
-  label_6#2:
+  label_6:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 19} true;
     i := 0;
     assume value_is(__ctobpl_const_9, i);
-    goto label_7#2;
+    goto label_7;
 
-  label_7#2:
+  label_7:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 19} true;
-    goto label_7_head#2;
+    goto label_7_head;
 
-  label_7_head#2:
-    goto label_7_true#2, label_7_false#2;
+  label_7_head:
+    call i, res, result.leaf$2, tempBoogie0 := before_loop_label_7_head(i, res, result.leaf$2, x, tempBoogie0);
+    goto label_7_head_last;
 
-  label_7_true#2:
-    assume INT_LT(i, 80);
-    assume value_is(__ctobpl_const_10, i);
-    goto label_9#2;
-
-  label_9#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 20} true;
-    call result.leaf$2 := leaf(x);
-    assume value_is(__ctobpl_const_12, x);
-    assume value_is(__ctobpl_const_13, x);
-    goto label_12#2;
-
-  label_12#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 20} true;
-    tempBoogie0 := PLUS(res, 1, result.leaf$2);
-    res := tempBoogie0;
-    assume value_is(__ctobpl_const_14, res);
-    assume value_is(__ctobpl_const_15, result.leaf$2);
-    goto label_13#2;
-
-  label_13#2:
-    assert {:sourcefile "unknown"} {:sourceline 0} true;
-    i := PLUS(i, 1, 1);
-    assume value_is(__ctobpl_const_16, i);
-    goto label_7_head#1;
-
-  label_7_head#1:
-    goto label_7_true#1, label_7_false#2;
-
-  label_7_false#2:
+  label_7_false:
     assume !INT_LT(i, 80);
     assume value_is(__ctobpl_const_10, i);
-    goto label_8#2;
+    goto label_8;
 
-  label_8#2:
+  label_8:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 21} true;
     result.before$1 := res;
     assume value_is(__ctobpl_const_11, res);
-    goto label_1#2;
+    goto label_1;
 
-  label_1#2:
+  label_1:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 22} true;
     return;
 
-  label_7_true#1:
+  label_7_true:
     assume INT_LT(i, 80);
     assume value_is(__ctobpl_const_10, i);
-    goto label_9#1;
+    goto label_9;
 
-  label_9#1:
+  label_9:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 20} true;
     call result.leaf$2 := leaf(x);
     assume value_is(__ctobpl_const_12, x);
     assume value_is(__ctobpl_const_13, x);
-    goto label_12#1;
+    goto label_12;
 
-  label_12#1:
+  label_12:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 20} true;
     tempBoogie0 := PLUS(res, 1, result.leaf$2);
     res := tempBoogie0;
     assume value_is(__ctobpl_const_14, res);
     assume value_is(__ctobpl_const_15, result.leaf$2);
-    goto label_13#1;
+    goto label_13;
 
-  label_13#1:
+  label_13:
     assert {:sourcefile "unknown"} {:sourceline 0} true;
     i := PLUS(i, 1, 1);
     assume value_is(__ctobpl_const_16, i);
-    goto label_7_head#0;
+    goto label_13_dummy;
 
-  label_7_head#0:
+  label_13_dummy:
     assume false;
     return;
+
+  label_7_head_last:
+    goto label_7_true, label_7_false;
 }
 
 
@@ -991,35 +966,35 @@ implementation {:extern} leaf(x.__1: int) returns (result.leaf$1: int)
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
 
-  anon0#2:
+  anon0:
     havoc_stringTemp := 0;
-    goto start#2;
+    goto start;
 
-  start#2:
+  start:
     result.leaf$1 := 0;
     x := 0;
     y := 0;
     x := x.__1;
-    goto label_3#2;
+    goto label_3;
 
-  label_3#2:
+  label_3:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 13} true;
-    goto label_4#2;
+    goto label_4;
 
-  label_4#2:
+  label_4:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 13} true;
     y := PLUS(x, 1, 1);
     assume value_is(__ctobpl_const_17, y);
     assume value_is(__ctobpl_const_18, x);
-    goto label_5#2;
+    goto label_5;
 
-  label_5#2:
+  label_5:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 14} true;
     result.leaf$1 := y;
     assume value_is(__ctobpl_const_19, y);
-    goto label_1#2;
+    goto label_1;
 
-  label_1#2:
+  label_1:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 15} true;
     return;
 }
@@ -1062,102 +1037,102 @@ implementation {:extern} main() returns (result.main$1: int)
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
 
-  anon0#2:
+  anon0:
     havoc_stringTemp := 0;
-    goto start#2;
+    goto start;
 
-  start#2:
+  start:
     result.after$4 := 0;
     result.alias$5 := 0;
     result.before$2 := 0;
     result.main$1 := 0;
     result.tainted$3 := 0;
-    goto label_3#2;
+    goto label_3;
 
-  label_3#2:
+  label_3:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 3} true;
     call result.before$2 := before(a);
     assume value_is(__ctobpl_const_20, a);
     assume value_is(__ctobpl_const_21, a);
-    goto label_6#2;
+    goto label_6;
 
-  label_6#2:
+  label_6:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 3} true;
     a := result.before$2;
     assume value_is(__ctobpl_const_22, a);
     assume value_is(__ctobpl_const_23, result.before$2);
-    goto label_7#2;
+    goto label_7;
 
-  label_7#2:
+  label_7:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 4} true;
     call result.tainted$3 := tainted(b);
     assume value_is(__ctobpl_const_24, b);
     assume value_is(__ctobpl_const_25, b);
-    goto label_10#2;
+    goto label_10;
 
-  label_10#2:
+  label_10:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 4} true;
     b := result.tainted$3;
     assume value_is(__ctobpl_const_26, b);
     assume value_is(__ctobpl_const_27, result.tainted$3);
-    goto label_11#2;
+    goto label_11;
 
-  label_11#2:
+  label_11:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 5} true;
-    goto label_11_true#2, label_11_false#2;
+    goto label_11_true, label_11_false;
 
-  label_11_false#2:
+  label_11_false:
     assume !INT_LT(b, 0);
     assume value_is(__ctobpl_const_28, b);
-    goto label_12#2;
+    goto label_12;
 
-  label_11_true#2:
-    assume INT_LT(b, 0);
-    assume value_is(__ctobpl_const_28, b);
-    goto label_15#2;
-
-  label_15#2:
-    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 6} true;
-    b := 0;
-    assume value_is(__ctobpl_const_29, b);
-    goto label_12#2;
-
-  label_12#2:
+  label_12:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 7} true;
     call result.after$4 := after(b);
     assume value_is(__ctobpl_const_30, b);
     assume value_is(__ctobpl_const_31, b);
-    goto label_16#2;
+    goto label_16;
 
-  label_16#2:
+  label_16:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 7} true;
     c := result.after$4;
     assume value_is(__ctobpl_const_32, c);
     assume value_is(__ctobpl_const_33, result.after$4);
-    goto label_17#2;
+    goto label_17;
 
-  label_17#2:
+  label_17:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 8} true;
     call result.alias$5 := alias(d);
     assume value_is(__ctobpl_const_34, d);
     assume value_is(__ctobpl_const_35, d);
-    goto label_20#2;
+    goto label_20;
 
-  label_20#2:
+  label_20:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 8} true;
     d := result.alias$5;
     assume value_is(__ctobpl_const_36, d);
     assume value_is(__ctobpl_const_37, result.alias$5);
-    goto label_21#2;
+    goto label_21;
 
-  label_21#2:
+  label_21:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 9} true;
     result.main$1 := 0;
-    goto label_1#2;
+    goto label_1;
 
-  label_1#2:
+  label_1:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 10} true;
     return;
+
+  label_11_true:
+    assume INT_LT(b, 0);
+    assume value_is(__ctobpl_const_28, b);
+    goto label_15;
+
+  label_15:
+    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 6} true;
+    b := 0;
+    assume value_is(__ctobpl_const_29, b);
+    goto label_12;
 }
 
 
@@ -1198,64 +1173,124 @@ implementation {:extern} tainted(x.__1: int) returns (result.tainted$1: int)
   var {:extern} tempBoogie18: int;
   var {:extern} tempBoogie19: int;
 
-  anon0#2:
+  anon0:
     havoc_stringTemp := 0;
-    goto start#2;
+    goto start;
 
-  start#2:
+  start:
     p := 0;
     result.leaf$2 := 0;
     result.tainted$1 := 0;
     x := 0;
     call y := __HAVOC_det_malloc(4);
     x := x.__1;
-    goto label_3#2;
+    goto label_3;
 
-  label_3#2:
+  label_3:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 25} true;
-    goto label_4#2;
+    goto label_4;
 
-  label_4#2:
+  label_4:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 26} true;
-    goto label_5#2;
+    goto label_5;
 
-  label_5#2:
+  label_5:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 26} true;
     p := y;
     assume value_is(__ctobpl_const_38, p);
     assume value_is(__ctobpl_const_39, Mem_T.INT4[y]);
-    goto label_6#2;
+    goto label_6;
 
-  label_6#2:
+  label_6:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 27} true;
     assume value_is(__ctobpl_const_40, Mem_T.INT4[y]);
     tempBoogie0 := MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.INT4[y], 1, 1);
     Mem_T.INT4 := Mem_T.INT4[y := tempBoogie0];
-    goto label_7#2;
+    goto label_7;
 
-  label_7#2:
+  label_7:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 28} true;
     assume value_is(__ctobpl_const_41, p);
     p := PLUS(p, 4, 1);
-    goto label_8#2;
+    goto label_8;
 
-  label_8#2:
+  label_8:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 29} true;
     call result.leaf$2 := leaf(Mem_T.INT4[y]);
     assume value_is(__ctobpl_const_42, Mem_T.INT4[y]);
     assume value_is(__ctobpl_const_43, Mem_T.INT4[y]);
-    goto label_11#2;
+    goto label_11;
 
-  label_11#2:
+  label_11:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 30} true;
     result.tainted$1 := Mem_T.INT4[y];
     assume value_is(__ctobpl_const_44, Mem_T.INT4[y]);
-    goto label_1#2;
+    goto label_1;
 
-  label_1#2:
+  label_1:
     assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 31} true;
     call __HAVOC_free(y);
     return;
 }
+
+
+
+implementation before_loop_label_7_head(in_i: int, in_res: int, in_result.leaf$2: int, in_x: int, in_tempBoogie0: int)
+   returns (out_i: int, out_res: int, out_result.leaf$2: int, out_tempBoogie0: int)
+{
+
+  entry:
+    out_i, out_res, out_result.leaf$2, out_tempBoogie0 := in_i, in_res, in_result.leaf$2, in_tempBoogie0;
+    goto label_7_head;
+
+  label_7_head:
+    goto label_7_true, label_7_false;
+
+  label_7_false:
+    assume !INT_LT(out_i, 80);
+    assume value_is(__ctobpl_const_10, out_i);
+    out_i, out_res, out_result.leaf$2, out_tempBoogie0 := in_i, in_res, in_result.leaf$2, in_tempBoogie0;
+    a, b, c, d := old(a), old(b), old(c), old(d);
+    return;
+
+  label_13:
+    assert {:sourcefile "unknown"} {:sourceline 0} true;
+    out_i := PLUS(out_i, 1, 1);
+    assume value_is(__ctobpl_const_16, out_i);
+    goto label_13_dummy;
+
+  label_12:
+    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 20} true;
+    out_tempBoogie0 := PLUS(out_res, 1, out_result.leaf$2);
+    out_res := out_tempBoogie0;
+    assume value_is(__ctobpl_const_14, out_res);
+    assume value_is(__ctobpl_const_15, out_result.leaf$2);
+    goto label_13;
+
+  label_9:
+    assert {:sourcefile "e:\symdiff_codeplex\symdiff\dependency\test\regression\testdemo\v1\demo.c"} {:sourceline 20} true;
+    call out_result.leaf$2 := leaf(in_x);
+    assume value_is(__ctobpl_const_12, in_x);
+    assume value_is(__ctobpl_const_13, in_x);
+    goto label_12;
+
+  label_7_true:
+    assume INT_LT(out_i, 80);
+    assume value_is(__ctobpl_const_10, out_i);
+    goto label_9;
+
+  label_13_dummy:
+    call {:si_unique_call 1} out_i, out_res, out_result.leaf$2, out_tempBoogie0 := before_loop_label_7_head(out_i, out_res, out_result.leaf$2, in_x, out_tempBoogie0);
+    return;
+
+  exit:
+    return;
+}
+
+
+
+procedure before_loop_label_7_head(in_i: int, in_res: int, in_result.leaf$2: int, in_x: int, in_tempBoogie0: int)
+   returns (out_i: int, out_res: int, out_result.leaf$2: int, out_tempBoogie0: int);
+  modifies a, b, c, d;
 
 

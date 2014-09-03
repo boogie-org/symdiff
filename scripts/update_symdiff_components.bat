@@ -1,4 +1,6 @@
 REM Usage update_symdiff_components <PATH-TO-SYMDIFF-SHAREPOINT-DISTRIBUTION>
+REM Expect that one has run scripts\setup.cmd from the codeplex project
+
 
 set SYMDIFF_DISTR_ROOT=%1
 

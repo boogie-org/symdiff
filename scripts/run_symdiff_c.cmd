@@ -70,6 +70,8 @@ my $genBplsOnly = 0;
 
 my $stripAbsolutePathsInBpl = 0;
 
+my $optString = "";
+
 sub Error{
   my $msg = shift;
   print "ERROR::$msg";
@@ -87,12 +89,13 @@ sub PrintUsage{
 
   print "\n  [Analysis options]\n";
   print "\t  /lu:k : unroll loops k times (default 2)\n";
+  print "\t  /loopExtract : extract loops as deterministic tail recursive procedures (FSE'13 DAC)\n";
   print "\t  /localcheck : report differences only in procedures with changes\n";
   print "\t  /nonmodular : inline everything\n";
-  print "\t  /diffinline : differential inlining\n";
+#  print "\t  /diffinline : differential inlining\n";
   print "\t  /bv         : use when using bit vectors in boogie file\n";
   print "\t  /boogiewrapper:  use the BoogieWrapper.exe (useful for large examples with outOfMem exceptions)\n";
-
+  print "\t  /opts:\"<option-string>\" : option-string is passed to -allInOne\n";
 
 
   print "\n  [Functions to analyze options]\n";
@@ -107,7 +110,7 @@ sub PrintUsage{
 
   print "\n  [Other options --- not well tested]\n";
   print "\t  /oneproc : don't perform differential checking (checks only 1 procedure for /asserts)\n";
-  print "\t  /rvt : use rvt option\n";
+  print "\t  /rvt : use rvt option (currently same as /loopExtract, RVT analysis deprecated) \n";
   print "\t  /skipbpl : do NOT generate test.bpl (reuse existing test.bpl)\n";
   print "\t  /asserts : Replace assertions with OK\n";
   print "\t  /justmain : just analyze the main function\n";
@@ -221,9 +224,13 @@ sub ProcessOptions {
       $sound = "-sound";
       print "Performing a sound analysis...\n";
     }
-    elsif($opt =~ /^\/rvt$/){
+    elsif($opt =~ /^\/rvt$/ || $opt =~ /^\/loopExtract/){
       $rvt = 1;
-      print "Using RVT for handling recursion...\n";
+      print "Extracting loops as recursive procedures....\n";
+    }
+    elsif($opt =~ /^\/opts:(.*)$/){
+      $optString = $1;
+      print "Passing $1 to symdiff.exe -allInOne\n";
     }
     elsif($opt =~ /^\/genBplsOnly$/){
       $genBplsOnly = 1;
@@ -451,7 +458,7 @@ sub ProcessCDir{
   sleep(2); #get "access violation in oacr otherwise"
 
   if ($rvt eq 1){
-    print "Extracting loops as recursive procedures....\n";
+    #print "Extracting loops as recursive procedures....\n";
     MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -extractLoops test.tmp.bpl test.unr.bpl >> havoc.log");
   } else {
     print "Unrolling loops $loopUnrollCount times....\n";
@@ -753,7 +760,7 @@ if ($genBplsOnly eq 1) {
 
 
 #generate config file
-my $rvtstr = "";
+my $rvtstr = ""; 
 if ($rvt eq 1) {
     $rvtstr = "-rvt";
 }
@@ -771,12 +778,13 @@ if ($dumpeq ne "") {
 MyExec("rm -f EQ*");
 
 #run symdiff
-MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne $dir1name.bpl $dir2name.bpl $configFile $rvtstr $nonmodular $asserts $justmain $localcheck $oneproc $usemutual $sound $boogiewrapper $syntacticEqOpt $diffinline $enumpaths $cexstr $returnOnlyStr $notrace $boogieopts > $dir1name$dir2name.log");
+$rvtstr = ""; #-rvt option to symdiff.exe deprecate for now
+MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne $dir1name.bpl $dir2name.bpl $configFile $rvtstr $nonmodular $asserts $justmain $localcheck $oneproc $usemutual $sound $boogiewrapper $syntacticEqOpt $diffinline $enumpaths $cexstr $returnOnlyStr $optString $notrace $boogieopts > $dir1name$dir2name.log");
 #generate the call graph view
-if ($rvt eq 1 && ($pophtml eq 1)){
-  MyExec("dot -Tjpeg final1.gv > final1.jpeg");
-  MyExec("dot -Tjpeg final2.gv > final2.jpeg");
-}
+# if ($rvt eq 1 && ($pophtml eq 1)){
+#   MyExec("dot -Tjpeg final1.gv > final1.jpeg");
+#   MyExec("dot -Tjpeg final2.gv > final2.jpeg");
+# }
 
 #generate html log
 MyExec("$symdiff_root\\scripts\\cygwin_binaries\\grep CTrace $dir1name$dir2name.log > clog");

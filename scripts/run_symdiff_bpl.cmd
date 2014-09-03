@@ -45,7 +45,7 @@ sub PrintUsage{
 
 my $v1 = "";
 my $v2 = "";
-my $luCount = -1;
+my $luCount = 2;
 my $rvt = 0;
 my $configFile = "";
 my $returnOnlyStr = "";
@@ -80,7 +80,7 @@ sub ProcessOptions {
     }
     if($opt =~ /^\/opts:(.*)$/){
       $optString = $1;
-      print "Passing $1 to symdiff.exe\n";
+      print "Passing $1 to symdiff.exe -allInOne\n";
     }
     elsif($opt =~ /^\/returnOnly$/){
       $returnOnlyStr = "-returnAsOnlyOutput -localcheck";
@@ -108,19 +108,19 @@ ProcessOptions();
 if ($rvt eq 1){
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -extractLoops $v1.bpl _v1.bpl");
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -extractLoops $v2.bpl _v2.bpl");
-} elsif (not ($luCount eq -1)){
+} else {
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $luCount $v1.bpl _v1.bpl");
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $luCount $v2.bpl _v2.bpl");
-} else {
-  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll 2 $v1.bpl _v1.bpl");
-  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll 2 $v2.bpl _v2.bpl");
 }
 
 MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig _v1.bpl _v2.bpl > _v1_v2.config"); 
 
-if ($rvt eq 1){
-  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config -rvt $returnOnlyStr $optString > $v1$v2.log"); 
-} else {
-  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString > $v1$v2.log"); 
-}
+MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString > $v1$v2.log"); 
+
+#-rvt option to symdiff.exe deprecate for now
+#if ($rvt eq 1){
+#  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config -rvt $returnOnlyStr $optString > $v1$v2.log"); 
+#} else {
+#  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString > $v1$v2.log"); 
+#}
  
