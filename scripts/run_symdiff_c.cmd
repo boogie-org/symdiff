@@ -445,7 +445,7 @@ sub ProcessCDir{
   if ($skipbpl eq 0){
     MyExec("$cmd >> havoc.log"); #redirect the havoc.cmd's output
   }
-  $cmd = "grep -v \"__LOOP_\" test.bpl > test.tmp.bpl";
+  $cmd = "grep -v \"__LOOP_\" test.bpl  > test.tmp.bpl";
   MyExec($cmd);
 
   sleep(2); #get "access violation in oacr otherwise"
@@ -732,6 +732,10 @@ MyExec("$symdiff_root\\scripts\\cygwin_binaries\\sed -i s/\\{:inline.*true\\}//g
 ## Replace $$ with :\ in file path
 MyExec("$symdiff_root\\scripts\\cygwin_binaries\\sed -i s/\\\$\\\$/:\\\\/g $dir1name.bpl");
 MyExec("$symdiff_root\\scripts\\cygwin_binaries\\sed -i s/\\\$\\\$/:\\\\/g $dir2name.bpl");
+
+# Replace assert {:sourcefile "unknown"} {:sourceline 0} true; --> skip
+#MyExec("$symdiff_root\\scripts\\cygwin_binaries\\sed -i s/.*sourcefile \"unknown\".*//g $dir1name.bpl");
+#MyExec("$symdiff_root\\scripts\\cygwin_binaries\\sed -i s/.*sourcefile \"unknown\".*//g $dir2name.bpl");
 
 
 

@@ -797,6 +797,9 @@ namespace SDiff
              hack = file.Replace("$$", ":\\");
          else
              hack = file;
+
+         //Sometimes we see lines such as     assert {:sourcefile "unknown"} {:sourceline 0} true;
+         if (file == "unknown") continue; 
         Console.Write("Trying to read " + file + "...");
         StreamReader reader;
         //RS: Hack

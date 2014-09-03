@@ -29,6 +29,7 @@ namespace Dependency
             public const string timeout = "/timeout";
             public const string abstractNonTainted = "/abstractNonTainted"; //generate a program with non-tainted parts abstracted
             public const string splitMapsWithAliasAnalysis = "/splitMapsWithAliasAnalysis";
+            public const string stripValueIs = "/stripValueIs";
         }
 
         static public bool DataOnly = false;
@@ -44,6 +45,7 @@ namespace Dependency
         static public int Timeout = 1000;
         static public bool AbstractNonTainted = false;
         static public bool SplitMapsWithAliasAnalysis = false;
+        static public bool StripValueIs = false;
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
@@ -115,6 +117,8 @@ namespace Dependency
 
             AbstractNonTainted = args.Any(x => x.ToLower() == CmdLineOptsNames.abstractNonTainted.ToLower());
 
+            StripValueIs = args.Any(x => x.ToLower() == CmdLineOptsNames.stripValueIs.ToLower());
+
             if (args.Any(x => x.ToLower() == CmdLineOptsNames.debug.ToLower()))
                 Debugger.Launch();
             #endregion 
@@ -131,7 +135,8 @@ namespace Dependency
             //turn asserts/requires/ensures to free counterparts (assume/free req/free ens)
             Utils.StripContracts(program);
             //cleanup assume value_is, as we are not printing a trace now
-            (new Utils.RemoveValueIsAssumes()).Visit(program);
+            if (StripValueIs)
+                (new Utils.RemoveValueIsAssumes()).Visit(program);
             // create explicit variables for conditionals
             (new Utils.AddExplicitConditionalVars()).Visit(program);
             #endregion 
