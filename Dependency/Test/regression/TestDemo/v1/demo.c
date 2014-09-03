@@ -1,5 +1,5 @@
+int a,b,c,d;
 int main() {
-	int a,b,c,d;
 	a = before(a);
 	b = tainted(b);
 	if (b < 0)
