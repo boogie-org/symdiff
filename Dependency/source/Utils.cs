@@ -630,34 +630,53 @@ namespace Dependency
             }
             public override GotoCmd VisitGotoCmd(GotoCmd node)
             {
-                // replace {goto A,B;} {A: assume (e); ... } {B: assume (!e); ... }
-                // with {c = e; goto A,B;} {A: assume (c); ... } {B: assume(!c); ... }
+                // replace {goto A,B,C;} {A: assume (e1); ... } {B: assume (e2); ... } {C: assume (e3); ... }
+                // with {c1 = e1; c2 = e2; c3 = e3; goto A,B,C;} {A: assume (c1); ... } {B: assume(c2); ... } {B: assume(c3); ... }
                 var succs = node.labelTargets;
-                if (succs.Count == 2)
+                if (succs.Count > 1)
                 {
-                    var s1 = succs[0].Cmds[0] as AssumeCmd;
-                    var s2 = succs[1].Cmds[0] as AssumeCmd;
-                    if (s1 != null && s2 != null)
+                    foreach (var succ in succs)
                     {
-                        // TODO: hacky, this assertion is here to strengthen the assumption that gotos with 2 successors will always be a negation of one another
-                        Debug.Assert(Expr.Not(s2.Expr).ToString() == s1.Expr.ToString() ||
-                                     Expr.Not(s1.Expr).ToString() == s2.Expr.ToString() ||
-                                     s1.Expr.ToString().Replace("!=", "==") == s2.Expr.ToString() ||
-                                     s2.Expr.ToString().Replace("!=", "==") == s1.Expr.ToString());
-                        // create a fresh variable
-                        var v = new LocalVariable(Token.NoToken,new TypedIdent(Token.NoToken, currBlock.Label + "_Cond", Microsoft.Boogie.Type.Bool));
-                        currImpl.LocVars.Add(v);
-                        var id = new IdentifierExpr(Token.NoToken, new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, currBlock.Label + "_Cond", Microsoft.Boogie.Type.Bool)));
-                        // create and add the assignment
-                        var lhs = new List<AssignLhs>();
-                        lhs.Add(new SimpleAssignLhs(Token.NoToken, id));
-                        var rhs = new List<Expr>();
-                        rhs.Add(s1.Expr);
-                        currBlock.Cmds.Add(new AssignCmd(Token.NoToken,lhs, rhs));
-                        // replace the goto destinations expressions
-                        s1.Expr = id;
-                        s2.Expr = Expr.Not(id);
+                        var cmd = succ.Cmds[0] as AssumeCmd;
+                        if (cmd != null)
+                        {
+                            // create a fresh variable
+                            var v = new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, succ.Label + "_Cond", Microsoft.Boogie.Type.Bool));
+                            currImpl.LocVars.Add(v);
+                            var id = new IdentifierExpr(Token.NoToken, v);
+                            // create and add the assignment
+                            var lhs = new List<AssignLhs>();
+                            lhs.Add(new SimpleAssignLhs(Token.NoToken, id));
+                            var rhs = new List<Expr>();
+                            rhs.Add(cmd.Expr);
+                            currBlock.Cmds.Add(new AssignCmd(Token.NoToken, lhs, rhs));
+                            // replace the goto destinations expressions
+                            cmd.Expr = id;
+                        }
                     }
+                    //var s1 = succs[0].Cmds[0] as AssumeCmd;
+                    //var s2 = succs[1].Cmds[0] as AssumeCmd;
+                    //if (s1 != null && s2 != null)
+                    //{
+                    //    // TODO: hacky, this assertion is here to strengthen the assumption that gotos with 2 successors will always be a negation of one another
+                    //    Debug.Assert(Expr.Not(s2.Expr).ToString() == s1.Expr.ToString() ||
+                    //                 Expr.Not(s1.Expr).ToString() == s2.Expr.ToString() ||
+                    //                 s1.Expr.ToString().Replace("!=", "==") == s2.Expr.ToString() ||
+                    //                 s2.Expr.ToString().Replace("!=", "==") == s1.Expr.ToString());
+                    //    // create a fresh variable
+                    //    var v = new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, currBlock.Label + "_Cond", Microsoft.Boogie.Type.Bool));
+                    //    currImpl.LocVars.Add(v);
+                    //    var id = new IdentifierExpr(Token.NoToken, new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, currBlock.Label + "_Cond", Microsoft.Boogie.Type.Bool)));
+                    //    // create and add the assignment
+                    //    var lhs = new List<AssignLhs>();
+                    //    lhs.Add(new SimpleAssignLhs(Token.NoToken, id));
+                    //    var rhs = new List<Expr>();
+                    //    rhs.Add(s1.Expr);
+                    //    currBlock.Cmds.Add(new AssignCmd(Token.NoToken, lhs, rhs));
+                    //    // replace the goto destinations expressions
+                    //    s1.Expr = id;
+                    //    s2.Expr = Expr.Not(id);
+                    //}
                 }
                 return node;
             }
