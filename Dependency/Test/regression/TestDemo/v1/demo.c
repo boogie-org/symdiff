@@ -24,8 +24,8 @@ int before(int x) {
 int tainted(int x) {
 	int y;
 	int *p = &y;
-	y--; // line change
-	*p++;
+	y = y - 1; // line change
+	++*p;
 	leaf(y); 
 	return y; 
 }

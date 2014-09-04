@@ -30,6 +30,12 @@ sub MyExec{
     system("$cmd ");
 }
 
+sub MyExecAndDieOnFailure{
+    my $cmd = shift;
+    my $status = MyExec($cmd);
+    die unless $status eq 0;
+}
+
 my $dir1 = "";
 my $dir2 = "";
 
@@ -464,10 +470,10 @@ sub ProcessCDir{
 
   if ($rvt eq 1){
     #print "Extracting loops as recursive procedures....\n";
-    MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -extractLoops test.tmp.bpl test.unr.bpl >> havoc.log");
+    MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -extractLoops test.tmp.bpl test.unr.bpl >> havoc.log");
   } else {
     print "Unrolling loops $loopUnrollCount times....\n";
-    MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $loopUnrollCount test.tmp.bpl test.unr.bpl >> havoc.log");
+    MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $loopUnrollCount test.tmp.bpl test.unr.bpl >> havoc.log");
   }
 
   #may need to go back multiple levels
@@ -673,7 +679,7 @@ sub AbstractNonTainted{
   my $bpl = shift;
   my $changedLinesFile = shift;
   
-  MyExec("dependency.exe $bpl.bpl /taint:$changedLinesFile /abstractNonTainted "); #outputs to $bpl.abstractNonTainted.bpl
+  MyExecAndDieOnFailure("dependency.exe $bpl.bpl /taint:$changedLinesFile /abstractNonTainted "); #outputs to $bpl.abstractNonTainted.bpl
   return $bpl . ".bpl.taintAbstract";
 }
 
@@ -780,8 +786,13 @@ if ($abstractNonTainted eq 1) {
   } 
   my $v1 = AbstractNonTainted($dir1name, "$dir1name\\changed_lines.txt");
   my $v2 = AbstractNonTainted($dir2name, "$dir2name\\changed_lines.txt");
-  MyExec("xcopy /Y /Q /I $v1.bpl $dir1name.bpl");
-  MyExec("xcopy /Y /Q /I $v2.bpl $dir2name.bpl");
+  #the files are called v1.bpl.taintAbstract.bpl, the presence of "." in filename confuses symdiff.exe
+  my $newV1 = $dir1name . "_ta";
+  my $newV2 = $dir2name . "_ta";
+  MyExec("copy /Y $v1.bpl  $newV1.bpl"); #renaming v1.bpl destroys the pristine files
+  MyExec("copy /Y $v2.bpl  $newV2.bpl"); #renaming v1.bpl destroys the pristine files
+  $dir1name = $newV1;
+  $dir2name = $newV2;
 }
 
 
@@ -792,20 +803,20 @@ if ($rvt eq 1) {
 }
 
 if ($configFile eq ""){
-   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig $dir1name.bpl $dir2name.bpl > $dir1name$dir2name.config");
+   MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig $dir1name.bpl $dir2name.bpl > $dir1name$dir2name.config");
    $configFile = "$dir1name$dir2name.config";
 }
 
 #run symdiff for equivalence and dump output
 if ($dumpeq ne "") {
-  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne $dir1name.bpl $dir2name.bpl $configFile $dumpeq> $dir1name$dir2name.log");
+  MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne $dir1name.bpl $dir2name.bpl $configFile $dumpeq> $dir1name$dir2name.log");
 }
 
 MyExec("rm -f EQ*");
 
 #run symdiff
 $rvtstr = ""; #-rvt option to symdiff.exe deprecate for now
-MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne $dir1name.bpl $dir2name.bpl $configFile $rvtstr $nonmodular $asserts $justmain $localcheck $oneproc $usemutual $sound $boogiewrapper $syntacticEqOpt $diffinline $enumpaths $cexstr $returnOnlyStr $optString $notrace $boogieopts > $dir1name$dir2name.log");
+MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne $dir1name.bpl $dir2name.bpl $configFile $rvtstr $nonmodular $asserts $justmain $localcheck $oneproc $usemutual $sound $boogiewrapper $syntacticEqOpt $diffinline $enumpaths $cexstr $returnOnlyStr $optString $notrace $boogieopts > $dir1name$dir2name.log");
 #generate the call graph view
 # if ($rvt eq 1 && ($pophtml eq 1)){
 #   MyExec("dot -Tjpeg final1.gv > final1.jpeg");
@@ -832,6 +843,7 @@ if ($pophtml eq 1){
   system("$dir1name$dir2name.html");
 }
 
-close OUTPUT; 
+close OUTPUT;
+print("Commands written to symdiff.output, and output redirected to $dir1name$dir2name.log\n"); 
 print("Done.\n");
 exit(1);

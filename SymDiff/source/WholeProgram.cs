@@ -244,6 +244,16 @@ namespace SDiff
                 Log.Out(Log.Error, "Programs must have different filenames");
                 return 1;
             }
+            if (p1Prefix.Contains("."))
+            {
+                Log.Out(Log.Error, "Input files dont have . in them except .bpl, got " + v1name);
+                return 1;
+            }
+            if (p2Prefix.Contains("."))
+            {
+                Log.Out(Log.Error, "Input files dont have . in them except .bpl, got " + v2name);
+                return 1;
+            }
             if (!ParseArgs(args)) return 1;
             Log.Out(Log.Normal, "Parsing config file");
             try
@@ -1275,7 +1285,7 @@ namespace SDiff
             ///////////////////////////////////////////////////
             // Command line parsing
             ///////////////////////////////////////////////////
-            if (ParseCmdLine(args) == 1) return 1;
+            if (ParseCmdLine(args) == 1) throw new Exception("Parsing failed");
             List<string> InequalProc = GetInequalProcsFromDumpEqFiles(); //RS
             //////////////////////////////
             // Parse the two programs
