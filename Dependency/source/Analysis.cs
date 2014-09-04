@@ -50,6 +50,7 @@ namespace Dependency
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int, string>> dependenciesLog = new List<Tuple<string, string, int, string>>();
+        static private List<Tuple<string, string, int, string>> taintedModSetLog = new List<Tuple<string, string, int, string>>();
         static private List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>> statsLog = new List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>>();
         static private string statsFile;
 
@@ -155,7 +156,8 @@ namespace Dependency
 
 
             #region Display and Log
-            var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog);
+
+            var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog, taintedModSetLog);
             displayHtml.GenerateHtmlOutput(filename + ".html");
             Console.WriteLine("Output generated in " + filename + ".html");
 
@@ -221,6 +223,11 @@ namespace Dependency
 
             string depStr = "<b> " + which + " for " + proc.Name + "(): (Size = " + deps.Sum(d => d.Value.Count) + ")</b> " + deps.ToString();
             dependenciesLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, depStr));
+            string taintedModSetStr = "{ ";
+            deps.Iter(d => taintedModSetStr += (Utils.VariableUtils.IsTainted(d.Value) ? (Utils.DisplayHtmlHelper.TaintMarkerPre + d.Key + Utils.DisplayHtmlHelper.TaintMarkerPost) : d.Key.ToString()) + ", ");
+            taintedModSetStr += " }";
+            taintedModSetLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, taintedModSetStr));
+
         }
 
         static public void PopulateTaintLog(Implementation node, IEnumerable<Block> taintedBlocks)

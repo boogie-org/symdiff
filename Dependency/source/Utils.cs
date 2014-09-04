@@ -520,15 +520,20 @@ namespace Dependency
 
         public class DisplayHtmlHelper
         {
+            public static string TaintMarkerPre = "<taint>";
+            public static string TaintMarkerPost = "</taint>";
+
             HashSet<string> srcFiles;
             List<Tuple<string, string, int>> changedLines;  //{(file, func, line),..}
             List<Tuple<string, string, int>> taintedLines; //{(file, func, line), ..}
             List<Tuple<string, string, int, string>> dependenciesLines; //{(file, func, line, {v1 <- {...},... vn <- {...}})}
-            public DisplayHtmlHelper(List<Tuple<string, string, int>> changedLines, List<Tuple<string, string, int>> taintedLines, List<Tuple<string, string, int, string>> dependenciesLines)
+            List<Tuple<string, string, int, string>> taintedModSetLines; //{(file, func, line, {v1, ..., vn})}
+            public DisplayHtmlHelper(List<Tuple<string, string, int>> changedLines, List<Tuple<string, string, int>> taintedLines, List<Tuple<string, string, int, string>> dependenciesLines, List<Tuple<string, string, int, string>> taintedModSetLines)
             {
                 this.changedLines = changedLines;
                 this.taintedLines = taintedLines;
                 this.dependenciesLines = dependenciesLines;
+                this.taintedModSetLines = taintedModSetLines;
                 this.srcFiles = new HashSet<string>();
                 this.srcFiles.UnionWith(changedLines.Select(t => t.Item1));
                 this.srcFiles.UnionWith(taintedLines.Select(t => t.Item1));
@@ -594,6 +599,12 @@ namespace Dependency
                         else if (taintedLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // tainted
                             //line = string.Format("<b> <u> {0} </u> </b>", line);
                             line = string.Format("<b> <font color=\"blue\"> {0} </font> </b>", line);
+                        else if (taintedModSetLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum))
+                        {
+                            string taintedModset = null;
+                            taintedModSetLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).Iter(t => taintedModset = string.Format("</br> <b> Outputs: </b> {0} ", t.Item4.Replace(TaintMarkerPre,"<b> <font color=\"blue\">").Replace(TaintMarkerPost,"</font> </b>")));
+                            line += taintedModset;
+                        }
                         else if (dependenciesLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum))
                         {// dependencies
                             string deps = null;
