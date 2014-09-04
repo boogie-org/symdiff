@@ -16,7 +16,7 @@ int leaf(int x) {
 
 int before(int x) {
 	int i, res = 0;
-	for (i = 0; i < 80; ++i)
+	for (i = 0; i < 1024; ++i)
 		res += leaf(x);
 	return res;
 }
