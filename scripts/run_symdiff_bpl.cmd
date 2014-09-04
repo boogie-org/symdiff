@@ -37,7 +37,7 @@ sub PrintUsage{
   print "usage: run_symdiff_c v1 v2 [/options]\n";
   print "\t  v1, v2: to analyze the files v1.bpl v2.bpl\n";
   print "\t  /lu:k : unroll loops k times (default 1)\n";
-  print "\t  /rvt : use rvt option\n";
+  print "\t  /rvt : use rvt option (deprecated to only mean extract loops (if any) as tail-recursive procedures\n";
   print "\t  /useConfig:file : use file as the config file (default auto generated)\n";
   print "\t  /opts:\"<option-string>\" : option-string is passed to -allInOne\n";
   die "\n";

@@ -69,8 +69,8 @@ my $boogieopts = "";
 my $genBplsOnly = 0;
 
 my $stripAbsolutePathsInBpl = 0;
-
 my $optString = "";
+my $abstractNonTainted = 0;
 
 sub Error{
   my $msg = shift;
@@ -93,6 +93,7 @@ sub PrintUsage{
   print "\t  /localcheck : report differences only in procedures with changes\n";
   print "\t  /nonmodular : inline everything\n";
 #  print "\t  /diffinline : differential inlining\n";
+  print "\t  /abstractNonTainted : abstract code shown to be not tainted by static analysis \n";
   print "\t  /bv         : use when using bit vectors in boogie file\n";
   print "\t  /boogiewrapper:  use the BoogieWrapper.exe (useful for large examples with outOfMem exceptions)\n";
   print "\t  /opts:\"<option-string>\" : option-string is passed to -allInOne\n";
@@ -187,6 +188,10 @@ sub ProcessOptions {
     elsif($opt =~ /^\/nonmodular$/){
       $nonmodular = "-nonmodular";
       print "Inlining Everything...\n";
+    }
+    elsif($opt =~ /^\/abstractNonTainted$/){
+      $abstractNonTainted = 1;
+      print "Running taint analysis to determine tainted blocks...\n";
     }
     elsif($opt =~ /^\/diffinline$/){
       $diffinline = "-di";
@@ -526,7 +531,7 @@ sub GetModifiedFileInfo {
       if ($l2 != undef)
       {
         for (++$l1; $l1<=$l2; ++$l1)
-        {
+	  {
 	  $lineArr[$n++] = $l1;diffInfo
         }
       }
@@ -663,6 +668,16 @@ sub GetWfDirName{
 }
 
 
+# logic related to abstractNonTainted
+sub AbstractNonTainted{
+  my $bpl = shift;
+  my $changedLinesFile = shift;
+  
+  MyExec("dependency.exe $bpl.bpl /taint:$changedLinesFile /abstractNonTainted "); #outputs to $bpl.abstractNonTainted.bpl
+  return $bpl . ".bpl.taintAbstract";
+}
+
+
 ###### Main processing #######
 
 ProcessOptions();
@@ -756,6 +771,17 @@ if ($stripAbsolutePathsInBpl eq 1) {
 
 if ($genBplsOnly eq 1) {
   exit(1);
+}
+
+# taint abstraction logic
+if ($abstractNonTainted eq 1) {
+  if($analyzeCallersOnly eq 0){
+    die "Using /abstractNonTainted only permitted with /analyzeChangedCallersOnly\n";
+  } 
+  my $v1 = AbstractNonTainted($dir1name, "$dir1name\\changed_lines.txt");
+  my $v2 = AbstractNonTainted($dir2name, "$dir2name\\changed_lines.txt");
+  MyExec("xcopy /Y /Q /I $v1.bpl $dir1name.bpl");
+  MyExec("xcopy /Y /Q /I $v2.bpl $dir2name.bpl");
 }
 
 
