@@ -723,16 +723,73 @@ namespace Dependency
         {
             static public Graph<Procedure> ComputeCallGraph(Program program)
             {
-                Graph<Procedure> result = new Graph<Procedure>();
+                Graph<Procedure> graph = new Graph<Procedure>();
 
-                foreach (Implementation impl in program.TopLevelDeclarations.Where(x => x is Implementation))
+                foreach (Implementation impl in program.Implementations())
                 {
-                    result.AddSource(impl.Proc);
+                    graph.AddSource(impl.Proc);
                     foreach (var b in impl.Blocks)
                         foreach (CallCmd c in b.Cmds.Where(c => c is CallCmd))
-                            result.AddEdge(impl.Proc, c.Proc);
+                            graph.AddEdge(impl.Proc, c.Proc);
                 }
-                return result;
+
+                //program.Implementations().Iter(impl => { if (graph.Nodes.Contains(impl.Proc) && graph.Predecessors(impl.Proc).Count() == 0) graph.AddSource(impl.Proc); });
+                return graph;
+            }
+
+            public static List<SCC<Procedure>> ComputeOrderedSCCs(Graph<Procedure> graph)
+            {
+
+                Adjacency<Procedure> next = new Adjacency<Procedure>(graph.Successors);
+                Adjacency<Procedure> prev = new Adjacency<Procedure>(graph.Predecessors);
+
+                var sccs = new StronglyConnectedComponents<Procedure>(graph.Nodes, next, prev);
+                sccs.Compute();
+                //sccs.Iter(s => { s.Iter(p => Console.Write(p + ", ")); Console.WriteLine(); });
+
+                var order = sccs.ToList();
+                for (int i = 0; i < order.Count; i++)
+			    {
+                    for (int j = i + 1; j < order.Count; j++)
+                        Debug.Assert(order[i].All(p => order[j].All(p2 => !graph.Edge(p2,p))));
+			    }
+
+                //List<SCC<Procedure>> order = new List<SCC<Procedure>>(), oldSCCs = new List<SCC<Procedure>>(sccs);
+                //while (oldSCCs.Count > 0)
+                //{
+                //    var highest = oldSCCs.FirstOrDefault(s => s.All(p => sccs.Where(s2 => s2 != s).All(s2 => s2.All(p2 => !graph.Edge(p2,p)))));
+                //    if (highest == null)
+                //    {
+                //        order.AddRange(oldSCCs);
+                //        break;
+                //    }
+                //    oldSCCs.Remove(highest);
+                //    order.Add(highest);
+                //}
+
+                //foreach (var s in sccs)
+                //{
+                //    foreach (var s2 in sccs)
+                //    {
+                //        if (order.Contains(s) && order.Contains(s2))
+                //            continue;
+                //        if (s.Any(p => s2.Any(p2 => graph.Edge(p, p2))))
+                //        {
+                //            if (order.Contains(s))
+                //                order.Insert(order.IndexOf(s) + 1, s2);
+                //            else if (order.Contains(s2))
+                //                order.Insert(order.IndexOf(s2), s);
+                //            else
+                //            {
+                //                order.Add(s);
+                //                if (s != s2)
+                //                    order.Add(s2);
+                //            }
+                //            continue;
+                //        }
+                //    }
+                //}
+                return order;
             }
 
             static public Dictionary<int, HashSet<Procedure>> BFS(Graph<Procedure> cg)

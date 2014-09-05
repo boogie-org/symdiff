@@ -178,22 +178,51 @@ namespace Dependency
 
         public override Program VisitProgram(Program node)
         {
-            program.Implementations().Iter(impl => Visit(impl));
+            var orderedSCCs = Utils.CallGraphHelper.ComputeOrderedSCCs(callGraph);
+            orderedSCCs.Reverse();
+            foreach (var scc in orderedSCCs)
+            {
+                foreach (var proc in scc)
+                {
+                    var impl = node.Implementations().FirstOrDefault(i => i.Proc == proc);
+                    if (impl == null)
+                        continue;
+                    Visit(impl);
+                }
+                foreach (var proc in scc)
+                {
+                    var impl = node.Implementations().FirstOrDefault(i => i.Proc == proc);
+                    if (impl == null)
+                        continue;
+                    Analysis.PopulateTaintLog(impl, Utils.ExtractTaint(this));
+                }
+                worklist.stateSpace.Clear();
+            }
+
+            //node.Implementations().Iter(impl => Visit(impl));
 
             // compute top down taint
-            bool done = false;
-            while (!done)
+            //bool done = false;
+            //while (!done)
+            //{
+            //    done = true;
+            orderedSCCs.Reverse();
+            foreach (var scc in orderedSCCs)
 	        {
-                done = true;
-                foreach (var proc in procEntryTDTaint.Keys)
+                //foreach (var proc in procEntryTDTaint.Keys)
+                foreach (var proc in scc)
                 {
+                    if (!procEntryTDTaint.ContainsKey(proc))
+                        continue;
                     var impl = program.Implementations().Single(i => i.Proc == proc);
                     var entry = Utils.GetImplEntry(impl);
+                    if (!worklist.stateSpace.ContainsKey(entry))
+                        worklist.stateSpace[entry] = new Dependencies();
                     if (worklist.stateSpace[entry].JoinWith(procEntryTDTaint[impl.Proc]))
                     {
                         worklist.Propagate(entry);
-                        VisitImplementation(impl);
-                        done = false;
+                        Visit(impl);
+                        //done = false;
                     }
                 }
 	        }

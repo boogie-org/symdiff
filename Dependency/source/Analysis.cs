@@ -223,10 +223,13 @@ namespace Dependency
 
             string depStr = "<b> " + which + " for " + proc.Name + "(): (Size = " + deps.Sum(d => d.Value.Count) + ")</b> " + deps.ToString();
             dependenciesLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, depStr));
-            string taintedModSetStr = "{ ";
-            deps.Iter(d => taintedModSetStr += (Utils.VariableUtils.IsTainted(d.Value) ? (Utils.DisplayHtmlHelper.TaintMarkerPre + d.Key + Utils.DisplayHtmlHelper.TaintMarkerPost) : d.Key.ToString()) + ", ");
-            taintedModSetStr += " }";
-            taintedModSetLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, taintedModSetStr));
+            if (changeLog.Count > 0)
+            {
+                string taintedModSetStr = "{ ";
+                deps.Iter(d => taintedModSetStr += (Utils.VariableUtils.IsTainted(d.Value) ? (Utils.DisplayHtmlHelper.TaintMarkerPre + d.Key + Utils.DisplayHtmlHelper.TaintMarkerPost) : d.Key.ToString()) + ", ");
+                taintedModSetStr += " }";
+                taintedModSetLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, taintedModSetStr));
+            }
 
         }
 

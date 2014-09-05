@@ -29,8 +29,10 @@ namespace Dependency
                 int index = currBlock.Cmds.IndexOf((Cmd)node);
                 if (index == 0)
                     state = GatherBlockPredecessorsState(currBlock, state);
-                else
+                else if (stateSpace.ContainsKey(currBlock.Cmds[index - 1]))
                     state = (AbsState)stateSpace[currBlock.Cmds[index - 1]].Clone();
+                else
+                    state = new AbsState();
             }
             else if (node is TransferCmd)
             {
