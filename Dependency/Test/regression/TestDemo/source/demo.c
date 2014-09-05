@@ -16,7 +16,7 @@ int leaf(int x) {
 
 int before(int x) {
 	int i, res = 0;
-	for (i = 0; i < 1024; ++i)
+	for (i = 0; i < 1024; i++)
 		res += leaf(x);
 	return res;
 }
@@ -25,7 +25,7 @@ int tainted(int x) {
 	int y;
 	int *p = &y;
 	y = y + 1; // line change
-	++*p;
+	*p = *p + 1;
 	leaf(y); 
 	return y; 
 }

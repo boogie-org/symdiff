@@ -557,97 +557,101 @@ var {:extern} d: int;
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "x"} {:sourceFile ".\source\demo.c"} {:sourceLine 35} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "* q"} {:sourceFile ".\source\demo.c"} {:sourceLine 42} unique __ctobpl_const_6: int;
 
 const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 43} unique __ctobpl_const_7: int;
 
 const {:extern} {:model_const "x"} {:sourceFile ".\source\demo.c"} {:sourceLine 34} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "q"} {:sourceFile ".\source\demo.c"} {:sourceLine 42} unique __ctobpl_const_5: int;
-
-const {:extern} {:model_const "* q"} {:sourceFile ".\source\demo.c"} {:sourceLine 42} unique __ctobpl_const_6: int;
-
-const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 4} unique __ctobpl_const_25: int;
-
-const {:extern} {:model_const "result.tainted"} {:sourceFile ".\source\demo.c"} {:sourceLine 4} unique __ctobpl_const_27: int;
-
-const {:extern} {:model_const "a"} {:sourceFile ".\source\demo.c"} {:sourceLine 3} unique __ctobpl_const_22: int;
-
-const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 13} unique __ctobpl_const_17: int;
-
-const {:extern} {:model_const "res"} {:sourceFile ".\source\demo.c"} {:sourceLine 18} unique __ctobpl_const_8: int;
-
-const {:extern} {:model_const "i"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_16: int;
-
-const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 4} unique __ctobpl_const_26: int;
-
-const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 5} unique __ctobpl_const_28: int;
-
-const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 6} unique __ctobpl_const_29: int;
-
-const {:extern} {:model_const "a"} {:sourceFile ".\source\demo.c"} {:sourceLine 3} unique __ctobpl_const_21: int;
-
-const {:extern} {:model_const "result.before"} {:sourceFile ".\source\demo.c"} {:sourceLine 3} unique __ctobpl_const_23: int;
-
-const {:extern} {:model_const "res"} {:sourceFile ".\source\demo.c"} {:sourceLine 21} unique __ctobpl_const_11: int;
-
-const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 7} unique __ctobpl_const_30: int;
-
-const {:extern} {:model_const "c"} {:sourceFile ".\source\demo.c"} {:sourceLine 7} unique __ctobpl_const_32: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\source\demo.c"} {:sourceLine 19} unique __ctobpl_const_9: int;
-
-const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 7} unique __ctobpl_const_31: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\demo.c"} {:sourceLine 20} unique __ctobpl_const_13: int;
-
-const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 14} unique __ctobpl_const_19: int;
-
-const {:extern} {:model_const "result.after"} {:sourceFile ".\source\demo.c"} {:sourceLine 7} unique __ctobpl_const_33: int;
-
-const {:extern} {:model_const "d"} {:sourceFile ".\source\demo.c"} {:sourceLine 8} unique __ctobpl_const_34: int;
-
-const {:extern} {:model_const "d"} {:sourceFile ".\source\demo.c"} {:sourceLine 8} unique __ctobpl_const_35: int;
-
-const {:extern} {:model_const "result.leaf"} {:sourceFile ".\source\demo.c"} {:sourceLine 20} unique __ctobpl_const_15: int;
-
-const {:extern} {:model_const "d"} {:sourceFile ".\source\demo.c"} {:sourceLine 8} unique __ctobpl_const_36: int;
-
-const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 4} unique __ctobpl_const_24: int;
-
-const {:extern} {:model_const "result.alias"} {:sourceFile ".\source\demo.c"} {:sourceLine 8} unique __ctobpl_const_37: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\demo.c"} {:sourceLine 20} unique __ctobpl_const_12: int;
-
-const {:extern} {:model_const "x"} {:sourceFile ".\source\demo.c"} {:sourceLine 13} unique __ctobpl_const_18: int;
-
-const {:extern} {:model_const "a"} {:sourceFile ".\source\demo.c"} {:sourceLine 3} unique __ctobpl_const_20: int;
-
-const {:extern} {:model_const "res"} {:sourceFile ".\source\demo.c"} {:sourceLine 20} unique __ctobpl_const_14: int;
-
-const {:extern} {:model_const "i"} {:sourceFile ".\source\demo.c"} {:sourceLine 19} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\demo.c"} {:sourceLine 35} unique __ctobpl_const_2: int;
 
 const {:extern} {:model_const "q"} {:sourceFile ".\source\demo.c"} {:sourceLine 41} unique __ctobpl_const_3: int;
 
 const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 41} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 27} unique __ctobpl_const_40: int;
+const {:extern} {:model_const "q"} {:sourceFile ".\source\demo.c"} {:sourceLine 42} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 29} unique __ctobpl_const_44: int;
+const {:extern} {:model_const "x"} {:sourceFile ".\source\demo.c"} {:sourceLine 20} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 30} unique __ctobpl_const_46: int;
+const {:extern} {:model_const "res"} {:sourceFile ".\source\demo.c"} {:sourceLine 20} unique __ctobpl_const_14: int;
+
+const {:extern} {:model_const "res"} {:sourceFile ".\source\demo.c"} {:sourceLine 18} unique __ctobpl_const_8: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\source\demo.c"} {:sourceLine 19} unique __ctobpl_const_9: int;
+
+const {:extern} {:model_const "i"} {:sourceFile ".\source\demo.c"} {:sourceLine 19} unique __ctobpl_const_10: int;
+
+const {:extern} {:model_const "res"} {:sourceFile ".\source\demo.c"} {:sourceLine 21} unique __ctobpl_const_11: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\source\demo.c"} {:sourceLine 20} unique __ctobpl_const_12: int;
+
+const {:extern} {:model_const "p"} {:sourceFile ".\source\demo.c"} {:sourceLine 28} unique __ctobpl_const_44: int;
+
+const {:extern} {:model_const "a"} {:sourceFile ".\source\demo.c"} {:sourceLine 3} unique __ctobpl_const_21: int;
+
+const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 4} unique __ctobpl_const_25: int;
+
+const {:extern} {:model_const "c"} {:sourceFile ".\source\demo.c"} {:sourceLine 7} unique __ctobpl_const_32: int;
+
+const {:extern} {:model_const "result.before"} {:sourceFile ".\source\demo.c"} {:sourceLine 3} unique __ctobpl_const_23: int;
+
+const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 4} unique __ctobpl_const_26: int;
+
+const {:extern} {:model_const "d"} {:sourceFile ".\source\demo.c"} {:sourceLine 8} unique __ctobpl_const_34: int;
+
+const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 6} unique __ctobpl_const_29: int;
+
+const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 7} unique __ctobpl_const_31: int;
+
+const {:extern} {:model_const "d"} {:sourceFile ".\source\demo.c"} {:sourceLine 8} unique __ctobpl_const_36: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 14} unique __ctobpl_const_19: int;
 
 const {:extern} {:model_const "p"} {:sourceFile ".\source\demo.c"} {:sourceLine 26} unique __ctobpl_const_38: int;
 
-const {:extern} {:model_const "p"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_42: int;
+const {:extern} {:model_const "result.tainted"} {:sourceFile ".\source\demo.c"} {:sourceLine 4} unique __ctobpl_const_27: int;
+
+const {:extern} {:model_const "result.alias"} {:sourceFile ".\source\demo.c"} {:sourceLine 8} unique __ctobpl_const_37: int;
+
+const {:extern} {:model_const "result.leaf"} {:sourceFile ".\source\demo.c"} {:sourceLine 20} unique __ctobpl_const_15: int;
 
 const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 27} unique __ctobpl_const_41: int;
 
-const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 29} unique __ctobpl_const_45: int;
+const {:extern} {:model_const "i"} {:sourceFile ".\source\demo.c"} {:sourceLine 19} unique __ctobpl_const_16: int;
 
-const {:extern} {:model_const "* p"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_43: int;
+const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 5} unique __ctobpl_const_28: int;
+
+const {:extern} {:model_const "a"} {:sourceFile ".\source\demo.c"} {:sourceLine 3} unique __ctobpl_const_20: int;
+
+const {:extern} {:model_const "a"} {:sourceFile ".\source\demo.c"} {:sourceLine 3} unique __ctobpl_const_22: int;
+
+const {:extern} {:model_const "d"} {:sourceFile ".\source\demo.c"} {:sourceLine 8} unique __ctobpl_const_35: int;
+
+const {:extern} {:model_const "result.after"} {:sourceFile ".\source\demo.c"} {:sourceLine 7} unique __ctobpl_const_33: int;
+
+const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 7} unique __ctobpl_const_30: int;
 
 const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 26} unique __ctobpl_const_39: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 27} unique __ctobpl_const_40: int;
+
+const {:extern} {:model_const "p"} {:sourceFile ".\source\demo.c"} {:sourceLine 28} unique __ctobpl_const_42: int;
+
+const {:extern} {:model_const "* p"} {:sourceFile ".\source\demo.c"} {:sourceLine 28} unique __ctobpl_const_43: int;
+
+const {:extern} {:model_const "x"} {:sourceFile ".\source\demo.c"} {:sourceLine 13} unique __ctobpl_const_18: int;
+
+const {:extern} {:model_const "b"} {:sourceFile ".\source\demo.c"} {:sourceLine 4} unique __ctobpl_const_24: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 13} unique __ctobpl_const_17: int;
+
+const {:extern} {:model_const "* p"} {:sourceFile ".\source\demo.c"} {:sourceLine 28} unique __ctobpl_const_45: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 29} unique __ctobpl_const_46: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 30} unique __ctobpl_const_48: int;
+
+const {:extern} {:model_const "y"} {:sourceFile ".\source\demo.c"} {:sourceLine 29} unique __ctobpl_const_47: int;
 
 procedure {:extern} after(x.__1: int) returns (result.after$1: int);
   free requires INT_LT(0, alloc);
@@ -921,9 +925,9 @@ implementation {:extern} before(x.__1: int) returns (result.before$1: int)
     goto label_13;
 
   label_13:
-    assert {:sourcefile "unknown"} {:sourceline 0} true;
-    i := PLUS(i, 1, 1);
+    assert {:sourcefile ".\source\demo.c"} {:sourceline 19} true;
     assume value_is(__ctobpl_const_16, i);
+    i := PLUS(i, 1, 1);
     goto label_13_dummy;
 
   label_13_dummy:
@@ -1213,25 +1217,27 @@ implementation {:extern} tainted(x.__1: int) returns (result.tainted$1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "unknown"} {:sourceline 0} true;
+    assert {:sourcefile ".\source\demo.c"} {:sourceline 28} true;
     assert p != 0;
-    tempBoogie0 := PLUS(Mem_T.INT4[p], 1, 1);
-    Mem_T.INT4 := Mem_T.INT4[p := tempBoogie0];
+    assert p != 0;
+    Mem_T.INT4 := Mem_T.INT4[p := PLUS(Mem_T.INT4[p], 1, 1)];
     assume value_is(__ctobpl_const_42, p);
     assume value_is(__ctobpl_const_43, Mem_T.INT4[p]);
+    assume value_is(__ctobpl_const_44, p);
+    assume value_is(__ctobpl_const_45, Mem_T.INT4[p]);
     goto label_8;
 
   label_8:
     assert {:sourcefile ".\source\demo.c"} {:sourceline 29} true;
     call result.leaf$2 := leaf(Mem_T.INT4[y]);
-    assume value_is(__ctobpl_const_44, Mem_T.INT4[y]);
-    assume value_is(__ctobpl_const_45, Mem_T.INT4[y]);
+    assume value_is(__ctobpl_const_46, Mem_T.INT4[y]);
+    assume value_is(__ctobpl_const_47, Mem_T.INT4[y]);
     goto label_11;
 
   label_11:
     assert {:sourcefile ".\source\demo.c"} {:sourceline 30} true;
     result.tainted$1 := Mem_T.INT4[y];
-    assume value_is(__ctobpl_const_46, Mem_T.INT4[y]);
+    assume value_is(__ctobpl_const_48, Mem_T.INT4[y]);
     goto label_1;
 
   label_1:
@@ -1261,9 +1267,9 @@ implementation before_loop_label_7_head(in_i: int, in_res: int, in_result.leaf$2
     return;
 
   label_13:
-    assert {:sourcefile "unknown"} {:sourceline 0} true;
-    out_i := PLUS(out_i, 1, 1);
+    assert {:sourcefile ".\source\demo.c"} {:sourceline 19} true;
     assume value_is(__ctobpl_const_16, out_i);
+    out_i := PLUS(out_i, 1, 1);
     goto label_13_dummy;
 
   label_12:
