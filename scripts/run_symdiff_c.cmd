@@ -92,6 +92,7 @@ sub PrintUsage{
   print "\t  /nocpp : do not pass -TP to the C compiler (to compile older C files such as siemens suite)\n";
   print "\t  /genBplsOnly:  stop after generating v1.bpl and v2.bpl\n";
   print "\t  /stripAbsolutePathsInBpl:  keep paths relative to where run_symdiff_c.cmd is invoked\n";
+  print "\t  /skipbpl : do NOT generate test.bpl (reuse existing test.bpl from v1 and v2)\n";
 
   print "\n  [Analysis options]\n";
   print "\t  /lu:k : unroll loops k times (default 2)\n";
@@ -118,7 +119,6 @@ sub PrintUsage{
   print "\n  [Other options --- not well tested]\n";
   print "\t  /oneproc : don't perform differential checking (checks only 1 procedure for /asserts)\n";
   print "\t  /rvt : use rvt option (currently same as /loopExtract, RVT analysis deprecated) \n";
-  print "\t  /skipbpl : do NOT generate test.bpl (reuse existing test.bpl)\n";
   print "\t  /asserts : Replace assertions with OK\n";
   print "\t  /justmain : just analyze the main function\n";
   print "\t  /usemutual : use mutual summaries\n";
@@ -390,11 +390,14 @@ sub ProcessCDir{
     $cmd = "$havoc_dll_dir\havoc.cmd /smv";
   }
   $cmd = "$cmd $ascpp "; # to control the -TP option
-  GenerateChangedFile();
+
+  if ($skipbpl eq 0) {
+    GenerateChangedFile();
+  }
 
   #generate the public_funcs.txt from the changedFile
   #MyExec("attrib -R public_funcs.txt*");
-  if (not($changedFile eq "")){
+  if (($skipbpl eq 0) && not($changedFile eq "")){
     my $newcmd = $cmd;
     #MyExec("cp  public_funcs.txt public_funcs.txt.old\n");
     #MyExec("attrib -R public_funcs.*");
@@ -463,8 +466,12 @@ sub ProcessCDir{
   if ($skipbpl eq 0){
     MyExec("$cmd >> havoc.log"); #redirect the havoc.cmd's output
   }
-  $cmd = "grep -v \"__LOOP_\" test.bpl  > test.tmp.bpl";
+  
+  # remove the annoying parse error due to 
+  #test.tmp.bpl(82752,0): Error: call to undeclared procedure: FKKERNEL_ROUTINE_stub
+  $cmd = "grep -v \"__LOOP_\" test.bpl  | grep -v \"F.*_stub\" > test.tmp.bpl";
   MyExec($cmd);
+
 
   sleep(2); #get "access violation in oacr otherwise"
 
