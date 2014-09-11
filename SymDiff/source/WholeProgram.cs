@@ -80,6 +80,8 @@ namespace SDiff
           Console.WriteLine("\t -asserts        performs differential assertion checking (wrt assertions present)");
           Console.WriteLine("\t -rvt            Godlin & Strichman's method for dealing with recursion (not tested well)");
           Console.WriteLine("\t -returnAsOnlyOutput     only considers retuns as the output of a procedure (input is all globals read + params)");
+          Console.WriteLine("\t -outvar:\"<name>\"  only compares output variables with substring <name> (needs -splitOutputEqualities). Can specify multiple -outvar:\"x\" -outvar:\"y\"");
+
 
           Console.WriteLine("\n[Options for the configuration]");
           Console.WriteLine("\t -timeout:n      sets the timeout to n seconds");
@@ -186,6 +188,10 @@ namespace SDiff
                 }
                 else if (args[i].Contains("-boogieOpt:") || args[i].Contains("/boogieOpt:")) {
                     Options.BoogieUserOpts += " " + args[i].Substring(11).Trim();
+                }
+                else if (args[i].Contains("-outvar:") || args[i].Contains("/outvar:"))
+                {
+                    Options.OutputVars.Add(args[i].Substring("-outvar:".Length).Trim());
                 }
                 else if (args[i].Contains("-synEq:") || args[i].Contains("/synEq:"))
                 {

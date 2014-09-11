@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Boogie;
 using B = SDiff.Boogie;
 using SDiff.Boogie;
@@ -176,7 +177,7 @@ namespace SDiff
       }
 
       StateBlock outputEqualityState = new StateBlock(numComparables, StateBlock.StateKind.FormalOut);
-      Expr[] outputEqualityExprs = new Expr[numComparables];
+      Tuple<Expr,Variable>[] outputEqualityExprs = new Tuple<Expr,Variable>[numComparables];
       outputEqualityState.Initialize(Microsoft.Boogie.Type.Bool);
 
       IdentifierExpr[]
@@ -189,20 +190,20 @@ namespace SDiff
 
       for (int i = 0; i < savedOutputs.Count; i++)
       {
-        outputEqualityExprs[i] = EmitEq(comparisonPrec2Vars[i], comparisonOutIds[i], ignoreSet);
+          outputEqualityExprs[i] = Tuple.Create(EmitEq(comparisonPrec2Vars[i], comparisonOutIds[i], ignoreSet), comparisonOutIds[i].Decl);
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d1.Name + "_" + outs1[i].Name, savedOutputs.Decls[i]));
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d2.Name + "_" + outs2[i].Name, outs2[i]));
       }
       for (int i = 0; i < savedc1Globals.Count; i++)
       {
-        outputEqualityExprs[savedOutputs.Count + i] = EmitEq(comparisonPostc1Vars[i], comparisonGlobals[i], ignoreSet);
+        outputEqualityExprs[savedOutputs.Count + i] = Tuple.Create(EmitEq(comparisonPostc1Vars[i], comparisonGlobals[i], ignoreSet), comparisonGlobals[i].Decl);
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d1.Name + "_" + globals[i].Name, savedc1Globals.Decls[i]));
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d2.Name + "_" + globals[i].Name, globals[i]));
       }
       //new: we translate equalities as havoc lhs; lhs := lhs || x == x'; to enable diff counterexamples for each equality
       //havoc all lhs
       HavocCmd hcmd = new HavocCmd(Token.NoToken, outputEqualityState.Idents.ToList());
-      List<Expr> rhs = new List<Expr>(outputEqualityExprs);
+      List<Expr> rhs = new List<Expr>(outputEqualityExprs.Map(i => i.Item1));
       for (int i = 0; i < rhs.Count; ++i)
           rhs[i] = Expr.Or(outputEqualityState.Idents[i], rhs[i]); 
       List<AssignLhs> lhs =
@@ -237,7 +238,19 @@ namespace SDiff
 
       List<Ensures> outputPostConditions = new List<Ensures>();
       if (Options.splitOutputEqualities)
+      {
           outputPostConditions.AddRange(outputEqualityState.Idents.Map(y => new Ensures(false, y)));
+          System.Diagnostics.Debug.Assert(outputEqualityState.Count == outputEqualityExprs.Length);
+          for (int i = 0; i < outputPostConditions.Count; ++i)
+          {
+              var name = outputEqualityExprs[i].Item2.Name;
+              //check if name matches with at least one of the outputVars patterns
+              if (Options.OutputVars.Count() > 0 && !Options.OutputVars.Any(x => name.Contains(x)))
+                  outputPostConditions[i] = new Ensures(true, outputPostConditions[i].Condition);
+              outputPostConditions[i].Attributes =
+                  new QKeyValue(Token.NoToken, "EqVar", new List<object>() { name }, null);
+          }
+      }
       else if (!Options.EnumerateAllPaths)
           outputPostConditions.Add(new Ensures(false, B.U.BigAnd(outputEqualityState.Idents)));
       else //assert(false) causes all the paths to be enumerated

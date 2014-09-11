@@ -252,7 +252,13 @@ namespace SDiff
 
             Log.Out(Log.Normal, outcome.ToString());
 
-            Log.Out(Log.Verifier, (errors == null ? 0 : errors.Count) + " counterexamples.");
+            var eqVarName = "";
+            if (errors != null && errors.Count() == 1)
+            {
+                //eqVarName = errors[0];
+            }
+
+            Log.Out(Log.Verifier, (errors == null ? 0 : errors.Count) + " counterexamples...");
 
             if (errors != null)
             {

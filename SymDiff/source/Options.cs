@@ -40,6 +40,7 @@ namespace SDiff
     public static int Timeout = 200; //default timeout for each check
     public static string BoogieUserOpts = "/doModSetAnalysis";
     public static bool OnlyConsiderReturnAsOutput = false;
+    public static HashSet<string> OutputVars = new HashSet<string>(); 
 
     public static int inlineAllRecursionDepth = 1; 
 
