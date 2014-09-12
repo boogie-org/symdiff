@@ -510,4 +510,43 @@ namespace Dependency
             return node;
         }
     }
+
+    public class DependencyWriter : StandardVisitor
+    {
+        Program prog;
+        Dictionary<Procedure, Dependencies> allDeps;
+
+        public DependencyWriter(Program prog, Dictionary<Procedure, Dependencies> allDeps)
+        {
+            this.prog = prog;
+            this.allDeps = allDeps;
+        }
+
+        public override Procedure VisitProcedure(Procedure node)
+        {
+            //stub procedures may not have dependencies
+            if (!allDeps.ContainsKey(node)) return base.VisitProcedure(node);
+            //add the dependencies as ensures
+            var depEnsures = new List<Ensures>();
+            var deps = allDeps[node];
+            foreach(var kv in deps)
+            {
+                var ens = new Ensures(true, Expr.True);
+                var outvar = kv.Key;
+                Debug.Assert(outvar is GlobalVariable || node.OutParams.Contains(outvar), "Dependency should only contain globals/outputs as key");
+                var invars = kv.Value.ToList(); //some order
+                invars.Iter(i => Debug.Assert(i is GlobalVariable || node.InParams.Contains(i), "Dependency should only globals/inputs as values"));
+                var varL = new List<string>() { outvar.Name };
+                //don't add variables such as * and ~
+                invars.RemoveAll(x => x.Name == Utils.VariableUtils.NonDetVar.Name 
+                    || x.Name == Utils.VariableUtils.BottomUpTaintVar.Name 
+                    || x.Name == Utils.VariableUtils.TopDownTaintVar.Name);
+                varL.AddRange(invars.Select(i => i.Name));
+                ens.Attributes = new QKeyValue(Token.NoToken, "io_dependency", varL.Select(x => (object) x).ToList(), null);
+                depEnsures.Add(ens);
+            }
+            node.Ensures = depEnsures;
+            return base.VisitProcedure(node);
+        }
+    }
 }

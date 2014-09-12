@@ -30,6 +30,7 @@ namespace Dependency
             public const string abstractNonTainted = "/abstractNonTainted"; //generate a program with non-tainted parts abstracted
             public const string splitMapsWithAliasAnalysis = "/splitMapsWithAliasAnalysis";
             public const string stripValueIs = "/stripValueIs";
+            public const string annotateDependencies = "/annotateDependencies";
         }
 
         static public bool DataOnly = false;
@@ -44,6 +45,7 @@ namespace Dependency
         static public bool noMinUnsatCore = false;
         static public int Timeout = 1000;
         static public bool AbstractNonTainted = false;
+        static public bool AnnotateDependencies = false;
         static public bool SplitMapsWithAliasAnalysis = false;
         static public bool StripValueIs = false;
         
@@ -117,6 +119,8 @@ namespace Dependency
             noMinUnsatCore = args.Any(x => x.ToLower() == CmdLineOptsNames.noMinUnsatCore.ToLower());
 
             AbstractNonTainted = args.Any(x => x.ToLower() == CmdLineOptsNames.abstractNonTainted.ToLower());
+
+            AnnotateDependencies = args.Any(x => x.ToLower() == CmdLineOptsNames.annotateDependencies.ToLower());
 
             StripValueIs = args.Any(x => x.ToLower() == CmdLineOptsNames.stripValueIs.ToLower());
 
@@ -310,6 +314,18 @@ namespace Dependency
                 });          
             }));
             #endregion
+
+
+            //output dependency in a bpl file
+            if (AnnotateDependencies)
+            {
+                Utils.DependenciesUtils.PruneProcDependencies(program, allDeps); //for now we prune it
+                (new DependencyWriter(program, allDeps)).Visit(program);
+                var depFileName = filename + "_w_dep.bpl";
+                Utils.PrintProgram(program, depFileName);
+                Console.WriteLine("Adding dependencies to program to {0}", depFileName);
+                return;
+            }
 
             ProcReadSetVisitor rsVisitor = new ProcReadSetVisitor();
             if (ReadSet)
