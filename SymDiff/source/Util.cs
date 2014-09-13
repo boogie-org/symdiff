@@ -397,6 +397,10 @@ namespace SDiff
       {
           return s.Substring(prefix.Length);
       }
+      public static string TrimPrefixWithDot(string s, string prefix)
+      {
+          return TrimStart(s, prefix + ".");
+      }
 
       //printing stuff
       public static string BufEmit(Log.Emitter emitter)

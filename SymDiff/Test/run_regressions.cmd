@@ -72,14 +72,14 @@ sub GetStats {
 #       $result  = "$1, $2, $3, $4";
 #     }
   
-	if( (($dac == 1) && ($line =~ /Boogie program verifier finished with/)) || # look for the line "Boogie program verifier finished with X verified, Y error"
-		($line =~ /Verifier\[0\]: Result/) ) { 
-	  $result = $result . " " . $line;
-	}
+    if( (($dac == 1) && ($line =~ /Boogie program verifier finished with/)) || # look for the line "Boogie program verifier finished with X verified, Y error"
+	($line =~ /Verifier\[0\]: Result/) ) { 
+      $result = $result . " " . $line;
+    }
   }	
   if ($result eq "") { 
     print "Error: Stats not found in $file file\n";
-  }	
+  } 
   close OUT;
   $result
 }
@@ -329,7 +329,8 @@ my @dac_examples =
 print "-----------------------\n";
 print "DAC SymDiff regressions\n";
 print "-----------------------\n";
-$flags = "";
+$flags = "/opts:\" -asserts -usemutual -sound \" /inferContracts:\" /inlineDepth:0 \" ";
 $dac = 1; # checking DAC regression is different than other regressions
 my $tag = ".bpl";
-RunExampleWithOptions("_dac", \@dac_examples, $flags, $cwd, $opt_regr, $tag);
+RunExampleWithOptions("_bpl", \@dac_examples, $flags, $cwd, $opt_regr, $tag);
+$dac = 0; 

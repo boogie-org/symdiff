@@ -74,4 +74,4 @@ MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig  $v1".
 MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne $v1"."_u.bpl $v2"."_u.bpl $v1"."_u$v2"."_u.config -asserts -usemutual -sound $ARGV[0] $ARGV[1] $ARGV[2] $ARGV[3] $ARGV[4] $ARGV[5]");
 # TODO change the path of boogie to the references dir
 MyExec("echo $symdiff_root");
-MyExec("$symdiff_root\\references\\boogie.exe /contractInfer /printAssignment mergedProgSingle.bpl > $v1$v2.log");
+MyExec("$symdiff_root\\references\\boogie.exe /contractInfer /printAssignment mergedProgSingle.bpl >> $v1$v2.log");

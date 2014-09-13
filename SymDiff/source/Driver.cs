@@ -100,7 +100,7 @@ namespace SDiff
           if (args[i] == "-break" || args[i] == "/break") breakSeen = true; //eat the "-break"
       }
       if (breakSeen)
-          System.Diagnostics.Debugger.Break();
+          System.Diagnostics.Debugger.Launch();
 
       if (args[0].Equals("-inferConfig"))
       {

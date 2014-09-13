@@ -36,10 +36,11 @@ sub Error{
 sub PrintUsage{
   print "usage: run_symdiff_c v1 v2 [/options]\n";
   print "\t  v1, v2: to analyze the files v1.bpl v2.bpl\n";
-  print "\t  /lu:k : unroll loops k times (default 1)\n";
-  print "\t  /rvt : use rvt option (deprecated to only mean extract loops (if any) as tail-recursive procedures\n";
+  print "\t  /lu:k : unroll loops k times (default on with k = 2)\n";
+  print "\t  /rvt : extract loops as tail-recursive procedures (default off)\n";
   print "\t  /useConfig:file : use file as the config file (default auto generated)\n";
-  print "\t  /opts:\"<option-string>\" : option-string is passed to -allInOne\n";
+  print "\t  /opts:\"<option-string>\" : option-string is passed to SymDiff.exe -allInOne\n";
+  print "\t  /inferContracts:\"<option-string>\" : perform Boogie /contractInfer to infer mutual summaries with option-string \n";
   die "\n";
 }
 
@@ -50,6 +51,8 @@ my $rvt = 0;
 my $configFile = "";
 my $returnOnlyStr = "";
 my $optString = "";
+my $inferContracts = 0;
+my $inferContractsOpts = "";
 
 sub ProcessOptions {
 
@@ -76,15 +79,20 @@ sub ProcessOptions {
     }
     if($opt =~ /^\/rvt$/){
       $rvt = 1;
-      print "Using RVT\n";
+      print "#### Extracting loops \n";
     }
     if($opt =~ /^\/opts:(.*)$/){
       $optString = $1;
-      print "Passing $1 to symdiff.exe -allInOne\n";
+      print "#### Passing $1 to symdiff.exe -allInOne\n";
+    }
+    if($opt =~ /^\/inferContracts:(.*)$/){
+      $inferContracts = 1;
+      $inferContractsOpts = $1;
+      print "#### Passing $1 to boogie.exe /contractInfer to infer mutual summaries \n";
     }
     elsif($opt =~ /^\/returnOnly$/){
       $returnOnlyStr = "-returnAsOnlyOutput -localcheck";
-      print "Only considering return value as the output of a procedure, ignoring globals/out parameters modified....\n";
+      print "#### Only considering return value as the output of a procedure, ignoring globals/out parameters modified....\n";
     }
     if($opt =~ /^\/useConfig:([a-zA-Z0-9_\.]+)$/){
       $configFile = $1;
@@ -124,3 +132,8 @@ MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _
 #  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString > $v1$v2.log"); 
 #}
  
+
+
+if ($inferContracts eq 1){
+  MyExec("$symdiff_root\\references\\boogie.exe /contractInfer /printAssignment $inferContractsOpts mergedProgSingle.bpl >> $v1$v2.log");
+}

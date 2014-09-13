@@ -19,6 +19,8 @@ namespace SDiff
         static bool useHoudini = true; //use houdini for candiates on MS procedures as pre/post
         static bool checkMutualPreconditionsForInfiniteLoops = false; //checking mutual preconditions in the presence of non-terminating programs
         static bool typeCheckMergedProgram = true; //avoid type checking the in memory mergedProgSingle as the type symbols in ms_symdiff_file.bpl are not merged
+        static bool checkAssertsOnly = false; //if true, we only check OK1 => OK2
+                                              //if false, then we check Dep(o1) == Dep(o2) ==> o1 == o2 (non-roots: all outs, roots: outvars)
 
         //globals
         static Program f1, f2, mergedProgram;
@@ -33,12 +35,14 @@ namespace SDiff
 
         //entry method
         public static void Start(Program p1, Program p2, Program mergedProgram, string p1Prefix, string p2Prefix, Config cfg1, 
+            bool checkAssertsOnlyParam,
             bool useMutualSummariesAsAxioms, bool useHoudiniOption, bool checkPreconditions, bool freeContracts,
             bool dontTypeCheckMergedProg)
         {
             typeCheckMergedProgram = !dontTypeCheckMergedProg;
             ParseAddtionalMSFile(mergedProgram); //look for additional files
             dontUseMSAsAxioms = !useMutualSummariesAsAxioms;
+            checkAssertsOnly = checkAssertsOnlyParam && !Options.checkEquivWithDependencies;
             useHoudini = dontUseMSAsAxioms &&  useHoudiniOption;
             checkMutualPreconditionsForInfiniteLoops = dontUseMSAsAxioms && checkPreconditions;
             //lets drop the modifies of all procedures (e.g. default generated alloc/detchoicent by havoc
@@ -55,7 +59,9 @@ namespace SDiff
         }
         private static void ParseAddtionalMSFile(Program mergedProgram)
         {
-            Program ms = SDiff.Boogie.Process.ParseProgram("ms_symdiff_file.bpl");
+            var ms_file = @".\ms_symdiff_file.bpl";
+            if (!System.IO.File.Exists(ms_file)) return;
+            Program ms = SDiff.Boogie.Process.ParseProgram(ms_file);
             //TODO: Have to merge the new types (including datatypes)
             if (ms != null)
                 mergedProgram.TopLevelDeclarations.AddRange(ms.TopLevelDeclarations);
@@ -248,7 +254,7 @@ namespace SDiff
             //{
             //    //find p2prefix + (o1[i] - p1prefix) in i2
             //    foreach (Variable v in o2)
-            //        if (Util.TrimStart(v.Name, p2Prefix + ".") == Util.TrimStart(u.Name, p1Prefix + "."))
+            //        if (Util.TrimPrefixWithDot(v.Name, p2Prefix) == Util.TrimPrefixWithDot(u.Name, p1Prefix))
             //        {
             //            var ei = Expr.Eq(Expr.Ident(u), Expr.Ident(v));
             //            post = Expr.And(post, ei);
@@ -264,7 +270,7 @@ namespace SDiff
             {
                 //find p2prefix + (i1[i] - p1prefix) in i2
                 foreach (IdentifierExpr v in i2)
-                    if (Util.TrimStart(v.Name, p2Prefix + ".") == Util.TrimStart(u.Name, p1Prefix + "."))
+                    if (Util.TrimPrefixWithDot(v.Name, p2Prefix) == Util.TrimPrefixWithDot(u.Name, p1Prefix))
                     {
                         ret.AddRange(CreateVariableComparisons(u.Decl, v.Decl));
                         break;
@@ -279,7 +285,7 @@ namespace SDiff
             {
                 //find p2prefix + (i1[i] - p1prefix) in i2
                 foreach (Variable v in i2)
-                    if (Util.TrimStart(v.Name, p2Prefix + ".") == Util.TrimStart(u.Name, p1Prefix + "."))
+                    if (Util.TrimPrefixWithDot(v.Name, p2Prefix) == Util.TrimPrefixWithDot(u.Name, p1Prefix))
                     {
                         ret.AddRange(CreateVariableComparisons(u, v));
                         break;
@@ -315,7 +321,7 @@ namespace SDiff
             {
                 //find p2prefix + (i1[i] - p1prefix) in i2
                 foreach (Variable v in i2)
-                    if (Util.TrimStart(v.Name, p2Prefix + ".") == Util.TrimStart(u.Name, p1Prefix + "."))
+                    if (Util.TrimPrefixWithDot(v.Name, p2Prefix) == Util.TrimPrefixWithDot(u.Name, p1Prefix))
                     {
                         var ei = Expr.Eq(Expr.Ident(u), Expr.Ident(v));
                         pre = Expr.And(pre, ei);
@@ -327,7 +333,7 @@ namespace SDiff
         private static Variable GetOKVariable(List<Variable> vs, string prefix)
         {
             foreach (Variable v in vs)
-                if (Util.TrimStart(v.Name, prefix + ".") == "OK")
+                if (Util.TrimPrefixWithDot(v.Name, prefix) == "OK")
                     return v;
             return null;
         }
@@ -372,7 +378,10 @@ namespace SDiff
             //requiresSeq.AddRange(f1.Requires); 
             //requiresSeq.AddRange(f2.Requires);
             if (useHoudini)
-                 HoudiniTemplates.AddHoudiniTemplates(ref requiresSeq, ref ensuresSeq, f1, f2, a1, a2, b1, b2);
+                if (checkAssertsOnly)
+                    DACHoudiniTemplates.AddHoudiniTemplates(ref requiresSeq, ref ensuresSeq, f1, f2, a1, a2, b1, b2);
+                else if (Options.checkEquivWithDependencies)
+                    EquivWithDependencyHoudiniTemplates.AddHoudiniTemplates(ref requiresSeq, ref ensuresSeq, f1, f2, a1, a2, b1, b2);
 
             //create signature (x1, x2) : (r1, r2)
             Procedure mschkProc =
@@ -581,8 +590,10 @@ namespace SDiff
             return (Util.getImplByName(mergedProgram, f1.Name) == null);
         }
 
-        //class for houdini related stuff
-        public static class HoudiniTemplates
+        /// <summary>
+        /// class for houdini related stuff for DAC (FSE'13 encoding)
+        /// </summary>
+        public static class DACHoudiniTemplates
         {
             static HashSet<Constant> houdiniGuards = new HashSet<Constant>();            //Adds candidate and non-candidates for the MS procedures based on whether they are roots, leaves or neither
             public static void AddHoudiniTemplates(ref List<Requires> requiresSeq, ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
@@ -658,6 +669,59 @@ namespace SDiff
                 ensuresSeq.Add(new Ensures(false, post));
             }
         }
+
+        /// <summary>
+        /// class for houdini related stuff for DAC (checking equivalence using dependencies. Sept 2014)
+        /// </summary>
+        public static class EquivWithDependencyHoudiniTemplates
+        {
+            static HashSet<Constant> houdiniGuards = new HashSet<Constant>();            //Adds candidate and non-candidates for the MS procedures based on whether they are roots, leaves or neither
+            public static void AddHoudiniTemplates(ref List<Requires> requiresSeq, ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
+                List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2)
+            {
+                //we are going to add 
+                //cand ensures dep(o) == dep(o') ==> o == o' for every o in output
+                //we do this for roots, non-roots and stubs (where they get assumed)
+                AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2);
+                return;
+            }
+            private static Expr FreshHoudiniVar(string procName, string tag)
+            {
+                var n = new Constant(Token.NoToken, 
+                    new TypedIdent(Token.NoToken, "_houdini_" + procName + "_" + tag + "_" + houdiniGuards.Count, Microsoft.Boogie.Type.Bool), false);
+                n.AddAttribute("existential", Expr.True);
+                houdiniGuards.Add(n);
+                mergedProgram.TopLevelDeclarations.Add(n);
+                return Expr.Ident(n);
+            }
+            private static void AddCandEnsures(ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
+                List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2,
+                bool isCandidate = true)
+            {
+                Expr pre = CreateVariableEqualities(i1, i2);
+                pre = Expr.And(pre, CreateVariableEqualities(gSeq_p1, gSeq_p2));
+                Debug.Assert(o1.Count == o2.Count, string.Format("Expecting same number of outputs for {0}", f1.Name));
+                Debug.Assert(f1.Modifies.Count == f2.Modifies.Count, string.Format("Expecting same number of modifies for {0}", f1.Name));
+
+                var fname = Util.TrimPrefixWithDot(f1.Name, p1Prefix);
+                List<Ensures> censures = new List<Ensures>();
+                Comparison<Variable> varOrder = delegate(Variable x, Variable y) { return x.Name.CompareTo(y.Name); };
+                var og1 = o1.Union(gSeq_p1).ToList();
+                var og2 = o2.Union(gSeq_p2).ToList();
+                og1.Sort(varOrder); og2.Sort(varOrder);
+                censures.AddRange(og1.Zip(og2)
+                    .Select(x => 
+                        new Ensures(false, 
+                            Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(x.Item1.Name, p1Prefix)),
+                                Expr.Imp(pre, Expr.Eq((Expr) IdentifierExpr.Ident(x.Item1), (Expr) IdentifierExpr.Ident(x.Item2))))
+                        )));
+                //TODO: create Dep(o1) == Dep(o2) => o1 == o2, 
+                //      start with Dep = inps U globals
+                ensuresSeq.AddRange(censures);
+            }
+
+        }
+
 
         //instrument a call to capture the args for 2->1 program transformation
         public class CallInstrumentforDAC : FixedVisitor

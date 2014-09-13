@@ -52,6 +52,7 @@ namespace SDiff
     public static HashSet<string> syntacticEqProcs = new HashSet<string>();
 
     public static bool splitOutputEqualities = false;  // if true, splits one ensures into n ensures for each output var
+    public static bool checkEquivWithDependencies = false; 
 
     //flag and settings for generating C traces
     public const bool GenerateCTrace = true;
