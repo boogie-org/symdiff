@@ -492,6 +492,13 @@ namespace SDiff
           }
           return decl;
       }
+
+      public static Variable getVariableByName(string name, IEnumerable<Variable> varList)
+      {
+          var v = varList.Where(x => x.Name == name);
+          if (v.Count() == 0) throw new Exception(string.Format("Variable named {0} not found in the program", name));
+          return v.FirstOrDefault();              
+      }
       private static Boolean hasConst(string constName, List<Declaration> consts)
       {
           Boolean has = false;
@@ -526,10 +533,18 @@ namespace SDiff
               var TempRequiresSeq = new List<Requires>();
               var TempEnsuresSeq = new List<Ensures>();
               foreach (Requires req in Proc.Requires)
-                  TempRequiresSeq.Add(new Requires(true, req.Condition));
+              {
+                  var req1 = new Requires(true, req.Condition);
+                  req1.Attributes = req.Attributes;
+                  TempRequiresSeq.Add(req1);
+              }
               Proc.Requires = TempRequiresSeq;
               foreach (Ensures ens in Proc.Ensures)
-                  TempEnsuresSeq.Add(new Ensures(true, ens.Condition));
+              {
+                  var ens1 = new Ensures(true, ens.Condition);
+                  ens1.Attributes = ens.Attributes;
+                  TempEnsuresSeq.Add(ens1);
+              }
               Proc.Ensures = TempEnsuresSeq;
           }
 

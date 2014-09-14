@@ -545,7 +545,7 @@ namespace Dependency
                 ens.Attributes = new QKeyValue(Token.NoToken, "io_dependency", varL.Select(x => (object) x).ToList(), null);
                 depEnsures.Add(ens);
             }
-            node.Ensures = depEnsures;
+            node.Ensures.AddRange(depEnsures);
             return base.VisitProcedure(node);
         }
     }

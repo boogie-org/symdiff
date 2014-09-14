@@ -28,6 +28,13 @@ sub MyExec{
 }
 
 
+sub MyExecAndDieOnFailure{
+    my $cmd = shift;
+    my $status = MyExec($cmd);
+    die unless $status eq 0;
+}
+
+
 sub Error{
   my $msg = shift;
   print "ERROR::$msg";
@@ -121,6 +128,13 @@ if ($rvt eq 1){
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $luCount $v2.bpl _v2.bpl");
 }
 
+## run dependency analysis
+MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl /annotateDependencies "); #outputs to _v1.bpl_w_deps.bpl
+MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl /annotateDependencies "); #outputs to _v2.bpl_w_deps.bpl
+MyExecAndDieOnFailure("copy /Y _v1.bpl_w_dep.bpl  _v1.bpl"); 
+MyExecAndDieOnFailure("copy /Y _v2.bpl_w_dep.bpl  _v2.bpl"); 
+
+
 MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig _v1.bpl _v2.bpl > _v1_v2.config"); 
 
 MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString > $v1$v2.log"); 
@@ -132,7 +146,6 @@ MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _
 #  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString > $v1$v2.log"); 
 #}
  
-
 
 if ($inferContracts eq 1){
   MyExec("$symdiff_root\\references\\boogie.exe /contractInfer /printAssignment $inferContractsOpts mergedProgSingle.bpl >> $v1$v2.log");

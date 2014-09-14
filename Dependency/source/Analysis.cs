@@ -137,13 +137,12 @@ namespace Dependency
             }
 
             #region Cleanups 
-            //turn asserts/requires/ensures to free counterparts (assume/free req/free ens)
-            Utils.StripContracts(program);
             //cleanup assume value_is, as we are not printing a trace now
             if (StripValueIs)
                 (new Utils.RemoveValueIsAssumes()).Visit(program);
             // create explicit variables for conditionals
-            (new Utils.AddExplicitConditionalVars()).Visit(program);
+            if (changeList != null) //only do this for taint analysis
+                (new Utils.AddExplicitConditionalVars()).Visit(program);
             #endregion 
 
             if (SplitMapsWithAliasAnalysis)
@@ -394,6 +393,10 @@ namespace Dependency
 
         private static void RunRefinedDepAnalysis(string filename, Program program, Dictionary<Procedure, Dependencies> lowerBound, Dictionary<Procedure, Dependencies> upperBound)
         {
+            //turn asserts/requires/ensures to free counterparts (assume/free req/free ens)
+            //removing it from dependncy main path, as it screws up later analysis that just needs the dependency
+            Utils.StripContracts(program);
+
             // remove the special taint var
             lowerBound.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));
             upperBound.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));

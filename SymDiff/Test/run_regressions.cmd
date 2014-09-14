@@ -97,7 +97,7 @@ sub CheckRegression {
   if ($golden_stats eq $output_stats) {
     print "Regression passed\n";
   } else {
-    print "Regression failed\n";
+    print "##### Regression failed #####\n";
   }	
   
 }
@@ -329,7 +329,7 @@ my @dac_examples =
 print "-----------------------\n";
 print "DAC SymDiff regressions\n";
 print "-----------------------\n";
-$flags = "/opts:\" -asserts -usemutual -sound \" /inferContracts:\" /inlineDepth:0 \" ";
+$flags = "/opts:\" -asserts -usemutual -sound  \" /inferContracts:\"  \" ";
 $dac = 1; # checking DAC regression is different than other regressions
 my $tag = ".bpl";
 RunExampleWithOptions("_bpl", \@dac_examples, $flags, $cwd, $opt_regr, $tag);

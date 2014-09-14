@@ -23,7 +23,9 @@ namespace SDiff
                                               //if false, then we check Dep(o1) == Dep(o2) ==> o1 == o2 (non-roots: all outs, roots: outvars)
 
         //globals
-        static Program f1, f2, mergedProgram;
+        static bool freeContracts = false; 
+
+        static Program prog1, prog2, mergedProgram;
         static string p1Prefix, p2Prefix;
         static List<Variable> gSeq_p1, gSeq_p2; //refine it with r/w set of each procedure
         static Dictionary<Procedure, Function> summaryFuncs;
@@ -33,20 +35,25 @@ namespace SDiff
         static HashSet<Function> msFuncAxiomsAdded; //list of msfuncs for which axioms have been added (to account for user provided msfuncs separately)
         static Dictionary<Implementation, LocalVariable> abortVars; //each implementation has a local variable to abort
 
+        //parse dependencies out of input files
+        static Dictionary<Procedure, Dictionary<Variable, List<Variable>>> dependency = new Dictionary<Procedure, Dictionary<Variable, List<Variable>>>();
+
         //entry method
         public static void Start(Program p1, Program p2, Program mergedProgram, string p1Prefix, string p2Prefix, Config cfg1, 
             bool checkAssertsOnlyParam,
-            bool useMutualSummariesAsAxioms, bool useHoudiniOption, bool checkPreconditions, bool freeContracts,
+            bool useMutualSummariesAsAxioms, bool useHoudiniOption, bool checkPreconditions, bool freeContractsIn,
             bool dontTypeCheckMergedProg)
         {
+
             typeCheckMergedProgram = !dontTypeCheckMergedProg;
             ParseAddtionalMSFile(mergedProgram); //look for additional files
             dontUseMSAsAxioms = !useMutualSummariesAsAxioms;
             checkAssertsOnly = checkAssertsOnlyParam && !Options.checkEquivWithDependencies;
             useHoudini = dontUseMSAsAxioms &&  useHoudiniOption;
+            freeContracts = freeContractsIn;
             checkMutualPreconditionsForInfiniteLoops = dontUseMSAsAxioms && checkPreconditions;
             //lets drop the modifies of all procedures (e.g. default generated alloc/detchoicent by havoc
-            if (!freeContracts)
+            if (!freeContractsIn)
                 Util.DropAllModifies(mergedProgram);
             ModSetCollector c = new ModSetCollector();
             c.DoModSetAnalysis(mergedProgram);
@@ -57,6 +64,7 @@ namespace SDiff
             //LoadMutualSummariesFromFile();
             MutualSummaryStart(mergedProgram, procMap);
         }
+
         private static void ParseAddtionalMSFile(Program mergedProgram)
         {
             var ms_file = @".\ms_symdiff_file.bpl";
@@ -68,9 +76,9 @@ namespace SDiff
         }
         public static void Initialize(Program q1, Program q2, Program mp, string q1Prefix, string q2Prefix, Config cfg1)
         {
-            f1 = q1; f2 = q2; mergedProgram = mp;  p1Prefix = q1Prefix; p2Prefix = q2Prefix;
-            gSeq_p1 = new List<Variable>(f1.TopLevelDeclarations.Filter(x => x is GlobalVariable).Cast<Variable>().ToArray());
-            gSeq_p2 = new List<Variable>(f2.TopLevelDeclarations.Filter(x => x is GlobalVariable).Cast<Variable>().ToArray());
+            prog1 = q1; prog2 = q2; mergedProgram = mp;  p1Prefix = q1Prefix; p2Prefix = q2Prefix;
+            gSeq_p1 = new List<Variable>(prog1.TopLevelDeclarations.Filter(x => x is GlobalVariable).Cast<Variable>().ToArray());
+            gSeq_p2 = new List<Variable>(prog2.TopLevelDeclarations.Filter(x => x is GlobalVariable).Cast<Variable>().ToArray());
             summaryFuncs = new Dictionary<Procedure, Function>();
             cfg = cfg1;
             procMap = cfg.GetProcedureDictionary();
@@ -377,6 +385,15 @@ namespace SDiff
             //Add requires as free requires            
             //requiresSeq.AddRange(f1.Requires); 
             //requiresSeq.AddRange(f2.Requires);
+            if (Options.checkEquivWithDependencies)
+            {
+                //Can't do it earlier as we need the variables for the MS_f1_f2 procedures that are only created in this 
+                //method (e.g. a1, a2, b1, b2)
+                Debug.Assert(freeContracts, "-checkEquivWithDependencies requires -freeContracts flag to be on");
+                ParseDependenciesForProc(f1, prog1, p1Prefix, gSeq_p1, a1, b1);
+                ParseDependenciesForProc(f2, prog2, p2Prefix, gSeq_p2, a2, b2);
+            }
+
             if (useHoudini)
                 if (checkAssertsOnly)
                     DACHoudiniTemplates.AddHoudiniTemplates(ref requiresSeq, ref ensuresSeq, f1, f2, a1, a2, b1, b2);
@@ -438,7 +455,25 @@ namespace SDiff
             //throw new NotImplementedException();
             return mschkProc;
         }
-        
+
+        private static void ParseDependenciesForProc(Procedure f, Program p, string prefix, 
+            List<Variable> globals, List<Variable> ins, List<Variable> outs)
+        {
+            dependency[f] = new Dictionary<Variable,List<Variable>>();
+            foreach (var en in f.Ensures)
+            {
+                if (en.Attributes.Key != "io_dependency") continue;
+                var deps = en.Attributes.Params.Select(x => x.ToString()).ToList();
+                Debug.Assert(deps.Count() > 0, "A dependency needs to at least have the output variable");
+                var ovar = Util.getVariableByName(prefix + "." + deps[0], globals.Union(outs));
+                deps.RemoveAt(0);
+                var ivars = deps.Select(x => Util.getVariableByName(prefix + "." + x, globals.Union(ins)));
+                Console.WriteLine("Dependency[{2}]: {0} -> {1}", ovar.Name, string.Join(", ", ivars.Select(x => x.Name)),f.Name);
+                dependency[f][ovar] = ivars.ToList();
+            }
+        }
+
+
         //methods specific to 2->1 program translation
         private static void TrapCallArgs(Program mergedProgram, Implementation f, Procedure f1, Procedure f2)
         {
@@ -675,14 +710,17 @@ namespace SDiff
         /// </summary>
         public static class EquivWithDependencyHoudiniTemplates
         {
-            static HashSet<Constant> houdiniGuards = new HashSet<Constant>();            //Adds candidate and non-candidates for the MS procedures based on whether they are roots, leaves or neither
+            static HashSet<Constant> houdiniGuards = new HashSet<Constant>();            
+            //Adds candidate and non-candidates for the MS procedures based on whether they are roots, leaves or neither
+
             public static void AddHoudiniTemplates(ref List<Requires> requiresSeq, ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2)
             {
                 //we are going to add 
                 //cand ensures dep(o) == dep(o') ==> o == o' for every o in output
                 //we do this for roots, non-roots and stubs (where they get assumed)
-                AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2);
+                //AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2); //without dependencies
+                AddCandEnsuresWithDependency(ref ensuresSeq, f1, f2, i1, i2, o1, o2);
                 return;
             }
             private static Expr FreshHoudiniVar(string procName, string tag)
@@ -699,7 +737,7 @@ namespace SDiff
                 bool isCandidate = true)
             {
                 Expr pre = CreateVariableEqualities(i1, i2);
-                pre = Expr.And(pre, CreateVariableEqualities(gSeq_p1, gSeq_p2));
+                pre = new OldExpr(Token.NoToken, Expr.And(pre, CreateVariableEqualities(gSeq_p1, gSeq_p2)));
                 Debug.Assert(o1.Count == o2.Count, string.Format("Expecting same number of outputs for {0}", f1.Name));
                 Debug.Assert(f1.Modifies.Count == f2.Modifies.Count, string.Format("Expecting same number of modifies for {0}", f1.Name));
 
@@ -718,6 +756,31 @@ namespace SDiff
                 //TODO: create Dep(o1) == Dep(o2) => o1 == o2, 
                 //      start with Dep = inps U globals
                 ensuresSeq.AddRange(censures);
+            }
+
+            //create ensures Dep(o1) == Dep(o2) => o1 == o2, 
+            private static void AddCandEnsuresWithDependency(ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
+                List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2,
+                bool isCandidate = true)
+            {
+                var fname = Util.TrimPrefixWithDot(f1.Name, p1Prefix);
+                List<Ensures> censures = new List<Ensures>();
+                Comparison<Variable> varOrder = delegate(Variable x, Variable y) { return x.Name.CompareTo(y.Name); };
+                var og1 = o1.Union(gSeq_p1).ToList();
+                var og2 = o2.Union(gSeq_p2).ToList();
+                og1.Sort(varOrder); og2.Sort(varOrder);
+                foreach(var o12 in og1.Zip(og2))
+                {
+                    var dep1 = dependency[f1][o12.Item1];
+                    var dep2 = dependency[f2][o12.Item2];
+                    Debug.Assert(dep1.Count == dep2.Count, string.Format("Expecting cardinality of dependencies for {0} to be identical", o12.Item1.Name));
+                    Expr pre = new OldExpr(Token.NoToken, CreateVariableEqualities(dep1, dep2));
+                    var ens = new Ensures(false, 
+                            Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(o12.Item1.Name, p1Prefix)),
+                                Expr.Imp(pre, Expr.Eq((Expr)IdentifierExpr.Ident(o12.Item1), (Expr)IdentifierExpr.Ident(o12.Item2))))
+                        );
+                    ensuresSeq.Add(ens);
+                }                                
             }
 
         }
