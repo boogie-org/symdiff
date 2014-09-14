@@ -1,8 +1,8 @@
 //To run with nonmodular (unsound for loops and recursion and perhaps non-scalable)
-run_symdiff_bpl example example_faulty /rvt /opts:"  -nonmodular -recursionDepth:3 -splitOutputEqualities  -outvar:\"control\" "
+run_symdiff_bpl v1 v2 /rvt /opts:"  -nonmodular -recursionDepth:3 -splitOutputEqualities  -outvar:\"control\" "
 type v1v2.log //counterexample only corresponds to control flag
 
 //To run it in sound mode with contract inference [imprecise, needs the precise dependencies]
-run_symdiff_bpl v1 v2 /rvt /opts:" -usemutual -checkEquivWithDependencies " /inferContracts:""
+run_symdiff_bpl v1 v2 /rvt /opts:" -usemutual -checkEquivWithDependencies -freeContracts " /inferContracts:""
 type v1v2.log //look for assignments to _control_flag among houdini variables
 

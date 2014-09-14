@@ -773,6 +773,9 @@ namespace SDiff
                 {
                     var dep1 = dependency[f1][o12.Item1];
                     var dep2 = dependency[f2][o12.Item2];
+                    MakeDependenciesIdentical(dep1, dep2, i2.Union(gSeq_p2), p1Prefix, p2Prefix); //updates dep2
+                    MakeDependenciesIdentical(dep2, dep1, i1.Union(gSeq_p1), p2Prefix, p1Prefix); //updates dep1
+                    dep1.Sort(varOrder); dep2.Sort(varOrder);
                     Debug.Assert(dep1.Count == dep2.Count, string.Format("Expecting cardinality of dependencies for {0} to be identical", o12.Item1.Name));
                     Expr pre = new OldExpr(Token.NoToken, CreateVariableEqualities(dep1, dep2));
                     var ens = new Ensures(false, 
@@ -781,6 +784,19 @@ namespace SDiff
                         );
                     ensuresSeq.Add(ens);
                 }                                
+            }
+
+            private static void MakeDependenciesIdentical(List<Variable> dep1, List<Variable> dep2, 
+                IEnumerable<Variable> ins2, string prefix1, string prefix2)
+            {
+                foreach (var i in dep1)
+                {
+                    var name = Util.TrimPrefixWithDot(i.Name, prefix1);
+                    if (dep2.Any(x => Util.TrimPrefixWithDot(x.Name, prefix2) == name)) continue;
+                    var missing2 = ins2.Where(x => Util.TrimPrefixWithDot(x.Name, prefix2) == name);
+                    Debug.Assert(missing2.Count() == 1, string.Format("Expecting exactly 1 match for {0}, found {1}", name, missing2.Count()));
+                    dep2.Add(missing2.First());
+                }
             }
 
         }
