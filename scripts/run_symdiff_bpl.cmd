@@ -148,5 +148,5 @@ MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _
  
 
 if ($inferContracts eq 1){
-  MyExec("$symdiff_root\\references\\boogie.exe /contractInfer /printAssignment $inferContractsOpts mergedProgSingle.bpl >> $v1$v2.log");
+  MyExec("$symdiff_root\\references\\boogie.exe /noinfer /contractInfer /printAssignment $inferContractsOpts mergedProgSingle.bpl >> $v1$v2.log");
 }
