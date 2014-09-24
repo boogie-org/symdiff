@@ -462,7 +462,7 @@ namespace SDiff
             dependency[f] = new Dictionary<Variable,List<Variable>>();
             foreach (var en in f.Ensures)
             {
-                if (en.Attributes.Key != "io_dependency") continue;
+                if (en.Attributes == null || en.Attributes.Key != "io_dependency") continue;
                 var deps = en.Attributes.Params.Select(x => x.ToString()).ToList();
                 Debug.Assert(deps.Count() > 0, "A dependency needs to at least have the output variable");
                 var ovar = Util.getVariableByName(prefix + "." + deps[0], globals.Union(outs));
@@ -763,6 +763,8 @@ namespace SDiff
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2,
                 bool isCandidate = true)
             {
+                if (!dependency.ContainsKey(f1) || !dependency.ContainsKey(f2))
+                    return;
                 var fname = Util.TrimPrefixWithDot(f1.Name, p1Prefix);
                 List<Ensures> censures = new List<Ensures>();
                 Comparison<Variable> varOrder = delegate(Variable x, Variable y) { return x.Name.CompareTo(y.Name); };
@@ -771,6 +773,7 @@ namespace SDiff
                 og1.Sort(varOrder); og2.Sort(varOrder);
                 foreach(var o12 in og1.Zip(og2))
                 {
+                    if (!dependency[f1].ContainsKey(o12.Item1) || !dependency[f2].ContainsKey(o12.Item2)) continue;
                     var dep1 = dependency[f1][o12.Item1];
                     var dep2 = dependency[f2][o12.Item2];
                     MakeDependenciesIdentical(dep1, dep2, i2.Union(gSeq_p2), p1Prefix, p2Prefix); //updates dep2
