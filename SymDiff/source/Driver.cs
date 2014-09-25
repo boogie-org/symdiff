@@ -247,7 +247,7 @@ namespace SDiff
       var outfilename = args[3];
 
       string boogieOptions = "/printInstrumented " + Options.BoogieUserOpts;
-      Log.Out(Log.Normal, "Initializing Boogie");
+      //Log.Out(Log.Normal, "Initializing Boogie");
       if (SDiff.Boogie.Process.InitializeBoogie(boogieOptions))
         return 1;
 
@@ -278,7 +278,7 @@ namespace SDiff
         var outfilename = args[2];
 
         string boogieOptions = "/printInstrumented /deterministicExtractLoops " + Options.BoogieUserOpts;
-        Log.Out(Log.Normal, "Initializing Boogie");
+        //Log.Out(Log.Normal, "Initializing Boogie");
         if (SDiff.Boogie.Process.InitializeBoogie(boogieOptions))
             return 1;
 
@@ -368,7 +368,7 @@ namespace SDiff
     public static int GuessConfig(string[] args)
     {
         string boogieOptions = Options.BoogieUserOpts;
-        Log.Out(Log.Normal, "Initializing Boogie");
+        //Log.Out(Log.Normal, "Initializing Boogie");
         if (SDiff.Boogie.Process.InitializeBoogie(boogieOptions))
             return 1;
 

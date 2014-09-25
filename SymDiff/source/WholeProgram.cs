@@ -24,7 +24,6 @@ namespace SDiff
         static bool justMain; //run Boogie only on main (rest are skip)
         static bool dumpEq;
         static bool localcheck;
-        static bool sound;
         static bool oneproc;
         static bool wrapper;
 
@@ -105,7 +104,7 @@ namespace SDiff
           Console.WriteLine("\t -bogusmodular   unsound modular checker which treats callees as equivalent");
           //Console.WriteLine("-deactivatehacks");
           //Console.WriteLine("    Do not inline functions which are present in one and not the other");
-          Console.WriteLine("\t -sound          assume functions can change OK (with -asserts only)");
+          //Console.WriteLine("\t -sound          assume functions can change OK (with -asserts only)");
 
         }
         private static bool ParseArgs(string[] args0) {
@@ -118,7 +117,6 @@ namespace SDiff
             checkAssertsOnly = argsList.Remove("-asserts");
             justMain = argsList.Remove("-justmain"); //run Boogie only on main (rest are skip)
             dumpEq = argsList.Remove("-dumpeq");
-            sound = argsList.Remove("-sound");
             wrapper = argsList.Remove("-wrapper");
 
             //mutual summary related
@@ -545,7 +543,7 @@ namespace SDiff
 
 
         }
-        private static void AddOKEnsures(string p1Prefix, string p2Prefix, bool mergeGlobals, List<Declaration> list, bool sound)
+        private static void AddOKEnsures(string p1Prefix, string p2Prefix, bool mergeGlobals, List<Declaration> list)
         {
             foreach (Procedure proc in list)
             {
@@ -554,10 +552,9 @@ namespace SDiff
                 {
                     lname = proc.Name.StartsWith(p1Prefix + ".") ? p1Prefix + ".OK" : lname;
                 }
-                if (sound)
-                    proc.Ensures.Add(new Ensures(true, Expr.Imp(Expr.Ident(lname, BasicType.Bool), new OldExpr(new Token(), Expr.Ident(lname, BasicType.Bool)))));
-                else
-                    proc.Ensures.Add(new Ensures(true, Expr.Iff(Expr.Ident(lname, BasicType.Bool), new OldExpr(new Token(), Expr.Ident(lname, BasicType.Bool)))));
+                proc.Ensures.Add(new Ensures(true, Expr.Imp(Expr.Ident(lname, BasicType.Bool), new OldExpr(new Token(), Expr.Ident(lname, BasicType.Bool)))));
+                //else (removing the case of "sound" for DAC 
+                //proc.Ensures.Add(new Ensures(true, Expr.Iff(Expr.Ident(lname, BasicType.Bool), new OldExpr(new Token(), Expr.Ident(lname, BasicType.Bool)))));
             }
         }
         private static void InsertConstantsOK(string filenamePrefix, Program Prog, int n)
@@ -1459,7 +1456,7 @@ namespace SDiff
                 mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations);
             }
             if (checkAssertsOnly) //RS ADD OK Ensures
-                AddOKEnsures(p1Prefix, p2Prefix, mergeGlobals, mergedProgram.TopLevelDeclarations.Filter(x => x is Procedure), sound);
+                AddOKEnsures(p1Prefix, p2Prefix, mergeGlobals, mergedProgram.TopLevelDeclarations.Filter(x => x is Procedure));
             //////////////////////////////////////////////////////////
             // Creation of the merged program end
             //////////////////////////////////////////////////////////                        

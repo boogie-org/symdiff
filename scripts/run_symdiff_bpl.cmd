@@ -21,9 +21,17 @@
 # Input: v1 v2 [options]
 #         It analyzes v1.bpl v2.bpl
 #############################################################
+
+###############################################
+## Do not use any CYGWIN_BINARIES IN THIS FILE 
+###############################################
+
+my $symdiff_out = "symdiff_bpl.output";
+open OUTPUT, ">$symdiff_out" or die "can't open $symdiff_out for writing\n";
+
 sub MyExec{
     my $cmd = shift;
-    print "$cmd \n";
+    print OUTPUT "$cmd \n";
     system("$cmd");
 }
 
@@ -86,16 +94,16 @@ sub ProcessOptions {
     }
     if($opt =~ /^\/rvt$/){
       $rvt = 1;
-      print "#### Extracting loops \n";
+      print "Extracting loops \n";
     }
     if($opt =~ /^\/opts:(.*)$/){
       $optString = $1;
-      print "#### Passing $1 to symdiff.exe -allInOne\n";
+      print "Passing \"$1\" to symdiff.exe -allInOne\n";
     }
     if($opt =~ /^\/inferContracts:(.*)$/){
       $inferContracts = 1;
       $inferContractsOpts = $1;
-      print "#### Passing $1 to boogie.exe /contractInfer to infer mutual summaries \n";
+      print "Passing \"$1\" to boogie.exe /contractInfer to infer mutual summaries \n";
     }
     elsif($opt =~ /^\/returnOnly$/){
       $returnOnlyStr = "-returnAsOnlyOutput -localcheck";
@@ -112,9 +120,6 @@ sub ProcessOptions {
   }
   
 }
-
-
-
 
 $symdiff_root = $ENV{'SYMDIFF_ROOT'};
 
@@ -150,3 +155,7 @@ MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _
 if ($inferContracts eq 1){
   MyExec("$symdiff_root\\references\\boogie.exe /noinfer /contractInfer /printAssignment $inferContractsOpts mergedProgSingle.bpl >> $v1$v2.log");
 }
+
+close OUTPUT;
+print("Commands written to $symdiff_out, and output redirected to $v1$v2.log\n"); 
+exit(1);
