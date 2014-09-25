@@ -46,8 +46,8 @@ sub PrintUsage{
   print "\t  /lu:k : unroll loops k times (default on with k = 2)\n";
   print "\t  /rvt : extract loops as tail-recursive procedures (default off)\n";
   print "\t  /useConfig:file : use file as the config file (default auto generated)\n";
-  print "\t  /opts:\"<option-string>\" : option-string is passed to SymDiff.exe -allInOne\n";
-  print "\t  /inferContracts:\"<option-string>\" : perform Boogie /contractInfer to infer mutual summaries with option-string \n";
+  print "\t  /opts:\"<option-string>\" : <option-string> is passed to SymDiff.exe -allInOne\n";
+  print "\t  /inferContracts:\"<option-string>\" : perform Boogie /contractInfer to infer mutual summaries with <option-string> \n";
   die "\n";
 }
 

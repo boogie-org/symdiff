@@ -717,16 +717,6 @@ if ($analyzeCallersOnly eq 1)
 my $dir1name = GetWfDirName($dir1);
 my $dir2name = GetWfDirName($dir2);
 
-#print ("dir1 = $dir1name \n");
-#print ("dir2 = $dir2name \n");
-
-# my $olddir = getcwd();
-# chdir $dir1 or die "Can't cd to $dir1\n";
-# chdir $olddir;
-# chdir $dir2 or die "Can't cd to $dir1\n";
-# my $olddir = getcwd();
-# chdir $olddir;
-
 #----- Added by Agnelo -----
 # Get file Diff Info
 if ($analyzeCallersOnly eq 1)
@@ -773,7 +763,6 @@ MyExec("$symdiff_root\\scripts\\cygwin_binaries\\sed -i s/\\\$\\\$/:\\\\/g $dir2
 #MyExec("$symdiff_root\\scripts\\cygwin_binaries\\sed -i s/.*sourcefile \"unknown\".*//g $dir2name.bpl");
 
 
-
 if ($stripAbsolutePathsInBpl eq 1) {
   my $currDir = getcwd();
   $currDir =~ s/\//\\\\/g;
@@ -812,11 +801,6 @@ if ($rvt eq 1) {
 if ($configFile eq ""){
    MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig $dir1name.bpl $dir2name.bpl > $dir1name$dir2name.config");
    $configFile = "$dir1name$dir2name.config";
-}
-
-#run symdiff for equivalence and dump output
-if ($dumpeq ne "") {
-  MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne $dir1name.bpl $dir2name.bpl $configFile $dumpeq> $dir1name$dir2name.log");
 }
 
 MyExec("rm -f EQ*");
