@@ -468,7 +468,7 @@ namespace SDiff
                 var ovar = Util.getVariableByName(prefix + "." + deps[0], globals.Union(outs));
                 deps.RemoveAt(0);
                 var ivars = deps.Select(x => Util.getVariableByName(prefix + "." + x, globals.Union(ins)));
-                Console.WriteLine("Dependency[{2}]: {0} -> {1}", ovar.Name, string.Join(", ", ivars.Select(x => x.Name)),f.Name);
+                //Console.WriteLine("Dependency[{2}]: {0} -> {1}", ovar.Name, string.Join(", ", ivars.Select(x => x.Name)),f.Name);
                 dependency[f][ovar] = ivars.ToList();
             }
         }
