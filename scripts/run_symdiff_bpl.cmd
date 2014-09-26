@@ -56,6 +56,7 @@ sub PrintUsage{
   print "\t  /useConfig:file : use file as the config file (default auto generated)\n";
   print "\t  /opts:\"<option-string>\" : <option-string> is passed to SymDiff.exe -allInOne\n";
   print "\t  /inferContracts:\"<option-string>\" : perform Boogie /contractInfer to infer mutual summaries with <option-string> \n";
+  print "\t  /abstractNonTainted:[changed-file1 changed-file2] : abstract code shown to be not tainted by static analysis (/taint:changed-filei for ith version)\n";
   die "\n";
 }
 
@@ -68,6 +69,9 @@ my $returnOnlyStr = "";
 my $optString = "";
 my $inferContracts = 0;
 my $inferContractsOpts = "";
+my $abstractNonTainted = "";
+my $taint1 = "";
+my $taint2 = "";
 
 sub ProcessOptions {
 
@@ -90,28 +94,34 @@ sub ProcessOptions {
     $opt = shift @ARGV;
     if($opt =~ /^\/lu:([0-9]+)$/){
       $luCount = $1;
-      print "Loop unroll count is $1\n";
+      print "\tLoop unroll count is $1\n";
     }
     if($opt =~ /^\/rvt$/){
       $rvt = 1;
-      print "Extracting loops \n";
+      print "\tExtracting loops  as procedures\n";
     }
     if($opt =~ /^\/opts:(.*)$/){
       $optString = $1;
-      print "Passing \"$1\" to symdiff.exe -allInOne\n";
+      print "\tPassing options \"$1\" to symdiff.exe -allInOne\n";
     }
     if($opt =~ /^\/inferContracts:(.*)$/){
       $inferContracts = 1;
       $inferContractsOpts = $1;
-      print "Passing \"$1\" to boogie.exe /contractInfer to infer mutual summaries \n";
+      print "\tPassing options \"$1\" to boogie.exe /contractInfer to infer mutual summaries \n";
     }
     elsif($opt =~ /^\/returnOnly$/){
       $returnOnlyStr = "-returnAsOnlyOutput -localcheck";
-      print "#### Only considering return value as the output of a procedure, ignoring globals/out parameters modified....\n";
+      print "\tOnly considering return value as the output of a procedure, ignoring globals/out parameters modified....\n";
+    }
+    if($opt =~ /^\/abstractNonTainted:\[(.*) (.*)\]$/){
+      $abstractNonTainted = "1"; #non-empty
+      $taint1 = $1;
+      $taint2 = $2;
+      print "\tPerforming taint based abstraction based on changed files $1 and $2 \n";
     }
     if($opt =~ /^\/useConfig:([a-zA-Z0-9_\.]+)$/){
       $configFile = $1;
-      print "Using config file $1\n";
+      print "\tUsing config file $1\n";
       if (not(-e $configFile)){
 	Error ("$configFile does not exist\n");
 	PrintUsage();
@@ -120,6 +130,16 @@ sub ProcessOptions {
   }
   
 }
+
+# logic related to abstractNonTainted
+sub AbstractNonTainted{
+  my $bpl = shift;
+  my $changedLinesFile = shift;
+  
+  MyExecAndDieOnFailure("dependency.exe $bpl.bpl /taint:$changedLinesFile /abstractNonTainted "); #outputs to $bpl.abstractNonTainted.bpl
+  return $bpl . ".bpl.taintAbstract";
+}
+
 
 $symdiff_root = $ENV{'SYMDIFF_ROOT'};
 
@@ -133,12 +153,24 @@ if ($rvt eq 1){
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $luCount $v2.bpl _v2.bpl");
 }
 
-## run dependency analysis
+## run dependency analysis (TODO: run it only for equivalence)
 MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl /annotateDependencies "); #outputs to _v1.bpl_w_deps.bpl
 MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl /annotateDependencies "); #outputs to _v2.bpl_w_deps.bpl
 MyExecAndDieOnFailure("copy /Y _v1.bpl_w_dep.bpl  _v1.bpl"); 
 MyExecAndDieOnFailure("copy /Y _v2.bpl_w_dep.bpl  _v2.bpl"); 
 
+## run abstractNonTainted
+if (!($abstractNonTainted eq "")) {
+  my $v1 = AbstractNonTainted("_v1", $taint1);
+  my $v2 = AbstractNonTainted("_v2", $taint2);
+  #the files are called v1.bpl.taintAbstract.bpl, the presence of "." in filename confuses symdiff.exe
+  #my $newV1 = $dir1name . "_ta";
+  #my $newV2 = $dir2name . "_ta";
+  MyExec("copy /Y $v1.bpl  _v1.bpl"); #renaming v1.bpl destroys the pristine files
+  MyExec("copy /Y $v2.bpl  _v2.bpl"); #renaming v1.bpl destroys the pristine files
+  #$dir1name = $newV1;
+  #$dir2name = $newV2;
+}
 
 MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig _v1.bpl _v2.bpl > _v1_v2.config"); 
 

@@ -157,27 +157,27 @@ sub ProcessOptions {
 
     if($opt =~ /^\/lu:([0-9]+)$/){
       $loopUnrollCount = $1;
-      #print "Using loop unroll count of $1\n";
+      print "\t Using loop unroll count of $1\n";
     }
     elsif($opt =~ /^\/oacr$/){
       $oacr = 1;
-      print "Using OACR...\n";
+      print "\t Using OACR...\n";
     }
     elsif($opt =~ /^\/smv$/){
       $smv = 1;
-      print "Using SMV...\n";
+      print "\t Using SMV...\n";
     }
     elsif($opt =~ /^\/nocpp$/){
       $ascpp = " \/nocpp ";
-      print "Removing -TP for CL...\n";
+      print "\t Removing -TP for CL...\n";
     }
     elsif($opt =~ /^\/bv$/){
       $boogieopts = " /boogieOpt:/z3opt:RELEVANCY=0 ";
-      print "Using efficient Z3 bv flags...\n";
+      print "\t Using efficient Z3 bv flags...\n";
     }
     elsif($opt =~ /^\/skipbpl$/){
       $skipbpl = 1;
-      print "Skipping generation of test.bpl...\n";
+      print "\t Skipping generation of test.bpl...\n";
     }
     elsif($opt =~ /^\/nohtml$/){
       $pophtml = 0;
@@ -194,43 +194,43 @@ sub ProcessOptions {
     }
     elsif($opt =~ /^\/nonmodular$/){
       $nonmodular = "-nonmodular";
-      print "Inlining Everything...\n";
+      print "\t Inlining Everything...\n";
     }
     elsif($opt =~ /^\/abstractNonTainted$/){
       $abstractNonTainted = 1;
-      print "Running taint analysis to determine tainted blocks...\n";
+      print "\t Running taint analysis to determine tainted blocks...\n";
     }
     elsif($opt =~ /^\/diffinline$/){
       $diffinline = "-di";
-      print "Differential inlining...\n";
+      print "\t Differential inlining...\n";
     }
     elsif($opt =~ /^\/asserts$/){
       $asserts = "-asserts";
-      print "Replacing asserts by OK...\n";
+      print "\t Replacing asserts by OK...\n";
     }
     elsif($opt =~ /^\/justmain$/){
       $justmain = "-justmain";
-      print "Analyzing only the main function...\n";
+      print "\t Analyzing only the main function...\n";
     }
     elsif($opt =~ /^\/localcheck$/){
       $localcheck = "-localcheck";
-      print "Not propagating differences to callers...\n";
+      print "\t Not propagating differences to callers...\n";
     }
     elsif($opt =~ /^\/oneproc$/){
       $oneproc = "-oneproc";
-      print "Differential inlining switched off...\n";
+      print "\t Differential inlining switched off...\n";
     }
     elsif($opt =~ /^\/usemutual$/){
       $usemutual = "-usemutual";
-      print "Using mutual summaries...\n";
+      print "\t Using mutual summaries...\n";
     }
     elsif($opt =~ /^\/dumpeq$/){
       $dumpeq = "-dumpeq";
-      print "Dump equality data and summary templates...\n";
+      print "\t Dump equality data and summary templates...\n";
     }
     elsif($opt =~ /^\/preserve$/){
       $preserve = 1;
-      print "Skipping generation of bpl files...\n";
+      print "\t Skipping generation of bpl files...\n";
     }
 #     elsif($opt =~ /^\/sound$/){
 #       $sound = "-sound";
@@ -238,32 +238,32 @@ sub ProcessOptions {
 #     }
     elsif($opt =~ /^\/rvt$/ || $opt =~ /^\/loopExtract/){
       $rvt = 1;
-      print "Extracting loops as recursive procedures....\n";
+      print "\t Extracting loops as recursive procedures....\n";
     }
     elsif($opt =~ /^\/opts:(.*)$/){
       $optString = $1;
-      print "Passing $1 to symdiff.exe -allInOne\n";
+      print "\t Passing $1 to symdiff.exe -allInOne\n";
     }
     elsif($opt =~ /^\/genBplsOnly$/){
       $genBplsOnly = 1;
-      print "Only generating BPL files, not invoking symdiff.exe...\n";
+      print "\t Only generating BPL files, not invoking symdiff.exe...\n";
     }
     elsif($opt =~ /^\/stripAbsolutePathsInBpl$/){
       $stripAbsolutePathsInBpl = 1;
-      print "Removing absolute paths from generated bpl files...\n";
+      print "\t Removing absolute paths from generated bpl files...\n";
     }
     elsif($opt =~ /^\/enumpaths$/){
       $enumpaths = "-enumpaths";
-      print "Enumerating paths instead of VCGen, for estimating time (just checks for assert false)....\n";
+      print "\t Enumerating paths instead of VCGen, for estimating time (just checks for assert false)....\n";
     }
     elsif($opt =~ /^\/notrace$/){
       $notrace = "-notrace";
       $pophtml = 0; #also blocks html from popping up
-      print "No html report....look at the $dir1$dir2.log to see the number of counterexamples....\n";
+      print "\t No html report....look at the $dir1$dir2.log to see the number of counterexamples....\n";
     }
     elsif($opt =~ /^\/returnOnly$/){
       $returnOnlyStr = "-returnAsOnlyOutput";
-      print "Only considering return value as the output of a procedure, ignoring globals/out parameters modified....\n";
+      print "\t Only considering return value as the output of a procedure, ignoring globals/out parameters modified....\n";
     }
     elsif($opt =~ /^\/cex:([0-9]+)$/){
       $cexcount = $1;
@@ -271,7 +271,7 @@ sub ProcessOptions {
     }
     elsif($opt =~ /^\/useConfig:([a-zA-Z0-9_\.]+)$/){
       $configFile = $1;
-      print "Using config file $1...\n";
+      print "\t Using config file $1...\n";
       if (not(-e $configFile)){
 	Error ("$configFile does not exist\n");
 	PrintUsage();
@@ -279,7 +279,7 @@ sub ProcessOptions {
     }
     elsif($opt =~ /^\/cf:([a-zA-Z0-9_\.]+)$/){
       $changedFile = $1;
-      print "Changed file is $1\n";
+      print "\t Changed file is $1\n";
       if (not(-e $changedFile)){
 	Error ("$changedFile does not exist\n");
 	PrintUsage();
@@ -680,8 +680,6 @@ sub GetWfDirName{
   
   return $dir;
 }
-
-
 # logic related to abstractNonTainted
 sub AbstractNonTainted{
   my $bpl = shift;
@@ -691,6 +689,11 @@ sub AbstractNonTainted{
   return $bpl . ".bpl.taintAbstract";
 }
 
+sub Marker{
+  my $stage = shift;
+  my $startend = shift;
+  print "\n+++++++ $startend ($stage) ++++++++\n";
+}
 
 ###### Main processing #######
 
@@ -707,6 +710,8 @@ if (not($changedFile eq "")){
   MyExec("cp  $changedFile $dir2\\$changedFile");
   MyExec("attrib -R $dir2\\$changedFile");
 }
+
+Marker("Processing C files", "Start");
 #----- Added by Agnelo -----
 # Get file Diff Info
 if ($analyzeCallersOnly eq 1)
@@ -741,6 +746,9 @@ if ($analyzeCallersOnly eq 1){
   # only copy changed functions from v1
   MyExec("xcopy /Y/Q/I $dir1\\automodfunclist.txt .\\");
 }
+Marker("Processing C files", "End");
+
+Marker("Cleaning up BPL files", "Start");
 
 #first copy the files
 MyExec("cp  $dir1\\test.tmp.bpl $dir1name.bpl"); #unrolling/extraction happens in run_symdiff_bpl.cmd  now
@@ -772,27 +780,29 @@ if ($stripAbsolutePathsInBpl eq 1) {
   MyExec("$symdiff_root\\scripts\\cygwin_binaries\\sed -i s/$currDir/./g $dir2name.bpl");
 }
 
+Marker("Cleaning up BPL files", "End");
+
 if ($genBplsOnly eq 1) {
   exit(1);
 }
 
 # taint abstraction logic (TODO: move inside run_symdiff_bpl.cmd to avoid replication)
 # loops are not extracted yet 
-if ($abstractNonTainted eq 1) {
-  if($analyzeCallersOnly eq 0){
-    die "Using /abstractNonTainted only permitted with /analyzeChangedCallersOnly\n";
-  } 
-  my $v1 = AbstractNonTainted($dir1name, "$dir1name\\changed_lines.txt");
-  my $v2 = AbstractNonTainted($dir2name, "$dir2name\\changed_lines.txt");
-  #the files are called v1.bpl.taintAbstract.bpl, the presence of "." in filename confuses symdiff.exe
-  my $newV1 = $dir1name . "_ta";
-  my $newV2 = $dir2name . "_ta";
-  MyExec("copy /Y $v1.bpl  $newV1.bpl"); #renaming v1.bpl destroys the pristine files
-  MyExec("copy /Y $v2.bpl  $newV2.bpl"); #renaming v1.bpl destroys the pristine files
-  $dir1name = $newV1;
-  $dir2name = $newV2;
-}
-
+# if ($abstractNonTainted eq 1) {
+#   if($analyzeCallersOnly eq 0){
+#     die "Using /abstractNonTainted only permitted with /analyzeChangedCallersOnly\n";
+#   } 
+#   my $v1 = AbstractNonTainted($dir1name, "$dir1name\\changed_lines.txt");
+#   my $v2 = AbstractNonTainted($dir2name, "$dir2name\\changed_lines.txt");
+#   #the files are called v1.bpl.taintAbstract.bpl, the presence of "." in filename confuses symdiff.exe
+#   my $newV1 = $dir1name . "_ta";
+#   my $newV2 = $dir2name . "_ta";
+#   MyExec("copy /Y $v1.bpl  $newV1.bpl"); #renaming v1.bpl destroys the pristine files
+#   MyExec("copy /Y $v2.bpl  $newV2.bpl"); #renaming v1.bpl destroys the pristine files
+#   $dir1name = $newV1;
+#   $dir2name = $newV2;
+# }
+ 
 
 ###############################################
 # IMPORTANT:
@@ -820,14 +830,25 @@ if ($configFile eq "") {
 } else {
   $configStr = " /useConfig:$configFile ";
 }
+if ($abstractNonTainted eq 1) {
+  if($analyzeCallersOnly eq 0){
+    die "Using /abstractNonTainted only permitted with /analyzeChangedCallersOnly\n";
+  }
+  $taintStr = " /abstractNonTainted:\"[$dir1name\\changed_lines.txt $dir2name\\changed_lines.txt]\" ";
+}
 
 $allInOneOptStr = " /opts:\" $nonmodular $asserts $justmain $localcheck $oneproc $usemutual  $boogiewrapper $syntacticEqOpt $diffinline $enumpaths $cexstr $returnOnlyStr $notrace $boogieopts \" ";
 
+Marker("Executing run_symdiff_bpl.cmd", "Start");
 MyExecAndDieOnFailure("run_symdiff_bpl.cmd $dir1name $dir2name  $rvtStr  $loopUnrollStr $configStr $taintStr $allInOneOptStr ");
 
 # append  symdiff_bpl.output --> symdiff.output
-
- 
+open OUTPUT_BPL, "<symdiff_bpl.output" or die "can't open symdiff_bpl.output for writing\n"; 
+foreach $line (<OUTPUT_BPL>) {
+  print OUTPUT $line;
+}
+close OUTPUT_BPL;
+Marker("Executing run_symdiff_bpl.cmd", "End");
 
 # #generate config file
 # my $rvtstr = ""; 
