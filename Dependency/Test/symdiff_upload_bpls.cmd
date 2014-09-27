@@ -62,7 +62,7 @@ sub ProcessExample {
   chdir @tokens[0];
   for($n = 2; $n < $len; $n++) {
     $ver = @tokens[$n];
-    print "\n\t Version $ver\n";
+    print "\n\t ######### Version $ver (@tokens[0]) ############\n";
     ProcessVersion(@tokens[1], $ver);
   }
   chdir $olddir;
@@ -73,7 +73,7 @@ sub ProcessExample {
 sub ProcessVersion {
   my $src = shift;
   my $ver = shift;
-  my $cmd = "run_symdiff_bpl $src $ver /rvt /opts:\" -usemutual -checkEquivWithDependencies -freeContracts \" /inferContracts:\"/inlineDepth:1\" /abstractNonTainted:\"\[$ver\\changed_lines.txt $ver\\changed_lines.txt\]\" ";
+  my $cmd = "run_symdiff_bpl $src $ver /rvt /opts:\" -usemutual -checkEquivWithDependencies -freeContracts \" /inferContracts:\"/inlineDepth:1 /timeLimit:20 \" /abstractNonTainted:\"\[$ver\\changed_lines.txt $ver\\changed_lines.txt\]\" ";
   #my $cmd = "run_symdiff_c.cmd $src $ver /nocpp /rvt /nohtml /genBplsOnly /analyzeChangedCallersOnly /stripAbsolutePathsInBpl > $src.$ver.upload.log";
   MyExec("$cmd");
   #AddToGitRepo($src, $ver);

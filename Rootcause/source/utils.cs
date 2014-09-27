@@ -888,7 +888,7 @@ namespace Rootcause
             var fileName = Options.htmlInput + ".html";
             if (!System.IO.File.Exists(fileName))
             {
-                Console.WriteLine("Warning!! The input html file {0} does not exist", fileName);
+                Console.Error.WriteLine("Warning!! The input html file {0} does not exist", fileName);
                 return;
             }
             var l = System.IO.File.ReadAllLines(fileName);

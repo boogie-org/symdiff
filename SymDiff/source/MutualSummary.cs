@@ -776,10 +776,16 @@ namespace SDiff
                     if (!dependency[f1].ContainsKey(o12.Item1) || !dependency[f2].ContainsKey(o12.Item2)) continue;
                     var dep1 = dependency[f1][o12.Item1];
                     var dep2 = dependency[f2][o12.Item2];
-                    MakeDependenciesIdentical(dep1, dep2, i2.Union(gSeq_p2), p1Prefix, p2Prefix); //updates dep2
-                    MakeDependenciesIdentical(dep2, dep1, i1.Union(gSeq_p1), p2Prefix, p1Prefix); //updates dep1
+                    //TODO: for named inputs (e.g. result.get_char$23 and result.get_char$24 on two sides, there is no named mapping)
+                    MakeDependenciesIdentical(dep1, dep2, i2.Union(gSeq_p2), p1Prefix, p2Prefix); //updates dep2 with dep1\dep2
+                    MakeDependenciesIdentical(dep2, dep1, i1.Union(gSeq_p1), p2Prefix, p1Prefix); //updates dep1 with dep2\dep1
                     dep1.Sort(varOrder); dep2.Sort(varOrder);
-                    Debug.Assert(dep1.Count == dep2.Count, string.Format("Expecting cardinality of dependencies for {0} to be identical", o12.Item1.Name));
+                    if(dep1.Count != dep2.Count)
+                    {
+                        Util.PrintError(string.Format("WARNING: Expecting cardinality of dependencies for {0} to be identical. No candidate variable ", o12.Item1.Name));
+                        continue;
+                    }
+                    //Debug.Assert(dep1.Count == dep2.Count, string.Format("Expecting cardinality of dependencies for {0} to be identical", o12.Item1.Name));
                     Expr pre = new OldExpr(Token.NoToken, CreateVariableEqualities(dep1, dep2));
                     var ens = new Ensures(false, 
                             Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(o12.Item1.Name, p1Prefix)),
@@ -797,7 +803,11 @@ namespace SDiff
                     var name = Util.TrimPrefixWithDot(i.Name, prefix1);
                     if (dep2.Any(x => Util.TrimPrefixWithDot(x.Name, prefix2) == name)) continue;
                     var missing2 = ins2.Where(x => Util.TrimPrefixWithDot(x.Name, prefix2) == name);
-                    Debug.Assert(missing2.Count() == 1, string.Format("Expecting exactly 1 match for {0}, found {1}", name, missing2.Count()));
+                    if (missing2.Count() != 1)
+                    {
+                        Util.PrintError(string.Format("WARNING: Expecting exactly 1 match for {0}, found {1}", name, missing2.Count()));
+                        continue;
+                    }
                     dep2.Add(missing2.First());
                 }
             }

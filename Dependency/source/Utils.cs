@@ -28,6 +28,11 @@ namespace Dependency
     }
     class Utils
     {
+        public static void PrintError(string fname)
+        {
+            Console.WriteLine(fname);
+            Console.Error.WriteLine(fname);
+        }
 
         public static bool ParseProgram(string fname, out Program prog)
         {
