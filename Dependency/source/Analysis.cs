@@ -181,9 +181,14 @@ namespace Dependency
                     sourceLines[sourceFile].Add(Utils.AttributeUtils.GetSourceLine(b));
                 }
             }));
-            // print number of tainted lines
-            Console.WriteLine("#Tainted, Out of Overall #Lines:\n {0}, {1}", taintLog.GroupBy(t => t.Item3).Count(), sourceLines.Sum(fl => fl.Value.Count));
-
+            if (changeList != null)
+            {
+                // print number of tainted lines
+                var taintedLines = taintLog.GroupBy(t => t.Item3);
+                Console.WriteLine("#Tainted, Out of Overall #Lines:\n {0}, {1}", taintedLines.Count(), sourceLines.Sum(fl => fl.Value.Count));
+                if (taintedLines.Count() == 0)
+                    Utils.PrintError("WARNING: Result may be inaccurate as the #tainted lines is 0");
+            }
             #endregion
             sw.Stop();
             return 0;
@@ -208,7 +213,7 @@ namespace Dependency
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Warning: Ignoring misformed/empty line in {0}: {1}",changelist,line);
+                    Utils.PrintError(string.Format("Warning: Ignoring misformed/empty line in {0}: {1}",changelist,line));
                     continue;
                 }
             }

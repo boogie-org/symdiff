@@ -462,13 +462,13 @@ namespace SDiff
             dependency[f] = new Dictionary<Variable,List<Variable>>();
             foreach (var en in f.Ensures)
             {
-                if (en.Attributes.Key != "io_dependency") continue;
+                if (en.Attributes == null || en.Attributes.Key != "io_dependency") continue;
                 var deps = en.Attributes.Params.Select(x => x.ToString()).ToList();
                 Debug.Assert(deps.Count() > 0, "A dependency needs to at least have the output variable");
                 var ovar = Util.getVariableByName(prefix + "." + deps[0], globals.Union(outs));
                 deps.RemoveAt(0);
                 var ivars = deps.Select(x => Util.getVariableByName(prefix + "." + x, globals.Union(ins)));
-                Console.WriteLine("Dependency[{2}]: {0} -> {1}", ovar.Name, string.Join(", ", ivars.Select(x => x.Name)),f.Name);
+                //Console.WriteLine("Dependency[{2}]: {0} -> {1}", ovar.Name, string.Join(", ", ivars.Select(x => x.Name)),f.Name);
                 dependency[f][ovar] = ivars.ToList();
             }
         }
@@ -763,6 +763,8 @@ namespace SDiff
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2,
                 bool isCandidate = true)
             {
+                if (!dependency.ContainsKey(f1) || !dependency.ContainsKey(f2))
+                    return;
                 var fname = Util.TrimPrefixWithDot(f1.Name, p1Prefix);
                 List<Ensures> censures = new List<Ensures>();
                 Comparison<Variable> varOrder = delegate(Variable x, Variable y) { return x.Name.CompareTo(y.Name); };
@@ -771,12 +773,19 @@ namespace SDiff
                 og1.Sort(varOrder); og2.Sort(varOrder);
                 foreach(var o12 in og1.Zip(og2))
                 {
+                    if (!dependency[f1].ContainsKey(o12.Item1) || !dependency[f2].ContainsKey(o12.Item2)) continue;
                     var dep1 = dependency[f1][o12.Item1];
                     var dep2 = dependency[f2][o12.Item2];
-                    MakeDependenciesIdentical(dep1, dep2, i2.Union(gSeq_p2), p1Prefix, p2Prefix); //updates dep2
-                    MakeDependenciesIdentical(dep2, dep1, i1.Union(gSeq_p1), p2Prefix, p1Prefix); //updates dep1
+                    //TODO: for named inputs (e.g. result.get_char$23 and result.get_char$24 on two sides, there is no named mapping)
+                    MakeDependenciesIdentical(dep1, dep2, i2.Union(gSeq_p2), p1Prefix, p2Prefix); //updates dep2 with dep1\dep2
+                    MakeDependenciesIdentical(dep2, dep1, i1.Union(gSeq_p1), p2Prefix, p1Prefix); //updates dep1 with dep2\dep1
                     dep1.Sort(varOrder); dep2.Sort(varOrder);
-                    Debug.Assert(dep1.Count == dep2.Count, string.Format("Expecting cardinality of dependencies for {0} to be identical", o12.Item1.Name));
+                    if(dep1.Count != dep2.Count)
+                    {
+                        Util.PrintError(string.Format("WARNING: Expecting cardinality of dependencies for {0} to be identical. No candidate variable ", o12.Item1.Name));
+                        continue;
+                    }
+                    //Debug.Assert(dep1.Count == dep2.Count, string.Format("Expecting cardinality of dependencies for {0} to be identical", o12.Item1.Name));
                     Expr pre = new OldExpr(Token.NoToken, CreateVariableEqualities(dep1, dep2));
                     var ens = new Ensures(false, 
                             Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(o12.Item1.Name, p1Prefix)),
@@ -794,7 +803,11 @@ namespace SDiff
                     var name = Util.TrimPrefixWithDot(i.Name, prefix1);
                     if (dep2.Any(x => Util.TrimPrefixWithDot(x.Name, prefix2) == name)) continue;
                     var missing2 = ins2.Where(x => Util.TrimPrefixWithDot(x.Name, prefix2) == name);
-                    Debug.Assert(missing2.Count() == 1, string.Format("Expecting exactly 1 match for {0}, found {1}", name, missing2.Count()));
+                    if (missing2.Count() != 1)
+                    {
+                        Util.PrintError(string.Format("WARNING: Expecting exactly 1 match for {0}, found {1}", name, missing2.Count()));
+                        continue;
+                    }
                     dep2.Add(missing2.First());
                 }
             }

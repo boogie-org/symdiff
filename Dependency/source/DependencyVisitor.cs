@@ -238,7 +238,7 @@ namespace Dependency
             Utils.ComputeDominators(program, node, dominatedBy);
 
             worklist.RunFixedPoint(this, node);
-            Console.WriteLine("Analyzed " + node + "( ).");
+            //Console.WriteLine("Analyzed " + node + "( ).");
             return node;
         }
 

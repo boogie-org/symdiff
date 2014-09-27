@@ -329,7 +329,7 @@ my @dac_examples =
 print "-----------------------\n";
 print "DAC SymDiff regressions\n";
 print "-----------------------\n";
-$flags = "/opts:\" -asserts -usemutual -sound  \" /inferContracts:\"  \" ";
+$flags = "/opts:\" -asserts -usemutual  \" /inferContracts:\"  \" ";
 $dac = 1; # checking DAC regression is different than other regressions
 my $tag = ".bpl";
 RunExampleWithOptions("_bpl", \@dac_examples, $flags, $cwd, $opt_regr, $tag);

@@ -13,7 +13,7 @@ namespace SDiff
     public static string VerificationTaskFile = null;
       
     //set these at compile time
-    public const bool VerboseBoogieEnvironment = true;
+    public const bool VerboseBoogieEnvironment = false;
     public const bool PrintMergedProgramToConsole = true;
     public const bool RenameToNamespaces = true;
     public const bool DoCindyTool = false;

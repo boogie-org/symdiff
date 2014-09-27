@@ -418,6 +418,11 @@ namespace SDiff
           p.Emit(tuo);
           tuo.Close();
       }
+      public static void PrintError(string fname)
+      {
+          Console.WriteLine(fname);
+          Console.Error.WriteLine(fname);
+      }
 
       //querying and transforming ASTs
       public static List<string> getCalleesList(List<Declaration> procImp)
