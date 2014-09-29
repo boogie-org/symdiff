@@ -604,7 +604,7 @@ namespace Dependency
                         else if (taintedLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // tainted
                             //line = string.Format("<b> <u> {0} </u> </b>", line);
                             line = string.Format("<b> <font color=\"blue\"> {0} </font> </b>", line);
-                        else if (taintedModSetLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum))
+                        /*else */if (taintedModSetLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum))
                         {
                             string taintedModset = null;
                             taintedModSetLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).Iter(t => taintedModset = string.Format("</br> <b> Outputs: </b> {0} ", t.Item4.Replace(TaintMarkerPre,"<b> <font color=\"blue\">").Replace(TaintMarkerPost,"</font> </b>")));

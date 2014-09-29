@@ -185,7 +185,7 @@ namespace Dependency
             {
                 // print number of tainted lines
                 var taintedLines = taintLog.GroupBy(t => t.Item3);
-                Console.WriteLine("#Tainted, Out of Overall #Lines:\n {0}, {1}", taintedLines.Count(), sourceLines.Sum(fl => fl.Value.Count));
+                Console.WriteLine("#Tainted lines, Out of Overall #Lines:\n {0}, {1}", taintedLines.Count(), sourceLines.Sum(fl => fl.Value.Count));
                 if (taintedLines.Count() == 0)
                     Utils.PrintError("WARNING: Result may be inaccurate as the #tainted lines is 0");
             }
