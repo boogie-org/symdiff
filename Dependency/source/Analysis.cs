@@ -154,7 +154,7 @@ namespace Dependency
 
             Utils.CallGraphHelper.WriteCallGraph(filename + ".cg.dot", Utils.CallGraphHelper.ComputeCallGraph(program));
             Dictionary<string, HashSet<int>> sourceLines = new Dictionary<string, HashSet<int>>();
-            program.Implementations().Iter(i => i.Blocks.Iter(b =>
+            program.Implementations.Iter(i => i.Blocks.Iter(b =>
             {
                 var sourceFile = Utils.AttributeUtils.GetSourceFile(b);
                 if (sourceFile != null)
@@ -184,7 +184,7 @@ namespace Dependency
 
             Dictionary<string,HashSet<int>> oldSourceLines = new Dictionary<string,HashSet<int>>(sourceLines);
             sourceLines.Clear();
-            program.Implementations().Iter(i => i.Blocks.Iter(b =>
+            program.Implementations.Iter(i => i.Blocks.Iter(b =>
             {
                 var sourceFile = Utils.AttributeUtils.GetSourceFile(b);
                 if (sourceFile != null)
@@ -223,7 +223,7 @@ namespace Dependency
                     string[] items = line.Split(',');
                     string procName = items[0].Trim(), procFile = null;
                     // locate the source file for the procedure
-                    var impl = program.Implementations().Single(i => i.Name == procName);
+                    var impl = program.Implementations.Single(i => i.Name == procName);
                     impl.Blocks.Find(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd && (procFile = Utils.AttributeUtils.GetSourceFile(b)) != null);
                     changeLog.Add(Tuple.Create(procFile, procName, int.Parse(items[1])));
                 }
@@ -295,7 +295,7 @@ namespace Dependency
 
             //// test SB deps
             //Random rnd = new Random();
-            //foreach (var impl in program.Implementations())
+            //foreach (var impl in program.Implementations)
             //{
             //    Console.WriteLine("Deps[" + impl + "] = " + allDeps[impl.Proc]);
             //    Console.WriteLine("Superblock = " + Utils.DependenciesUtils.SuperBlockDependencies(impl.Blocks, allDepVisitor.worklist.stateSpace[impl.Blocks.Last().TransferCmd], allDeps));
@@ -397,19 +397,19 @@ namespace Dependency
 
             if (printTaint && changeLog.Count > 0)
                 // extract taint from dependencies and print
-                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(visitor)));
+                program.Implementations.Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(visitor)));
 
             if (Prune)
                 Utils.DependenciesUtils.PruneProcDependencies(program, deps);
 
-            program.Implementations().Iter(impl => PopulateDependencyLog(impl, deps[impl.Proc], kind));
+            program.Implementations.Iter(impl => PopulateDependencyLog(impl, deps[impl.Proc], kind));
 
             //if (changeLog.Count > 0)
                 // remove the special taint var
                 //deps.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));
 
             if (PrintStats)
-                program.Implementations().Iter(impl => deps[impl.Proc].Iter(dep => PopulateStatsLog(kind, impl, dep.Key, dep.Value)));
+                program.Implementations.Iter(impl => deps[impl.Proc].Iter(dep => PopulateStatsLog(kind, impl, dep.Key, dep.Value)));
         }
 
         private static void RunRefinedDepAnalysis(string filename, Program program, Dictionary<Procedure, Dependencies> lowerBound, Dictionary<Procedure, Dependencies> upperBound)
@@ -427,12 +427,12 @@ namespace Dependency
             refineDepsWL.RunFixedPoint(sw);
             Utils.LogStopwatch(sw, "After refined dependency analysis", Analysis.Timeout);
             // print
-            refineDepsWL.currDependencies.Iter(pd => PopulateDependencyLog(program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name), pd.Value, Utils.StatisticsHelper.Refined));
+            refineDepsWL.currDependencies.Iter(pd => PopulateDependencyLog(program.Implementations.SingleOrDefault(i => i.Proc.Name == pd.Key.Name), pd.Value, Utils.StatisticsHelper.Refined));
 
             // stats
             refineDepsWL.currDependencies.Iter(pd =>
             {
-                var impl = program.Implementations().SingleOrDefault(i => i.Proc.Name == pd.Key.Name);
+                var impl = program.Implementations.SingleOrDefault(i => i.Proc.Name == pd.Key.Name);
                 if (impl != null)
                     pd.Value.Iter(dep => PopulateStatsLog(Utils.StatisticsHelper.Refined, impl, dep.Key, dep.Value));
             });
@@ -444,7 +444,7 @@ namespace Dependency
                 visitor.ProcDependencies = refineDepsWL.currDependencies;
                 visitor.Visit(program); // reminder: taint is essentially a dependecy analysis
                 // extract taint from dependencies and print
-                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(visitor)));
+                program.Implementations.Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(visitor)));
             }
         }
 
@@ -453,14 +453,14 @@ namespace Dependency
             rsVisitor.Visit(program);
             // prune
             if (Prune)
-                rsVisitor.ProcReadSet.Keys.Iter(p => Utils.VariableUtils.PruneLocals(program.Implementations().SingleOrDefault(i => i.Proc.Name == p.Name), rsVisitor.ProcReadSet[p]));
+                rsVisitor.ProcReadSet.Keys.Iter(p => Utils.VariableUtils.PruneLocals(program.Implementations.SingleOrDefault(i => i.Proc.Name == p.Name), rsVisitor.ProcReadSet[p]));
 
             // create a dependency set \foreach r \in ReadSet: r <- ReadSet
             Dictionary<Procedure,Dependencies> rsProcDeps = new Dictionary<Procedure,Dependencies>();
             rsVisitor.ProcReadSet.Keys.Iter(p => { rsProcDeps[p] = new Dependencies(); rsVisitor.ProcReadSet[p].Iter(r => rsProcDeps[p][r] = rsVisitor.ProcReadSet[p]); });
 
             // print
-            //program.Implementations().Iter(impl => PopulateDependencyLog(impl, rsProcDeps[impl.Proc], Utils.StatisticsHelper.ReadSet));
+            //program.Implementations.Iter(impl => PopulateDependencyLog(impl, rsProcDeps[impl.Proc], Utils.StatisticsHelper.ReadSet));
 
             // taint
             if (changeLog.Count > 0)
@@ -468,7 +468,7 @@ namespace Dependency
                 depVisitor.ProcDependencies = rsProcDeps;
                 depVisitor.Visit(program); // reminder: taint is essentially a dependecy analysis
                 // extract taint from dependencies and print
-                program.Implementations().Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(depVisitor)));
+                program.Implementations.Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(depVisitor)));
                 // remove the special taint var
                 rsProcDeps.Values.Iter(dep => dep.Values.Iter(d => { d.Remove(Utils.VariableUtils.BottomUpTaintVar); d.Remove(Utils.VariableUtils.TopDownTaintVar); }));
             }
@@ -478,7 +478,7 @@ namespace Dependency
                 rsVisitor.ProcReadSet.Iter(prs =>
                 {
                     var proc = prs.Key; var readSet = prs.Value;
-                    var impl = program.Implementations().SingleOrDefault(i => i.Proc.Name == proc.Name);
+                    var impl = program.Implementations.SingleOrDefault(i => i.Proc.Name == proc.Name);
                     if (impl != null) // conservatively each output\global is dependent on all of the readset
                         readSet.Where(v => v is GlobalVariable || proc.OutParams.Contains(v)).Iter(v => PopulateStatsLog(Utils.StatisticsHelper.ReadSet, impl, v, readSet));
                 });

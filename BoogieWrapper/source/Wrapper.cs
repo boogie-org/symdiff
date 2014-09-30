@@ -59,7 +59,7 @@ namespace BoogieWrapper
             var newProg = prog;
 
             VC.ConditionGeneration vcgen = BoogieVerify.InitializeVC(newProg);
-            var newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations);
+            var newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
 
             //RS: Uncomment this
             var newEq = (Implementation)newDict.Get(funcName + "$IMPL");
@@ -116,11 +116,11 @@ namespace BoogieWrapper
  
                     if (Options.PreciseDifferentialInline)
                     {
-                        List<Declaration> consts = prog.TopLevelDeclarations.Filter(x => x is Constant);
+                        IEnumerable <Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant);
                         if (args.Length < 6)
-                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts, errModelList);
+                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts.ToList(), errModelList);
                         else
-                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts, errModelList, args[4], args[5]);
+                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts.ToList(), errModelList, args[4], args[5]);
                     }
                     else
                     {

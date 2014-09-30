@@ -309,7 +309,7 @@ namespace SDiff
         // * [FIX for modular checking]: make the non-det deterministic (see email on Current Loop extract fix for SymDiff, 5/4/12)
         // * This fix may not be ok for the case of inlining, as all instances either execute the body or exit
         // */
-        //List<Declaration> impls = program.TopLevelDeclarations.Filter(x => x is Implementation);
+        //List<Declaration> impls = program.TopLevelDeclarations.Where(x => x is Implementation);
         //TypedIdent tid = new TypedIdent(new Token(), "__loop_nondet_" /*+ impl.Name*/, new BasicType(SimpleType.Bool));
         //GlobalVariable loopNonDet = new GlobalVariable(new Token(), tid);
         //program.TopLevelDeclarations.Insert(0, loopNonDet);

@@ -72,13 +72,13 @@ namespace SDiff
             Program ms = SDiff.Boogie.Process.ParseProgram(ms_file);
             //TODO: Have to merge the new types (including datatypes)
             if (ms != null)
-                mergedProgram.TopLevelDeclarations.AddRange(ms.TopLevelDeclarations);
+                mergedProgram.AddTopLevelDeclarations(ms.TopLevelDeclarations);
         }
         public static void Initialize(Program q1, Program q2, Program mp, string q1Prefix, string q2Prefix, Config cfg1)
         {
             prog1 = q1; prog2 = q2; mergedProgram = mp;  p1Prefix = q1Prefix; p2Prefix = q2Prefix;
-            gSeq_p1 = new List<Variable>(prog1.TopLevelDeclarations.Filter(x => x is GlobalVariable).Cast<Variable>().ToArray());
-            gSeq_p2 = new List<Variable>(prog2.TopLevelDeclarations.Filter(x => x is GlobalVariable).Cast<Variable>().ToArray());
+            gSeq_p1 = new List<Variable>(prog1.TopLevelDeclarations.Where(x => x is GlobalVariable).Cast<Variable>().ToArray());
+            gSeq_p2 = new List<Variable>(prog2.TopLevelDeclarations.Where(x => x is GlobalVariable).Cast<Variable>().ToArray());
             summaryFuncs = new Dictionary<Procedure, Function>();
             cfg = cfg1;
             procMap = cfg.GetProcedureDictionary();
@@ -88,7 +88,7 @@ namespace SDiff
         private static void MutualSummaryStart(Program mergedProgram, Dictionary<string, string> procMap)
         {
             if (!dontUseMSAsAxioms)
-                foreach (Procedure f in mergedProgram.TopLevelDeclarations.Filter(x => x is Procedure))
+                foreach (Procedure f in mergedProgram.TopLevelDeclarations.Where(x => x is Procedure))
                     CreateSummaryRelation(f);
             foreach (var kv in procMap)
             {
@@ -117,7 +117,7 @@ namespace SDiff
             var paramListR = GetParamsForSummaryRelation(p, globs, "", out tS); //its ok to have "" prefix when creating R_f1 and R_f2 separately
             Function funcR = new Function(new Token(), "R__" + p.Name, paramListR,
                 new Formal(Token.NoToken, new TypedIdent(new Token(), "return", BasicType.Bool), false));
-            mergedProgram.TopLevelDeclarations.Add(funcR);
+            mergedProgram.AddTopLevelDeclaration(funcR);
             var callR = new FunctionCall(funcR);
             var exprListR = new List<Expr>();
             exprListR.AddRange(Util.VarSeqToExprSeq(p.InParams));
@@ -182,7 +182,7 @@ namespace SDiff
             msFuncParams.AddRange(a2);
 
             var msfuncName = "MS$" + f1.Name + "$" + f2.Name;
-            Function msFunc = mergedProgram.TopLevelDeclarations.Find(x => (x is Function) && ((Function)x).Name == msfuncName) as Function;
+            Function msFunc = mergedProgram.TopLevelDeclarations.FirstOrDefault(x => (x is Function) && ((Function)x).Name == msfuncName) as Function;
             if (msFunc != null) //present 
             {
                 if (msFuncAxiomsAdded.Contains(msFunc)) //already done processing this function
@@ -195,7 +195,7 @@ namespace SDiff
                     msFuncParams,
                     new Formal(new Token(), new TypedIdent(new Token(), "ret", BasicType.Bool), false));
                 msFunc.Body = MkMutualSummaryBody(f1, f2, pm, i1, o1, i2, o2);
-                mergedProgram.TopLevelDeclarations.Add(msFunc);
+                mergedProgram.AddTopLevelDeclaration(msFunc);
                 msFunc.AddAttribute("inline", Expr.True);
             }
 
@@ -221,7 +221,7 @@ namespace SDiff
             Axiom MSAxiom = new Axiom(new Token(),
                 new ForallExpr(new Token(), msFuncParams, new Trigger(new Token(), true, TriggerSeq), Expr.Imp(Expr.And(r1call, r2call), 
                     new NAryExpr(new Token(), cms, exprsMS))));
-            mergedProgram.TopLevelDeclarations.Add(MSAxiom);
+            mergedProgram.AddTopLevelDeclaration(MSAxiom);
             msFuncAxiomsAdded.Add(msFunc);
             return msFunc;
         }
@@ -410,7 +410,7 @@ namespace SDiff
                     requiresSeq,
                     new List<IdentifierExpr>(),
                     ensuresSeq);
-            mergedProgram.TopLevelDeclarations.Add(mschkProc);
+            mergedProgram.AddTopLevelDeclaration(mschkProc);
             //don't create body if either procedure does not have a body
             if (IsStubProcedure(f1)|| IsStubProcedure(f2))
             {
@@ -442,7 +442,7 @@ namespace SDiff
                     bbl
                     );
             mschkImpl.Proc = mschkProc;
-            mergedProgram.TopLevelDeclarations.Add(mschkImpl);
+            mergedProgram.AddTopLevelDeclaration(mschkImpl);
 
             //inline f1, f2
             //The inline:spec inlines a procedure with {:inline 1} 1 times and uses the call for deeper calls
@@ -663,7 +663,7 @@ namespace SDiff
                 var n = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "_houdini_" + houdiniGuards.Count, Microsoft.Boogie.Type.Bool), false);
                 n.AddAttribute("existential", Expr.True);
                 houdiniGuards.Add(n);
-                mergedProgram.TopLevelDeclarations.Add(n);
+                mergedProgram.AddTopLevelDeclaration(n);
                 return Expr.Ident(n);
             }
             private static void AddCandEnsures(ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
@@ -729,7 +729,7 @@ namespace SDiff
                     new TypedIdent(Token.NoToken, "_houdini_" + procName + "_" + tag + "_" + houdiniGuards.Count, Microsoft.Boogie.Type.Bool), false);
                 n.AddAttribute("existential", Expr.True);
                 houdiniGuards.Add(n);
-                mergedProgram.TopLevelDeclarations.Add(n);
+                mergedProgram.AddTopLevelDeclaration(n);
                 return Expr.Ident(n);
             }
             private static void AddCandEnsures(ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,

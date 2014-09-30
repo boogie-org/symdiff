@@ -511,16 +511,6 @@ namespace SDiff.Boogie
       return p;
     }
 
-    public static bool MoveGlobalsToTop(Program p)
-    {
-      if (p == null)
-        return true;
-
-      var decls = p.TopLevelDeclarations.Partition(x => x is GlobalVariable);
-      decls.fst.AddRange(decls.snd);
-      p.TopLevelDeclarations = decls.fst;
-      return false;
-    }
 
     public static bool SetModifies(List<Declaration> program, CallGraph cg)
     {

@@ -341,7 +341,7 @@ namespace Rootcause
             public static Constant CreateNewPredConst()
             {
                 var a = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "_bpred_" + predConsts.Count.ToString(), BType.Bool), false);
-                prog.TopLevelDeclarations.Add(a);
+                prog.AddTopLevelDeclaration(a);//prog.AddTopLevelDeclaration(a);
                 predConsts.Add(a);
                 return a;
             }
@@ -493,7 +493,7 @@ namespace Rootcause
                 TypedIdent typedIdent = new TypedIdent(tok, name, t);
                 Constant constant = new Constant(tok, typedIdent, false);
                 IdentifierExpr hExpr = new IdentifierExpr(tok, constant);
-                prog.TopLevelDeclarations.Add(constant);
+                prog.AddTopLevelDeclaration(constant);
                 return hExpr;
             }
         }
@@ -550,7 +550,7 @@ namespace Rootcause
             {
                 var tmp = expr;
                 var a = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "_bassert_" + assertConsts.Count.ToString(), BType.Bool), false);
-                prog.TopLevelDeclarations.Add(a);
+                prog.AddTopLevelDeclaration(a);
                 assertConsts.Add(a);
                 ////detect more than 1 assertion
                 //if (assertConsts.Count > 1)
@@ -596,7 +596,7 @@ namespace Rootcause
             foreach (Variable v in impl.InParams) inputs.Add(v);
             inputs.AddRange(prog.TopLevelDeclarations.Where(x => x is Constant).Cast<Variable>()
                 .Where(x => !assertConsts.Contains(x) && !predConsts.Contains(x))); //constants
-            inputs.AddRange(prog.GlobalVariables()); //globals
+            inputs.AddRange(prog.GlobalVariables); //globals
             //it is not true that all the values are present as assignment of inputs/consts/globals/localvars,
             //some output of functions such as select don't appear in locvars
             //foreach (Variable v in impl.LocVars) inputs.Add(v); //incarnation variables h@1, h@3, ..
@@ -671,7 +671,7 @@ namespace Rootcause
             foreach (Variable v in impl.InParams) inputs.Add(v);
             inputs.AddRange(prog.TopLevelDeclarations.Where(x => x is Constant).Cast<Variable>()
                 .Where(x => !assertConsts.Contains(x) && !predConsts.Contains(x))); //constants
-            inputs.AddRange(prog.GlobalVariables()); //globals
+            inputs.AddRange(prog.GlobalVariables); //globals
             //it is not true that all the values are present as assignment of inputs/consts/globals/localvars,
             //some output of functions such as select don't appear in locvars
             //foreach (Variable v in impl.LocVars) inputs.Add(v); //incarnation variables h@1, h@3, ..
@@ -836,7 +836,7 @@ namespace Rootcause
                 {
                     c = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, g.ToString(), tp), true); //can't make it unique in the VC as it has already been generated
                     modelConsts[tp].Add(g.ToString(), c);
-                    prog.TopLevelDeclarations.Add(c);
+                    prog.AddTopLevelDeclaration(c);
                 }
                 else
                     c = modelConsts[tp][g.ToString()];

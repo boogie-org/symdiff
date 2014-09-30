@@ -59,8 +59,7 @@ namespace Dependency
             Console.WriteLine("#outputs with no bottomuptaint / #outputs (includes stubs) = {0} / {1} ", outvars.Count - botTaintOutVars.Count, outvars.Count);
 
             //Do the removal after you are done with nonTaintedImpls, otherwise that becomes an empty set
-            program.TopLevelDeclarations
-                .RemoveAll(x => nonTaintedImpls.Contains(x));
+            program.RemoveTopLevelDeclarations(x => nonTaintedImpls.Contains(x));
         }
 
         private static void CreateNonTaintedSB(Dictionary<Procedure, Dependencies> procDeps, Dictionary<Block, Dependencies> blockDeps)

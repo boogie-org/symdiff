@@ -163,7 +163,7 @@ namespace SDiff
 
       CallGraph cg = new CallGraph();
 
-      program.TopLevelDeclarations.Iterate(x => cg.AddDeclaration(x));
+      program.TopLevelDeclarations.Iter(x => cg.AddDeclaration(x));
 
       return cg;
     }

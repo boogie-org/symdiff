@@ -71,7 +71,7 @@ namespace Rootcause
             {
                 Program preludeProg;
                 Parser.Parse(Datatypes.prelude + (Options.useSetAxioms ? Datatypes.preludeSetAxioms : Datatypes.preludeSetAxiomsMin), "prelude", out preludeProg);
-                prog.TopLevelDeclarations.AddRange(preludeProg.TopLevelDeclarations);
+                prog.AddTopLevelDeclarations(preludeProg.TopLevelDeclarations.ToList());
             }
             errCount = prog.Resolve();
             if (errCount > 0)
@@ -98,7 +98,7 @@ namespace Rootcause
         public static void Inline(Program program)
         {
             //perform inlining on the procedures
-            List<Declaration> impls = program.TopLevelDeclarations.FindAll(x => x is Implementation);
+            IEnumerable<Declaration> impls = program.TopLevelDeclarations.Where(x => x is Implementation);
             foreach (Implementation impl in impls)
             {
                 impl.OriginalBlocks = impl.Blocks;
@@ -282,7 +282,7 @@ namespace Rootcause
             foreach (Variable v in impl.InParams) inputs.Add(v);
             inputs.AddRange(prog.TopLevelDeclarations.Where(x => x is Constant).Cast<Variable>()
                 .Where(x => true)); //constants
-            inputs.AddRange(prog.GlobalVariables()); //globals
+            inputs.AddRange(prog.GlobalVariables); //globals
             //it is not true that all the values are present as assignment of inputs/consts/globals/localvars,
             //some output of functions such as select don't appear in locvars
             //foreach (Variable v in impl.LocVars) inputs.Add(v); //incarnation variables h@1, h@3, ..
@@ -328,7 +328,7 @@ namespace Rootcause
             foreach (Variable v in impl.InParams) inputs.Add(v);
             inputs.AddRange(prog.TopLevelDeclarations.Where(x => x is Constant).Cast<Variable>()
                 .Where(x => true)); //constants
-            inputs.AddRange(prog.GlobalVariables()); //globals
+            inputs.AddRange(prog.GlobalVariables); //globals
             //it is not true that all the values are present as assignment of inputs/consts/globals/localvars,
             //some output of functions such as select don't appear in locvars
             //foreach (Variable v in impl.LocVars) inputs.Add(v); //incarnation variables h@1, h@3, ..
@@ -484,7 +484,7 @@ namespace Rootcause
                 {
                     c = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, g.ToString(), tp), true); //can't make it unique in the VC as it has already been generated
                     modelConsts[tp].Add(g.ToString(), c);
-                    prog.TopLevelDeclarations.Add(c);
+                    prog.AddTopLevelDeclaration(c);
                 }
                 else
                     c = modelConsts[tp][g.ToString()];
@@ -577,7 +577,7 @@ namespace Rootcause
             Function callMem = null;
             public override Program VisitProgram(Program node)
             {
-                callMem = (Function) node.TopLevelDeclarations.Find(x => (x is Function && ((Function)x).Name.Contains("CallMem")));
+                callMem = (Function) node.TopLevelDeclarations.FirstOrDefault(x => (x is Function && ((Function)x).Name.Contains("CallMem")));
                 if (callMem == null) return node;
                 return base.VisitProgram(node);
             }

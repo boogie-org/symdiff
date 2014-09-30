@@ -35,7 +35,7 @@ namespace Dependency
 
                 var initialRS = new HashSet<Variable>(ProcReadSet[currentProc]);
 
-                var impl = program.Implementations().SingleOrDefault(i => i.Name == currentProc.Name);
+                var impl = program.Implementations.SingleOrDefault(i => i.Name == currentProc.Name);
                 if (impl == null)
                 {// a stub
                     ProcReadSet[currentProc].Add(Utils.VariableUtils.NonDetVar);
@@ -52,7 +52,7 @@ namespace Dependency
                 }
             }
 
-            ProcReadSet.Iter(prs => Utils.VariableUtils.FixFormals(program.Implementations().SingleOrDefault(i => i.Name == prs.Key.Name), prs.Value));
+            ProcReadSet.Iter(prs => Utils.VariableUtils.FixFormals(program.Implementations.SingleOrDefault(i => i.Name == prs.Key.Name), prs.Value));
 
             return program;
         }

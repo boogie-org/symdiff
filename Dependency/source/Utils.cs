@@ -134,7 +134,7 @@ namespace Dependency
                     name,
                     inTypes.Select(t => (Variable)Utils.DeclUtils.MkFormal(t)).ToList(),
                     Utils.DeclUtils.MkFormal(retType));
-                prog.TopLevelDeclarations.Add(func);
+                prog.AddTopLevelDeclaration(func);
                 return func;
             }
             public static NAryExpr MkFuncApp(Function f, List<Expr> args)
@@ -148,7 +148,7 @@ namespace Dependency
             public static Variable MkGlobalVariable(Program prog, string name, BType type)
             {
                 var g = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, type));
-                prog.TopLevelDeclarations.Add(g);
+                prog.AddTopLevelDeclaration(g);
                 return g;
             }
         }
@@ -240,7 +240,7 @@ namespace Dependency
 
             public static void PruneProcDependencies(Program program, Dictionary<Procedure, Dependencies> procDependencies)
             {
-                procDependencies.Iter(pd => { var impl = program.Implementations().SingleOrDefault(i => i.Proc == pd.Key); if (impl != null) pd.Value.Prune(impl); });
+                procDependencies.Iter(pd => { var impl = program.Implementations.SingleOrDefault(i => i.Proc == pd.Key); if (impl != null) pd.Value.Prune(impl); });
             }
 
             //public static Dependencies SuperBlockDependencies(AbstractedTaint.SuperBlock superBlock, Dependencies exitBlockDeps, Dictionary<Procedure, Dependencies> procDependencies)
@@ -275,7 +275,7 @@ namespace Dependency
             {
                 foreach (var changesPerProc in changesPerFile.GroupBy(t => t.Item2))
                 {
-                    foreach (var impl in program.Implementations().Where(i => i.Proc.Name.StartsWith(changesPerProc.Key))) // dealing with loops which are procs with name <orig_proc>_loop_head etc.
+                    foreach (var impl in program.Implementations.Where(i => i.Proc.Name.StartsWith(changesPerProc.Key))) // dealing with loops which are procs with name <orig_proc>_loop_head etc.
                     {
                         if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) == null)
                             foreach (var procChange in changesPerProc)
@@ -297,7 +297,7 @@ namespace Dependency
             {
                 foreach (var changesPerProc in changesPerFile.GroupBy(t => t.Item2))
                 {
-                    var impl = program.Implementations().FirstOrDefault(i => i.Proc.Name == changesPerProc.Key);
+                    var impl = program.Implementations.FirstOrDefault(i => i.Proc.Name == changesPerProc.Key);
                     if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) != null)
                         result.Add(impl.Proc); // whole procedure changed
                 }
@@ -308,7 +308,7 @@ namespace Dependency
         public static Dictionary<Absy, Implementation> ComputeNodeToImpl(Program program)
         {
             Dictionary<Absy, Implementation> result = new Dictionary<Absy, Implementation>();
-            program.Implementations().Iter(impl => impl.Blocks.Iter(b => { b.Cmds.Iter(c => result[c] = impl); result[b.TransferCmd] = impl; }));
+            program.Implementations.Iter(impl => impl.Blocks.Iter(b => { b.Cmds.Iter(c => result[c] = impl); result[b.TransferCmd] = impl; }));
             return result;
         }
 
@@ -730,7 +730,7 @@ namespace Dependency
             {
                 Graph<Procedure> graph = new Graph<Procedure>();
 
-                foreach (Implementation impl in program.Implementations())
+                foreach (Implementation impl in program.Implementations)
                 {
                     graph.AddSource(impl.Proc);
                     foreach (var b in impl.Blocks)
@@ -738,7 +738,7 @@ namespace Dependency
                             graph.AddEdge(impl.Proc, c.Proc);
                 }
 
-                //program.Implementations().Iter(impl => { if (graph.Nodes.Contains(impl.Proc) && graph.Predecessors(impl.Proc).Count() == 0) graph.AddSource(impl.Proc); });
+                //program.Implementations.Iter(impl => { if (graph.Nodes.Contains(impl.Proc) && graph.Predecessors(impl.Proc).Count() == 0) graph.AddSource(impl.Proc); });
                 return graph;
             }
 
@@ -992,7 +992,7 @@ namespace Dependency
             public static void Inline(Program program)
             {
                 //perform inlining on the procedures
-                List<Declaration> impls = program.TopLevelDeclarations.FindAll(x => x is Implementation);
+                IEnumerable<Declaration> impls = program.TopLevelDeclarations.Where(x => x is Implementation);
                 foreach (Implementation impl in impls)
                 {
                     impl.OriginalBlocks = impl.Blocks;

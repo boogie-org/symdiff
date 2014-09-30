@@ -73,7 +73,7 @@ namespace Dependency
         //    //    });
         //    //(new Utils.RemoveAsserts()).Visit(prog);
 
-        //    //Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count];
+        //    //Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count()];
         //    //prog.TopLevelDeclarations.CopyTo(decls);
         //    //decls.Where(i => i is Implementation).Iter(i => CreateCheckDependencyImpl(procDependencies, null, i as Implementation, prog));
 
@@ -167,7 +167,7 @@ namespace Dependency
             newDecls.Add(refineProc);
             newDecls.Add(refineImpl);
 
-            program.TopLevelDeclarations.AddRange(newDecls);
+            program.AddTopLevelDeclarations(newDecls);
 
             return refineImpl;
         }
@@ -607,8 +607,8 @@ namespace Dependency
             c.DoModSetAnalysis(prog);
 
             //add callee ensures to procedure
-            Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count];
-            prog.TopLevelDeclarations.CopyTo(decls); // a copy is needed since AddCalleeDependencySpecs changes prog.TopLevelDeclarations
+            Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count()];
+            prog.TopLevelDeclarations.ToList().CopyTo(decls); // a copy is needed since AddCalleeDependencySpecs changes prog.TopLevelDeclarations
             decls.OfType<Procedure>().Iter(p =>
                 { 
                     if (lowerBoundDependencies.ContainsKey(p)) //the CheckDependency does not have currDependencies

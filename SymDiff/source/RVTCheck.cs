@@ -185,7 +185,7 @@ namespace RVT
             var newDecls = new List<Declaration>();
             if (SDiff.Boogie.Process.InjectUninterpreted(leftP, rightP, cfg, cg, newDecls))
                 Log.Out(Log.Error, "Failed to add postconditions to " + leftP.Name + " and " + rightP.Name);
-            mergedProgram.TopLevelDeclarations.AddRange(newDecls);
+            mergedProgram.AddTopLevelDeclarations(newDecls);
         }
 
 
@@ -269,15 +269,15 @@ namespace RVT
             //VerificationTask vt;
             if (eqp != null)
             {
-                mergedProgram.TopLevelDeclarations.AddRange(outputVars.Map(x => x as Declaration));
-                mergedProgram.TopLevelDeclarations.Add(eqp.fst);
-                mergedProgram.TopLevelDeclarations.Add(eqp.snd);
+                mergedProgram.AddTopLevelDeclarations(outputVars.Map(x => x as Declaration));
+                mergedProgram.AddTopLevelDeclaration(eqp.fst);
+                mergedProgram.AddTopLevelDeclaration(eqp.snd);
             }
 
             //declare the uninterpreted funcs/canonical set of constants  in merged program
-            //mergedProgram.TopLevelDeclarations.AddRange(newDecls);
+            //mergedProgram.AddTopLevelDeclarations(newDecls);
             var canonicalConst = SDiff.Boogie.ConstantFactory.Get().Constants.Map(x => x as Declaration);
-            mergedProgram.TopLevelDeclarations.AddRange(canonicalConst);
+            mergedProgram.AddTopLevelDeclarations(canonicalConst);
 
 
             //Log.Out(Log.Normal, "Resolving and Typechecking again..");
@@ -298,8 +298,8 @@ namespace RVT
             cg = CallGraph.Make(mergedProgram);
             ReadWriteSetDecorator.DoDecorate(cg); //start from scratch to fill in the read/write sets
             var mergedProgramNewDecl = new Program();
-            mergedProgram.TopLevelDeclarations.AddRange(mergedProgramNewDecl.TopLevelDeclarations);
-            mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations);
+            mergedProgram.AddTopLevelDeclarations(mergedProgramNewDecl.TopLevelDeclarations);
+            mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
 
             Duple<Duple<Procedure, Implementation>, List<Variable>> tmp = new Duple<Duple<Procedure, Implementation>, List<Variable>>(eqp, outputVars);
             eqProcsCreated.Add(eqpName, tmp);
@@ -358,7 +358,7 @@ namespace RVT
             {
                 vt = new VerificationTask(null, n1.Impl, n2.Impl);
                 vt.Result = SDiff.VerificationResult.Error;
-                SDiff.Boogie.Process.RewriteUninterpretedOnDiseq(vt, SDiff.Boogie.Process.BuildProgramDictionary(mergedProgram.TopLevelDeclarations));
+                SDiff.Boogie.Process.RewriteUninterpretedOnDiseq(vt, SDiff.Boogie.Process.BuildProgramDictionary(mergedProgram.TopLevelDeclarations.ToList()));
             }
 
 
@@ -369,7 +369,7 @@ namespace RVT
             //VC.ConditionGeneration vcgen = BoogieVerify.InitializeVC(mergedProgram);
 
             // dictionary of all program AST objects by name
-            SDiff.Boogie.Process.BuildProgramDictionary(mergedProgram.TopLevelDeclarations);
+            SDiff.Boogie.Process.BuildProgramDictionary(mergedProgram.TopLevelDeclarations.ToList());
 
 
             // Call RVTRunVerification Task
@@ -423,7 +423,7 @@ namespace RVT
             vt.Right.OriginalLocVars = vt.Right.LocVars;
 
 
-            List<Declaration> procImplPIter = prog.TopLevelDeclarations.Filter(x => x is Implementation);
+            IEnumerable <Declaration> procImplPIter = prog.TopLevelDeclarations.Where(x => x is Implementation);
 
             List<Implementation> inlinedImpls = new List<Implementation>();
             foreach (Implementation currentProcImpl in procImplPIter)
@@ -478,7 +478,7 @@ namespace RVT
 
             vcgen = BoogieVerify.InitializeVC(newProg);
             //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
-            var newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations);
+            var newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
             //newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
 
 

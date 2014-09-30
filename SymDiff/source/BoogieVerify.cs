@@ -833,7 +833,7 @@ namespace SDiff
       vt.Right.OriginalLocVars = vt.Right.LocVars;
 
       // inline diff_inline procedures
-      List<Declaration> procImplPIter = prog.TopLevelDeclarations.Filter(x => x is Implementation);
+      IEnumerable<Declaration> procImplPIter = prog.TopLevelDeclarations.Where(x => x is Implementation);
       foreach (Implementation currentProcImpl in procImplPIter)
       {
           if (currentProcImpl.Name.Contains("_Diff_Inline"))
@@ -871,8 +871,8 @@ namespace SDiff
 
       /*if (wrapper)
       {
-          prog.TopLevelDeclarations.Remove(vt.Eq);
-          prog.TopLevelDeclarations.Remove(vt.Eq.Proc);
+          prog.RemoveTopLevelDeclaration(vt.Eq);
+          prog.RemoveTopLevelDeclaration(vt.Eq.Proc);
       }*/
       prog = null;
       ReplaceInFile(vt.Eq.Name + "_out.bpl", "@", "_");
@@ -893,7 +893,7 @@ namespace SDiff
 
           vcgen = InitializeVC(newProg);
           //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
-          newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations);
+          newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
 
           //RS: Uncomment this
           newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
@@ -976,7 +976,7 @@ namespace SDiff
 
                   if (Options.PreciseDifferentialInline)
                   {
-                      List<Declaration> consts = prog.TopLevelDeclarations.Filter(x => x is Constant);
+                      List<Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant).ToList();
                       ProcessCounterexamplesWOSymbolicOut(SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, errModelList);
                   }
                   else

@@ -446,14 +446,14 @@ namespace SDiff
       }
       public static Procedure getProcedureByName(Program P, string name)
       {
-          foreach (Procedure proc in P.TopLevelDeclarations.Filter(x => x is Procedure))
+          foreach (Procedure proc in P.TopLevelDeclarations.Where(x => x is Procedure))
               if (proc.Name == name)
                   return proc;
           return null;
       }
       public static Implementation getImplByName(Program P, string name)
       {
-          return (Implementation) P.TopLevelDeclarations.Find(x => (x is Implementation && ((Implementation)x).Name == name));
+          return (Implementation) P.TopLevelDeclarations.FirstOrDefault(x => (x is Implementation && ((Implementation)x).Name == name));
       }
       public static Procedure getFuncByName(List<Declaration> list, string name)
       {
@@ -463,7 +463,7 @@ namespace SDiff
                   return d;
           return null;
       }
-      public static Declaration getDeclarationByName(string declarationName, List<Declaration> prodDeclOrImplList)
+      public static Declaration getDeclarationByName(string declarationName, IEnumerable<Declaration> prodDeclOrImplList)
       {
           Declaration decl = null;
           Procedure procDecl = null;
@@ -532,7 +532,7 @@ namespace SDiff
       }
       public static void MakeContractsFree(Program Prog)
       {
-          var Procs = Prog.TopLevelDeclarations.Filter(x => x is Procedure);
+          var Procs = Prog.TopLevelDeclarations.Where(x => x is Procedure);
           foreach (Procedure Proc in Procs)
           {
               var TempRequiresSeq = new List<Requires>();
@@ -555,7 +555,7 @@ namespace SDiff
 
           //for any implementation i, if the procedure has a requires, make it an assume
           //in the body [8/5/13]
-          foreach (Implementation i in Prog.TopLevelDeclarations.Filter(x => x is Implementation))
+          foreach (Implementation i in Prog.TopLevelDeclarations.Where(x => x is Implementation))
           {
               if (i.Proc.Requires.Count == 0) continue;
               var reqAssume = new AssumeCmd(Token.NoToken,
@@ -567,7 +567,7 @@ namespace SDiff
       public static int FindStartNum(Program Prog)
       {
           int retval = 0;
-          List<Declaration> Consts = Prog.TopLevelDeclarations.Filter(x => x is Constant);
+          IEnumerable<Declaration> Consts = Prog.TopLevelDeclarations.Where(x => x is Constant);
           foreach (Constant Const in Consts)
           {
               string name = Const.Name;
@@ -592,7 +592,7 @@ namespace SDiff
       }
       public static void DropAllModifies(Program prog)
       {
-          foreach (Procedure p in prog.TopLevelDeclarations.Filter(x => x is Procedure))
+          foreach (Procedure p in prog.TopLevelDeclarations.Where(x => x is Procedure))
               if (!IsBakedProcedure(p))
                   p.Modifies = new List<IdentifierExpr>();
       }
@@ -664,7 +664,7 @@ namespace SDiff
       //inlining logic
       internal static void InlineProcsInCaller(Program prog, Implementation caller, Procedure[] procs)
       {
-          var impls = prog.TopLevelDeclarations.Filter(x => x is Implementation);
+          var impls = prog.TopLevelDeclarations.Where(x => x is Implementation);
           var inlinedImpls = new List<Implementation>();
           foreach (Implementation i in impls)
           {
@@ -683,7 +683,7 @@ namespace SDiff
       public static void InlineProg(Program program)
       {
           //perform inlining on the procedures
-          List<Declaration> impls = program.TopLevelDeclarations.Filter(x => x is Implementation);
+          IEnumerable<Declaration> impls = program.TopLevelDeclarations.Where(x => x is Implementation);
           foreach (Implementation impl in impls)
               if (Util.IsInlinedProc(impl.Proc)) //we only look at the inline on proc
               {
@@ -698,7 +698,7 @@ namespace SDiff
       public static void InlineEverything(Program program)
       {
           //perform inlining on the procedures
-          List<Declaration> impls = program.TopLevelDeclarations.Filter(x => x is Implementation);
+          IEnumerable<Declaration> impls = program.TopLevelDeclarations.Where(x => x is Implementation);
           foreach (Implementation impl in impls)
           {
               BigNum bigDepth = BigNum.FromInt(Options.inlineAllRecursionDepth);
@@ -715,7 +715,7 @@ namespace SDiff
       }
       internal static void InlineMissingImplementations(Program p1, Program p2, Dictionary<string, Declaration> dictionary, Dictionary<string, Declaration> dictionary_2)
       {
-          List<Declaration> impls = p1.TopLevelDeclarations.Filter(x => x is Implementation);
+          IEnumerable<Declaration> impls = p1.TopLevelDeclarations.Where(x => x is Implementation);
           foreach (Implementation impl in impls)
           {
               if (!dictionary_2.ContainsKey(impl.Name + "$IMPL"))

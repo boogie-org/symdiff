@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Diagnostics;
 using Microsoft.Boogie;
 using B = SDiff.Boogie;
@@ -281,28 +282,28 @@ namespace SDiff
         //Preprocessing, renaming and restructuring two programs
         private static Program RestructureProgram(Program p) {
             // Type declarations
-            List<Declaration> typeDeclsP = p.TopLevelDeclarations.Filter(x => x is TypeCtorDecl || x is TypeSynonymDecl);
+            IEnumerable<Declaration> typeDeclsP = p.TopLevelDeclarations.Where(x => x is TypeCtorDecl || x is TypeSynonymDecl);
             // global declarations
-            List<Declaration> globDeclsP = p.TopLevelDeclarations.Filter(x => x is GlobalVariable);
+            IEnumerable<Declaration> globDeclsP = p.TopLevelDeclarations.Where(x => x is GlobalVariable);
             // constant declarations
-            List<Declaration> consDeclsP = p.TopLevelDeclarations.Filter(x => x is Constant);
+            IEnumerable<Declaration> consDeclsP = p.TopLevelDeclarations.Where(x => x is Constant);
             // functions declarations
-            List<Declaration> funcDeclsP = p.TopLevelDeclarations.Filter(x => x is Function);
+            IEnumerable<Declaration> funcDeclsP = p.TopLevelDeclarations.Where(x => x is Function);
             // axioms declarations
-            List<Declaration> axiomDeclsP = p.TopLevelDeclarations.Filter(x => x is Axiom);
+            IEnumerable<Declaration> axiomDeclsP = p.TopLevelDeclarations.Where(x => x is Axiom);
             // procedure declarations
-            List<Declaration> procDeclsP = p.TopLevelDeclarations.Filter(x => x is Procedure);
+            IEnumerable<Declaration> procDeclsP = p.TopLevelDeclarations.Where(x => x is Procedure);
             // procedure implementations
-            List<Declaration> procImpP = p.TopLevelDeclarations.Filter(x => x is Implementation);
+            IEnumerable<Declaration> procImpP = p.TopLevelDeclarations.Where(x => x is Implementation);
             // restructuring the order of declarations
             Program p1 = new Program();
-            p1.TopLevelDeclarations.AddRange(typeDeclsP);
-            p1.TopLevelDeclarations.AddRange(globDeclsP);
-            p1.TopLevelDeclarations.AddRange(consDeclsP);
-            p1.TopLevelDeclarations.AddRange(funcDeclsP);
-            p1.TopLevelDeclarations.AddRange(axiomDeclsP);
-            p1.TopLevelDeclarations.AddRange(procDeclsP);
-            p1.TopLevelDeclarations.AddRange(procImpP);
+            p1.AddTopLevelDeclarations(typeDeclsP);
+            p1.AddTopLevelDeclarations(globDeclsP);
+            p1.AddTopLevelDeclarations(consDeclsP);
+            p1.AddTopLevelDeclarations(funcDeclsP);
+            p1.AddTopLevelDeclarations(axiomDeclsP);
+            p1.AddTopLevelDeclarations(procDeclsP);
+            p1.AddTopLevelDeclarations(procImpP);
             return p1;
         }
         private static int CreateMergedProgram(Program p1, Program p2, 
@@ -312,14 +313,14 @@ namespace SDiff
             ref Program mergedProgram)
         {
             mergedProgram.TopLevelDeclarations =
-                p2.TopLevelDeclarations.Filter(x => !(x is TypeCtorDecl || x is TypeSynonymDecl));
-            mergedProgram.TopLevelDeclarations.AddRange(
-              p1.TopLevelDeclarations.Filter(x => !(x is TypeCtorDecl || x is TypeSynonymDecl)));
-            mergedProgram.TopLevelDeclarations.AddRange(t2s); //[SKL]: why are we adding t2s
-            mergedProgram.TopLevelDeclarations = Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations);
-            //RemoveDuplicateDatatypeFunctions(ref mergedProgram.TopLevelDeclarations); //new: since we are not renaming datatypes
+                p2.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl || x is TypeSynonymDecl));
+            mergedProgram.AddTopLevelDeclarations(
+              p1.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl || x is TypeSynonymDecl)));
+            mergedProgram.AddTopLevelDeclarations(t2s); //[SKL]: why are we adding t2s
+            mergedProgram.TopLevelDeclarations = Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
+            //RemoveDuplicateDatatypeFunctions(ref mergedProgram.TopLevelDeclarations.ToList()); //new: since we are not renaming datatypes
             //Program mergedProgram = new Program();
-            //mergedProgram.TopLevelDeclarations = p2.TopLevelDeclarations.Append(p1.TopLevelDeclarations);
+            //mergedProgram.TopLevelDeclarations = p2.TopLevelDeclarations.Append(p1.TopLevelDeclarations.ToList());
             Log.Out(Log.Normal, "Resolving and typechecking");
             if (SDiff.Boogie.Process.ResolveAndTypeCheck(mergedProgram, Options.MergedProgramOutputFile))
                 return 1;
@@ -341,8 +342,8 @@ namespace SDiff
             var f12s = f2s.Append(f1s);
             RemoveDuplicateDatatypeFunctions(ref f12s); //to account for datatypes not renamed
             var origFunList = f12s.Map(x => x as Function);
-            List<Declaration> FunctionList = mergedProgram.TopLevelDeclarations.Filter(x => x is Function);
-            var FunctionNameList = FunctionList.Map(x => x.ToString());
+            IEnumerable<Declaration> FunctionList = mergedProgram.TopLevelDeclarations.Where(x => x is Function);
+            var FunctionNameList = FunctionList.ToList().Map(x => x.ToString());
             //find mismatched functions (not procedure)
             foreach (Function fun in FunctionList)
             {
@@ -350,18 +351,19 @@ namespace SDiff
                 if (fun.Name.Contains(p1Prefix) && (!FunctionNameList.Contains(p2Prefix + "." + funNameProgNameStripped)))
                 {
                     var newFunc = new Function(new Token(), p2Prefix + "." + funNameProgNameStripped, fun.InParams, fun.OutParams[0]);
-                    mergedProgram.TopLevelDeclarations.Add(newFunc);
+                    mergedProgram.AddTopLevelDeclaration(newFunc);
                     origFunList.Add(newFunc);
                     Log.Out(Log.Normal, "HACK in " + funNameProgNameStripped);
                 }
             }
-            List<Declaration> newFunctionList = mergedProgram.TopLevelDeclarations.Filter(x => x is Function);
+            List<Declaration> newFunctionList = mergedProgram.TopLevelDeclarations.Where(x => x is Function).ToList();
             var fRenamer = new FunctionRenamer(cfg.FunctionMap, origFunList);
             mergedProgram = fRenamer.VisitProgram(mergedProgram);
-            mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations);
-            var mergedGlobals = mergedProgram.TopLevelDeclarations.Filter(x => x is GlobalVariable);
+            mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
+            var mergedGlobals = mergedProgram.TopLevelDeclarations.Where(x => x is GlobalVariable);
             //moved this out of DifferntialInline
-            Util.RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Filter(x => x is Implementation && x.ToString().StartsWith(p1Prefix)), mergedProgram.TopLevelDeclarations.Filter(x => x is Constant), p1Prefix, p2Prefix);
+            Util.RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Where(x => x is Implementation && x.ToString().StartsWith(p1Prefix)).ToList(), 
+                mergedProgram.TopLevelDeclarations.Where(x => x is Constant).ToList(), p1Prefix, p2Prefix);
             //--------------- renaming ends ----------------------------------
 
             Util.DumpBplAST(mergedProgram, p1Prefix + p2Prefix + "_temp.bpl");
@@ -398,7 +400,7 @@ namespace SDiff
             // fills up the read/write sets into a field in the callgraph
             ReadWriteSetDecorator.DoDecorate(cg); //expensive for nonmodular
             Log.Out(Log.Normal, "Writing writesets as modifies clauses");
-            SDiff.Boogie.Process.SetModifies(mergedProgram.TopLevelDeclarations, cg);
+            SDiff.Boogie.Process.SetModifies(mergedProgram.TopLevelDeclarations.ToList(), cg);
             Log.Out(Log.Normal, "Resolving and Typechecking again..");
             if (SDiff.Boogie.Process.ResolveAndTypeCheck(mergedProgram, Options.MergedProgramOutputFile))
                 return 1;
@@ -471,7 +473,7 @@ namespace SDiff
         }
         private static void PerformOKInference(string pPrefix, Program p)
         {
-            var impls = p.TopLevelDeclarations.Filter(x => x is Implementation);
+            var impls = p.TopLevelDeclarations.Where(x => x is Implementation);
             string lname = pPrefix + ".OK";
 
             //For each procedure q in Procs(p)
@@ -561,14 +563,14 @@ namespace SDiff
         {
             CodeCopier codeCopier = new CodeCopier();
             String OKstr = filenamePrefix + ".OK";// +n;
-            AddIteAxiom(filenamePrefix, Prog.TopLevelDeclarations);
+            AddIteAxiom(filenamePrefix, Prog.TopLevelDeclarations.ToList());
 
             //skip if the prog does not contain any valueis
-            if (Prog.TopLevelDeclarations.Filter(x => (x is Function && 
-                                                        x.ToString().Contains(filenamePrefix + ".value_is"))).Count == 0)
+            if (Prog.TopLevelDeclarations.Where(x => (x is Function && 
+                                                        x.ToString().Contains(filenamePrefix + ".value_is"))).Count() == 0)
                 return;
             int cnum = Util.FindStartNum(Prog);
-            List<Declaration> impls = Prog.TopLevelDeclarations.Filter(x => x is Implementation);
+            IEnumerable<Declaration> impls = Prog.TopLevelDeclarations.Where(x => x is Implementation);
             List<Declaration> decls = new List<Declaration>();
             foreach (Implementation impl in impls)
             {
@@ -627,7 +629,7 @@ namespace SDiff
                 }
                 impl.Blocks = newBlocks;
             }
-            Prog.TopLevelDeclarations.InsertRange(1, decls);
+            Prog.AddTopLevelDeclarations(decls); //Prog.TopLevelDeclarations.InsertRange(1, decls);
 
         }
         private static string FindOK1var(List<Cmd> cmdSeq, string p1prefix)
@@ -661,10 +663,10 @@ namespace SDiff
             //inserting global declaration of OK
             TypedIdent tid = new TypedIdent(new Token(), OKstr, new BasicType(SimpleType.Bool));
             GlobalVariable gok = new GlobalVariable(token, tid);
-            p.TopLevelDeclarations.Insert(0, gok);
+            p.AddTopLevelDeclaration(gok); // p.TopLevelDeclarations.Insert(0, gok);
             /*if (sound)
             {
-                foreach (Procedure proc in p.TopLevelDeclarations.Filter(x => x is Procedure))
+                foreach (Procedure proc in p.TopLevelDeclarations.Where(x => x is Procedure))
                 {
                     if(!proc.Name.Contains("HAVOC") && !proc.Name.Contains("havoc"))
                         proc.Modifies.Add(Expr.Ident(/*args[n-1].Replace("bpl","OK"),BasicType.Bool*/
@@ -677,7 +679,7 @@ namespace SDiff
         {
             OKstr = filename.Replace(".bpl", "") + "." + OKstr;
             CodeCopier codeCopier = new CodeCopier();
-            List<Declaration> impls = p.TopLevelDeclarations.Filter(x => x is Implementation);
+            IEnumerable<Declaration> impls = p.TopLevelDeclarations.Where(x => x is Implementation);
             foreach (Implementation impl in impls)
             {
                 var newBlocks = new List<Block>();
@@ -719,10 +721,10 @@ namespace SDiff
         public static List<Declaration> GetNewDeclAndImplOfDiffInlineProc(Program p, List<string> calleesList, String fileName1, String fileName2)
         {
             // procedure declarations just for iteration
-            List<Declaration> procDeclsPIter = p.TopLevelDeclarations.Filter(x => x is Procedure);
-            List<Declaration> procImplPIter = p.TopLevelDeclarations.Filter(x => x is Implementation);
+            IEnumerable<Declaration> procDeclsPIter = p.TopLevelDeclarations.Where(x => x is Procedure);
+            IEnumerable<Declaration> procImplPIter = p.TopLevelDeclarations.Where(x => x is Implementation);
             // result declarations
-            List<Declaration> procDeclsPlusDiffInlineProcs = p.TopLevelDeclarations.Filter(x => x is Procedure);
+            List<Declaration> procDeclsPlusDiffInlineProcs = p.TopLevelDeclarations.Where(x => x is Procedure).ToList();
             TransferCmd dmyTransferCmd = new ReturnCmd(Token.NoToken);
 
             foreach (Declaration currentProcDeclP in procDeclsPIter)
@@ -916,7 +918,7 @@ namespace SDiff
                 //injects them as postcondition
                 if (SDiff.Boogie.Process.InjectUninterpreted(n1.Proc, n2.Proc, cfg, cg, newDecls, checkAssertsOnly))
                     Log.Out(Log.Error, "Failed to add postconditions to " + n1.Name + " and " + n2.Name);
-                mergedProgram.TopLevelDeclarations.AddRange(newDecls);
+                mergedProgram.AddTopLevelDeclarations(newDecls);
                 newDecls = new List<Declaration>(); //do not add duplicate declarations
                 if (n1.Name.EndsWith("nondet_choice"))
                 {
@@ -1008,9 +1010,9 @@ namespace SDiff
                 // if any visible output
                 if (eqp != null)
                 {
-                    mergedProgram.TopLevelDeclarations.AddRange(outputVars.Map(x => x as Declaration));
-                    mergedProgram.TopLevelDeclarations.Add(eqp.fst);
-                    mergedProgram.TopLevelDeclarations.Add(eqp.snd);
+                    mergedProgram.AddTopLevelDeclarations(outputVars.Map(x => x as Declaration));
+                    mergedProgram.AddTopLevelDeclaration(eqp.fst);
+                    mergedProgram.AddTopLevelDeclaration(eqp.snd);
                     //says which EQ to verify
                     verificationTasks.Add(new VerificationTask(eqp.snd, n1.Impl, n2.Impl, outputVars));
                 }
@@ -1020,7 +1022,7 @@ namespace SDiff
                     //we'll split their uninterpreted functions, but otherwise don't generate a verification task
                     var vt = new VerificationTask(null, n1.Impl, n2.Impl);
                     vt.Result = VerificationResult.Error;
-                    SDiff.Boogie.Process.RewriteUninterpretedOnDiseq(vt, SDiff.Boogie.Process.BuildProgramDictionary(mergedProgram.TopLevelDeclarations));
+                    SDiff.Boogie.Process.RewriteUninterpretedOnDiseq(vt, SDiff.Boogie.Process.BuildProgramDictionary(mergedProgram.TopLevelDeclarations.ToList()));
                 }
 
                 if (verificationTasks.Count > 0)
@@ -1033,7 +1035,7 @@ namespace SDiff
                     //declare the uninterpreted funcs/canonical set of constants  in merged program
 
                     var canonicalConst = SDiff.Boogie.ConstantFactory.Get().Constants.Map(x => x as Declaration);
-                    mergedProgram.TopLevelDeclarations.AddRange(canonicalConst);
+                    mergedProgram.AddTopLevelDeclarations(canonicalConst);
 
                     Log.Out(Log.Normal, "Resolving and Typechecking again..");
                     if (SDiff.Boogie.Process.ResolveAndTypeCheck(mergedProgram, Options.MergedProgramOutputFile))
@@ -1053,15 +1055,15 @@ namespace SDiff
                     //Log.Out(Log.Normal, "Building callgraphs and computing read and write sets");
                     //cg = CallGraph.Make(mergedProgram); //SKL: this might make it slow
                     //ReadWriteSetDecorator.DoDecorate(cg); //start from scratch to fill in the read/write sets
-                    mergedProgram.TopLevelDeclarations.AddRange(mergedProgramNewDecl.TopLevelDeclarations);
-                    mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations);
+                    mergedProgram.AddTopLevelDeclarations(mergedProgramNewDecl.TopLevelDeclarations.ToList());
+                    mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
 
                     var boogieOptions = Options.GetBoogieOptions();
                     Boogie.Process.InitializeBoogie(boogieOptions);
                     //VC.ConditionGeneration vcgen = BoogieVerify.InitializeVC(mergedProgram);
 
                     // dictionary of all program AST objects by name
-                    var progDict = SDiff.Boogie.Process.BuildProgramDictionary(mergedProgram.TopLevelDeclarations);
+                    var progDict = SDiff.Boogie.Process.BuildProgramDictionary(mergedProgram.TopLevelDeclarations.ToList());
 
                     Log.Out(Log.Verifier, "Preparing to verify " + verificationTasks.Count + " pairs");
 
@@ -1136,11 +1138,11 @@ namespace SDiff
                                                  BadGlobalState.MaxUFArgs + "\t");
                     //Do not know whether this works
                     //(BadGlobalState.SumUFArgs / BadGlobalState.NumUFs));
-                    mergedProgram.TopLevelDeclarations.Remove(eqp.fst);
-                    mergedProgram.TopLevelDeclarations.Remove(eqp.snd);
-                    mergedProgram.TopLevelDeclarations.RemoveAll(x => canonicalConst.Contains(x));
-                    //mergedProgram.TopLevelDeclarations.RemoveAll(x => newDecls.Contains(x));
-                    mergedProgram.TopLevelDeclarations.RemoveAll(x => mergedProgramNewDecl.TopLevelDeclarations.Contains(x));
+                    mergedProgram.RemoveTopLevelDeclaration(eqp.fst);
+                    mergedProgram.RemoveTopLevelDeclaration(eqp.snd);
+                    mergedProgram.RemoveTopLevelDeclarations(x => canonicalConst.Contains(x));
+                    //mergedProgram.RemoveTopLevelDeclarations(x => newDecls.Contains(x));
+                    mergedProgram.RemoveTopLevelDeclarations(x => mergedProgramNewDecl.TopLevelDeclarations.Contains(x));
                     verificationTasks = new List<VerificationTask>();
                 }
                 //RS: restore states
@@ -1309,28 +1311,28 @@ namespace SDiff
             // are otherwise the same as p2's
             //TODO: use a type mapping instead
             //collect type decls
-            List<Declaration>
-              t2s = p2.TopLevelDeclarations.Filter(x => x is TypeCtorDecl || x is TypeSynonymDecl);
-            p1.TopLevelDeclarations = p1.TopLevelDeclarations.Filter(x => !(x is TypeCtorDecl) && !(x is TypeSynonymDecl));
-            p1.TopLevelDeclarations.AddRange(t2s);
+            IEnumerable<Declaration>
+              t2s = p2.TopLevelDeclarations.Where(x => x is TypeCtorDecl || x is TypeSynonymDecl);
+            p1.TopLevelDeclarations = p1.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl) && !(x is TypeSynonymDecl));
+            p1.AddTopLevelDeclarations(t2s);
             //the types of the two programs are unified even before Resolve
             //collect globals, constants, functions, and axioms
             //Filter : 'a list -> ('a -> bool) -> 'a list
-            List<Declaration>
-              g1s = p1.TopLevelDeclarations.Filter(x => x is GlobalVariable),
-              g2s = p2.TopLevelDeclarations.Filter(x => x is GlobalVariable);
-            List<Declaration>
-              c1s = p1.TopLevelDeclarations.Filter(x => x is Constant),
-              c2s = p2.TopLevelDeclarations.Filter(x => x is Constant);
-            List<Declaration>
-              f1s = p1.TopLevelDeclarations.Filter(x => x is Function),
-              f2s = p2.TopLevelDeclarations.Filter(x => x is Function);
+            IEnumerable<Declaration>
+              g1s = p1.TopLevelDeclarations.Where(x => x is GlobalVariable),
+              g2s = p2.TopLevelDeclarations.Where(x => x is GlobalVariable);
+            IEnumerable  <Declaration>
+              c1s = p1.TopLevelDeclarations.Where(x => x is Constant),
+              c2s = p2.TopLevelDeclarations.Where(x => x is Constant);
+            IEnumerable<Declaration>
+              f1s = p1.TopLevelDeclarations.Where(x => x is Function),
+              f2s = p2.TopLevelDeclarations.Where(x => x is Function);
 
             //function arguments have a bothersome habit of being unnamed, so we give them arbitrary names
             //note that configuration inference has to give them the same names (arg_0 ... arg_n, out_ret)
             // modifies each f \in f1s, f2s by giving names to unnamed args
-            f1s.Iterate(x => B.U.NameFunctionArgs((Function)x));
-            f2s.Iterate(x => B.U.NameFunctionArgs((Function)x));
+            f1s.Iter(x => B.U.NameFunctionArgs((Function)x));
+            f2s.Iter(x => B.U.NameFunctionArgs((Function)x));
 
             //resolve the programs: creating a well-formed AST of the program     
             //Major side effects:
@@ -1363,10 +1365,10 @@ namespace SDiff
                 if (ignoreMainDuringInlineAll)
                 {
                     Console.WriteLine("**** Ignoring main in /nonmodular mode *****");
-                    var main1 = p1.TopLevelDeclarations.Find(x => (x is Implementation && ((Implementation)x).Name == "main"));
-                    p1.TopLevelDeclarations.Remove(main1);
-                    var main2 = p2.TopLevelDeclarations.Find(x => (x is Implementation && ((Implementation)x).Name == "main"));
-                    p2.TopLevelDeclarations.Remove(main2);
+                    var main1 = p1.TopLevelDeclarations.FirstOrDefault(x => (x is Implementation && ((Implementation)x).Name == "main"));
+                    p1.RemoveTopLevelDeclaration(main1);
+                    var main2 = p2.TopLevelDeclarations.FirstOrDefault(x => (x is Implementation && ((Implementation)x).Name == "main"));
+                    p2.RemoveTopLevelDeclaration(main2);
                 }
                 CallGraph cg1_temp = CallGraph.Make(p1);
                 CallGraph cg2_temp = CallGraph.Make(p2);
@@ -1383,8 +1385,8 @@ namespace SDiff
             }
             if (inlineWhenMissing)
             {
-                var pdict1 = SDiff.Boogie.Process.BuildProgramDictionary(p1.TopLevelDeclarations);
-                var pdict2 = SDiff.Boogie.Process.BuildProgramDictionary(p2.TopLevelDeclarations);
+                var pdict1 = SDiff.Boogie.Process.BuildProgramDictionary(p1.TopLevelDeclarations.ToList());
+                var pdict2 = SDiff.Boogie.Process.BuildProgramDictionary(p2.TopLevelDeclarations.ToList());
                 Util.InlineMissingImplementations(p1, p2, pdict1, pdict2);
                 Util.InlineMissingImplementations(p2, p1, pdict2, pdict1);
             }
@@ -1403,7 +1405,7 @@ namespace SDiff
             //RS: InsertOK(n,pn,args) introduces OK_n=OK_n && P in pn(=args[n-1])
             if (checkAssertsOnly)
             {
-                if (TurnAssertsIntoOK(args, p1, p2, g1s, g2s) == 1)
+                if (TurnAssertsIntoOK(args, p1, p2, g1s.ToList(), g2s.ToList()) == 1)
                     return 1;
             }
             ////////////////////////////////////////////////////////
@@ -1431,8 +1433,8 @@ namespace SDiff
             //now we'll uniquely rename everything by prefixing with the filename root
             //has the side effect of dumping->reading from the disk (TODO: remove)
             Log.Out(Log.Normal, "Namespacing ASTs");
-            Util.RenameSymbolsByVersion(ref p1, g1s, c1s, f1s, v1name);
-            Util.RenameSymbolsByVersion(ref p2, g2s, c2s, f2s, v2name);
+            Util.RenameSymbolsByVersion(ref p1, g1s.ToList(), c1s.ToList(), f1s.ToList(), v1name);
+            Util.RenameSymbolsByVersion(ref p2, g2s.ToList(), c2s.ToList(), f2s.ToList(), v2name);
             //////////////////////////////////////////////////////////
             // Renaming logic ends
             //////////////////////////////////////////////////////////            
@@ -1445,18 +1447,19 @@ namespace SDiff
             Program mergedProgram = new Program();
             var mergeGlobals = !mutualSummaryMode; //when using mutual summary, keep globals separate 
             //has the side effect of dumping->reading from the disk (TODO: remove)
-            if (CreateMergedProgram(p1, p2, t2s, g2s, c2s, f1s, f2s, mergeGlobals, ref mergedProgram) == 1)
+            if (CreateMergedProgram(p1, p2, t2s.ToList(), g2s.ToList(), c2s.ToList(), f1s.ToList(), f2s.ToList(), mergeGlobals, ref mergedProgram) == 1)
                 return 1;
 
             if (Options.DifferentialInline)
             { //Add the diff_inline procedures
-                var calleesMergedProgram = Util.getCalleesList(mergedProgram.TopLevelDeclarations.Filter(x => x is Implementation));
-                mergedProgram.TopLevelDeclarations.AddRange(GetNewDeclAndImplOfDiffInlineProc(mergedProgram, calleesMergedProgram, v1name.Replace(".bpl", ""), v2name.Replace(".bpl", "")));
-                DiffInlineRenameCalleesInProcImpl(mergedProgram.TopLevelDeclarations.Filter(x => x is Procedure), mergedProgram.TopLevelDeclarations.Filter(x => x is Implementation));
-                mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations);
+                var calleesMergedProgram = Util.getCalleesList(mergedProgram.TopLevelDeclarations.Where(x => x is Implementation).ToList());
+                mergedProgram.AddTopLevelDeclarations(GetNewDeclAndImplOfDiffInlineProc(mergedProgram, calleesMergedProgram, v1name.Replace(".bpl", ""), v2name.Replace(".bpl", "")));
+                DiffInlineRenameCalleesInProcImpl(mergedProgram.TopLevelDeclarations.Where(x => x is Procedure).ToList(), 
+                    mergedProgram.TopLevelDeclarations.Where(x => x is Implementation).ToList());
+                mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
             }
             if (checkAssertsOnly) //RS ADD OK Ensures
-                AddOKEnsures(p1Prefix, p2Prefix, mergeGlobals, mergedProgram.TopLevelDeclarations.Filter(x => x is Procedure));
+                AddOKEnsures(p1Prefix, p2Prefix, mergeGlobals, mergedProgram.TopLevelDeclarations.Where(x => x is Procedure).ToList());
             //////////////////////////////////////////////////////////
             // Creation of the merged program end
             //////////////////////////////////////////////////////////                        
@@ -1491,7 +1494,7 @@ namespace SDiff
             /////////////////////////////////////////////////////////
             if (Options.RVTOption)
             { //check for the RVT option
-                mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations);
+                mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
                 RVT.RVTCheck.RVTMain(cg1, cg2, cg, cfg, mergedProgram, cfg.GetProcedureDictionary());
                 return 0;
             }

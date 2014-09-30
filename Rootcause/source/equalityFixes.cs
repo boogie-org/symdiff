@@ -1051,7 +1051,7 @@ namespace Rootcause
                 //wrap assurance with guards
                 phi_guard = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "rootcause_phi_guard", BType.Bool), false);
                 neg_phi_guard = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "rootcause_neg_phi_guard", BType.Bool), false);
-                program.TopLevelDeclarations.Add(phi_guard); program.TopLevelDeclarations.Add(neg_phi_guard);
+                program.AddTopLevelDeclaration(phi_guard); program.AddTopLevelDeclaration(neg_phi_guard);
 
                 Expr guardedAssuranceExpr = Expr.And(Expr.Imp(IdentifierExpr.Ident(phi_guard), assurance.Condition),
                                         Expr.Imp(IdentifierExpr.Ident(neg_phi_guard), Expr.Not(assurance.Condition)));
@@ -1367,7 +1367,7 @@ namespace Rootcause
             {
                 var a = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "_bpred_" +
                     deepCount<AssignCmd, Variable, Constant>(predConsts), BType.Bool), false);
-                program.TopLevelDeclarations.Add(a);
+                program.AddTopLevelDeclaration(a);
                 return a;
             }
 
@@ -1420,7 +1420,7 @@ namespace Rootcause
                 TypedIdent typedIdent = new TypedIdent(tok, name, t);
                 Constant constant = new Constant(tok, typedIdent, false);
                 IdentifierExpr hExpr = new IdentifierExpr(tok, constant);
-                program.TopLevelDeclarations.Add(constant);
+                program.AddTopLevelDeclaration(constant);
                 return hExpr;
             }
         }
@@ -1485,7 +1485,7 @@ namespace Rootcause
                         Constant cn = new Constant(Token.NoToken,
                             new TypedIdent(Token.NoToken, "left_" + lhs.Name + "__line__" + lhs.Line + "_" +
                                 deepCount<AssignCmd, Tuple<Variable, Constant>>(this.leftAssumeConsts), lhs.TypedIdent.Type), false);
-                        this.program.TopLevelDeclarations.Add(cn);
+                        this.program.AddTopLevelDeclaration(cn);
                         recordConstant(new Tuple<Variable, Constant>(lhs, cn), a);
                         assumeExpr = Expr.And(assumeExpr, Expr.Eq(new IdentifierExpr(Token.NoToken, lhs), new IdentifierExpr(Token.NoToken, cn)));
                     }
@@ -1510,7 +1510,7 @@ namespace Rootcause
                             new TypedIdent(Token.NoToken, "rootcause_inner_" + deepCount<AssignCmd, Tuple<Variable, Constant>>(this.leftAssumeConsts), e2.Type), false);
                         Constant cn_var = new Constant(Token.NoToken,
                             new TypedIdent(Token.NoToken, "rootcause_inner_" + deepCount<AssignCmd, Tuple<Variable, Constant>>(this.leftAssumeConsts) + "_var", e2.Type));
-                        this.program.TopLevelDeclarations.Add(cn);
+                        this.program.AddTopLevelDeclaration(cn);
                         recordConstant(new Tuple<Variable, Constant>(cn_var, cn), a);
                         newCmdSeq.Add(new AssumeCmd(Token.NoToken, Expr.Eq(new IdentifierExpr(Token.NoToken, cn), e2)));
                     }
@@ -1858,8 +1858,8 @@ namespace Rootcause
                         Constant otherMem = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "rootcause_ph_" + (assignAssertGuards.Count), mapVars[0].TypedIdent.Type), false);
                         this.assignAssertConstants[rightAssignment] = otherMem;
 
-                        this.program.TopLevelDeclarations.Add(bassert_k);
-                        this.program.TopLevelDeclarations.Add(otherMem);
+                        this.program.AddTopLevelDeclaration(bassert_k);
+                        this.program.AddTopLevelDeclaration(otherMem);
 
                         Expr newAssertExpr = Expr.Imp(IdentifierExpr.Ident(bassert_k),
                             Expr.Eq(new IdentifierExpr(Token.NoToken, otherMem), new IdentifierExpr(Token.NoToken, mapVars[0])));
@@ -1925,7 +1925,7 @@ namespace Rootcause
             {
                 var a = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "_cand_" +
                     deepCount<AssignCmd, Tuple<Constant, AssignCmd, Variable, Variable>>(this.rightCandidates), BType.Bool), false);
-                program.TopLevelDeclarations.Add(a);
+                program.AddTopLevelDeclaration(a);
                 return a;
             }
 
@@ -1962,7 +1962,7 @@ namespace Rootcause
                         Constant cn = new Constant(Token.NoToken,
                             new TypedIdent(Token.NoToken, "right_" + lhs.Name + "__line__" + lhs.Line + "_" +
                                 deepCount<AssignCmd, Tuple<Variable, Constant>>(this.rightAssumeConsts), lhs.TypedIdent.Type), false);
-                        this.program.TopLevelDeclarations.Add(cn);
+                        this.program.AddTopLevelDeclaration(cn);
                         recordConstant(new Tuple<Variable, Constant>(lhs, cn), rightAssignment);
                         rightAssumeExpr = Expr.And(rightAssumeExpr, Expr.Eq(new IdentifierExpr(Token.NoToken, lhs), new IdentifierExpr(Token.NoToken, cn)));
                     }
@@ -2058,7 +2058,7 @@ namespace Rootcause
                     }
                     Variable formalReturnVar = new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "ret", BasicType.Bool), false); //ret
                     Function P = new Function(Token.NoToken, CreateNewPredicateName(), formalArgs, formalReturnVar);
-                    program.TopLevelDeclarations.Add(P);
+                    program.AddTopLevelDeclaration(P);
 
                     List<Expr>  actualArgs = new List<Expr> ();
                     foreach (Variable lhs in assignLhssMatched)
@@ -2242,7 +2242,7 @@ namespace Rootcause
                 if (!L.Contains(node)) return base.VisitBlock(node);
                 var c = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "_guard_cond" + assumeFalseConsts.Count, BType.Bool), false);
                 assumeFalseConsts[node] = c;
-                program.TopLevelDeclarations.Add(c);
+                program.AddTopLevelDeclaration(c);
                 node.Cmds.Add(new AssumeCmd(Token.NoToken, IdentifierExpr.Ident(c))); //put the assume at the end of the block
                 return base.VisitBlock(node);
             }
@@ -2340,8 +2340,8 @@ namespace Rootcause
                 phi_guard = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "rootcause_phi_guard", BType.Bool), false);
                 neg_phi_guard = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "rootcause_neg_phi_guard", BType.Bool), false);
                 var tmp = expr;
-                this.program.TopLevelDeclarations.Add(phi_guard);
-                this.program.TopLevelDeclarations.Add(neg_phi_guard);
+                this.program.AddTopLevelDeclaration(phi_guard);
+                this.program.AddTopLevelDeclaration(neg_phi_guard);
                 // only transform the assertion A with _bassert_ => A if the assertion has not already been transformed
                 var freeVars = new GSet<Object>();
                 expr.ComputeFreeVariables(freeVars);
@@ -2415,7 +2415,7 @@ namespace Rootcause
 
                 var bassert_k = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "_bassert_" + (assertConsts.Count + 1), BType.Bool), false);
                 this.assertConsts[this.CmdsToBlock[cmdSeq]] = bassert_k;
-                this.program.TopLevelDeclarations.Add(bassert_k);
+                this.program.AddTopLevelDeclaration(bassert_k);
                 Expr newAssertExpr = Expr.Imp(IdentifierExpr.Ident(bassert_k), Expr.False);
                 AssertCmd newAssert = new AssertCmd(Token.NoToken, newAssertExpr);
 

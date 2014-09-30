@@ -94,7 +94,7 @@ namespace Dependency
                 var proc = worklist.Last(); //why last?
                 worklist.Remove(proc);
 
-                var impl = program.Implementations().SingleOrDefault(i => i.Name == proc.Name);
+                var impl = program.Implementations.SingleOrDefault(i => i.Name == proc.Name);
                 if (impl == null)
                     continue;
                 Utils.LogStopwatch(sw, string.Format("Analyzing Procedure {0}", proc.Name), Analysis.Timeout);
@@ -124,7 +124,7 @@ namespace Dependency
 
         private bool IsStub(Procedure proc)
         {
-            return program.Implementations().Where(x => x.Proc == proc).Count() == 0;
+            return program.Implementations.Where(x => x.Proc == proc).Count() == 0;
         }
 
     }
@@ -184,14 +184,14 @@ namespace Dependency
             {
                 foreach (var proc in scc)
                 {
-                    var impl = node.Implementations().FirstOrDefault(i => i.Proc == proc);
+                    var impl = node.Implementations.FirstOrDefault(i => i.Proc == proc);
                     if (impl == null)
                         continue;
                     Visit(impl);
                 }
                 foreach (var proc in scc)
                 {
-                    var impl = node.Implementations().FirstOrDefault(i => i.Proc == proc);
+                    var impl = node.Implementations.FirstOrDefault(i => i.Proc == proc);
                     if (impl == null)
                         continue;
                     Analysis.PopulateTaintLog(impl, Utils.ExtractTaint(this));
@@ -199,7 +199,7 @@ namespace Dependency
                 worklist.stateSpace.Clear();
             }
 
-            //node.Implementations().Iter(impl => Visit(impl));
+            //node.Implementations.Iter(impl => Visit(impl));
 
             // compute top down taint
             //bool done = false;
@@ -214,7 +214,7 @@ namespace Dependency
                 {
                     if (!procEntryTDTaint.ContainsKey(proc))
                         continue;
-                    var impl = program.Implementations().Single(i => i.Proc == proc);
+                    var impl = program.Implementations.Single(i => i.Proc == proc);
                     var entry = Utils.GetImplEntry(impl);
                     if (!worklist.stateSpace.ContainsKey(entry))
                         worklist.stateSpace[entry] = new Dependencies();
@@ -364,13 +364,13 @@ namespace Dependency
         public override Cmd VisitCallCmd(CallCmd node)
         {
             var callee = node.Proc;
-            var calleeImpl = program.Implementations().FirstOrDefault(i => i.Proc == callee);
+            var calleeImpl = program.Implementations.FirstOrDefault(i => i.Proc == callee);
             Block currBlock = worklist.cmdBlocks[node];
             Dependencies dependencies = worklist.GatherPredecessorsState(node, currBlock);
 
             //TODO: why do we have to deal with callee stubs in the callee command?
             // an external stub
-            if (program.Implementations().Where(x => x.Proc == callee).Count() == 0)
+            if (program.Implementations.Where(x => x.Proc == callee).Count() == 0)
             {
                 ProcDependencies[callee] = new Dependencies();
                 // all outputs+modified depend on all inputs+modified
