@@ -47,6 +47,17 @@ namespace Dependency
             Console.WriteLine("[Abstract non-taint] Abstracted {0} procedures [{1}]", nonTaintedImpls.Count(),
                 String.Join(",", nonTaintedImpls.Select(x => x.Name)));
 
+            //get the number of tainted outputs (outputs whose summaries are potentially changed)
+            var outvars = new List<Variable>();
+            var botTaintOutVars = new List<Variable>();
+            program.TopLevelDeclarations.OfType<Procedure>().Iter(x =>
+            {
+                if (!allDeps.ContainsKey(x)) return;
+                allDeps[x].Keys.Iter(y => outvars.Add(y));
+                allDeps[x].Keys.Where(k => allDeps[x][k].Contains(Utils.VariableUtils.BottomUpTaintVar)).Iter(y => botTaintOutVars.Add(y));
+            });
+            Console.WriteLine("#outputs with no bottomuptaint / #outputs (includes stubs) = {0} / {1} ", outvars.Count - botTaintOutVars.Count, outvars.Count);
+
             //Do the removal after you are done with nonTaintedImpls, otherwise that becomes an empty set
             program.TopLevelDeclarations
                 .RemoveAll(x => nonTaintedImpls.Contains(x));
