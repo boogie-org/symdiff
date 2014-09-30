@@ -476,14 +476,6 @@ sub ProcessCDir{
 
   sleep(2); #get "access violation in oacr otherwise"
 
-#   if ($rvt eq 1){
-#     #print "Extracting loops as recursive procedures....\n";
-#     MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -extractLoops test.tmp.bpl test.unr.bpl >> havoc.log");
-#   } else {
-#     print "Unrolling loops $loopUnrollCount times....\n";
-#     MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $loopUnrollCount test.tmp.bpl test.unr.bpl >> havoc.log");
-#   }
-
   #may need to go back multiple levels
   chdir $olddir;
 }
@@ -786,23 +778,6 @@ if ($genBplsOnly eq 1) {
   exit(1);
 }
 
-# taint abstraction logic (TODO: move inside run_symdiff_bpl.cmd to avoid replication)
-# loops are not extracted yet 
-# if ($abstractNonTainted eq 1) {
-#   if($analyzeCallersOnly eq 0){
-#     die "Using /abstractNonTainted only permitted with /analyzeChangedCallersOnly\n";
-#   } 
-#   my $v1 = AbstractNonTainted($dir1name, "$dir1name\\changed_lines.txt");
-#   my $v2 = AbstractNonTainted($dir2name, "$dir2name\\changed_lines.txt");
-#   #the files are called v1.bpl.taintAbstract.bpl, the presence of "." in filename confuses symdiff.exe
-#   my $newV1 = $dir1name . "_ta";
-#   my $newV2 = $dir2name . "_ta";
-#   MyExec("copy /Y $v1.bpl  $newV1.bpl"); #renaming v1.bpl destroys the pristine files
-#   MyExec("copy /Y $v2.bpl  $newV2.bpl"); #renaming v1.bpl destroys the pristine files
-#   $dir1name = $newV1;
-#   $dir2name = $newV2;
-# }
- 
 
 ###############################################
 # IMPORTANT:
@@ -850,31 +825,11 @@ foreach $line (<OUTPUT_BPL>) {
 close OUTPUT_BPL;
 Marker("Executing run_symdiff_bpl.cmd", "End");
 
-# #generate config file
-# my $rvtstr = ""; 
-# if ($rvt eq 1) {
-#     $rvtstr = "-rvt";
-# }
-
-# if ($configFile eq ""){
-#    MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig $dir1name.bpl $dir2name.bpl > $dir1name$dir2name.config");
-#    $configFile = "$dir1name$dir2name.config";
-# }
-
-# MyExec("rm -f EQ*");
-
-# #run symdiff
-# $rvtstr = ""; #-rvt option to symdiff.exe deprecate for now
-# MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne $dir1name.bpl $dir2name.bpl $configFile $rvtstr $nonmodular $asserts $justmain $localcheck $oneproc $usemutual  $boogiewrapper $syntacticEqOpt $diffinline $enumpaths $cexstr $returnOnlyStr $optString $notrace $boogieopts > $dir1name$dir2name.log");
-
-
 #generate the call graph view
 # if ($rvt eq 1 && ($pophtml eq 1)){
 #   MyExec("dot -Tjpeg final1.gv > final1.jpeg");
 #   MyExec("dot -Tjpeg final2.gv > final2.jpeg");
 # }
-
-
 
 #generate html log
 MyExec("$symdiff_root\\scripts\\cygwin_binaries\\grep CTrace $dir1name$dir2name.log > clog");

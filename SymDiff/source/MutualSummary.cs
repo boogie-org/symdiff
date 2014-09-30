@@ -783,15 +783,18 @@ namespace SDiff
                     if(dep1.Count != dep2.Count)
                     {
                         Util.PrintError(string.Format("WARNING: Expecting cardinality of dependencies for {0} to be identical. No candidate variable ", o12.Item1.Name));
-                        continue;
+                        var ens = new Ensures(false,
+                                Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(o12.Item1.Name, p1Prefix)), Expr.False));
+                        ensuresSeq.Add(ens);
+                        continue; //we add a dummy houdini variable just to be able to count this output variable
                     }
                     //Debug.Assert(dep1.Count == dep2.Count, string.Format("Expecting cardinality of dependencies for {0} to be identical", o12.Item1.Name));
                     Expr pre = new OldExpr(Token.NoToken, CreateVariableEqualities(dep1, dep2));
-                    var ens = new Ensures(false, 
+                    var ens1 = new Ensures(false, 
                             Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(o12.Item1.Name, p1Prefix)),
                                 Expr.Imp(pre, Expr.Eq((Expr)IdentifierExpr.Ident(o12.Item1), (Expr)IdentifierExpr.Ident(o12.Item2))))
                         );
-                    ensuresSeq.Add(ens);
+                    ensuresSeq.Add(ens1);
                 }                                
             }
 

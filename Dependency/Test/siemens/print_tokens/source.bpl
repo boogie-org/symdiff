@@ -807,911 +807,911 @@ axiom Base(next) == next;
 
 function {:extern} value_is(c: int, e: int) : bool;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_2: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_2: int;
 
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_3: int;
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_3: int;
 
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_6: int;
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_6: int;
 
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_1: int;
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_1: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_7: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_7: int;
 
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_8: int;
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_8: int;
 
-const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_4: int;
+const {:extern} {:model_const "isalpha.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_4: int;
 
-const {:extern} {:model_const "result.isalpha"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_5: int;
+const {:extern} {:model_const "result.isalpha"} {:sourceFile "source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_5: int;
 
-const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_61: int;
+const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_61: int;
 
-const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_65: int;
+const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_65: int;
 
-const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_66: int;
+const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_66: int;
 
-const {:extern} {:model_const "ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 557} unique __ctobpl_const_54: int;
+const {:extern} {:model_const "ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 557} unique __ctobpl_const_54: int;
 
-const {:extern} {:model_const "token_str[ind]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 557} unique __ctobpl_const_55: int;
+const {:extern} {:model_const "token_str[ind]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 557} unique __ctobpl_const_55: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 558} unique __ctobpl_const_60: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 558} unique __ctobpl_const_60: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 117} unique __ctobpl_const_227: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 117} unique __ctobpl_const_227: int;
 
-const {:extern} {:model_const "result.isspace"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_67: int;
+const {:extern} {:model_const "result.isspace"} {:sourceFile "source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_67: int;
 
-const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 316} unique __ctobpl_const_39: int;
+const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "source\print_tokens.c"} {:sourceLine 316} unique __ctobpl_const_39: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 94} unique __ctobpl_const_81: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 94} unique __ctobpl_const_81: int;
 
-const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_50: int;
+const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_50: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 557} unique __ctobpl_const_53: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 557} unique __ctobpl_const_53: int;
 
-const {:extern} {:model_const "token_str[ind]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_64: int;
+const {:extern} {:model_const "token_str[ind]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_64: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 94} unique __ctobpl_const_82: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 94} unique __ctobpl_const_82: int;
 
-const {:extern} {:model_const "token_ptr->token_string[0]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 317} unique __ctobpl_const_41: int;
+const {:extern} {:model_const "token_ptr->token_string[0]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 317} unique __ctobpl_const_41: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 318} unique __ctobpl_const_42: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 318} unique __ctobpl_const_42: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_44: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_44: int;
 
-const {:extern} {:model_const "ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_45: int;
+const {:extern} {:model_const "ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_45: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_47: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_47: int;
 
-const {:extern} {:model_const "ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_48: int;
+const {:extern} {:model_const "ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_48: int;
 
-const {:extern} {:model_const "token_str[ind - 1]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_49: int;
+const {:extern} {:model_const "token_str[ind - 1]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_49: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 557} unique __ctobpl_const_56: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 557} unique __ctobpl_const_56: int;
 
-const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_51: int;
+const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_51: int;
 
-const {:extern} {:model_const "ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 558} unique __ctobpl_const_58: int;
+const {:extern} {:model_const "ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 558} unique __ctobpl_const_58: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_62: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_62: int;
 
-const {:extern} {:model_const "ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_63: int;
+const {:extern} {:model_const "ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 559} unique __ctobpl_const_63: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 317} unique __ctobpl_const_40: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 317} unique __ctobpl_const_40: int;
 
-const {:extern} {:model_const "ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_43: int;
+const {:extern} {:model_const "ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_43: int;
 
-const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_46: int;
+const {:extern} {:model_const "isspace.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_46: int;
 
-const {:extern} {:model_const "result.isspace"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_52: int;
+const {:extern} {:model_const "result.isspace"} {:sourceFile "source\print_tokens.c"} {:sourceLine 555} unique __ctobpl_const_52: int;
 
-const {:extern} {:model_const "ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 557} unique __ctobpl_const_57: int;
+const {:extern} {:model_const "ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 557} unique __ctobpl_const_57: int;
 
-const {:extern} {:model_const "ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 558} unique __ctobpl_const_59: int;
+const {:extern} {:model_const "ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 558} unique __ctobpl_const_59: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 98} unique __ctobpl_const_96: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 98} unique __ctobpl_const_96: int;
 
-const {:extern} {:model_const "ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_75: int;
+const {:extern} {:model_const "ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_75: int;
 
-const {:extern} {:model_const "fgets.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_90: int;
+const {:extern} {:model_const "fgets.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_90: int;
 
-const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 98} unique __ctobpl_const_97: int;
+const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 98} unique __ctobpl_const_97: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 100} unique __ctobpl_const_98: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 100} unique __ctobpl_const_98: int;
 
-const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 100} unique __ctobpl_const_100: int;
+const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 100} unique __ctobpl_const_100: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 561} unique __ctobpl_const_70: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 561} unique __ctobpl_const_70: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_71: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_71: int;
 
 const {:extern} {:model_const "start"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_77: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_91: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_91: int;
 
-const {:extern} {:model_const "result.fgets"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_93: int;
+const {:extern} {:model_const "result.fgets"} {:sourceFile "source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_93: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 100} unique __ctobpl_const_99: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 100} unique __ctobpl_const_99: int;
 
-const {:extern} {:model_const "token_str[ind]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_76: int;
+const {:extern} {:model_const "token_str[ind]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_76: int;
 
-const {:extern} {:model_const "fgets.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_85: int;
+const {:extern} {:model_const "fgets.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_85: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_86: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_86: int;
 
-const {:extern} {:model_const "fgets.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_87: int;
+const {:extern} {:model_const "fgets.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_87: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 97} unique __ctobpl_const_94: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 97} unique __ctobpl_const_94: int;
 
-const {:extern} {:model_const "start"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 561} unique __ctobpl_const_68: int;
+const {:extern} {:model_const "start"} {:sourceFile "source\print_tokens.c"} {:sourceLine 561} unique __ctobpl_const_68: int;
 
-const {:extern} {:model_const "ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 561} unique __ctobpl_const_78: int;
+const {:extern} {:model_const "ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 561} unique __ctobpl_const_78: int;
 
-const {:extern} {:model_const "token_str[start]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_73: int;
+const {:extern} {:model_const "token_str[start]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_73: int;
 
-const {:extern} {:model_const "stream_ptr->stream[stream_ptr->stream_ind]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 94} unique __ctobpl_const_84: int;
+const {:extern} {:model_const "stream_ptr->stream[stream_ptr->stream_ind]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 94} unique __ctobpl_const_84: int;
 
-const {:extern} {:model_const "stream_ptr->fp"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_89: int;
+const {:extern} {:model_const "stream_ptr->fp"} {:sourceFile "source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_89: int;
 
-const {:extern} {:model_const "ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 561} unique __ctobpl_const_69: int;
+const {:extern} {:model_const "ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 561} unique __ctobpl_const_69: int;
 
 const {:extern} {:model_const "ind"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_79: int;
 
-const {:extern} {:model_const "stream_ptr->fp"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_92: int;
+const {:extern} {:model_const "stream_ptr->fp"} {:sourceFile "source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_92: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_74: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_74: int;
 
-const {:extern} {:model_const "stream_ptr->stream[5]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 97} unique __ctobpl_const_95: int;
+const {:extern} {:model_const "stream_ptr->stream[5]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 97} unique __ctobpl_const_95: int;
 
 const {:extern} {:model_const "ind"} {:sourceFile "unknown"} {:sourceLine 0} unique __ctobpl_const_80: int;
 
-const {:extern} {:model_const "start"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_72: int;
+const {:extern} {:model_const "start"} {:sourceFile "source\print_tokens.c"} {:sourceLine 563} unique __ctobpl_const_72: int;
 
-const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 94} unique __ctobpl_const_83: int;
+const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 94} unique __ctobpl_const_83: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_88: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 96} unique __ctobpl_const_88: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 140} unique __ctobpl_const_453: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 140} unique __ctobpl_const_453: int;
 
-const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 137} unique __ctobpl_const_448: int;
+const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 137} unique __ctobpl_const_448: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 140} unique __ctobpl_const_449: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 140} unique __ctobpl_const_449: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 140} unique __ctobpl_const_450: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 140} unique __ctobpl_const_450: int;
 
-const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 140} unique __ctobpl_const_451: int;
+const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 140} unique __ctobpl_const_451: int;
 
-const {:extern} {:model_const "stream_ptr->stream[-- stream_ptr->stream_ind]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 140} unique __ctobpl_const_452: int;
+const {:extern} {:model_const "stream_ptr->stream[-- stream_ptr->stream_ind]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 140} unique __ctobpl_const_452: int;
 
-const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 290} unique __ctobpl_const_291: int;
+const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "source\print_tokens.c"} {:sourceLine 290} unique __ctobpl_const_291: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 293} unique __ctobpl_const_302: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 293} unique __ctobpl_const_302: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 279} unique __ctobpl_const_310: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 279} unique __ctobpl_const_310: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 278} unique __ctobpl_const_307: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 278} unique __ctobpl_const_307: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 281} unique __ctobpl_const_312: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 281} unique __ctobpl_const_312: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_313: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_313: int;
 
-const {:extern} {:model_const "token_str[token_ind ++]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_321: int;
+const {:extern} {:model_const "token_str[token_ind ++]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_321: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_322: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_322: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 292} unique __ctobpl_const_298: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 292} unique __ctobpl_const_298: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_294: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_294: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 293} unique __ctobpl_const_299: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 293} unique __ctobpl_const_299: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_316: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_316: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 294} unique __ctobpl_const_304: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 294} unique __ctobpl_const_304: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_314: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_314: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_320: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_320: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_293: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_293: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_295: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_295: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_317: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_317: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 293} unique __ctobpl_const_301: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 293} unique __ctobpl_const_301: int;
 
-const {:extern} {:model_const "result.get_char"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_318: int;
+const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_318: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_315: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_315: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 294} unique __ctobpl_const_305: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 294} unique __ctobpl_const_305: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 279} unique __ctobpl_const_309: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 279} unique __ctobpl_const_309: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_296: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_296: int;
 
-const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 278} unique __ctobpl_const_308: int;
+const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "source\print_tokens.c"} {:sourceLine 278} unique __ctobpl_const_308: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_297: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_297: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_292: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 291} unique __ctobpl_const_292: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 295} unique __ctobpl_const_306: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 295} unique __ctobpl_const_306: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 293} unique __ctobpl_const_300: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 293} unique __ctobpl_const_300: int;
 
-const {:extern} {:model_const "result.check_delimiter"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 279} unique __ctobpl_const_311: int;
+const {:extern} {:model_const "result.check_delimiter"} {:sourceFile "source\print_tokens.c"} {:sourceLine 279} unique __ctobpl_const_311: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 294} unique __ctobpl_const_303: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 294} unique __ctobpl_const_303: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_319: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 282} unique __ctobpl_const_319: int;
 
-const {:extern} {:model_const "stream_ptr->stream[5]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 69} unique __ctobpl_const_343: int;
+const {:extern} {:model_const "stream_ptr->stream[5]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 69} unique __ctobpl_const_343: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 287} unique __ctobpl_const_334: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 287} unique __ctobpl_const_334: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 286} unique __ctobpl_const_332: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 286} unique __ctobpl_const_332: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 286} unique __ctobpl_const_333: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 286} unique __ctobpl_const_333: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 67} unique __ctobpl_const_338: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 67} unique __ctobpl_const_338: int;
 
-const {:extern} {:model_const "stream_ptr->fp"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 71} unique __ctobpl_const_346: int;
+const {:extern} {:model_const "stream_ptr->fp"} {:sourceFile "source\print_tokens.c"} {:sourceLine 71} unique __ctobpl_const_346: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 71} unique __ctobpl_const_347: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 71} unique __ctobpl_const_347: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_328: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_328: int;
 
-const {:extern} {:model_const "FILENAME"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_349: int;
+const {:extern} {:model_const "FILENAME"} {:sourceFile "source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_349: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 71} unique __ctobpl_const_345: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 71} unique __ctobpl_const_345: int;
 
-const {:extern} {:model_const "FILENAME"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_348: int;
+const {:extern} {:model_const "FILENAME"} {:sourceFile "source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_348: int;
 
-const {:extern} {:model_const "result.malloc"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 67} unique __ctobpl_const_339: int;
+const {:extern} {:model_const "result.malloc"} {:sourceFile "source\print_tokens.c"} {:sourceLine 67} unique __ctobpl_const_339: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_350: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_350: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_323: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_323: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_325: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_325: int;
 
-const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 68} unique __ctobpl_const_341: int;
+const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 68} unique __ctobpl_const_341: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 287} unique __ctobpl_const_336: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 287} unique __ctobpl_const_336: int;
 
-const {:extern} {:model_const "stream_ptr->fp"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_351: int;
+const {:extern} {:model_const "stream_ptr->fp"} {:sourceFile "source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_351: int;
 
-const {:extern} {:model_const "FILENAME"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 70} unique __ctobpl_const_344: int;
+const {:extern} {:model_const "FILENAME"} {:sourceFile "source\print_tokens.c"} {:sourceLine 70} unique __ctobpl_const_344: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 285} unique __ctobpl_const_329: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 285} unique __ctobpl_const_329: int;
 
-const {:extern} {:model_const "result.fopen"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_352: int;
+const {:extern} {:model_const "result.fopen"} {:sourceFile "source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_352: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 288} unique __ctobpl_const_337: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 288} unique __ctobpl_const_337: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 287} unique __ctobpl_const_335: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 287} unique __ctobpl_const_335: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_326: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_326: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_324: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_324: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 516} unique __ctobpl_const_384: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 516} unique __ctobpl_const_384: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 286} unique __ctobpl_const_331: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 286} unique __ctobpl_const_331: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 68} unique __ctobpl_const_340: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 68} unique __ctobpl_const_340: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_327: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 284} unique __ctobpl_const_327: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 286} unique __ctobpl_const_330: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 286} unique __ctobpl_const_330: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 69} unique __ctobpl_const_342: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 69} unique __ctobpl_const_342: int;
 
-const {:extern} {:model_const "result.open_character_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 163} unique __ctobpl_const_364: int;
+const {:extern} {:model_const "result.open_character_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 163} unique __ctobpl_const_364: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 512} unique __ctobpl_const_376: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 512} unique __ctobpl_const_376: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 513} unique __ctobpl_const_377: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 513} unique __ctobpl_const_377: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 515} unique __ctobpl_const_381: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 515} unique __ctobpl_const_381: int;
 
-const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 508} unique __ctobpl_const_367: int;
+const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "source\print_tokens.c"} {:sourceLine 508} unique __ctobpl_const_367: int;
 
-const {:extern} {:model_const "result.malloc"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 162} unique __ctobpl_const_359: int;
+const {:extern} {:model_const "result.malloc"} {:sourceFile "source\print_tokens.c"} {:sourceLine 162} unique __ctobpl_const_359: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 163} unique __ctobpl_const_362: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 163} unique __ctobpl_const_362: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 165} unique __ctobpl_const_365: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 165} unique __ctobpl_const_365: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 74} unique __ctobpl_const_356: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 74} unique __ctobpl_const_356: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 515} unique __ctobpl_const_382: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 515} unique __ctobpl_const_382: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 137} unique __ctobpl_const_447: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 137} unique __ctobpl_const_447: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 510} unique __ctobpl_const_369: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 510} unique __ctobpl_const_369: int;
 
-const {:extern} {:model_const "FILENAME"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 163} unique __ctobpl_const_360: int;
+const {:extern} {:model_const "FILENAME"} {:sourceFile "source\print_tokens.c"} {:sourceLine 163} unique __ctobpl_const_360: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 74} unique __ctobpl_const_355: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 74} unique __ctobpl_const_355: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 77} unique __ctobpl_const_357: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 77} unique __ctobpl_const_357: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 510} unique __ctobpl_const_370: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 510} unique __ctobpl_const_370: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 162} unique __ctobpl_const_358: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 162} unique __ctobpl_const_358: int;
 
-const {:extern} {:model_const "stream_ptr->fp"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_354: int;
+const {:extern} {:model_const "stream_ptr->fp"} {:sourceFile "source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_354: int;
 
-const {:extern} {:model_const "FILENAME"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 163} unique __ctobpl_const_361: int;
+const {:extern} {:model_const "FILENAME"} {:sourceFile "source\print_tokens.c"} {:sourceLine 163} unique __ctobpl_const_361: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 508} unique __ctobpl_const_366: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 508} unique __ctobpl_const_366: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 510} unique __ctobpl_const_371: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 510} unique __ctobpl_const_371: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 510} unique __ctobpl_const_372: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 510} unique __ctobpl_const_372: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 511} unique __ctobpl_const_373: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 511} unique __ctobpl_const_373: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 512} unique __ctobpl_const_375: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 512} unique __ctobpl_const_375: int;
 
-const {:extern} {:model_const "token_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 163} unique __ctobpl_const_363: int;
+const {:extern} {:model_const "token_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 163} unique __ctobpl_const_363: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 513} unique __ctobpl_const_378: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 513} unique __ctobpl_const_378: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 514} unique __ctobpl_const_379: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 514} unique __ctobpl_const_379: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 514} unique __ctobpl_const_380: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 514} unique __ctobpl_const_380: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 510} unique __ctobpl_const_368: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 510} unique __ctobpl_const_368: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 511} unique __ctobpl_const_374: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 511} unique __ctobpl_const_374: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 516} unique __ctobpl_const_383: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 516} unique __ctobpl_const_383: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_216: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_216: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_217: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_217: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_208: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_208: int;
 
-const {:extern} {:model_const "cu_state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_218: int;
+const {:extern} {:model_const "cu_state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_218: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_201: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_201: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_209: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_209: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_219: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_219: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_221: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_221: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_222: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_222: int;
 
-const {:extern} {:model_const "cu_state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_223: int;
+const {:extern} {:model_const "cu_state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_223: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_224: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_224: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_225: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_225: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 215} unique __ctobpl_const_205: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 215} unique __ctobpl_const_205: int;
 
-const {:extern} {:model_const "result.error_or_eof_case"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_226: int;
+const {:extern} {:model_const "result.error_or_eof_case"} {:sourceFile "source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_226: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_220: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 205} unique __ctobpl_const_220: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 290} unique __ctobpl_const_290: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 290} unique __ctobpl_const_290: int;
 
-const {:extern} {:model_const "result.numeric_case"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_215: int;
+const {:extern} {:model_const "result.numeric_case"} {:sourceFile "source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_215: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_199: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_199: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 214} unique __ctobpl_const_203: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 214} unique __ctobpl_const_203: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_213: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_213: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_214: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_214: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_198: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_198: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 213} unique __ctobpl_const_202: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 213} unique __ctobpl_const_202: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_211: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_211: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_200: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_200: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 216} unique __ctobpl_const_206: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 216} unique __ctobpl_const_206: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_207: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_207: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_197: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_197: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_212: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_212: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_196: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 212} unique __ctobpl_const_196: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 214} unique __ctobpl_const_204: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 214} unique __ctobpl_const_204: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_210: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 208} unique __ctobpl_const_210: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_182: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_182: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 253} unique __ctobpl_const_175: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 253} unique __ctobpl_const_175: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 256} unique __ctobpl_const_179: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 256} unique __ctobpl_const_179: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_183: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_183: int;
 
-const {:extern} {:model_const "result.get_char"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_185: int;
+const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_185: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 243} unique __ctobpl_const_188: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 243} unique __ctobpl_const_188: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 244} unique __ctobpl_const_191: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 244} unique __ctobpl_const_191: int;
 
-const {:extern} {:model_const "token_ptr->token_string[0]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 244} unique __ctobpl_const_192: int;
+const {:extern} {:model_const "token_ptr->token_string[0]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 244} unique __ctobpl_const_192: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 243} unique __ctobpl_const_186: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 243} unique __ctobpl_const_186: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 245} unique __ctobpl_const_193: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 245} unique __ctobpl_const_193: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 211} unique __ctobpl_const_194: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 211} unique __ctobpl_const_194: int;
 
-const {:extern} {:model_const "cu_state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 256} unique __ctobpl_const_178: int;
+const {:extern} {:model_const "cu_state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 256} unique __ctobpl_const_178: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 243} unique __ctobpl_const_187: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 243} unique __ctobpl_const_187: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 248} unique __ctobpl_const_167: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 248} unique __ctobpl_const_167: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 252} unique __ctobpl_const_172: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 252} unique __ctobpl_const_172: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 252} unique __ctobpl_const_174: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 252} unique __ctobpl_const_174: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 250} unique __ctobpl_const_170: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 250} unique __ctobpl_const_170: int;
 
-const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_165: int;
+const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_165: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 252} unique __ctobpl_const_171: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 252} unique __ctobpl_const_171: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_180: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_180: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_181: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_181: int;
 
-const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 243} unique __ctobpl_const_189: int;
+const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "source\print_tokens.c"} {:sourceLine 243} unique __ctobpl_const_189: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 253} unique __ctobpl_const_176: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 253} unique __ctobpl_const_176: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_184: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 257} unique __ctobpl_const_184: int;
 
-const {:extern} {:model_const "result.special"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 243} unique __ctobpl_const_190: int;
+const {:extern} {:model_const "result.special"} {:sourceFile "source\print_tokens.c"} {:sourceLine 243} unique __ctobpl_const_190: int;
 
-const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 211} unique __ctobpl_const_195: int;
+const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "source\print_tokens.c"} {:sourceLine 211} unique __ctobpl_const_195: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 249} unique __ctobpl_const_169: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 249} unique __ctobpl_const_169: int;
 
-const {:extern} {:model_const "result.constant"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_166: int;
+const {:extern} {:model_const "result.constant"} {:sourceFile "source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_166: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 252} unique __ctobpl_const_173: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 252} unique __ctobpl_const_173: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 248} unique __ctobpl_const_168: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 248} unique __ctobpl_const_168: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 253} unique __ctobpl_const_177: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 253} unique __ctobpl_const_177: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 327} unique __ctobpl_const_34: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 327} unique __ctobpl_const_34: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 328} unique __ctobpl_const_37: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 328} unique __ctobpl_const_37: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 440} unique __ctobpl_const_13: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 440} unique __ctobpl_const_13: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 316} unique __ctobpl_const_38: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 316} unique __ctobpl_const_38: int;
 
-const {:extern} {:model_const "token_str[token_ind - 2]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 440} unique __ctobpl_const_14: int;
+const {:extern} {:model_const "token_str[token_ind - 2]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 440} unique __ctobpl_const_14: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_26: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_26: int;
 
-const {:extern} {:model_const "result.is_end_of_character_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 314} unique __ctobpl_const_19: int;
+const {:extern} {:model_const "result.is_end_of_character_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 314} unique __ctobpl_const_19: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_23: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_23: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_24: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_24: int;
 
-const {:extern} {:model_const "stream_ptr->stream[stream_ptr->stream_ind ++]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 100} unique __ctobpl_const_101: int;
+const {:extern} {:model_const "stream_ptr->stream[stream_ptr->stream_ind ++]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 100} unique __ctobpl_const_101: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 326} unique __ctobpl_const_30: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 326} unique __ctobpl_const_30: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_21: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_21: int;
 
-const {:extern} {:model_const "state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 437} unique __ctobpl_const_11: int;
+const {:extern} {:model_const "state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 437} unique __ctobpl_const_11: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 326} unique __ctobpl_const_32: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 326} unique __ctobpl_const_32: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 314} unique __ctobpl_const_17: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 314} unique __ctobpl_const_17: int;
 
-const {:extern} {:model_const "result.isdigit"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_10: int;
+const {:extern} {:model_const "result.isdigit"} {:sourceFile "source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_10: int;
 
-const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_9: int;
+const {:extern} {:model_const "isdigit.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 344} unique __ctobpl_const_9: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 440} unique __ctobpl_const_12: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 440} unique __ctobpl_const_12: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 314} unique __ctobpl_const_15: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 314} unique __ctobpl_const_15: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 314} unique __ctobpl_const_16: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 314} unique __ctobpl_const_16: int;
 
-const {:extern} {:model_const "cu_state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 320} unique __ctobpl_const_20: int;
+const {:extern} {:model_const "cu_state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 320} unique __ctobpl_const_20: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 325} unique __ctobpl_const_28: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 325} unique __ctobpl_const_28: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 326} unique __ctobpl_const_31: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 326} unique __ctobpl_const_31: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_22: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_22: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 326} unique __ctobpl_const_33: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 326} unique __ctobpl_const_33: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 327} unique __ctobpl_const_35: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 327} unique __ctobpl_const_35: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 323} unique __ctobpl_const_27: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 323} unique __ctobpl_const_27: int;
 
-const {:extern} {:model_const "token_str"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 327} unique __ctobpl_const_36: int;
+const {:extern} {:model_const "token_str"} {:sourceFile "source\print_tokens.c"} {:sourceLine 327} unique __ctobpl_const_36: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_25: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 322} unique __ctobpl_const_25: int;
 
-const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 325} unique __ctobpl_const_29: int;
+const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "source\print_tokens.c"} {:sourceLine 325} unique __ctobpl_const_29: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 314} unique __ctobpl_const_18: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 314} unique __ctobpl_const_18: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_248: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_248: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 117} unique __ctobpl_const_228: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 117} unique __ctobpl_const_228: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 43} unique __ctobpl_const_253: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 43} unique __ctobpl_const_253: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 36} unique __ctobpl_const_255: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 36} unique __ctobpl_const_255: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 36} unique __ctobpl_const_256: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 36} unique __ctobpl_const_256: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_353: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 72} unique __ctobpl_const_353: int;
 
-const {:extern} {:model_const "state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 460} unique __ctobpl_const_257: int;
+const {:extern} {:model_const "state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 460} unique __ctobpl_const_257: int;
 
-const {:extern} {:model_const "state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 462} unique __ctobpl_const_258: int;
+const {:extern} {:model_const "state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 462} unique __ctobpl_const_258: int;
 
-const {:extern} {:model_const "argv"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_238: int;
+const {:extern} {:model_const "argv"} {:sourceFile "source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_238: int;
 
-const {:extern} {:model_const "state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 361} unique __ctobpl_const_233: int;
+const {:extern} {:model_const "state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 361} unique __ctobpl_const_233: int;
 
-const {:extern} {:model_const "t"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 486} unique __ctobpl_const_231: int;
+const {:extern} {:model_const "t"} {:sourceFile "source\print_tokens.c"} {:sourceLine 486} unique __ctobpl_const_231: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 368} unique __ctobpl_const_234: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 368} unique __ctobpl_const_234: int;
 
-const {:extern} {:model_const "argv[1]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_239: int;
+const {:extern} {:model_const "argv[1]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_239: int;
 
-const {:extern} {:model_const "open_token_stream.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_241: int;
+const {:extern} {:model_const "open_token_stream.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_241: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 368} unique __ctobpl_const_235: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 368} unique __ctobpl_const_235: int;
 
-const {:extern} {:model_const "stream_ptr->stream[stream_ptr->stream_ind - 1]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 117} unique __ctobpl_const_230: int;
+const {:extern} {:model_const "stream_ptr->stream[stream_ptr->stream_ind - 1]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 117} unique __ctobpl_const_230: int;
 
-const {:extern} {:model_const "argc"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 34} unique __ctobpl_const_236: int;
+const {:extern} {:model_const "argc"} {:sourceFile "source\print_tokens.c"} {:sourceLine 34} unique __ctobpl_const_236: int;
 
-const {:extern} {:model_const "open_token_stream.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_237: int;
+const {:extern} {:model_const "open_token_stream.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_237: int;
 
-const {:extern} {:model_const "open_token_stream.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_240: int;
+const {:extern} {:model_const "open_token_stream.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_240: int;
 
-const {:extern} {:model_const "result.open_token_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_243: int;
+const {:extern} {:model_const "result.open_token_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_243: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_244: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_244: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_245: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_245: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_246: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_246: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_249: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_249: int;
 
-const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_250: int;
+const {:extern} {:model_const "result.is_eof_token"} {:sourceFile "source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_250: int;
 
-const {:extern} {:model_const "t->token_id"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 486} unique __ctobpl_const_232: int;
+const {:extern} {:model_const "t->token_id"} {:sourceFile "source\print_tokens.c"} {:sourceLine 486} unique __ctobpl_const_232: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 42} unique __ctobpl_const_251: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 42} unique __ctobpl_const_251: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 42} unique __ctobpl_const_252: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 42} unique __ctobpl_const_252: int;
 
-const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 117} unique __ctobpl_const_229: int;
+const {:extern} {:model_const "stream_ptr->stream_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 117} unique __ctobpl_const_229: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_242: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 39} unique __ctobpl_const_242: int;
 
-const {:extern} {:model_const "result.get_token"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_247: int;
+const {:extern} {:model_const "result.get_token"} {:sourceFile "source\print_tokens.c"} {:sourceLine 41} unique __ctobpl_const_247: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 43} unique __ctobpl_const_254: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 43} unique __ctobpl_const_254: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 276} unique __ctobpl_const_288: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 276} unique __ctobpl_const_288: int;
 
-const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_277: int;
+const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_277: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_278: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_278: int;
 
-const {:extern} {:model_const "base[state]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 464} unique __ctobpl_const_270: int;
+const {:extern} {:model_const "base[state]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 464} unique __ctobpl_const_270: int;
 
-const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_266: int;
+const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_266: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 464} unique __ctobpl_const_271: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 464} unique __ctobpl_const_271: int;
 
-const {:extern} {:model_const "state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 465} unique __ctobpl_const_282: int;
+const {:extern} {:model_const "state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 465} unique __ctobpl_const_282: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_280: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_280: int;
 
-const {:extern} {:model_const "default1[state]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_263: int;
+const {:extern} {:model_const "default1[state]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_263: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_265: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_265: int;
 
-const {:extern} {:model_const "check[base[state] + (int )ch]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 464} unique __ctobpl_const_272: int;
+const {:extern} {:model_const "check[base[state] + (int )ch]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 464} unique __ctobpl_const_272: int;
 
-const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_274: int;
+const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_274: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 462} unique __ctobpl_const_260: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 462} unique __ctobpl_const_260: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 465} unique __ctobpl_const_284: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 465} unique __ctobpl_const_284: int;
 
-const {:extern} {:model_const "next[base[state] + (int )ch]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 465} unique __ctobpl_const_285: int;
+const {:extern} {:model_const "next[base[state] + (int )ch]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 465} unique __ctobpl_const_285: int;
 
-const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_264: int;
+const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_264: int;
 
-const {:extern} {:model_const "result.next_state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_268: int;
+const {:extern} {:model_const "result.next_state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_268: int;
 
-const {:extern} {:model_const "state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_275: int;
+const {:extern} {:model_const "state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_275: int;
 
-const {:extern} {:model_const "default1[state]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_276: int;
+const {:extern} {:model_const "default1[state]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_276: int;
 
-const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_279: int;
+const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_279: int;
 
-const {:extern} {:model_const "state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 461} unique __ctobpl_const_286: int;
+const {:extern} {:model_const "state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 461} unique __ctobpl_const_286: int;
 
-const {:extern} {:model_const "result.check_delimiter"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 276} unique __ctobpl_const_289: int;
+const {:extern} {:model_const "result.check_delimiter"} {:sourceFile "source\print_tokens.c"} {:sourceLine 276} unique __ctobpl_const_289: int;
 
-const {:extern} {:model_const "state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 464} unique __ctobpl_const_273: int;
+const {:extern} {:model_const "state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 464} unique __ctobpl_const_273: int;
 
-const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_261: int;
+const {:extern} {:model_const "next_state.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_261: int;
 
-const {:extern} {:model_const "base[state]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 462} unique __ctobpl_const_259: int;
+const {:extern} {:model_const "base[state]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 462} unique __ctobpl_const_259: int;
 
-const {:extern} {:model_const "state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_262: int;
+const {:extern} {:model_const "state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_262: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_267: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 470} unique __ctobpl_const_267: int;
 
-const {:extern} {:model_const "state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 464} unique __ctobpl_const_269: int;
+const {:extern} {:model_const "state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 464} unique __ctobpl_const_269: int;
 
-const {:extern} {:model_const "result.next_state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_281: int;
+const {:extern} {:model_const "result.next_state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 467} unique __ctobpl_const_281: int;
 
-const {:extern} {:model_const "base[state]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 465} unique __ctobpl_const_283: int;
+const {:extern} {:model_const "base[state]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 465} unique __ctobpl_const_283: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 276} unique __ctobpl_const_287: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 276} unique __ctobpl_const_287: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 210} unique __ctobpl_const_129: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 210} unique __ctobpl_const_129: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 219} unique __ctobpl_const_130: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 219} unique __ctobpl_const_130: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_124: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_124: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_131: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_131: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_132: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_132: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_133: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_133: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_104: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_104: int;
 
-const {:extern} {:model_const "token_found"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 192} unique __ctobpl_const_110: int;
+const {:extern} {:model_const "token_found"} {:sourceFile "source\print_tokens.c"} {:sourceLine 192} unique __ctobpl_const_110: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 192} unique __ctobpl_const_111: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 192} unique __ctobpl_const_111: int;
 
-const {:extern} {:model_const "token_found"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 192} unique __ctobpl_const_112: int;
+const {:extern} {:model_const "token_found"} {:sourceFile "source\print_tokens.c"} {:sourceLine 192} unique __ctobpl_const_112: int;
 
-const {:extern} {:model_const "token_found"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 193} unique __ctobpl_const_115: int;
+const {:extern} {:model_const "token_found"} {:sourceFile "source\print_tokens.c"} {:sourceLine 193} unique __ctobpl_const_115: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_122: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_122: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 190} unique __ctobpl_const_102: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 190} unique __ctobpl_const_102: int;
 
-const {:extern} {:model_const "result.get_char"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_109: int;
+const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_109: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 204} unique __ctobpl_const_127: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 204} unique __ctobpl_const_127: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_105: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_105: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_106: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_106: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 197} unique __ctobpl_const_118: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 197} unique __ctobpl_const_118: int;
 
-const {:extern} {:model_const "cu_state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 192} unique __ctobpl_const_113: int;
+const {:extern} {:model_const "cu_state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 192} unique __ctobpl_const_113: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_108: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_108: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_107: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 191} unique __ctobpl_const_107: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 202} unique __ctobpl_const_117: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 202} unique __ctobpl_const_117: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 197} unique __ctobpl_const_120: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 197} unique __ctobpl_const_120: int;
 
-const {:extern} {:model_const "result.malloc"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 190} unique __ctobpl_const_103: int;
+const {:extern} {:model_const "result.malloc"} {:sourceFile "source\print_tokens.c"} {:sourceLine 190} unique __ctobpl_const_103: int;
 
-const {:extern} {:model_const "cu_state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_121: int;
+const {:extern} {:model_const "cu_state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_121: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 195} unique __ctobpl_const_116: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 195} unique __ctobpl_const_116: int;
 
-const {:extern} {:model_const "cu_state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_123: int;
+const {:extern} {:model_const "cu_state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_123: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_125: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_125: int;
 
-const {:extern} {:model_const "result.next_state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_126: int;
+const {:extern} {:model_const "result.next_state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 198} unique __ctobpl_const_126: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 207} unique __ctobpl_const_128: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 207} unique __ctobpl_const_128: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 192} unique __ctobpl_const_114: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 192} unique __ctobpl_const_114: int;
 
-const {:extern} {:model_const "token_str[token_ind ++]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 197} unique __ctobpl_const_119: int;
+const {:extern} {:model_const "token_str[token_ind ++]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 197} unique __ctobpl_const_119: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_155: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_155: int;
 
-const {:extern} {:model_const "result.get_char"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_136: int;
+const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_136: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_156: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_156: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 231} unique __ctobpl_const_157: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 231} unique __ctobpl_const_157: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_140: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_140: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_160: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_160: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_151: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_151: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_161: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_161: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_162: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_162: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 232} unique __ctobpl_const_159: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 232} unique __ctobpl_const_159: int;
 
-const {:extern} {:model_const "token_ind"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_163: int;
+const {:extern} {:model_const "token_ind"} {:sourceFile "source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_163: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_135: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_135: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 229} unique __ctobpl_const_148: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 229} unique __ctobpl_const_148: int;
 
-const {:extern} {:model_const "token_ptr->token_string[0]"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 231} unique __ctobpl_const_158: int;
+const {:extern} {:model_const "token_ptr->token_string[0]"} {:sourceFile "source\print_tokens.c"} {:sourceLine 231} unique __ctobpl_const_158: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_164: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 247} unique __ctobpl_const_164: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_142: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_142: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 229} unique __ctobpl_const_146: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 229} unique __ctobpl_const_146: int;
 
-const {:extern} {:model_const "result.keyword"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 229} unique __ctobpl_const_150: int;
+const {:extern} {:model_const "result.keyword"} {:sourceFile "source\print_tokens.c"} {:sourceLine 229} unique __ctobpl_const_150: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_154: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_154: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_145: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_145: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 227} unique __ctobpl_const_137: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 227} unique __ctobpl_const_137: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_152: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_152: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_153: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 230} unique __ctobpl_const_153: int;
 
-const {:extern} {:model_const "result.check_delimiter"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 227} unique __ctobpl_const_139: int;
+const {:extern} {:model_const "result.check_delimiter"} {:sourceFile "source\print_tokens.c"} {:sourceLine 227} unique __ctobpl_const_139: int;
 
-const {:extern} {:model_const "next_st"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 229} unique __ctobpl_const_147: int;
+const {:extern} {:model_const "next_st"} {:sourceFile "source\print_tokens.c"} {:sourceLine 229} unique __ctobpl_const_147: int;
 
-const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_134: int;
+const {:extern} {:model_const "tstream_ptr->ch_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 226} unique __ctobpl_const_134: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 227} unique __ctobpl_const_138: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 227} unique __ctobpl_const_138: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_141: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_141: int;
 
-const {:extern} {:model_const "ch"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_143: int;
+const {:extern} {:model_const "ch"} {:sourceFile "source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_143: int;
 
-const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 229} unique __ctobpl_const_149: int;
+const {:extern} {:model_const "token_ptr->token_id"} {:sourceFile "source\print_tokens.c"} {:sourceLine 229} unique __ctobpl_const_149: int;
 
-const {:extern} {:model_const "tstream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_144: int;
+const {:extern} {:model_const "tstream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 234} unique __ctobpl_const_144: int;
 
-const {:extern} {:model_const "c"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 420} unique __ctobpl_const_440: int;
+const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens.c"} {:sourceLine 420} unique __ctobpl_const_440: int;
 
-const {:extern} {:model_const "c"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 420} unique __ctobpl_const_442: int;
+const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens.c"} {:sourceLine 420} unique __ctobpl_const_442: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 420} unique __ctobpl_const_443: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 420} unique __ctobpl_const_443: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 396} unique __ctobpl_const_445: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 396} unique __ctobpl_const_445: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 531} unique __ctobpl_const_425: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 531} unique __ctobpl_const_425: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 531} unique __ctobpl_const_423: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 531} unique __ctobpl_const_423: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 529} unique __ctobpl_const_419: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 529} unique __ctobpl_const_419: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 529} unique __ctobpl_const_417: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 529} unique __ctobpl_const_417: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 532} unique __ctobpl_const_428: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 532} unique __ctobpl_const_428: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 417} unique __ctobpl_const_431: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 417} unique __ctobpl_const_431: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 530} unique __ctobpl_const_420: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 530} unique __ctobpl_const_420: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 396} unique __ctobpl_const_446: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 396} unique __ctobpl_const_446: int;
 
-const {:extern} {:model_const "c"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 417} unique __ctobpl_const_435: int;
+const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens.c"} {:sourceLine 417} unique __ctobpl_const_435: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 420} unique __ctobpl_const_441: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 420} unique __ctobpl_const_441: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 529} unique __ctobpl_const_416: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 529} unique __ctobpl_const_416: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 531} unique __ctobpl_const_422: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 531} unique __ctobpl_const_422: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 532} unique __ctobpl_const_427: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 532} unique __ctobpl_const_427: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 533} unique __ctobpl_const_430: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 533} unique __ctobpl_const_430: int;
 
-const {:extern} {:model_const "result.get_char"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 417} unique __ctobpl_const_434: int;
+const {:extern} {:model_const "result.get_char"} {:sourceFile "source\print_tokens.c"} {:sourceLine 417} unique __ctobpl_const_434: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 530} unique __ctobpl_const_421: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 530} unique __ctobpl_const_421: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 533} unique __ctobpl_const_429: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 533} unique __ctobpl_const_429: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 418} unique __ctobpl_const_436: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 418} unique __ctobpl_const_436: int;
 
-const {:extern} {:model_const "result.is_end_of_character_stream"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 418} unique __ctobpl_const_438: int;
+const {:extern} {:model_const "result.is_end_of_character_stream"} {:sourceFile "source\print_tokens.c"} {:sourceLine 418} unique __ctobpl_const_438: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 417} unique __ctobpl_const_432: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 417} unique __ctobpl_const_432: int;
 
-const {:extern} {:model_const "state"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 386} unique __ctobpl_const_444: int;
+const {:extern} {:model_const "state"} {:sourceFile "source\print_tokens.c"} {:sourceLine 386} unique __ctobpl_const_444: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 531} unique __ctobpl_const_424: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 531} unique __ctobpl_const_424: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 529} unique __ctobpl_const_418: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 529} unique __ctobpl_const_418: int;
 
-const {:extern} {:model_const "c"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 417} unique __ctobpl_const_433: int;
+const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens.c"} {:sourceLine 417} unique __ctobpl_const_433: int;
 
-const {:extern} {:model_const "stream_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 418} unique __ctobpl_const_437: int;
+const {:extern} {:model_const "stream_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 418} unique __ctobpl_const_437: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 531} unique __ctobpl_const_426: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 531} unique __ctobpl_const_426: int;
 
-const {:extern} {:model_const "c"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 420} unique __ctobpl_const_439: int;
+const {:extern} {:model_const "c"} {:sourceFile "source\print_tokens.c"} {:sourceLine 420} unique __ctobpl_const_439: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 527} unique __ctobpl_const_411: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 527} unique __ctobpl_const_411: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 517} unique __ctobpl_const_385: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 517} unique __ctobpl_const_385: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 518} unique __ctobpl_const_391: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 518} unique __ctobpl_const_391: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 519} unique __ctobpl_const_392: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 519} unique __ctobpl_const_392: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 519} unique __ctobpl_const_393: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 519} unique __ctobpl_const_393: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 528} unique __ctobpl_const_413: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 528} unique __ctobpl_const_413: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 529} unique __ctobpl_const_415: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 529} unique __ctobpl_const_415: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 522} unique __ctobpl_const_402: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 522} unique __ctobpl_const_402: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 518} unique __ctobpl_const_390: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 518} unique __ctobpl_const_390: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 517} unique __ctobpl_const_386: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 517} unique __ctobpl_const_386: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 526} unique __ctobpl_const_409: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 526} unique __ctobpl_const_409: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 521} unique __ctobpl_const_399: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 521} unique __ctobpl_const_399: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 526} unique __ctobpl_const_410: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 526} unique __ctobpl_const_410: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 527} unique __ctobpl_const_412: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 527} unique __ctobpl_const_412: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 523} unique __ctobpl_const_404: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 523} unique __ctobpl_const_404: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 528} unique __ctobpl_const_414: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 528} unique __ctobpl_const_414: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 520} unique __ctobpl_const_398: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 520} unique __ctobpl_const_398: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 520} unique __ctobpl_const_394: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 520} unique __ctobpl_const_394: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 520} unique __ctobpl_const_396: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 520} unique __ctobpl_const_396: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 522} unique __ctobpl_const_401: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 522} unique __ctobpl_const_401: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 524} unique __ctobpl_const_405: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 524} unique __ctobpl_const_405: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 520} unique __ctobpl_const_395: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 520} unique __ctobpl_const_395: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 518} unique __ctobpl_const_387: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 518} unique __ctobpl_const_387: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 520} unique __ctobpl_const_397: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 520} unique __ctobpl_const_397: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 521} unique __ctobpl_const_400: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 521} unique __ctobpl_const_400: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 523} unique __ctobpl_const_403: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 523} unique __ctobpl_const_403: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 518} unique __ctobpl_const_388: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 518} unique __ctobpl_const_388: int;
 
-const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 525} unique __ctobpl_const_407: int;
+const {:extern} {:model_const "fprintf.arg.1"} {:sourceFile "source\print_tokens.c"} {:sourceLine 525} unique __ctobpl_const_407: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 525} unique __ctobpl_const_408: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 525} unique __ctobpl_const_408: int;
 
-const {:extern} {:model_const "token_ptr"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 518} unique __ctobpl_const_389: int;
+const {:extern} {:model_const "token_ptr"} {:sourceFile "source\print_tokens.c"} {:sourceLine 518} unique __ctobpl_const_389: int;
 
-const {:extern} {:model_const "result.__iob_func"} {:sourceFile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceLine 524} unique __ctobpl_const_406: int;
+const {:extern} {:model_const "result.__iob_func"} {:sourceFile "source\print_tokens.c"} {:sourceLine 524} unique __ctobpl_const_406: int;
 
 procedure {:extern} __iob_func() returns (__dummy_ret__iob_func: int);
   free requires INT_LT(0, alloc);
@@ -1811,21 +1811,21 @@ implementation {:extern} check_delimiter(ch.__1: int) returns (result.check_deli
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 344} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 344} true;
     $isalpha.arg.1$3$_123_$static$ := ch;
     assume value_is(__ctobpl_const_1, $isalpha.arg.1$3$_123_$static$);
     assume value_is(__ctobpl_const_2, ch);
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 344} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 344} true;
     call result.isalpha$2 := isalpha($isalpha.arg.1$3$_123_$static$);
     assume value_is(__ctobpl_const_3, $isalpha.arg.1$3$_123_$static$);
     assume value_is(__ctobpl_const_4, $isalpha.arg.1$3$_123_$static$);
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 344} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 344} true;
     goto label_7_true, label_7_false;
 
   label_7_false:
@@ -1834,21 +1834,21 @@ implementation {:extern} check_delimiter(ch.__1: int) returns (result.check_deli
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 344} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 344} true;
     $isdigit.arg.1$5$_123_$static$ := ch;
     assume value_is(__ctobpl_const_6, $isdigit.arg.1$5$_123_$static$);
     assume value_is(__ctobpl_const_7, ch);
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 344} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 344} true;
     call result.isdigit$4 := isdigit($isdigit.arg.1$5$_123_$static$);
     assume value_is(__ctobpl_const_8, $isdigit.arg.1$5$_123_$static$);
     assume value_is(__ctobpl_const_9, $isdigit.arg.1$5$_123_$static$);
     goto label_13;
 
   label_13:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 344} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 344} true;
     goto label_13_true, label_13_false;
 
   label_13_false:
@@ -1857,12 +1857,12 @@ implementation {:extern} check_delimiter(ch.__1: int) returns (result.check_deli
     goto label_14;
 
   label_14:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 345} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 345} true;
     result.check_delimiter$1 := 1;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 347} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 347} true;
     return;
 
   label_13_true:
@@ -1871,7 +1871,7 @@ implementation {:extern} check_delimiter(ch.__1: int) returns (result.check_deli
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 346} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 346} true;
     result.check_delimiter$1 := 0;
     goto label_1;
 
@@ -1935,7 +1935,7 @@ implementation {:extern} constant(state.__1: int, token_str.__1: int, token_ind.
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 437} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 437} true;
     goto label_3_case_0, label_3_case_1, label_3_case_2;
 
   label_3_case_2:
@@ -1944,7 +1944,7 @@ implementation {:extern} constant(state.__1: int, token_str.__1: int, token_ind.
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 440} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 440} true;
     assert token_str != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(token_str, 1, MINUS_BOTH_PTR_OR_BOTH_INT(token_ind, 2, 1)) := 32];
     assume value_is(__ctobpl_const_12, token_str);
@@ -1954,12 +1954,12 @@ implementation {:extern} constant(state.__1: int, token_str.__1: int, token_ind.
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 440} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 440} true;
     result.constant$1 := 29;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 443} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 443} true;
     return;
 
   label_3_case_1:
@@ -1968,7 +1968,7 @@ implementation {:extern} constant(state.__1: int, token_str.__1: int, token_ind.
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 439} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 439} true;
     result.constant$1 := 27;
     goto label_1;
 
@@ -1979,7 +1979,7 @@ implementation {:extern} constant(state.__1: int, token_str.__1: int, token_ind.
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 441} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 441} true;
     goto label_1;
 }
 
@@ -2068,7 +2068,7 @@ implementation {:extern} error_or_eof_case(tstream_ptr.__1: int,
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 314} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 314} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.is_end_of_character_stream$2 := is_end_of_character_stream(Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -2081,7 +2081,7 @@ implementation {:extern} error_or_eof_case(tstream_ptr.__1: int,
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 314} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 314} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -2090,7 +2090,7 @@ implementation {:extern} error_or_eof_case(tstream_ptr.__1: int,
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 320} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 320} true;
     goto label_7_true, label_7_false;
 
   label_7_false:
@@ -2099,7 +2099,7 @@ implementation {:extern} error_or_eof_case(tstream_ptr.__1: int,
     goto label_11;
 
   label_11:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 325} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 325} true;
     assert token_ptr != 0;
     Mem_T.token_id_token_type := Mem_T.token_id_token_type[token_id_token_type(token_ptr) := -1];
     assume value_is(__ctobpl_const_28, token_ptr);
@@ -2107,7 +2107,7 @@ implementation {:extern} error_or_eof_case(tstream_ptr.__1: int,
     goto label_16;
 
   label_16:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 326} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 326} true;
     call result.get_actual_token$4 := get_actual_token(token_str, token_ind);
     assume value_is(__ctobpl_const_30, token_str);
     assume value_is(__ctobpl_const_31, token_ind);
@@ -2116,26 +2116,26 @@ implementation {:extern} error_or_eof_case(tstream_ptr.__1: int,
     goto label_19;
 
   label_19:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 327} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 327} true;
     assert token_ptr != 0;
     assume value_is(__ctobpl_const_34, token_ptr);
     goto label_20;
 
   label_20:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 327} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 327} true;
     call result.strcpy$5 := strcpy($strcpy.arg.1$6$_123_$static$, token_str);
     assume value_is(__ctobpl_const_35, token_str);
     assume value_is(__ctobpl_const_36, token_str);
     goto label_23;
 
   label_23:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 328} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 328} true;
     result.error_or_eof_case$1 := token_ptr;
     assume value_is(__ctobpl_const_37, token_ptr);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 329} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 329} true;
     return;
 
   label_7_true:
@@ -2144,7 +2144,7 @@ implementation {:extern} error_or_eof_case(tstream_ptr.__1: int,
     goto label_12;
 
   label_12:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 322} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 322} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.unget_char$3 := unget_char(ch, Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -2159,7 +2159,7 @@ implementation {:extern} error_or_eof_case(tstream_ptr.__1: int,
     goto label_15;
 
   label_15:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 323} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 323} true;
     assume value_is(__ctobpl_const_27, token_ind);
     token_ind := MINUS_BOTH_PTR_OR_BOTH_INT(token_ind, 1, 1);
     goto label_11;
@@ -2170,7 +2170,7 @@ implementation {:extern} error_or_eof_case(tstream_ptr.__1: int,
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 316} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 316} true;
     assert token_ptr != 0;
     Mem_T.token_id_token_type := Mem_T.token_id_token_type[token_id_token_type(token_ptr) := 0];
     assume value_is(__ctobpl_const_38, token_ptr);
@@ -2178,7 +2178,7 @@ implementation {:extern} error_or_eof_case(tstream_ptr.__1: int,
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 317} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 317} true;
     assert token_ptr != 0;
     assert token_string_token_type(token_ptr) != 0;
     Mem_T.token_string_token_type := Mem_T.token_string_token_type[PLUS(token_string_token_type(token_ptr), 1, 0) := 0];
@@ -2188,7 +2188,7 @@ implementation {:extern} error_or_eof_case(tstream_ptr.__1: int,
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 318} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 318} true;
     result.error_or_eof_case$1 := token_ptr;
     assume value_is(__ctobpl_const_42, token_ptr);
     goto label_1;
@@ -2255,22 +2255,22 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 553} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 553} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 553} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 553} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 555} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 555} true;
     ind := token_ind;
     assume value_is(__ctobpl_const_43, ind);
     assume value_is(__ctobpl_const_44, token_ind);
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 555} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 555} true;
     goto label_6_head;
 
   label_6_head:
@@ -2283,7 +2283,7 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 557} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 557} true;
     assert token_str != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(token_str, 1, ind) := 0];
     assume value_is(__ctobpl_const_53, token_str);
@@ -2292,20 +2292,20 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_14;
 
   label_14:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 557} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 557} true;
     token_ind := ind;
     assume value_is(__ctobpl_const_56, token_ind);
     assume value_is(__ctobpl_const_57, ind);
     goto label_15;
 
   label_15:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 558} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 558} true;
     ind := 0;
     assume value_is(__ctobpl_const_58, ind);
     goto label_16;
 
   label_16:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 558} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 558} true;
     goto label_16_head;
 
   label_16_head:
@@ -2319,13 +2319,13 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_17;
 
   label_17:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 561} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 561} true;
     start := 0;
     assume value_is(__ctobpl_const_68, start);
     goto label_25;
 
   label_25:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 561} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 561} true;
     goto label_25_head;
 
   label_25_head:
@@ -2339,11 +2339,11 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_26;
 
   label_26:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 564} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 564} true;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 565} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 565} true;
     return;
 
   label_25_true:
@@ -2353,7 +2353,7 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_27;
 
   label_27:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 563} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 563} true;
     assert token_str != 0;
     assert token_str != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(token_str, 1, start) := Mem_T.CHAR[PLUS(token_str, 1, ind)]];
@@ -2372,7 +2372,7 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_29;
 
   label_29:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 561} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 561} true;
     ind := PLUS(ind, 1, 1);
     assume value_is(__ctobpl_const_78, ind);
     goto label_29_dummy;
@@ -2384,7 +2384,7 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_18;
 
   label_18:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 559} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 559} true;
     assert token_str != 0;
     $isspace.arg.1$5$_123_$static$ := Mem_T.CHAR[PLUS(token_str, 1, ind)];
     assume value_is(__ctobpl_const_61, $isspace.arg.1$5$_123_$static$);
@@ -2394,14 +2394,14 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_19;
 
   label_19:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 559} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 559} true;
     call result.isspace$4 := isspace($isspace.arg.1$5$_123_$static$);
     assume value_is(__ctobpl_const_65, $isspace.arg.1$5$_123_$static$);
     assume value_is(__ctobpl_const_66, $isspace.arg.1$5$_123_$static$);
     goto label_22;
 
   label_22:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 559} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 559} true;
     goto label_22_true, label_22_false;
 
   label_22_false:
@@ -2410,7 +2410,7 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_23;
 
   label_23:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 560} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 560} true;
     goto label_17;
 
   label_22_true:
@@ -2430,7 +2430,7 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 555} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 555} true;
     assert token_str != 0;
     $isspace.arg.1$3$_123_$static$ := Mem_T.CHAR[PLUS(token_str, 1, MINUS_BOTH_PTR_OR_BOTH_INT(ind, 1, 1))];
     assume value_is(__ctobpl_const_46, $isspace.arg.1$3$_123_$static$);
@@ -2441,14 +2441,14 @@ implementation {:extern} get_actual_token(token_str.__1: int, token_ind.__1: int
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 555} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 555} true;
     call result.isspace$2 := isspace($isspace.arg.1$3$_123_$static$);
     assume value_is(__ctobpl_const_50, $isspace.arg.1$3$_123_$static$);
     assume value_is(__ctobpl_const_51, $isspace.arg.1$3$_123_$static$);
     goto label_12;
 
   label_12:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 555} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 555} true;
     goto label_12_true, label_12_false;
 
   label_12_false:
@@ -2539,7 +2539,7 @@ implementation {:extern} get_char(stream_ptr.__1: int) returns (result.get_char$
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 94} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 94} true;
     assert stream_ptr != 0;
     assert stream_ptr != 0;
     assert stream_stream_type(stream_ptr) != 0;
@@ -2561,7 +2561,7 @@ implementation {:extern} get_char(stream_ptr.__1: int) returns (result.get_char$
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 96} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 96} true;
     assert stream_ptr != 0;
     $fgets.arg.1$3$ := PLUS(stream_stream_type(stream_ptr), 1, 5);
     assume value_is(__ctobpl_const_85, $fgets.arg.1$3$);
@@ -2569,7 +2569,7 @@ implementation {:extern} get_char(stream_ptr.__1: int) returns (result.get_char$
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 96} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 96} true;
     assert stream_ptr != 0;
     assert stream_ptr != 0;
     call result.fgets$2 := fgets($fgets.arg.1$3$, 75, Mem_T.fp_stream_type[fp_stream_type(stream_ptr)]);
@@ -2582,7 +2582,7 @@ implementation {:extern} get_char(stream_ptr.__1: int) returns (result.get_char$
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 96} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 96} true;
     goto label_9_true, label_9_false;
 
   label_9_false:
@@ -2591,7 +2591,7 @@ implementation {:extern} get_char(stream_ptr.__1: int) returns (result.get_char$
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 97} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 97} true;
     assert stream_ptr != 0;
     assert stream_stream_type(stream_ptr) != 0;
     Mem_T.stream_stream_type := Mem_T.stream_stream_type[PLUS(stream_stream_type(stream_ptr), 1, 5) := -1];
@@ -2601,7 +2601,7 @@ implementation {:extern} get_char(stream_ptr.__1: int) returns (result.get_char$
     goto label_11;
 
   label_11:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 98} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 98} true;
     assert stream_ptr != 0;
     Mem_T.stream_ind_stream_type := Mem_T.stream_ind_stream_type[stream_ind_stream_type(stream_ptr) := 5];
     assume value_is(__ctobpl_const_96, stream_ptr);
@@ -2610,7 +2610,7 @@ implementation {:extern} get_char(stream_ptr.__1: int) returns (result.get_char$
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 100} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 100} true;
     assert stream_ptr != 0;
     assert stream_ptr != 0;
     assert stream_stream_type(stream_ptr) != 0;
@@ -2630,7 +2630,7 @@ implementation {:extern} get_char(stream_ptr.__1: int) returns (result.get_char$
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 101} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 101} true;
     return;
 
   label_9_true:
@@ -2760,47 +2760,47 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 184} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 184} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 185} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 185} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 186} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 186} true;
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 187} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 187} true;
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 188} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 188} true;
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 188} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 188} true;
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 188} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 188} true;
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 190} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 190} true;
     call result.malloc$2 := __HAVOC_det_malloc(84);
     goto label_13;
 
   label_13:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 190} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 190} true;
     token_ptr := result.malloc$2;
     assume value_is(__ctobpl_const_102, token_ptr);
     assume value_is(__ctobpl_const_103, result.malloc$2);
     goto label_14;
 
   label_14:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 191} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 191} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.get_char$3 := get_char(Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -2813,34 +2813,34 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_17;
 
   label_17:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 191} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 191} true;
     ch := result.get_char$3;
     assume value_is(__ctobpl_const_108, ch);
     assume value_is(__ctobpl_const_109, result.get_char$3);
     goto label_18;
 
   label_18:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 192} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 192} true;
     token_found := 0;
     assume value_is(__ctobpl_const_110, token_found);
     goto label_19;
 
   label_19:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 192} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 192} true;
     token_ind := token_found;
     assume value_is(__ctobpl_const_111, token_ind);
     assume value_is(__ctobpl_const_112, token_found);
     goto label_20;
 
   label_20:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 192} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 192} true;
     cu_state := token_ind;
     assume value_is(__ctobpl_const_113, cu_state);
     assume value_is(__ctobpl_const_114, token_ind);
     goto label_21;
 
   label_21:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 193} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 193} true;
     goto label_21_head;
 
   label_21_head:
@@ -2853,7 +2853,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_22;
 
   label_22:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 195} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 195} true;
     goto label_22_true, label_22_false;
 
   label_22_false:
@@ -2862,13 +2862,13 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_23;
 
   label_23:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 202} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 202} true;
     next_st := -1;
     assume value_is(__ctobpl_const_117, next_st);
     goto label_29;
 
   label_29:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 204} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 204} true;
     goto label_29_true, label_29_false;
 
   label_29_false:
@@ -2877,7 +2877,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_30;
 
   label_30:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 207} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 207} true;
     goto label_30_true, label_30_false;
 
   label_30_false:
@@ -2886,7 +2886,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_35;
 
   label_35:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 210} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 210} true;
     goto label_35_true, label_35_false;
 
   label_35_false:
@@ -2895,7 +2895,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_40;
 
   label_40:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 219} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 219} true;
     goto label_40_case_0, label_40_case_1, label_40_case_2, label_40_case_3, label_40_case_4, label_40_case_5, label_40_case_6, label_40_case_7, label_40_case_8, label_40_case_9, label_40_case_10, label_40_case_11, label_40_case_12, label_40_case_13, label_40_case_14, label_40_case_15, label_40_case_16;
 
   label_40_case_16:
@@ -2904,14 +2904,14 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_59;
 
   label_59:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 243} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 243} true;
     call result.special$17 := special(next_st);
     assume value_is(__ctobpl_const_186, next_st);
     assume value_is(__ctobpl_const_187, next_st);
     goto label_86;
 
   label_86:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 243} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 243} true;
     assert token_ptr != 0;
     Mem_T.token_id_token_type := Mem_T.token_id_token_type[token_id_token_type(token_ptr) := result.special$17];
     assume value_is(__ctobpl_const_188, token_ptr);
@@ -2920,7 +2920,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_87;
 
   label_87:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 244} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 244} true;
     assert token_ptr != 0;
     assert token_string_token_type(token_ptr) != 0;
     Mem_T.token_string_token_type := Mem_T.token_string_token_type[PLUS(token_string_token_type(token_ptr), 1, 0) := 0];
@@ -2930,13 +2930,13 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_88;
 
   label_88:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 245} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 245} true;
     result.get_token$1 := token_ptr;
     assume value_is(__ctobpl_const_193, token_ptr);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 259} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 259} true;
     call __HAVOC_free(token_str);
     return;
 
@@ -2946,7 +2946,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_65;
 
   label_65:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 252} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 252} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.skip$23 := skip(Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -2959,31 +2959,31 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_68;
 
   label_68:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 253} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 253} true;
     next_st := 0;
     assume value_is(__ctobpl_const_175, next_st);
     goto label_69;
 
   label_69:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 253} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 253} true;
     token_ind := next_st;
     assume value_is(__ctobpl_const_176, token_ind);
     assume value_is(__ctobpl_const_177, next_st);
     goto label_70;
 
   label_70:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 254} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 254} true;
     goto label_71;
 
   label_71:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 256} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 256} true;
     cu_state := next_st;
     assume value_is(__ctobpl_const_178, cu_state);
     assume value_is(__ctobpl_const_179, next_st);
     goto label_72;
 
   label_72:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 257} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 257} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.get_char$24 := get_char(Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -2996,7 +2996,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_75;
 
   label_75:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 257} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 257} true;
     ch := result.get_char$24;
     assume value_is(__ctobpl_const_184, ch);
     assume value_is(__ctobpl_const_185, result.get_char$24);
@@ -3008,7 +3008,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_62;
 
   label_62:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 247} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 247} true;
     call result.constant$18 := constant(next_st, token_str, token_ind);
     assume value_is(__ctobpl_const_160, next_st);
     assume value_is(__ctobpl_const_161, token_ind);
@@ -3017,7 +3017,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_76;
 
   label_76:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 247} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 247} true;
     assert token_ptr != 0;
     Mem_T.token_id_token_type := Mem_T.token_id_token_type[token_id_token_type(token_ptr) := result.constant$18];
     assume value_is(__ctobpl_const_164, token_ptr);
@@ -3026,29 +3026,29 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_77;
 
   label_77:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 248} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 248} true;
     call result.get_actual_token$19 := get_actual_token(token_str, token_ind);
     assume value_is(__ctobpl_const_167, token_ind);
     assume value_is(__ctobpl_const_168, token_ind);
     goto label_80;
 
   label_80:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 249} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 249} true;
     goto label_81;
 
   label_81:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 249} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 249} true;
     assert token_ptr != 0;
     assume value_is(__ctobpl_const_169, token_ptr);
     goto label_82;
 
   label_82:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 249} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 249} true;
     call result.strcpy$20 := strcpy($strcpy.arg.1$22$, $strcpy.arg.2$21$);
     goto label_85;
 
   label_85:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 250} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 250} true;
     result.get_token$1 := token_ptr;
     assume value_is(__ctobpl_const_170, token_ptr);
     goto label_1;
@@ -3099,7 +3099,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_56;
 
   label_56:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 226} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 226} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.get_char$12 := get_char(Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -3112,21 +3112,21 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_89;
 
   label_89:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 226} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 226} true;
     ch := result.get_char$12;
     assume value_is(__ctobpl_const_135, ch);
     assume value_is(__ctobpl_const_136, result.get_char$12);
     goto label_90;
 
   label_90:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 227} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 227} true;
     call result.check_delimiter$13 := check_delimiter(ch);
     assume value_is(__ctobpl_const_137, ch);
     assume value_is(__ctobpl_const_138, ch);
     goto label_93;
 
   label_93:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 227} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 227} true;
     goto label_93_true, label_93_false;
 
   label_93_false:
@@ -3135,7 +3135,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_94;
 
   label_94:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 234} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 234} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.unget_char$16 := unget_char(ch, Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -3150,7 +3150,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_106;
 
   label_106:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 235} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 235} true;
     goto label_71;
 
   label_93_true:
@@ -3159,14 +3159,14 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_97;
 
   label_97:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 229} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 229} true;
     call result.keyword$14 := keyword(next_st);
     assume value_is(__ctobpl_const_146, next_st);
     assume value_is(__ctobpl_const_147, next_st);
     goto label_100;
 
   label_100:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 229} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 229} true;
     assert token_ptr != 0;
     Mem_T.token_id_token_type := Mem_T.token_id_token_type[token_id_token_type(token_ptr) := result.keyword$14];
     assume value_is(__ctobpl_const_148, token_ptr);
@@ -3175,7 +3175,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_101;
 
   label_101:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 230} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 230} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.unget_char$15 := unget_char(ch, Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -3190,7 +3190,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_104;
 
   label_104:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 231} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 231} true;
     assert token_ptr != 0;
     assert token_string_token_type(token_ptr) != 0;
     Mem_T.token_string_token_type := Mem_T.token_string_token_type[PLUS(token_string_token_type(token_ptr), 1, 0) := 0];
@@ -3200,7 +3200,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_105;
 
   label_105:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 232} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 232} true;
     result.get_token$1 := token_ptr;
     assume value_is(__ctobpl_const_159, token_ptr);
     goto label_1;
@@ -3246,7 +3246,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_55;
 
   label_55:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 221} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 221} true;
     goto label_71;
 
   label_35_true:
@@ -3255,7 +3255,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_41;
 
   label_41:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 211} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 211} true;
     assert token_ptr != 0;
     Mem_T.token_id_token_type := Mem_T.token_id_token_type[token_id_token_type(token_ptr) := 17];
     assume value_is(__ctobpl_const_194, token_ptr);
@@ -3263,7 +3263,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_42;
 
   label_42:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 212} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 212} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.unget_char$7 := unget_char(ch, Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -3278,35 +3278,35 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_45;
 
   label_45:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 213} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 213} true;
     assume value_is(__ctobpl_const_202, token_ind);
     token_ind := MINUS_BOTH_PTR_OR_BOTH_INT(token_ind, 1, 1);
     goto label_46;
 
   label_46:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 214} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 214} true;
     call result.get_actual_token$8 := get_actual_token(token_str, token_ind);
     assume value_is(__ctobpl_const_203, token_ind);
     assume value_is(__ctobpl_const_204, token_ind);
     goto label_49;
 
   label_49:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 215} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 215} true;
     goto label_50;
 
   label_50:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 215} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 215} true;
     assert token_ptr != 0;
     assume value_is(__ctobpl_const_205, token_ptr);
     goto label_51;
 
   label_51:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 215} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 215} true;
     call result.strcpy$9 := strcpy($strcpy.arg.1$11$, $strcpy.arg.2$10$);
     goto label_54;
 
   label_54:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 216} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 216} true;
     result.get_token$1 := token_ptr;
     assume value_is(__ctobpl_const_206, token_ptr);
     goto label_1;
@@ -3317,7 +3317,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_36;
 
   label_36:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 208} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 208} true;
     call result.numeric_case$6 := numeric_case(tstream_ptr, token_ptr, ch, token_str, token_ind);
     assume value_is(__ctobpl_const_207, tstream_ptr);
     assume value_is(__ctobpl_const_208, token_ptr);
@@ -3330,7 +3330,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_39;
 
   label_39:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 208} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 208} true;
     result.get_token$1 := result.numeric_case$6;
     assume value_is(__ctobpl_const_215, result.numeric_case$6);
     goto label_1;
@@ -3341,7 +3341,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_31;
 
   label_31:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 205} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 205} true;
     call result.error_or_eof_case$5 := error_or_eof_case(tstream_ptr, token_ptr, cu_state, token_str, token_ind, ch);
     assume value_is(__ctobpl_const_216, tstream_ptr);
     assume value_is(__ctobpl_const_217, token_ptr);
@@ -3356,7 +3356,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_34;
 
   label_34:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 205} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 205} true;
     result.get_token$1 := result.error_or_eof_case$5;
     assume value_is(__ctobpl_const_226, result.error_or_eof_case$5);
     goto label_1;
@@ -3367,7 +3367,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_24;
 
   label_24:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 197} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 197} true;
     assert token_str != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(token_str, 1, token_ind) := ch];
     assume value_is(__ctobpl_const_118, token_ind);
@@ -3377,7 +3377,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_25;
 
   label_25:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 198} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 198} true;
     call result.next_state$4 := next_state(cu_state, ch);
     assume value_is(__ctobpl_const_121, cu_state);
     assume value_is(__ctobpl_const_122, ch);
@@ -3386,7 +3386,7 @@ implementation {:extern} get_token(tstream_ptr.__1: int) returns (result.get_tok
     goto label_28;
 
   label_28:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 198} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 198} true;
     next_st := result.next_state$4;
     assume value_is(__ctobpl_const_125, next_st);
     assume value_is(__ctobpl_const_126, result.next_state$4);
@@ -3451,7 +3451,7 @@ implementation {:extern} is_end_of_character_stream(stream_ptr.__1: int) returns
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 117} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 117} true;
     assert stream_ptr != 0;
     assert stream_ptr != 0;
     assert stream_stream_type(stream_ptr) != 0;
@@ -3473,12 +3473,12 @@ implementation {:extern} is_end_of_character_stream(stream_ptr.__1: int) returns
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 120} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 120} true;
     result.is_end_of_character_stream$1 := 0;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 121} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 121} true;
     return;
 
   label_3_true:
@@ -3497,7 +3497,7 @@ implementation {:extern} is_end_of_character_stream(stream_ptr.__1: int) returns
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 118} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 118} true;
     result.is_end_of_character_stream$1 := 1;
     goto label_1;
 }
@@ -3548,7 +3548,7 @@ implementation {:extern} is_eof_token(t.__1: int) returns (result.is_eof_token$1
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 486} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 486} true;
     assert t != 0;
     goto label_3_true, label_3_false;
 
@@ -3559,12 +3559,12 @@ implementation {:extern} is_eof_token(t.__1: int) returns (result.is_eof_token$1
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 487} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 487} true;
     result.is_eof_token$1 := 1;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 489} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 489} true;
     return;
 
   label_3_true:
@@ -3574,7 +3574,7 @@ implementation {:extern} is_eof_token(t.__1: int) returns (result.is_eof_token$1
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 488} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 488} true;
     result.is_eof_token$1 := 0;
     goto label_1;
 }
@@ -3632,7 +3632,7 @@ implementation {:extern} keyword(state.__1: int) returns (result.keyword$1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 361} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 361} true;
     goto label_3_case_0, label_3_case_1, label_3_case_2, label_3_case_3, label_3_case_4, label_3_case_5;
 
   label_3_case_5:
@@ -3641,12 +3641,12 @@ implementation {:extern} keyword(state.__1: int) returns (result.keyword$1: int)
     goto label_11;
 
   label_11:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 367} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 367} true;
     result.keyword$1 := 16;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 371} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 371} true;
     return;
 
   label_3_case_4:
@@ -3655,7 +3655,7 @@ implementation {:extern} keyword(state.__1: int) returns (result.keyword$1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 366} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 366} true;
     result.keyword$1 := 13;
     goto label_1;
 
@@ -3665,7 +3665,7 @@ implementation {:extern} keyword(state.__1: int) returns (result.keyword$1: int)
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 365} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 365} true;
     result.keyword$1 := 11;
     goto label_1;
 
@@ -3675,7 +3675,7 @@ implementation {:extern} keyword(state.__1: int) returns (result.keyword$1: int)
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 364} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 364} true;
     result.keyword$1 := 9;
     goto label_1;
 
@@ -3685,7 +3685,7 @@ implementation {:extern} keyword(state.__1: int) returns (result.keyword$1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 363} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 363} true;
     result.keyword$1 := 6;
     goto label_1;
 
@@ -3699,12 +3699,12 @@ implementation {:extern} keyword(state.__1: int) returns (result.keyword$1: int)
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 368} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 368} true;
     call result.__iob_func$3 := __iob_func();
     goto label_12;
 
   label_12:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 368} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 368} true;
     assert result.__iob_func$3 != 0;
     $fprintf.arg.1$4$_123_$static$ := PLUS(result.__iob_func$3, 32, 1);
     assume value_is(__ctobpl_const_234, $fprintf.arg.1$4$_123_$static$);
@@ -3712,16 +3712,16 @@ implementation {:extern} keyword(state.__1: int) returns (result.keyword$1: int)
     goto label_13;
 
   label_13:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 368} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 368} true;
     call result.fprintf$2 := det_choice();
     goto label_16;
 
   label_16:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 368} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 368} true;
     goto label_17;
 
   label_17:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 370} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 370} true;
     call result.exit$5 := det_choice();
     return;
 }
@@ -3801,15 +3801,15 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 31} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 31} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 32} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 32} true;
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 34} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 34} true;
     goto label_5_true, label_5_false;
 
   label_5_false:
@@ -3818,7 +3818,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 39} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 39} true;
     assert argv != 0;
     $open_token_stream.arg.1$7$ := Mem_T.PCHAR[PLUS(argv, 4, 1)];
     assume value_is(__ctobpl_const_237, $open_token_stream.arg.1$7$);
@@ -3827,21 +3827,21 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_17;
 
   label_17:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 39} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 39} true;
     call result.open_token_stream$6 := open_token_stream($open_token_stream.arg.1$7$);
     assume value_is(__ctobpl_const_240, $open_token_stream.arg.1$7$);
     assume value_is(__ctobpl_const_241, $open_token_stream.arg.1$7$);
     goto label_20;
 
   label_20:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 39} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 39} true;
     stream_ptr := result.open_token_stream$6;
     assume value_is(__ctobpl_const_242, stream_ptr);
     assume value_is(__ctobpl_const_243, result.open_token_stream$6);
     goto label_21;
 
   label_21:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 41} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 41} true;
     goto label_21_head;
 
   label_21_head:
@@ -3849,21 +3849,21 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_21_head_last;
 
   label_24:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 41} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 41} true;
     token_ptr := result.get_token$9;
     assume value_is(__ctobpl_const_246, token_ptr);
     assume value_is(__ctobpl_const_247, result.get_token$9);
     goto label_25;
 
   label_25:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 41} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 41} true;
     call result.is_eof_token$8 := is_eof_token(token_ptr);
     assume value_is(__ctobpl_const_248, token_ptr);
     assume value_is(__ctobpl_const_249, token_ptr);
     goto label_28;
 
   label_28:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 41} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 41} true;
     goto label_28_true, label_28_false;
 
   label_28_false:
@@ -3872,7 +3872,7 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_29;
 
   label_29:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 42} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 42} true;
     call result.print_token$10 := print_token(token_ptr);
     assume value_is(__ctobpl_const_251, token_ptr);
     assume value_is(__ctobpl_const_252, token_ptr);
@@ -3884,14 +3884,14 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_32;
 
   label_32:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 43} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 43} true;
     call result.print_token$11 := print_token(token_ptr);
     assume value_is(__ctobpl_const_253, token_ptr);
     assume value_is(__ctobpl_const_254, token_ptr);
     goto label_35;
 
   label_35:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 44} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 44} true;
     call result.exit$12 := det_choice();
     return;
 
@@ -3901,12 +3901,12 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 36} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 36} true;
     call result.__iob_func$3 := __iob_func();
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 36} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 36} true;
     assert result.__iob_func$3 != 0;
     $fprintf.arg.1$4$ := PLUS(result.__iob_func$3, 32, 1);
     assume value_is(__ctobpl_const_255, $fprintf.arg.1$4$);
@@ -3914,12 +3914,12 @@ implementation {:extern} main(argc.__1: int, argv.__1: int) returns (result.main
     goto label_11;
 
   label_11:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 36} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 36} true;
     call result.fprintf$2 := det_choice();
     goto label_14;
 
   label_14:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 37} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 37} true;
     call result.exit$5 := det_choice();
     return;
 
@@ -3990,7 +3990,7 @@ implementation {:extern} next_state(state.__1: int, ch.__1: int) returns (result
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 460} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 460} true;
     goto label_3_true, label_3_false;
 
   label_3_false:
@@ -3999,7 +3999,7 @@ implementation {:extern} next_state(state.__1: int, ch.__1: int) returns (result
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 462} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 462} true;
     assert base != 0;
     goto label_4_true, label_4_false;
 
@@ -4011,7 +4011,7 @@ implementation {:extern} next_state(state.__1: int, ch.__1: int) returns (result
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 470} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 470} true;
     assert default1 != 0;
     $next_state.arg.1$5$_123_$static$ := Mem_T.INT4[PLUS(default1, 4, state)];
     assume value_is(__ctobpl_const_261, $next_state.arg.1$5$_123_$static$);
@@ -4020,7 +4020,7 @@ implementation {:extern} next_state(state.__1: int, ch.__1: int) returns (result
     goto label_14;
 
   label_14:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 470} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 470} true;
     call result.next_state$4 := next_state($next_state.arg.1$5$_123_$static$, ch);
     assume value_is(__ctobpl_const_264, $next_state.arg.1$5$_123_$static$);
     assume value_is(__ctobpl_const_265, ch);
@@ -4029,13 +4029,13 @@ implementation {:extern} next_state(state.__1: int, ch.__1: int) returns (result
     goto label_17;
 
   label_17:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 470} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 470} true;
     result.next_state$1 := result.next_state$4;
     assume value_is(__ctobpl_const_268, result.next_state$4);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 471} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 471} true;
     return;
 
   label_4_true:
@@ -4046,7 +4046,7 @@ implementation {:extern} next_state(state.__1: int, ch.__1: int) returns (result
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 464} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 464} true;
     assert base != 0;
     assert check != 0;
     goto label_7_true, label_7_false;
@@ -4062,7 +4062,7 @@ implementation {:extern} next_state(state.__1: int, ch.__1: int) returns (result
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 467} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 467} true;
     assert default1 != 0;
     $next_state.arg.1$3$_123_$static$ := Mem_T.INT4[PLUS(default1, 4, state)];
     assume value_is(__ctobpl_const_274, $next_state.arg.1$3$_123_$static$);
@@ -4071,7 +4071,7 @@ implementation {:extern} next_state(state.__1: int, ch.__1: int) returns (result
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 467} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 467} true;
     call result.next_state$2 := next_state($next_state.arg.1$3$_123_$static$, ch);
     assume value_is(__ctobpl_const_277, $next_state.arg.1$3$_123_$static$);
     assume value_is(__ctobpl_const_278, ch);
@@ -4080,7 +4080,7 @@ implementation {:extern} next_state(state.__1: int, ch.__1: int) returns (result
     goto label_13;
 
   label_13:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 467} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 467} true;
     result.next_state$1 := result.next_state$2;
     assume value_is(__ctobpl_const_281, result.next_state$2);
     goto label_1;
@@ -4096,7 +4096,7 @@ implementation {:extern} next_state(state.__1: int, ch.__1: int) returns (result
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 465} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 465} true;
     assert base != 0;
     assert next != 0;
     result.next_state$1 := Mem_T.INT4[PLUS(next, 4, PLUS(Mem_T.INT4[PLUS(base, 4, state)], 1, ch))];
@@ -4113,7 +4113,7 @@ implementation {:extern} next_state(state.__1: int, ch.__1: int) returns (result
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 461} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 461} true;
     result.next_state$1 := state;
     assume value_is(__ctobpl_const_286, state);
     goto label_1;
@@ -4211,14 +4211,14 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 276} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 276} true;
     call result.check_delimiter$2 := check_delimiter(ch);
     assume value_is(__ctobpl_const_287, ch);
     assume value_is(__ctobpl_const_288, ch);
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 276} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 276} true;
     goto label_6_true, label_6_false;
 
   label_6_false:
@@ -4227,7 +4227,7 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 290} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 290} true;
     assert token_ptr != 0;
     Mem_T.token_id_token_type := Mem_T.token_id_token_type[token_id_token_type(token_ptr) := 18];
     assume value_is(__ctobpl_const_290, token_ptr);
@@ -4235,7 +4235,7 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_32;
 
   label_32:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 291} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 291} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.unget_char$9 := unget_char(ch, Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -4250,13 +4250,13 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_35;
 
   label_35:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 292} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 292} true;
     assume value_is(__ctobpl_const_298, token_ind);
     token_ind := MINUS_BOTH_PTR_OR_BOTH_INT(token_ind, 1, 1);
     goto label_36;
 
   label_36:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 293} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 293} true;
     call result.get_actual_token$10 := get_actual_token(token_str, token_ind);
     assume value_is(__ctobpl_const_299, token_str);
     assume value_is(__ctobpl_const_300, token_ind);
@@ -4265,26 +4265,26 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_39;
 
   label_39:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 294} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 294} true;
     assert token_ptr != 0;
     assume value_is(__ctobpl_const_303, token_ptr);
     goto label_40;
 
   label_40:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 294} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 294} true;
     call result.strcpy$11 := strcpy($strcpy.arg.1$12$_123_$static$, token_str);
     assume value_is(__ctobpl_const_304, token_str);
     assume value_is(__ctobpl_const_305, token_str);
     goto label_43;
 
   label_43:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 295} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 295} true;
     result.numeric_case$1 := token_ptr;
     assume value_is(__ctobpl_const_306, token_ptr);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 296} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 296} true;
     return;
 
   label_6_true:
@@ -4293,7 +4293,7 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 278} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 278} true;
     assert token_ptr != 0;
     Mem_T.token_id_token_type := Mem_T.token_id_token_type[token_id_token_type(token_ptr) := -1];
     assume value_is(__ctobpl_const_307, token_ptr);
@@ -4301,7 +4301,7 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 279} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 279} true;
     goto label_9_head;
 
   label_9_head:
@@ -4309,7 +4309,7 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_9_head_last;
 
   label_12:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 279} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 279} true;
     goto label_12_true, label_12_false;
 
   label_12_false:
@@ -4318,7 +4318,7 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_13;
 
   label_13:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 281} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 281} true;
     goto label_13_true, label_13_false;
 
   label_13_false:
@@ -4327,7 +4327,7 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_26;
 
   label_26:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 282} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 282} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.get_char$4 := get_char(Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -4340,14 +4340,14 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_30;
 
   label_30:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 282} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 282} true;
     ch := result.get_char$4;
     assume value_is(__ctobpl_const_317, ch);
     assume value_is(__ctobpl_const_318, result.get_char$4);
     goto label_31;
 
   label_31:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 282} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 282} true;
     assert token_str != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(token_str, 1, token_ind) := ch];
     assume value_is(__ctobpl_const_319, token_str);
@@ -4363,11 +4363,11 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_29;
 
   label_29:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 281} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 281} true;
     goto label_14;
 
   label_14:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 284} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 284} true;
     assert tstream_ptr != 0;
     assert tstream_ptr != 0;
     call result.unget_char$5 := unget_char(ch, Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(tstream_ptr)]);
@@ -4382,13 +4382,13 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_17;
 
   label_17:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 285} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 285} true;
     assume value_is(__ctobpl_const_329, token_ind);
     token_ind := MINUS_BOTH_PTR_OR_BOTH_INT(token_ind, 1, 1);
     goto label_18;
 
   label_18:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 286} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 286} true;
     call result.get_actual_token$6 := get_actual_token(token_str, token_ind);
     assume value_is(__ctobpl_const_330, token_str);
     assume value_is(__ctobpl_const_331, token_ind);
@@ -4397,20 +4397,20 @@ implementation {:extern} numeric_case(tstream_ptr.__1: int,
     goto label_21;
 
   label_21:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 287} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 287} true;
     assert token_ptr != 0;
     assume value_is(__ctobpl_const_334, token_ptr);
     goto label_22;
 
   label_22:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 287} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 287} true;
     call result.strcpy$7 := strcpy($strcpy.arg.1$8$_123_$static$, token_str);
     assume value_is(__ctobpl_const_335, token_str);
     assume value_is(__ctobpl_const_336, token_str);
     goto label_25;
 
   label_25:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 288} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 288} true;
     result.numeric_case$1 := token_ptr;
     assume value_is(__ctobpl_const_337, token_ptr);
     goto label_1;
@@ -4493,23 +4493,23 @@ implementation {:extern} open_character_stream(FILENAME.__1: int) returns (resul
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 65} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 65} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 67} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 67} true;
     call result.malloc$2 := __HAVOC_det_malloc(88);
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 67} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 67} true;
     stream_ptr := result.malloc$2;
     assume value_is(__ctobpl_const_338, stream_ptr);
     assume value_is(__ctobpl_const_339, result.malloc$2);
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 68} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 68} true;
     assert stream_ptr != 0;
     Mem_T.stream_ind_stream_type := Mem_T.stream_ind_stream_type[stream_ind_stream_type(stream_ptr) := 5];
     assume value_is(__ctobpl_const_340, stream_ptr);
@@ -4518,7 +4518,7 @@ implementation {:extern} open_character_stream(FILENAME.__1: int) returns (resul
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 69} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 69} true;
     assert stream_ptr != 0;
     assert stream_stream_type(stream_ptr) != 0;
     Mem_T.stream_stream_type := Mem_T.stream_stream_type[PLUS(stream_stream_type(stream_ptr), 1, 5) := 0];
@@ -4528,7 +4528,7 @@ implementation {:extern} open_character_stream(FILENAME.__1: int) returns (resul
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 70} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 70} true;
     goto label_10_true, label_10_false;
 
   label_10_false:
@@ -4537,12 +4537,12 @@ implementation {:extern} open_character_stream(FILENAME.__1: int) returns (resul
     goto label_11;
 
   label_11:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 71} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 71} true;
     call result.__iob_func$3 := __iob_func();
     goto label_30;
 
   label_30:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 71} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 71} true;
     assert stream_ptr != 0;
     assert result.__iob_func$3 != 0;
     Mem_T.fp_stream_type := Mem_T.fp_stream_type[fp_stream_type(stream_ptr) := PLUS(result.__iob_func$3, 32, 0)];
@@ -4552,13 +4552,13 @@ implementation {:extern} open_character_stream(FILENAME.__1: int) returns (resul
     goto label_22;
 
   label_22:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 77} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 77} true;
     result.open_character_stream$1 := stream_ptr;
     assume value_is(__ctobpl_const_357, stream_ptr);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 78} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 78} true;
     return;
 
   label_10_true:
@@ -4567,14 +4567,14 @@ implementation {:extern} open_character_stream(FILENAME.__1: int) returns (resul
     goto label_14;
 
   label_14:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 72} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 72} true;
     call result.fopen$4 := fopen(FILENAME, havoc_stringTemp);
     assume value_is(__ctobpl_const_348, FILENAME);
     assume value_is(__ctobpl_const_349, FILENAME);
     goto label_17;
 
   label_17:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 72} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 72} true;
     assert stream_ptr != 0;
     Mem_T.fp_stream_type := Mem_T.fp_stream_type[fp_stream_type(stream_ptr) := result.fopen$4];
     assume value_is(__ctobpl_const_350, stream_ptr);
@@ -4583,7 +4583,7 @@ implementation {:extern} open_character_stream(FILENAME.__1: int) returns (resul
     goto label_18;
 
   label_18:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 72} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 72} true;
     assert stream_ptr != 0;
     goto label_18_true, label_18_false;
 
@@ -4594,12 +4594,12 @@ implementation {:extern} open_character_stream(FILENAME.__1: int) returns (resul
     goto label_19;
 
   label_19:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 74} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 74} true;
     call result.__iob_func$6 := __iob_func();
     goto label_23;
 
   label_23:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 74} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 74} true;
     assert result.__iob_func$6 != 0;
     $fprintf.arg.1$7$ := PLUS(result.__iob_func$6, 32, 1);
     assume value_is(__ctobpl_const_355, $fprintf.arg.1$7$);
@@ -4607,12 +4607,12 @@ implementation {:extern} open_character_stream(FILENAME.__1: int) returns (resul
     goto label_24;
 
   label_24:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 74} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 74} true;
     call result.fprintf$5 := det_choice();
     goto label_27;
 
   label_27:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 75} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 75} true;
     call result.exit$8 := det_choice();
     return;
 
@@ -4675,30 +4675,30 @@ implementation {:extern} open_token_stream(FILENAME.__1: int) returns (result.op
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 160} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 160} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 162} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 162} true;
     call result.malloc$2 := __HAVOC_det_malloc(4);
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 162} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 162} true;
     token_ptr := result.malloc$2;
     assume value_is(__ctobpl_const_358, token_ptr);
     assume value_is(__ctobpl_const_359, result.malloc$2);
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 163} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 163} true;
     call result.open_character_stream$3 := open_character_stream(FILENAME);
     assume value_is(__ctobpl_const_360, FILENAME);
     assume value_is(__ctobpl_const_361, FILENAME);
     goto label_11;
 
   label_11:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 163} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 163} true;
     assert token_ptr != 0;
     Mem_T.ch_stream_token_stream_type := Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(token_ptr) := result.open_character_stream$3];
     assume value_is(__ctobpl_const_362, token_ptr);
@@ -4708,13 +4708,13 @@ implementation {:extern} open_token_stream(FILENAME.__1: int) returns (result.op
     goto label_12;
 
   label_12:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 165} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 165} true;
     result.open_token_stream$1 := token_ptr;
     assume value_is(__ctobpl_const_365, token_ptr);
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 166} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 166} true;
     return;
 }
 
@@ -4948,7 +4948,7 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 508} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 508} true;
     assert token_ptr != 0;
     goto label_3_case_0, label_3_case_1, label_3_case_2, label_3_case_3, label_3_case_4, label_3_case_5, label_3_case_6, label_3_case_7, label_3_case_8, label_3_case_9, label_3_case_10, label_3_case_11, label_3_case_12, label_3_case_13, label_3_case_14, label_3_case_15, label_3_case_16, label_3_case_17, label_3_case_18, label_3_case_19;
 
@@ -4959,12 +4959,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_59;
 
   label_59:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 533} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 533} true;
     call result.__iob_func$92 := __iob_func();
     goto label_62;
 
   label_62:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 533} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 533} true;
     assert result.__iob_func$92 != 0;
     $fprintf.arg.1$93$ := PLUS(result.__iob_func$92, 32, 1);
     assume value_is(__ctobpl_const_429, $fprintf.arg.1$93$);
@@ -4972,17 +4972,17 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_63;
 
   label_63:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 533} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 533} true;
     call result.fprintf$91 := det_choice();
     goto label_66;
 
   label_66:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 533} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 533} true;
     result.print_token$1 := 1;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 537} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 537} true;
     return;
 
   label_3_case_18:
@@ -4992,12 +4992,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_56;
 
   label_56:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 531} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 531} true;
     call result.__iob_func$82 := __iob_func();
     goto label_67;
 
   label_67:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 531} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 531} true;
     assert result.__iob_func$82 != 0;
     $fprintf.arg.1$83$ := PLUS(result.__iob_func$82, 32, 1);
     assume value_is(__ctobpl_const_422, $fprintf.arg.1$83$);
@@ -5005,23 +5005,23 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_68;
 
   label_68:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 531} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 531} true;
     call result.fprintf$81 := det_choice();
     goto label_71;
 
   label_71:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 531} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 531} true;
     assert token_ptr != 0;
     assume value_is(__ctobpl_const_424, token_ptr);
     goto label_72;
 
   label_72:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 531} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 531} true;
     call result.__iob_func$86 := __iob_func();
     goto label_75;
 
   label_75:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 531} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 531} true;
     assert result.__iob_func$86 != 0;
     $fprintf.arg.1$87$ := PLUS(result.__iob_func$86, 32, 1);
     assume value_is(__ctobpl_const_425, $fprintf.arg.1$87$);
@@ -5029,17 +5029,17 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_76;
 
   label_76:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 531} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 531} true;
     call result.fprintf$84 := det_choice();
     goto label_79;
 
   label_79:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 532} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 532} true;
     call result.__iob_func$89 := __iob_func();
     goto label_82;
 
   label_82:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 532} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 532} true;
     assert result.__iob_func$89 != 0;
     $fprintf.arg.1$90$ := PLUS(result.__iob_func$89, 32, 1);
     assume value_is(__ctobpl_const_427, $fprintf.arg.1$90$);
@@ -5047,12 +5047,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_83;
 
   label_83:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 532} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 532} true;
     call result.fprintf$88 := det_choice();
     goto label_86;
 
   label_86:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 532} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 532} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5063,12 +5063,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_53;
 
   label_53:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 529} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 529} true;
     call result.__iob_func$72 := __iob_func();
     goto label_87;
 
   label_87:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 529} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 529} true;
     assert result.__iob_func$72 != 0;
     $fprintf.arg.1$73$ := PLUS(result.__iob_func$72, 32, 1);
     assume value_is(__ctobpl_const_415, $fprintf.arg.1$73$);
@@ -5076,23 +5076,23 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_88;
 
   label_88:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 529} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 529} true;
     call result.fprintf$71 := det_choice();
     goto label_91;
 
   label_91:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 529} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 529} true;
     assert token_ptr != 0;
     assume value_is(__ctobpl_const_417, token_ptr);
     goto label_92;
 
   label_92:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 529} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 529} true;
     call result.__iob_func$76 := __iob_func();
     goto label_95;
 
   label_95:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 529} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 529} true;
     assert result.__iob_func$76 != 0;
     $fprintf.arg.1$77$ := PLUS(result.__iob_func$76, 32, 1);
     assume value_is(__ctobpl_const_418, $fprintf.arg.1$77$);
@@ -5100,17 +5100,17 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_96;
 
   label_96:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 529} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 529} true;
     call result.fprintf$74 := det_choice();
     goto label_99;
 
   label_99:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 530} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 530} true;
     call result.__iob_func$79 := __iob_func();
     goto label_102;
 
   label_102:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 530} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 530} true;
     assert result.__iob_func$79 != 0;
     $fprintf.arg.1$80$ := PLUS(result.__iob_func$79, 32, 1);
     assume value_is(__ctobpl_const_420, $fprintf.arg.1$80$);
@@ -5118,12 +5118,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_103;
 
   label_103:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 530} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 530} true;
     call result.fprintf$78 := det_choice();
     goto label_106;
 
   label_106:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 530} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 530} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5134,12 +5134,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_50;
 
   label_50:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 528} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 528} true;
     call result.__iob_func$69 := __iob_func();
     goto label_107;
 
   label_107:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 528} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 528} true;
     assert result.__iob_func$69 != 0;
     $fprintf.arg.1$70$ := PLUS(result.__iob_func$69, 32, 1);
     assume value_is(__ctobpl_const_413, $fprintf.arg.1$70$);
@@ -5147,12 +5147,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_108;
 
   label_108:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 528} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 528} true;
     call result.fprintf$68 := det_choice();
     goto label_111;
 
   label_111:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 528} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 528} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5163,12 +5163,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_47;
 
   label_47:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 527} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 527} true;
     call result.__iob_func$66 := __iob_func();
     goto label_112;
 
   label_112:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 527} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 527} true;
     assert result.__iob_func$66 != 0;
     $fprintf.arg.1$67$ := PLUS(result.__iob_func$66, 32, 1);
     assume value_is(__ctobpl_const_411, $fprintf.arg.1$67$);
@@ -5176,12 +5176,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_113;
 
   label_113:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 527} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 527} true;
     call result.fprintf$65 := det_choice();
     goto label_116;
 
   label_116:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 527} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 527} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5192,12 +5192,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_44;
 
   label_44:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 526} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 526} true;
     call result.__iob_func$63 := __iob_func();
     goto label_117;
 
   label_117:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 526} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 526} true;
     assert result.__iob_func$63 != 0;
     $fprintf.arg.1$64$ := PLUS(result.__iob_func$63, 32, 1);
     assume value_is(__ctobpl_const_409, $fprintf.arg.1$64$);
@@ -5205,12 +5205,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_118;
 
   label_118:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 526} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 526} true;
     call result.fprintf$62 := det_choice();
     goto label_121;
 
   label_121:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 526} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 526} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5221,12 +5221,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_41;
 
   label_41:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 525} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 525} true;
     call result.__iob_func$60 := __iob_func();
     goto label_122;
 
   label_122:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 525} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 525} true;
     assert result.__iob_func$60 != 0;
     $fprintf.arg.1$61$ := PLUS(result.__iob_func$60, 32, 1);
     assume value_is(__ctobpl_const_407, $fprintf.arg.1$61$);
@@ -5234,12 +5234,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_123;
 
   label_123:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 525} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 525} true;
     call result.fprintf$59 := det_choice();
     goto label_126;
 
   label_126:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 525} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 525} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5250,12 +5250,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_38;
 
   label_38:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 524} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 524} true;
     call result.__iob_func$57 := __iob_func();
     goto label_127;
 
   label_127:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 524} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 524} true;
     assert result.__iob_func$57 != 0;
     $fprintf.arg.1$58$ := PLUS(result.__iob_func$57, 32, 1);
     assume value_is(__ctobpl_const_405, $fprintf.arg.1$58$);
@@ -5263,12 +5263,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_128;
 
   label_128:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 524} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 524} true;
     call result.fprintf$56 := det_choice();
     goto label_131;
 
   label_131:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 524} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 524} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5279,12 +5279,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_35;
 
   label_35:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 523} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 523} true;
     call result.__iob_func$54 := __iob_func();
     goto label_132;
 
   label_132:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 523} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 523} true;
     assert result.__iob_func$54 != 0;
     $fprintf.arg.1$55$ := PLUS(result.__iob_func$54, 32, 1);
     assume value_is(__ctobpl_const_403, $fprintf.arg.1$55$);
@@ -5292,12 +5292,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_133;
 
   label_133:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 523} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 523} true;
     call result.fprintf$53 := det_choice();
     goto label_136;
 
   label_136:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 523} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 523} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5308,12 +5308,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_32;
 
   label_32:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 522} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 522} true;
     call result.__iob_func$51 := __iob_func();
     goto label_137;
 
   label_137:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 522} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 522} true;
     assert result.__iob_func$51 != 0;
     $fprintf.arg.1$52$ := PLUS(result.__iob_func$51, 32, 1);
     assume value_is(__ctobpl_const_401, $fprintf.arg.1$52$);
@@ -5321,12 +5321,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_138;
 
   label_138:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 522} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 522} true;
     call result.fprintf$50 := det_choice();
     goto label_141;
 
   label_141:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 522} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 522} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5337,12 +5337,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_29;
 
   label_29:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 520} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 520} true;
     call result.__iob_func$41 := __iob_func();
     goto label_142;
 
   label_142:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 520} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 520} true;
     assert result.__iob_func$41 != 0;
     $fprintf.arg.1$42$ := PLUS(result.__iob_func$41, 32, 1);
     assume value_is(__ctobpl_const_394, $fprintf.arg.1$42$);
@@ -5350,23 +5350,23 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_143;
 
   label_143:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 520} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 520} true;
     call result.fprintf$40 := det_choice();
     goto label_146;
 
   label_146:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 520} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 520} true;
     assert token_ptr != 0;
     assume value_is(__ctobpl_const_396, token_ptr);
     goto label_147;
 
   label_147:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 520} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 520} true;
     call result.__iob_func$45 := __iob_func();
     goto label_150;
 
   label_150:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 520} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 520} true;
     assert result.__iob_func$45 != 0;
     $fprintf.arg.1$46$ := PLUS(result.__iob_func$45, 32, 1);
     assume value_is(__ctobpl_const_397, $fprintf.arg.1$46$);
@@ -5374,17 +5374,17 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_151;
 
   label_151:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 520} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 520} true;
     call result.fprintf$43 := det_choice();
     goto label_154;
 
   label_154:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 521} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 521} true;
     call result.__iob_func$48 := __iob_func();
     goto label_157;
 
   label_157:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 521} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 521} true;
     assert result.__iob_func$48 != 0;
     $fprintf.arg.1$49$ := PLUS(result.__iob_func$48, 32, 1);
     assume value_is(__ctobpl_const_399, $fprintf.arg.1$49$);
@@ -5392,12 +5392,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_158;
 
   label_158:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 521} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 521} true;
     call result.fprintf$47 := det_choice();
     goto label_161;
 
   label_161:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 521} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 521} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5408,12 +5408,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_26;
 
   label_26:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 518} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 518} true;
     call result.__iob_func$31 := __iob_func();
     goto label_162;
 
   label_162:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 518} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 518} true;
     assert result.__iob_func$31 != 0;
     $fprintf.arg.1$32$ := PLUS(result.__iob_func$31, 32, 1);
     assume value_is(__ctobpl_const_387, $fprintf.arg.1$32$);
@@ -5421,23 +5421,23 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_163;
 
   label_163:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 518} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 518} true;
     call result.fprintf$30 := det_choice();
     goto label_166;
 
   label_166:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 518} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 518} true;
     assert token_ptr != 0;
     assume value_is(__ctobpl_const_389, token_ptr);
     goto label_167;
 
   label_167:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 518} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 518} true;
     call result.__iob_func$35 := __iob_func();
     goto label_170;
 
   label_170:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 518} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 518} true;
     assert result.__iob_func$35 != 0;
     $fprintf.arg.1$36$ := PLUS(result.__iob_func$35, 32, 1);
     assume value_is(__ctobpl_const_390, $fprintf.arg.1$36$);
@@ -5445,17 +5445,17 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_171;
 
   label_171:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 518} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 518} true;
     call result.fprintf$33 := det_choice();
     goto label_174;
 
   label_174:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 519} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 519} true;
     call result.__iob_func$38 := __iob_func();
     goto label_177;
 
   label_177:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 519} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 519} true;
     assert result.__iob_func$38 != 0;
     $fprintf.arg.1$39$ := PLUS(result.__iob_func$38, 32, 1);
     assume value_is(__ctobpl_const_392, $fprintf.arg.1$39$);
@@ -5463,12 +5463,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_178;
 
   label_178:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 519} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 519} true;
     call result.fprintf$37 := det_choice();
     goto label_181;
 
   label_181:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 519} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 519} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5479,12 +5479,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_23;
 
   label_23:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 517} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 517} true;
     call result.__iob_func$28 := __iob_func();
     goto label_182;
 
   label_182:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 517} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 517} true;
     assert result.__iob_func$28 != 0;
     $fprintf.arg.1$29$ := PLUS(result.__iob_func$28, 32, 1);
     assume value_is(__ctobpl_const_385, $fprintf.arg.1$29$);
@@ -5492,12 +5492,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_183;
 
   label_183:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 517} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 517} true;
     call result.fprintf$27 := det_choice();
     goto label_186;
 
   label_186:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 517} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 517} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5508,12 +5508,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_20;
 
   label_20:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 516} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 516} true;
     call result.__iob_func$25 := __iob_func();
     goto label_187;
 
   label_187:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 516} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 516} true;
     assert result.__iob_func$25 != 0;
     $fprintf.arg.1$26$ := PLUS(result.__iob_func$25, 32, 1);
     assume value_is(__ctobpl_const_383, $fprintf.arg.1$26$);
@@ -5521,12 +5521,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_188;
 
   label_188:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 516} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 516} true;
     call result.fprintf$24 := det_choice();
     goto label_191;
 
   label_191:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 516} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 516} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5537,12 +5537,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_17;
 
   label_17:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 515} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 515} true;
     call result.__iob_func$22 := __iob_func();
     goto label_192;
 
   label_192:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 515} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 515} true;
     assert result.__iob_func$22 != 0;
     $fprintf.arg.1$23$ := PLUS(result.__iob_func$22, 32, 1);
     assume value_is(__ctobpl_const_381, $fprintf.arg.1$23$);
@@ -5550,12 +5550,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_193;
 
   label_193:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 515} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 515} true;
     call result.fprintf$21 := det_choice();
     goto label_196;
 
   label_196:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 515} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 515} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5566,12 +5566,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_14;
 
   label_14:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 514} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 514} true;
     call result.__iob_func$19 := __iob_func();
     goto label_197;
 
   label_197:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 514} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 514} true;
     assert result.__iob_func$19 != 0;
     $fprintf.arg.1$20$ := PLUS(result.__iob_func$19, 32, 1);
     assume value_is(__ctobpl_const_379, $fprintf.arg.1$20$);
@@ -5579,12 +5579,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_198;
 
   label_198:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 514} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 514} true;
     call result.fprintf$18 := det_choice();
     goto label_201;
 
   label_201:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 514} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 514} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5595,12 +5595,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_11;
 
   label_11:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 513} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 513} true;
     call result.__iob_func$16 := __iob_func();
     goto label_202;
 
   label_202:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 513} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 513} true;
     assert result.__iob_func$16 != 0;
     $fprintf.arg.1$17$ := PLUS(result.__iob_func$16, 32, 1);
     assume value_is(__ctobpl_const_377, $fprintf.arg.1$17$);
@@ -5608,12 +5608,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_203;
 
   label_203:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 513} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 513} true;
     call result.fprintf$15 := det_choice();
     goto label_206;
 
   label_206:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 513} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 513} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5624,12 +5624,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 512} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 512} true;
     call result.__iob_func$13 := __iob_func();
     goto label_207;
 
   label_207:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 512} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 512} true;
     assert result.__iob_func$13 != 0;
     $fprintf.arg.1$14$ := PLUS(result.__iob_func$13, 32, 1);
     assume value_is(__ctobpl_const_375, $fprintf.arg.1$14$);
@@ -5637,12 +5637,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_208;
 
   label_208:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 512} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 512} true;
     call result.fprintf$12 := det_choice();
     goto label_211;
 
   label_211:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 512} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 512} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5653,12 +5653,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 510} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 510} true;
     call result.__iob_func$3 := __iob_func();
     goto label_212;
 
   label_212:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 510} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 510} true;
     assert result.__iob_func$3 != 0;
     $fprintf.arg.1$4$ := PLUS(result.__iob_func$3, 32, 1);
     assume value_is(__ctobpl_const_368, $fprintf.arg.1$4$);
@@ -5666,23 +5666,23 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_213;
 
   label_213:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 510} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 510} true;
     call result.fprintf$2 := det_choice();
     goto label_216;
 
   label_216:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 510} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 510} true;
     assert token_ptr != 0;
     assume value_is(__ctobpl_const_370, token_ptr);
     goto label_217;
 
   label_217:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 510} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 510} true;
     call result.__iob_func$7 := __iob_func();
     goto label_220;
 
   label_220:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 510} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 510} true;
     assert result.__iob_func$7 != 0;
     $fprintf.arg.1$8$ := PLUS(result.__iob_func$7, 32, 1);
     assume value_is(__ctobpl_const_371, $fprintf.arg.1$8$);
@@ -5690,17 +5690,17 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_221;
 
   label_221:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 510} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 510} true;
     call result.fprintf$5 := det_choice();
     goto label_224;
 
   label_224:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 511} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 511} true;
     call result.__iob_func$10 := __iob_func();
     goto label_227;
 
   label_227:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 511} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 511} true;
     assert result.__iob_func$10 != 0;
     $fprintf.arg.1$11$ := PLUS(result.__iob_func$10, 32, 1);
     assume value_is(__ctobpl_const_373, $fprintf.arg.1$11$);
@@ -5708,12 +5708,12 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_228;
 
   label_228:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 511} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 511} true;
     call result.fprintf$9 := det_choice();
     goto label_231;
 
   label_231:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 511} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 511} true;
     result.print_token$1 := 1;
     goto label_1;
 
@@ -5742,11 +5742,11 @@ implementation {:extern} print_token(token_ptr.__1: int) returns (result.print_t
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 534} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 534} true;
     goto label_232;
 
   label_232:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 536} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 536} true;
     result.print_token$1 := 0;
     goto label_1;
 }
@@ -5805,11 +5805,11 @@ implementation {:extern} skip(stream_ptr.__1: int) returns (result.skip$1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 415} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 415} true;
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 417} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 417} true;
     goto label_4_head;
 
   label_4_head:
@@ -5817,14 +5817,14 @@ implementation {:extern} skip(stream_ptr.__1: int) returns (result.skip$1: int)
     goto label_4_head_last;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 417} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 417} true;
     c := result.get_char$2;
     assume value_is(__ctobpl_const_433, c);
     assume value_is(__ctobpl_const_434, result.get_char$2);
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 417} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 417} true;
     goto label_8_true, label_8_false;
 
   label_8_false:
@@ -5833,7 +5833,7 @@ implementation {:extern} skip(stream_ptr.__1: int) returns (result.skip$1: int)
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 420} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 420} true;
     goto label_9_true, label_9_false;
 
   label_9_false:
@@ -5842,11 +5842,11 @@ implementation {:extern} skip(stream_ptr.__1: int) returns (result.skip$1: int)
     goto label_14;
 
   label_14:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 421} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 421} true;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 422} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 422} true;
     return;
 
   label_9_true:
@@ -5855,7 +5855,7 @@ implementation {:extern} skip(stream_ptr.__1: int) returns (result.skip$1: int)
     goto label_15;
 
   label_15:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 420} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 420} true;
     call result.unget_char$4 := unget_char(c, stream_ptr);
     assume value_is(__ctobpl_const_440, c);
     assume value_is(__ctobpl_const_441, stream_ptr);
@@ -5869,14 +5869,14 @@ implementation {:extern} skip(stream_ptr.__1: int) returns (result.skip$1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 418} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 418} true;
     call result.is_end_of_character_stream$3 := is_end_of_character_stream(stream_ptr);
     assume value_is(__ctobpl_const_436, stream_ptr);
     assume value_is(__ctobpl_const_437, stream_ptr);
     goto label_13;
 
   label_13:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 418} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 418} true;
     goto label_13_true, label_13_false;
 
   label_13_false:
@@ -5953,7 +5953,7 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 386} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 386} true;
     goto label_3_case_0, label_3_case_1, label_3_case_2, label_3_case_3, label_3_case_4, label_3_case_5, label_3_case_6, label_3_case_7, label_3_case_8;
 
   label_3_case_8:
@@ -5962,12 +5962,12 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
     goto label_14;
 
   label_14:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 395} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 395} true;
     result.special$1 := 32;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 399} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 399} true;
     return;
 
   label_3_case_7:
@@ -5976,7 +5976,7 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
     goto label_13;
 
   label_13:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 394} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 394} true;
     result.special$1 := 25;
     goto label_1;
 
@@ -5986,7 +5986,7 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
     goto label_12;
 
   label_12:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 393} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 393} true;
     result.special$1 := 24;
     goto label_1;
 
@@ -5996,7 +5996,7 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
     goto label_11;
 
   label_11:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 392} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 392} true;
     result.special$1 := 23;
     goto label_1;
 
@@ -6006,7 +6006,7 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
     goto label_10;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 391} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 391} true;
     result.special$1 := 22;
     goto label_1;
 
@@ -6016,7 +6016,7 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
     goto label_9;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 390} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 390} true;
     result.special$1 := 21;
     goto label_1;
 
@@ -6026,7 +6026,7 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
     goto label_8;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 389} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 389} true;
     result.special$1 := 20;
     goto label_1;
 
@@ -6036,7 +6036,7 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
     goto label_7;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 388} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 388} true;
     result.special$1 := 19;
     goto label_1;
 
@@ -6053,12 +6053,12 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 396} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 396} true;
     call result.__iob_func$3 := __iob_func();
     goto label_15;
 
   label_15:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 396} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 396} true;
     assert result.__iob_func$3 != 0;
     $fprintf.arg.1$4$_123_$static$ := PLUS(result.__iob_func$3, 32, 1);
     assume value_is(__ctobpl_const_445, $fprintf.arg.1$4$_123_$static$);
@@ -6066,16 +6066,16 @@ implementation {:extern} special(state.__1: int) returns (result.special$1: int)
     goto label_16;
 
   label_16:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 396} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 396} true;
     call result.fprintf$2 := det_choice();
     goto label_19;
 
   label_19:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 396} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 396} true;
     goto label_20;
 
   label_20:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 398} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 398} true;
     call result.exit$5 := det_choice();
     return;
 }
@@ -6129,7 +6129,7 @@ implementation {:extern} unget_char(ch.__1: int, stream_ptr.__1: int) returns (r
     goto label_3;
 
   label_3:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 137} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 137} true;
     assert stream_ptr != 0;
     goto label_3_true, label_3_false;
 
@@ -6141,11 +6141,11 @@ implementation {:extern} unget_char(ch.__1: int, stream_ptr.__1: int) returns (r
     goto label_4;
 
   label_4:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 138} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 138} true;
     goto label_1;
 
   label_1:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 142} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 142} true;
     return;
 
   label_3_true:
@@ -6156,7 +6156,7 @@ implementation {:extern} unget_char(ch.__1: int, stream_ptr.__1: int) returns (r
     goto label_5;
 
   label_5:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 140} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 140} true;
     assert stream_ptr != 0;
     assert stream_ptr != 0;
     tempBoogie0 := MINUS_BOTH_PTR_OR_BOTH_INT(Mem_T.stream_ind_stream_type[stream_ind_stream_type(stream_ptr)], 1, 1);
@@ -6177,7 +6177,7 @@ implementation {:extern} unget_char(ch.__1: int, stream_ptr.__1: int) returns (r
     goto label_6;
 
   label_6:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 141} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 141} true;
     goto label_1;
 }
 
@@ -6203,7 +6203,7 @@ implementation get_actual_token_loop_label_25_head(in_ind: int, in_start: int, i
     return;
 
   label_29:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 561} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 561} true;
     out_ind := PLUS(out_ind, 1, 1);
     assume value_is(__ctobpl_const_78, out_ind);
     goto label_29_dummy;
@@ -6215,7 +6215,7 @@ implementation get_actual_token_loop_label_25_head(in_ind: int, in_start: int, i
     goto label_29;
 
   label_27:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 563} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 563} true;
     assert in_token_str != 0;
     assert in_token_str != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(in_token_str, 1, out_start) := Mem_T.CHAR[PLUS(in_token_str, 1, out_ind)]];
@@ -6283,7 +6283,7 @@ implementation get_actual_token_loop_label_16_head(in_ind: int,
     goto label_24;
 
   label_22:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 559} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 559} true;
     goto label_22_true, label_22_false;
 
   label_22_false:
@@ -6293,14 +6293,14 @@ implementation get_actual_token_loop_label_16_head(in_ind: int,
     return;
 
   label_19:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 559} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 559} true;
     call out_result.isspace$4 := isspace(out_$isspace.arg.1$5$_123_$static$);
     assume value_is(__ctobpl_const_65, out_$isspace.arg.1$5$_123_$static$);
     assume value_is(__ctobpl_const_66, out_$isspace.arg.1$5$_123_$static$);
     goto label_22;
 
   label_18:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 559} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 559} true;
     assert in_token_str != 0;
     out_$isspace.arg.1$5$_123_$static$ := Mem_T.CHAR[PLUS(in_token_str, 1, out_ind)];
     assume value_is(__ctobpl_const_61, out_$isspace.arg.1$5$_123_$static$);
@@ -6366,7 +6366,7 @@ implementation get_actual_token_loop_label_6_head(in_ind: int,
     goto label_13;
 
   label_12:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 555} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 555} true;
     goto label_12_true, label_12_false;
 
   label_12_false:
@@ -6376,14 +6376,14 @@ implementation get_actual_token_loop_label_6_head(in_ind: int,
     return;
 
   label_9:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 555} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 555} true;
     call out_result.isspace$2 := isspace(out_$isspace.arg.1$3$_123_$static$);
     assume value_is(__ctobpl_const_50, out_$isspace.arg.1$3$_123_$static$);
     assume value_is(__ctobpl_const_51, out_$isspace.arg.1$3$_123_$static$);
     goto label_12;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 555} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 555} true;
     assert in_token_str != 0;
     out_$isspace.arg.1$3$_123_$static$ := Mem_T.CHAR[PLUS(in_token_str, 1, MINUS_BOTH_PTR_OR_BOTH_INT(out_ind, 1, 1))];
     assume value_is(__ctobpl_const_46, out_$isspace.arg.1$3$_123_$static$);
@@ -6456,14 +6456,14 @@ implementation get_token_loop_label_21_head(in_ch: int,
     return;
 
   label_75:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 257} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 257} true;
     out_ch := out_result.get_char$24;
     assume value_is(__ctobpl_const_184, out_ch);
     assume value_is(__ctobpl_const_185, out_result.get_char$24);
     goto label_75_dummy;
 
   label_72:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 257} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 257} true;
     assert in_tstream_ptr != 0;
     assert in_tstream_ptr != 0;
     call out_result.get_char$24 := get_char(Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(in_tstream_ptr)]);
@@ -6476,22 +6476,22 @@ implementation get_token_loop_label_21_head(in_ch: int,
     goto label_75;
 
   label_71:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 256} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 256} true;
     out_cu_state := out_next_st;
     assume value_is(__ctobpl_const_178, out_cu_state);
     assume value_is(__ctobpl_const_179, out_next_st);
     goto label_72;
 
   label_70:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 254} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 254} true;
     goto label_71;
 
   label_106:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 235} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 235} true;
     goto label_71;
 
   label_55:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 221} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 221} true;
     goto label_71;
 
   label_40_case_0:
@@ -6515,7 +6515,7 @@ implementation get_token_loop_label_21_head(in_ch: int,
     goto label_55;
 
   label_40:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 219} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 219} true;
     goto label_40_case_0, label_40_case_1, label_40_case_2, label_40_case_3, label_40_case_4, label_40_case_5, label_40_case_6, label_40_case_7, label_40_case_8, label_40_case_9, label_40_case_10, label_40_case_11, label_40_case_12, label_40_case_13, label_40_case_14, label_40_case_15, label_40_case_16;
 
   label_40_case_6:
@@ -6594,7 +6594,7 @@ implementation get_token_loop_label_21_head(in_ch: int,
     goto label_40;
 
   label_35:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 210} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 210} true;
     goto label_35_true, label_35_false;
 
   label_35_true:
@@ -6610,7 +6610,7 @@ implementation get_token_loop_label_21_head(in_ch: int,
     goto label_35;
 
   label_30:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 207} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 207} true;
     goto label_30_true, label_30_false;
 
   label_30_true:
@@ -6626,7 +6626,7 @@ implementation get_token_loop_label_21_head(in_ch: int,
     goto label_30;
 
   label_29:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 204} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 204} true;
     goto label_29_true, label_29_false;
 
   label_29_true:
@@ -6637,20 +6637,20 @@ implementation get_token_loop_label_21_head(in_ch: int,
     return;
 
   label_23:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 202} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 202} true;
     out_next_st := -1;
     assume value_is(__ctobpl_const_117, out_next_st);
     goto label_29;
 
   label_28:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 198} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 198} true;
     out_next_st := out_result.next_state$4;
     assume value_is(__ctobpl_const_125, out_next_st);
     assume value_is(__ctobpl_const_126, out_result.next_state$4);
     goto label_29;
 
   label_25:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 198} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 198} true;
     call out_result.next_state$4 := next_state(out_cu_state, out_ch);
     assume value_is(__ctobpl_const_121, out_cu_state);
     assume value_is(__ctobpl_const_122, out_ch);
@@ -6659,7 +6659,7 @@ implementation get_token_loop_label_21_head(in_ch: int,
     goto label_28;
 
   label_24:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 197} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 197} true;
     assert in_token_str != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(in_token_str, 1, out_token_ind) := out_ch];
     assume value_is(__ctobpl_const_118, out_token_ind);
@@ -6674,7 +6674,7 @@ implementation get_token_loop_label_21_head(in_ch: int,
     goto label_24;
 
   label_22:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 195} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 195} true;
     goto label_22_true, label_22_false;
 
   label_21_false:
@@ -6688,7 +6688,7 @@ implementation get_token_loop_label_21_head(in_ch: int,
     goto label_23;
 
   label_94:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 234} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 234} true;
     assert in_tstream_ptr != 0;
     assert in_tstream_ptr != 0;
     call out_result.unget_char$16 := unget_char(out_ch, Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(in_tstream_ptr)]);
@@ -6708,7 +6708,7 @@ implementation get_token_loop_label_21_head(in_ch: int,
     goto label_94;
 
   label_93:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 227} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 227} true;
     goto label_93_true, label_93_false;
 
   label_93_true:
@@ -6719,21 +6719,21 @@ implementation get_token_loop_label_21_head(in_ch: int,
     return;
 
   label_90:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 227} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 227} true;
     call out_result.check_delimiter$13 := check_delimiter(out_ch);
     assume value_is(__ctobpl_const_137, out_ch);
     assume value_is(__ctobpl_const_138, out_ch);
     goto label_93;
 
   label_89:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 226} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 226} true;
     out_ch := out_result.get_char$12;
     assume value_is(__ctobpl_const_135, out_ch);
     assume value_is(__ctobpl_const_136, out_result.get_char$12);
     goto label_90;
 
   label_56:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 226} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 226} true;
     assert in_tstream_ptr != 0;
     assert in_tstream_ptr != 0;
     call out_result.get_char$12 := get_char(Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(in_tstream_ptr)]);
@@ -6771,20 +6771,20 @@ implementation get_token_loop_label_21_head(in_ch: int,
     goto label_56;
 
   label_69:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 253} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 253} true;
     out_token_ind := out_next_st;
     assume value_is(__ctobpl_const_176, out_token_ind);
     assume value_is(__ctobpl_const_177, out_next_st);
     goto label_70;
 
   label_68:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 253} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 253} true;
     out_next_st := 0;
     assume value_is(__ctobpl_const_175, out_next_st);
     goto label_69;
 
   label_65:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 252} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 252} true;
     assert in_tstream_ptr != 0;
     assert in_tstream_ptr != 0;
     call out_result.skip$23 := skip(Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(in_tstream_ptr)]);
@@ -6860,7 +6860,7 @@ implementation main_loop_label_21_head(in_result.get_token$9: int,
     goto label_24;
 
   label_29:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 42} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 42} true;
     call out_result.print_token$10 := print_token(out_token_ptr);
     assume value_is(__ctobpl_const_251, out_token_ptr);
     assume value_is(__ctobpl_const_252, out_token_ptr);
@@ -6872,7 +6872,7 @@ implementation main_loop_label_21_head(in_result.get_token$9: int,
     goto label_29;
 
   label_28:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 41} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 41} true;
     goto label_28_true, label_28_false;
 
   label_28_true:
@@ -6882,14 +6882,14 @@ implementation main_loop_label_21_head(in_result.get_token$9: int,
     return;
 
   label_25:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 41} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 41} true;
     call out_result.is_eof_token$8 := is_eof_token(out_token_ptr);
     assume value_is(__ctobpl_const_248, out_token_ptr);
     assume value_is(__ctobpl_const_249, out_token_ptr);
     goto label_28;
 
   label_24:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 41} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 41} true;
     out_token_ptr := out_result.get_token$9;
     assume value_is(__ctobpl_const_246, out_token_ptr);
     assume value_is(__ctobpl_const_247, out_result.get_token$9);
@@ -6940,7 +6940,7 @@ implementation numeric_case_loop_label_9_head(in_ch: int,
     goto label_12;
 
   label_31:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 282} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 282} true;
     assert in_token_str != 0;
     Mem_T.CHAR := Mem_T.CHAR[PLUS(in_token_str, 1, out_token_ind) := out_ch];
     assume value_is(__ctobpl_const_319, in_token_str);
@@ -6951,14 +6951,14 @@ implementation numeric_case_loop_label_9_head(in_ch: int,
     goto label_31_dummy;
 
   label_30:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 282} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 282} true;
     out_ch := out_result.get_char$4;
     assume value_is(__ctobpl_const_317, out_ch);
     assume value_is(__ctobpl_const_318, out_result.get_char$4);
     goto label_31;
 
   label_26:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 282} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 282} true;
     assert in_tstream_ptr != 0;
     assert in_tstream_ptr != 0;
     call out_result.get_char$4 := get_char(Mem_T.ch_stream_token_stream_type[ch_stream_token_stream_type(in_tstream_ptr)]);
@@ -6976,7 +6976,7 @@ implementation numeric_case_loop_label_9_head(in_ch: int,
     goto label_26;
 
   label_13:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 281} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 281} true;
     goto label_13_true, label_13_false;
 
   label_13_true:
@@ -6992,7 +6992,7 @@ implementation numeric_case_loop_label_9_head(in_ch: int,
     goto label_13;
 
   label_12:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 279} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 279} true;
     goto label_12_true, label_12_false;
 
   label_12_true:
@@ -7051,7 +7051,7 @@ implementation skip_loop_label_4_head(in_c: int,
     goto label_13_false_dummy;
 
   label_13:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 418} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 418} true;
     goto label_13_true, label_13_false;
 
   label_13_true:
@@ -7061,7 +7061,7 @@ implementation skip_loop_label_4_head(in_c: int,
     return;
 
   label_10:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 418} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 418} true;
     call out_result.is_end_of_character_stream$3 := is_end_of_character_stream(in_stream_ptr);
     assume value_is(__ctobpl_const_436, in_stream_ptr);
     assume value_is(__ctobpl_const_437, in_stream_ptr);
@@ -7073,7 +7073,7 @@ implementation skip_loop_label_4_head(in_c: int,
     goto label_10;
 
   label_8:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 417} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 417} true;
     goto label_8_true, label_8_false;
 
   label_8_false:
@@ -7083,7 +7083,7 @@ implementation skip_loop_label_4_head(in_c: int,
     return;
 
   label_7:
-    assert {:sourcefile "c:\users\t-nisebb\documents\symdiff.src\dependency\test\siemens\print_tokens\source\print_tokens.c"} {:sourceline 417} true;
+    assert {:sourcefile "source\print_tokens.c"} {:sourceline 417} true;
     out_c := out_result.get_char$2;
     assume value_is(__ctobpl_const_433, out_c);
     assume value_is(__ctobpl_const_434, out_result.get_char$2);

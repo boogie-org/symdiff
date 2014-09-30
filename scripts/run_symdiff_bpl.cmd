@@ -140,10 +140,31 @@ sub AbstractNonTainted{
   return $bpl . ".bpl.taintAbstract";
 }
 
+# prints stats about how many houdini constants are proved 
+# there is a houdini constant for each output of a procedure
+sub PrintHoudiniStats{
+  my $file = shift;
+  open HOUDINI_OUT, "<$file" or die "can't open $file for parsing the output of run_symdiff_bpl.cmd\n";
+  my $houdiniCount = 0;
+  my $houdiniTrueCount = 0;
+  foreach $line (<HOUDINI_OUT>) {
+    next unless $line =~ /_houdini/;
+    $houdiniCount = $houdiniCount + 1;
+    next unless $line =~ / True/;
+    $houdiniTrueCount = $houdiniTrueCount + 1;    
+  }
+  print "#outputs with unchanged summaries/# of procedure outputs = $houdiniTrueCount / $houdiniCount \n";
+  close HOUDINI_OUT;
+}
+
+
+
+
+##################################
+## Main processing ###############
+##################################
 
 $symdiff_root = $ENV{'SYMDIFF_ROOT'};
-
-## Main processing
 ProcessOptions();
 if ($rvt eq 1){
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -extractLoops $v1.bpl _v1.bpl");
@@ -153,7 +174,7 @@ if ($rvt eq 1){
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $luCount $v2.bpl _v2.bpl");
 }
 
-## run dependency analysis (TODO: run it only for equivalence)
+## run dependency analysis (TODO: fold it together with abstractTainted)
 MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl /annotateDependencies "); #outputs to _v1.bpl_w_deps.bpl
 MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl /annotateDependencies "); #outputs to _v2.bpl_w_deps.bpl
 MyExecAndDieOnFailure("copy /Y _v1.bpl_w_dep.bpl  _v1.bpl"); 
@@ -166,8 +187,8 @@ if (!($abstractNonTainted eq "")) {
   #the files are called v1.bpl.taintAbstract.bpl, the presence of "." in filename confuses symdiff.exe
   #my $newV1 = $dir1name . "_ta";
   #my $newV2 = $dir2name . "_ta";
-  MyExec("copy /Y $v1.bpl  _v1.bpl"); #renaming v1.bpl destroys the pristine files
-  MyExec("copy /Y $v2.bpl  _v2.bpl"); #renaming v1.bpl destroys the pristine files
+  MyExecAndDieOnFailure("copy /Y $v1.bpl  _v1.bpl"); #renaming v1.bpl destroys the pristine files
+  MyExecAndDieOnFailure("copy /Y $v2.bpl  _v2.bpl"); #renaming v1.bpl destroys the pristine files
   #$dir1name = $newV1;
   #$dir2name = $newV2;
 }
@@ -186,6 +207,7 @@ MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -all
 
 if ($inferContracts eq 1){
   MyExecAndDieOnFailure("$symdiff_root\\references\\boogie.exe /noinfer /contractInfer /printAssignment $inferContractsOpts mergedProgSingle.bpl >> $v1$v2.log");
+  PrintHoudiniStats("$v1$v2.log");
 }
 
 close OUTPUT;

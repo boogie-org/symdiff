@@ -610,8 +610,8 @@ namespace Dependency
                             taintedModSetLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).Iter(t => taintedModset = string.Format("</br> <b> Outputs: </b> {0} ", t.Item4.Replace(TaintMarkerPre,"<b> <font color=\"blue\">").Replace(TaintMarkerPost,"</font> </b>")));
                             line += taintedModset;
                         }
-                        else if (dependenciesLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum))
-                        {// dependencies
+                        else if (dependenciesLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) 
+                        {// dependencies: can be obtained when not using /taint:change.txt
                             string deps = null;
                             dependenciesLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).Iter(dep => deps = string.Format("<pre> {0} </pre>", dep.Item4));
                             line += deps;

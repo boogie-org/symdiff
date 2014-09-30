@@ -153,6 +153,18 @@ namespace Dependency
             }
 
             Utils.CallGraphHelper.WriteCallGraph(filename + ".cg.dot", Utils.CallGraphHelper.ComputeCallGraph(program));
+            Dictionary<string, HashSet<int>> sourceLines = new Dictionary<string, HashSet<int>>();
+            program.Implementations().Iter(i => i.Blocks.Iter(b =>
+            {
+                var sourceFile = Utils.AttributeUtils.GetSourceFile(b);
+                if (sourceFile != null)
+                {
+                    if (!sourceLines.ContainsKey(sourceFile))
+                        sourceLines[sourceFile] = new HashSet<int>();
+                    sourceLines[sourceFile].Add(Utils.AttributeUtils.GetSourceLine(b));
+                }
+            }));
+
 
             if (changeList != null) PopulateChangeLog(changeList,program);
             RunAnalysis(filename, program);
@@ -170,7 +182,8 @@ namespace Dependency
                 Console.WriteLine("Statistics generated in " + statsFile);
             }
 
-            Dictionary<string,HashSet<int>> sourceLines = new Dictionary<string,HashSet<int>>();
+            Dictionary<string,HashSet<int>> oldSourceLines = new Dictionary<string,HashSet<int>>(sourceLines);
+            sourceLines.Clear();
             program.Implementations().Iter(i => i.Blocks.Iter(b =>
             {
                 var sourceFile = Utils.AttributeUtils.GetSourceFile(b);
@@ -185,7 +198,10 @@ namespace Dependency
             {
                 // print number of tainted lines
                 var taintedLines = taintLog.GroupBy(t => t.Item3);
-                Console.WriteLine("#Tainted lines, Out of Overall #Lines:\n {0}, {1}", taintedLines.Count(), sourceLines.Sum(fl => fl.Value.Count));
+                Console.WriteLine("#Orig lines, #Tainted lines, #Lines after abstractNonTainted: {0}, {1}, {2}",
+                    oldSourceLines.Sum(fl => fl.Value.Count),
+                    taintedLines.Count(), 
+                    sourceLines.Sum(fl => fl.Value.Count));
                 if (taintedLines.Count() == 0)
                     Utils.PrintError("WARNING: Result may be inaccurate as the #tainted lines is 0");
             }
@@ -477,14 +493,14 @@ namespace Dependency
             string execName = System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName;
             Console.WriteLine("Lightweight inter-procedural dependency\\taint analysis for change impact");
             Console.WriteLine("Usage: " + execName + " <filename.bpl> [flags]");
-            Console.WriteLine((CmdLineOptsNames.taint + ":changelist.txt").PadRight(length,' ') + " - produce taint for all lined marked as changed in changelist.txt");
+            Console.WriteLine((CmdLineOptsNames.taint + ":changelist.txt").PadRight(length,' ') + " - produce taint for all lines marked as changed in changelist.txt (hides dependencies in html)");
             Console.WriteLine(CmdLineOptsNames.dataOnly.PadRight(length,' ') + " - compute data dependnecies\\taint only (no control)");
             Console.WriteLine(CmdLineOptsNames.both.PadRight(length,' ') + " - compute both data & control dependencies for showing in HTML");
             Console.WriteLine(CmdLineOptsNames.prune.PadRight(length,' ') + " - show only in\\out\\global dependencies (no locals)");
             Console.WriteLine((CmdLineOptsNames.stats + "[:statsfile.csv]").PadRight(length,' ') +  " - print dependecies statistics in CSV format [to a specified file]");
-            Console.WriteLine(CmdLineOptsNames.detStubs.PadRight(length, ' ') + " - (unsoundly) assume stub functions to depend only on input (and not be undeterministic)");
+            Console.WriteLine(CmdLineOptsNames.detStubs.PadRight(length, ' ') + " - (unsoundly) assume stub functions to depend only on input (and not be non-deterministic)");
             Console.WriteLine(CmdLineOptsNames.readSet.PadRight(length, ' ') + " - compute a naive read set (for comparison purposes)");
-            Console.WriteLine((CmdLineOptsNames.refine + "[:<int>]").PadRight(length, ' ') + " - refine result [with inlining up to stack bound]");
+            Console.WriteLine((CmdLineOptsNames.refine + "[:<int>]").PadRight(length, ' ') + " - refine dependencies [with inlining up to stack bound]");
         }
 
 
