@@ -37,6 +37,8 @@ namespace SDiff
 
         //parse dependencies out of input files
         static Dictionary<Procedure, Dictionary<Variable, List<Variable>>> dependency = new Dictionary<Procedure, Dictionary<Variable, List<Variable>>>();
+        //parse bottom up taints for procedures
+        static Dictionary<Procedure, HashSet<Variable>> bottomUpTaintVars = new Dictionary<Procedure, HashSet<Variable>>();
 
         //entry method
         public static void Start(Program p1, Program p2, Program mergedProgram, string p1Prefix, string p2Prefix, Config cfg1, 
@@ -390,8 +392,8 @@ namespace SDiff
                 //Can't do it earlier as we need the variables for the MS_f1_f2 procedures that are only created in this 
                 //method (e.g. a1, a2, b1, b2)
                 Debug.Assert(freeContracts, "-checkEquivWithDependencies requires -freeContracts flag to be on");
-                ParseDependenciesForProc(f1, prog1, p1Prefix, gSeq_p1, a1, b1);
-                ParseDependenciesForProc(f2, prog2, p2Prefix, gSeq_p2, a2, b2);
+                ParseTaintAndDependenciesForProc(f1, prog1, p1Prefix, gSeq_p1, a1, b1);
+                ParseTaintAndDependenciesForProc(f2, prog2, p2Prefix, gSeq_p2, a2, b2);
             }
 
             if (useHoudini)
@@ -456,10 +458,11 @@ namespace SDiff
             return mschkProc;
         }
 
-        private static void ParseDependenciesForProc(Procedure f, Program p, string prefix, 
+        private static void ParseTaintAndDependenciesForProc(Procedure f, Program p, string prefix, 
             List<Variable> globals, List<Variable> ins, List<Variable> outs)
         {
             dependency[f] = new Dictionary<Variable,List<Variable>>();
+            //get the dependecies
             foreach (var en in f.Ensures)
             {
                 if (en.Attributes == null || en.Attributes.Key != "io_dependency") continue;
@@ -470,6 +473,15 @@ namespace SDiff
                 var ivars = deps.Select(x => Util.getVariableByName(prefix + "." + x, globals.Union(ins)));
                 //Console.WriteLine("Dependency[{2}]: {0} -> {1}", ovar.Name, string.Join(", ", ivars.Select(x => x.Name)),f.Name);
                 dependency[f][ovar] = ivars.ToList();
+            }
+            //get the set of bottom up taints
+            foreach (var en in f.Ensures)
+            {
+                if (en.Attributes == null || en.Attributes.Key != "bottomup_tainted_vars") continue;
+                var varNames = en.Attributes.Params.Select(x => x.ToString()).ToList();
+                var ovars = varNames.Select(x => Util.getVariableByName(prefix + "." + x, globals.Union(outs)));
+                //Console.WriteLine("BottomUpTaint[{0}] = [{1}]", f.Name, string.Join(",", ovars.Select(y => y.Name)));
+                bottomUpTaintVars[f] = new HashSet<Variable>(ovars);
             }
         }
 
@@ -790,10 +802,19 @@ namespace SDiff
                     }
                     //Debug.Assert(dep1.Count == dep2.Count, string.Format("Expecting cardinality of dependencies for {0} to be identical", o12.Item1.Name));
                     Expr pre = new OldExpr(Token.NoToken, CreateVariableEqualities(dep1, dep2));
-                    var ens1 = new Ensures(false, 
-                            Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(o12.Item1.Name, p1Prefix)),
-                                Expr.Imp(pre, Expr.Eq((Expr)IdentifierExpr.Ident(o12.Item1), (Expr)IdentifierExpr.Ident(o12.Item2))))
-                        );
+                    Expr post = Expr.Imp(pre, Expr.Eq((Expr)IdentifierExpr.Ident(o12.Item1), (Expr)IdentifierExpr.Ident(o12.Item2)));
+                    Ensures ens1 = null;
+                    if (bottomUpTaintVars[f1].Contains(o12.Item1) || bottomUpTaintVars[f2].Contains(o12.Item2))
+                    {
+                        //Add a candidate houdini variable only when the static analysis thinks at least one of them is tainted
+                        ens1 = new Ensures(false, Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(o12.Item1.Name, p1Prefix)), post));
+                    }
+                    else
+                    {
+                        //Add a free ensures that will be assumed while inlining (needs the attribute "InlineAssume")
+                        ens1 = new Ensures(true, post);
+                        ens1.Attributes = new QKeyValue(Token.NoToken, "InlineAssume", new List<object>(), ens1.Attributes);
+                    }
                     ensuresSeq.Add(ens1);
                 }                                
             }

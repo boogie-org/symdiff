@@ -344,6 +344,7 @@ namespace SDiff
             var origFunList = f12s.Map(x => x as Function);
             IEnumerable<Declaration> FunctionList = mergedProgram.TopLevelDeclarations.Where(x => x is Function);
             var FunctionNameList = FunctionList.ToList().Map(x => x.ToString());
+            var newFuncs = new HashSet<Declaration>();
             //find mismatched functions (not procedure)
             foreach (Function fun in FunctionList)
             {
@@ -351,11 +352,12 @@ namespace SDiff
                 if (fun.Name.Contains(p1Prefix) && (!FunctionNameList.Contains(p2Prefix + "." + funNameProgNameStripped)))
                 {
                     var newFunc = new Function(new Token(), p2Prefix + "." + funNameProgNameStripped, fun.InParams, fun.OutParams[0]);
-                    mergedProgram.AddTopLevelDeclaration(newFunc);
+                    newFuncs.Add(newFunc);
                     origFunList.Add(newFunc);
                     Log.Out(Log.Normal, "HACK in " + funNameProgNameStripped);
                 }
             }
+            mergedProgram.AddTopLevelDeclarations(newFuncs);
             List<Declaration> newFunctionList = mergedProgram.TopLevelDeclarations.Where(x => x is Function).ToList();
             var fRenamer = new FunctionRenamer(cfg.FunctionMap, origFunList);
             mergedProgram = fRenamer.VisitProgram(mergedProgram);

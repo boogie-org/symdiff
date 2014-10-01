@@ -40,7 +40,6 @@ namespace Dependency
                         Utils.VariableUtils.PruneLocals(x, modset);
                         modset.RemoveWhere(v => x.Proc.OutParams.Contains(v));
                         x.Proc.Modifies = modset.Select(v => IdentifierExpr.Ident(v)).ToList();
-                        //TODO: add free ensures to say that each output is function of input (same as refinedependency!!!)
                        Utils.DependenciesUtils.AddCalleeDependencySpecs(program, x.Proc, allDeps[x.Proc]);
                     }
                 );
@@ -54,7 +53,14 @@ namespace Dependency
             {
                 if (!allDeps.ContainsKey(x)) return;
                 allDeps[x].Keys.Iter(y => outvars.Add(y));
-                allDeps[x].Keys.Where(k => allDeps[x][k].Contains(Utils.VariableUtils.BottomUpTaintVar)).Iter(y => botTaintOutVars.Add(y));
+                var procBottomUpTaintVars = new List<Variable>();
+                allDeps[x].Keys.Where(k => allDeps[x][k].Contains(Utils.VariableUtils.BottomUpTaintVar)).Iter(y => procBottomUpTaintVars.Add(y));
+                botTaintOutVars.AddRange(procBottomUpTaintVars);
+                //new: add an annotation to indicate that none of the variables are bottom up tainted
+                var ens = new Ensures(true, (Expr)Expr.True);
+                ens.Attributes = new QKeyValue(Token.NoToken, "bottomup_tainted_vars", 
+                    procBottomUpTaintVars.Select(v => (object) v.Name).ToList(), null);
+                x.Ensures.Add(ens);
             });
             Console.WriteLine("#outputs with no bottomuptaint / #outputs (includes stubs) = {0} / {1} ", outvars.Count - botTaintOutVars.Count, outvars.Count);
 

@@ -153,7 +153,7 @@ sub PrintHoudiniStats{
     next unless $line =~ / True/;
     $houdiniTrueCount = $houdiniTrueCount + 1;    
   }
-  print "#outputs with unchanged summaries/# of procedure outputs = $houdiniTrueCount / $houdiniCount \n";
+  print "#Additional no-bottomup-tainted outputs /#candidate outputs = $houdiniTrueCount / $houdiniCount \n";
   close HOUDINI_OUT;
 }
 
@@ -206,6 +206,7 @@ MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -all
  
 
 if ($inferContracts eq 1){
+  print "Running Houdini to infer additional contracts......\n";
   MyExecAndDieOnFailure("$symdiff_root\\references\\boogie.exe /noinfer /contractInfer /printAssignment $inferContractsOpts mergedProgSingle.bpl >> $v1$v2.log");
   PrintHoudiniStats("$v1$v2.log");
 }
