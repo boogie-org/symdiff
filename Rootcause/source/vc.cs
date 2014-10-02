@@ -27,9 +27,10 @@ namespace Rootcause
 
         #region Utilities for calling the verifier
         public static void InitializeVCGen(Program prog)
-        {
+        { 
             //create VC.vcgen/VC.proverInterface
-            VC.vcgen = new VCGen(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend, null);
+            VC.vcgen = new VCGen(prog, CommandLineOptions.Clo.SimplifyLogFilePath, 
+                CommandLineOptions.Clo.SimplifyLogFileAppend, new List<Checker>());
             VC.proverInterface = ProverInterface.CreateProver(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend, CommandLineOptions.Clo.ProverKillTime);
             VC.translator = VC.proverInterface.Context.BoogieExprTranslator;
             VC.exprGen = VC.proverInterface.Context.ExprGen;
@@ -65,14 +66,16 @@ namespace Rootcause
         {
             VC.vcgen.ConvertCFG2DAG(impl);
             ModelViewInfo mvInfo;
-            var /*TransferCmd->ReturnCmd*/ gotoCmdOrigins = VC.vcgen.PassifyImpl(impl, out mvInfo);
+            Dictionary<TransferCmd, ReturnCmd> gotoCmdOrigins = VC.vcgen.PassifyImpl(impl, out mvInfo);
+            //Hashtable/*TransferCmd->ReturnCmd*/ gotoCmdOrigins = VC.vcgen.PassifyImpl(impl, out mvInfo);
 
             var exprGen = VC.proverInterface.Context.ExprGen;
             //VCExpr controlFlowVariableExpr = null; 
             VCExpr controlFlowVariableExpr = CommandLineOptions.Clo.UseLabels ? null : VC.exprGen.Integer(BigNum.ZERO);
 
 
-            Dictionary<int,Absy> label2absy;
+            //Hashtable/*<int, Absy!>*/ label2absy;
+            Dictionary<int, Absy> label2absy;
             var vc = VC.vcgen.GenerateVC(impl, controlFlowVariableExpr, out label2absy, VC.proverInterface.Context);
             if (!CommandLineOptions.Clo.UseLabels)
             {

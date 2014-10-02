@@ -33,15 +33,24 @@ namespace Rootcause
         //newer options
         public static bool binarySearch = false;
         public static bool constrainLeftPath = false;
+        public static bool constrainRightPath = false;
+        public static bool assumeToSkip = false;
         public static bool disableMaxsat = false;
         public static bool checkConsistency = false;
         public static bool applyLeftFilter = false;
         public static bool applyRightFilter = false;
-        public static int lineFilterLeftLine = -1;
-        public static int lineFilterRightLine = -1;
+        public static List<int> lineFilterLeftLine = new List<int>(); //-1
+        public static List<int> lineFilterRightLine = new List<int>(); //-1
+        public static int newAssertLeftLine = -1;
+        public static int newAssertRightLine = -1;
         public static int maxsatLimit = int.MaxValue;
+        public static int callAlignWindow = -1;
         public static bool useMultipleGoodRuns = false; //sets z3multipleErrors
-        public static bool findEarliestMapUpdateMismatch = false;
+        public static bool findEarliestAssertionByMapMismatch = false;
+        public static bool findEarliestAssertionByLine = false;
+        public static bool pruneAfterMapMismatch = false;
+        public static bool pruneFailingEqualities = false;
+        public static bool prunePassingInequalities = false;
         public static bool demonizeUninterpreted = false;
         public static bool liftConditionals = false;
         public static string htmlInput = ""; //input html with a trace
@@ -66,7 +75,6 @@ namespace Rootcause
         public static FilterAction storeFilter = FilterAction.Allow;
         public static FilterAction movFilter = FilterAction.Allow;
         public static FilterAction procedureCallFilter = FilterAction.Allow;
-        public static FilterAction passingTestFilter = FilterAction.Allow;
 
         //Rootcause algorithm switch
         public static bool equalityFixes = false; //to add extra assumes about equality and do maxsat
@@ -95,7 +103,7 @@ namespace Rootcause
              CommandLineOptions.Install(new CommandLineOptions());
              CommandLineOptions.Clo.RunningBoogieFromCommandLine = true;
              //Options.htmlTag, Options.outputPath gets parsed only after ParseAndRemove...
-             var modelArgs = " /printModelToFile:" + Options.outputPath + @"\rootcause_model." + Options.htmlTag + @".dmp"; 
+             var modelArgs = " /printModelToFile:" + Options.outputPath + @"\rootcause_model" + Options.htmlTag + @".dmp"; 
              args = (args.ToList()).Concat(new List<string> () {modelArgs}).ToArray();
              CommandLineOptions.Clo.Parse(args);
              return !help;
@@ -148,6 +156,27 @@ namespace Rootcause
             return false;
         }
 
+        public static bool CheckIntegerListOption(string s, string flagName, ref List<int> flag)
+        {
+            //eg. /hintline:1
+            if (s.Contains("/" + flagName + ":"))
+            {
+                string numericString = s.Substring(flagName.Length + 2); //1 for / and 1 for :
+                try
+                {
+                    char[] delimiters = { '@' };
+                    foreach (String linestr in numericString.Split(delimiters)) {
+                        int line = int.Parse(linestr);
+                        flag.Add(line);
+                    }
+                    return true;
+                    //flag = int.Parse(numericString); return true;
+                }
+                catch (Exception e) { Console.WriteLine(e); return false; }
+            }
+            return false;
+        }
+
         public static bool CheckStringOption(string s, string flagName, ref string flag)
         {
             //eg. /html:abc.html
@@ -183,15 +212,21 @@ namespace Rootcause
                      || CheckBooleanFlag(a, "fatDatatypes", ref fatDatatypes)
                      || CheckBooleanFlag(a, "predicateAssumes", ref predicateAssumes)
                      || CheckBooleanFlag(a, "penalizeAssumes", ref penalizeAssumes)
+
                      || CheckBooleanFlag(a, "addGoodInputs", ref addGoodInputs)
-                     || CheckBooleanFlag(a, "findEarliestMapUpdateMismatch", ref findEarliestMapUpdateMismatch)
+                     || CheckBooleanFlag(a, "findEarliestAssertionByMapMismatch", ref findEarliestAssertionByMapMismatch)
+                     || CheckBooleanFlag(a, "findEarliestAssertionByLine", ref findEarliestAssertionByLine)
+                     || CheckBooleanFlag(a, "pruneAfterMapMismatch", ref pruneAfterMapMismatch)
+                     || CheckBooleanFlag(a, "pruneFailingEqualities", ref pruneFailingEqualities)
+                     || CheckBooleanFlag(a, "prunePassingInequalities", ref prunePassingInequalities)
                      || CheckBooleanFlag(a, "liftConditionals", ref liftConditionals)
                      || CheckStringOption(a, "htmlInput", ref htmlInput)
                      || CheckStringOption(a, "htmlTag", ref htmlTag)
                      || CheckStringOption(a, "outputPath", ref outputPath)
 
-
                      || CheckBooleanFlag(a, "constrainLeftPath", ref constrainLeftPath)
+                     || CheckBooleanFlag(a, "constrainRightPath", ref constrainRightPath)
+                     || CheckBooleanFlag(a, "assumeToSkip", ref assumeToSkip)
                      || CheckBooleanFlag(a, "disableMaxsat", ref disableMaxsat)
                      || CheckBooleanFlag(a, "checkConsistency", ref checkConsistency)
                      || CheckBooleanFlag(a, "applyLeftFilter", ref applyLeftFilter)
@@ -204,8 +239,11 @@ namespace Rootcause
 
                      || CheckIntegerOption(a, "rootcauseTimeout", ref rootcauseTimeout)
                      || CheckIntegerOption(a, "maxsatLimit", ref maxsatLimit)
-                     || CheckIntegerOption(a, "lineFilterLeftLine", ref lineFilterLeftLine)
-                     || CheckIntegerOption(a, "lineFilterRightLine", ref lineFilterRightLine)
+                     || CheckIntegerListOption(a, "lineFilterLeftLine", ref lineFilterLeftLine)
+                     || CheckIntegerListOption(a, "lineFilterRightLine", ref lineFilterRightLine)
+                     || CheckIntegerOption(a, "newAssertLeftLine", ref newAssertLeftLine)
+                     || CheckIntegerOption(a, "newAssertRightLine", ref newAssertRightLine)
+                     || CheckIntegerOption(a, "callAlignWindow", ref callAlignWindow)
 
                      || CheckFilterOption(a, "singleFilter", ref singleFilter)
                      || CheckFilterOption(a, "parallelFilter", ref parallelFilter)
@@ -221,7 +259,6 @@ namespace Rootcause
                      || CheckFilterOption(a, "storeFilter", ref storeFilter)
                      || CheckFilterOption(a, "movFilter", ref movFilter)
                      || CheckFilterOption(a, "procedureCallFilter", ref procedureCallFilter)
-                     || CheckFilterOption(a, "passingTestFilter", ref passingTestFilter)
 
                      || CheckBooleanFlag(a, "equalityFixes", ref equalityFixes)
                      || CheckBooleanFlag(a, "useUnsatCoresFromFailures", ref useUnsatCoresFromFailures)
@@ -253,7 +290,8 @@ namespace Rootcause
                  Console.WriteLine("  /penalizeAssumes: \n\tDiscourages causes that change paths (default {0})", penalizeAssumes);
                  Console.WriteLine("  \n\n");
                  Console.WriteLine("  /useMultipleGoodRuns: \n\tUses multiple good runs (default {0})", useMultipleGoodRuns);
-                 Console.WriteLine("  /findEarliestMapUpdateMismatch: \n\tFinds the pair of assignments where a maptype update differs (default {0})", useMultipleGoodRuns);
+                 Console.WriteLine("  /findEarliestAssertionByMapMismatch: \n\tFinds the pair of assignments where a maptype update differs (default {0})", findEarliestAssertionByMapMismatch);
+                 Console.WriteLine("  /findEarliestAssertionByLine: \n\tFind earlier assertion (default {0})", findEarliestAssertionByLine);
                  Console.WriteLine("  /htmlInput:<file>: \n\tInput html file that contains the source trace over which the rootcause will be displayed (default {0})", htmlInput);
                  Console.WriteLine("                     \n\tNeed to have <foo>.analyze.html for the x86 generated html files");
                  Console.WriteLine("  /htmltag:<string>: \n\tA tag to identify output files (default {0})", htmlTag);
