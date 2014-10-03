@@ -16,6 +16,7 @@ Build SymDiff
 3. Use \references\updateboogie.bat to update the Boogie binaries in SymDiff
 4. Build SymDiff
 5. Install Z3.exe (>= version 4.3) into the bin\debug of each of the .exe currently [TODO: have a central place]
+   - Z3 4.1 is currently needed for Rootcause. [TODO: fix prover errors related to 'relax_0' variables]
 
 Run Regressions
 ---------------
