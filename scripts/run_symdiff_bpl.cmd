@@ -153,7 +153,7 @@ sub PrintHoudiniStats{
     next unless $line =~ / True/;
     $houdiniTrueCount = $houdiniTrueCount + 1;    
   }
-  print "#Additional no-bottomup-tainted outputs /#candidate outputs = $houdiniTrueCount / $houdiniCount \n";
+  print "#Candidates proved /#Candidates for Houdini = $houdiniTrueCount / $houdiniCount \n";
   close HOUDINI_OUT;
 }
 

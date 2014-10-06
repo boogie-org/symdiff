@@ -3,6 +3,7 @@ using System.Collections.Generic;
 //using PureCollections;
 using Microsoft.Boogie;
 using Microsoft.Basetypes; //for BigNums
+using BType = Microsoft.Boogie.Type;
 using System.IO;
 using System.Text;
 using System.Linq;
@@ -777,6 +778,41 @@ namespace SDiff
       }
 
 
+  }
+
+    /// <summary>
+    /// TODO: unify with Dependency.DeclUtils
+    /// </summary>
+  public static class DeclUtils
+  {
+      static int retCnt = 0;
+      public static Function MkOrGetFunc(Program prog, string name, BType retType, List<BType> inTypes)
+      {
+          var fns = prog.TopLevelDeclarations.OfType<Function>().Where(x => x.Name == name);
+          if (fns.Count() != 0)
+              return fns.FirstOrDefault();
+          Function func = new Function(
+              Token.NoToken,
+              name,
+              inTypes.Select(t => (Variable) MkFormal(t)).ToList(),
+              MkFormal(retType));
+          prog.AddTopLevelDeclaration(func);
+          return func;
+      }
+      public static NAryExpr MkFuncApp(Function f, List<Expr> args)
+      {
+          return new NAryExpr(new Token(), new FunctionCall(f), args);
+      }
+      public static Formal MkFormal(BType t)
+      {
+          return new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "ret" + retCnt++, t), false);
+      }
+      public static Variable MkGlobalVariable(Program prog, string name, BType type)
+      {
+          var g = new GlobalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, type));
+          prog.AddTopLevelDeclaration(g);
+          return g;
+      }
   }
 
 

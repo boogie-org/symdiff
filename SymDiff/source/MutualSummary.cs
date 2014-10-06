@@ -11,6 +11,7 @@ namespace SDiff
     /// <summary>
     /// This class implements the Mutual summaries (mutual summary and relative termination) (CADE'13)
     /// It also implements the 2->1 program transformation from Rahul Sharma's internship (FSE'13)
+    /// 10/4/14: for stubs, we will have a spec that it is a function (params + modsets) are equal, then (outs + modsets) are equal
     /// </summary>
     class MutualSummary
     {
@@ -29,7 +30,7 @@ namespace SDiff
         static string p1Prefix, p2Prefix;
         static List<Variable> gSeq_p1, gSeq_p2; //refine it with r/w set of each procedure
         static Dictionary<Procedure, Function> summaryFuncs;
-        static Dictionary<string, string> procMap;
+        static Dictionary<string, string> implProcMap, stubProcMap; //mapping of (impl, impl) and (a, b) where either a/b is stub
         static Config cfg;
         static CallGraph cg1, cg2; //the call graphs
         static HashSet<Function> msFuncAxiomsAdded; //list of msfuncs for which axioms have been added (to account for user provided msfuncs separately)
@@ -64,7 +65,7 @@ namespace SDiff
             cg2 = CallGraph.Make(p2);
             Initialize(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg1);
             //LoadMutualSummariesFromFile();
-            MutualSummaryStart(mergedProgram, procMap);
+            MutualSummaryStart(mergedProgram);
         }
 
         private static void ParseAddtionalMSFile(Program mergedProgram)
@@ -83,18 +84,44 @@ namespace SDiff
             gSeq_p2 = new List<Variable>(prog2.TopLevelDeclarations.Where(x => x is GlobalVariable).Cast<Variable>().ToArray());
             summaryFuncs = new Dictionary<Procedure, Function>();
             cfg = cfg1;
-            procMap = cfg.GetProcedureDictionary();
+            InitializeProcMaps(cfg);
             msFuncAxiomsAdded = new HashSet<Function>();
             abortVars = new Dictionary<Implementation, LocalVariable>();
         }
-        private static void MutualSummaryStart(Program mergedProgram, Dictionary<string, string> procMap)
+
+        private static void InitializeProcMaps(Config cfg)
+        {
+            implProcMap = new Dictionary<string, string>();
+            stubProcMap = new Dictionary<string, string>();
+            foreach (var kv in cfg.GetProcedureDictionary())
+            {
+                if (prog1.Implementations.Where(i => i.Name == kv.Key).Count() != 0 &&
+                    prog2.Implementations.Where(i => i.Name == kv.Value).Count() != 0)
+                    implProcMap.Add(kv.Key, kv.Value);
+                else
+                {
+                    stubProcMap.Add(kv.Key, kv.Value);
+                }
+            }
+        }
+
+        private static void MutualSummaryStart(Program mergedProgram)
         {
             if (!dontUseMSAsAxioms)
                 foreach (Procedure f in mergedProgram.TopLevelDeclarations.Where(x => x is Procedure))
                     CreateSummaryRelation(f);
-            foreach (var kv in procMap)
+            foreach (var kv in stubProcMap)
             {
-                Console.WriteLine("Map: {0}, {1}", kv.Key, kv.Value);
+                Console.WriteLine("StubMap: {0}, {1}", kv.Key, kv.Value);
+                var f1 = Util.getProcedureByName(mergedProgram, kv.Key);
+                var f2 = Util.getProcedureByName(mergedProgram, kv.Value);
+                //Create MSCheck procedure
+                AddDefaultStubSpec(f1, p1Prefix);
+                AddDefaultStubSpec(f2, p2Prefix);
+            }
+            foreach (var kv in implProcMap)
+            {
+                Console.WriteLine("ImplMap: {0}, {1}", kv.Key, kv.Value);
                 var f1 = Util.getProcedureByName(mergedProgram, kv.Key);
                 var f2 = Util.getProcedureByName(mergedProgram, kv.Value);
                 //Create MSCheck procedure
@@ -109,6 +136,27 @@ namespace SDiff
             //var oc = BoogieVerify.MyVerifyImplementation(mschkImpl, mergedProgram); //only the last one
             //Console.WriteLine("Outcome = {0}", oc);
             Util.DumpBplAST(mergedProgram, "mergedProgSingle.bpl");
+        }
+
+        /// <summary>
+        /// The default spec when at least one version is a stub is 
+        /// output o_i = functionOf(params, modset)
+        /// </summary>
+        /// <param name="f1"></param>
+        private static void AddDefaultStubSpec(Procedure f, string prefix)
+        {
+            //return;
+            var outs = f.OutParams.Union(f.Modifies.Select(x => x.Decl));
+            var ins =  f.InParams.Union(f.Modifies.Select(x => x.Decl));
+            foreach (Variable o in outs)
+            {
+                var oname = o is GlobalVariable ? Util.TrimPrefixWithDot(o.Name, prefix) : o.Name;
+                var fnName = "FunctionOf__" + Util.TrimPrefixWithDot(f.Name, prefix) + "_" + oname;
+                Function oFunc = DeclUtils.MkOrGetFunc(mergedProgram, fnName, o.TypedIdent.Type, ins.Select(x => x.TypedIdent.Type).ToList());
+                var fExpr = DeclUtils.MkFuncApp(oFunc, ins.Select(x => (Expr)Expr.Ident(x)).ToList());
+                var ens = Expr.Eq(Expr.Ident(o), new OldExpr(Token.NoToken, fExpr));
+                f.Ensures.Add(new Ensures(true, ens));
+            }
         }
 
         //Creates R_f(in, old_g, g, out) and adds a free postcondtion to f
@@ -497,7 +545,7 @@ namespace SDiff
             List<Block> extraBlocks = new List<Block>(); //new blocks created
             foreach (var h1 in cr.calleeArgs.Keys)
                 foreach (var h2 in cr.calleeArgs.Keys)
-                    if (procMap.Contains(new KeyValuePair<string, string>(h1.Name, h2.Name)))
+                    if (implProcMap.Contains(new KeyValuePair<string, string>(h1.Name, h2.Name)))
                         foreach (Tuple<Variable, List<Variable>, List<Variable>> ca1 in cr.calleeArgs[h1])
                             foreach (Tuple<Variable, List<Variable>, List<Variable>> ca2 in cr.calleeArgs[h2])
                                 MkMSCallCmds(f, f1, f2, h1, h2, ca1, ca2, pairCnt++, ref nxtBlock, ref extraBlocks);
@@ -744,32 +792,6 @@ namespace SDiff
                 mergedProgram.AddTopLevelDeclaration(n);
                 return Expr.Ident(n);
             }
-            private static void AddCandEnsures(ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
-                List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2,
-                bool isCandidate = true)
-            {
-                Expr pre = CreateVariableEqualities(i1, i2);
-                pre = new OldExpr(Token.NoToken, Expr.And(pre, CreateVariableEqualities(gSeq_p1, gSeq_p2)));
-                Debug.Assert(o1.Count == o2.Count, string.Format("Expecting same number of outputs for {0}", f1.Name));
-                Debug.Assert(f1.Modifies.Count == f2.Modifies.Count, string.Format("Expecting same number of modifies for {0}", f1.Name));
-
-                var fname = Util.TrimPrefixWithDot(f1.Name, p1Prefix);
-                List<Ensures> censures = new List<Ensures>();
-                Comparison<Variable> varOrder = delegate(Variable x, Variable y) { return x.Name.CompareTo(y.Name); };
-                var og1 = o1.Union(gSeq_p1).ToList();
-                var og2 = o2.Union(gSeq_p2).ToList();
-                og1.Sort(varOrder); og2.Sort(varOrder);
-                censures.AddRange(og1.Zip(og2)
-                    .Select(x => 
-                        new Ensures(false, 
-                            Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(x.Item1.Name, p1Prefix)),
-                                Expr.Imp(pre, Expr.Eq((Expr) IdentifierExpr.Ident(x.Item1), (Expr) IdentifierExpr.Ident(x.Item2))))
-                        )));
-                //TODO: create Dep(o1) == Dep(o2) => o1 == o2, 
-                //      start with Dep = inps U globals
-                ensuresSeq.AddRange(censures);
-            }
-
             //create ensures Dep(o1) == Dep(o2) => o1 == o2, 
             private static void AddCandEnsuresWithDependency(ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2,
