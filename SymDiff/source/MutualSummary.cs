@@ -522,14 +522,24 @@ namespace SDiff
                 //Console.WriteLine("Dependency[{2}]: {0} -> {1}", ovar.Name, string.Join(", ", ivars.Select(x => x.Name)),f.Name);
                 dependency[f][ovar] = ivars.ToList();
             }
+            Debug.Assert(dependency[f].Keys.Count() == outs.Count + f.Modifies.Count, 
+                string.Format("Mismatched number of output variables and io_dependency annotations for {0}", f.Name));
             //get the set of bottom up taints
+            //TODO: assumes that we have run abstractTainted (unsound if we have not run it)
+            bool foundBottomUpTaintedInfo = false; //whether we have any annotation about "bottomup_tainted_vars"
             foreach (var en in f.Ensures)
             {
                 if (en.Attributes == null || en.Attributes.Key != "bottomup_tainted_vars") continue;
+                foundBottomUpTaintedInfo = true; 
                 var varNames = en.Attributes.Params.Select(x => x.ToString()).ToList();
                 var ovars = varNames.Select(x => Util.getVariableByName(prefix + "." + x, globals.Union(outs)));
                 //Console.WriteLine("BottomUpTaint[{0}] = [{1}]", f.Name, string.Join(",", ovars.Select(y => y.Name)));
                 bottomUpTaintVars[f] = new HashSet<Variable>(ovars);
+            }
+            if (!foundBottomUpTaintedInfo)
+            {
+                Console.WriteLine("Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + globals tainted");
+                bottomUpTaintVars[f] = new HashSet<Variable>(outs.Union(globals)); //assume all are tainted
             }
         }
 

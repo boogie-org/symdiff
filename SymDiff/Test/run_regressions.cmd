@@ -334,3 +334,29 @@ $dac = 1; # checking DAC regression is different than other regressions
 my $tag = ".bpl";
 RunExampleWithOptions("_bpl", \@dac_examples, $flags, $cwd, $opt_regr, $tag);
 $dac = 0; 
+
+
+##############################################################
+## Example for Equivalence checking with Houdini
+## TODO: Add some non-candidate assertion as oracle
+##############################################################
+my @houdini_examples = 
+  (
+    ##### resilience\ex1 #######
+     ["resilience\\ex1\\", "example", "example_faulty"],
+    ##### resilience\ex2 #######
+     ["resilience\\ex2\\", "example", "example_faulty"],
+    ##### resilience\ex3 #######
+     ["resilience\\ex3\\", "example", "example_faulty"],
+  );
+
+print "-----------------------\n";
+print "Houdini SymDiff regressions\n";
+print "-----------------------\n";
+$flags = " /rvt /opts:\" -usemutual -checkEquivWithDependencies -freeContracts \" /inferContracts:\" /inlineDepth:1 /timeLimit:20 \" ";
+$dac = 1; # checking DAC regression is different than other regressions
+my $tag = "houdiniEq.bpl";
+RunExampleWithOptions("_bpl", \@houdini_examples, $flags, $cwd, $opt_regr, $tag);
+$dac = 0; 
+
+

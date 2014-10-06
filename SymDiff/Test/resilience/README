@@ -3,6 +3,6 @@ run_symdiff_bpl v1 v2 /rvt /opts:"  -nonmodular -recursionDepth:3 -splitOutputEq
 type v1v2.log //counterexample only corresponds to control flag
 
 //To run it in sound mode with contract inference 
-run_symdiff_bpl v1 v2 /rvt /opts:" -usemutual -checkEquivWithDependencies -freeContracts " /inferContracts:"/inlineDepth:1"
+run_symdiff_bpl v1 v2 /rvt /opts:" -usemutual -checkEquivWithDependencies -freeContracts " /inferContracts:"/inlineDepth:1 /timeLimit:20 "
 type v1v2.log //look for assignments to _control_flag among houdini variables
 
