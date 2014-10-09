@@ -212,7 +212,7 @@ namespace Dependency
                     if (p.InParams.Contains(o)) continue; //sometimes in params also show up
                     //var oDeps = dep[o].Select(x => (Variable) new Formal(Token.NoToken, x.TypedIdent, false)).ToList();
                     if (dep[o].Where(x => x.Name == Utils.VariableUtils.NonDetVar.Name).Count() != 0) continue;
-                    var fnName = "FunctionOf__" + p.Name + "_" + o.Name;
+                    var fnName = "AbstractNonTaint__" + p.Name + "_" + o.Name;
                     Function oFunc = Utils.DeclUtils.MkOrGetFunc(prog, fnName, o.TypedIdent.Type, dep[o].Select(x => x.TypedIdent.Type).ToList());
                     var fExpr = Utils.DeclUtils.MkFuncApp(oFunc, dep[o].Select(x => (Expr)Expr.Ident(x)).ToList());
                     var ens = Expr.Eq(Expr.Ident(o),

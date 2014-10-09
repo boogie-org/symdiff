@@ -42,13 +42,7 @@ sub GetStats {
   open (OUT, "<$file") or die "Can't open $output file\n";
   my $result = "";
   for my $line (<OUT>) {
-#	# look for the line below
-#	# FinalStats: (#Procs, #Cex, #NotEq, #Crash, #Time) = (3,3,3,0,943)
-#    if ($line =~ /FinalStats:.* = \(([0-9]+),([0-9]+),([0-9]+),([0-9]+),([0-9]+)\)/) {
-#       #print "--> $1, $2, $3, $4, $5\n";
-#       $result  = "$1, $2, $3, $4";
-#     }
-  
+
     if ($infer == 0) {
       if ($line =~  /Verifier\[0\]: Result/) {
 	$result = $result . " " . $line;

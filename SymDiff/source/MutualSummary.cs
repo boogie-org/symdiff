@@ -89,8 +89,6 @@ namespace SDiff
             gSeq_p2 = q2.TopLevelDeclarations.OfType<GlobalVariable>()
                 .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
                 .ToList<Variable>();
-            //gSeq_p1 = new List<Variable>(prog1.TopLevelDeclarations.Where(x => x is GlobalVariable).Cast<Variable>().ToArray());
-            //gSeq_p2 = new List<Variable>(prog2.TopLevelDeclarations.Where(x => x is GlobalVariable).Cast<Variable>().ToArray());
             summaryFuncs = new Dictionary<Procedure, Function>();
             cfg = cfg1;
             InitializeProcMaps(cfg);
@@ -162,7 +160,7 @@ namespace SDiff
             foreach (Variable o in outs)
             {
                 var oname = o is GlobalVariable ? Util.TrimPrefixWithDot(o.Name, prefix) : o.Name;
-                var fnName = "FunctionOf__" + Util.TrimPrefixWithDot(f.Name, prefix) + "_" + oname;
+                var fnName = "StubFunction__" + Util.TrimPrefixWithDot(f.Name, prefix) + "_" + oname;
                 Function oFunc = DeclUtils.MkOrGetFunc(mergedProgram, fnName, o.TypedIdent.Type, ins.Select(x => x.TypedIdent.Type).ToList());
                 var fExpr = DeclUtils.MkFuncApp(oFunc, ins.Select(x => (Expr)Expr.Ident(x)).ToList());
                 var ens = Expr.Eq(Expr.Ident(o), new OldExpr(Token.NoToken, fExpr));

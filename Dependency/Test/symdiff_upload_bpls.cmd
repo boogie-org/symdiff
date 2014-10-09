@@ -73,7 +73,9 @@ sub ProcessExample {
 sub ProcessVersion {
   my $src = shift;
   my $ver = shift;
-  my $cmd = "run_symdiff_bpl $src $ver /rvt /opts:\" -usemutual -checkEquivWithDependencies -freeContracts \" /inferContracts:\"/inlineDepth:2 /timeLimit:20 \" /abstractNonTainted:\"\[$ver\\changed_lines.txt $ver\\changed_lines.txt\]\" ";
+  
+  # we do not perform the actual abstraction with taint since we get mismatch with an impl vs. stub
+  my $cmd = "run_symdiff_bpl $src $ver /rvt /opts:\" -usemutual -checkEquivWithDependencies -freeContracts \" /inferContracts:\"/inlineDepth:0 /timeLimit:10 \" /abstractNonTainted:\"\[$ver\\changed_lines.txt $ver\\changed_lines.txt\]\" ";
   #my $cmd = "run_symdiff_c.cmd $src $ver /nocpp /rvt /nohtml /genBplsOnly /analyzeChangedCallersOnly /stripAbsolutePathsInBpl > $src.$ver.upload.log";
   MyExec("$cmd");
   #AddToGitRepo($src, $ver);

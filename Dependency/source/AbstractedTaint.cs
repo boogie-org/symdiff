@@ -31,20 +31,26 @@ namespace Dependency
                 impls.Where(x => 
                     allDeps[x.Proc].Values.Any(d => Utils.VariableUtils.IsTainted(d))
                     );
-            var nonTaintedImpls = new HashSet<Implementation>(impls.Where(x => !taintedImpls.Contains(x))); //make a copy since topleveldecl changes
-            //TODO: add to the mod set of proc since we remove the impl
-            nonTaintedImpls
-                .Iter(x =>
-                    {
-                        var modset = new HashSet<Variable>(allDeps[x.Proc].ModSet());
-                        Utils.VariableUtils.PruneLocals(x, modset);
-                        modset.RemoveWhere(v => x.Proc.OutParams.Contains(v));
-                        x.Proc.Modifies = modset.Select(v => IdentifierExpr.Ident(v)).ToList();
-                       Utils.DependenciesUtils.AddCalleeDependencySpecs(program, x.Proc, allDeps[x.Proc]);
-                    }
-                );
-            Console.WriteLine("[Abstract non-taint] Abstracted {0} procedures [{1}]", nonTaintedImpls.Count(),
-                String.Join(",", nonTaintedImpls.Select(x => x.Name)));
+            var nonTaintedImpls = new HashSet<Implementation>();
+
+            if (false)
+            {
+                //TODO: We get into parsing problems (print_tokens\(source,v2)) when one side is abstracted, and we get
+                //different modsets later given the implementation for one and stub for another
+                new HashSet<Implementation>(impls.Where(x => !taintedImpls.Contains(x))); //make a copy since topleveldecl changes
+                nonTaintedImpls
+                    .Iter(x =>
+                        {
+                            var modset = new HashSet<Variable>(allDeps[x.Proc].ModSet());
+                            Utils.VariableUtils.PruneLocals(x, modset);
+                            modset.RemoveWhere(v => x.Proc.OutParams.Contains(v));
+                            x.Proc.Modifies = modset.Select(v => IdentifierExpr.Ident(v)).ToList();
+                            Utils.DependenciesUtils.AddCalleeDependencySpecs(program, x.Proc, allDeps[x.Proc]);
+                        }
+                    );
+                Console.WriteLine("[Abstract non-taint] Abstracted {0} procedures [{1}]", nonTaintedImpls.Count(),
+                    String.Join(",", nonTaintedImpls.Select(x => x.Name)));
+            }
 
             //get the number of tainted outputs (outputs whose summaries are potentially changed)
             var outvars = new List<Variable>();
