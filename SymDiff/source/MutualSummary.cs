@@ -12,6 +12,8 @@ namespace SDiff
     /// This class implements the Mutual summaries (mutual summary and relative termination) (CADE'13)
     /// It also implements the 2->1 program transformation from Rahul Sharma's internship (FSE'13)
     /// 10/4/14: for stubs, we will have a spec that it is a function (params + modsets) are equal, then (outs + modsets) are equal
+    /// 
+    /// Do all the lookups by name since we have 3 programs p1, p2, p12 
     /// </summary>
     class MutualSummary
     {
@@ -26,7 +28,7 @@ namespace SDiff
         //globals
         static bool freeContracts = false; 
 
-        static Program prog1, prog2, mergedProgram;
+        static Program mergedProgram; //don't expose the progs p1 and p2, they are only used in Initialize
         static string p1Prefix, p2Prefix;
         static List<Variable> gSeq_p1, gSeq_p2; //refine it with r/w set of each procedure
         static Dictionary<Procedure, Function> summaryFuncs;
@@ -59,7 +61,7 @@ namespace SDiff
             if (!freeContractsIn)
                 Util.DropAllModifies(mergedProgram);
             ModSetCollector c = new ModSetCollector();
-            c.DoModSetAnalysis(mergedProgram);
+            c.DoModSetAnalysis(mergedProgram); //important that we do it on the merged program
             //get the call graphs
             cg1 = CallGraph.Make(p1);
             cg2 = CallGraph.Make(p2);
@@ -79,9 +81,16 @@ namespace SDiff
         }
         public static void Initialize(Program q1, Program q2, Program mp, string q1Prefix, string q2Prefix, Config cfg1)
         {
-            prog1 = q1; prog2 = q2; mergedProgram = mp;  p1Prefix = q1Prefix; p2Prefix = q2Prefix;
-            gSeq_p1 = new List<Variable>(prog1.TopLevelDeclarations.Where(x => x is GlobalVariable).Cast<Variable>().ToArray());
-            gSeq_p2 = new List<Variable>(prog2.TopLevelDeclarations.Where(x => x is GlobalVariable).Cast<Variable>().ToArray());
+            mergedProgram = mp;  p1Prefix = q1Prefix; p2Prefix = q2Prefix;
+            var allGlobals = mp.TopLevelDeclarations.OfType<GlobalVariable>();
+            gSeq_p1 = q1.TopLevelDeclarations.OfType<GlobalVariable>()
+                .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
+                .ToList<Variable>();
+            gSeq_p2 = q2.TopLevelDeclarations.OfType<GlobalVariable>()
+                .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
+                .ToList<Variable>();
+            //gSeq_p1 = new List<Variable>(prog1.TopLevelDeclarations.Where(x => x is GlobalVariable).Cast<Variable>().ToArray());
+            //gSeq_p2 = new List<Variable>(prog2.TopLevelDeclarations.Where(x => x is GlobalVariable).Cast<Variable>().ToArray());
             summaryFuncs = new Dictionary<Procedure, Function>();
             cfg = cfg1;
             InitializeProcMaps(cfg);
@@ -95,8 +104,8 @@ namespace SDiff
             stubProcMap = new Dictionary<string, string>();
             foreach (var kv in cfg.GetProcedureDictionary())
             {
-                if (prog1.Implementations.Where(i => i.Name == kv.Key).Count() != 0 &&
-                    prog2.Implementations.Where(i => i.Name == kv.Value).Count() != 0)
+                if (mergedProgram.Implementations.Where(i => i.Name == kv.Key).Count() != 0 &&
+                    mergedProgram.Implementations.Where(i => i.Name == kv.Value).Count() != 0)
                     implProcMap.Add(kv.Key, kv.Value);
                 else
                 {
@@ -145,6 +154,8 @@ namespace SDiff
         /// <param name="f1"></param>
         private static void AddDefaultStubSpec(Procedure f, string prefix)
         {
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f), 
+                string.Format("Procedure {0} does not belong to the mergedProgram", f.Name));
             //return;
             var outs = f.OutParams.Union(f.Modifies.Select(x => x.Decl));
             var ins =  f.InParams.Union(f.Modifies.Select(x => x.Decl));
@@ -162,6 +173,9 @@ namespace SDiff
         //Creates R_f(in, old_g, g, out) and adds a free postcondtion to f
         private static void CreateSummaryRelation(Procedure p) 
         {
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(p),
+                string.Format("Procedure {0} does not belong to the mergedProgram", p.Name));
+
             var globs = p.Name.StartsWith(p1Prefix) ? gSeq_p1 : gSeq_p2;
             List<TypeVariable> tS;
             var paramListR = GetParamsForSummaryRelation(p, globs, "", out tS); //its ok to have "" prefix when creating R_f1 and R_f2 separately
@@ -182,6 +196,9 @@ namespace SDiff
         private static List<Variable> GetParamsForSummaryRelation(Procedure p, List<Variable> globs, string prefix, 
             out List<TypeVariable> typeSeq, bool includeGlobals = true, bool includeInputs = true, bool includeOutputs = true, bool includeOldGlobals = true)
         {
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(p),
+                string.Format("Procedure {0} does not belong to the mergedProgram", p.Name));
+
             var paramListR = new List<Variable>();
             typeSeq = new List<TypeVariable>();
             if (includeInputs)
@@ -219,6 +236,9 @@ namespace SDiff
         //Creates MS_f1_f2(...) and adds the axiom connecting with R_f1 and R_f2
         private static Function CreateMutualSummaryRelation(Procedure f1, Procedure f2)
         {
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f1), string.Format("Procedure {0} does not belong to the mergedProgram", f1.Name));
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f2), string.Format("Procedure {0} does not belong to the mergedProgram", f2.Name));
+
             //pull this earlier as we need them irrespective if msFunc is defined in the ms_symdiff_file.bpl
             var msFuncParams = new List<Variable>();
             List<TypeVariable> tS;
@@ -281,6 +301,9 @@ namespace SDiff
         //TODO: use mutual summary inference to fill up the body
         private static Expr MkMutualSummaryBodyOneOne(Procedure f1, Procedure f2, ParamMap pm, List<Variable> i1, List<Variable> o1, List<Variable> i2, List<Variable> o2)
         {
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f1), string.Format("Procedure {0} does not belong to the mergedProgram", f1.Name));
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f2), string.Format("Procedure {0} does not belong to the mergedProgram", f2.Name));
+
             Expr pre = Expr.True;
             var b1 = i1.Count <= i2.Count ? i1 : i2;
             var b2 = i1.Count <= i2.Count ? i2 : i1;
@@ -307,18 +330,6 @@ namespace SDiff
 
             Expr pre = CreateVariableEqualities(i1, i2);
             Expr post = CreateVariableEqualities(o1, o2);
-            //Expr post = Expr.True;
-            //foreach (Variable u in o1)
-            //{
-            //    //find p2prefix + (o1[i] - p1prefix) in i2
-            //    foreach (Variable v in o2)
-            //        if (Util.TrimPrefixWithDot(v.Name, p2Prefix) == Util.TrimPrefixWithDot(u.Name, p1Prefix))
-            //        {
-            //            var ei = Expr.Eq(Expr.Ident(u), Expr.Ident(v));
-            //            post = Expr.And(post, ei);
-            //            break;
-            //        }
-            //}
             return Expr.Imp(pre, post);
         }
         private static List<Expr> CreateIdentExprSeqComparisons(List<IdentifierExpr> i1, List<IdentifierExpr> i2)
@@ -399,6 +410,10 @@ namespace SDiff
         //creates nested MS_Check_f1_f2 procedure/impls 
         private static Procedure FindOrCreateMSCheckProcedure(Procedure f1, Procedure f2)
         {
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f1), string.Format("Procedure {0} does not belong to the mergedProgram", f1.Name));
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f2), string.Format("Procedure {0} does not belong to the mergedProgram", f2.Name));
+
+
             var procName = "MS_Check_" + f1.Name + "__" + f2.Name;
             var proc = Util.getProcedureByName(mergedProgram, procName);
             if (proc != null) return proc;
@@ -440,8 +455,8 @@ namespace SDiff
                 //Can't do it earlier as we need the variables for the MS_f1_f2 procedures that are only created in this 
                 //method (e.g. a1, a2, b1, b2)
                 Debug.Assert(freeContracts, "-checkEquivWithDependencies requires -freeContracts flag to be on");
-                ParseTaintAndDependenciesForProc(f1, prog1, p1Prefix, gSeq_p1, a1, b1);
-                ParseTaintAndDependenciesForProc(f2, prog2, p2Prefix, gSeq_p2, a2, b2);
+                ParseTaintAndDependenciesForProc(f1, p1Prefix, gSeq_p1, a1, b1);
+                ParseTaintAndDependenciesForProc(f2, p2Prefix, gSeq_p2, a2, b2);
             }
 
             if (useHoudini)
@@ -506,9 +521,11 @@ namespace SDiff
             return mschkProc;
         }
 
-        private static void ParseTaintAndDependenciesForProc(Procedure f, Program p, string prefix, 
+        private static void ParseTaintAndDependenciesForProc(Procedure f, string prefix, 
             List<Variable> globals, List<Variable> ins, List<Variable> outs)
         {
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f), string.Format("Procedure {0} does not belong to the mergedProgram", f.Name));
+
             dependency[f] = new Dictionary<Variable,List<Variable>>();
             //get the dependecies
             foreach (var en in f.Ensures)
@@ -522,10 +539,15 @@ namespace SDiff
                 //Console.WriteLine("Dependency[{2}]: {0} -> {1}", ovar.Name, string.Join(", ", ivars.Select(x => x.Name)),f.Name);
                 dependency[f][ovar] = ivars.ToList();
             }
+            //Sometimes (in hte presence of non-terminating recursion foo(x) { foo(x+1); }, the dependency set can be empty
+            outs.Union(f.Modifies.Select(x => x.Decl))
+                .Iter(v =>
+                    {
+                        if (!dependency[f].ContainsKey(v)) dependency[f][v] = new List<Variable>();
+                    });
             Debug.Assert(dependency[f].Keys.Count() == outs.Count + f.Modifies.Count, 
                 string.Format("Mismatched number of output variables and io_dependency annotations for {0}", f.Name));
             //get the set of bottom up taints
-            //TODO: assumes that we have run abstractTainted (unsound if we have not run it)
             bool foundBottomUpTaintedInfo = false; //whether we have any annotation about "bottomup_tainted_vars"
             foreach (var en in f.Ensures)
             {
@@ -538,8 +560,8 @@ namespace SDiff
             }
             if (!foundBottomUpTaintedInfo)
             {
-                Console.WriteLine("Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + globals tainted");
-                bottomUpTaintVars[f] = new HashSet<Variable>(outs.Union(globals)); //assume all are tainted
+                Console.WriteLine("Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted");
+                bottomUpTaintVars[f] = new HashSet<Variable>(outs.Union(f.Modifies.Select(x => x.Decl))); //assume all are tainted
             }
         }
 
@@ -547,6 +569,9 @@ namespace SDiff
         //methods specific to 2->1 program translation
         private static void TrapCallArgs(Program mergedProgram, Implementation f, Procedure f1, Procedure f2)
         {
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f1), string.Format("Procedure {0} does not belong to the mergedProgram", f1.Name));
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f2), string.Format("Procedure {0} does not belong to the mergedProgram", f2.Name));
+
             int pairCnt = 0;
             if (f == null) return;
             var cr = new CallInstrumentforDAC(mergedProgram, f, f1, f2, p1Prefix, p2Prefix);
@@ -585,6 +610,9 @@ namespace SDiff
             ref Block nxtBlock,
             ref List<Block> newBlocks)
         {
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f1), string.Format("Procedure {0} does not belong to the mergedProgram", f1.Name));
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f2), string.Format("Procedure {0} does not belong to the mergedProgram", f2.Name));
+
             var cmds = new List<Cmd>();
             //guard it if the calls have been made along the path
             var b1 = cargs1.Item1;
@@ -682,9 +710,10 @@ namespace SDiff
         }
 
         //callgraph related methods
+        //TODO: the CallGraph is over individual program, but f is from mergedProgram
         public static bool IsRootProcedures(Procedure f, CallGraph cg)
         {
-            var n1 = cg.NodeOfName(f.Name);
+            var n1 = cg.NodeOfName(f.Name); //have to lookup by name since f is not in cg
             if (n1 == null) return false;
             if (cg.Roots.Contains(n1))
                 return true;

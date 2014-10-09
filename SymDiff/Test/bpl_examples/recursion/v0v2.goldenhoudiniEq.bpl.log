@@ -1,0 +1,18 @@
+Parsing config file
+Parsing programs
+Namespacing ASTs
+Resolving and typechecking
+Resolving and typechecking
+ImplMap: _v1.Foo, _v2.Foo
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+ImplMap: _v1.Bar, _v2.Bar
+Resolving and typechecking
+Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
+Assignment computed by Houdini:
+_houdini_Foo_r_0 = False
+_houdini_Bar_r_1 = False
+
+Boogie program verifier finished with 6 verified, 0 errors

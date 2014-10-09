@@ -18,35 +18,12 @@
 
 use Cwd;
 
-##################################################
-# SymDiff regression script
-##################################################
+################################
+# Regression script
+################################
 
-# @examples = {(dir, v1, v2), ... }
-# $rootdir = <cwd>
-# foreach ($dir, $v1, $v2) in @examples
-#     chdir $dir
-#     run_symdiff_c.cmd $v1 $v2 [options]
-#     mv $v1$v2.log $v1$v2.output.log
-#     grep Final $v1$v2.output.log
-#     Compare (#Procs, #Cex, #noEq, #Crash) with $v1$v2.golden.log
-#     chdir $rootdir
-#     
-
-####################################################################################################
-
-###################################################
-# 
-# The following flag controls whether we rerun or just
-# compute stats
-#
-###################################################
-
-   
-####################################################################################################
-
-my $pattern = "";
-my $dac = 0;
+my $pattern = ""; #only run examples matching pattern
+my $infer = 0; #if we are performing Houdini inference with candidates
 
 
 sub MyExec{
@@ -72,11 +49,18 @@ sub GetStats {
 #       $result  = "$1, $2, $3, $4";
 #     }
   
-    if( (($dac == 1) && ($line =~ /Boogie program verifier finished with/)) || # look for the line "Boogie program verifier finished with X verified, Y error"
-	($line =~ /Verifier\[0\]: Result/) ) { 
-      $result = $result . " " . $line;
+    if ($infer == 0) {
+      if ($line =~  /Verifier\[0\]: Result/) {
+	$result = $result . " " . $line;
+      }	
+    } else {
+      if ($line =~ /Boogie program verifier finished with/ ||
+	  $line =~ /_houdini_.*= /) {
+	$result = $result . " " . $line;
+      }
     }
   }	
+  
   if ($result eq "") { 
     print "Error: Stats not found in $file file\n";
   } 
@@ -98,6 +82,8 @@ sub CheckRegression {
     print "Regression passed\n";
   } else {
     print "\n\n!!!!!!Regression failed !!!!!\n\n";
+    print "=== Golden ====\n $golden_stats\n";
+    print "=== Output ====\n $output_stats\n";
   }	
   
 }
@@ -140,7 +126,6 @@ sub RunExampleWithOptions {
 
 my $cwd = getdcwd();
 print "***** Current working directory is $cwd ****** \n";
-
 
 my $opt_regr = -1;
 my $error = 0;
@@ -330,10 +315,10 @@ print "-----------------------\n";
 print "DAC SymDiff regressions\n";
 print "-----------------------\n";
 $flags = "/opts:\" -asserts -usemutual -rvt  \" /inferContracts:\"  \" ";
-$dac = 1; # checking DAC regression is different than other regressions
+$infer = 1; # checking DAC regression is different than other regressions
 my $tag = ".bpl";
 RunExampleWithOptions("_bpl", \@dac_examples, $flags, $cwd, $opt_regr, $tag);
-$dac = 0; 
+$infer = 0; 
 
 
 ##############################################################
@@ -348,15 +333,19 @@ my @houdini_examples =
      ["resilience\\ex2\\", "example", "example_faulty"],
     ##### resilience\ex3 #######
      ["resilience\\ex3\\", "example", "example_faulty"],
+    ##### recursion #######
+     ["bpl_examples\\recursion\\", "v0", "v1"],
+    ##### recursion #######
+     ["bpl_examples\\recursion\\", "v0", "v2"]
   );
 
 print "-----------------------\n";
 print "Houdini SymDiff regressions\n";
 print "-----------------------\n";
 $flags = " /rvt /opts:\" -usemutual -checkEquivWithDependencies -freeContracts \" /inferContracts:\" /inlineDepth:1 /timeLimit:20 \" ";
-$dac = 1; # checking DAC regression is different than other regressions
+$infer = 1; # checking DAC regression is different than other regressions
 my $tag = "houdiniEq.bpl";
 RunExampleWithOptions("_bpl", \@houdini_examples, $flags, $cwd, $opt_regr, $tag);
-$dac = 0; 
+$infer = 0; 
 
 
