@@ -33,10 +33,10 @@ namespace SDiff
         static bool dontUseHoudiniForMS;
         static bool checkMutualPrecondNonTerminating; //use dependencies and Houdini to check for equivalence
         static bool dontTypeCheckMergedProg;
+        static bool callCorralOnMergedProgram; //invoke corral to check the candidates in mutual summary procedures (for equivalence checking)
 
         static bool inlineWhenMissing;
         static bool deactivateHacks;
-        static bool ignoreMainDuringInlineAll = false; // default true for siemens benchmarks as main has exits for returns
         static bool onlyAnalyzeRootsOfCallGraphsForInlineAll = true; //default true
         static bool freeContracts = false; //instead of dropping requires/ensures, makes them free requires/ensures
 
@@ -128,6 +128,7 @@ namespace SDiff
             freeContracts = argsList.Remove("-freeContracts");
             Options.checkEquivWithDependencies = argsList.Remove("-checkEquivWithDependencies");
             dontTypeCheckMergedProg = argsList.Remove("-dontTypeCheckMergedProg");
+            callCorralOnMergedProgram = argsList.Remove("-callCorralOnMergedProgram");
 
             inlineWhenMissing = argsList.Remove("-inlineWhenMissing");
             deactivateHacks = argsList.Remove("-deactivatehacks");
@@ -1362,16 +1363,6 @@ namespace SDiff
                 if (!checkAssertsOnly)
                     StripContracts(p1, p2); //asserts/ensures don't matter for equivalence
 
-                //find the roots here before inlining
-                //HACK: main (in siemens typically have exit, which is assume false)
-                if (ignoreMainDuringInlineAll)
-                {
-                    Console.WriteLine("**** Ignoring main in /nonmodular mode *****");
-                    var main1 = p1.TopLevelDeclarations.FirstOrDefault(x => (x is Implementation && ((Implementation)x).Name == "main"));
-                    p1.RemoveTopLevelDeclaration(main1);
-                    var main2 = p2.TopLevelDeclarations.FirstOrDefault(x => (x is Implementation && ((Implementation)x).Name == "main"));
-                    p2.RemoveTopLevelDeclaration(main2);
-                }
                 CallGraph cg1_temp = CallGraph.Make(p1);
                 CallGraph cg2_temp = CallGraph.Make(p2);
                 roots_cg1 = cg1_temp.Roots;
@@ -1474,7 +1465,8 @@ namespace SDiff
             {
                 MutualSummary.Start(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg, 
                     checkAssertsOnly, useMutualSummariesAsAxioms, !dontUseHoudiniForMS, checkMutualPrecondNonTerminating, 
-                    freeContracts, dontTypeCheckMergedProg);
+                    freeContracts, dontTypeCheckMergedProg,
+                    callCorralOnMergedProgram);
                 return 0;
             }
             ///////////////////////////////////////////////////////////

@@ -184,26 +184,14 @@ MyExecAndDieOnFailure("copy /Y _v2.bpl_w_dep.bpl  _v2.bpl");
 if (!($abstractNonTainted eq "")) {
   my $v1 = AbstractNonTainted("_v1", $taint1);
   my $v2 = AbstractNonTainted("_v2", $taint2);
-  #the files are called v1.bpl.taintAbstract.bpl, the presence of "." in filename confuses symdiff.exe
-  #my $newV1 = $dir1name . "_ta";
-  #my $newV2 = $dir2name . "_ta";
   MyExecAndDieOnFailure("copy /Y $v1.bpl  _v1.bpl"); #renaming v1.bpl destroys the pristine files
   MyExecAndDieOnFailure("copy /Y $v2.bpl  _v2.bpl"); #renaming v1.bpl destroys the pristine files
-  #$dir1name = $newV1;
-  #$dir2name = $newV2;
 }
 
 MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig _v1.bpl _v2.bpl > _v1_v2.config"); 
 
 MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString > $v1$v2.log"); 
 
-#-rvt option to symdiff.exe deprecate for now
-#if ($rvt eq 1){
-#  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config -rvt $returnOnlyStr $optString > $v1$v2.log"); 
-#} else {
-#  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString > $v1$v2.log"); 
-#}
- 
 
 if ($inferContracts eq 1){
   print "Running Houdini to infer additional contracts......\n";

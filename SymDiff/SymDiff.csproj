@@ -164,6 +164,7 @@
     <Compile Include="source\CallGraph.cs" />
     <Compile Include="source\CallGraphVisitor.cs" />
     <Compile Include="source\CexVisitor.cs" />
+    <Compile Include="source\CorralCheck.cs" />
     <Compile Include="source\MutualSummary.cs" />
     <Compile Include="source\rvt.cs" />
     <Compile Include="source\RVTCheck.cs" />

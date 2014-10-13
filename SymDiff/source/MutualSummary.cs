@@ -26,7 +26,8 @@ namespace SDiff
                                               //if false, then we check Dep(o1) == Dep(o2) ==> o1 == o2 (non-roots: all outs, roots: outvars)
 
         //globals
-        static bool freeContracts = false; 
+        static bool freeContracts = false;
+        static bool callCorralOnMergedProgram = false; 
 
         static Program mergedProgram; //don't expose the progs p1 and p2, they are only used in Initialize
         static string p1Prefix, p2Prefix;
@@ -37,6 +38,7 @@ namespace SDiff
         static CallGraph cg1, cg2; //the call graphs
         static HashSet<Function> msFuncAxiomsAdded; //list of msfuncs for which axioms have been added (to account for user provided msfuncs separately)
         static Dictionary<Implementation, LocalVariable> abortVars; //each implementation has a local variable to abort
+        static HashSet<Procedure> rootMSProcs; //set of MS_Check_ procedures not invoked in the module
 
         //parse dependencies out of input files
         static Dictionary<Procedure, Dictionary<Variable, List<Variable>>> dependency = new Dictionary<Procedure, Dictionary<Variable, List<Variable>>>();
@@ -47,7 +49,8 @@ namespace SDiff
         public static void Start(Program p1, Program p2, Program mergedProgram, string p1Prefix, string p2Prefix, Config cfg1, 
             bool checkAssertsOnlyParam,
             bool useMutualSummariesAsAxioms, bool useHoudiniOption, bool checkPreconditions, bool freeContractsIn,
-            bool dontTypeCheckMergedProg)
+            bool dontTypeCheckMergedProg,
+            bool callCorral = false)
         {
 
             typeCheckMergedProgram = !dontTypeCheckMergedProg;
@@ -57,6 +60,7 @@ namespace SDiff
             useHoudini = dontUseMSAsAxioms &&  useHoudiniOption;
             freeContracts = freeContractsIn;
             checkMutualPreconditionsForInfiniteLoops = dontUseMSAsAxioms && checkPreconditions;
+            callCorralOnMergedProgram = callCorral;
             //lets drop the modifies of all procedures (e.g. default generated alloc/detchoicent by havoc
             if (!freeContractsIn)
                 Util.DropAllModifies(mergedProgram);
@@ -91,6 +95,7 @@ namespace SDiff
                 .ToList<Variable>();
             summaryFuncs = new Dictionary<Procedure, Function>();
             cfg = cfg1;
+            rootMSProcs = new HashSet<Procedure>();
             InitializeProcMaps(cfg);
             msFuncAxiomsAdded = new HashSet<Function>();
             abortVars = new Dictionary<Implementation, LocalVariable>();
@@ -132,7 +137,8 @@ namespace SDiff
                 var f1 = Util.getProcedureByName(mergedProgram, kv.Key);
                 var f2 = Util.getProcedureByName(mergedProgram, kv.Value);
                 //Create MSCheck procedure
-                FindOrCreateMSCheckProcedure(f1, f2);
+                var msproc = FindOrCreateMSCheckProcedure(f1, f2);
+                if (IsRootProcedures(f1, cg1) || IsRootProcedures(f2, cg2)) rootMSProcs.Add(msproc);
             }
             if (typeCheckMergedProgram)
             {
@@ -143,6 +149,8 @@ namespace SDiff
             //var oc = BoogieVerify.MyVerifyImplementation(mschkImpl, mergedProgram); //only the last one
             //Console.WriteLine("Outcome = {0}", oc);
             Util.DumpBplAST(mergedProgram, "mergedProgSingle.bpl");
+            if (callCorralOnMergedProgram) 
+                (new CorralChecker(mergedProgram, rootMSProcs)).CheckCandidateAsserts();
         }
 
         /// <summary>
