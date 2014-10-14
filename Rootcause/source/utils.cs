@@ -576,7 +576,9 @@ namespace Rootcause
             Function callMem = null;
             public override Program VisitProgram(Program node)
             {
-                callMem = (Function) node.TopLevelDeclarations.Where(x => (x is Function && ((Function)x).Name.Contains("CallMem")));
+                //callMem = (Function) node.TopLevelDeclarations.Where(x => x is Function).Where(x => (x as Function).Name.Contains("CallMem")); //  Where(x => (x is Function && ((Function)x).Name.Contains("CallMem")));
+                IEnumerable<Declaration> candidateFunctions = node.TopLevelDeclarations.Where(x => (x is Function && ((Function)x).Name.Contains("CallMem")));
+                callMem = candidateFunctions.Count() > 0 ? candidateFunctions.First() as Function : null;
                 if (callMem == null) return node;
                 return base.VisitProgram(node);
             }
