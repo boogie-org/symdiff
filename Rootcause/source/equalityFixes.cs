@@ -37,7 +37,7 @@ namespace Rootcause
         {
             program = prog;
             implementation = impl;
-            htmlOutputs = new List<Tuple<BigNum, string, BigNum, string>>(); 
+            htmlOutputs = new List<Tuple<BigNum, string, BigNum, string>>();
 
             sw = Stopwatch.StartNew();
 
@@ -45,11 +45,9 @@ namespace Rootcause
             (new Utils.MiscStatementPruner()).Visit(program);
             if (Options.liftConditionals) { Utils.liftConditionalsInCFG(program, implementation); }
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(2))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 0.1: Source Transformation in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 0.1: Source Transformation in {0}", sw.Elapsed.TotalSeconds);
             }
 
             Utils.PrintProg(program);
@@ -59,22 +57,18 @@ namespace Rootcause
             List<Block> R = LR.Item2;
             //L and R are original program blocks
 
-            cdfg = computeAssignmentCDFG(implementation); 
-            if (Options.verbose == 1)
+            cdfg = computeAssignmentCDFG(implementation);
+            if (Utils.verbosityLevel(2))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 0.2: Computed CDFG in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 0.2: Computed CDFG in {0}", sw.Elapsed.TotalSeconds);
             }
             cmdToBlock = computeCmdToBlockMapping(L.Concat(R).ToList());
             blockToCmdSeq = computeBlockToCmdSeqMapping(L.Concat(R).ToList());
-            CmdToSourceline = new Preprocessor(program, implementation).preprocess(L,R); //computes source lines
+            CmdToSourceline = new Preprocessor(program, implementation).preprocess(L, R); //computes source lines
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(2))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 0.3: Computed cmdToBlock,blockToCmdSeq,CmdToSourceline in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 0.3: Computed cmdToBlock,blockToCmdSeq,CmdToSourceline in {0}", sw.Elapsed.TotalSeconds);
             }
 
             Utils.PrintProg(program);
@@ -82,24 +76,20 @@ namespace Rootcause
             if (Options.independantFilter == FilterAction.Drop)
             {
                 analyzeDependencies(program, implementation, L, R, dependencies);
-                if (Options.verbose == 1)
+                if (Utils.verbosityLevel(2))
                 {
-                    Console.WriteLine("-------------------------------------------");
-                    Console.WriteLine("Phase 0.4: Computed dependencies in {0}", sw.Elapsed);
-                    Console.WriteLine("-------------------------------------------");
+                    Console.WriteLine("Phase 0.4: Computed dependencies in {0}", sw.Elapsed.TotalSeconds);
                 }
             }
 
             //Add assume (b) for each block on the left
             var guardBlocks = new GuardBlocks(program, implementation, L, R);
             guardBlocks.Visit(implementation);
-            Dictionary<Block, Constant> assumeFalseConsts = guardBlocks.GetAssumeFalseConsts();
+            Tuple<Dictionary<Block, Constant>, Dictionary<Block, Constant>> assumeFalseConsts = guardBlocks.GetAssumeFalseConsts();
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(2))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 0.5: Guarded assumes on Left in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 0.5: Guarded assumes on Left in {0}", sw.Elapsed.TotalSeconds);
             }
 
             Dictionary<AssignCmd, Constant> assignAssertGuards = new Dictionary<AssignCmd, Constant>();
@@ -108,11 +98,9 @@ namespace Rootcause
             injectAssignAssertsOnRight(program, implementation, L, R, assignAssertGuards, assignAssertConstants);
             Utils.PrintProg(program);
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(2))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 0.6: Instrumented assignment level asserts in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 0.6: Instrumented assignment level asserts in {0}", sw.Elapsed.TotalSeconds);
             }
 
             //Inject assumes on Left program
@@ -121,11 +109,9 @@ namespace Rootcause
             Utils.PrintProg(program);
             //L contains injected assumes
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(2))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 0.7: Instrumented constants on Left in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 0.7: Instrumented constants on Left in {0}", sw.Elapsed.TotalSeconds);
             }
 
             //Inject assumes on Right program
@@ -138,11 +124,9 @@ namespace Rootcause
             //L contains injected assumes, R contains candidate assumes
             Utils.PrintProg(program);
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(2))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 0.8: Instrumented constants,axioms on Right in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 0.8: Instrumented constants,axioms on Right in {0}", sw.Elapsed.TotalSeconds);
             }
 
             Dictionary<Block, Constant> assertConsts = new Dictionary<Block, Constant>();
@@ -151,11 +135,9 @@ namespace Rootcause
             injectGuardedAssertsOnRight(program, implementation, L, R, assertConsts); //FIXME: We don't want assert False in final \phi block
             Utils.PrintProg(program);
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(2))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 0.9: Guarded asserts on Right in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 0.9: Guarded asserts on Right in {0}", sw.Elapsed.TotalSeconds);
             }
 
             //make program predicated
@@ -164,21 +146,24 @@ namespace Rootcause
             guardAssignmentsOnRight(program, implementation, L, R, predConsts);
             Utils.PrintProg(program);
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(2))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 0.10: predicate assignments on Right in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 0.10: predicate assignments on Right in {0}", sw.Elapsed.TotalSeconds);
             }
 
-            if (Options.verbose == 1)
+            Dictionary<AssumeCmd, Constant> guardAssumeConsts = new Dictionary<AssumeCmd, Constant>();
+            //assume e --> assume g => e, where g is a boolean const that we can toggle
+            if (Options.assumeToSkip)
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 1: Instrumented Program in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                guardAssumesOnLeftRight(program, implementation, L, R, guardAssumeConsts);
             }
 
-            if (Rootcause.Options.verbose == 2)
+            if (Utils.verbosityLevel(1))
+            {
+                Console.WriteLine("Phase 1: Instrumented Program in {0}", sw.Elapsed.TotalSeconds);
+            }
+
+            if (Utils.verbosityLevel(3))
             {
                 foreach (Expr axiomExpr in rightAxioms.Values) { Console.WriteLine(axiomExpr); }
                 foreach (AssignCmd key in rightCandidates.Keys)
@@ -191,7 +176,7 @@ namespace Rootcause
                     }
                 }
             }
-            
+
 
             //typecheck the instrumented program
             program.Resolve();
@@ -201,19 +186,17 @@ namespace Rootcause
             VC.InitializeVCGen(program);
             VCExpr programVC = VC.GenerateVC(program, implementation);
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(1))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 2: Generated VC in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 2: Generated VC in {0}", sw.Elapsed.TotalSeconds);
             }
 
 
             //Compute a model, and its counter-example
             //Compute model by disabling all candidate equality assumes
-           
+
             List<Constant> falseAssertConstants = assertConsts.Values.Aggregate(new List<Constant>(),
-                (List<Constant> a, Constant b) => a.Concat(new Constant[] {b}).ToList<Constant>());
+                (List<Constant> a, Constant b) => a.Concat(new Constant[] { b }).ToList<Constant>());
             VCExpr allFalseAssertsDisabled = falseAssertConstants.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)).
                     Aggregate<VCExpr, VCExpr>(VCExpressionGenerator.True, (VCExpr a, VCExpr b) => VC.exprGen.And(a, VC.exprGen.Not(b)));
 
@@ -226,17 +209,24 @@ namespace Rootcause
                 VC.exprGen.Not(VC.translator.LookupVariable(neg_phi_guard))));
             VCExpr ensureNegAssert = VC.exprGen.And(allFalseAssertsDisabled, VC.exprGen.And(VC.translator.LookupVariable(neg_phi_guard),
                 VC.exprGen.Not(VC.translator.LookupVariable(phi_guard))));
-            
+            VCExpr ensureEither = allFalseAssertsDisabled;
+
             VCExpr allCandidatesDisabled = listCandidates(rightCandidates, R, L).ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)).
                 Aggregate<VCExpr, VCExpr>(VCExpressionGenerator.True, (VCExpr a, VCExpr b) => VC.exprGen.And(a, VC.exprGen.Not(b)));
 
             //make all predConsts true during MAXSAT (true means original assignments)
             List<Constant> allPredConst = predConsts.Values.Aggregate(new List<Constant>(),
                 (List<Constant> aaa, Dictionary<Variable, Constant> bbb) => aaa.Concat(
-                    bbb.Values.Aggregate(new List<Constant>(), (List<Constant> aaaa, Constant bbbb) => aaaa.Concat(new Constant[] {bbbb}).ToList())).ToList());
+                    bbb.Values.Aggregate(new List<Constant>(), (List<Constant> aaaa, Constant bbbb) => aaaa.Concat(new Constant[] { bbbb }).ToList())).ToList());
             VCExpr allPredConst_True = allPredConst.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)).
                 Aggregate<VCExpr, VCExpr>(VCExpressionGenerator.True, (VCExpr currentExpr, VCExpr nextConst) => VC.exprGen.And(currentExpr, nextConst));
-            VCExpr allGuardConst_True = assumeFalseConsts.Aggregate(VCExpressionGenerator.True, (a, b) => VC.exprGen.And(a, VC.translator.LookupVariable(b.Value)));
+            VCExpr allGuardConst_LeftTrue = assumeFalseConsts.Item1.Aggregate(VCExpressionGenerator.True, (a, b)
+                => VC.exprGen.And(a, VC.translator.LookupVariable(b.Value)));
+            VCExpr allGuardConst_RightTrue = assumeFalseConsts.Item2.Aggregate(VCExpressionGenerator.True, (a, b)
+                => VC.exprGen.And(a, VC.translator.LookupVariable(b.Value)));
+            VCExpr allGuardConst_True = VC.exprGen.And(allGuardConst_LeftTrue, allGuardConst_RightTrue);
+            VCExpr allAssumeGuard_True = guardAssumeConsts.Aggregate(VCExpressionGenerator.True, (a, b)
+                => VC.exprGen.And(a, VC.translator.LookupVariable(b.Value)));
 
             VCExpr demonicAxiomVC = VCExpressionGenerator.True;
             if (Options.demonizeUninterpreted)
@@ -245,40 +235,52 @@ namespace Rootcause
                 demonicAxiomVC = demonicAxioms.ConvertAll<VCExpr>(x => VC.translator.Translate(x)).
                     Aggregate<VCExpr, VCExpr>(VCExpressionGenerator.True, (VCExpr currentExpr, VCExpr nextConst) => VC.exprGen.And(currentExpr, nextConst));
             }
-            
+
             Counterexample failing_cex = getCounterExample(VC.exprGen.Implies(
-                VC.exprGen.And(falseAssignAssertConstantsDisabled, VC.exprGen.And(allGuardConst_True,
-                VC.exprGen.And(allPredConst_True, VC.exprGen.And(allCandidatesDisabled, ensureAssert)))), programVC));
+                VC.exprGen.And(allAssumeGuard_True, VC.exprGen.And(falseAssignAssertConstantsDisabled, VC.exprGen.And(allGuardConst_True,
+                VC.exprGen.And(allPredConst_True, VC.exprGen.And(allCandidatesDisabled, ensureAssert))))), programVC));
 
             if (failing_cex == null) { Console.WriteLine("Left and Right programs are equivalent. Exiting..."); return; }
+            if (Options.findEarliestAssertionByMapMismatch)
+            {
+                List<Block> L_cex = blocksInCexPath(failing_cex, L);
+                List<Block> R_cex = blocksInCexPath(failing_cex, R);
+                VCExpr failing_or_passing_vc = VC.exprGen.Implies(
+                    VC.exprGen.And(allAssumeGuard_True, VC.exprGen.And(falseAssignAssertConstantsDisabled, VC.exprGen.And(allGuardConst_True,
+                    VC.exprGen.And(allPredConst_True, VC.exprGen.And(allCandidatesDisabled, ensureEither))))), programVC);
+                Counterexample new_cex = FindCexWithFirstMemMismatch(failing_or_passing_vc, failing_cex, L_cex, R_cex, leftAssumeConsts, rightAssumeConsts);
+                if (new_cex != null) { failing_cex = new_cex; }
+            }
+
 
             List<Counterexample> passing_cexs = getCorrectExample(VC.exprGen.Implies(VC.exprGen.And(demonicAxiomVC,
-                VC.exprGen.And(falseAssignAssertConstantsDisabled, VC.exprGen.And(allGuardConst_True,
-                VC.exprGen.And(allPredConst_True, VC.exprGen.And(allCandidatesDisabled, ensureNegAssert))))), programVC));
+                VC.exprGen.And(allAssumeGuard_True, VC.exprGen.And(falseAssignAssertConstantsDisabled, VC.exprGen.And(allGuardConst_True,
+                VC.exprGen.And(allPredConst_True, VC.exprGen.And(allCandidatesDisabled, ensureNegAssert)))))), programVC));
 
 
 
             VC.FinalizeVCGen(program);
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(1))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 3: Generated passing and failing Counterexamples in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 3: Generated 1 failing and {1} passing cexs in {0}", sw.Elapsed,
+                    (passing_cexs != null ? passing_cexs.Count : 0));
             }
 
-            
+            if (Options.htmlInput != "")
+            {
+                if (!matchCexHtmlLines(failing_cex, L, R)) { ; } // return; } //our failing cex is not the one shown in html
+            }
+
             //Setup code has now finished.
             //Use an algorithm of choice to compute root causes
             //List<Constant> rootcauseCandidates = BlockByBlock(L, R, predConsts, leftAssumeConsts, rightCandidates, rightAxioms, assertConsts, assumeFalseConsts, programVC, cex);
-            List<Constant> rootcauseCandidates = TopDown(L, R, predConsts, dependencies, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
+            List<Constant> rootcauseCandidates = TopDown(L, R, guardAssumeConsts, predConsts, dependencies, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
                                                     assertConsts, assumeFalseConsts, assignAssertGuards, assignAssertConstants, programVC, failing_cex, passing_cexs);
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(1))
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 5: Computed Rootcause in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Phase 6: Terminated rootcause analysis in {0}", sw.Elapsed.TotalSeconds);
             }
 
             foreach (Constant rootcauseCand in rootcauseCandidates)
@@ -286,14 +288,83 @@ namespace Rootcause
                 printErrorReport(rightCandidates, rootcauseCand);
             }
             Utils.PrintHtmlOutput(htmlOutputs);
+
             if (rootcauseCandidates.Count == 0) { Console.WriteLine("Unable to find rootcause"); }
         }
 
+        // Check if the counterexample matches the one provided in the /htmlInput file
+        public static bool matchCexHtmlLines(Counterexample failing_cex, List<Block> L, List<Block> R)
+        {
+            if (Options.htmlInput == "")
+            {
+                throw new Exception("Warning!! Empty option /htmlInput");
+            }
+            var fileName = Options.htmlInput + ".html";
+            if (!System.IO.File.Exists(fileName))
+            {
+                throw new Exception("Warning!! The input html file does not exist");
+            }
+            var l = System.IO.File.ReadAllLines(fileName);
+            Tuple<List<int>, List<int>> o = Utils.parseHtmlForCexLines(l);
+            List<int> leftHtmlLines = o.Item1;
+            List<int> rightHtmlLines = o.Item2;
+
+            List<Block> L_cex = blocksInCexPath(failing_cex, L);
+            List<Block> R_cex = blocksInCexPath(failing_cex, R);
+            var leftCexLines = new List<int>();
+            var rightCexLines = new List<int>();
+            foreach (var bl in L_cex)
+                foreach (var c in blockToCmdSeq[bl])
+                    if (c is AssignCmd)
+                    {
+                        int line = CmdToSourceline[c as AssignCmd].ToInt;
+                        if (!leftCexLines.Contains(line)) leftCexLines.Add(line);
+                    }
+            foreach (var bl in R_cex)
+                foreach (var c in blockToCmdSeq[bl])
+                    if (c is AssignCmd)
+                    {
+                        int line = CmdToSourceline[c as AssignCmd].ToInt;
+                        if (!rightCexLines.Contains(line)) rightCexLines.Add(line);
+                    }
+
+            leftCexLines.RemoveAt(0); leftCexLines.RemoveAt(0);
+            leftCexLines.RemoveAt(leftCexLines.Count - 1); leftCexLines.RemoveAt(leftCexLines.Count - 1);
+            rightCexLines.RemoveAt(0); rightCexLines.RemoveAt(0);
+            rightCexLines.RemoveAt(rightCexLines.Count - 1); rightCexLines.RemoveAt(rightCexLines.Count - 1);
+            var leftMismatchLines = leftCexLines.Where(x => !leftHtmlLines.Contains(x));
+            var rightMismatchLines = rightCexLines.Where(x => !rightHtmlLines.Contains(x));
+            bool leftCexWithinHtml = leftMismatchLines.Count() == 0;  //leftCexLines.TrueForAll(x => leftHtmlLines.Contains(x));
+            bool rightCexWithinHtml = rightMismatchLines.Count() == 0; //rightCexLines.TrueForAll(x => rightHtmlLines.Contains(x));
+
+            if (leftCexWithinHtml && rightCexWithinHtml) { Console.WriteLine("Found CEX & HTML match"); }
+            else
+            {
+                Console.WriteLine("WARNING!!! ------- Found CEX & HTML mismatch ------------");
+                Console.WriteLine("\nLeft HTML Lines: ");
+                foreach (int line in leftHtmlLines) { Console.Write(line + ","); }
+                Console.WriteLine("\nLeft CEX Lines: ");
+                foreach (int line in leftCexLines) { Console.Write(line + ","); }
+                Console.WriteLine("\nLeft CEX Mismatches: ");
+                foreach (int line in leftMismatchLines) { Console.Write(line + ","); }
+
+                Console.WriteLine("\nRight HTML Lines: ");
+                foreach (int line in rightHtmlLines) { Console.Write(line + ","); }
+                Console.WriteLine("\nRight CEX Lines: ");
+                foreach (int line in rightCexLines) { Console.Write(line + ","); }
+                Console.WriteLine("\nRight CEX Mismatches: ");
+                foreach (int line in rightMismatchLines) { Console.Write(line + ","); }
+                Console.Write("\n");
+            }
+
+            return leftCexWithinHtml && rightCexWithinHtml;
+        }
 
         //performs runtime optimizations: move up the assert, binary search, trim candidates
         //TODO: refactored
         private static List<Constant> TopDown(
             List<Block> L, List<Block> R,
+            Dictionary<AssumeCmd, Constant> guardAssumeConsts,
             Dictionary<AssignCmd, Dictionary<Variable, Constant>> predConsts, //enabled
             Dictionary<Tuple<AssignCmd, Variable>, HashSet<Variable>> dependencies,
             Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts, //noop instrumentation
@@ -301,7 +372,7 @@ namespace Rootcause
             Dictionary<AssignCmd, List<Tuple<Constant, AssignCmd, Variable, Variable>>> rightCandidates, //added on demand via axiom
             Dictionary<AssignCmd, Expr> rightAxioms, //added on demand
             Dictionary<Block, Constant> assertConsts, //disabled
-            Dictionary<Block, Constant> assumeFalseConsts, //set false under constrainLeftPath
+            Tuple<Dictionary<Block, Constant>, Dictionary<Block, Constant>> assumeFalseConsts, //set false under constrainLeftPath
             Dictionary<AssignCmd, Constant> assignAssertGuards, //disabled
             Dictionary<AssignCmd, Constant> assignAssertConstants, //added on demand under mismatch
             VCExpr programVC,
@@ -336,64 +407,115 @@ namespace Rootcause
 
             Constant firstMapMismatchLeft = null, firstMapMismatchRight = null;
             AssignCmd lMismatchAssign = null, rMismatchAssign = null;
+            List<AssignCmd> leftEqMemAssigns = null;
+            List<AssignCmd> rightEqMemAssigns = null;
             bool foundMismatch = false;
-            if (Options.findEarliestMapUpdateMismatch)
+
+            #region Earliest locations (l1,l2) in the two programs that diverge in their memories (in failing cex)
+            if (Options.findEarliestAssertionByMapMismatch || Options.pruneAfterMapMismatch || Options.callAlignWindow > 0)
             {
                 foundMismatch = FindFirstMemMismatchFromFail(failing_cex, L_cex, R_cex, leftAssumeConsts, rightAssumeConsts,
-                     out firstMapMismatchLeft, out firstMapMismatchRight, out lMismatchAssign, out rMismatchAssign);
-            }
+                     out firstMapMismatchLeft, out firstMapMismatchRight, out lMismatchAssign, out rMismatchAssign, out leftEqMemAssigns, out rightEqMemAssigns);
+                if (Utils.verbosityLevel(1) && foundMismatch)
+                {
+                    Console.WriteLine("Phase 4.1: Found first MemMismatch in lines ({1},{2}) from fail in {0}", sw.Elapsed,
+                        CmdToSourceline[lMismatchAssign], CmdToSourceline[rMismatchAssign]);
+                    Console.Write("Phase 4.1: Found the following matching mem updates: ");
+                    foreach (Tuple<BigNum, BigNum> pair in leftEqMemAssigns.Zip(rightEqMemAssigns, (a, b) => new Tuple<BigNum, BigNum>(CmdToSourceline[a], CmdToSourceline[b])))
+                    {
+                        RegisterForHtmlOutput(pair.Item1, " Mem equality Left ", pair.Item2, " Mem equality right ");
+                        Console.Write("({0},{1})", pair.Item1, pair.Item2);
+                    }
+                    Console.Write("\n");
+                }
+                if (foundMismatch)
+                {
+                    RegisterForHtmlOutput(CmdToSourceline[lMismatchAssign], " fail Mem Diseq Left ", CmdToSourceline[rMismatchAssign], " fail Mem Diseq Right ");
+                }
+                else {
+                    if (Utils.verbosityLevel(1))
+                    {
+                        Console.WriteLine("Phase 4.1: Cannot find a MemMismatch from fail in {0}", sw.Elapsed.TotalSeconds);
+                    }
+                }
 
-            if (Options.verbose == 1)
-            {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 3.1: Found earlier assert from Fail in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
             }
+            #endregion
 
             #region Experimenting with finding equalities from passing that fail in cex (just printing results on html)
+            /*
             Constant firstMapMismatchLeftPass = null, firstMapMismatchRightPass = null;
             AssignCmd lMismatchAssignPass = null, rMismatchAssignPass = null;
             bool foundMismatchPass = false;
-            if (Options.findEarliestMapUpdateMismatch)
+
+            if (Options.findEarliestAssertionByMapMismatch)
             {
                 //finds the earliest one from the set
                 foundMismatchPass = FindFirstMemMismatchFromPassFail(failing_cex, passing_cexs, L_cex, R_cex, leftAssumeConsts, rightAssumeConsts,
                     out firstMapMismatchLeftPass, out firstMapMismatchRightPass, out lMismatchAssignPass, out rMismatchAssignPass);
+                if (Utils.verbosityLevel(1) && foundMismatchPass)
+                {
+                    Console.WriteLine("Phase 4.2: Found first MemMismatch in lines ({1},{2}) from passfail in {0}", sw.Elapsed,
+                        CmdToSourceline[lMismatchAssignPass], CmdToSourceline[rMismatchAssignPass]);
+                }
+                if (foundMismatchPass)
+                {
+                    //just prints the earliest
+                    RegisterForHtmlOutput(CmdToSourceline[lMismatchAssignPass], " passfail Mem Diseq Left ", CmdToSourceline[rMismatchAssignPass], " passfail Mem Diseq Right ");
+                }
+                else { Console.WriteLine("Phase 4.2: Cannot find a MemMismatch from passfail in {0}", sw.Elapsed.TotalSeconds); }
             }
-            #endregion 
+             */
+            #endregion
 
-            if (Options.verbose == 1)
+            Constant lastMapLeft = null, lastMapRight = null;
+            AssignCmd lNewAssertAssign = null, rNewAssertAssign = null;
+            bool foundAssertion = false;
+
+            #region find earlier assertion based on user input
+            if (Options.findEarliestAssertionByLine)
             {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 3.2: Found earlier assert from PassFail in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
+                if (Options.newAssertLeftLine == -1 || Options.newAssertRightLine == -1)
+                {
+                    throw new Exception("Set good values for options newAssertLeftLine and newAssertRightLine");
+                }
+                foundAssertion = FindMemEqualityAtLine(Options.newAssertLeftLine, Options.newAssertRightLine,
+                    L_cex, R_cex, leftAssumeConsts, rightAssumeConsts,
+                    out lastMapLeft, out lastMapRight, out lNewAssertAssign, out rNewAssertAssign);
+                if (Utils.verbosityLevel(1) && foundAssertion)
+                {
+                    Console.WriteLine("Phase 4.3: Found new assertion in {0}", sw.Elapsed,
+                        CmdToSourceline[lNewAssertAssign], CmdToSourceline[rNewAssertAssign]);
+                }
+                if (foundAssertion)
+                {
+                    RegisterForHtmlOutput(CmdToSourceline[lNewAssertAssign], " new Left Assert ", CmdToSourceline[rNewAssertAssign], " new Right Assert ");
+                }
+                else { Console.WriteLine("Phase 4.3: Cannot find a new assertion in {0}", sw.Elapsed.TotalSeconds); }
             }
+            #endregion
 
-            if (Options.findEarliestMapUpdateMismatch && foundMismatch)
+            Constant mapLeft = Options.findEarliestAssertionByLine ? lastMapLeft :
+                (Options.findEarliestAssertionByMapMismatch || Options.pruneAfterMapMismatch || Options.callAlignWindow > 0) ? firstMapMismatchLeft : null;
+            Constant mapRight = Options.findEarliestAssertionByLine ? lastMapRight :
+                (Options.findEarliestAssertionByMapMismatch || Options.pruneAfterMapMismatch || Options.callAlignWindow > 0) ? firstMapMismatchRight : null;
+            AssignCmd lAssign = Options.findEarliestAssertionByLine ? lNewAssertAssign :
+                (Options.findEarliestAssertionByMapMismatch || Options.pruneAfterMapMismatch || Options.callAlignWindow > 0) ? lMismatchAssign : null;
+            AssignCmd rAssign = Options.findEarliestAssertionByLine ? rNewAssertAssign :
+                (Options.findEarliestAssertionByMapMismatch || Options.pruneAfterMapMismatch || Options.callAlignWindow > 0) ? rMismatchAssign : null;
+
+            #region Moving the assertion upto earliest MemMismatch in failing cex
+            if ((Options.findEarliestAssertionByMapMismatch && foundMismatch) ||
+                (Options.findEarliestAssertionByLine && foundAssertion))
             {
-                RegisterForHtmlOutput(CmdToSourceline[lMismatchAssign], " fail Mem Diseq Left ", CmdToSourceline[rMismatchAssign], " fail Mem Diseq Right ");
-            }
-
-            if (Options.findEarliestMapUpdateMismatch && foundMismatchPass)
-            {
-                //just prints the earliest
-                RegisterForHtmlOutput(CmdToSourceline[lMismatchAssignPass], " passfail Mem Diseq Left ", CmdToSourceline[rMismatchAssignPass], " passfail Mem Diseq Right ");
-            }
-
-
-            if (Options.findEarliestMapUpdateMismatch && foundMismatch)
-            {
+                String cause = Options.findEarliestAssertionByLine ? "findEarliestAssertionByLine" : "findEarliestAssertionByMapMismatch";
                 //moving the assertion up
-                if (Options.verbose == 4) { Console.WriteLine("Found a pair mismatch at lines <{0},{1}>", CmdToSourceline[lMismatchAssign], CmdToSourceline[rMismatchAssign]); }
-                //Console.WriteLine("Found a pair mismatch of map types {0} <{1}>, {2} <{3}>", firstMapMismatchLeft, lMismatchAssign.ToString().TrimEnd(),
-                //    firstMapMismatchRight, rMismatchAssign.ToString().TrimEnd());
-                Console.Out.Flush();
-
+                Console.WriteLine("{0}: Moving up the assertion...", cause);
                 List<Constant> falseAssignAssertConstantsPrime = new List<Constant>();
                 VCExpr someAssignAssertGuardsDisabled = VCExpressionGenerator.True;
                 foreach (AssignCmd cmd in assignAssertGuards.Keys)
                 {
-                    if (cmd == rMismatchAssign)
+                    if (cmd == rAssign)
                     {
                         //enable the assert for the matching assign
                         someAssignAssertGuardsDisabled = VC.exprGen.And(someAssignAssertGuardsDisabled,
@@ -408,12 +530,13 @@ namespace Rootcause
                 }
 
                 //provide the constant with the actual variable
-                VCExpr memConstraint = VC.exprGen.Eq(VC.translator.LookupVariable(firstMapMismatchLeft),
-                    VC.translator.LookupVariable(assignAssertConstants[rMismatchAssign]));
+                VCExpr memConstraint = VC.exprGen.Eq(VC.translator.LookupVariable(mapLeft),
+                    VC.translator.LookupVariable(assignAssertConstants[rAssign]));
 
                 //turn off the final assign
                 ensureAssert = VC.exprGen.And(someAssignAssertGuardsDisabled, VC.exprGen.And(assertConstsDisabled, VC.exprGen.And(
-                    VC.exprGen.Not(VC.translator.LookupVariable(phi_guard)),
+                    //VC.exprGen.Not(VC.translator.LookupVariable(phi_guard)),
+                    VC.translator.LookupVariable(phi_guard),
                     VC.exprGen.Not(VC.translator.LookupVariable(neg_phi_guard)))));
 
                 ensureAssert = VC.exprGen.And(ensureAssert, memConstraint);
@@ -425,52 +548,81 @@ namespace Rootcause
                     VC.translator.LookupVariable(phi_guard),
                     VC.exprGen.Not(VC.translator.LookupVariable(neg_phi_guard)))));
             }
+            #endregion
 
-
-
-
+            #region Optimization for computing assignmentsToExplore: only include assignments visited in cex path before assertion
             //compute assignments to explore, all assignments visited in cex path that happen to be before the assert
             List<AssignCmd> assignmentsToExplore = new List<AssignCmd>();
             foreach (AssignCmd cmd in rightAxioms.Keys)
             {
-                if (R_cex.Contains(cmdToBlock[cmd])) {
-                    if (Options.findEarliestMapUpdateMismatch && foundMismatch)
+                if (R_cex.Contains(cmdToBlock[cmd]))
+                {
+                    if ((Options.findEarliestAssertionByMapMismatch && foundMismatch) ||
+                        (Options.findEarliestAssertionByLine && foundAssertion) ||
+                        (Options.pruneAfterMapMismatch && foundMismatch) ||
+                        (Options.callAlignWindow > 0))
                     {
-                        if (earlierAssignment(cmd, rMismatchAssign)) { assignmentsToExplore.Add(cmd); }
+                        if (Options.callAlignWindow > 0)
+                        {
+                            //only keep assignments within window
+                            bool b1 = earlierAssignmentByLineNumber(cmd, rAssign);
+                            bool b2 = Options.callAlignWindow > rightEqMemAssigns.Count ? true :
+                                !earlierAssignmentByLineNumber(cmd, rightEqMemAssigns.ElementAt(rightEqMemAssigns.Count - Options.callAlignWindow));
+                            if (b1 && b2)
+                            {
+                                assignmentsToExplore.Add(cmd);
+                            }
+                        }
+                        else
+                        {
+                            if (earlierAssignmentByLineNumber(cmd, rAssign))
+                            {
+                                assignmentsToExplore.Add(cmd);
+                            }
+                        }
                     }
-                    else {
-                        assignmentsToExplore.Add(cmd); 
+                    else
+                    {
+                        //unable to prune, so explore this assignment
+                        assignmentsToExplore.Add(cmd);
                     }
                 }
             }
-
+            #endregion
 
             //compute candidates to explore
+
             //inequalities from passing tests
-            List<Tuple<Constant, Constant>> inequalities = new List<Tuple<Constant, Constant>>();
-            if (Options.passingTestFilter == FilterAction.Drop && passing_cexs != null)
+            List<Tuple<Constant, Constant>> passingInequalities = new List<Tuple<Constant, Constant>>();
+            if (Options.prunePassingInequalities && passing_cexs != null)
             {
                 foreach (Counterexample passing_cex in passing_cexs)
                 {
-                    foreach (Tuple<Constant, Constant> inequality in 
+                    foreach (Tuple<Constant, Constant> inequality in
                         FindDisequalitiesFromTest(program, implementation, L, R, passing_cex, leftAssumeConsts, rightAssumeConsts))
                     {
-                        if (!inequalities.Contains(inequality)) { inequalities.Add(inequality); }
+                        if (!passingInequalities.Contains(inequality)) { passingInequalities.Add(inequality); }
                     }
                 }
+                if (Utils.verbosityLevel(1)) { Console.WriteLine("Found {0} inequalities from passing tests.", passingInequalities.Count); }
             }
 
+            //equalities from failing cex
+            List<Tuple<Constant, Constant>> failingEqualities = new List<Tuple<Constant, Constant>>();
+            if (Options.pruneFailingEqualities)
+            {
+                failingEqualities = FindEqualitiesFromTest(program, implementation, L, R, failing_cex, leftAssumeConsts, rightAssumeConsts);
+            }
 
             //candidates on cex path
             List<Constant> allBlockCand_cex = listCandidates(rightCandidates, R_cex, L_cex);
             List<Constant> allBlockCand_all = listCandidates(rightCandidates, R, L);
 
+            #region Optimization for computing candidatesToExplore, also known as runtime filters
             HashSet<Constant> candidatesToExplore = new HashSet<Constant>();
-            int passingFilterCount = 0; int cexFilterCount = 0; int earlierFilterCount = 0;
-            //Actual runtime filters
-            //
-            //
-            foreach (AssignCmd assignCmd in rightAxioms.Keys) 
+            int passingFilterCount = 0; int cexFilterCount = 0; int earlierFilterCount = 0; int failingFilterCount = 0; int callWindowFilterCount = 0;
+
+            foreach (AssignCmd assignCmd in rightAxioms.Keys)
             {
                 foreach (Tuple<Constant, AssignCmd, Variable, Variable> right_tuple in rightCandidates[assignCmd])
                 {
@@ -487,51 +639,91 @@ namespace Rootcause
 
                     //filter1: pruning from passing tests
                     bool passingRunFilter;
-                    if (Options.passingTestFilter == FilterAction.Drop) {
-                        passingRunFilter = !inequalities.Contains(new Tuple<Constant, Constant>(left_c, right_c));
-                    } else { passingRunFilter = true; }
+                    if (Options.prunePassingInequalities)
+                    {
+                        passingRunFilter = !passingInequalities.Contains(new Tuple<Constant, Constant>(left_c, right_c));
+                    }
+                    else { passingRunFilter = true; }
 
-                    //filter2: prune candidates whose left part is not in cex
+                    //filter2: prune from failing tests
+                    bool failingRunFilter;
+                    if (Options.pruneFailingEqualities)
+                    {
+                        failingRunFilter = !failingEqualities.Contains(new Tuple<Constant, Constant>(left_c, right_c));
+                    }
+                    else { failingRunFilter = true; }
+
+                    //filter3: prune candidates that don't lie on the Cex.
+                    //i.e. prune candidates for which either left or right assignment is not on cex.
                     bool presentInCexFilter = allBlockCand_cex.Contains(right_tuple.Item1);
 
-                    //filter3: prune candidates below (l,r) where (l==r) is the new equality
+                    //filter4: prune candidates below (l,r) where (l==r) is the new equality
                     bool foundBeforeAssertFilter;
-                    if (Options.findEarliestMapUpdateMismatch && foundMismatch)
+                    if ((Options.findEarliestAssertionByMapMismatch && foundMismatch) ||
+                        (Options.findEarliestAssertionByLine && foundAssertion) ||
+                        (Options.pruneAfterMapMismatch && foundMismatch))
                     {
-                        foundBeforeAssertFilter = earlierAssignment(left_cmd, lMismatchAssign) && earlierAssignment(right_cmd, rMismatchAssign);
+                        foundBeforeAssertFilter = earlierAssignmentByLineNumber(left_cmd, lAssign) && earlierAssignmentByLineNumber(right_cmd, rAssign);
                     }
                     else { foundBeforeAssertFilter = true; }
 
+                    bool callWindowFilter;
+                    if (Options.callAlignWindow > 0)
+                    {
+                        bool b1 = earlierAssignmentByLineNumber(left_cmd, lAssign);
+                        bool b2 = Options.callAlignWindow > leftEqMemAssigns.Count ? true :
+                            !earlierAssignmentByLineNumber(left_cmd, leftEqMemAssigns.ElementAt(leftEqMemAssigns.Count - Options.callAlignWindow));
+                        bool b3 = earlierAssignmentByLineNumber(right_cmd, rAssign);
+                        bool b4 = Options.callAlignWindow > rightEqMemAssigns.Count ? true :
+                            !earlierAssignmentByLineNumber(right_cmd, rightEqMemAssigns.ElementAt(rightEqMemAssigns.Count - Options.callAlignWindow));
+
+                        callWindowFilter = b1 && b2 && b3 && b4;
+                    }
+                    else { callWindowFilter = true; }
+
                     if (!passingRunFilter) { passingFilterCount++; }
+                    if (!failingRunFilter) { failingFilterCount++; }
                     if (!presentInCexFilter) { cexFilterCount++; }
                     if (!foundBeforeAssertFilter) { earlierFilterCount++; }
+                    if (!callWindowFilter) { callWindowFilterCount++; }
 
                     //add if none of the filter applies
-                    if (passingRunFilter && presentInCexFilter && foundBeforeAssertFilter)
+                    if (passingRunFilter && failingRunFilter && presentInCexFilter && foundBeforeAssertFilter && callWindowFilter)
                     {
                         candidatesToExplore.Add(right_tuple.Item1);
                     }
                 }
             }
+            #endregion
 
             //add everything that was pruned
             List<Constant> candidatesToIgnore = allBlockCand_all.Where(c => !candidatesToExplore.Contains(c)).ToList<Constant>();
+            if (Utils.verbosityLevel(1))
+            {
+                Console.WriteLine("Ignoring {0} candidates, and exploring {1} candidates.",
+                    candidatesToIgnore.Count, candidatesToExplore.Count);
+            }
 
-            if (Options.stats)
+            if (true)
             {
                 Console.WriteLine("stats_left_assigns: {0}", leftAssumeConsts.Keys.Count);
                 Console.WriteLine("stats_right_assigns: {0}", rightAxioms.Keys.Count);
-                Console.WriteLine("stats_fixes_explore: {0}", candidatesToExplore.Count);
-                Console.WriteLine("stats_fixes_ignore: {0}", candidatesToIgnore.Count);
-                Console.WriteLine("stats_assigns_explore: {0}", assignmentsToExplore.Count);
+                Console.WriteLine("stats_total_candidates: {0}", candidatesToExplore.Count + candidatesToIgnore.Count);
+                Console.WriteLine("stats_defaultpruning_candidates: {0}", candidatesToExplore.Count);
+                Console.WriteLine("stats_defaultpruning_assigns: {0}", assignmentsToExplore.Count);
                 Console.WriteLine("stats_passingFilterCount: {0}", passingFilterCount);
+                Console.WriteLine("stats_failingFilterCount: {0}", failingFilterCount);
+                Console.WriteLine("stats_callWindowFilterCount: {0}", callWindowFilterCount);
                 Console.WriteLine("stats_cexFilterCount: {0}", cexFilterCount);
                 Console.WriteLine("stats_earlierFilterCount: {0}", earlierFilterCount);
                 Console.WriteLine("stats_passingcexs: {0}", passing_cexs == null ? 0 : passing_cexs.Count);
-                if (foundMismatch) { Console.WriteLine("stats_failMismatch: ({0},{1})", CmdToSourceline[lMismatchAssign], CmdToSourceline[rMismatchAssign]); }
-                else { Console.WriteLine("stats_failMismatch: ({0},{1})", 0, 0); }
-                if (foundMismatchPass) { Console.WriteLine("stats_passfailMismatch: ({0},{1})", CmdToSourceline[lMismatchAssignPass], CmdToSourceline[rMismatchAssignPass]); }
-                else { Console.WriteLine("stats_passfailMismatch: ({0},{1})", 0, 0); }
+                //if (foundMismatchPass) { Console.WriteLine("stats_passfailMismatch: ({0},{1})", CmdToSourceline[lMismatchAssignPass], CmdToSourceline[rMismatchAssignPass]); }
+                //else { Console.WriteLine("stats_passfailMismatch: ({0},{1})", 0, 0); }
+            }
+            if (Options.stats)
+            {
+                Console.WriteLine("NOTE: Exiting without rootcause analysis");
+                return new List<Constant>();
             }
 
 
@@ -542,28 +734,44 @@ namespace Rootcause
             if (Options.constrainLeftPath)
             {
                 //TODO
-                Hard0.Add(assumeFalseConsts.Where(c => !L_cex.Contains(c.Key)).Aggregate(
+                Hard0.Add(assumeFalseConsts.Item1.Where(c => !L_cex.Contains(c.Key)).Aggregate(
                     VCExpressionGenerator.True, (a, b) => VC.exprGen.And(a, VC.exprGen.Not(VC.translator.LookupVariable(b.Value)))));
             }
+            if (Options.constrainRightPath)
+            {
+                Hard0.Add(assumeFalseConsts.Item2.Where(c => !R_cex.Contains(c.Key)).Aggregate(
+                    VCExpressionGenerator.True, (a, b) => VC.exprGen.And(a, VC.exprGen.Not(VC.translator.LookupVariable(b.Value)))));
+            }
+            if (Options.assumeToSkip)
+            {
+                VCExpr allAssumeGuard_False = guardAssumeConsts.Aggregate(VCExpressionGenerator.True, (a, b)
+                    => VC.exprGen.And(a, VC.exprGen.Not(VC.translator.LookupVariable(b.Value))));
+                Hard0.Add(allAssumeGuard_False);
+            }
 
+            //Avoid performing binarySearch
             if (!Options.binarySearch)
             {
-                return AssignmentByAssignment(L, R, assignmentsToExplore, candidatesToExplore.ToList(), predConsts, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
+                Console.WriteLine("stats_binarysearch_assigns: {0}", assignmentsToExplore.Count);
+                Console.WriteLine("stats_binarysearch_candidates: {0}", candidatesToExplore.Count);
+                return AssignmentByAssignment(L, R, guardAssumeConsts, assignmentsToExplore, candidatesToExplore.ToList(), predConsts, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
                     assertConsts, assumeFalseConsts, assignAssertGuards, assignAssertConstants, programVC, ensureAssert, failing_cex, passing_cexs);
             }
 
-            //Binary search starts
+            #region binarySearching
             //Finds the earliest assign that is UNSAT
-            int lowerBound = 0;
-            int upperBound = assignmentsToExplore.Count - 1;
+            int low = 0;
+            int up = assignmentsToExplore.Count - 1;
             int loopCounter = 0;
-            //loop counter < 3 may be removed
-            while (loopCounter < 3 && lowerBound < assignmentsToExplore.Count && upperBound < assignmentsToExplore.Count) //FIXME: I chose an arbitrary count
+
+            while (loopCounter <= 10 && (up - low > 1)) //FIXME: I chose an arbitrary iteration limit 10
             {
                 List<VCExpr> Hard = new List<VCExpr>(Hard0.ToList());
                 List<Constant> Soft = new List<Constant>();
 
-                for (int i = lowerBound; i <= upperBound; i++)
+                int curr = low + (up - low) / 2;
+
+                for (int i = 0; i <= (loopCounter == 0 ? up : curr); i++)
                 {
                     AssignCmd assignCmd = assignmentsToExplore[i];
                     if ((!rightAxioms.ContainsKey(assignCmd)) || (!rightCandidates.ContainsKey(assignCmd))) { continue; }
@@ -579,7 +787,7 @@ namespace Rootcause
                     List<Constant> softCandidates = new List<Constant>();
                     foreach (Tuple<Constant, AssignCmd, Variable, Variable> right_tuple in rightCandidates[assignCmd])
                     {
-                        if (candidatesToExplore.Contains(right_tuple.Item1)) { softCandidates.Add(right_tuple.Item1);}
+                        if (candidatesToExplore.Contains(right_tuple.Item1)) { softCandidates.Add(right_tuple.Item1); }
                     }
                     Soft.AddRange(softCandidates);
                 }
@@ -591,36 +799,55 @@ namespace Rootcause
                 ProverInterface.Outcome outcome = CheckSatisfiability(
                     Hard.Union(new List<VCExpr>(new VCExpr[] { Soft_Expr })).ToList());
 
-                if (outcome == ProverInterface.Outcome.Invalid) //SAT
+                if (loopCounter == 0)
                 {
-                    int delta = upperBound - lowerBound;
-                    lowerBound = upperBound + 1;
-                    upperBound = upperBound + delta / 2;
+                    if (outcome == ProverInterface.Outcome.Invalid) //SAT
+                    {
+                        //Console.WriteLine("SAT");
+                        return new List<Constant>(); //no rootcauses
+                    }
                 }
-                else if (outcome == ProverInterface.Outcome.Valid) //UNSAT
+                else
                 {
-                    int delta = upperBound - lowerBound;
-                    lowerBound = lowerBound;
-                    upperBound = upperBound - delta / 2;
+                    if (outcome == ProverInterface.Outcome.Invalid) //SAT
+                    {
+                        //Console.WriteLine("SAT");
+                        //Console.WriteLine("low: {0}, up: {1}, curr: {2}", low, up, curr);
+                        low = curr;
+                    }
+                    else if (outcome == ProverInterface.Outcome.Valid) //UNSAT
+                    {
+                        //Console.WriteLine("UNSAT");
+                        //Console.WriteLine("low: {0}, up: {1}, curr: {2}", low, up, curr);
+                        up = curr;
+                    }
                 }
 
                 loopCounter++;
             }
 
-            if (Options.verbose == 1)
-            {
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Phase 4: Computed Assignments to Explore in {0}", sw.Elapsed);
-                Console.WriteLine("-------------------------------------------");
-            }
-
             List<AssignCmd> subsetAssignments = new List<AssignCmd>();
             for (int i = 0; i < assignmentsToExplore.Count; i++)
             {
-                if (i >= lowerBound) { subsetAssignments.Add(assignmentsToExplore[i]); }
+                if (i >= low) { subsetAssignments.Add(assignmentsToExplore[i]); }
             }
+
+            int postBinarySearchCandidates = 0;
+            foreach (AssignCmd assignCmd in subsetAssignments)
+            {
+                foreach (Tuple<Constant, AssignCmd, Variable, Variable> right_tuple in rightCandidates[assignCmd])
+                {
+                    if (candidatesToExplore.Contains(right_tuple.Item1)) { postBinarySearchCandidates += 1; }
+                }
+            }
+
+            Console.WriteLine("stats_binarysearch_assigns: {0}", subsetAssignments.Count);
+            Console.WriteLine("stats_binarysearch_candidates: {0}", postBinarySearchCandidates);
+            Console.WriteLine("{0} iterations in binarySearch", loopCounter);
+            #endregion binarySearching
+
             //only pass the interesting subsetAssignments to AssignmentByAssignment
-            return AssignmentByAssignment(L, R, subsetAssignments, candidatesToExplore.ToList(), predConsts, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
+            return AssignmentByAssignment(L, R, guardAssumeConsts, subsetAssignments, candidatesToExplore.ToList(), predConsts, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
                 assertConsts, assumeFalseConsts, assignAssertGuards, assignAssertConstants, programVC, ensureAssert, failing_cex, passing_cexs);
         }
 
@@ -648,6 +875,7 @@ namespace Rootcause
         /// <returns></returns>
         private static List<Constant> AssignmentByAssignment(
             List<Block> L, List<Block> R,
+            Dictionary<AssumeCmd, Constant> guardAssumeConsts,
             List<AssignCmd> assignsToExplore,
             List<Constant> candidatesToExplore,
             Dictionary<AssignCmd, Dictionary<Variable, Constant>> predConsts,
@@ -656,7 +884,7 @@ namespace Rootcause
             Dictionary<AssignCmd, List<Tuple<Constant, AssignCmd, Variable, Variable>>> rightCandidates,
             Dictionary<AssignCmd, Expr> rightAxioms,
             Dictionary<Block, Constant> assertConsts,
-            Dictionary<Block, Constant> assumeFalseConsts,
+            Tuple<Dictionary<Block, Constant>, Dictionary<Block, Constant>> assumeFalseConsts,
             Dictionary<AssignCmd, Constant> assignAssertGuards,
             Dictionary<AssignCmd, Constant> assignAssertConstants,
             VCExpr programVC,
@@ -667,9 +895,15 @@ namespace Rootcause
             List<Block> L_cex = blocksInCexPath(failing_cex, L);
             List<Block> R_cex = blocksInCexPath(failing_cex, R);
 
-            if (Options.verbose == 1)
+            if (Utils.verbosityLevel(1))
             {
+                Console.WriteLine("Phase 5: Within AssignmentByAssignment procedure");
                 Console.WriteLine("Exploring over {0} assignments and {1} candidates.", assignsToExplore.Count, candidatesToExplore.Count);
+                if (Utils.verbosityLevel(3))
+                {
+                    foreach (AssignCmd beingExplored in assignsToExplore) { Console.WriteLine("Exploring assignment: {0}", beingExplored); }
+                    //foreach (Constant beingExplored in candidatesToExplore) { printErrorReport(rightCandidates, beingExplored); }
+                }
             }
             List<Constant> output = new List<Constant>();
 
@@ -684,17 +918,27 @@ namespace Rootcause
             Hard0.Add(assertionSelector);
             if (Options.constrainLeftPath)
             {
-                Hard0.Add(assumeFalseConsts.Where(c => !L_cex.Contains(c.Key)).Aggregate(
+                Hard0.Add(assumeFalseConsts.Item1.Where(c => !L_cex.Contains(c.Key)).Aggregate(
                     VCExpressionGenerator.True, (a, b) => VC.exprGen.And(a, VC.exprGen.Not(VC.translator.LookupVariable(b.Value)))));
             }
+            if (Options.constrainRightPath)
+            {
+                Hard0.Add(assumeFalseConsts.Item2.Where(c => !R_cex.Contains(c.Key)).Aggregate(
+                    VCExpressionGenerator.True, (a, b) => VC.exprGen.And(a, VC.exprGen.Not(VC.translator.LookupVariable(b.Value)))));
+            }
+            if (Options.assumeToSkip)
+            {
+                VCExpr allAssumeGuard_False = guardAssumeConsts.Aggregate(VCExpressionGenerator.True, (a, b)
+                    => VC.exprGen.And(a, VC.exprGen.Not(VC.translator.LookupVariable(b.Value))));
+                Hard0.Add(allAssumeGuard_False);
+            }
 
-            int assignsBeforeRootcause = 0;
-
+            int stats_usefulCandidates = 0, stats_uselessCandidates = 0, stats_maxsatAssignments = 0;
             foreach (AssignCmd assignCmd in assignsToExplore)
             {
-                //if (Utils.CheckTimeout(sw.Elapsed)) {  } 
-                if ( (!rightAxioms.ContainsKey(assignCmd)) || (!rightCandidates.ContainsKey(assignCmd))) { continue; }
-                assignsBeforeRootcause++;
+                //if (Utils.CheckTimeout(sw.Elapsed.TotalSeconds)) {  } 
+                if ((!rightAxioms.ContainsKey(assignCmd)) || (!rightCandidates.ContainsKey(assignCmd))) { continue; }
+                stats_maxsatAssignments++;
 
                 //HARD := HARD0
                 List<VCExpr> Hard = new List<VCExpr>(Hard0.ToList());
@@ -720,13 +964,15 @@ namespace Rootcause
                 //Compute MAXSAT over all candidates in this block
                 //Complement of MAXSAT (aka A1') are all the useful candidates.
                 //A1_useless = MAXSAT(not(VC), Hard, SOFT) contains all the useless (satisfied) candidates in this block
-                if ((!Options.disableMaxsat) && Options.verbose == 1) { Console.WriteLine("Invoking MAXSAT for {0} on {1} clauses", assignCmd, Soft.Count); }
+                if ((!Options.disableMaxsat) && Utils.verbosityLevel(2)) { Console.WriteLine("Invoking MAXSAT for {0} on {1} clauses", assignCmd, Soft.Count); }
                 List<Constant> uselessCandidates = Rootcause.Options.disableMaxsat || candidatesToExplore.Count > Options.maxsatLimit ?
                     new List<Constant>() :
                     MAXSATSolution(Hard.Union(new List<VCExpr>(new VCExpr[] { predConstsEnabled })).ToList(), Soft.ToList());
                 List<Constant> usefulCandidates = Soft.Where(c => !uselessCandidates.Contains(c)).ToList<Constant>();
 
-                if (Rootcause.Options.verbose == 1)
+                stats_usefulCandidates += usefulCandidates.Count;
+                stats_uselessCandidates += uselessCandidates.Count;
+                if (Utils.verbosityLevel(2))
                 {
                     Console.WriteLine("MAXSAT found {0} useless and {1} useful candidates in this assignment, disabling useless...", uselessCandidates.Count, usefulCandidates.Count);
                 }
@@ -738,7 +984,7 @@ namespace Rootcause
                         (VCExpr currentExpr, VCExpr nextCand) => VC.exprGen.And(currentExpr, VC.exprGen.Not(nextCand)));
                 Hard.Add(uselessCandidatesDisabled);
 
-                if (Rootcause.Options.verbose == 2)
+                if (Utils.verbosityLevel(2))
                 {
                     Console.Write("Exploring over candidates one by one: ");
                     foreach (Constant a in usefulCandidates) { Console.Write(a + ", "); } Console.Write("\n");
@@ -748,7 +994,7 @@ namespace Rootcause
                 foreach (Constant a in usefulCandidates)
                 {
                     //Utils.CheckTimeout();
-                    if (Rootcause.Options.verbose == 2)
+                    if (Utils.verbosityLevel(2))
                     {
                         Console.WriteLine("Checking candidate {0}", a);
                     }
@@ -774,21 +1020,26 @@ namespace Rootcause
 
                     if (outcome1 == ProverInterface.Outcome.Valid)
                     {
-                        if (Rootcause.Options.verbose == 2)
+                        if (Utils.verbosityLevel(2))
                         {
                             Console.WriteLine("Candidate {0} fixes program", a);
                         }
-                        if (Rootcause.Options.verbose == 1)
+                        if (Utils.verbosityLevel(1))
                         {
-                            Console.WriteLine("Found rootcause after {0}/{1} assigns", assignsBeforeRootcause, rightAxioms.Keys.Count);
+                            Console.WriteLine("Found rootcause after {0}/{1} assigns", stats_maxsatAssignments, rightAxioms.Keys.Count);
                         }
                         output.Add(a);
+                        Console.WriteLine("stats_maxsat_useful: {0}", stats_usefulCandidates);
+                        Console.WriteLine("stats_maxsat_useless: {0}", stats_uselessCandidates);
+                        Console.WriteLine("stats_maxsat_assigns: {0}", stats_maxsatAssignments);
                         return output;
                     }
                 }
 
             }
 
+            Console.WriteLine("stats_maxsat_useful: {0}", stats_usefulCandidates);
+            Console.WriteLine("stats_maxsat_useless: {0}", stats_uselessCandidates);
             return output;
         }
 
@@ -849,6 +1100,12 @@ namespace Rootcause
             Utils.CheckRootcauseTimeout(sw);
             outcome = VC.proverInterface.CheckAssumptions(HardVCExprs, SoftVCExprs, out unsatClauseIdentifiers, VC.handler);
 
+            //if outcome == Timeout, Z3 retunns UNSAT for later calls, best to exit
+            if (outcome == ProverInterface.Outcome.TimeOut || outcome == ProverInterface.Outcome.OutOfMemory)
+            {
+                throw new Exception("ABORT! Z3 times out during MAXSAT, any future calls to Z3 returns bogus results");
+            }
+
             if (outcome == ProverInterface.Outcome.Invalid)
             {
                 List<Constant> usefulCandidates = unsatClauseIdentifiers.ConvertAll<Constant>(x => Soft[x]);
@@ -861,30 +1118,36 @@ namespace Rootcause
             }
         }
 
-        
+
         //list all candidate constants within argument "rightBlocks" that relate to variables in argument "leftBlocks"
         private static List<Constant> listCandidates(Dictionary<AssignCmd, List<Tuple<Constant, AssignCmd, Variable, Variable>>> rightCandidates,
             List<Block> rightBlocks, List<Block> leftBlocks)
         {
             List<Constant> candidates = new List<Constant>();
 
+            if (Utils.verbosityLevel(2)) { Console.WriteLine("listCandidates: # of rightCandidates = {0}\n Tuples = ", rightCandidates.Keys.Count); }
+            Utils.CheckRootcauseTimeout(sw);
             foreach (AssignCmd key in rightCandidates.Keys)
             {
                 if (!rightBlocks.Contains(cmdToBlock[key])) { continue; }
                 //at this point we are only considering an assignment from rightProgram within rightBlocks
                 List<Tuple<Constant, AssignCmd, Variable, Variable>> listOfTuples = rightCandidates[key];
 
+                if (Utils.verbosityLevel(2)) { Console.Write("{0}, ", listOfTuples.Count); }
+                Utils.CheckRootcauseTimeout(sw);
                 foreach (Tuple<Constant, AssignCmd, Variable, Variable> tuple in listOfTuples)
                 {
-                    if (leftBlocks.Contains(cmdToBlock[tuple.Item2])) {
+                    if (leftBlocks.Contains(cmdToBlock[tuple.Item2]))
+                    {
                         //at this point we are only considering an equality to an assignment from leftProgram within leftBlocks
-                        if (! candidates.Contains(tuple.Item1)) { candidates.Add(tuple.Item1); }
+                        if (!candidates.Contains(tuple.Item1)) { candidates.Add(tuple.Item1); }
                     }
                 }
             }
+            Console.WriteLine();
             return candidates;
         }
-        
+
         #region Transform left/right sides with assumes
         //side effect: modifies leftAssumeConsts
         private static void injectAssumesOnLeft(Program program, Implementation implementation,
@@ -916,7 +1179,6 @@ namespace Rootcause
                                             Dictionary<AssignCmd, Expr> rightAxioms, /*modifies*/
                                             Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> rightAssumeConsts, /*modifies*/
                                             Dictionary<Tuple<AssignCmd, Variable>, HashSet<Variable>> dependencies) /*modifies*/
-
         {
             var injector = new RightAxiomInjector(program, implementation);
             injector.injectAxioms(L, R, leftAssumeConsts, rightCandidates, rightAxioms, rightAssumeConsts, dependencies);
@@ -937,6 +1199,15 @@ namespace Rootcause
         {
             var assignGuarder = new AssignmentGuarder(program, implementation);
             assignGuarder.guardAssignments(L, R, predConsts);
+        }
+
+
+        private static void guardAssumesOnLeftRight(Program program, Implementation implementation,
+                                            List<Block> L, List<Block> R,
+                                            Dictionary<AssumeCmd, Constant> guardAssumeConsts) /* modifies */
+        {
+            var assumeGuarder = new AssumeGuarder(program, implementation);
+            assumeGuarder.guardAssumes(L, R, guardAssumeConsts);
         }
 
         private static void analyzeDependencies(Program program, Implementation implementation,
@@ -960,11 +1231,12 @@ namespace Rootcause
             foreach (AssignCmd left_key in leftAssumeConsts.Keys)
             {
                 //only consider constants along the cex path
-                if (! L_cex.Contains(cmdToBlock[left_key as Cmd])) { continue; }
+                if (!L_cex.Contains(cmdToBlock[left_key as Cmd])) { continue; }
                 foreach (Tuple<Variable, Constant> left_tvc in leftAssumeConsts[left_key])
                 {
                     foreach (AssignCmd right_key in rightAssumeConsts.Keys)
                     {
+                        //only consider constants along the cex path
                         if (!R_cex.Contains(cmdToBlock[right_key as Cmd])) { continue; }
                         foreach (Tuple<Variable, Constant> right_tvc in rightAssumeConsts[right_key])
                         {
@@ -979,17 +1251,18 @@ namespace Rootcause
                     }
                 }
             }
-            if(Options.verbose == 2) {
-                Console.WriteLine("Printing equalities from passing runs");
+            if (Utils.verbosityLevel(3))
+            {
+                Console.WriteLine("Printing inequalities from passing runs");
                 foreach (var t in inequalities)
                 {
                     Console.WriteLine("{0} with {1}", t.Item1, t.Item2);
                 }
-                Console.WriteLine("End Printing equalities from passing runs");
+                Console.WriteLine("End Printing inequalities from passing runs");
             }
 
             return inequalities;
-            
+
         }
 
         //compute inequalities
@@ -1023,7 +1296,7 @@ namespace Rootcause
                     }
                 }
             }
-            if (Options.verbose == 2)
+            if (Utils.verbosityLevel(3))
             {
                 Console.WriteLine("Printing equalities from passing runs");
                 foreach (var t in equalities)
@@ -1051,7 +1324,8 @@ namespace Rootcause
                 //wrap assurance with guards
                 phi_guard = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "rootcause_phi_guard", BType.Bool), false);
                 neg_phi_guard = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "rootcause_neg_phi_guard", BType.Bool), false);
-                program.AddTopLevelDeclaration(phi_guard); program.AddTopLevelDeclaration(neg_phi_guard);
+                program.AddTopLevelDeclaration(phi_guard);
+                program.AddTopLevelDeclaration(neg_phi_guard);
 
                 Expr guardedAssuranceExpr = Expr.And(Expr.Imp(IdentifierExpr.Ident(phi_guard), assurance.Condition),
                                         Expr.Imp(IdentifierExpr.Ident(neg_phi_guard), Expr.Not(assurance.Condition)));
@@ -1065,7 +1339,7 @@ namespace Rootcause
             assertFalseInjector.injectFalseAsserts(L, R, assertConsts);
 
         }
-        
+
         class DependencyAnalyzer : StandardVisitor
         {
             //requires
@@ -1131,18 +1405,18 @@ namespace Rootcause
 
                 //construct flow equations
                 constructEquations();
-                if (Rootcause.Options.verbose == 2)
+                if (Utils.verbosityLevel(2))
                 {
                     Console.WriteLine("Constructed Dependency Equations...");
                 }
                 //solve flow equations using a fixed point iteration
                 solveEquations();
-                if (Rootcause.Options.verbose == 2)
+                if (Utils.verbosityLevel(2))
                 {
                     Console.WriteLine("Solved Dependency Equations...");
                 }
                 /*
-                if (Rootcause.Options.verbose == 2)
+                if (Utils.verbosityLevel(2))
                 {
                     List<Variable> trackedVariables = local_variables.Concat(global_variables).Concat(global_constants).Concat(inputs).Concat(outputs).ToList<Variable>();
                     foreach (Tuple<AssignCmd, Variable> av in dependencies.Keys)
@@ -1313,16 +1587,17 @@ namespace Rootcause
                         dependencies[work_node] = work_node_deps;
                         //compute successor blocks
                         List<AssignCmd> work_node_succ = cdfg[work_node.Item1].Item2;
-                        foreach (AssignCmd a in work_node_succ) {
+                        foreach (AssignCmd a in work_node_succ)
+                        {
                             //Each successor node must update the dependency set for work_node's variable
-                            worklist.Add(new Tuple<AssignCmd, Variable>(a,work_node.Item2));
+                            worklist.Add(new Tuple<AssignCmd, Variable>(a, work_node.Item2));
                             //Update all successors that depend on work_node's variable
                             List<Variable> a_Lhss = a.Lhss.ConvertAll<Variable>(v => v.DeepAssignedVariable);
                             foreach (Variable a_Lhs in a_Lhss)
                             {
                                 //only consider successor nodes (x := y, z) where z is in lhs
-                                if (outflowEquations[new Tuple<AssignCmd, Variable>(a,a_Lhs)].
-                                    Contains(new Tuple<AssignCmd,Variable>(a,work_node.Item2)))
+                                if (outflowEquations[new Tuple<AssignCmd, Variable>(a, a_Lhs)].
+                                    Contains(new Tuple<AssignCmd, Variable>(a, work_node.Item2)))
                                 {
                                     worklist.Add(new Tuple<AssignCmd, Variable>(a, a_Lhs));
                                 }
@@ -1374,7 +1649,8 @@ namespace Rootcause
             public override Cmd VisitAssignCmd(AssignCmd node)
             {
                 Block containingBlock = cmdToBlock[node];
-                if(this.L.Contains(containingBlock)) {
+                if (this.L.Contains(containingBlock))
+                {
                     return base.VisitAssignCmd(node);
                 }
 
@@ -1390,10 +1666,10 @@ namespace Rootcause
                     Variable lhs = node.Lhss[i].DeepAssignedVariable;
                     Expr lhsExpr = node.Lhss[i].AsExpr;
                     //node.Rhss[i] = new NAryExpr(Token.NoToken, new IfThenElse(Token.NoToken),
-                    //        new List<Expr> (Expr.Not(IdentifierExpr.Ident(predConst)), CreateHavocConst(lhsId), node.Rhss[i]));
+                    //        new ExprSeq(Expr.Not(IdentifierExpr.Ident(predConst)), CreateHavocConst(lhsId), node.Rhss[i]));
                     new_Lhss.Add(node.Lhss[i]);
                     new_Rhss.Add(new NAryExpr(Token.NoToken, new IfThenElse(Token.NoToken),
-                        new List<Expr> () {Expr.Not(IdentifierExpr.Ident(predConst)), CreateHavocConst(lhsExpr), node.Rhss[i]}));
+                        new List<Expr>(){Expr.Not(IdentifierExpr.Ident(predConst)), CreateHavocConst(lhsExpr), node.Rhss[i]}));
 
                     if (predConsts.ContainsKey(node))
                     {
@@ -1424,7 +1700,53 @@ namespace Rootcause
                 return hExpr;
             }
         }
-        
+
+        class AssumeGuarder : StandardVisitor
+        {
+            //requires
+            private Implementation implementation;
+            private Program program;
+            private List<Block> L;
+            private List<Block> R;
+
+            //modifies
+            private Dictionary<AssumeCmd, Constant> guardAssumeConsts;
+
+            static int assumeCount = 0;
+
+            public AssumeGuarder(Program program, Implementation implementation)
+            {
+                this.implementation = implementation;
+                this.program = program;
+            }
+
+            public void guardAssumes(List<Block> L, List<Block> R, Dictionary<AssumeCmd, Constant> guardAssumeConsts)
+            {
+                this.guardAssumeConsts = guardAssumeConsts;
+                this.L = L;
+                this.R = R;
+
+                this.Visit(implementation);
+            }
+
+            private Constant CreateNewPredConst()
+            {
+                var a = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "_assumeguard_" + assumeCount, BType.Bool), false);
+                assumeCount = checked(assumeCount + 1);
+                program.AddTopLevelDeclaration(a);
+                return a;
+            }
+
+            public override Cmd VisitAssumeCmd(AssumeCmd node)
+            {
+                Constant predConst = CreateNewPredConst();
+                Expr newExpr = Expr.Imp(new IdentifierExpr(Token.NoToken, predConst), node.Expr);
+
+                AssumeCmd new_node = new AssumeCmd(Token.NoToken, newExpr);
+                return base.VisitAssumeCmd(new_node);
+            }
+        }
+
         class LeftInjector : StandardVisitor
         {
             //requires
@@ -1459,7 +1781,7 @@ namespace Rootcause
 
             public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
             {
-                List<Cmd> newCmdSeq = new  List<Cmd>();
+                List<Cmd> newCmdSeq = new List<Cmd>();
                 var blockLhss = new HashSet<HashSet<Variable>>();
 
                 List<List<Cmd>> commandsInL = L.ConvertAll<List<Cmd>>(b => b.Cmds);
@@ -1478,7 +1800,7 @@ namespace Rootcause
                     //We still want to instrument the left side
                     //if (Options.applyLeftFilter && (this.filterManager.filter(null, a) == false)) { continue; } //Filter
 
-                    Expr assumeExpr = (Expr) Expr.True;
+                    Expr assumeExpr = (Expr)Expr.True;
                     for (int i = 0; i < a.Lhss.Count; i++)
                     {
                         Variable lhs = a.Lhss[i].DeepAssignedVariable;
@@ -1521,7 +1843,7 @@ namespace Rootcause
 
             private void recordConstant(Tuple<Variable, Constant> assumeInfo, AssignCmd cmd)
             {
-                if (! this.leftAssumeConsts.ContainsKey(cmd))
+                if (!this.leftAssumeConsts.ContainsKey(cmd))
                 {
                     this.leftAssumeConsts[cmd] = new List<Tuple<Variable, Constant>>();
                 }
@@ -1559,12 +1881,15 @@ namespace Rootcause
 
                 OnlyFilters = new List<Filter>(); DropFilters = new List<Filter>();
 
+                //always enable trivialFilter
+                DropFilters.Add(Filter.trivialFilter);
+
                 if (Options.singleFilter == FilterAction.Drop) { DropFilters.Add(Filter.singleFilter); }
                 else if (Options.singleFilter == FilterAction.Only) { OnlyFilters.Add(Filter.singleFilter); }
                 if (Options.parallelFilter == FilterAction.Drop) { DropFilters.Add(Filter.parallelFilter); }
                 else if (Options.parallelFilter == FilterAction.Only) { OnlyFilters.Add(Filter.parallelFilter); }
-                if (Options.trivialFilter == FilterAction.Drop) { DropFilters.Add(Filter.trivialFilter); }
-                else if (Options.trivialFilter == FilterAction.Only) { OnlyFilters.Add(Filter.trivialFilter); }
+                //if (Options.trivialFilter == FilterAction.Drop) { DropFilters.Add(Filter.trivialFilter); }
+                //else if (Options.trivialFilter == FilterAction.Only) { OnlyFilters.Add(Filter.trivialFilter); }
                 if (Options.independantFilter == FilterAction.Drop) { DropFilters.Add(Filter.independantFilter); }
                 else if (Options.independantFilter == FilterAction.Only) { OnlyFilters.Add(Filter.independantFilter); }
                 if (Options.literalFilter == FilterAction.Drop) { DropFilters.Add(Filter.literalFilter); }
@@ -1590,10 +1915,10 @@ namespace Rootcause
 
                 //if (OnlyFilters.Count > 0 && DropFilters.Count > 0) { throw new Exception("Cannot use both Drop and Only filters"); }
                 //filter specific checks
-                if ((Options.lineNumberFilter != FilterAction.Allow) && 
-                    (Options.lineFilterLeftLine < 0 || Options.lineFilterRightLine < 0)) 
-                { 
-                    throw new Exception("Set lineFilterLeftLine and lieFilterRightLine when using lineNumberFilter");
+                if ((Options.lineNumberFilter != FilterAction.Allow) &&
+                    (Options.lineFilterLeftLine.Count == 0 || Options.lineFilterRightLine.Count == 0))
+                {
+                    throw new Exception("Set lineFilterLeftLine and lineFilterRightLine when using lineNumberFilter");
                 }
 
                 //replacing this logic with just looking for (lineFilterLeftLine,lineFilterRightLine)
@@ -1658,10 +1983,13 @@ namespace Rootcause
             }
             public bool trivialFilterFunction(AssignCmd l, AssignCmd r)
             {
+                //new: Adding filters for "HavocVal" instructions 
                 AssignCmd a = side == Side.RightProgram ? r : l;
-                return a.Rhss.All(expr => expr is IdentifierExpr);
+                if (a.Rhss.All(expr => expr is IdentifierExpr)) return true;
+                if (a.Rhss.All(expr => FunctionNameContains(expr, "HavocVal"))) return true;
+                return false;
             }
-            
+
             public bool independantFilterFunction(AssignCmd l, AssignCmd r)
             {
                 if (side == Side.LeftProgram) { return false; }
@@ -1729,7 +2057,7 @@ namespace Rootcause
                 AssignCmd a = side == Side.RightProgram ? r : l;
                 for (int i = 0; i < a.Rhss.Count; i++)
                 {
-                    if (! (a.Rhss[i] is NAryExpr && (a.Rhss[i] as NAryExpr).Fun is BinaryOperator)) { return false; }
+                    if (!(a.Rhss[i] is NAryExpr && (a.Rhss[i] as NAryExpr).Fun is BinaryOperator)) { return false; }
                 }
                 return true;
             }
@@ -1737,13 +2065,23 @@ namespace Rootcause
             //true for all lines that is not hint line. Use this as a drop Filter only
             public bool lineNumberFilterFunction(AssignCmd l, AssignCmd r)
             {
+                //if (side == Side.LeftProgram)
+                //{
+                //    if (CmdToSourceline[l] == BigNum.FromInt(Options.lineFilterLeftLine)) { return true; }
+                //}
+                //if (side == Side.RightProgram)
+                //{
+                //    if (CmdToSourceline[r] == BigNum.FromInt(Options.lineFilterRightLine)) { return true; }
+                //}
                 if (side == Side.LeftProgram)
                 {
-                    if (CmdToSourceline[l] == BigNum.FromInt(Options.lineFilterLeftLine)) return true;
+                    List<BigNum> leftFilterLines = Options.lineFilterLeftLine.ConvertAll(x => BigNum.FromInt(x));
+                    if (leftFilterLines.Contains(CmdToSourceline[l])) { return true; }
                 }
                 if (side == Side.RightProgram)
                 {
-                    if (CmdToSourceline[r] == BigNum.FromInt(Options.lineFilterRightLine)) return true;
+                    List<BigNum> rightFilterLines = Options.lineFilterRightLine.ConvertAll(x => BigNum.FromInt(x));
+                    if (rightFilterLines.Contains(CmdToSourceline[r])) { return true; }
                 }
                 return false;
                 //if (side == Side.LeftProgram) { return false; }
@@ -1832,17 +2170,17 @@ namespace Rootcause
             }
 
             /// <summary>
-            /// Adds assert of the form (rootcause_ph_guard_i ==> rootcause_ph_c == lhs))
+            /// Adds assume of the form (rootcause_ph_guard_i ==> rootcause_ph_c != lhs))
             /// only for memory types
             /// </summary>
             /// <param name="cmdSeq"></param>
             /// <returns></returns>
             public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
             {
-                List<Cmd> newCmdSeq = new  List<Cmd>();
+                List<Cmd> newCmdSeq = new List<Cmd>();
 
                 List<List<Cmd>> commandsInR = R.ConvertAll<List<Cmd>>(b => b.Cmds);
-                if (!commandsInR.Contains(cmdSeq)) { return base.VisitCmdSeq(cmdSeq); }
+                if (!commandsInR.Contains(cmdSeq)) { return base.VisitCmdSeq(cmdSeq); } //only for right program
 
                 foreach (Cmd cmd in cmdSeq)
                 {
@@ -1853,19 +2191,22 @@ namespace Rootcause
                     List<Variable> mapVars = ContainsUnboundedMemUpdate(rightAssignment);
                     if (mapVars.Count == 1)
                     {
-                        Constant bassert_k = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "rootcause_ph_guard_" + (assignAssertGuards.Count + 1), BType.Bool), false);
-                        this.assignAssertGuards[rightAssignment] = bassert_k;
+                        Constant rootcause_ph_guard = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "rootcause_ph_guard_" + (assignAssertGuards.Count + 1), BType.Bool), false);
+                        this.assignAssertGuards[rightAssignment] = rootcause_ph_guard;
                         Constant otherMem = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "rootcause_ph_" + (assignAssertGuards.Count), mapVars[0].TypedIdent.Type), false);
                         this.assignAssertConstants[rightAssignment] = otherMem;
 
-                        this.program.AddTopLevelDeclaration(bassert_k);
+                        this.program.AddTopLevelDeclaration(rootcause_ph_guard);
                         this.program.AddTopLevelDeclaration(otherMem);
 
-                        Expr newAssertExpr = Expr.Imp(IdentifierExpr.Ident(bassert_k),
-                            Expr.Eq(new IdentifierExpr(Token.NoToken, otherMem), new IdentifierExpr(Token.NoToken, mapVars[0])));
+                        //Expr newAssertExpr = Expr.Imp(IdentifierExpr.Ident(bassert_k),
+                        //    Expr.Eq(new IdentifierExpr(Token.NoToken, otherMem), new IdentifierExpr(Token.NoToken, mapVars[0])));
+                        //AssertCmd newAssert = new AssertCmd(Token.NoToken, newAssertExpr);
 
-                        AssertCmd newAssert = new AssertCmd(Token.NoToken, newAssertExpr);
-                        newCmdSeq.Add(newAssert);
+                        Expr newAssumeExpr = Expr.Imp(IdentifierExpr.Ident(rootcause_ph_guard),
+                            Expr.Not(Expr.Eq(new IdentifierExpr(Token.NoToken, otherMem), new IdentifierExpr(Token.NoToken, mapVars[0]))));
+                        AssumeCmd newAssume = new AssumeCmd(Token.NoToken, newAssumeExpr);
+                        newCmdSeq.Add(newAssume);
                     }
                 }
                 return base.VisitCmdSeq(newCmdSeq);
@@ -1889,7 +2230,7 @@ namespace Rootcause
             private Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> rightAssumeConsts;
 
             //internal
-            private Dictionary<List<Cmd> , Block> CmdsToBlock;
+            private Dictionary<List<Cmd>, Block> CmdsToBlock;
             private FilterManager leftFilterManager;
             private FilterManager rightFilterManager;
 
@@ -1939,16 +2280,20 @@ namespace Rootcause
 
             public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
             {
-                List<Cmd> newCmdSeq = new  List<Cmd>();
+                List<Cmd> newCmdSeq = new List<Cmd>();
 
+                Utils.CheckRootcauseTimeout(sw);
                 List<List<Cmd>> commandsInR = R.ConvertAll<List<Cmd>>(b => b.Cmds);
                 if (!commandsInR.Contains(cmdSeq)) { return base.VisitCmdSeq(cmdSeq); }
 
                 Block cmdSeqBlock = CmdsToBlock[cmdSeq];
 
                 //capture variables for the general candidates
+                if (Options.verbose == 2) Console.Write("\n[RightAxiomInjector] :: Size of CmdSeq = {0}", cmdSeq.Count);
                 foreach (Cmd cmd in cmdSeq)
                 {
+                    Utils.CheckRootcauseTimeout(sw);
+                    if (Options.verbose == 2) Console.Write(".");
                     newCmdSeq.Add(cmd);
                     var rightAssignment = cmd as AssignCmd;
                     if (rightAssignment == null) continue;
@@ -1980,11 +2325,13 @@ namespace Rootcause
                         List<Variable> lhss = rightAssignment.Lhss.ConvertAll<Variable>(l => l.DeepAssignedVariable);
                         foreach (List<Constant> match in FindMatchingLeftValues(lhss, this.leftAssumeConsts, L)) //parallel matches
                         {
+                            //Console.Write("-");
                             Utils.Assert(match.Count == lhss.Count, "parallel Assignment Match gone wrong");
 
                             //Find the left assignment that created list_tuple
                             AssignCmd leftAssignment = LeftAssignmentByConstant(match);
 
+                            //static filtering
                             if (Options.applyLeftFilter && (this.leftFilterManager.filter(rightAssignment, leftAssignment) == false)) { continue; } //Filter
                             if (Options.applyRightFilter && (this.rightFilterManager.filter(rightAssignment, leftAssignment) == false)) { continue; } //Filter
 
@@ -2051,18 +2398,20 @@ namespace Rootcause
                     //FIXME: dictionary doesnt preserve order
                     List<BoundVariable> allBoundVars = varToBoundedVar.Values.Aggregate(new List<BoundVariable>(),
                         (List<BoundVariable> a, BoundVariable b) => a.Concat(new BoundVariable[] { b }).ToList<BoundVariable>());
-                    List<Variable> formalArgs = new List<Variable> ();
+                    List<Variable> formalArgs = new List<Variable>();
                     foreach (Variable boundVar in allBoundVars)
                     {
+                        //Console.Write("/");
                         formalArgs.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, boundVar.Name, boundVar.TypedIdent.Type), true));
                     }
                     Variable formalReturnVar = new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "ret", BasicType.Bool), false); //ret
                     Function P = new Function(Token.NoToken, CreateNewPredicateName(), formalArgs, formalReturnVar);
                     program.AddTopLevelDeclaration(P);
 
-                    List<Expr>  actualArgs = new List<Expr> ();
+                    List<Expr> actualArgs = new List<Expr>();
                     foreach (Variable lhs in assignLhssMatched)
                     {
+                        //Console.Write("\\");
                         actualArgs.Add(new IdentifierExpr(Token.NoToken, lhs));
                     }
 
@@ -2071,9 +2420,10 @@ namespace Rootcause
                     assumeExpr.Typecheck(new TypecheckingContext(null));
                     newCmdSeq.Add(new AssumeCmd(Token.NoToken, assumeExpr));
 
-                    List<Expr>  axiomBoundVars = new List<Expr> ();
+                    List<Expr> axiomBoundVars = new List<Expr>();
                     foreach (Variable boundVar in allBoundVars)
                     {
+                        //Console.Write("@");
                         axiomBoundVars.Add(new IdentifierExpr(Token.NoToken, boundVar));
                     }
                     Expr P_of_x = new NAryExpr(Token.NoToken, new FunctionCall(P), axiomBoundVars);
@@ -2081,7 +2431,7 @@ namespace Rootcause
                     Expr forall_x_P_of_x_eq_body;
                     if (assignCandAssumes != Expr.True)
                     {
-                        forall_x_P_of_x_eq_body = new ForallExpr(Token.NoToken, new List<Variable> (allBoundVars.ToArray()), P_of_x_eq_body);
+                        forall_x_P_of_x_eq_body = new ForallExpr(Token.NoToken, new List<Variable>(allBoundVars.ToArray()), P_of_x_eq_body);
                     }
                     else
                     {
@@ -2091,7 +2441,6 @@ namespace Rootcause
 
                     recordAxiom(rightAssignment, forall_x_P_of_x_eq_body);
                 }
-
                 return base.VisitCmdSeq(newCmdSeq);
             }
 
@@ -2140,12 +2489,12 @@ namespace Rootcause
                 }
 
                 //flatten the leftAssumeConsts dictionary to a List<Constant>, a monadic join
-                List<Tuple<Variable, Constant>> leftConsts = 
+                List<Tuple<Variable, Constant>> leftConsts =
                     leftAssumeConstsSubset.Values.Aggregate(new List<Tuple<Variable, Constant>>(),
                     (List<Tuple<Variable, Constant>> a1, List<Tuple<Variable, Constant>> a2) => a1.Concat(a2).ToList());
 
                 //This is where all the magic will happen of which subset of variables to get from the left handside
-                foreach (Tuple<Variable,Constant> leftConst in leftConsts)
+                foreach (Tuple<Variable, Constant> leftConst in leftConsts)
                 {
                     Constant kv = leftConst.Item2;
                     if (lhs.TypedIdent.Type.ToString() != kv.TypedIdent.Type.ToString()) continue;
@@ -2165,7 +2514,7 @@ namespace Rootcause
                 foreach (AssignCmd leftAssignment in leftAssumeConsts.Keys.Where(la => leftAssumeConsts[la].Count == lhss.Count))
                 {
                     Block leftBlock = cmdToBlock[leftAssignment];
-                    if (! leftBlocks.Contains(leftBlock)) { continue; }
+                    if (!leftBlocks.Contains(leftBlock)) { continue; }
 
                     List<Tuple<Variable, Constant>> list_tuple = leftAssumeConsts[leftAssignment];
                     bool matchingTypes = true;
@@ -2174,7 +2523,8 @@ namespace Rootcause
                         if (lhss[i].TypedIdent.Type.ToString() != list_tuple[i].Item1.TypedIdent.Type.ToString()) { matchingTypes = false; }
                         if (!FuzzyMatchOfNames(lhss[i].Name, list_tuple[i].Item1.Name)) { matchingTypes = false; }
                     }
-                    if (matchingTypes) {
+                    if (matchingTypes)
+                    {
                         List<Constant> match = new List<Constant>();
                         list_tuple.ForEach(tuple => match.Add(tuple.Item2));
                         matches.Add(match);
@@ -2211,7 +2561,7 @@ namespace Rootcause
                 }
                 return null;
             }
-            
+
             private bool FuzzyMatchOfNames(string p1, string p2)
             {
                 //compare the string between ($,__line__)
@@ -2225,23 +2575,40 @@ namespace Rootcause
             private Implementation implementation;
             private Program program;
             private List<Block> L, R;
-            Dictionary<Block, Constant> assumeFalseConsts;
+            Dictionary<Block, Constant> leftAssumeFalseConsts;
+            Dictionary<Block, Constant> rightAssumeFalseConsts;
 
             public GuardBlocks(Program p, Implementation i, List<Block> LB, List<Block> RB)
             {
                 program = p; implementation = i; L = LB; R = RB;
-                assumeFalseConsts = new Dictionary<Block, Constant>();
+                leftAssumeFalseConsts = new Dictionary<Block, Constant>();
+                rightAssumeFalseConsts = new Dictionary<Block, Constant>();
             }
-            public Dictionary<Block, Constant> GetAssumeFalseConsts()
+            public Tuple<Dictionary<Block, Constant>, Dictionary<Block, Constant>> GetAssumeFalseConsts()
             {
-                return assumeFalseConsts;
+                return new Tuple<Dictionary<Block, Constant>, Dictionary<Block, Constant>>(leftAssumeFalseConsts, rightAssumeFalseConsts);
             }
             public override Block VisitBlock(Block node)
             {
                 //only instrument blocks in L
-                if (!L.Contains(node)) return base.VisitBlock(node);
-                var c = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "_guard_cond" + assumeFalseConsts.Count, BType.Bool), false);
-                assumeFalseConsts[node] = c;
+                //if (!L.Contains(node)) return base.VisitBlock(node);
+                Constant c = null;
+                if (L.Contains(node))
+                {
+                    c = new Constant(Token.NoToken, new TypedIdent(Token.NoToken,
+                        "_lguard_cond" + leftAssumeFalseConsts.Count, BType.Bool), false);
+                    leftAssumeFalseConsts[node] = c;
+                }
+                else if (R.Contains(node))
+                {
+                    c = new Constant(Token.NoToken, new TypedIdent(Token.NoToken,
+                        "_rguard_cond" + rightAssumeFalseConsts.Count, BType.Bool), false);
+                    rightAssumeFalseConsts[node] = c;
+                }
+                else
+                {
+                    return base.VisitBlock(node);
+                }
                 program.AddTopLevelDeclaration(c);
                 node.Cmds.Add(new AssumeCmd(Token.NoToken, IdentifierExpr.Ident(c))); //put the assume at the end of the block
                 return base.VisitBlock(node);
@@ -2281,7 +2648,7 @@ namespace Rootcause
 
             public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
             {
-                //List<List<Cmd>> commandsInR = R.ConvertAll<List<Cmd>>(b => b.Cmds);
+                //List<CmdSeq> commandsInR = R.ConvertAll<CmdSeq>(b => b.Cmds);
                 //if (!commandsInR.Contains(cmdSeq)) { return base.VisitCmdSeq(cmdSeq); }
 
                 //DISCREPENCY between HAVOC generated bpl vs. X86Boogie generated bpl
@@ -2329,7 +2696,8 @@ namespace Rootcause
                 this.program = program;
             }
 
-            public void guardAssert(List<Block> L, List<Block> R) {
+            public void guardAssert(List<Block> L, List<Block> R)
+            {
                 this.L = L;
                 this.R = R;
                 this.Visit(implementation);
@@ -2359,10 +2727,12 @@ namespace Rootcause
                 if (Utils.ReadSourceAssert(node) != null) { return node; }
                 if (exprContains(node.Expr, "rootcause_ph_guard")) { return node; }
                 if (node.Expr is LiteralExpr && (node.Expr as LiteralExpr).Val.Equals(true)) return node;
-                if (phi_guard == null && neg_phi_guard == null) {
-                    node.Expr = RewriteAssertCmd(node.Expr); 
+                if (phi_guard == null && neg_phi_guard == null)
+                {
+                    node.Expr = RewriteAssertCmd(node.Expr);
                 }
-                else {
+                else
+                {
                     Utils.Assert(false, "Found multiple assert statements. Exiting...");
                 }
 
@@ -2382,7 +2752,7 @@ namespace Rootcause
             private Dictionary<Block, Constant> assertConsts;
 
             //internal
-            private Dictionary<List<Cmd> , Block> CmdsToBlock;
+            private Dictionary<List<Cmd>, Block> CmdsToBlock;
 
             public AssertFalseInjector(Program program, Implementation implementation)
             {
@@ -2398,18 +2768,18 @@ namespace Rootcause
 
                 this.CmdsToBlock = computeCmdseqToBlockMapping(L.Concat(R).ToList<Block>());
 
-                this.Visit(implementation); 
+                this.Visit(implementation);
             }
 
             public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
             {
-                List<Cmd> newCmdSeq = new  List<Cmd>();
+                List<Cmd> newCmdSeq = new List<Cmd>();
                 var blockLhss = new HashSet<Variable>();
 
                 List<List<Cmd>> commandsInR = R.ConvertAll<List<Cmd>>(b => b.Cmds);
 
                 //Don't modify the left program
-                if (! commandsInR.Contains(cmdSeq)) { return base.VisitCmdSeq(cmdSeq); }
+                if (!commandsInR.Contains(cmdSeq)) { return base.VisitCmdSeq(cmdSeq); }
 
                 foreach (Cmd c in cmdSeq) { newCmdSeq.Add(c); }
 
@@ -2427,9 +2797,9 @@ namespace Rootcause
         #endregion
 
 
-        private static Dictionary<List<Cmd> , Block> computeCmdseqToBlockMapping(List<Block> blocks)
+        private static Dictionary<List<Cmd>, Block> computeCmdseqToBlockMapping(List<Block> blocks)
         {
-            Dictionary<List<Cmd> , Block> cmdseqToBlock = new Dictionary<List<Cmd> , Block>();
+            Dictionary<List<Cmd>, Block> cmdseqToBlock = new Dictionary<List<Cmd>, Block>();
             foreach (Block block in blocks) { cmdseqToBlock[block.Cmds] = block; }
             return cmdseqToBlock;
         }
@@ -2437,7 +2807,8 @@ namespace Rootcause
         private static Dictionary<Cmd, Block> computeCmdToBlockMapping(List<Block> blocks)
         {
             cmdToBlock = new Dictionary<Cmd, Block>();
-            foreach (Block block in blocks) {
+            foreach (Block block in blocks)
+            {
                 foreach (Cmd cmd in block.Cmds)
                 {
                     cmdToBlock[cmd] = block;
@@ -2513,9 +2884,9 @@ namespace Rootcause
                     SimpleAssignLhs dummyLhs = new SimpleAssignLhs(Token.NoToken,
                         new IdentifierExpr(Token.NoToken, "rootcause_dummyassign_" + dummyAssigns.Count, BasicType.Bool));
                     Expr dummyRhs = dummyLhs.AsExpr;
-                    dummyAssigns[b] = new AssignCmd(Token.NoToken, 
-                        new List<AssignLhs>(new AssignLhs[] {dummyLhs}),
-                        new List<Expr>(new Expr[] {dummyRhs} ));
+                    dummyAssigns[b] = new AssignCmd(Token.NoToken,
+                        new List<AssignLhs>(new AssignLhs[] { dummyLhs }),
+                        new List<Expr>(new Expr[] { dummyRhs }));
                     CDFG[dummyAssigns[b]] = new Tuple<List<AssignCmd>, List<AssignCmd>>(new List<AssignCmd>(), new List<AssignCmd>());
                     firstAssign[b] = dummyAssigns[b];
                     lastAssign[b] = dummyAssigns[b];
@@ -2526,14 +2897,15 @@ namespace Rootcause
             foreach (Block b in implementation.Blocks)
             {
                 List<AssignCmd> b_assignCmds = new List<AssignCmd>();
-                foreach (Cmd b_cmd in b.Cmds) {
+                foreach (Cmd b_cmd in b.Cmds)
+                {
                     if (b_cmd is AssignCmd) { b_assignCmds.Add(b_cmd as AssignCmd); }
                 }
 
                 //connect all the b_assignCmds
                 for (int i = 0; i < b_assignCmds.Count - 1; i++)
                 {
-                    AssignCmd src = b_assignCmds[i]; AssignCmd dst = b_assignCmds[i+1];
+                    AssignCmd src = b_assignCmds[i]; AssignCmd dst = b_assignCmds[i + 1];
                     CDFG[src].Item2.Add(dst);
                     CDFG[dst].Item1.Add(src);
                 }
@@ -2610,6 +2982,11 @@ namespace Rootcause
             return null;
         }
 
+        private static bool earlierAssignmentByLineNumber(AssignCmd a1, AssignCmd a2)
+        {
+            return CmdToSourceline[a1] <= CmdToSourceline[a2];
+        }
+
         //FIXME what if sourceline is not present?
         //does a1 appear before a2?
         private static bool earlierAssignment(AssignCmd a1, AssignCmd a2)
@@ -2626,7 +3003,7 @@ namespace Rootcause
                 if (cdfg[node].Item1.Count == 0) { sourceNode = node; }
             }
             //which gets visited first in a BFS?
-            
+
             List<AssignCmd> workQueue = new List<AssignCmd>();
             workQueue.Add(sourceNode);
             visitedFlag[sourceNode] = true; visitedLevel[sourceNode] = 0;
@@ -2666,12 +3043,12 @@ namespace Rootcause
                 {
                     if (tuple.Item1 == cause)
                     {
-                        Console.Write("Cause ==> \n leftAssignment: {0} rightAssignment: {1}", tuple.Item2, key);
+                        Console.Write("\nCause ==> \n leftAssignment: {0} rightAssignment: {1}", tuple.Item2, key);
                         if (CmdToSourceline.ContainsKey(tuple.Item2) && CmdToSourceline.ContainsKey(key))
                         {
                             Console.WriteLine("leftAssignment sourceLine: {0}", CmdToSourceline[tuple.Item2]);
                             Console.WriteLine("rightAssignment sourceLine: {0}", CmdToSourceline[key]);
-                            RegisterForHtmlOutput(CmdToSourceline[tuple.Item2], " left Rootcause ", CmdToSourceline[key], " right Rootcause "); 
+                            RegisterForHtmlOutput(CmdToSourceline[tuple.Item2], " left Rootcause ", CmdToSourceline[key], " right Rootcause ");
                         }
                         return;
                     }
@@ -2698,7 +3075,7 @@ namespace Rootcause
             HashSet<Tuple<Constant, Constant>> disequalities = new HashSet<Tuple<Constant, Constant>>();
             HashSet<Tuple<Constant, Constant>> equalities = new HashSet<Tuple<Constant, Constant>>();
 
-            Console.WriteLine("Point 1 in {0}", sw.Elapsed);
+            if (Utils.verbosityLevel(2)) { Console.WriteLine("Point 1 in {0}", sw.Elapsed.TotalSeconds); }
 
             if (passing_cexs != null)
             {
@@ -2714,24 +3091,131 @@ namespace Rootcause
                     }
                 }
             }
-            Console.WriteLine("Point 2 in {0}", sw.Elapsed);
+            if (Utils.verbosityLevel(2)) { Console.WriteLine("Point 2 in {0}", sw.Elapsed.TotalSeconds); }
 
             List<Tuple<Constant, Constant>> passDEQ = disequalities.Where(d => !equalities.Contains(d)).ToList();
             List<Tuple<Constant, Constant>> passEQ = equalities.Where(e => !disequalities.Contains(e)).ToList();
-            Console.WriteLine("Point 3 in {0}", sw.Elapsed);
+            if (Utils.verbosityLevel(2)) { Console.WriteLine("Point 3 in {0}", sw.Elapsed.TotalSeconds); }
 
-            Console.WriteLine("Found {0} equalities, {1} disequalities", passEQ.Count, passDEQ.Count);
+            if (Utils.verbosityLevel(2))
+            {
+                Console.WriteLine("Found {0} equalities, {1} disequalities", passEQ.Count, passDEQ.Count);
+            }
 
             List<Tuple<Constant, Constant>> failDEQ = FindDisequalitiesFromTest(program, implementation, L_cex, R_cex, failing_cex, leftAssumeConsts, rightAssumeConsts);
             List<Tuple<Constant, Constant>> failIntersectPass = new List<Tuple<Constant, Constant>>();
-            Console.WriteLine("Point 4 in {0}", sw.Elapsed);
+            if (Utils.verbosityLevel(2)) { Console.WriteLine("Point 4 in {0}", sw.Elapsed.TotalSeconds); }
             failIntersectPass = passEQ.Intersect(failDEQ).ToList();
-            Console.WriteLine("Point 5 in {0}", sw.Elapsed);
+            if (Utils.verbosityLevel(2)) { Console.WriteLine("Point 5 in {0}", sw.Elapsed.TotalSeconds); }
 
-            if (Options.verbose == 1) { Console.WriteLine("failIntersectPass: {0}", failIntersectPass.Count); }
+            if (Utils.verbosityLevel(2)) { Console.WriteLine("failIntersectPass: {0}", failIntersectPass.Count); }
+
+            //don't need thse 2, but i need to pass something for out assignments
+            List<AssignCmd> ignore1 = null, ignore2 = null;
+
             bool result = FindFirstMemMismatchFromDisequalities(passing_cexs != null ? failIntersectPass : failIntersectPass, //failDEQ, //TODO
-                L_cex, R_cex, leftAssumeConsts, rightAssumeConsts, out lconst, out rconst, out lAssign, out rAssign);
+                L_cex, R_cex, leftAssumeConsts, rightAssumeConsts, out lconst, out rconst, out lAssign, out rAssign, out ignore1, out ignore2);
             return result;
+        }
+
+        private static Counterexample FindCexWithFirstMemMismatch(
+            VCExpr failing_or_passing_vc,
+            Counterexample failing_cex,
+            List<Block> L_cex, List<Block> R_cex,
+            Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts,
+            Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> rightAssumeConsts
+            )
+        {
+            List<Tuple<Constant, Constant>> disequalities =
+                FindDisequalitiesFromTest(program, implementation, L_cex, R_cex, failing_cex, leftAssumeConsts, rightAssumeConsts);
+            int i = 0, j = 0;
+            AssignCmd lAssign = null; AssignCmd rAssign = null;
+            Constant lconst = null; Constant rconst = null;
+            List<BigNum> leftEqMemAssignsLines = new List<BigNum>();
+            List<BigNum> rightEqMemAssignsLines = new List<BigNum>();
+
+            var lCmds = new List<AssignCmd>();
+            var rCmds = new List<AssignCmd>();
+            foreach (var bl in L_cex)
+            {
+                foreach (var c in blockToCmdSeq[bl])
+                {
+                    if (c is AssignCmd)
+                    {
+                        lCmds.Add(c as AssignCmd);
+                    }
+                }
+            }
+            foreach (var bl in R_cex)
+            {
+                foreach (var c in blockToCmdSeq[bl])
+                {
+                    if (c is AssignCmd)
+                    {
+                        rCmds.Add(c as AssignCmd);
+                    }
+                }
+            }
+
+            AssignCmd leftLastEqMemAssign = null;
+            AssignCmd rightLastEqMemAssign = null;
+
+            while (true)
+            {
+                lAssign = rAssign = null;
+                List<Variable> left = null, right = null;
+                while (i < lCmds.Count)
+                    if ((left = ContainsUnboundedMemUpdate(lCmds[i++])).Count > 0)
+                        break;
+                while (j < rCmds.Count)
+                    if ((right = ContainsUnboundedMemUpdate(rCmds[j++])).Count > 0)
+                        break;
+                if (i >= lCmds.Count || j >= rCmds.Count)
+                {
+                    return failing_cex; //either/both sides ran out
+                }
+                //We currently match, if the vector of assignment has same size, and there is a 1-1 mapping
+                if (left.Count != right.Count)
+                {
+                    Console.WriteLine("FindFirstMemMismatch: Mismatch got confused due to different sets of updates on two sides");
+                    return failing_cex;
+                }
+                var pairs = left.Zip(right).ToList();
+                //var pairs = tmp.Where(x => (x.Item1.TypedIdent.Type == x.Item2.TypedIdent.Type));
+                if (pairs.Count() != left.Count)
+                {
+                    Console.WriteLine("FindFirstMemMismatch: Mismatch got confused due to different sets of updates on two sides");
+                    return failing_cex;
+                }
+                foreach (var p in pairs)
+                {
+                    lAssign = lCmds[i - 1];
+                    rAssign = rCmds[j - 1];
+                    //find the constant for p.Item1
+                    Constant lc = FindConstantForVariableInCmd(leftAssumeConsts, lAssign, p.Item1);
+                    Constant rc = FindConstantForVariableInCmd(rightAssumeConsts, rAssign, p.Item2);
+                    if (lc == null || rc == null) continue;
+                    if (disequalities.Contains(Tuple.Create(lc, rc)))
+                    {
+                        //if we got here, then we can't find a disequality in the earlier map equalities from failing_cex
+                        return failing_cex;
+                    }
+                    else
+                    {
+                        //try our luck
+                        if (Utils.verbosityLevel(1))
+                        {
+                            Console.WriteLine("Trying synchronization point ({0},{1})",
+                                CmdToSourceline[lAssign], CmdToSourceline[rAssign]);
+                        }
+                        VCExpr memConstraint = VC.exprGen.Not(VC.exprGen.Eq(VC.translator.LookupVariable(lc), VC.translator.LookupVariable(rc)));
+                        VCExpr synch_vc = VC.exprGen.Implies(memConstraint, failing_or_passing_vc);
+                        Counterexample cex = getCounterExample(synch_vc);
+                        if (cex != null) { return cex; }
+                    }
+                }
+                
+            }
         }
 
         private static bool FindFirstMemMismatchFromFail(Counterexample failing_cex,
@@ -2741,14 +3225,134 @@ namespace Rootcause
             out Constant lconst,
             out Constant rconst,
             out AssignCmd lAssign,
-            out AssignCmd rAssign)
+            out AssignCmd rAssign,
+            out List<AssignCmd> leftEqMemAssigns,
+            out List<AssignCmd> rightEqMemAssigns
+            )
         {
             List<Tuple<Constant, Constant>> failDEQ = FindDisequalitiesFromTest(program, implementation, L_cex, R_cex, failing_cex, leftAssumeConsts, rightAssumeConsts);
-            bool result = FindFirstMemMismatchFromDisequalities(failDEQ, L_cex, R_cex, leftAssumeConsts, rightAssumeConsts, out lconst, out rconst, out lAssign, out rAssign);
+            bool result = FindFirstMemMismatchFromDisequalities(failDEQ, L_cex, R_cex, leftAssumeConsts, rightAssumeConsts,
+                out lconst, out rconst, out lAssign, out rAssign, out leftEqMemAssigns, out rightEqMemAssigns);
             return result;
         }
 
         private static bool FindFirstMemMismatchFromDisequalities(List<Tuple<Constant, Constant>> disequalities,
+            List<Block> L_cex, List<Block> R_cex,
+            Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts,
+            Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> rightAssumeConsts,
+            out Constant lconst,
+            out Constant rconst,
+            out AssignCmd lAssign,
+            out AssignCmd rAssign,
+            out List<AssignCmd> leftEqMemAssigns,
+            out List<AssignCmd> rightEqMemAssigns
+            )
+        {
+            //Console.Write("FindFirstMemMismatch: Start...");
+            int i = 0, j = 0;
+            lAssign = rAssign = null;
+            lconst = rconst = null;
+            leftEqMemAssigns = new List<AssignCmd>();
+            rightEqMemAssigns = new List<AssignCmd>();
+            List<BigNum> leftEqMemAssignsLines = new List<BigNum>();
+            List<BigNum> rightEqMemAssignsLines = new List<BigNum>();
+            AssignCmd lastLeftAssign = null;
+            AssignCmd lastRightAssign = null;
+
+            var lCmds = new List<AssignCmd>();
+            var rCmds = new List<AssignCmd>();
+            foreach (var bl in L_cex)
+            {
+                foreach (var c in blockToCmdSeq[bl])
+                {
+                    if (c is AssignCmd)
+                    {
+                        lCmds.Add(c as AssignCmd);
+                        lastLeftAssign = c as AssignCmd;
+                    }
+                }
+            }
+            foreach (var bl in R_cex)
+            {
+                foreach (var c in blockToCmdSeq[bl])
+                {
+                    if (c is AssignCmd)
+                    {
+                        rCmds.Add(c as AssignCmd);
+                        lastRightAssign = c as AssignCmd;
+                    }
+                }
+            }
+
+            if (Utils.verbosityLevel(2))
+            {
+                Console.WriteLine("Last Left Line: {0} at line {1}", lastLeftAssign, CmdToSourceline[lastLeftAssign]);
+                Console.WriteLine("Last Right Line: {0} at line {1}", lastRightAssign, CmdToSourceline[lastRightAssign]);
+            }
+            //we also store the last pair with mem-update that was not disequal
+            AssignCmd leftLastEqMemAssign = null;
+            AssignCmd rightLastEqMemAssign = null;
+
+            while (true)
+            {
+                lAssign = rAssign = null;
+                List<Variable> left = null, right = null;
+                while (i < lCmds.Count)
+                    if ((left = ContainsUnboundedMemUpdate(lCmds[i++])).Count > 0)
+                        break;
+                while (j < rCmds.Count)
+                    if ((right = ContainsUnboundedMemUpdate(rCmds[j++])).Count > 0)
+                        break;
+                if (i >= lCmds.Count || j >= rCmds.Count)
+                {
+                    lAssign = lastLeftAssign; rAssign = lastRightAssign;
+                    return false; //either/both sides ran out
+                }
+                //We currently match, if the vector of assignment has same size, and there is a 1-1 mapping
+                if (left.Count != right.Count)
+                {
+                    Console.WriteLine("FindFirstMemMismatch: Mismatch got confused due to different sets of updates on two sides");
+                    lAssign = lastLeftAssign; rAssign = lastRightAssign;
+                    return false; //couldn't match
+                }
+                var pairs = left.Zip(right).ToList();
+                //var pairs = tmp.Where(x => (x.Item1.TypedIdent.Type == x.Item2.TypedIdent.Type));
+                if (pairs.Count() != left.Count)
+                {
+                    Console.WriteLine("FindFirstMemMismatch: Mismatch got confused due to different sets of updates on two sides");
+                    lAssign = lastLeftAssign; rAssign = lastRightAssign;
+                    return false; //couldn't match
+                }
+                foreach (var p in pairs)
+                {
+                    lAssign = lCmds[i - 1];
+                    rAssign = rCmds[j - 1];
+                    //find the constant for p.Item1
+                    Constant lc = FindConstantForVariableInCmd(leftAssumeConsts, lAssign, p.Item1);
+                    Constant rc = FindConstantForVariableInCmd(rightAssumeConsts, rAssign, p.Item2);
+                    if (lc == null || rc == null) continue;
+                    if (disequalities.Contains(Tuple.Create(lc, rc)))
+                    {
+                        lconst = lc; rconst = rc;
+                        return true;
+                    }
+                }
+                leftLastEqMemAssign = lAssign;
+                //POSTFIXME: this is a HACK to deal with duplicate procedure calls
+                if (!leftEqMemAssignsLines.Contains(CmdToSourceline[lAssign]))
+                {
+                    leftEqMemAssigns.Add(lAssign); leftEqMemAssignsLines.Add(CmdToSourceline[lAssign]);
+                }
+                rightLastEqMemAssign = rAssign;
+                if (!rightEqMemAssignsLines.Contains(CmdToSourceline[rAssign]))
+                {
+                    rightEqMemAssigns.Add(rAssign); rightEqMemAssignsLines.Add(CmdToSourceline[rAssign]);
+                }
+            }
+        }
+
+        private static bool FindMemEqualityAtLine(
+            int leftLine, int rightLine,
             List<Block> L_cex, List<Block> R_cex,
             Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts,
             Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> rightAssumeConsts,
@@ -2770,46 +3374,84 @@ namespace Rootcause
                 foreach (var c in blockToCmdSeq[bl])
                     if (c is AssignCmd) rCmds.Add(c as AssignCmd);
 
-            while (true)
+            lAssign = rAssign = null;
+            List<Variable> left = null, right = null;
+
+            //determine the last mem update on left prior to input leftLine
+            AssignCmd lastLeftCmd = null; int lastLeftCmdLine = 0;
+            while (i < lCmds.Count)
             {
-                lAssign = rAssign = null;
-                List<Variable> left = null, right = null;
-                while (i < lCmds.Count)
-                    if ((left = ContainsUnboundedMemUpdate(lCmds[i++])).Count > 0)
-                        break;
-                while (j < rCmds.Count)
-                    if ((right = ContainsUnboundedMemUpdate(rCmds[j++])).Count > 0)
-                        break;
-                if (i >= lCmds.Count || j >= rCmds.Count) return false; //either/both sides ran out 
-                //We currently match, if the vector of assignment has same size, and there is a 1-1 mapping
-                if (left.Count != right.Count)
+                if ((left = ContainsAnyMemUpdate(lCmds[i])).Count > 0)
                 {
-                    Console.WriteLine("FindFirstMemMismatch: Mismatch got confused due to different sets of updates on two sides");
-                    return false; //couldn't match
-                }
-                var pairs = left.Zip(right).ToList();
-                //var pairs = tmp.Where(x => (x.Item1.TypedIdent.Type == x.Item2.TypedIdent.Type));
-                if (pairs.Count() != left.Count)
-                {
-                    Console.WriteLine("FindFirstMemMismatch: Mismatch got confused due to different sets of updates on two sides");
-                    return false; //couldn't match
-                }
-                foreach (var p in pairs)
-                {
-                    lAssign = lCmds[i - 1];
-                    rAssign = rCmds[j - 1];
-                    //find the constant for p.Item1
-                    Constant lc = FindConstantForVariableInCmd(leftAssumeConsts, lAssign, p.Item1);
-                    Constant rc = FindConstantForVariableInCmd(rightAssumeConsts, rAssign, p.Item2);
-                    if (lc == null || rc == null) continue;
-                    if (disequalities.Contains(Tuple.Create(lc, rc)))
+                    int currentLine = CmdToSourceline[lCmds[i]].ToInt;
+                    if (currentLine > lastLeftCmdLine && currentLine <= leftLine)
                     {
-                        lconst = lc; rconst = rc;
-                        return true;
+                        lastLeftCmdLine = currentLine; lastLeftCmd = lCmds[i];
                     }
                 }
+                i++;
             }
+            left = ContainsAnyMemUpdate(lastLeftCmd);
+
+            //determine the last mem update on right prior to input rightLine that matches lastLeftCmd's type
+            AssignCmd lastRightCmd = null; int lastRightCmdLine = 0;
+            while (j < rCmds.Count)
+            {
+                if ((right = ContainsAnyMemUpdate(rCmds[j])).Count > 0)
+                {
+                    int currentLine = CmdToSourceline[rCmds[j]].ToInt;
+                    //POSTFIXME: DO THIS NOW...look at types
+                    if (currentLine > lastRightCmdLine && currentLine <= rightLine && left.Count == right.Count)
+                    {
+                        lastRightCmdLine = currentLine; lastRightCmd = rCmds[j];
+                    }
+                }
+                j++;
+            }
+            right = ContainsAnyMemUpdate(lastRightCmd);
+
+            if (Utils.verbosityLevel(1) && Options.findEarliestAssertionByLine)
+            {
+                Console.WriteLine("findEarliestAssertionByLine: using left line {0}, found {1} mem updates there...",
+                    lastLeftCmdLine, left.Count);
+                Console.WriteLine("findEarliestAssertionByLine: using right line {0}, found {1} mem updates there...",
+                    lastRightCmdLine, right.Count);
+                if (left.Count == 1)
+                {
+                    Console.WriteLine("findEarliestAssertionByLine: using {0} on left and {1} on right", left[0], right[0]);
+                }
+            }
+
+            //Console.WriteLine("lastRightCmd: {0}, lastRightCmdLine: {1}", lastRightCmd, lastRightCmdLine);
+            //Console.WriteLine("lastLeftCmd: {0}, lastLeftCmdLine: {1}", lastLeftCmd, lastLeftCmdLine);
+
+            if (lastLeftCmd == null || lastRightCmd == null) return false; //either/both sides ran out 
+            //We currently match, if the vector of assignment has same size, and there is a 1-1 mapping
+            if (left.Count != right.Count)
+            {
+                Console.WriteLine("FindMemEqualityAtLine: Mismatch got confused due to different sets of updates on two sides");
+                return false; //couldn't match
+            }
+            var pairs = left.Zip(right).ToList();
+            //var pairs = tmp.Where(x => (x.Item1.TypedIdent.Type == x.Item2.TypedIdent.Type));
+            if (pairs.Count() != left.Count)
+            {
+                Console.WriteLine("FindMemEqualityAtLine: Mismatch got confused due to different sets of updates on two sides");
+                return false; //couldn't match
+            }
+            foreach (var p in pairs)
+            {
+                lAssign = lastLeftCmd;
+                rAssign = lastRightCmd;
+                //find the constant for p.Item1
+                Constant lc = FindConstantForVariableInCmd(leftAssumeConsts, lAssign, p.Item1);
+                Constant rc = FindConstantForVariableInCmd(rightAssumeConsts, rAssign, p.Item2);
+                if (lc == null || rc == null) { continue; }
+                else { lconst = lc; rconst = rc; return true; }
+            }
+            return false;
         }
+
         private static Constant FindConstantForVariableInCmd(Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts,
             AssignCmd assignCmd, Variable variable)
         {
@@ -2824,6 +3466,19 @@ namespace Rootcause
             {
                 if (x is NAryExpr &&
                     ((NAryExpr)x).Fun.FunctionName.Contains("CallMem")) return true;
+                return false;
+            };
+            var lr = assignCmd.Lhss.Zip(assignCmd.Rhss); //make decision on lhs + rhs
+            return lr.Where(x => (x.Item1.Type.IsMap && RhssOpMatches(x.Item2))).ToList().ConvertAll(x => x.Item1.DeepAssignedVariable);
+        }
+
+        private static List<Variable> ContainsAnyMemUpdate(AssignCmd assignCmd)
+        {
+            //Write custom filters with appropriate command line options
+            Func<Expr, bool> RhssOpMatches = delegate(Expr x)
+            {
+                if (x is NAryExpr &&
+                    ((NAryExpr)x).Fun.FunctionName.Contains("Mem")) return true;
                 return false;
             };
             var lr = assignCmd.Lhss.Zip(assignCmd.Rhss); //make decision on lhs + rhs

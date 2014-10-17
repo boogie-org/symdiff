@@ -26,6 +26,8 @@ namespace Rootcause
                 return base.VisitHavocCmd(node);
             }
         }
+
+        public static bool verbosityLevel(int level) { return (Options.verbose >= level); }
         #endregion
 
         #region Various Boogie utilities
@@ -36,9 +38,8 @@ namespace Rootcause
         public static void PrintProg(Program p)
         {
             //ROHIT: always print
-            //if (!Options.verbose == 2) return; //Printing p messes up line numbers
             var filename = Options.outputPath + @"\tmp" + Options.htmlTag + ".bpl";
-            var tuo = new TokenTextWriter(filename,true);
+            var tuo = new TokenTextWriter(filename);
             try
             {
                 p.Emit(tuo);
@@ -71,7 +72,7 @@ namespace Rootcause
             {
                 Program preludeProg;
                 Parser.Parse(Datatypes.prelude + (Options.useSetAxioms ? Datatypes.preludeSetAxioms : Datatypes.preludeSetAxiomsMin), "prelude", out preludeProg);
-                prog.AddTopLevelDeclarations(preludeProg.TopLevelDeclarations.ToList());
+                prog.AddTopLevelDeclarations(preludeProg.TopLevelDeclarations);
             }
             errCount = prog.Resolve();
             if (errCount > 0)
@@ -92,8 +93,8 @@ namespace Rootcause
         public static void PrintQueryToMAXSAT(Program prog, List<VCExpr> hard, List<VCExpr> soft, Implementation impl)
         {
             PrintProg(prog);
-            if (Options.verbose == 2) Console.WriteLine("HARD constraints => {0}, \n\n \n", String.Join("\n", hard));
-            if (Options.verbose == 2) Console.WriteLine("SOFT constraints => {0}, \n\n n", String.Join("\n", soft));
+            if (Utils.verbosityLevel(2)) Console.WriteLine("HARD constraints => {0}, \n\n \n", String.Join("\n", hard));
+            if (Utils.verbosityLevel(2)) Console.WriteLine("SOFT constraints => {0}, \n\n n", String.Join("\n", soft));
         }
         public static void Inline(Program program)
         {
@@ -216,9 +217,9 @@ namespace Rootcause
                     var c_havoc = c as HavocCmd;
                     var c_assert = c as AssertCmd;
                     var c_call = c as CallCmd;
-                    Utils.Assert(c_assign != null || /*c_goto != null ||*/ c_assume != null || c_havoc != null || c_assert != null || c_call != null, 
+                    Utils.Assert(c_assign != null || c_assume != null || c_havoc != null || c_assert != null || c_call != null, 
                         "Unexpected command type not one of assign, goto, assume, havoc, assert, call");
-                    List<Absy> nonNullCastedCommands = new List<Absy>(new Absy[] { c_assign, /*c_goto,*/ c_assume, c_havoc, c_assert, c_call }).Where(x => x != null).ToList<Absy>();
+                    List<Absy> nonNullCastedCommands = new List<Absy>(new Absy[] { c_assign, c_assume, c_havoc, c_assert, c_call }).Where(x => x != null).ToList<Absy>();
                     //list should contain only 1 element now.
                     Utils.Assert(nonNullCastedCommands.Count == 1, "Command is more than one of assign, goto, assume, havoc, assert");
                     int line = nonNullCastedCommands[0].Line;
@@ -262,7 +263,7 @@ namespace Rootcause
         //check for timeout
         public static void CheckRootcauseTimeout(Stopwatch sw)
         {
-            var tout = Options.rootcauseTimeout - Options.boogieTimeout;
+            var tout = Options.rootcauseTimeout - Options.boogieTimeout < 50 ? Options.rootcauseTimeout : Options.rootcauseTimeout - Options.boogieTimeout;
             if (sw.ElapsedMilliseconds / 1000 > tout)
                 throw new TimeoutException("Rootcause timeout exception: exceeds " + tout + " secs");
         }
@@ -290,12 +291,10 @@ namespace Rootcause
 
             //list of map types in the program
             List<BType> mapTypes = vars.FindAll(x => x.TypedIdent.Type.IsMap).ConvertAll(x => x.TypedIdent.Type);
-            if (Options.verbose == 2) Console.WriteLine("List of map types = {0}", String.Join(",", mapTypes));
 
-            if (Options.verbose == 2) Console.WriteLine("Inputs = {0}", String.Join(", ", inputs.ConvertAll<string>(x => x.Name)));
             foreach (var func in model.Functions)
             {
-                if (Options.verbose == 2) Console.WriteLine("Function = {0}", func.Name);
+                //if (Utils.verbosityLevel(3)) Console.WriteLine("Function = {0}", func.Name);
                 //look for inputs
                 //var s = inputs.FindAll(x => x.Name == func.Name);
                 var s = inputs.FindAll(x => x.Name == func.Name);
@@ -305,7 +304,7 @@ namespace Rootcause
                     foreach (var a in func.Apps) //should only go once
                     {
                         Utils.Assert(a.Args.Count() == 0, "#of args to input function is 0");
-                        if (Options.verbose == 2) Console.WriteLine("\t Result = {0}, {1}", a.Result, a.Result.Kind);
+                        //if (Utils.verbosityLevel(3)) Console.WriteLine("\t Result = {0}, {1}", a.Result, a.Result.Kind);
                         if (v is Constant) { ret[v as Constant] = a.Result; }
                     }
                     continue;
@@ -336,12 +335,12 @@ namespace Rootcause
 
             //list of map types in the program
             List<BType> mapTypes = vars.FindAll(x => x.TypedIdent.Type.IsMap).ConvertAll(x => x.TypedIdent.Type);
-            if (Options.verbose == 2) Console.WriteLine("List of map types = {0}", String.Join(",", mapTypes));
+            if (Utils.verbosityLevel(3)) Console.WriteLine("List of map types = {0}", String.Join(",", mapTypes));
 
-            if (Options.verbose == 2) Console.WriteLine("Inputs = {0}", String.Join(", ", inputs.ConvertAll<string>(x => x.Name)));
+            if (Utils.verbosityLevel(3)) Console.WriteLine("Inputs = {0}", String.Join(", ", inputs.ConvertAll<string>(x => x.Name)));
             foreach (var func in model.Functions)
             {
-                if (Options.verbose == 2) Console.WriteLine("Function = {0}", func.Name);
+                if (Utils.verbosityLevel(3)) Console.WriteLine("Function = {0}", func.Name);
                 //look for inputs
                 //var s = inputs.FindAll(x => x.Name == func.Name);
                 var s = inputs.FindAll(x => x.Name == func.Name);
@@ -351,7 +350,7 @@ namespace Rootcause
                     foreach (var a in func.Apps) //should only go once
                     {
                         Utils.Assert(a.Args.Count() == 0, "#of args to input function is 0");
-                        if (Options.verbose == 2) Console.WriteLine("\t Result = {0}, {1}", a.Result, a.Result.Kind);
+                        if (Utils.verbosityLevel(3)) Console.WriteLine("\t Result = {0}, {1}", a.Result, a.Result.Kind);
                         ret = VC.exprGen.And(ret,
                             VC.exprGen.Eq(VC.translator.LookupVariable(v),
                             ModelElementToVCExpr(prog, impl, modelConsts, v.TypedIdent.Type, a.Result)));
@@ -368,18 +367,18 @@ namespace Rootcause
                 }
                 if (func.Name.Contains("Select_"))
                 {
-                    if (Options.verbose == 2) Console.WriteLine("Processing select function {0}", func.Name);
+                    if (Utils.verbosityLevel(2)) Console.WriteLine("Processing select function {0}", func.Name);
                     ret = VC.exprGen.And(ret, FuncModelToVCExpr(prog, impl, modelConsts, func, MkSelectFunc(func, mapTypes)));
                 }
                 if (func.Name.Contains("Store_"))
                 {
-                    if (Options.verbose == 2) Console.WriteLine("Processing store function {0}", func.Name);
+                    if (Utils.verbosityLevel(2)) Console.WriteLine("Processing store function {0}", func.Name);
                     ret = VC.exprGen.And(ret, FuncModelToVCExpr(prog, impl, modelConsts, func, MkStoreFunc(func, mapTypes)));
                 }
             }
 
             ret = VC.exprGen.And(ret, GenerateDistinctAssumptions(modelConsts));
-            if (Options.verbose == 2) Console.WriteLine("ModelExpr = {0}", ret);
+            if (Utils.verbosityLevel(2)) Console.WriteLine("ModelExpr = {0}", ret);
             return ret;
         }
         private static Function MkStoreFunc(Model.Func func, List<BType> mapTypes)
@@ -390,7 +389,7 @@ namespace Rootcause
                 throw new Exception("Store does not correspond to any type in the program" + func.ToString());
             var tp = tpL[0];
             //store(mapType, arg1, .. argk, result):mapType function and a store
-            var vs = new List<Variable> ();
+            var vs = new List<Variable>();
             vs.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "m_", tp), true));
             int i = 0;
             foreach (BType a in tp.AsMap.Arguments)
@@ -401,7 +400,7 @@ namespace Rootcause
                 new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "val", tp.AsMap.Result), true));
             var r = new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "res", tp), false);
             var store = new Function(Token.NoToken, func.Name, vs, r);
-            if (Options.verbose == 2) Console.WriteLine("\tCreated Store funct with {0} Types = ({1}) --> ({2})", store, String.Join(",", tp.AsMap.Arguments.ToList().ConvertAll(x => x.ToString())), tp.AsMap.Result);
+            if (Utils.verbosityLevel(3)) Console.WriteLine("\tCreated Store funct with {0} Types = ({1}) --> ({2})", store, String.Join(",", tp.AsMap.Arguments.ToList().ConvertAll(x => x.ToString())), tp.AsMap.Result);
             return store;
         }
         //TODO: add the Select/Store functions to the list
@@ -417,7 +416,7 @@ namespace Rootcause
                 throw new Exception("Select does not correspond to any type in the program" + func.ToString());
             var tp = tpL[0];
             //select(mapType, arg1, .. argk):result function and a store
-            var vs = new List<Variable> ();
+            var vs = new List<Variable>();
             vs.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "m_", tp), true));
             int i = 0;
             foreach (BType a in tp.AsMap.Arguments)
@@ -426,7 +425,7 @@ namespace Rootcause
             }
             var r = new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "res", tp.AsMap.Result), false);
             var select = new Function(Token.NoToken, func.Name, vs, r);
-            if (Options.verbose == 2) Console.WriteLine("\tCreated Select funct with {0} Types = ({1}) --> ({2})", select, String.Join(",", tp.AsMap.Arguments.ToList().ConvertAll(x => x.ToString())), tp.AsMap.Result);
+            if (Utils.verbosityLevel(3)) Console.WriteLine("\tCreated Select funct with {0} Types = ({1}) --> ({2})", select, String.Join(",", tp.AsMap.Arguments.ToList().ConvertAll(x => x.ToString())), tp.AsMap.Result);
             return select;
         }
         private static VCExpr FuncModelToVCExpr(Program prog, Implementation impl, Dictionary<BType, Dictionary<string, Constant>> modelConsts, Model.Func func, Function v)
@@ -439,11 +438,11 @@ namespace Rootcause
                 int i = 0;
                 foreach (var g in a.Args)
                 {
-                    if (Options.verbose == 2) Console.Write("\t App = {0}, {1}\t", g.ToString(), g.Kind);
+                    //if (Utils.verbosityLevel(2)) Console.Write("\t App = {0}, {1}\t", g.ToString(), g.Kind);
                     vcArgs.Add(ModelElementToVCExpr(prog, impl, modelConsts, v.InParams[i].TypedIdent.Type, g));
                     i++;
                 }
-                if (Options.verbose == 2) Console.Write("\t Result = {0}, {1}", a.Result, a.Result.Kind);
+                //if (Utils.verbosityLevel(2)) Console.Write("\t Result = {0}, {1}", a.Result, a.Result.Kind);
                 var res = ModelElementToVCExpr(prog, impl, modelConsts, v.OutParams[0].TypedIdent.Type, a.Result);
                 var funcExpr = VC.exprGen.Function(v, vcArgs);
                 //special case for select/update
@@ -494,7 +493,7 @@ namespace Rootcause
             {
                 throw new Exception("Handling of type basic/ctors/closed/variable models not supported yet " + tp.ToString() + " " + g.ToString());
             }
-            if (Options.verbose == 2) Console.WriteLine("\t VCExpr = {0}", n);
+            //if (Utils.verbosityLevel(2)) Console.WriteLine("\t VCExpr = {0}", n);
             return n;
         }
 
@@ -549,7 +548,7 @@ namespace Rootcause
                 if (g.labelTargets.Count != 2) return base.VisitBlock(node); //goto A, B
                 var truet = g.labelTargets[0];
                 var falset = g.labelTargets[1];
-                if (!(truet.Cmds.Count> 0 && falset.Cmds.Count > 0)) return base.VisitBlock(node);
+                if (!(truet.Cmds.Count > 0 && falset.Cmds.Count > 0)) return base.VisitBlock(node);
                 if (!(truet.Cmds[0] is AssumeCmd && falset.Cmds[0] is AssumeCmd)) return base.VisitBlock(node);
                 var condT = truet.Cmds[0] as AssumeCmd;
                 var condF = falset.Cmds[0] as AssumeCmd;
@@ -577,7 +576,9 @@ namespace Rootcause
             Function callMem = null;
             public override Program VisitProgram(Program node)
             {
-                callMem = (Function) node.TopLevelDeclarations.FirstOrDefault(x => (x is Function && ((Function)x).Name.Contains("CallMem")));
+                //callMem = (Function) node.TopLevelDeclarations.Where(x => x is Function).Where(x => (x as Function).Name.Contains("CallMem")); //  Where(x => (x is Function && ((Function)x).Name.Contains("CallMem")));
+                IEnumerable<Declaration> candidateFunctions = node.TopLevelDeclarations.Where(x => (x is Function && ((Function)x).Name.Contains("CallMem")));
+                callMem = candidateFunctions.Count() > 0 ? candidateFunctions.First() as Function : null;
                 if (callMem == null) return node;
                 return base.VisitProgram(node);
             }
@@ -592,7 +593,7 @@ namespace Rootcause
             }
             public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
             {
-                var newCmdSeq = new  List<Cmd>();
+                var newCmdSeq = new List<Cmd>();
                 foreach (var c in cmdSeq)
                 {
                     if (c is AssignCmd)
@@ -629,7 +630,7 @@ namespace Rootcause
                 if (!(expr is NAryExpr)) return expr;
                 var e = expr as NAryExpr;
                 if (e.Args.Count == 0) return expr;
-                var nargs = new List<Expr> ();
+                var nargs = new List<Expr>();
                 for(int i = 0; i < e.Args.Count; ++i)
                     if (i == 0) nargs.Add(locExpr);
                     else nargs.Add(e.Args[i]);
@@ -639,7 +640,7 @@ namespace Rootcause
             {
                 if (!(expr is NAryExpr)) return null;
                 var e = expr as NAryExpr;
-                if (e.Args.Count== 0) return null;
+                if (e.Args.Count == 0) return null;
                 return e.Args[0];
             }
         }
@@ -649,7 +650,7 @@ namespace Rootcause
         {
             public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
             {
-                var newCmdSeq = new  List<Cmd>();
+                var newCmdSeq = new List<Cmd>();
                 foreach (Cmd c in cmdSeq)
                 {
                     if (c is AssumeCmd)
@@ -697,6 +698,49 @@ namespace Rootcause
                 "</b></font><br>"
                 ;
         }
+
+        public static Tuple<List<int>,List<int>> parseHtmlForCexLines(string[] l)
+        {
+            List<int> leftLines = new List<int>();
+            List<int> rightLines = new List<int>();
+
+            //parse html here
+            for (int i = 0; i < l.Count(); )
+            {
+                while (i < l.Count() && !l[i].Contains(@"<tr><td valign=")) i++;
+                while (i < l.Count() && !l[i].Contains(@"</td><td valign"))
+                {
+                    if (l[i].Contains(@"<span class=") &&
+                        (l[i].Contains(@"trace") ||
+                        l[i].Contains(@"reportstmt")
+                        ))
+                    {
+                        var j = l[i].IndexOf(">");
+                        var k = l[i].IndexOf(":");
+                        var s = l[i].Substring(j + 1, k - j - 1);
+                        leftLines.Add(int.Parse(s));
+                    }
+                    i++;
+                }
+                while (i < l.Count() && !l[i].Contains(@"</td></tr>"))
+                {
+                    if (l[i].Contains(@"<span class=") &&
+                        (l[i].Contains(@"trace") ||
+                        l[i].Contains(@"reportstmt")
+                        ))
+                    {
+                        var j = l[i].IndexOf(">");
+                        var k = l[i].IndexOf(":");
+                        var s = l[i].Substring(j + 1, k - j - 1);
+                        rightLines.Add(int.Parse(s));
+                    }
+                    i++;
+                }
+            }
+
+            return new Tuple<List<int>, List<int>>(leftLines, rightLines);
+        }
+
         public static List<string> ParseHtmlForCompilerOutput(string[] l, List<Tuple<BigNum, string, BigNum, string>> outs)
         {
             //Partition looks like (for CLR compiler output)
@@ -882,13 +926,16 @@ namespace Rootcause
             //Console.WriteLine("Trace1 = {0}, \n Trace2 = {1}", String.Join("\n ", trace1.ToArray()), String.Join("\n ", trace2.ToArray()));
             return output;
         }
+
+
+
         public static void PrintHtmlOutput(List<Tuple<BigNum, string, BigNum, string>> htmlOutputs)
         {
             if (Options.htmlInput == "") return;
             var fileName = Options.htmlInput + ".html";
             if (!System.IO.File.Exists(fileName))
             {
-                Console.Error.WriteLine("Warning!! The input html file {0} does not exist", fileName);
+                Console.WriteLine("Warning!! The input html file {0} does not exist", fileName);
                 return;
             }
             var l = System.IO.File.ReadAllLines(fileName);
@@ -920,8 +967,8 @@ namespace Rootcause
                     var inParams = f.InParams.Cast<Variable>();
                     List<BoundVariable> boundedVars1 = new List<BoundVariable>();
                     List<BoundVariable> boundedVars2 = new List<BoundVariable>();
-                    List<Expr>  axiomBoundVars1 = new List<Expr> ();
-                    List<Expr>  axiomBoundVars2 = new List<Expr> ();
+                    List<Expr> axiomBoundVars1 = new List<Expr>();
+                    List<Expr> axiomBoundVars2 = new List<Expr>();
                     Expr axiomExpr = Expr.True;
                     foreach (Variable inParam in inParams)
                     {
@@ -948,13 +995,13 @@ namespace Rootcause
                         Expr body = Expr.Imp(f_of_x1_eq_f_of_x2, axiomExpr);
                         body.Typecheck(new TypecheckingContext(null));
 
-                        var TriggerSeq = new List<Expr> ();
+                        var TriggerSeq = new List<Expr>();
                         TriggerSeq.Add(f_of_x1);
                         TriggerSeq.Add(f_of_x2);
 
-                        //Expr forall_x_P_of_x_eq_body = new ForallExpr(Token.NoToken, new List<Variable> (boundedVars1.Concat(boundedVars2).ToArray()), body);
+                        //Expr forall_x_P_of_x_eq_body = new ForallExpr(Token.NoToken, new VariableSeq(boundedVars1.Concat(boundedVars2).ToArray()), body);
                         Expr forall_x_P_of_x_eq_body = new ForallExpr(Token.NoToken,
-                            new List<Variable> (boundedVars1.Concat(boundedVars2).ToArray()),
+                            new List<Variable>(boundedVars1.Concat(boundedVars2).ToArray()),
                             new Trigger(new Token(), true, TriggerSeq), body);
                         forall_x_P_of_x_eq_body.Typecheck(new TypecheckingContext(null));
                         axioms.Add(forall_x_P_of_x_eq_body);
@@ -980,8 +1027,8 @@ namespace Rootcause
                             if (!matchingOutputs) { continue; }
                             boundedVars1 = new List<BoundVariable>();
                             boundedVars2 = new List<BoundVariable>();
-                            axiomBoundVars1 = new List<Expr> ();
-                            axiomBoundVars2 = new List<Expr> ();
+                            axiomBoundVars1 = new List<Expr>();
+                            axiomBoundVars2 = new List<Expr>();
                             axiomExpr = Expr.True;
                             foreach (Variable inParam in inParams)
                             {
@@ -1006,13 +1053,13 @@ namespace Rootcause
 
                             if (inParams.Count() > 0 || other_f.InParams.Count > 0)
                             {
-                                var TriggerSeq = new List<Expr> ();
+                                var TriggerSeq = new List<Expr>();
                                 TriggerSeq.Add(f_of_x);
                                 TriggerSeq.Add(other_f_of_y);
 
-                                //ForallExpr forallexpr = new ForallExpr(Token.NoToken, new List<Variable> (boundedVars1.Concat(boundedVars2).ToArray()), body);
+                                //ForallExpr forallexpr = new ForallExpr(Token.NoToken, new VariableSeq(boundedVars1.Concat(boundedVars2).ToArray()), body);
                                 Expr forallexpr = new ForallExpr(Token.NoToken,
-                                    new List<Variable> (boundedVars1.Concat(boundedVars2).ToArray()),
+                                    new List<Variable>(boundedVars1.Concat(boundedVars2).ToArray()),
                                     new Trigger(new Token(), true, TriggerSeq), body);
                                 forallexpr.Typecheck(new TypecheckingContext(null));
                                 axioms.Add(forallexpr);
@@ -1025,7 +1072,8 @@ namespace Rootcause
                     }
                 }
             }
-            if (Options.verbose == 3) {
+            if (Utils.verbosityLevel(3))
+            {
                 Console.WriteLine("Printing Axioms...");
                 axioms.ForEach(a => Console.WriteLine(a));
             }

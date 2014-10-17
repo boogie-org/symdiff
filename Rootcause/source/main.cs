@@ -87,7 +87,15 @@ namespace Rootcause
 
             if (Options.equalityFixes)
             {
+                try
+                {
                     EqualityFixes.PerformRootcause(prog, impl);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Rootcause terminated with exception {0}", e.Message);
+                }
+                Console.WriteLine("Total time for rootcause analysis = {0} seconds", sw.Elapsed.TotalSeconds);
             }
             else if (Options.useUnsatCoresFromFailures)
             {
@@ -273,7 +281,7 @@ namespace Rootcause
                 throw new Exception("Store does not correspond to any type in the program" + func.ToString());
             var tp = tpL[0];
             //store(mapType, arg1, .. argk, result):mapType function and a store
-            var vs = new List<Variable> ();
+            var vs = new List<Variable>();
             vs.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "m_", tp), true));
             int i = 0;
             foreach (BType a in tp.AsMap.Arguments)
@@ -300,7 +308,7 @@ namespace Rootcause
                 throw new Exception("Select does not correspond to any type in the program" + func.ToString());
             var tp = tpL[0];
             //select(mapType, arg1, .. argk):result function and a store
-            var vs = new List<Variable> ();
+            var vs = new List<Variable>();
             vs.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "m_", tp), true));
             int i = 0;
             foreach(BType a in tp.AsMap.Arguments) {
@@ -394,7 +402,7 @@ namespace Rootcause
             foreach (Variable v in impl.InParams)
                 inputs.Add(v);
             inputs.AddRange(prog.TopLevelDeclarations.Where(x => x is Constant).Cast<Variable>()); //constants
-            inputs.AddRange(prog.GlobalVariables); //globals
+            inputs.AddRange(prog.GlobalVariables()); //globals
 
             VCExpr ret = VCExpressionGenerator.True;
             
@@ -439,7 +447,7 @@ namespace Rootcause
                         modelConsts[tp] = new List<Constant>();
                     if (!modelConsts[tp].Contains(n))
                         modelConsts[tp].Add(n);
-                    prog.AddTopLevelDeclaration(n);
+                    prog.TopLevelDeclarations.Add(n);
                     t = VC.exprGen.Eq(VC.translator.LookupVariable(v),
                         VC.translator.LookupVariable(n));
                     ret = VC.exprGen.And(ret, t); //HACK
@@ -537,9 +545,9 @@ namespace Rootcause
             IToken tok = Token.NoToken;
             IEnumerable<Declaration> top = prog.TopLevelDeclarations;
             TypeCtorDecl tDecl = top.OfType<TypeCtorDecl>().Where(x => x.Name == "__DT").First();
-            Datatypes.dtType = new CtorType(tok, tDecl, new List<Microsoft.Boogie.Type> (new BType[0]));
-            Datatypes.dtSetType = new MapType(tok, new List<TypeVariable> (new TypeVariable[0]),
-                new List<BType> (new BType[] { Datatypes.dtType }), BType.Bool);
+            Datatypes.dtType = new CtorType(tok, tDecl, new List<BType>(new BType[0]));
+            Datatypes.dtSetType = new MapType(tok, new List<TypeVariable>(new TypeVariable[0]),
+                new List<BType>(new BType[] { Datatypes.dtType }), BType.Bool);
             foreach (Function f in prog.TopLevelDeclarations.OfType<Function>().ToList())
             {
                 if (QKeyValue.FindBoolAttribute(f.Attributes, "uninterpreted"))
@@ -567,7 +575,7 @@ namespace Rootcause
         private static DatatypeConstructor AddConstructor(IToken tok, CtorType typ, string name, IEnumerable<Tuple<string, BType>> args)
         {
             DatatypeConstructor cons = new DatatypeConstructor(
-                new Function(tok, name, new List<TypeVariable> (), new List<Variable> (
+                new Function(tok, name, new List<TypeVariable>(), new List<Variable>(
                         args.Select(x => (Variable)new Formal(tok, new TypedIdent(tok, x.Item1, x.Item2), true)).ToArray()),
                     new Formal(tok, new TypedIdent(tok, "", typ), false),
                     null, new QKeyValue(tok, "constructor", new List<object>(), null)));
@@ -590,8 +598,8 @@ namespace Rootcause
             {
                 this.impl = impl;
                 Procedure proc = impl.Proc;
-                Action<List<Variable> > a = seq => seq.Cast<Variable>().Select(MakeVars).SelectMany(x => x).ToList().ForEach(seq.Add);
-                Action< List<IdentifierExpr>> m = seq => seq.Cast<IdentifierExpr>().Select(i => i.Decl).Select(MakeVars)
+                Action<List<Variable>> a = seq => seq.Cast<Variable>().Select(MakeVars).SelectMany(x => x).ToList().ForEach(seq.Add);
+                Action<List<IdentifierExpr>> m = seq => seq.Cast<IdentifierExpr>().Select(i => i.Decl).Select(MakeVars)
                     .SelectMany(x => x).Select(x => new IdentifierExpr(Token.NoToken, x)).ToList().ForEach(seq.Add);
                 a(proc.InParams);
                 a(impl.InParams);
@@ -650,12 +658,12 @@ namespace Rootcause
                       Options.fatDatatypes ? tArgs.Concat(dtArgs) : dtArgs));
                 }
                 // TODO: Args[0]?
-                if (i != null) return new NAryExpr(e.tok, e.Fun, new List<Expr> (new Expr[] {
+                if (i != null) return new NAryExpr(e.tok, e.Fun, new List<Expr>(new Expr[] {
                     e.Args[0], MakeExpr(e.Args[1]), MakeExpr(e.Args[2]) }));
                 if (Options.verbose == 2) Console.WriteLine ("interpreted function: " + e.Fun.FunctionName);
                 return MakeUnions(e.tok, e.Args, 0);
             }
-            internal static Expr MakeUnions(IToken tok, List<Expr>  es, int offset)
+            internal static Expr MakeUnions(IToken tok, List<Expr> es, int offset)
             {
                 return
                     (es.Count == 0) ? new IdentifierExpr(tok, Datatypes.emptyConstant)
@@ -708,16 +716,16 @@ namespace Rootcause
             }
             internal static Expr Call(IToken tok, Function f, IEnumerable<Expr> args)
             {
-                return new NAryExpr(tok, new FunctionCall(f), new List<Expr> (args.ToArray()));
+                return new NAryExpr(tok, new FunctionCall(f), new List<Expr>(args.ToArray()));
             }
             internal static Expr Unary(UnaryOperator.Opcode op, Expr e)
             {
-                return new NAryExpr(e.tok, new UnaryOperator(e.tok, op), new List<Expr> (new Expr[] { e }));
+                return new NAryExpr(e.tok, new UnaryOperator(e.tok, op), new List<Expr>(new Expr[] { e }));
             }
             internal static Expr Binary(BinaryOperator.Opcode op, Expr e1, Expr e2)
             {
                 return new NAryExpr(e1.tok, new BinaryOperator(e1.tok, op),
-                    new List<Expr> (new Expr[] { e1, e2 }));
+                    new List<Expr>(new Expr[] { e1, e2 }));
             }
             internal static Expr MakeBool(Expr e, bool polarity = true)
             {
@@ -797,10 +805,12 @@ namespace Rootcause
             }
             public override Cmd VisitHavocCmd(HavocCmd node)
             {
-                foreach (IdentifierExpr iExpr in node.Vars.Cast<IdentifierExpr>().ToList())
+                foreach (IdentifierExpr iExpr in node.Vars)
                 {
+                    Expr ret = MakeExpr(iExpr);
+                    IdentifierExpr iret = ret as IdentifierExpr;
+                    Utils.Assert(iret != null, "Expected an IdentifierExpr");
                     node.Vars.Add(iExpr);
-                    //node.Vars.Add(MakeExpr(iExpr));
                 }
                 return base.VisitHavocCmd(node);
             }
@@ -849,7 +859,7 @@ namespace Rootcause
         {
             public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
             {
-                var newCmdSeq = new  List<Cmd>();
+                var newCmdSeq = new List<Cmd>();
                 foreach (var cmd in cmdSeq)
                 {
                     newCmdSeq.Add(cmd);
@@ -1006,7 +1016,7 @@ namespace Rootcause
                         IdentifierExpr lhsId = lhs as IdentifierExpr;
                         node.Rhss[i] = (lhsId != null && lhsId.Name.EndsWith("#NO_PRED")) ? node.Rhss[i] :
                             new NAryExpr(Token.NoToken, new IfThenElse(Token.NoToken), 
-                                new List<Expr> () {Expr.Not(IdentifierExpr.Ident(a)), Options.blurStatments ? CreateHavocConst(lhs) : lhs, node.Rhss[i]});
+                                new List<Expr>(){Expr.Not(IdentifierExpr.Ident(a)), Options.blurStatments ? CreateHavocConst(lhs) : lhs, node.Rhss[i]});
                     }
                 }
                 return base.VisitAssignCmd(node);
@@ -1035,7 +1045,7 @@ namespace Rootcause
                         }
                         else
                             rhss.Add(new NAryExpr(tok, new IfThenElse(tok),
-                                     new List<Expr> () {Expr.Not(IdentifierExpr.Ident(a)), iExpr, CreateHavocConst(iExpr)}));
+                                     new List<Expr>{Expr.Not(IdentifierExpr.Ident(a)), iExpr, CreateHavocConst(iExpr)}));
                     }
                     return new AssignCmd(tok, lhss, rhss);
                 }
@@ -1043,7 +1053,7 @@ namespace Rootcause
             }
             public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
             {
-                var newCmdSeq = new  List<Cmd>();
+                var newCmdSeq = new List<Cmd>();
                 foreach (var cmd in cmdSeq)
                 {
                     newCmdSeq.Add(cmd);

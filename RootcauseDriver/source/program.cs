@@ -41,8 +41,9 @@ namespace RootcauseDriver
             outputs = new Tuple<Tuple<string, string, string>, Tuple<string, string>, string, string, string, string, string>[inputs.Count + 1];
             RunTaskInParallel();
 
-            MergeOutputs(); 
-            GenerateHtmlOutput(@"RootcauseResultsSummary.html");
+            MergeOutputs();
+            var dateString = DateTime.Now.Ticks;
+            GenerateHtmlOutput(@"RootcauseResultsSummary_" + dateString + ".html");
         }
         private static void RunTaskInParallel()
         {
@@ -76,8 +77,9 @@ namespace RootcauseDriver
             var args = " " + WrapPath(dirInfo.Item2) + @" /htmlInput:" + WrapPath(dirInfo.Item3) + " " + options.Item1 + @" /htmlTag:" + options.Item2;
             args += @" /outputPath:" + dirInfo.Item1 + " ";
             args += @" /rootcauseTimeout:" + Options.timeoutPerProcess + " ";
-            Tuple<string,string,string,string> o = ExecuteBinary(rootcauseBinaryPath + @"\Rootcause.exe", args);
-            outputs[i] = Tuple.Create(dirInfo, options, htmlOutFile, o.Item1, o.Item2, o.Item3, o.Item4);
+            Tuple<string,string,string,string> o = ExecuteBinary(rootcauseBinaryPath + @"Rootcause.exe", args);
+            var newOpt = Tuple.Create<string, string>(args, options.Item2); //we want to get the raw args here
+            outputs[i] = Tuple.Create(dirInfo, newOpt, htmlOutFile, o.Item1, o.Item2, o.Item3, o.Item4);
 
             //RegisterResult(dirInfo, options, htmlOutFile, result, o, i);
         }
@@ -86,7 +88,7 @@ namespace RootcauseDriver
             var asmbly = Assembly.GetExecutingAssembly();
             var path  =  asmbly.Location.Substring(0, asmbly.Location.IndexOf(asmbly.ManifestModule.Name));
             //Console.WriteLine("Current assembly is {0}, {1}, {2}", asmbly.FullName, asmbly.Location, path);
-            return path + @"\..\..\..\bin\debug\";
+            return path + @"..\..\..\Rootcause\bin\Debug\";
         }
         private static Tuple<string, string, string, string> ExecuteBinary(string binaryName, string arguments)
         {
@@ -108,43 +110,76 @@ namespace RootcauseDriver
             };
             Func<string, string> ProcessTime = delegate(string s)
             {
-                if (s.Contains("Cause ==>") || s.Contains("Unable to find rootcause"))
+                string tstr = @"Total time for rootcause analysis = ";
+                if (s.Contains(tstr))
                 {
-                    string time = s.Split(new string[] { "Phase 5: Computed Rootcause in " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0];
-                    return time.Split(new Char[] { '.' })[0];
+                    var t = s.Substring(s.IndexOf(tstr) + tstr.Length);
+                    if (t.Contains("seconds"))
+                        return t.Substring(0, t.IndexOf("seconds") + "seconds".Length);
+                    else
+                        return t;
                 }
                 else { return "UNKNOWN"; }
             };
+            Func<string, string> ProcessHtmlMismatch = delegate(string s)
+            {
+                return s.Contains("Found CEX & HTML mismatch") ? "HTML-CEX-MISMATCH" : "";
+            };
+            Func<string, string> ProcessException = delegate(string s)
+            {
+                var str = @"Rootcause terminated with exception";
+                if (s.Contains(str))
+                {
+                    var t = s.Substring(s.IndexOf(str) + str.Length);
+                    return " [EXCEPTION = " + t.Substring(0, t.IndexOf("\n")) + "]";
+                }
+                return "";
+            };
             Func<string, string> ProcessStats = delegate(string s)
             {
-                string left_assigns = "", right_assigns = "", fixes_explore = "", fixes_ignore = "", failMismatch = "", passFailMismatch = "",
-                    assigns_explore = "", passingFilterCount = "", cexFilterCount = "", earlierFilterCount = "", passingcexsCount = "", newpassingcexsCount = "";
+                string left_assigns = "", right_assigns = "", total_candidates = "", defaultpruning_candidates = "", defaultpruning_assigns = "",
+                       passingFilterCount = "", failingFilterCount = "", callWindowFilterCount = "", cexFilterCount = "", earlierFilterCount = "",
+                       passingcexs = "", binarysearch_assigns = "", binarysearch_candidates = "", maxsat_useful = "", maxsat_useless = "",
+                       maxsat_assigns = "", bpl_lines = "", html_lines = "";
+
                 if (s.Contains("stats_left_assigns")) { left_assigns = s.Split(new string[] { "stats_left_assigns: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
                 if (s.Contains("stats_right_assigns")) { right_assigns = s.Split(new string[] { "stats_right_assigns: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
-                if (s.Contains("stats_fixes_explore")) { fixes_explore = s.Split(new string[] { "stats_fixes_explore: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
-                if (s.Contains("stats_fixes_ignore")) { fixes_ignore = s.Split(new string[] { "stats_fixes_ignore: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
-                if (s.Contains("stats_assigns_explore")) { assigns_explore = s.Split(new string[] { "stats_assigns_explore: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_total_candidates")) { total_candidates = s.Split(new string[] { "stats_total_candidates: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_defaultpruning_candidates")) { defaultpruning_candidates = s.Split(new string[] { "stats_defaultpruning_candidates: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_defaultpruning_assigns")) { defaultpruning_assigns = s.Split(new string[] { "stats_defaultpruning_assigns: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
                 if (s.Contains("stats_passingFilterCount")) { passingFilterCount = s.Split(new string[] { "stats_passingFilterCount: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_failingFilterCount")) { failingFilterCount = s.Split(new string[] { "stats_failingFilterCount: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_callWindowFilterCount")) { callWindowFilterCount = s.Split(new string[] { "stats_callWindowFilterCount: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
                 if (s.Contains("stats_cexFilterCount")) { cexFilterCount = s.Split(new string[] { "stats_cexFilterCount: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
                 if (s.Contains("stats_earlierFilterCount")) { earlierFilterCount = s.Split(new string[] { "stats_earlierFilterCount: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
-                if (s.Contains("stats_failMismatch")) { failMismatch = s.Split(new string[] { "stats_failMismatch: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
-                if (s.Contains("stats_passfailMismatch")) { passFailMismatch = s.Split(new string[] { "stats_passfailMismatch: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
-                if (s.Contains("stats_passingcexs")) { passingcexsCount = s.Split(new string[] { "stats_passingcexs: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
-                if (s.Contains("stats_newpassingcexs")) { newpassingcexsCount = s.Split(new string[] { "stats_newpassingcexs: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_passingcexs")) { passingcexs = s.Split(new string[] { "stats_passingcexs: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_binarysearch_assigns")) { binarysearch_assigns = s.Split(new string[] { "stats_binarysearch_assigns: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_binarysearch_candidates")) { binarysearch_candidates = s.Split(new string[] { "stats_binarysearch_candidates: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_maxsat_useful")) { maxsat_useful = s.Split(new string[] { "stats_maxsat_useful: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_maxsat_useless")) { maxsat_useless = s.Split(new string[] { "stats_maxsat_useless: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_maxsat_assigns")) { maxsat_assigns = s.Split(new string[] { "stats_maxsat_assigns: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_bpl_lines")) { bpl_lines = s.Split(new string[] { "stats_bpl_lines: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
+                if (s.Contains("stats_html_lines")) { html_lines = s.Split(new string[] { "stats_html_lines: " }, StringSplitOptions.None)[1].Split(new Char[] { '\n' })[0]; }
                 
                 string result = "";
                 result += "left_assigns:" + left_assigns + ", ";
                 result += "right_assigns:" + right_assigns + ", ";
-                result += "fixes_explore:" + fixes_explore + ", ";
-                result += "fixes_ignore:" + fixes_ignore + ", ";
-                result += "assigns_explore:" + assigns_explore + ", ";
+                result += "total_candidates:" + total_candidates + ", ";
+                result += "defaultpruning_candidates:" + defaultpruning_candidates + ", ";
+                result += "defaultpruning_assigns:" + defaultpruning_assigns + ", ";
                 result += "passingFilterCount:" + passingFilterCount + ", ";
+                result += "failingFilterCount:" + failingFilterCount + ", ";
+                result += "callWindowFilterCount:" + callWindowFilterCount + ", ";
                 result += "cexFilterCount:" + cexFilterCount + ", ";
                 result += "earlierFilterCount:" + earlierFilterCount + ", ";
-                result += "passingcexsCount:" + passingcexsCount + ", ";
-                result += "newpassingcexsCount:" + newpassingcexsCount + ", ";
-                result += "failMismatch:" + failMismatch + ", ";
-                result += "passFailMismatch:" + passFailMismatch + ", ";
+                result += "passingcexs:" + passingcexs + ", ";
+                result += "binarysearch_assigns:" + binarysearch_assigns + ", ";
+                result += "binarysearch_candidates:" + binarysearch_candidates + ", ";
+                result += "maxsat_useful:" + maxsat_useful + ", ";
+                result += "maxsat_useless:" + maxsat_useless + ", ";
+                result += "maxsat_assigns:" + maxsat_assigns + ", ";
+                result += "bpl_lines:" + bpl_lines + ", ";
+                result += "html_lines:" + html_lines + ", ";
                 return result;
             };
             Console.WriteLine("\tSTART Executing {0} {1}", binaryName, arguments);
@@ -181,12 +216,12 @@ namespace RootcauseDriver
                 //}
                 #endregion 
                 Console.WriteLine("\tEND Executing {0} {1}", binaryName, arguments);
-                return new Tuple<string, string, string, string>(ProcessOutput(output), ProcessLineNumber(output), ProcessTime(output), ProcessStats(output));
+                return new Tuple<string, string, string, string>(ProcessOutput(output), ProcessLineNumber(output), ProcessTime(output), ProcessHtmlMismatch(output) + ", " + ProcessException(output) + ", " + ProcessStats(output));
             }
             catch (Exception e)
             {
-                Console.WriteLine("\tEND Executing {0} {1} with Exceptin {2}", binaryName, arguments, e.Message);
-                return new Tuple<string, string, string, string>("TIMEOUT", "UNKNOWN", "TIMEOUT", "TIMEOUT");
+                Console.WriteLine("\tEND Executing {0} {1} with Exceptin {2}", binaryName, arguments, e);
+                return new Tuple<string, string, string, string>("UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN");
             }
         }
         private static void MergeOutputs()
@@ -244,11 +279,11 @@ namespace RootcauseDriver
                     dir, MkLink("Symdiff Counterexample", dir + @"\" + l.Key.Item3 + ".html"));
                 foreach (var r in l.Value)
                 {
-                    output.WriteLine("<p> &nbsp;&nbsp;&nbsp;  {0} &nbsp;&nbsp;&nbsp; <b>Options</b>: ({1}) <b>Line</b>: ({2}) <b>Time</b>: ({3}) </p>",
+                    output.WriteLine("<p> &nbsp;&nbsp;&nbsp;  {0} &nbsp;&nbsp;&nbsp; <b>Options</b>: ({1}) <b>Line</b>: ({2}) <b>Time</b>: ({3}) ",
                         MkLink("Rootcause: " + r.Item3, dir + @"\" + r.Item2 + ".rootcause.html"), r.Item1.Item1, r.Item4, r.Item5);
                     //if (r.Item1.Item1.Contains("stats"))
                     {
-                        output.WriteLine("<p> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <b>Stats</b>: {0} </p>", r.Item6);
+                        output.WriteLine(" &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <b>Stats</b>: {0} </p>", r.Item6);
                     }
                 }
             }
