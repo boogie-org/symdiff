@@ -95,7 +95,8 @@ namespace Rootcause
                 {
                     Console.WriteLine("Rootcause terminated with exception {0}", e.Message);
                 }
-                Console.WriteLine("Total time for rootcause analysis = {0} seconds", sw.Elapsed.TotalSeconds);
+                if (Utils.verbosityLevel(1))
+                    Console.WriteLine("Total time for rootcause analysis = {0} seconds", sw.Elapsed.TotalSeconds);
             }
             else if (Options.useUnsatCoresFromFailures)
             {

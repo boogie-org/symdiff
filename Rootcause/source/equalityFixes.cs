@@ -704,7 +704,7 @@ namespace Rootcause
                     candidatesToIgnore.Count, candidatesToExplore.Count);
             }
 
-            if (true)
+            if (Utils.verbosityLevel(1))
             {
                 Console.WriteLine("stats_left_assigns: {0}", leftAssumeConsts.Keys.Count);
                 Console.WriteLine("stats_right_assigns: {0}", rightAxioms.Keys.Count);
@@ -752,8 +752,11 @@ namespace Rootcause
             //Avoid performing binarySearch
             if (!Options.binarySearch)
             {
-                Console.WriteLine("stats_binarysearch_assigns: {0}", assignmentsToExplore.Count);
-                Console.WriteLine("stats_binarysearch_candidates: {0}", candidatesToExplore.Count);
+                if (Utils.verbosityLevel(1))
+                {
+                    Console.WriteLine("stats_binarysearch_assigns: {0}", assignmentsToExplore.Count);
+                    Console.WriteLine("stats_binarysearch_candidates: {0}", candidatesToExplore.Count);
+                }
                 return AssignmentByAssignment(L, R, guardAssumeConsts, assignmentsToExplore, candidatesToExplore.ToList(), predConsts, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
                     assertConsts, assumeFalseConsts, assignAssertGuards, assignAssertConstants, programVC, ensureAssert, failing_cex, passing_cexs);
             }
@@ -1029,17 +1032,22 @@ namespace Rootcause
                             Console.WriteLine("Found rootcause after {0}/{1} assigns", stats_maxsatAssignments, rightAxioms.Keys.Count);
                         }
                         output.Add(a);
-                        Console.WriteLine("stats_maxsat_useful: {0}", stats_usefulCandidates);
-                        Console.WriteLine("stats_maxsat_useless: {0}", stats_uselessCandidates);
-                        Console.WriteLine("stats_maxsat_assigns: {0}", stats_maxsatAssignments);
+                        if (Utils.verbosityLevel(1))
+                        {
+                            Console.WriteLine("stats_maxsat_useful: {0}", stats_usefulCandidates);
+                            Console.WriteLine("stats_maxsat_useless: {0}", stats_uselessCandidates);
+                            Console.WriteLine("stats_maxsat_assigns: {0}", stats_maxsatAssignments);
+                        }
                         return output;
                     }
                 }
 
             }
-
-            Console.WriteLine("stats_maxsat_useful: {0}", stats_usefulCandidates);
-            Console.WriteLine("stats_maxsat_useless: {0}", stats_uselessCandidates);
+            if (Utils.verbosityLevel(1))
+            {
+                Console.WriteLine("stats_maxsat_useful: {0}", stats_usefulCandidates);
+                Console.WriteLine("stats_maxsat_useless: {0}", stats_uselessCandidates);
+            }
             return output;
         }
 
@@ -1144,7 +1152,7 @@ namespace Rootcause
                     }
                 }
             }
-            Console.WriteLine();
+            if (Utils.verbosityLevel(1)) Console.WriteLine();
             return candidates;
         }
 
@@ -3043,7 +3051,7 @@ namespace Rootcause
                 {
                     if (tuple.Item1 == cause)
                     {
-                        Console.Write("\nCause ==> \n leftAssignment: {0} rightAssignment: {1}", tuple.Item2, key);
+                        Console.Write("Cause ==> \nleftAssignment: {0}rightAssignment: {1}", tuple.Item2, key);
                         if (CmdToSourceline.ContainsKey(tuple.Item2) && CmdToSourceline.ContainsKey(key))
                         {
                             Console.WriteLine("leftAssignment sourceLine: {0}", CmdToSourceline[tuple.Item2]);

@@ -114,6 +114,7 @@ for BoogieProgram in BoogiePrograms:
     resultFile = open(BoogieProgram + outFileExtension, 'w')
     print("Regressing:", BoogieProgram)
     procOptions = [rootCauseProgram] + getProcOptions(BoogieProgram) + [BoogieProgram]
+    # print("Command:", procOptions)
     proc = subprocess.Popen(procOptions, stdout=subprocess.PIPE)
     
     Causes = [] #List of causes for this benchmark
