@@ -54,12 +54,10 @@ namespace SDiff
         {
             string filename = string.Format("mergedProgSingle_{0}.bpl", corralCount++);
             Util.DumpBplAST(mergedProg, filename);
-            string args = string.Format(" {0} /k:1 /main:{1} /recursionBound:2 /timeLimit:{2} ", filename, entryPoints.First().Name, corralTimeLimit);
+            string args = string.Format(" {0} /k:1 /main:{1} /recursionBound:4 /timeLimit:{2} /noTrace ", filename, entryPoints.First().Name, corralTimeLimit);
             Console.WriteLine("Checking {0} using Corral....", c.Name);
             var output = Util.ExecuteBinary(corralBinary, args);
-            //filter the lengthy trace from the output
-            var outlines = output.Split(new char[] { '\n' }).Where(x => !x.Contains("mergedProgSingle_"));
-            Console.WriteLine("\nOutput of Corral for {1} = {0}", string.Join("\n", outlines), c.Name);
+            Console.WriteLine("\nOutput of Corral for {1} = {0}", output, c.Name);
         }
     }
 }

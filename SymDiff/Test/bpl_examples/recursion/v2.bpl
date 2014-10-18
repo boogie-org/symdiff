@@ -20,7 +20,7 @@ implementation Bar(x: int) returns (r: int)
        return;
    } else {
 
-         call r := Bar(x);
+         call r := Bar(x-2);
          r := r + x;
          return;
    }
