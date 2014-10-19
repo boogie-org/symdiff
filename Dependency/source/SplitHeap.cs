@@ -51,7 +51,8 @@ namespace Dependency
             prunedFilename = filename + ".aliasanalysis.bpl";
             string args = string.Format(" {0} /prune:{1} ", instrFilename, prunedFilename);
             //TODO: make the path relative
-            Utils.ExecuteBinary(@"d:\corral-codeplex\corral\addons\aliasAnalysis\aliasAnalysis\bin\debug\AliasAnalysis.exe", args);
+            //Utils.ExecuteBinary(@"d:\corral-codeplex\corral\addons\aliasAnalysis\aliasAnalysis\bin\debug\AliasAnalysis.exe", args);
+            Utils.ExecuteBinary(@"AliasAnalysis.exe", args);
         }
 
         /// <summary>

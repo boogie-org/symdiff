@@ -16,7 +16,8 @@ namespace SDiff
         Program mergedProg;
         HashSet<Procedure> entryPoints;
         HashSet<Constant> houdiniConsts;
-        private const string corralBinary = @"d:\corral-codeplex\corral\bin\debug\corral.exe"; //TODO: use Corral library
+        //private const string corralBinary = @"d:\corral-codeplex\corral\bin\debug\corral.exe"; //TODO: use Corral library
+        private const string corralBinary = @"corral.exe"; //TODO: use Corral library
         private const int corralTimeLimit = 100;
         private int corralCount;
 
