@@ -24,7 +24,7 @@ use Cwd;
 
 my $pattern = ""; #only run examples matching pattern
 my $infer = 0; #if we are performing Houdini inference with candidates
-
+my $corral = 0; #compare using Corral output
 
 sub MyExec{
     my $cmd = shift;
@@ -47,7 +47,13 @@ sub GetStats {
       if ($line =~  /Verifier\[0\]: Result/) {
 	$result = $result . " " . $line;
       }	
-    } else {
+    } elsif ($corral == 1){
+      if ($line =~  /Checking _houdini/ ||
+          $line =~  /True bug/ || 
+	  $line =~  /no bugs/) {
+	$result = $result . " " . $line;
+      }
+    } elsif ($infer == 1) {
       if ($line =~ /Boogie program verifier finished with/ ||
 	  $line =~ /_houdini_.*= /) {
 	$result = $result . " " . $line;
@@ -341,5 +347,17 @@ $infer = 1; # checking DAC regression is different than other regressions
 my $tag = "houdiniEq.bpl";
 RunExampleWithOptions("_bpl", \@houdini_examples, $flags, $cwd, $opt_regr, $tag);
 $infer = 0; 
+
+##############################################################
+## Example for Equivalence checking with Corral
+##############################################################
+print "-----------------------\n";
+print "Corral SymDiff regressions\n";
+print "-----------------------\n";
+$flags = "/rvt /opts:\" -usemutual -checkEquivWithDependencies -freeContracts -callCorralOnMergedProgram \" ";
+$corral = 1; 
+my $tag = "corral.bpl";
+RunExampleWithOptions("_bpl", \@houdini_examples, $flags, $cwd, $opt_regr, $tag);
+$corral = 0; 
 
 

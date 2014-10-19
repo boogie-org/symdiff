@@ -4,10 +4,10 @@ Namespacing ASTs
 Resolving and typechecking
 Resolving and typechecking
 ImplMap: _v1.Eval, _v2.Eval
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + globals tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + globals tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + globals tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + globals tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ImplMap: _v1.Eval_loop_anon3_LoopHead, _v2.Eval_loop_anon3_LoopHead
 Resolving and typechecking
 Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
