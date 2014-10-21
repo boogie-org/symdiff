@@ -43,12 +43,8 @@ sub GetStats {
   my $result = "";
   for my $line (<OUT>) {
 
-    if ($infer == 0) {
-      if ($line =~  /Verifier\[0\]: Result/) {
-	$result = $result . " " . $line;
-      }	
-    } elsif ($corral == 1){
-      if ($line =~  /Checking _houdini/ ||
+   if ($corral == 1){
+      if ($line =~  /Checking _/ ||
           $line =~  /True bug/ || 
 	  $line =~  /no bugs/) {
 	$result = $result . " " . $line;
@@ -58,6 +54,10 @@ sub GetStats {
 	  $line =~ /_houdini_.*= /) {
 	$result = $result . " " . $line;
       }
+    } else {
+      if ($line =~  /Verifier\[0\]: Result/) {
+	$result = $result . " " . $line;
+      }	
     }
   }	
   
@@ -80,10 +80,11 @@ sub CheckRegression {
   my $output_stats = GetStats($output);
   if ($golden_stats eq $output_stats) {
     print "Regression passed\n";
+    #print "=== Golden ====\n$golden_stats\n";
   } else {
     print "\n\n!!!!!!Regression failed !!!!!\n\n";
-    print "=== Golden ====\n $golden_stats\n";
-    print "=== Output ====\n $output_stats\n";
+    print "=== Golden ====\n$golden_stats\n";
+    print "=== Output ====\n$output_stats\n";
   }	
   
 }
