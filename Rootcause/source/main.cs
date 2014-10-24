@@ -87,21 +87,26 @@ namespace Rootcause
 
             if (Options.equalityFixes)
             {
-                try
-                {
-                    EqualityFixes.PerformRootcause(prog, impl);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Rootcause terminated with exception {0}", e.Message);
-                }
+                try { EqualityFixes.PerformRootcause(prog, impl); }
+                catch (Exception e) { Console.WriteLine("Rootcause terminated with exception {0}", e.Message); }
                 if (Utils.verbosityLevel(1))
+                {
                     Console.WriteLine("Total time for rootcause analysis = {0} seconds", sw.Elapsed.TotalSeconds);
+                }
+            }
+            else if (Options.cegis)
+            {
+                try { EqualityFixes.PerformCEGIS(prog, impl); }
+                catch (Exception e) { Console.WriteLine("Rootcause terminated with exception {0}", e.Message); }
+                if (Utils.verbosityLevel(1))
+                {
+                    Console.WriteLine("Total time for rootcause analysis = {0} seconds", sw.Elapsed.TotalSeconds);
+                }
             }
             else if (Options.useUnsatCoresFromFailures)
             {
-                CommandLineOptions.Clo.UseUnsatCoreForContractInfer = true; //ROHIT
-                CommandLineOptions.Clo.ContractInfer = true; //ROHIT
+                CommandLineOptions.Clo.UseUnsatCoreForContractInfer = true;
+                CommandLineOptions.Clo.ContractInfer = true;
                 UnsatCoreFromFailure.PerformRootcauseTrial(prog, impl);
             }
             else

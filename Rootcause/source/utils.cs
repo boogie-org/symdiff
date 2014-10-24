@@ -314,7 +314,8 @@ namespace Rootcause
             return ret;
         }
 
-        public static VCExpr ModelToConstraint(Program prog, Implementation impl, List<Counterexample> cexs)
+        public static VCExpr ModelToConstraintHelper(Program prog, Implementation impl, List<Counterexample> cexs,
+                                                     List<Variable> inputs, List<Variable> vars)
         {
             VCExpr ret = VCExpressionGenerator.True;
             Utils.Assert(cexs.Count > 0, "Expecting a non-empty list of counterexamples");
@@ -322,25 +323,13 @@ namespace Rootcause
             var model = cex.Model;
             Dictionary<BType, Dictionary<string, Constant>> modelConsts = new Dictionary<BType, Dictionary<string, Constant>>();
 
-            var inputs = new List<Variable>();
-            //gather inputs, constants and globals
-            foreach (Variable v in impl.InParams) inputs.Add(v);
-            inputs.AddRange(prog.TopLevelDeclarations.Where(x => x is Constant).Cast<Variable>()
-                .Where(x => true)); //constants
-            inputs.AddRange(prog.GlobalVariables); //globals
-            //it is not true that all the values are present as assignment of inputs/consts/globals/localvars,
-            //some output of functions such as select don't appear in locvars
-            //foreach (Variable v in impl.LocVars) inputs.Add(v); //incarnation variables h@1, h@3, ..
-            var vars = inputs.Concat(impl.LocVars.Cast<Variable>()).ToList();
-
             //list of map types in the program
             List<BType> mapTypes = vars.FindAll(x => x.TypedIdent.Type.IsMap).ConvertAll(x => x.TypedIdent.Type);
-            if (Utils.verbosityLevel(3)) Console.WriteLine("List of map types = {0}", String.Join(",", mapTypes));
-
-            if (Utils.verbosityLevel(3)) Console.WriteLine("Inputs = {0}", String.Join(", ", inputs.ConvertAll<string>(x => x.Name)));
+            //Console.WriteLine("List of map types = {0}", String.Join(",", mapTypes));
+            //Console.WriteLine("Inputs = {0}", String.Join(", ", inputs.ConvertAll<string>(x => x.Name)));
             foreach (var func in model.Functions)
             {
-                if (Utils.verbosityLevel(3)) Console.WriteLine("Function = {0}", func.Name);
+                //Console.WriteLine("Function = {0}", func.Name);
                 //look for inputs
                 //var s = inputs.FindAll(x => x.Name == func.Name);
                 var s = inputs.FindAll(x => x.Name == func.Name);
@@ -381,6 +370,23 @@ namespace Rootcause
             if (Utils.verbosityLevel(2)) Console.WriteLine("ModelExpr = {0}", ret);
             return ret;
         }
+
+        public static VCExpr ModelToConstraint(Program prog, Implementation impl, List<Counterexample> cexs)
+        {
+            var inputs = new List<Variable>();
+            //gather inputs, constants and globals
+            foreach (Variable v in impl.InParams) inputs.Add(v);
+            inputs.AddRange(prog.TopLevelDeclarations.Where(x => x is Constant).Cast<Variable>()
+                .Where(x => true)); //constants
+            inputs.AddRange(prog.GlobalVariables); //globals
+            //it is not true that all the values are present as assignment of inputs/consts/globals/localvars,
+            //some output of functions such as select don't appear in locvars
+            //foreach (Variable v in impl.LocVars) inputs.Add(v); //incarnation variables h@1, h@3, ..
+            var locals = inputs.Concat(impl.LocVars.Cast<Variable>()).ToList();
+
+            return ModelToConstraintHelper(prog, impl, cexs, inputs, locals);
+        }
+
         private static Function MkStoreFunc(Model.Func func, List<BType> mapTypes)
         {
             var funcTypeStr = func.Name.Substring("Store_".Length).Replace("$", "");

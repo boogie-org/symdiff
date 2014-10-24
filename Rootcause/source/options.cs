@@ -22,10 +22,10 @@ namespace Rootcause
         //older options
         public static bool groupStatementsTogether = false;
         public static bool blurStatments = true;
-        public static bool trackUninterpreted = true;
-        public static bool useSetAxioms = true;
+        public static bool trackUninterpreted = false; //true;
+        public static bool useSetAxioms = false; //true;
         public static bool matchPairs = false;
-        public static bool fatDatatypes = true;
+        public static bool fatDatatypes = false;//true;
         public static bool predicateAssumes = true;
         public static bool penalizeAssumes = false;
         public static bool addGoodInputs = false; //constrain the rootcauses to take the good tests into account
@@ -78,6 +78,7 @@ namespace Rootcause
 
         //Rootcause algorithm switch
         public static bool equalityFixes = false; //to add extra assumes about equality and do maxsat
+        public static bool cegis = false;
         public static bool useUnsatCoresFromFailures = false;
         public static int rootcauseTimeout = 1000; //timeout in seconds
         public static int boogieTimeout = 200;    //timeout for Boogie
@@ -103,8 +104,9 @@ namespace Rootcause
              CommandLineOptions.Install(new CommandLineOptions());
              CommandLineOptions.Clo.RunningBoogieFromCommandLine = true;
              //Options.htmlTag, Options.outputPath gets parsed only after ParseAndRemove...
-             var modelArgs = " /printModelToFile:" + Options.outputPath + @"\rootcause_model" + Options.htmlTag + @".dmp"; 
-             args = (args.ToList()).Concat(new List<string> () {modelArgs}).ToArray();
+             var modelArgs = " /printModelToFile:" + Options.outputPath + @"\rootcause_model" + Options.htmlTag + @".dmp";
+             var dumpVC = " /proverLog:" + Options.outputPath + @"\rootcause_vc" + Options.htmlTag + @".z3"; 
+             args = (args.ToList()).Concat(new List<string> () {modelArgs, dumpVC}).ToArray();
              CommandLineOptions.Clo.Parse(args);
              return !help;
         }
@@ -261,6 +263,7 @@ namespace Rootcause
                      || CheckFilterOption(a, "procedureCallFilter", ref procedureCallFilter)
 
                      || CheckBooleanFlag(a, "equalityFixes", ref equalityFixes)
+                     || CheckBooleanFlag(a, "cegis", ref cegis)
                      || CheckBooleanFlag(a, "useUnsatCoresFromFailures", ref useUnsatCoresFromFailures)
                      ) continue;
                  if (a.StartsWith("/predFun:"))
@@ -295,7 +298,7 @@ namespace Rootcause
                  Console.WriteLine("  /htmlInput:<file>: \n\tInput html file that contains the source trace over which the rootcause will be displayed (default {0})", htmlInput);
                  Console.WriteLine("                     \n\tNeed to have <foo>.analyze.html for the x86 generated html files");
                  Console.WriteLine("  /htmltag:<string>: \n\tA tag to identify output files (default {0})", htmlTag);
-                 Console.WriteLine("  /outputPath:<string>: \n\tPath to dump model.dmp and tmp.bpl (default {0})", outputPath);
+                 Console.WriteLine("  /outputPath:<string>: \n\tPath to dump rootcause_model.dmp, tmp.bpl, and rootcause_vc.z3 (default {0})", outputPath);
                  Console.WriteLine("\n  ----------------------------------------------------------------\n");
                  return true;
              }

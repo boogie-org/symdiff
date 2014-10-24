@@ -129,10 +129,10 @@ namespace Rootcause
                 Console.WriteLine("Phase 0.8: Instrumented constants,axioms on Right in {0}", sw.Elapsed.TotalSeconds);
             }
 
-            Dictionary<Block, Constant> assertConsts = new Dictionary<Block, Constant>();
+            //Dictionary<Block, Constant> assertConsts = new Dictionary<Block, Constant>();
             //checking consistency checks at each block
             //curretnly turned off
-            injectGuardedAssertsOnRight(program, implementation, L, R, assertConsts); //FIXME: We don't want assert False in final \phi block
+            injectGuardedAssertsOnRight(program, implementation, L, R); //FIXME: We don't want assert False in final \phi block
             Utils.PrintProg(program);
 
             if (Utils.verbosityLevel(2))
@@ -151,12 +151,12 @@ namespace Rootcause
                 Console.WriteLine("Phase 0.10: predicate assignments on Right in {0}", sw.Elapsed.TotalSeconds);
             }
 
-            Dictionary<AssumeCmd, Constant> guardAssumeConsts = new Dictionary<AssumeCmd, Constant>();
+            //Dictionary<AssumeCmd, Constant> guardAssumeConsts = new Dictionary<AssumeCmd, Constant>();
             //assume e --> assume g => e, where g is a boolean const that we can toggle
-            if (Options.assumeToSkip)
-            {
-                guardAssumesOnLeftRight(program, implementation, L, R, guardAssumeConsts);
-            }
+            //if (Options.assumeToSkip)
+            //{
+            //    guardAssumesOnLeftRight(program, implementation, L, R, guardAssumeConsts);
+            //}
 
             if (Utils.verbosityLevel(1))
             {
@@ -195,21 +195,19 @@ namespace Rootcause
             //Compute a model, and its counter-example
             //Compute model by disabling all candidate equality assumes
 
-            List<Constant> falseAssertConstants = assertConsts.Values.Aggregate(new List<Constant>(),
-                (List<Constant> a, Constant b) => a.Concat(new Constant[] { b }).ToList<Constant>());
-            VCExpr allFalseAssertsDisabled = falseAssertConstants.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)).
-                    Aggregate<VCExpr, VCExpr>(VCExpressionGenerator.True, (VCExpr a, VCExpr b) => VC.exprGen.And(a, VC.exprGen.Not(b)));
+            //List<Constant> falseAssertConstants = assertConsts.Values.Aggregate(new List<Constant>(),
+            //    (List<Constant> a, Constant b) => a.Concat(new Constant[] { b }).ToList<Constant>());
+            //VCExpr allFalseAssertsDisabled = falseAssertConstants.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)).
+            //        Aggregate<VCExpr, VCExpr>(VCExpressionGenerator.True, (VCExpr a, VCExpr b) => VC.exprGen.And(a, VC.exprGen.Not(b)));
 
             List<Constant> falseAssignAssertConstants = assignAssertGuards.Values.Aggregate(new List<Constant>(),
                 (List<Constant> a, Constant b) => a.Concat(new Constant[] { b }).ToList<Constant>());
             VCExpr falseAssignAssertConstantsDisabled = falseAssignAssertConstants.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)).
                     Aggregate<VCExpr, VCExpr>(VCExpressionGenerator.True, (VCExpr a, VCExpr b) => VC.exprGen.And(a, VC.exprGen.Not(b)));
 
-            VCExpr ensureAssert = VC.exprGen.And(allFalseAssertsDisabled, VC.exprGen.And(VC.translator.LookupVariable(phi_guard),
-                VC.exprGen.Not(VC.translator.LookupVariable(neg_phi_guard))));
-            VCExpr ensureNegAssert = VC.exprGen.And(allFalseAssertsDisabled, VC.exprGen.And(VC.translator.LookupVariable(neg_phi_guard),
-                VC.exprGen.Not(VC.translator.LookupVariable(phi_guard))));
-            VCExpr ensureEither = allFalseAssertsDisabled;
+            VCExpr ensureAssert = VC.exprGen.And(VC.translator.LookupVariable(phi_guard), VC.exprGen.Not(VC.translator.LookupVariable(neg_phi_guard)));
+            VCExpr ensureNegAssert = VC.exprGen.And(VC.translator.LookupVariable(neg_phi_guard), VC.exprGen.Not(VC.translator.LookupVariable(phi_guard)));
+            VCExpr ensureEither = VCExpressionGenerator.True;
 
             VCExpr allCandidatesDisabled = listCandidates(rightCandidates, R, L).ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)).
                 Aggregate<VCExpr, VCExpr>(VCExpressionGenerator.True, (VCExpr a, VCExpr b) => VC.exprGen.And(a, VC.exprGen.Not(b)));
@@ -225,8 +223,8 @@ namespace Rootcause
             VCExpr allGuardConst_RightTrue = assumeFalseConsts.Item2.Aggregate(VCExpressionGenerator.True, (a, b)
                 => VC.exprGen.And(a, VC.translator.LookupVariable(b.Value)));
             VCExpr allGuardConst_True = VC.exprGen.And(allGuardConst_LeftTrue, allGuardConst_RightTrue);
-            VCExpr allAssumeGuard_True = guardAssumeConsts.Aggregate(VCExpressionGenerator.True, (a, b)
-                => VC.exprGen.And(a, VC.translator.LookupVariable(b.Value)));
+            VCExpr allAssumeGuard_True = VCExpressionGenerator.True; /*guardAssumeConsts.Aggregate(VCExpressionGenerator.True, (a, b)
+                => VC.exprGen.And(a, VC.translator.LookupVariable(b.Value)));*/
 
             VCExpr demonicAxiomVC = VCExpressionGenerator.True;
             if (Options.demonizeUninterpreted)
@@ -275,8 +273,8 @@ namespace Rootcause
             //Setup code has now finished.
             //Use an algorithm of choice to compute root causes
             //List<Constant> rootcauseCandidates = BlockByBlock(L, R, predConsts, leftAssumeConsts, rightCandidates, rightAxioms, assertConsts, assumeFalseConsts, programVC, cex);
-            List<Constant> rootcauseCandidates = TopDown(L, R, guardAssumeConsts, predConsts, dependencies, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
-                                                    assertConsts, assumeFalseConsts, assignAssertGuards, assignAssertConstants, programVC, failing_cex, passing_cexs);
+            List<Constant> rootcauseCandidates = TopDown(L, R, predConsts, dependencies, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
+                                                    assumeFalseConsts, assignAssertGuards, assignAssertConstants, programVC, failing_cex, passing_cexs);
 
             if (Utils.verbosityLevel(1))
             {
@@ -290,6 +288,227 @@ namespace Rootcause
             Utils.PrintHtmlOutput(htmlOutputs);
 
             if (rootcauseCandidates.Count == 0) { Console.WriteLine("Unable to find rootcause"); }
+        }
+
+        public static void PerformCEGIS(Program prog, Implementation impl)
+        {
+            program = prog;
+            implementation = impl;
+            htmlOutputs = new List<Tuple<BigNum, string, BigNum, string>>();
+
+            sw = Stopwatch.StartNew();
+
+            (new Utils.ExtractCalleeConstVisitor()).Visit(program);
+            (new Utils.MiscStatementPruner()).Visit(program);
+            
+            List<Variable> ctobpl_consts = program.TopLevelDeclarations.Where(x => x is Constant).Cast<Variable>().
+                Where(x => x.Name.Contains("ctobpl")).ToList<Variable>();
+            program.RemoveTopLevelDeclarations(x => ctobpl_consts.Contains(x));
+            
+            if (Options.liftConditionals) { Utils.liftConditionalsInCFG(program, implementation); }
+
+            if (Utils.verbosityLevel(2))
+            {
+                Console.WriteLine("Phase 0.1: Source Transformation in {0}", sw.Elapsed.TotalSeconds);
+            }
+
+            List<Variable> prog_inputs = new List<Variable>();
+            //gather inputs, constants and globals
+            foreach (Variable v in implementation.InParams) prog_inputs.Add(v);
+            prog_inputs.AddRange(program.TopLevelDeclarations.Where(x => x is Constant).Cast<Variable>()
+                .Where(x => true)); //constants
+
+            prog_inputs.AddRange(program.GlobalVariables); //globals
+            prog_inputs.RemoveAll(x => x.Name.Contains("ctobpl"));
+            //it is not true that all the values are present as assignment of inputs/consts/globals/localvars,
+            //some output of functions such as select don't appear in locvars
+            //foreach (Variable v in impl.LocVars) inputs.Add(v); //incarnation variables h@1, h@3, ..
+            List<Variable> prog_locals = prog_inputs.Concat(implementation.LocVars.Cast<Variable>()).ToList();
+            List<Function> prog_fns = new List<Function>(program.TopLevelDeclarations.Where(x => x is Function).Cast<Function>());
+            //Console.WriteLine("Inputs = {0}", String.Join(", ", prog_inputs.ConvertAll<string>(x => x.Name)));
+            //Console.WriteLine("Funcs = {0}", String.Join(", ", prog_fns.ConvertAll<string>(x => x.Name)));
+
+            StreamWriter writer = new StreamWriter(Options.outputPath + @"\rootcause_input" + Options.htmlTag + @".config", false);
+            foreach (Variable v in prog_inputs) {
+                writer.WriteLine("input: " + v.Name);
+            }
+
+            foreach (Function f in prog_fns) {
+                writer.WriteLine("func: " + f.Name);
+            }
+            foreach (Variable v in prog_locals)
+            {
+                writer.WriteLine("local: " + v.Name);
+            }
+
+            Utils.PrintProg(program);
+            
+            Tuple<List<Block>, List<Block>> LR = Utils.GetLeftRightBlocks(implementation);
+            List<Block> L = LR.Item1;
+            List<Block> R = LR.Item2;
+            //L and R are original program blocks
+
+            cdfg = computeAssignmentCDFG(implementation);
+            if (Utils.verbosityLevel(2))
+            {
+                Console.WriteLine("Phase 0.2: Computed CDFG in {0}", sw.Elapsed.TotalSeconds);
+            }
+            cmdToBlock = computeCmdToBlockMapping(L.Concat(R).ToList());
+            blockToCmdSeq = computeBlockToCmdSeqMapping(L.Concat(R).ToList());
+            CmdToSourceline = new Preprocessor(program, implementation).preprocess(L, R); //computes source lines
+
+            if (Utils.verbosityLevel(2))
+            {
+                Console.WriteLine("Phase 0.3: Computed cmdToBlock,blockToCmdSeq,CmdToSourceline in {0}", sw.Elapsed.TotalSeconds);
+            }
+
+            Utils.PrintProg(program);
+            Dictionary<Tuple<AssignCmd, Variable>, HashSet<Variable>> dependencies = new Dictionary<Tuple<AssignCmd, Variable>, HashSet<Variable>>();
+            if (Options.independantFilter == FilterAction.Drop)
+            {
+                analyzeDependencies(program, implementation, L, R, dependencies);
+                if (Utils.verbosityLevel(2))
+                {
+                    Console.WriteLine("Phase 0.4: Computed dependencies in {0}", sw.Elapsed.TotalSeconds);
+                }
+            }
+
+            //Add assume (b) for each block on the left, used in /constrainLeftPath and /constrainRightPath
+            var guardBlocks = new GuardBlocks(program, implementation, L, R);
+            guardBlocks.Visit(implementation);
+            Tuple<Dictionary<Block, Constant>, Dictionary<Block, Constant>> assumeFalseConsts = guardBlocks.GetAssumeFalseConsts();
+
+            if (Utils.verbosityLevel(2))
+            {
+                Console.WriteLine("Phase 0.5: Guarded assumes on Left in {0}", sw.Elapsed.TotalSeconds);
+            }
+
+            //rootcause_ph_guard for toggling earlier asserts, used in /findEarliestMapEqualityMismatch
+            Dictionary<AssignCmd, Constant> assignAssertGuards = new Dictionary<AssignCmd, Constant>();
+            //used for dynamically setting what memory is used for the earlier asserts, used in /findEarliestMapEqualityMismatch
+            Dictionary<AssignCmd, Constant> assignAssertConstants = new Dictionary<AssignCmd, Constant>();
+            //introduces dummy asserts to move equalities earlier
+            injectAssignAssertsOnRight(program, implementation, L, R, assignAssertGuards, assignAssertConstants);
+            Utils.PrintProg(program);
+
+            if (Utils.verbosityLevel(2))
+            {
+                Console.WriteLine("Phase 0.6: Instrumented assignment level asserts in {0}", sw.Elapsed.TotalSeconds);
+            }
+
+            //Inject assumes on Left program
+            Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts = new Dictionary<AssignCmd, List<Tuple<Variable, Constant>>>();
+            injectAssumesOnLeft(program, implementation, L, R, leftAssumeConsts);
+            Utils.PrintProg(program);
+            //L contains injected assumes
+
+            if (Utils.verbosityLevel(2))
+            {
+                Console.WriteLine("Phase 0.7: Instrumented constants on Left in {0}", sw.Elapsed.TotalSeconds);
+            }
+
+            //Inject assumes on Right program
+            //Dictionary<Block(Right program), List<Tuple<Constant(Candidate, Block(Left program), Variable (right), Variable(left)>>>
+            Dictionary<AssignCmd, List<Tuple<Constant, AssignCmd, Variable, Variable>>> rightCandidates =
+                new Dictionary<AssignCmd, List<Tuple<Constant, AssignCmd, Variable, Variable>>>();
+            Dictionary<AssignCmd, Expr> rightAxioms = new Dictionary<AssignCmd, Expr>();
+            Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> rightAssumeConsts = new Dictionary<AssignCmd, List<Tuple<Variable, Constant>>>();
+            injectAxiomsOnRightCEGIS(program, implementation, L, R, leftAssumeConsts, rightCandidates, rightAxioms, rightAssumeConsts, dependencies);
+            //L contains injected assumes, R contains candidate assumes
+            Utils.PrintProg(program);
+
+            if (Utils.verbosityLevel(2))
+            {
+                Console.WriteLine("Phase 0.8: Instrumented constants,axioms on Right in {0}", sw.Elapsed.TotalSeconds);
+            }
+
+            //rootcause_phi_guard => phi /\ rootcause_neg_phi_guard => ~ phi
+            injectGuardedAssertsOnRight(program, implementation, L, R); //FIXME: We don't want assert False in final \phi block
+            Utils.PrintProg(program);
+
+            if (Utils.verbosityLevel(2))
+            {
+                Console.WriteLine("Phase 0.9: Guarded asserts on Right in {0}", sw.Elapsed.TotalSeconds);
+            }
+
+            //make program predicated
+            Dictionary<AssignCmd, Dictionary<Variable, Constant>> predConsts = new Dictionary<AssignCmd, Dictionary<Variable, Constant>>();
+            //x := e --> x := if (!b_pred) then havoc_x else e; 
+            guardAssignmentsOnRight(program, implementation, L, R, predConsts);
+            Utils.PrintProg(program);
+
+            if (Utils.verbosityLevel(2))
+            {
+                Console.WriteLine("Phase 0.10: predicate assignments on Right in {0}", sw.Elapsed.TotalSeconds);
+            }
+
+
+            if (Utils.verbosityLevel(1))
+            {
+                Console.WriteLine("Phase 1: Instrumented Program in {0}", sw.Elapsed.TotalSeconds);
+            }
+
+            if (Utils.verbosityLevel(3))
+            {
+                foreach (Expr axiomExpr in rightAxioms.Values) { Console.WriteLine(axiomExpr); }
+                foreach (AssignCmd key in rightCandidates.Keys)
+                {
+                    List<Tuple<Constant, AssignCmd, Variable, Variable>> listOfTuples = rightCandidates[key];
+                    foreach (Tuple<Constant, AssignCmd, Variable, Variable> tuple in listOfTuples)
+                    {
+                        Console.WriteLine("Cause ==> Candidate: {0}\n leftAssign: {1} rightAssign: {2} left: {3}\n right: {4}",
+                            tuple.Item1, tuple.Item2, key, tuple.Item4, tuple.Item3);
+                    }
+                }
+            }
+
+            foreach (Constant c in listCandidates(rightCandidates, R, L))
+            {
+                writer.WriteLine("Candidate: " + c.Name);
+            }
+            List<Constant> allPredConst = predConsts.Values.Aggregate(new List<Constant>(),
+                (List<Constant> aaa, Dictionary<Variable, Constant> bbb) => aaa.Concat(
+                    bbb.Values.Aggregate(new List<Constant>(), (List<Constant> aaaa, Constant bbbb)
+                    => aaaa.Concat(new Constant[] { bbbb }).ToList())).ToList());
+            foreach (Constant c in allPredConst)
+            {
+                writer.WriteLine("Beta: " + c.Name);
+            }
+            foreach (AssignCmd a in assignAssertGuards.Keys)
+            {
+                writer.WriteLine("AssignAssert: " +
+                    "(" + assignAssertGuards[a].Name + "," + assignAssertConstants[a].Name + ")");
+            }
+            foreach (Constant c in assumeFalseConsts.Item1.Values)
+            {
+                writer.WriteLine("LeftGuard: " + c.Name);
+            }
+            foreach (Constant c in assumeFalseConsts.Item2.Values)
+            {
+                writer.WriteLine("RightGuard: " + c.Name);
+            }
+            writer.WriteLine("phi: " + phi_guard.Name);
+            writer.WriteLine("negphi: " + neg_phi_guard.Name);
+            writer.Close();
+
+            //typecheck the instrumented program
+            program.Resolve();
+            program.Typecheck();
+
+            //Generate VC
+            VC.InitializeVCGen(program);
+            VCExpr programVC = VC.GenerateVC(program, implementation);
+
+            if (Utils.verbosityLevel(1))
+            {
+                Console.WriteLine("Phase 2: Generated VC in {0}", sw.Elapsed.TotalSeconds);
+            }
+
+            Counterexample failing_cex = getCounterExample(programVC);
+
+            VCExpr modelExpr = Utils.ModelToConstraintHelper(prog, impl,
+                new List<Counterexample>(new Counterexample[] {failing_cex}), prog_inputs, prog_locals);
+            Console.WriteLine(modelExpr);
         }
 
         // Check if the counterexample matches the one provided in the /htmlInput file
@@ -364,14 +583,13 @@ namespace Rootcause
         //TODO: refactored
         private static List<Constant> TopDown(
             List<Block> L, List<Block> R,
-            Dictionary<AssumeCmd, Constant> guardAssumeConsts,
+            //Dictionary<AssumeCmd, Constant> guardAssumeConsts,
             Dictionary<AssignCmd, Dictionary<Variable, Constant>> predConsts, //enabled
             Dictionary<Tuple<AssignCmd, Variable>, HashSet<Variable>> dependencies,
             Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts, //noop instrumentation
             Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> rightAssumeConsts, //noop instrumentation
             Dictionary<AssignCmd, List<Tuple<Constant, AssignCmd, Variable, Variable>>> rightCandidates, //added on demand via axiom
             Dictionary<AssignCmd, Expr> rightAxioms, //added on demand
-            Dictionary<Block, Constant> assertConsts, //disabled
             Tuple<Dictionary<Block, Constant>, Dictionary<Block, Constant>> assumeFalseConsts, //set false under constrainLeftPath
             Dictionary<AssignCmd, Constant> assignAssertGuards, //disabled
             Dictionary<AssignCmd, Constant> assignAssertConstants, //added on demand under mismatch
@@ -381,13 +599,6 @@ namespace Rootcause
         {
             List<Block> L_cex = blocksInCexPath(failing_cex, L);
             List<Block> R_cex = blocksInCexPath(failing_cex, R);
-
-
-            //Move up the assertion
-            List<Constant> assertConstList = assertConsts.Values.Aggregate(new List<Constant>(),
-                (List<Constant> a, Constant b) => a.Concat(new Constant[] { b }).ToList<Constant>());
-            VCExpr assertConstsDisabled = assertConstList.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)).
-                Aggregate<VCExpr, VCExpr>(VCExpressionGenerator.True, (VCExpr a, VCExpr b) => VC.exprGen.And(a, VC.exprGen.Not(b)));
 
             List<Constant> assignAssertGuardList = assignAssertGuards.Values.Aggregate(new List<Constant>(),
                 (List<Constant> a, Constant b) => a.Concat(new Constant[] { b }).ToList<Constant>());
@@ -534,19 +745,18 @@ namespace Rootcause
                     VC.translator.LookupVariable(assignAssertConstants[rAssign]));
 
                 //turn off the final assign
-                ensureAssert = VC.exprGen.And(someAssignAssertGuardsDisabled, VC.exprGen.And(assertConstsDisabled, VC.exprGen.And(
-                    //VC.exprGen.Not(VC.translator.LookupVariable(phi_guard)),
-                    VC.translator.LookupVariable(phi_guard),
-                    VC.exprGen.Not(VC.translator.LookupVariable(neg_phi_guard)))));
+                ensureAssert = VC.exprGen.And(someAssignAssertGuardsDisabled, 
+                    VC.exprGen.And(VC.translator.LookupVariable(phi_guard),
+                    VC.exprGen.Not(VC.translator.LookupVariable(neg_phi_guard))));
 
                 ensureAssert = VC.exprGen.And(ensureAssert, memConstraint);
             }
             else
             {
                 //use the original
-                ensureAssert = VC.exprGen.And(assignAssertGuardsDisabled, VC.exprGen.And(assertConstsDisabled, VC.exprGen.And(
-                    VC.translator.LookupVariable(phi_guard),
-                    VC.exprGen.Not(VC.translator.LookupVariable(neg_phi_guard)))));
+                ensureAssert = VC.exprGen.And(assignAssertGuardsDisabled, 
+                    VC.exprGen.And(VC.translator.LookupVariable(phi_guard),
+                    VC.exprGen.Not(VC.translator.LookupVariable(neg_phi_guard))));
             }
             #endregion
 
@@ -744,8 +954,8 @@ namespace Rootcause
             }
             if (Options.assumeToSkip)
             {
-                VCExpr allAssumeGuard_False = guardAssumeConsts.Aggregate(VCExpressionGenerator.True, (a, b)
-                    => VC.exprGen.And(a, VC.exprGen.Not(VC.translator.LookupVariable(b.Value))));
+                VCExpr allAssumeGuard_False = VCExpressionGenerator.True; /*guardAssumeConsts.Aggregate(VCExpressionGenerator.True, (a, b)
+                    => VC.exprGen.And(a, VC.exprGen.Not(VC.translator.LookupVariable(b.Value))));*/
                 Hard0.Add(allAssumeGuard_False);
             }
 
@@ -757,8 +967,8 @@ namespace Rootcause
                     Console.WriteLine("stats_binarysearch_assigns: {0}", assignmentsToExplore.Count);
                     Console.WriteLine("stats_binarysearch_candidates: {0}", candidatesToExplore.Count);
                 }
-                return AssignmentByAssignment(L, R, guardAssumeConsts, assignmentsToExplore, candidatesToExplore.ToList(), predConsts, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
-                    assertConsts, assumeFalseConsts, assignAssertGuards, assignAssertConstants, programVC, ensureAssert, failing_cex, passing_cexs);
+                return AssignmentByAssignment(L, R, assignmentsToExplore, candidatesToExplore.ToList(), predConsts, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
+                    assumeFalseConsts, assignAssertGuards, assignAssertConstants, programVC, ensureAssert, failing_cex, passing_cexs);
             }
 
             #region binarySearching
@@ -850,8 +1060,8 @@ namespace Rootcause
             #endregion binarySearching
 
             //only pass the interesting subsetAssignments to AssignmentByAssignment
-            return AssignmentByAssignment(L, R, guardAssumeConsts, subsetAssignments, candidatesToExplore.ToList(), predConsts, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
-                assertConsts, assumeFalseConsts, assignAssertGuards, assignAssertConstants, programVC, ensureAssert, failing_cex, passing_cexs);
+            return AssignmentByAssignment(L, R, subsetAssignments, candidatesToExplore.ToList(), predConsts, leftAssumeConsts, rightAssumeConsts, rightCandidates, rightAxioms,
+                assumeFalseConsts, assignAssertGuards, assignAssertConstants, programVC, ensureAssert, failing_cex, passing_cexs);
         }
 
         /* Proposed on July 25, 2013 */
@@ -878,7 +1088,7 @@ namespace Rootcause
         /// <returns></returns>
         private static List<Constant> AssignmentByAssignment(
             List<Block> L, List<Block> R,
-            Dictionary<AssumeCmd, Constant> guardAssumeConsts,
+            //Dictionary<AssumeCmd, Constant> guardAssumeConsts,
             List<AssignCmd> assignsToExplore,
             List<Constant> candidatesToExplore,
             Dictionary<AssignCmd, Dictionary<Variable, Constant>> predConsts,
@@ -886,7 +1096,6 @@ namespace Rootcause
             Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> rightAssumeConsts,
             Dictionary<AssignCmd, List<Tuple<Constant, AssignCmd, Variable, Variable>>> rightCandidates,
             Dictionary<AssignCmd, Expr> rightAxioms,
-            Dictionary<Block, Constant> assertConsts,
             Tuple<Dictionary<Block, Constant>, Dictionary<Block, Constant>> assumeFalseConsts,
             Dictionary<AssignCmd, Constant> assignAssertGuards,
             Dictionary<AssignCmd, Constant> assignAssertConstants,
@@ -931,8 +1140,8 @@ namespace Rootcause
             }
             if (Options.assumeToSkip)
             {
-                VCExpr allAssumeGuard_False = guardAssumeConsts.Aggregate(VCExpressionGenerator.True, (a, b)
-                    => VC.exprGen.And(a, VC.exprGen.Not(VC.translator.LookupVariable(b.Value))));
+                VCExpr allAssumeGuard_False = VCExpressionGenerator.True; /*guardAssumeConsts.Aggregate(VCExpressionGenerator.True, (a, b)
+                    => VC.exprGen.And(a, VC.exprGen.Not(VC.translator.LookupVariable(b.Value))));*/
                 Hard0.Add(allAssumeGuard_False);
             }
 
@@ -1192,6 +1401,18 @@ namespace Rootcause
             injector.injectAxioms(L, R, leftAssumeConsts, rightCandidates, rightAxioms, rightAssumeConsts, dependencies);
         }
 
+        private static void injectAxiomsOnRightCEGIS(Program program, Implementation implementation,
+                                    List<Block> L, List<Block> R,
+                                    Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts, /*requires*/
+                                    Dictionary<AssignCmd, List<Tuple<Constant, AssignCmd, Variable, Variable>>> rightCandidates, /*modifies*/
+                                    Dictionary<AssignCmd, Expr> rightAxioms, /*modifies*/
+                                    Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> rightAssumeConsts, /*modifies*/
+                                    Dictionary<Tuple<AssignCmd, Variable>, HashSet<Variable>> dependencies) /*modifies*/
+        {
+            var injector = new RightAxiomInjectorCEGIS(program, implementation);
+            injector.injectAxioms(L, R, leftAssumeConsts, rightCandidates, rightAxioms, rightAssumeConsts, dependencies);
+        }
+
         private static void injectAssignAssertsOnRight(Program program, Implementation implementation,
                                                 List<Block> L, List<Block> R,
                                                 Dictionary<AssignCmd, Constant> assignAssertGuards,
@@ -1318,7 +1539,7 @@ namespace Rootcause
 
         }
 
-        private static void injectGuardedAssertsOnRight(Program program, Implementation implementation, List<Block> L, List<Block> R, Dictionary<Block, Constant> assertConsts)
+        private static void injectGuardedAssertsOnRight(Program program, Implementation implementation, List<Block> L, List<Block> R)
         {
             AssertGuarder assertGuarder = new AssertGuarder(program, implementation);
             assertGuarder.guardAssert(L, R);
@@ -1343,8 +1564,10 @@ namespace Rootcause
                 implementation.Proc.Ensures.Add(guardedAssurance);
             }
 
-            AssertFalseInjector assertFalseInjector = new AssertFalseInjector(program, implementation);
-            assertFalseInjector.injectFalseAsserts(L, R, assertConsts);
+            //We had theses assert false for checking that we did not make paths feasible.
+            //We don't need this anymore since we don't add any assumes, but only assignments
+            //AssertFalseInjector assertFalseInjector = new AssertFalseInjector(program, implementation);
+            //assertFalseInjector.injectFalseAsserts(L, R, assertConsts);
 
         }
 
@@ -2218,6 +2441,417 @@ namespace Rootcause
                     }
                 }
                 return base.VisitCmdSeq(newCmdSeq);
+            }
+        }
+
+        //TODO: Refactor to share code with RightAxiomInjector
+        class RightAxiomInjectorCEGIS : StandardVisitor
+        {
+            //requires
+            private Implementation implementation;
+            private Program program;
+            private List<Block> L;
+            private List<Block> R;
+            private Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts;
+            private Dictionary<Tuple<AssignCmd, Variable>, HashSet<Variable>> dependencies;
+
+            //modifies
+            //Dictionary<Block(Right program), List<Tuple<Constant(Candidate, Block(Left program), Variable (right), Variable(left)>>>
+            private Dictionary<AssignCmd, List<Tuple<Constant, AssignCmd, Variable, Variable>>> rightCandidates;
+            private Dictionary<AssignCmd, Expr> rightAxioms;
+            private Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> rightAssumeConsts;
+
+            //internal
+            private Dictionary<List<Cmd>, Block> CmdsToBlock;
+            private FilterManager leftFilterManager;
+            private FilterManager rightFilterManager;
+
+            private int candidateCounter;
+
+            public RightAxiomInjectorCEGIS(Program program, Implementation implementation)
+            {
+                this.implementation = implementation;
+                this.program = program;
+            }
+
+            public void injectAxioms(List<Block> L, List<Block> R,
+                Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts,
+                Dictionary<AssignCmd, List<Tuple<Constant, AssignCmd, Variable, Variable>>> rightCandidates,
+                Dictionary<AssignCmd, Expr> rightAxioms,
+                Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> rightAssumeConsts,
+                Dictionary<Tuple<AssignCmd, Variable>, HashSet<Variable>> dependencies)
+            {
+                this.rightCandidates = rightCandidates;
+                this.rightAxioms = rightAxioms;
+                this.rightAssumeConsts = rightAssumeConsts;
+                this.leftAssumeConsts = leftAssumeConsts;
+                this.dependencies = dependencies;
+                this.L = L;
+                this.R = R;
+
+                this.CmdsToBlock = computeCmdseqToBlockMapping(L.Concat(R).ToList<Block>());
+                this.leftFilterManager = new FilterManager(dependencies, FilterManager.Side.LeftProgram);
+                this.rightFilterManager = new FilterManager(dependencies, FilterManager.Side.RightProgram);
+
+                this.candidateCounter = 0;
+
+                this.Visit(implementation);
+            }
+
+            private Constant CreateNewIntCandidateConst()
+            {
+                var a = new Constant(Token.NoToken, new TypedIdent(Token.NoToken, "_cand_" + this.candidateCounter, BType.Int), false);
+                this.candidateCounter += 1;
+                return a;
+            }
+
+            private string CreateNewPredicateName()
+            {
+                //FIXME: Make sure rootcause_P does not appear as another var/const in the program
+                //int uniqueId = deepCount<Block, Tuple<Constant, Block, Variable, Variable>>(this.rightCandidates);
+                int uniqueId = this.rightAxioms.Count;
+                return "rootcause_P" + "_" + uniqueId;
+            }
+
+            public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
+            {
+                List<Cmd> newCmdSeq = new List<Cmd>();
+
+                Utils.CheckRootcauseTimeout(sw);
+                List<List<Cmd>> commandsInR = R.ConvertAll<List<Cmd>>(b => b.Cmds);
+                if (!commandsInR.Contains(cmdSeq)) { return base.VisitCmdSeq(cmdSeq); }
+
+                Block cmdSeqBlock = CmdsToBlock[cmdSeq];
+
+                //capture variables for the general candidates
+                if (Options.verbose == 2) Console.Write("\n[RightAxiomInjector] :: Size of CmdSeq = {0}", cmdSeq.Count);
+                foreach (Cmd cmd in cmdSeq)
+                {
+                    Utils.CheckRootcauseTimeout(sw);
+                    if (Options.verbose == 2) Console.Write(".");
+                    newCmdSeq.Add(cmd);
+                    var rightAssignment = cmd as AssignCmd;
+                    if (rightAssignment == null) continue;
+
+                    Utils.Assert(rightAssignment.Lhss.Count() == rightAssignment.Rhss.Count(), "#lhs != #rhs");
+
+                    Expr rightAssumeExpr = (Expr)Expr.True;
+                    for (int i = 0; i < rightAssignment.Lhss.Count; i++)
+                    {
+                        Variable lhs = rightAssignment.Lhss[i].DeepAssignedVariable;
+                        Constant cn = new Constant(Token.NoToken,
+                            new TypedIdent(Token.NoToken, "right_" + lhs.Name + "__line__" + lhs.Line + "_" +
+                                deepCount<AssignCmd, Tuple<Variable, Constant>>(this.rightAssumeConsts), lhs.TypedIdent.Type), false);
+                        this.program.AddTopLevelDeclaration(cn);
+                        recordConstant(new Tuple<Variable, Constant>(lhs, cn), rightAssignment);
+                        rightAssumeExpr = Expr.And(rightAssumeExpr, Expr.Eq(new IdentifierExpr(Token.NoToken, lhs), new IdentifierExpr(Token.NoToken, cn)));
+                    }
+                    //add 1 assume for all variables updated by this assignment
+                    if (!rightAssumeExpr.Equals((Expr)Expr.True)) { newCmdSeq.Add(new AssumeCmd(Token.NoToken, rightAssumeExpr)); }
+
+                    //don't club the assumes together as a subset can be removed
+                    Expr assignCandAssumes = Expr.True;
+                    Dictionary<Variable, BoundVariable> varToBoundedVar = new Dictionary<Variable, BoundVariable>();
+                    var assignLhssMatched = new HashSet<Variable>();
+
+                    Constant candidate = CreateNewIntCandidateConst();
+
+                    //parallel Assignments
+                    if (rightAssignment.Lhss.Count > 1)
+                    {
+                        List<Variable> lhss = rightAssignment.Lhss.ConvertAll<Variable>(l => l.DeepAssignedVariable);
+                        int matchCount = 0;
+                        foreach (List<Constant> match in FindMatchingLeftValues(lhss, this.leftAssumeConsts, L)) //parallel matches
+                        {
+                            matchCount++;
+                            //Console.Write("-");
+                            Utils.Assert(match.Count == lhss.Count, "parallel Assignment Match gone wrong");
+
+                            //Find the left assignment that created list_tuple
+                            AssignCmd leftAssignment = LeftAssignmentByConstant(match);
+
+                            //static filtering
+                            if (Options.applyLeftFilter && (this.leftFilterManager.filter(rightAssignment, leftAssignment) == false)) { continue; } //Filter
+                            if (Options.applyRightFilter && (this.rightFilterManager.filter(rightAssignment, leftAssignment) == false)) { continue; } //Filter
+
+                            Expr parAssumeExpr = (Expr)Expr.True;
+                            for (int i = 0; i < lhss.Count; i++)
+                            {
+                                if (!varToBoundedVar.ContainsKey(lhss[i]))
+                                {
+                                    varToBoundedVar[lhss[i]] = new BoundVariable(Token.NoToken, new TypedIdent(Token.NoToken, lhss[i].Name, lhss[i].TypedIdent.Type));
+                                }
+
+                                parAssumeExpr = Expr.And(parAssumeExpr,
+                                    Expr.Imp(
+                                        Expr.Eq(new IdentifierExpr(Token.NoToken, candidate),
+                                                new LiteralExpr(Token.NoToken, BigNum.FromInt(matchCount))),
+                                        Expr.Eq(new IdentifierExpr(Token.NoToken, lhss[i]),
+                                                new IdentifierExpr(Token.NoToken, match[i]))));
+
+
+                                assignLhssMatched.Add(lhss[i]);
+                            }
+
+                            parAssumeExpr.Typecheck(new TypecheckingContext(null));
+                            assignCandAssumes = Expr.And(assignCandAssumes, parAssumeExpr);
+
+                            recordCandidate(rightAssignment, candidate, leftAssignment, lhss, match.ConvertAll<Variable>(c => (Variable)c));
+                        }
+
+
+                        for (int i = 0; i < lhss.Count; i++)
+                        {
+                            //default option
+                            Expr defaultOption =
+                                Expr.Imp(
+                                    Expr.Eq(new IdentifierExpr(Token.NoToken, candidate),
+                                            new LiteralExpr(Token.NoToken, BigNum.FromInt(0))),
+                                    Expr.Eq(new IdentifierExpr(Token.NoToken, lhss[i]), rightAssignment.Rhss[i]));
+
+                            assignCandAssumes = Expr.And(assignCandAssumes, defaultOption);
+                        }
+                        Expr candRange = Expr.And(
+                            Expr.Ge(new IdentifierExpr(Token.NoToken, candidate),
+                                    new LiteralExpr(Token.NoToken, BigNum.FromInt(0))),
+                            Expr.Le(new IdentifierExpr(Token.NoToken, candidate),
+                                    new LiteralExpr(Token.NoToken, BigNum.FromInt(matchCount))));
+
+                        program.AddTopLevelDeclaration(candidate);
+                        program.AddTopLevelDeclaration(new Axiom(Token.NoToken, candRange));
+                        newCmdSeq.Add(new AssumeCmd(Token.NoToken, assignCandAssumes));
+                    }
+                    else
+                    {
+                        Utils.Assert(rightAssignment.Lhss.Count == 1, "This should always be 1"); //FIXME: Remove the for loop
+                        //single assignments
+                        for (int i = 0; i < rightAssignment.Lhss.Count; i++)
+                        {
+                            Variable lhs = rightAssignment.Lhss[i].DeepAssignedVariable;
+                            int matchCount = 0;
+                            foreach (Constant match in FindMatchingLeftValues(lhs, this.leftAssumeConsts, L))
+                            {
+                                matchCount++;
+                                AssignCmd leftAssignment = LeftAssignmentByConstant(match);
+
+                                if (Options.applyLeftFilter && (this.leftFilterManager.filter(rightAssignment, leftAssignment) == false)) { continue; } //Filter
+                                if (Options.applyRightFilter && (this.rightFilterManager.filter(rightAssignment, leftAssignment) == false)) { continue; } //Filter
+
+                                //for each updated variable, for each left block, for each matching val in left block
+                                //Constant candidate = CreateNewBoolCandidateConst(); //cand_n
+                                if (!varToBoundedVar.ContainsKey(lhs))
+                                {
+                                    varToBoundedVar[lhs] = new BoundVariable(Token.NoToken, new TypedIdent(Token.NoToken, lhs.Name, lhs.TypedIdent.Type));
+                                }
+
+                                Expr lhsAxiom =
+                                    Expr.Imp(
+                                        Expr.Eq(new IdentifierExpr(Token.NoToken, candidate),
+                                                new LiteralExpr(Token.NoToken, BigNum.FromInt(matchCount))),
+                                        Expr.Eq(new IdentifierExpr(Token.NoToken, lhs),
+                                                new IdentifierExpr(Token.NoToken, match)));
+                                lhsAxiom.Typecheck(new TypecheckingContext(null));
+
+                                assignCandAssumes = Expr.And(assignCandAssumes, lhsAxiom);
+                                assignLhssMatched.Add(lhs);
+
+                                recordCandidate(rightAssignment, candidate, leftAssignment, lhs, match);
+                            }
+
+                            //default option
+                            Expr defaultOption =
+                                Expr.Imp(
+                                    Expr.Eq(new IdentifierExpr(Token.NoToken, candidate),
+                                            new LiteralExpr(Token.NoToken, BigNum.FromInt(0))),
+                                //Expr.Eq(new IdentifierExpr(Token.NoToken, lhs), rightAssignment.Rhss[0]));
+                                    Expr.Eq(rightAssignment.Lhss[i].AsExpr, rightAssignment.Rhss[i]));
+                            assignCandAssumes = Expr.And(assignCandAssumes, defaultOption);
+
+                            Expr candRange = Expr.And(
+                                Expr.Ge(new IdentifierExpr(Token.NoToken, candidate),
+                                        new LiteralExpr(Token.NoToken, BigNum.FromInt(0))),
+                                Expr.Le(new IdentifierExpr(Token.NoToken, candidate),
+                                        new LiteralExpr(Token.NoToken, BigNum.FromInt(matchCount))));
+
+                            program.AddTopLevelDeclaration(candidate);
+                            program.AddTopLevelDeclaration(new Axiom(Token.NoToken, candRange));
+                            newCmdSeq.Add(new AssumeCmd(Token.NoToken, assignCandAssumes));
+
+                        }
+                    }
+
+                    if (assignCandAssumes.Equals((Expr)Expr.True)) { continue; }
+
+                    //FIXME: dictionary doesnt preserve order
+                    List<BoundVariable> allBoundVars = varToBoundedVar.Values.Aggregate(new List<BoundVariable>(),
+                        (List<BoundVariable> a, BoundVariable b) => a.Concat(new BoundVariable[] { b }).ToList<BoundVariable>());
+                    List<Variable> formalArgs = new List<Variable>();
+                    foreach (Variable boundVar in allBoundVars)
+                    {
+                        //Console.Write("/");
+                        formalArgs.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, boundVar.Name, boundVar.TypedIdent.Type), true));
+                    }
+                    Variable formalReturnVar = new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "ret", BasicType.Bool), false); //ret
+                    Function P = new Function(Token.NoToken, CreateNewPredicateName(), formalArgs, formalReturnVar);
+                    program.AddTopLevelDeclaration(P);
+
+                    List<Expr> actualArgs = new List<Expr>();
+                    foreach (Variable lhs in assignLhssMatched)
+                    {
+                        //Console.Write("\\");
+                        actualArgs.Add(new IdentifierExpr(Token.NoToken, lhs));
+                    }
+
+
+                    Expr assumeExpr = new NAryExpr(Token.NoToken, new FunctionCall(P), actualArgs);
+                    assumeExpr.Typecheck(new TypecheckingContext(null));
+
+                    List<Expr> axiomBoundVars = new List<Expr>();
+                    foreach (Variable boundVar in allBoundVars)
+                    {
+                        //Console.Write("@");
+                        axiomBoundVars.Add(new IdentifierExpr(Token.NoToken, boundVar));
+                    }
+                    Expr P_of_x = new NAryExpr(Token.NoToken, new FunctionCall(P), axiomBoundVars);
+                    Expr P_of_x_eq_body = Expr.Eq(P_of_x, assignCandAssumes);
+                    Expr forall_x_P_of_x_eq_body;
+                    if (assignCandAssumes != Expr.True)
+                    {
+                        forall_x_P_of_x_eq_body = new ForallExpr(Token.NoToken, new List<Variable>(allBoundVars.ToArray()), P_of_x_eq_body);
+                    }
+                    else
+                    {
+                        forall_x_P_of_x_eq_body = P_of_x_eq_body;
+                    }
+                    forall_x_P_of_x_eq_body.Typecheck(new TypecheckingContext(null));
+
+                    recordAxiom(rightAssignment, forall_x_P_of_x_eq_body);
+                }
+                return base.VisitCmdSeq(newCmdSeq);
+            }
+
+            private void recordAxiom(AssignCmd cmd, Expr axiom)
+            {
+                this.rightAxioms[cmd] = axiom;
+            }
+
+            private void recordConstant(Tuple<Variable, Constant> assumeInfo, AssignCmd cmd)
+            {
+                if (!this.rightAssumeConsts.ContainsKey(cmd))
+                {
+                    this.rightAssumeConsts[cmd] = new List<Tuple<Variable, Constant>>();
+                }
+                this.rightAssumeConsts[cmd].Add(assumeInfo);
+            }
+
+            private void recordCandidate(AssignCmd cmd, Constant cn, AssignCmd leftAssign, Variable rightVar, Variable leftVar)
+            {
+                recordCandidate(cmd, cn, leftAssign, new List<Variable>(new Variable[] { rightVar }), new List<Variable>(new Variable[] { leftVar }));
+            }
+
+            private void recordCandidate(AssignCmd cmd, Constant cn, AssignCmd leftAssign, List<Variable> rightVars, List<Variable> leftVars)
+            {
+                Utils.Assert(leftVars.Count == rightVars.Count, "recordCandidate: sanity test");
+                if (!this.rightCandidates.ContainsKey(cmd))
+                {
+                    this.rightCandidates[cmd] = new List<Tuple<Constant, AssignCmd, Variable, Variable>>();
+                }
+
+                for (int i = 0; i < rightVars.Count; i++)
+                {
+                    this.rightCandidates[cmd].Add(new Tuple<Constant, AssignCmd, Variable, Variable>(cn, leftAssign, rightVars[i], leftVars[i]));
+                }
+            }
+
+            private List<Constant> FindMatchingLeftValues(Variable lhs, Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts, List<Block> leftBlocks)
+            {
+                var matches = new List<Constant>();
+
+                Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConstsSubset = new Dictionary<AssignCmd, List<Tuple<Variable, Constant>>>();
+                foreach (AssignCmd leftAssignment in leftAssumeConsts.Keys)
+                {
+                    Block leftBlock = cmdToBlock[leftAssignment];
+                    if (leftBlocks.Contains(leftBlock)) { leftAssumeConstsSubset[leftAssignment] = leftAssumeConsts[leftAssignment]; }
+                }
+
+                //flatten the leftAssumeConsts dictionary to a List<Constant>, a monadic join
+                List<Tuple<Variable, Constant>> leftConsts =
+                    leftAssumeConstsSubset.Values.Aggregate(new List<Tuple<Variable, Constant>>(),
+                    (List<Tuple<Variable, Constant>> a1, List<Tuple<Variable, Constant>> a2) => a1.Concat(a2).ToList());
+
+                //This is where all the magic will happen of which subset of variables to get from the left handside
+                foreach (Tuple<Variable, Constant> leftConst in leftConsts)
+                {
+                    Constant kv = leftConst.Item2;
+                    if (lhs.TypedIdent.Type.ToString() != kv.TypedIdent.Type.ToString()) continue;
+                    //use other heuristics such as fuzzy matching of names 
+                    if (!FuzzyMatchOfNames(lhs.Name, kv.Name)) continue;
+                    //use heuristics based on the line numbers (don't compare variables 100 lines apart on two sides)
+                    matches.Add(kv);
+                }
+                return matches;
+            }
+
+            //for parallel assignments
+            private List<List<Constant>> FindMatchingLeftValues(List<Variable> lhss, Dictionary<AssignCmd, List<Tuple<Variable, Constant>>> leftAssumeConsts, List<Block> leftBlocks)
+            {
+                var matches = new List<List<Constant>>();
+
+                foreach (AssignCmd leftAssignment in leftAssumeConsts.Keys.Where(la => leftAssumeConsts[la].Count == lhss.Count))
+                {
+                    Block leftBlock = cmdToBlock[leftAssignment];
+                    if (!leftBlocks.Contains(leftBlock)) { continue; }
+
+                    List<Tuple<Variable, Constant>> list_tuple = leftAssumeConsts[leftAssignment];
+                    bool matchingTypes = true;
+                    for (int i = 0; i < lhss.Count; i++)
+                    {
+                        if (lhss[i].TypedIdent.Type.ToString() != list_tuple[i].Item1.TypedIdent.Type.ToString()) { matchingTypes = false; }
+                        if (!FuzzyMatchOfNames(lhss[i].Name, list_tuple[i].Item1.Name)) { matchingTypes = false; }
+                    }
+                    if (matchingTypes)
+                    {
+                        List<Constant> match = new List<Constant>();
+                        list_tuple.ForEach(tuple => match.Add(tuple.Item2));
+                        matches.Add(match);
+                    }
+                }
+
+                return matches;
+            }
+
+            private AssignCmd LeftAssignmentByConstant(Constant c)
+            {
+                foreach (AssignCmd la in this.leftAssumeConsts.Keys)
+                {
+                    foreach (Tuple<Variable, Constant> la_vc in this.leftAssumeConsts[la])
+                    {
+                        if (la_vc.Item2 == c) { return la; }
+                    }
+                }
+                return null;
+            }
+
+            private AssignCmd LeftAssignmentByConstant(List<Constant> c)
+            {
+                foreach (AssignCmd la in this.leftAssumeConsts.Keys)
+                {
+                    if (this.leftAssumeConsts[la].Count != c.Count) { continue; }
+
+                    bool foundleftAssignment = true;
+                    for (int i = 0; i < c.Count; i++)
+                    {
+                        if (this.leftAssumeConsts[la][i].Item2 != c[i]) { foundleftAssignment = false; }
+                    }
+                    if (foundleftAssignment) { return la; }
+                }
+                return null;
+            }
+
+            private bool FuzzyMatchOfNames(string p1, string p2)
+            {
+                //compare the string between ($,__line__)
+                return true;
             }
         }
 
@@ -3138,7 +3772,6 @@ namespace Rootcause
                 FindDisequalitiesFromTest(program, implementation, L_cex, R_cex, failing_cex, leftAssumeConsts, rightAssumeConsts);
             int i = 0, j = 0;
             AssignCmd lAssign = null; AssignCmd rAssign = null;
-            Constant lconst = null; Constant rconst = null;
             List<BigNum> leftEqMemAssignsLines = new List<BigNum>();
             List<BigNum> rightEqMemAssignsLines = new List<BigNum>();
 
@@ -3164,9 +3797,6 @@ namespace Rootcause
                     }
                 }
             }
-
-            AssignCmd leftLastEqMemAssign = null;
-            AssignCmd rightLastEqMemAssign = null;
 
             while (true)
             {
