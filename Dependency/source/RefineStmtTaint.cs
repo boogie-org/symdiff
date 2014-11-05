@@ -165,7 +165,7 @@ namespace Dependency
             var count = writeCollectorGuardConstants.Count;
             var newConst = new Constant(Token.NoToken, new TypedIdent(Token.NoToken,  guardConstNamePrefix + count, BType.Bool));
             newConst.AddAttribute(guardConstAttribute, Expr.True);
-            newConst.AddAttribute("procedure", currImpl.Name);
+            newConst.AddAttribute("proc", currImpl.Name);
             newConst.AddAttribute("blockLabel", blk.Label);
             prog.AddTopLevelDeclaration(newConst);
             writeCollectorGuardConstants[assignCmd] = newConst;

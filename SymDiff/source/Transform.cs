@@ -236,6 +236,13 @@ namespace SDiff
       body.Add(hcmd);
       body.Add(assgnCmd);
 
+      //special hack to limit outvar to {:stmtTaintCollectorGlobalVar}
+      if (Options.refinedStmtTaint)
+      {
+          Options.OutputVars.Clear();
+          globals.Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "stmtTaintCollectorGlobalVar")).Iter(x => Options.OutputVars.Add(x.ToString()));
+      }
+
       List<Ensures> outputPostConditions = new List<Ensures>();
       if (Options.splitOutputEqualities)
       {

@@ -398,7 +398,7 @@ namespace Dependency
             {
                 //TODO: pass the modified set of methods
                 (new RefinedStmtTaintInstrumentation(program, new HashSet<Implementation>())).Instrument();
-                var outFile = filename + ".stmtTaintInstr.bpl";
+                var outFile = filename.Replace(".bpl", "") + "_stmtTaintInstr.bpl";
                 Utils.PrintProgram(program, outFile);
                 Console.WriteLine("Printing stmt taint instrumented program to {0}", outFile);
             }

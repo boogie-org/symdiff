@@ -97,6 +97,8 @@ namespace SDiff
         }
         private static bool ParseArgs(string[] args0) {
             List<string> argsList = args0.ToList();
+
+
             Options.nonModularMode = argsList.Remove("-nonmodular");
             Options.localcheck = argsList.Remove("-localcheck");
             Options.oneproc = argsList.Remove("-oneproc");
@@ -118,7 +120,7 @@ namespace SDiff
             Options.callCorralOnMergedProgram = argsList.Remove("-callCorralOnMergedProgram");
             
             //taint related
-
+            Options.refinedStmtTaint = argsList.Remove("-refinedStmtTaintAnalysis");
 
             inlineWhenMissing = argsList.Remove("-inlineWhenMissing");
             deactivateHacks = argsList.Remove("-deactivatehacks");
@@ -1080,6 +1082,19 @@ namespace SDiff
                         // calls verify and then enumerates all counterexamples
                         // vt records the status and the counterexamples 
 
+                        if (Options.refinedStmtTaint)
+                        {
+                            Debug.Assert(Options.nonModularMode, "RefinedStmtTaint is currently enabled only with nonModular mode");
+                            Debug.Assert(Options.splitOutputEqualities, "RefinedStmtTaint is currently enabled only with nonModular mode");
+                            //ensure single root. roots_cgi containts roots without implementations as well
+                            var implRoots_cg1 = roots_cg1.Where(x => x.Impl != null);
+                            var implRoots_cg2 = roots_cg2.Where(x => x.Impl != null);
+                            Debug.Assert(implRoots_cg1.Count() == 1 && implRoots_cg2.Count() == 1, "RefinedStmtTaint is currently enabled with only a single root");
+                            //just take control and return 
+                            var stmtTaint = new SymDiff.SemanticTaint.RefinedStmtTaint(mergedProgram, vt.Eq, vt.Left, vt.Right);
+                            return stmtTaint.PerformTaintAnalysis();
+                        }
+
                         //RS: this is only file processing (if wrapper is true)
                         curCex = BoogieVerify.RunVerificationTask(vt, null, mergedProgram, /*failedProcs,*/ out crashed, wrapper);
                         if (wrapper)
@@ -1155,6 +1170,7 @@ namespace SDiff
                 dumpfile.Close();
             return 0;
         }
+
 
         private static void ExecuteWithWrapper(ref int curCex, ref int numCrashed, VerificationTask vt)
         {

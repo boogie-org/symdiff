@@ -42,7 +42,7 @@ namespace SDiff
         public static bool ok; // *
         #endregion
 
-            #region Cmd line options for user
+        #region Cmd line options for user
 
         //different modes to check
         public static bool oneproc;
