@@ -20,25 +20,12 @@ namespace SDiff
 
         //RS: flags recorded here and then discarded
         //TODO: move to Options
-        static bool inlineAll;
-        static bool checkAssertsOnly;
-        static bool justMain; //run Boogie only on main (rest are skip)
         static bool dumpEq;
-        static bool localcheck;
-        static bool oneproc;
         static bool wrapper;
-
-        static bool mutualSummaryMode;
-        static bool useMutualSummariesAsAxioms;
-        static bool dontUseHoudiniForMS;
-        static bool checkMutualPrecondNonTerminating; //use dependencies and Houdini to check for equivalence
-        static bool dontTypeCheckMergedProg;
-        static bool callCorralOnMergedProgram; //invoke corral to check the candidates in mutual summary procedures (for equivalence checking)
 
         static bool inlineWhenMissing;
         static bool deactivateHacks;
         static bool onlyAnalyzeRootsOfCallGraphsForInlineAll = true; //default true
-        static bool freeContracts = false; //instead of dropping requires/ensures, makes them free requires/ensures
 
         //Parsing routines
         public static HashSet<string> ParseProcedureListFromFile(string fname)
@@ -110,25 +97,28 @@ namespace SDiff
         }
         private static bool ParseArgs(string[] args0) {
             List<string> argsList = args0.ToList();
-            inlineAll = argsList.Remove("-nonmodular");
-            localcheck = argsList.Remove("-localcheck");
-            oneproc = argsList.Remove("-oneproc");
+            Options.nonModularMode = argsList.Remove("-nonmodular");
+            Options.localcheck = argsList.Remove("-localcheck");
+            Options.oneproc = argsList.Remove("-oneproc");
 
             //DAC related
-            checkAssertsOnly = argsList.Remove("-asserts");
-            justMain = argsList.Remove("-justmain"); //run Boogie only on main (rest are skip)
+            Options.checkAssertsOnly = argsList.Remove("-asserts");
+            Options.justMain = argsList.Remove("-justmain"); //run Boogie only on main (rest are skip)
             dumpEq = argsList.Remove("-dumpeq");
             wrapper = argsList.Remove("-wrapper");
 
             //mutual summary related
-            mutualSummaryMode = argsList.Remove("-usemutual");
-            useMutualSummariesAsAxioms = argsList.Remove("-useMutualSummariesAsAxioms");
-            dontUseHoudiniForMS = argsList.Remove("-dontUseHoudiniForMS");
-            checkMutualPrecondNonTerminating = argsList.Remove("-checkMutualPrecondNonTerminating");
-            freeContracts = argsList.Remove("-freeContracts");
+            Options.mutualSummaryMode = argsList.Remove("-usemutual");
+            Options.useMutualSummariesAsAxioms = argsList.Remove("-useMutualSummariesAsAxioms");
+            Options.dontUseHoudiniForMS = argsList.Remove("-dontUseHoudiniForMS");
+            Options.checkMutualPrecondNonTerminating = argsList.Remove("-checkMutualPrecondNonTerminating");
+            Options.freeContracts = argsList.Remove("-freeContracts");
             Options.checkEquivWithDependencies = argsList.Remove("-checkEquivWithDependencies");
-            dontTypeCheckMergedProg = argsList.Remove("-dontTypeCheckMergedProg");
-            callCorralOnMergedProgram = argsList.Remove("-callCorralOnMergedProgram");
+            Options.dontTypeCheckMergedProg = argsList.Remove("-dontTypeCheckMergedProg");
+            Options.callCorralOnMergedProgram = argsList.Remove("-callCorralOnMergedProgram");
+            
+            //taint related
+
 
             inlineWhenMissing = argsList.Remove("-inlineWhenMissing");
             deactivateHacks = argsList.Remove("-deactivatehacks");
@@ -223,15 +213,16 @@ namespace SDiff
             if (Options.DifferentialInline && Options.InlineWhenFail) {
                 Console.WriteLine("Optioin InlineWhenFail is set with DifferentialInline...only set one");
                 return false;
-            }    
-            if (Options.OnlyConsiderReturnAsOutput && !localcheck) {
+            }
+            if (Options.OnlyConsiderReturnAsOutput && !Options.localcheck)
+            {
                 Console.WriteLine("Optioin -returnAsOnlyOutput currently only supported with -localcheck");
                 return false;
             }
             ////////////////////////////// 
             // Set the derived options
             //////////////////////////////
-            if (localcheck || inlineAll) Options.PropagateEquivs = false;
+            if (Options.localcheck || Options.nonModularMode) Options.PropagateEquivs = false;
             return true;
         }
         private static int ParseCmdLine(string[] args)
@@ -436,7 +427,7 @@ namespace SDiff
             var varOK1 = Expr.Ident(p1Prefix + ".OK", BoolType);
 
             List<Cmd> temp = new List<Cmd>();
-            if (oneproc)
+            if (Options.oneproc)
             {   //initialize to true
                 var varOK = Expr.Ident(p2Prefix + ".OK", BoolType);
                 temp.Add(new AssumeCmd(new Token(), Expr.Iff(varOK, Expr.True)));
@@ -466,7 +457,7 @@ namespace SDiff
             if (OK1var != "")
             {
                 Expr TempExpr;
-                if (oneproc)
+                if (Options.oneproc)
                     TempExpr = Expr.True;
                 else
                     TempExpr = Expr.Ident(OK1var, BoolType);
@@ -863,7 +854,7 @@ namespace SDiff
         private static List<string> GetInequalProcsFromDumpEqFiles()
         {
             List<string> InequalProc = null;
-            if (checkAssertsOnly && !oneproc && !inlineAll)
+            if (Options.checkAssertsOnly && !Options.oneproc && !Options.nonModularMode)
             {
                 try
                 {
@@ -919,7 +910,7 @@ namespace SDiff
                 //create uifs, grabs the readset from callgraph
                 //same uif for both versions   
                 //injects them as postcondition
-                if (SDiff.Boogie.Process.InjectUninterpreted(n1.Proc, n2.Proc, cfg, cg, newDecls, checkAssertsOnly))
+                if (SDiff.Boogie.Process.InjectUninterpreted(n1.Proc, n2.Proc, cfg, cg, newDecls, Options.checkAssertsOnly))
                     Log.Out(Log.Error, "Failed to add postconditions to " + n1.Name + " and " + n2.Name);
                 mergedProgram.AddTopLevelDeclarations(newDecls);
                 newDecls = new List<Declaration>(); //do not add duplicate declarations
@@ -960,7 +951,7 @@ namespace SDiff
                     n2.Proc.TypeParameters = n1.Proc.TypeParameters;
                     continue;
                 }
-                if (!oneproc && InequalProc != null && !InequalProc.Contains(n1.Impl.Name.Replace(p1Prefix + ".", "")) && !deactivateHacks)
+                if (!Options.oneproc && InequalProc != null && !InequalProc.Contains(n1.Impl.Name.Replace(p1Prefix + ".", "")) && !deactivateHacks)
                 {
                     Log.Out(Log.Verifier, "Not checking " + n1.Impl.Name + " as it is semantically equivalent to old");
                     continue;
@@ -975,7 +966,7 @@ namespace SDiff
                 var ignores = new HashSet<Variable>(n1.IgnoreSet);
                 ignores.UnionWith(n2.IgnoreSet);
 
-                if (inlineAll)
+                if (Options.nonModularMode)
                 {
                     //only analyze methods that are roots
                     //trouble is that all the calls have been inlined
@@ -1007,7 +998,7 @@ namespace SDiff
                   Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores, out outputVars);
 
                 //RS: adding OK1=true, OK2=true, and OK1=>OK2
-                if (checkAssertsOnly)
+                if (Options.checkAssertsOnly)
                     InsertOkChecks(mergedProgram, n1, n2, eqp);
 
                 // if any visible output
@@ -1081,7 +1072,7 @@ namespace SDiff
                     List<string> failedImpls = new List<string>(); //implementations that have cex
                     foreach (var vt in verificationTasks) //Executes exactly once
                     {
-                        if (justMain && !vt.Eq.Name.Contains("main"))
+                        if (Options.justMain && !vt.Eq.Name.Contains("main"))
                             continue;
                         var time = Stopwatch.StartNew();
 
@@ -1357,10 +1348,10 @@ namespace SDiff
             //inline the procedures with inline attribute
             //Problem is that impl.Proc is not defined here
             IEnumerable<CallGraphNode> roots_cg1 = null, roots_cg2 = null;
-            if (inlineAll)
+            if (Options.nonModularMode)
             {
                 //special hack: the asserts from ensures + inlining are not visited during StripContracts later
-                if (!checkAssertsOnly)
+                if (!Options.checkAssertsOnly)
                     StripContracts(p1, p2); //asserts/ensures don't matter for equivalence
 
                 CallGraph cg1_temp = CallGraph.Make(p1);
@@ -1396,7 +1387,7 @@ namespace SDiff
             // Turn asserts into OK starts
             ////////////////////////////////////////////////////////
             //RS: InsertOK(n,pn,args) introduces OK_n=OK_n && P in pn(=args[n-1])
-            if (checkAssertsOnly)
+            if (Options.checkAssertsOnly)
             {
                 if (TurnAssertsIntoOK(args, p1, p2, g1s.ToList(), g2s.ToList()) == 1)
                     return 1;
@@ -1438,7 +1429,7 @@ namespace SDiff
             //////////////////////////////////////////////////////////                        
             //get rid of this
             Program mergedProgram = new Program();
-            var mergeGlobals = !mutualSummaryMode; //when using mutual summary, keep globals separate 
+            var mergeGlobals = !Options.mutualSummaryMode; //when using mutual summary, keep globals separate 
             //has the side effect of dumping->reading from the disk (TODO: remove)
             if (CreateMergedProgram(p1, p2, t2s.ToList(), g2s.ToList(), c2s.ToList(), f1s.ToList(), f2s.ToList(), mergeGlobals, ref mergedProgram) == 1)
                 return 1;
@@ -1451,7 +1442,7 @@ namespace SDiff
                     mergedProgram.TopLevelDeclarations.Where(x => x is Implementation).ToList());
                 mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
             }
-            if (checkAssertsOnly) //RS ADD OK Ensures
+            if (Options.checkAssertsOnly) //RS ADD OK Ensures
                 AddOKEnsures(p1Prefix, p2Prefix, mergeGlobals, mergedProgram.TopLevelDeclarations.Where(x => x is Procedure).ToList());
             //////////////////////////////////////////////////////////
             // Creation of the merged program end
@@ -1461,12 +1452,12 @@ namespace SDiff
             ///////////////////////////////////////////////////////////
             //mutual summaries mode
             ///////////////////////////////////////////////////////////
-            if (mutualSummaryMode)
+            if (Options.mutualSummaryMode)
             {
-                MutualSummary.Start(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg, 
-                    checkAssertsOnly, useMutualSummariesAsAxioms, !dontUseHoudiniForMS, checkMutualPrecondNonTerminating, 
-                    freeContracts, dontTypeCheckMergedProg,
-                    callCorralOnMergedProgram);
+                MutualSummary.Start(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg,
+                    Options.checkAssertsOnly, Options.useMutualSummariesAsAxioms, !Options.dontUseHoudiniForMS, Options.checkMutualPrecondNonTerminating,
+                    Options.freeContracts, Options.dontTypeCheckMergedProg,
+                    Options.callCorralOnMergedProgram);
                 return 0;
             }
             ///////////////////////////////////////////////////////////
@@ -1513,8 +1504,8 @@ namespace SDiff
             if (Options.StripContracts)
             {
                 //TODO: asserts from inlined body are not visited in the Visitor (so they still stay in /nonmodular)
-                var contractStripper = new StripContractsAndAttributes(freeContracts);
-                contractStripper.asserts = checkAssertsOnly;
+                var contractStripper = new StripContractsAndAttributes(Options.freeContracts);
+                contractStripper.asserts = Options.checkAssertsOnly;
                 contractStripper.VisitProgram(p1);
                 contractStripper.VisitProgram(p2);
             }
