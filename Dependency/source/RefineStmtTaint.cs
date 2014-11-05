@@ -17,18 +17,19 @@ namespace Dependency
     /// <summary>
     /// Destructively instruments a program given a set of changed methods
     /// </summary>
-    class RefineStmtTaintInstrumentation
+    public class RefinedStmtTaintInstrumentation
     {
         static string globalCollectAssignName = "_global_collect_assigns_for_stmt_taint";
         static string globalCollectAssignVarAttribute = "stmtTaintCollectorGlobalVar";
         static string guardConstNamePrefix = "_stmtTaintConst_";
         static string guardConstAttribute = "stmtTaintConst";
         Program prog;
+        Implementation currImpl;
         HashSet<Implementation> syntacticModifiedImpls;
         Dictionary<AssignCmd, Constant> writeCollectorGuardConstants; //these are Boolean constants that will be used in unsat core
         GlobalVariable globalCollectAssignmentsVar; //a global variable to collect the assignments
         Function collectBoolFunc, collectIntFunc, collectMapFunc; //functions to accumulate out := f(out, assign)
-        public RefineStmtTaintInstrumentation(Program prog, HashSet<Implementation> modifiedImpls)
+        public RefinedStmtTaintInstrumentation(Program prog, HashSet<Implementation> modifiedImpls)
         {
             this.prog = prog;
             syntacticModifiedImpls = modifiedImpls;
@@ -38,6 +39,17 @@ namespace Dependency
             globalCollectAssignmentsVar.AddAttribute(globalCollectAssignVarAttribute, Expr.True);
             prog.AddTopLevelDeclaration(globalCollectAssignmentsVar);
             InitializeFuncs();
+            currImpl = null;
+        }
+        public void Instrument()
+        {
+            var impls = new HashSet<Implementation>(prog.TopLevelDeclarations.OfType<Implementation>());
+            impls.Iter(impl =>
+            {
+                //TODO: refine the map for changed procedures as well
+                if (syntacticModifiedImpls.Contains(impl)) return;
+                InstrumentImpl(impl);
+            });
         }
         private void InitializeFuncs()
         {
@@ -57,46 +69,39 @@ namespace Dependency
             prog.AddTopLevelDeclaration(collectIntFunc);
             prog.AddTopLevelDeclaration(collectMapFunc);
         }
-        public void Instrument()
-        {
-            var impls = prog.TopLevelDeclarations.OfType<Implementation>();
-            impls.Iter(impl =>
-                {
-                    //TODO: refine the map for changed procedures as well
-                    if (syntacticModifiedImpls.Contains(impl)) return;
-                    InstrumentImpl(impl);
-                });
-        }
         private void InstrumentImpl(Implementation impl)
         {
-            var InstrumentCmd = new Func<Cmd, Cmd> (c =>
+            currImpl = impl;
+            var InstrumentCmd = new Func<Cmd, Block, Cmd> ((c,b) =>
             {
-                if(c is AssignCmd) return InstrumentAssignCmd(c as AssignCmd);
-                if (c is CallCmd)  return InstrumentCallCmd(c as CallCmd);
+                if(c is AssignCmd) return InstrumentAssignCmd(c as AssignCmd, b);
+                if (c is CallCmd)  return InstrumentCallCmd(c as CallCmd, b);
                 return null;
             });
 
-            var InstrumentBlockCmds = new Func<List<Cmd>, List<Cmd>>(cmds =>
+            var InstrumentBlockCmds = new Func<List<Cmd>, Block, List<Cmd>>((cmds, b)=>
             {
                 var newCmds = new List<Cmd>();
                 cmds.Iter(c => 
                 { 
                     newCmds.Add(c);  
-                    var d = InstrumentCmd(c);
+                    var d = InstrumentCmd(c,b);
                     if (d != null) newCmds.Add(d);
                 });
                 return newCmds;
             });
 
-            impl.Blocks.Iter(b => { b.Cmds = InstrumentBlockCmds(b.Cmds); });
+            impl.Blocks.Iter(b => { b.Cmds = InstrumentBlockCmds(b.Cmds, b); });
+            currImpl = null;
         }
 
-        private Cmd InstrumentCallCmd(CallCmd callCmd)
+        private Cmd InstrumentCallCmd(CallCmd callCmd, Block enclBlock)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Skipping instrumentation of CallCmds");
+            return null; //TODO instrument calls
         }
 
-        private Cmd InstrumentAssignCmd(AssignCmd assignCmd)
+        private Cmd InstrumentAssignCmd(AssignCmd assignCmd, Block enclBlock)
         {
             if (assignCmd.Lhss.Count > 1)
             {
@@ -111,7 +116,7 @@ namespace Dependency
             //lhs := upd(a, i, v)
             //out := if b_l then out else g(out, i, v)
             var glob = IdentifierExpr.Ident(globalCollectAssignmentsVar);
-            var bConst = LookupOrCreateNewGuardConst(assignCmd);
+            var bConst = LookupOrCreateNewGuardConst(assignCmd, enclBlock);
             lhss.Add(new SimpleAssignLhs(Token.NoToken, glob));
             Expr expr;
             var assignType = assignedVar.TypedIdent.Type;
@@ -120,12 +125,13 @@ namespace Dependency
             else if (assignType.IsInt)
                 expr = CollectIntAssignment(glob, assignedVar);
             else if (assignType.IsMap)
-                expr = CollectMapAssignment(glob, rhss[0]); 
+                expr = CollectMapAssignment(glob, assignCmd.Rhss[0]); 
             else 
             {
                 Console.WriteLine("Skipping unexpected assignment during statement taint instrumentation {0}", assignCmd);
                 return null;
             }
+            if (expr == null) return null; 
             var iteArgs = new List<Expr>() { IdentifierExpr.Ident(bConst), glob, expr};
             rhss.Add(new NAryExpr(Token.NoToken, new IfThenElse(Token.NoToken), iteArgs));
             return new AssignCmd(Token.NoToken, lhss, rhss);
@@ -133,10 +139,14 @@ namespace Dependency
 
         private Expr CollectMapAssignment(IdentifierExpr glob, Expr expr)
         {
-            throw new NotImplementedException();
-            //expr is of the form update(a, i, v)
-            var nExpr = expr as NAryExpr; 
-
+            //expr is of the form update(a, i:int, v:int)
+            var nExpr = expr as NAryExpr;
+            if (nExpr == null) return null;
+            if (!(nExpr.Fun is MapStore &&
+                nExpr.Args.Count == 3 &&
+                nExpr.Args[1].Type.IsInt &&
+                nExpr.Args[2].Type.IsInt)) return null;
+            return new NAryExpr(Token.NoToken, new FunctionCall(collectMapFunc), new List<Expr>() { glob, nExpr.Args[1], nExpr.Args[2] });
         }
 
         private Expr CollectIntAssignment(IdentifierExpr glob, Variable assignedVar)
@@ -149,12 +159,14 @@ namespace Dependency
             return new NAryExpr(Token.NoToken, new FunctionCall(collectBoolFunc), new List<Expr>() { glob, IdentifierExpr.Ident(assignedVar) });
         }
 
-        private Constant LookupOrCreateNewGuardConst(AssignCmd assignCmd)
+        private Constant LookupOrCreateNewGuardConst(AssignCmd assignCmd, Block blk)
         {
             if (writeCollectorGuardConstants.ContainsKey(assignCmd)) return writeCollectorGuardConstants[assignCmd];
             var count = writeCollectorGuardConstants.Count;
             var newConst = new Constant(Token.NoToken, new TypedIdent(Token.NoToken,  guardConstNamePrefix + count, BType.Bool));
             newConst.AddAttribute(guardConstAttribute, Expr.True);
+            newConst.AddAttribute("procedure", currImpl.Name);
+            newConst.AddAttribute("blockLabel", blk.Label);
             prog.AddTopLevelDeclaration(newConst);
             writeCollectorGuardConstants[assignCmd] = newConst;
             return newConst;

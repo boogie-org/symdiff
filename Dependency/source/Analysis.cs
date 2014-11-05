@@ -31,6 +31,7 @@ namespace Dependency
             public const string splitMapsWithAliasAnalysis = "/splitMapsWithAliasAnalysis";
             public const string stripValueIs = "/stripValueIs";
             public const string annotateDependencies = "/annotateDependencies";
+            public const string refinedStmtTaintAnalysis = "/refinedStmtTaintAnalysis"; 
         }
 
         static public bool DataOnly = false;
@@ -48,6 +49,7 @@ namespace Dependency
         static public bool AnnotateDependencies = false;
         static public bool SplitMapsWithAliasAnalysis = false;
         static public bool StripValueIs = false;
+        static public bool RefinedStmtTaintAnalysis = false; 
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
@@ -123,6 +125,8 @@ namespace Dependency
             AnnotateDependencies = args.Any(x => x.ToLower() == CmdLineOptsNames.annotateDependencies.ToLower());
 
             StripValueIs = args.Any(x => x.ToLower() == CmdLineOptsNames.stripValueIs.ToLower());
+
+            RefinedStmtTaintAnalysis = args.Any(x => x.ToLower() == CmdLineOptsNames.refinedStmtTaintAnalysis.ToLower());
 
             if (args.Any(x => x.ToLower() == CmdLineOptsNames.debug.ToLower()))
                 Debugger.Launch();
@@ -388,6 +392,16 @@ namespace Dependency
                 Utils.PrintProgram(program, absFilename);
                 Console.WriteLine("Printing non-taint abstracted program to {0}", absFilename);
             }            
+
+            //Refined statement taint
+            if (RefinedStmtTaintAnalysis)
+            {
+                //TODO: pass the modified set of methods
+                (new RefinedStmtTaintInstrumentation(program, new HashSet<Implementation>())).Instrument();
+                var outFile = filename + ".stmtTaintInstr.bpl";
+                Utils.PrintProgram(program, outFile);
+                Console.WriteLine("Printing stmt taint instrumented program to {0}", outFile);
+            }
         }
 
         private static void RunDependencyAnalysis(Program program, DependencyVisitor visitor, string kind, bool printTaint = false)
