@@ -80,9 +80,10 @@ namespace Dependency
             var boogieOptions = "/typeEncoding:m -timeLimit:20 -removeEmptyBlocks:0 /printModel:1 /printModelToFile:model.dmp /printInstrumented "; // /errorLimit:1";
             //IMPORTANT: need the next to avoid crash while creating prover
             CommandLineOptions.Clo.Parse(boogieOptions.Split(' '));
-            //IMPORTANT: need these two to make use of UNSAT cores!!
+            //IMPORTANT: need these three to make use of UNSAT cores!!
             CommandLineOptions.Clo.UseUnsatCoreForContractInfer = true; //ROHIT
             CommandLineOptions.Clo.ContractInfer = true; //ROHIT
+            CommandLineOptions.Clo.ExplainHoudini = true; 
 
             #region Command line parsing 
             statsFile = args[0] + ".csv";
