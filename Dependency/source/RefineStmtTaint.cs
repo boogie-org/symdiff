@@ -163,7 +163,8 @@ namespace Dependency
         {
             if (writeCollectorGuardConstants.ContainsKey(assignCmd)) return writeCollectorGuardConstants[assignCmd];
             var count = writeCollectorGuardConstants.Count;
-            var newConst = new Constant(Token.NoToken, new TypedIdent(Token.NoToken,  guardConstNamePrefix + count, BType.Bool));
+            //Spent a few hours since the unique is default, and we have 3 boolean constants!!
+            var newConst = new Constant(Token.NoToken, new TypedIdent(Token.NoToken,  guardConstNamePrefix + count, BType.Bool), false);
             newConst.AddAttribute(guardConstAttribute, Expr.True);
             newConst.AddAttribute("proc", currImpl.Name);
             newConst.AddAttribute("blockLabel", blk.Label);
