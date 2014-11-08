@@ -127,29 +127,35 @@ namespace SymDiff
           //newVC should be always at 0, since it has to participate in inconsistency
           Debug.Assert(unsatClauseIdentifiers.Remove(0), "Something went wrong! The VC itself is not part of UNSAT core");
         }
-
-        //Core may not be minimal, need to iterate
         var core0 = unsatClauseIdentifiers.Count() > 0 ?
           unsatClauseIdentifiers.Select(i => assumptions[i]) :
-          assumptions; 
-
+          assumptions;
+        Console.Write("(upper bound on tainted ={0}/{1})", core0.Count(), assumptions.Count());
         var core = new List<VCExpr>(core0);
+
+        //Core may not be minimal, need to iterate
         if (true)
         {
           core0
               .Iter(b =>
               {
-                core.Remove(b);
-                preInp = core.Aggregate(VCExpressionGenerator.True, (x, y) => SymDiffVC.exprGen.And(x, y));
-                outcome = SymDiffVC.VerifyVC("RefinedStmtTaint", SymDiffVC.exprGen.Implies(preInp, programVC), out cexs);
+                //for singleton checks, we can disable all other Booleans to only consider this equality
+                var tmpAssumps = new List<VCExpr>(assumptions);
+                tmpAssumps.Remove(b);
+                preInp = tmpAssumps.Aggregate(VCExpressionGenerator.True, (x, y) => SymDiffVC.exprGen.And(x, y));
+                preInp = SymDiffVC.exprGen.And(preInp, SymDiffVC.exprGen.Not(b)); //consider the actual output
                 Console.Write(".");
-                if (outcome != ProverInterface.Outcome.Valid)
+                outcome = SymDiffVC.VerifyVC("RefinedStmtTaint", SymDiffVC.exprGen.Implies(preInp, programVC), out cexs);
+                if (outcome == ProverInterface.Outcome.Valid)
                 {
-                  core.Add(b);
+                  Console.Write("*");
+                  core.Remove(b); 
                   return;
                 }
+                Console.Write("/"); //possibly different
               });
         }
+        Console.WriteLine("Number of possibly tainted stmts / number of stmts = {0}/{1}", core.Count, taintGuardConsts.Count() / 2 /* one version */);
         Console.WriteLine("The list of taintedStmts are {0}", string.Join(",", core));
         return true;
       }
