@@ -796,200 +796,200 @@ namespace SDiff
             writer.Close();
         }
         public static int RunVerificationTask(VerificationTask vt, VC.ConditionGeneration vcgen, Program prog, out bool crashed, bool wrapper = true)
-    {
-      crashed = false;
+        {
+            crashed = false;
 
-      var attList = new List<Object>(1);
-      attList.Add(Expr.Literal(1));
-        
-      //save attributes
-      var sqkLeft = vt.Left.Attributes;
-      var sqkpLeft = vt.Left.Proc.Attributes;
-      var sqkRight = vt.Right.Attributes;
-      var sqkpRight = vt.Right.Proc.Attributes;
+            var attList = new List<Object>(1);
+            attList.Add(Expr.Literal(1));
 
-      //save postconditions
-      var leftPosts = vt.Left.Proc.Ensures;
-      var rightPosts = vt.Right.Proc.Ensures;
+            //save attributes
+            var sqkLeft = vt.Left.Attributes;
+            var sqkpLeft = vt.Left.Proc.Attributes;
+            var sqkRight = vt.Right.Attributes;
+            var sqkpRight = vt.Right.Proc.Attributes;
 
-      //The ensures must have been removed at the time of stripContracts
-      //The recursive case is handled by RVT option anyway.
-      //vt.Left.Proc.Ensures = new List<Ensures>();
-      //vt.Right.Proc.Ensures = new List<Ensures>();
+            //save postconditions
+            var leftPosts = vt.Left.Proc.Ensures;
+            var rightPosts = vt.Right.Proc.Ensures;
 
-      //inline procedures under analysis
-      vt.Left.Attributes
-        = Util.MkInlinedAttribute(attList);
-      vt.Left.Proc.Attributes = vt.Left.Attributes;
+            //The ensures must have been removed at the time of stripContracts
+            //The recursive case is handled by RVT option anyway.
+            //vt.Left.Proc.Ensures = new List<Ensures>();
+            //vt.Right.Proc.Ensures = new List<Ensures>();
 
-      vt.Right.Attributes
-        = Util.MkInlinedAttribute(attList);
-      vt.Right.Proc.Attributes = vt.Right.Attributes;
+            //inline procedures under analysis
+            vt.Left.Attributes
+              = Util.MkInlinedAttribute(attList);
+            vt.Left.Proc.Attributes = vt.Left.Attributes;
 
-      //RUN INLINER OVER EQ FUNCTION
-      vt.Left.OriginalBlocks = vt.Left.Blocks;
-      vt.Left.OriginalLocVars = vt.Left.LocVars;
-      vt.Right.OriginalBlocks = vt.Right.Blocks;
-      vt.Right.OriginalLocVars = vt.Right.LocVars;
+            vt.Right.Attributes
+              = Util.MkInlinedAttribute(attList);
+            vt.Right.Proc.Attributes = vt.Right.Attributes;
 
-      // inline diff_inline procedures
-      IEnumerable<Declaration> procImplPIter = prog.TopLevelDeclarations.Where(x => x is Implementation);
-      foreach (Implementation currentProcImpl in procImplPIter)
-      {
-          if (currentProcImpl.Name.Contains("_Diff_Inline"))
-          {
-              currentProcImpl.Attributes = Util.MkInlinedAttribute(attList);
-              currentProcImpl.Proc.Attributes = Util.MkInlinedAttribute(attList);
+            //RUN INLINER OVER EQ FUNCTION
+            vt.Left.OriginalBlocks = vt.Left.Blocks;
+            vt.Left.OriginalLocVars = vt.Left.LocVars;
+            vt.Right.OriginalBlocks = vt.Right.Blocks;
+            vt.Right.OriginalLocVars = vt.Right.LocVars;
 
-              //RUN INLINER OVER EQ FUNCTION
-              currentProcImpl.OriginalBlocks = currentProcImpl.Blocks;
-              currentProcImpl.OriginalLocVars = currentProcImpl.LocVars;
-          }
-      }
+            // inline diff_inline procedures
+            IEnumerable<Declaration> procImplPIter = prog.TopLevelDeclarations.Where(x => x is Implementation);
+            foreach (Implementation currentProcImpl in procImplPIter)
+            {
+                if (currentProcImpl.Name.Contains("_Diff_Inline"))
+                {
+                    currentProcImpl.Attributes = Util.MkInlinedAttribute(attList);
+                    currentProcImpl.Proc.Attributes = Util.MkInlinedAttribute(attList);
 
-      // prog = EQ program
-      // vt.Eq = EQ_f_f' procedure with f, f' having {inline} tags
-      Inliner.ProcessImplementation(prog, vt.Eq);
+                    //RUN INLINER OVER EQ FUNCTION
+                    currentProcImpl.OriginalBlocks = currentProcImpl.Blocks;
+                    currentProcImpl.OriginalLocVars = currentProcImpl.LocVars;
+                }
+            }
 
-      SDiffCounterexamples SErrors=null;
-      List<Model> errModelList=null;
-      Implementation newEq = null;
-      Program newProg = null;
-      Dictionary<string,Declaration> newDict = null;
+            // prog = EQ program
+            // vt.Eq = EQ_f_f' procedure with f, f' having {inline} tags
+            Inliner.ProcessImplementation(prog, vt.Eq);
 
-
-      Log.Out(Log.Verifier, "Verifying " + vt.Eq.Name);
-      if (Options.TraceVerify)
-      {
-        Log.Out(Log.Normal, "Ready to verify:");
-        Log.LogEmit(Log.Normal, prog.Emit);
-      }
-
-      // To print the EQ files in 
-      Util.DumpBplAST(prog, vt.Eq.Name + "_out.bpl");
-        //RS: Uncomment this
-
-      /*if (wrapper)
-      {
-          prog.RemoveTopLevelDeclaration(vt.Eq);
-          prog.RemoveTopLevelDeclaration(vt.Eq.Proc);
-      }*/
-      prog = null;
-      ReplaceInFile(vt.Eq.Name + "_out.bpl", "@", "_");
-      if (!wrapper)
-      {
-          prog = SDiff.Boogie.Process.ParseProgram("RS" + vt.Eq.Name + "_out.bpl");
-
-          if (prog == null)
-          {
-              Log.Out(Log.Verifier, "Parse Error!!! in   " + vt.Eq.Name);
-              return 1;
-          }
-          if (SDiff.Boogie.Process.ResolveAndTypeCheck(prog, Options.MergedProgramOutputFile))
-              return 1;
-
-          newEq = vt.Eq;
-          newProg = prog;
-
-          vcgen = InitializeVC(newProg);
-          //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
-          newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
-
-          //RS: Uncomment this
-          newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
-
-          vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors, out errModelList);
+            SDiffCounterexamples SErrors = null;
+            List<Model> errModelList = null;
+            Implementation newEq = null;
+            Program newProg = null;
+            Dictionary<string, Declaration> newDict = null;
 
 
+            Log.Out(Log.Verifier, "Verifying " + vt.Eq.Name);
+            if (Options.TraceVerify)
+            {
+                Log.Out(Log.Normal, "Ready to verify:");
+                Log.LogEmit(Log.Normal, prog.Emit);
+            }
+
+            // To print the EQ files in 
+            Util.DumpBplAST(prog, vt.Eq.Name + "_out.bpl");
+            //RS: Uncomment this
+
+            /*if (wrapper)
+            {
+                prog.RemoveTopLevelDeclaration(vt.Eq);
+                prog.RemoveTopLevelDeclaration(vt.Eq.Proc);
+            }*/
+            prog = null;
+            ReplaceInFile(vt.Eq.Name + "_out.bpl", "@", "_");
+            if (!wrapper)
+            {
+                prog = SDiff.Boogie.Process.ParseProgram("RS" + vt.Eq.Name + "_out.bpl");
+
+                if (prog == null)
+                {
+                    Log.Out(Log.Verifier, "Parse Error!!! in   " + vt.Eq.Name);
+                    return 1;
+                }
+                if (SDiff.Boogie.Process.ResolveAndTypeCheck(prog, Options.MergedProgramOutputFile))
+                    return 1;
+
+                newEq = vt.Eq;
+                newProg = prog;
+
+                vcgen = InitializeVC(newProg);
+                //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
+                newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
+
+                //RS: Uncomment this
+                newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
+
+                vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors, out errModelList);
 
 
 
-          switch (vt.Result)
-          {
-              case VerificationResult.Error:
-                  Log.Out(Log.Verifier, "Result: Error");
-                  break;
-              case VerificationResult.Verified:
-                  Log.Out(Log.Verifier, "Result: Verified");
-                  break;
-              case VerificationResult.OutOfMemory:
-                  Log.Out(Log.Verifier, "Result: OutOfMemory");
-                  break;
-              case VerificationResult.TimeOut:
-                  Log.Out(Log.Verifier, "Result: TimeOut");
-                  break;
-              default:
-                  Log.Out(Log.Verifier, "Result: Unhandled");
-                  crashed = true;
-                  break;
-          }
-          vcgen.Close(); 
-      } 
-      //restore postconditions IN THE OLD IN-MEMORY PROGRAM
-      vt.Left.Proc.Ensures = leftPosts;
-      vt.Right.Proc.Ensures = rightPosts;
-
-      //remove the inline annotation IN THE OLD IN-MEMORY PROGRAM
-      vt.Left.Attributes = sqkLeft;
-      vt.Left.Proc.Attributes = sqkpLeft;
-      vt.Right.Attributes = sqkRight;
-      vt.Right.Proc.Attributes = sqkpRight;
-
-      //remove the inline annotation in the Diff_Inline Procedures
-      foreach (Implementation currentProcImpl in procImplPIter)
-      {
-          if (currentProcImpl.Name.Contains("_Diff_Inline"))
-          {
-              currentProcImpl.Attributes = null;
-              currentProcImpl.Proc.Attributes = null;
-          }
-      }
-      if (!wrapper)
-      {
-
-          if (vt.Result != VerificationResult.Error) return 0; //even timeouts/unhandled, as we see timeouts with 1 error, 0 model
-
-          //process counterexamples OVER THE NEW IN-MEMORY PROGRAM
-          var outputVars = new List<Variable>();
-          foreach (var v in vt.DesiredOutputVars)
-              outputVars.Add(newDict.Get(v.Name + "$VAR") as Variable);
-
-          var globals = new List<Variable>();
-          foreach (IdentifierExpr ie in newEq.Proc.Modifies)
-              globals.Add(ie.Decl);
 
 
-          if (SErrors != null && 
-              SErrors.Count > 0 &&
-              errModelList.Count == SErrors.Count) //change as now SErrors can be nonnull, yet Count == 0. Sometimes model.Count < SErrror!!
-          {
-              //somewhat misnamed...
-              if (Options.DumpBeforeVerifying)
-              {
-                  Log.Out(Log.SymEx, "Dumping procedure under verification");
-                  newEq.Emit(Log.LogWriter, 0);
-              }
-              if (Options.DoSymEx)
-              {
-                  var vtLeftProcImpl = (Implementation)Util.getDeclarationByName(vt.Left.Name + "_Diff_Inline", procImplPIter);
-                  var vtRightProcImpl = (Implementation)Util.getDeclarationByName(vt.Right.Name + "_Diff_Inline", procImplPIter);
+                switch (vt.Result)
+                {
+                    case VerificationResult.Error:
+                        Log.Out(Log.Verifier, "Result: Error");
+                        break;
+                    case VerificationResult.Verified:
+                        Log.Out(Log.Verifier, "Result: Verified");
+                        break;
+                    case VerificationResult.OutOfMemory:
+                        Log.Out(Log.Verifier, "Result: OutOfMemory");
+                        break;
+                    case VerificationResult.TimeOut:
+                        Log.Out(Log.Verifier, "Result: TimeOut");
+                        break;
+                    default:
+                        Log.Out(Log.Verifier, "Result: Unhandled");
+                        crashed = true;
+                        break;
+                }
+                vcgen.Close();
+            }
+            //restore postconditions IN THE OLD IN-MEMORY PROGRAM
+            vt.Left.Proc.Ensures = leftPosts;
+            vt.Right.Proc.Ensures = rightPosts;
 
-                  if (Options.PreciseDifferentialInline)
-                  {
-                      List<Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant).ToList();
-                      ProcessCounterexamplesWOSymbolicOut(SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, errModelList);
-                  }
-                  else
-                  {
-                      ProcessCounterexamples(SErrors, globals, outputVars, newProg, vtLeftProcImpl, vtRightProcImpl);
-                  }
-              }
-          }
+            //remove the inline annotation IN THE OLD IN-MEMORY PROGRAM
+            vt.Left.Attributes = sqkLeft;
+            vt.Left.Proc.Attributes = sqkpLeft;
+            vt.Right.Attributes = sqkRight;
+            vt.Right.Proc.Attributes = sqkpRight;
 
-          return (SErrors == null ? 0 :  SErrors.Count);
-      }
-        return 0;
-    }
+            //remove the inline annotation in the Diff_Inline Procedures
+            foreach (Implementation currentProcImpl in procImplPIter)
+            {
+                if (currentProcImpl.Name.Contains("_Diff_Inline"))
+                {
+                    currentProcImpl.Attributes = null;
+                    currentProcImpl.Proc.Attributes = null;
+                }
+            }
+            if (!wrapper)
+            {
+
+                if (vt.Result != VerificationResult.Error) return 0; //even timeouts/unhandled, as we see timeouts with 1 error, 0 model
+
+                //process counterexamples OVER THE NEW IN-MEMORY PROGRAM
+                var outputVars = new List<Variable>();
+                foreach (var v in vt.DesiredOutputVars)
+                    outputVars.Add(newDict.Get(v.Name + "$VAR") as Variable);
+
+                var globals = new List<Variable>();
+                foreach (IdentifierExpr ie in newEq.Proc.Modifies)
+                    globals.Add(ie.Decl);
+
+
+                if (SErrors != null &&
+                    SErrors.Count > 0 &&
+                    errModelList.Count == SErrors.Count) //change as now SErrors can be nonnull, yet Count == 0. Sometimes model.Count < SErrror!!
+                {
+                    //somewhat misnamed...
+                    if (Options.DumpBeforeVerifying)
+                    {
+                        Log.Out(Log.SymEx, "Dumping procedure under verification");
+                        newEq.Emit(Log.LogWriter, 0);
+                    }
+                    if (Options.DoSymEx)
+                    {
+                        var vtLeftProcImpl = (Implementation)Util.getDeclarationByName(vt.Left.Name + "_Diff_Inline", procImplPIter);
+                        var vtRightProcImpl = (Implementation)Util.getDeclarationByName(vt.Right.Name + "_Diff_Inline", procImplPIter);
+
+                        if (Options.PreciseDifferentialInline)
+                        {
+                            List<Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant).ToList();
+                            ProcessCounterexamplesWOSymbolicOut(SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, errModelList);
+                        }
+                        else
+                        {
+                            ProcessCounterexamples(SErrors, globals, outputVars, newProg, vtLeftProcImpl, vtRightProcImpl);
+                        }
+                    }
+                }
+
+                return (SErrors == null ? 0 : SErrors.Count);
+            }
+            return 0;
+        }
 
     }
 

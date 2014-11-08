@@ -425,7 +425,15 @@ namespace SDiff.Boogie
     public static bool InitializeBoogie(string clo)
     {
       CommandLineOptions.Clo.RunningBoogieFromCommandLine = true;
-        
+
+      if (Options.refinedStmtTaint)
+      {
+          //IMPORTANT: need these two to make use of UNSAT cores!!
+          CommandLineOptions.Clo.UseUnsatCoreForContractInfer = true; //ROHIT
+          CommandLineOptions.Clo.ContractInfer = true; //ROHIT
+          CommandLineOptions.Clo.ExplainHoudini = true; 
+      }
+
       var args = clo.Split(' ');
 
       if (Options.VerboseBoogieEnvironment) 

@@ -8,6 +8,8 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Diagnostics;
+using Microsoft.Boogie.VCExprAST;
+using VC;
 
 
 /* Misc code that should be in  */
@@ -971,6 +973,89 @@ namespace SDiff
     }
   }
 
+  //state related to VC generation that will be shared by different options
+  /// <summary>
+  /// TODO: Copied from Rootcause, refactor
+  /// </summary>
+  static class SymDiffVC
+  {
+      /* vcgen related state */
+      static public VCGen vcgen;
+      static public ProverInterface proverInterface;
+      static public ProverInterface.ErrorHandler handler;
+      static public ConditionGeneration.CounterexampleCollector collector;
+      static public Boogie2VCExprTranslator translator;
+      static public VCExpressionGenerator exprGen;
+
+      #region Utilities for calling the verifier
+      public static void InitializeVCGen(Program prog)
+      {
+          //create VC.vcgen/VC.proverInterface
+          SymDiffVC.vcgen = new VCGen(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend, null);
+          SymDiffVC.proverInterface = ProverInterface.CreateProver(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend, CommandLineOptions.Clo.ProverKillTime);
+          SymDiffVC.translator = SymDiffVC.proverInterface.Context.BoogieExprTranslator;
+          SymDiffVC.exprGen = SymDiffVC.proverInterface.Context.ExprGen;
+          SymDiffVC.collector = new ConditionGeneration.CounterexampleCollector();
+      }
+      public static ProverInterface.Outcome VerifyVC(string descriptiveName, VCExpr vc, out List<Counterexample> cex)
+      {
+          SymDiffVC.collector.examples.Clear(); //reset the cexs
+          //Use MyBeginCheck instead of BeginCheck as it is inconsistent with CheckAssumptions's Push/Pop of declarations
+          ProverInterface.Outcome proverOutcome;
+          //proverOutcome = MyBeginCheck(descriptiveName, vc, VC.handler); //Crashes now
+          SymDiffVC.proverInterface.BeginCheck(descriptiveName, vc, SymDiffVC.handler);
+          proverOutcome = SymDiffVC.proverInterface.CheckOutcome(SymDiffVC.handler);
+          cex = SymDiffVC.collector.examples;
+          return proverOutcome;
+      }
+
+      public static void FinalizeVCGen(Program prog)
+      {
+          SymDiffVC.collector = null;
+      }
+
+      public static ProverInterface.Outcome MyBeginCheck(string descriptiveName, VCExpr vc, ProverInterface.ErrorHandler handler)
+      {
+          SymDiffVC.proverInterface.Push();
+          SymDiffVC.proverInterface.Assert(vc, true);
+          SymDiffVC.proverInterface.Check();
+          var outcome = SymDiffVC.proverInterface.CheckOutcomeCore(SymDiffVC.handler);
+          SymDiffVC.proverInterface.Pop();
+          return outcome;
+      }
+      public static VCExpr GenerateVC(Program prog, Implementation impl)
+      {
+          SymDiffVC.vcgen.ConvertCFG2DAG(impl);
+          ModelViewInfo mvInfo;
+          var /*TransferCmd->ReturnCmd*/ gotoCmdOrigins = SymDiffVC.vcgen.PassifyImpl(impl, out mvInfo);
+
+          var exprGen = SymDiffVC.proverInterface.Context.ExprGen;
+          //VCExpr controlFlowVariableExpr = null; 
+          VCExpr controlFlowVariableExpr = CommandLineOptions.Clo.UseLabels ? null : SymDiffVC.exprGen.Integer(BigNum.ZERO);
+
+
+          Dictionary<int, Absy> label2absy;
+          var vc = SymDiffVC.vcgen.GenerateVC(impl, controlFlowVariableExpr, out label2absy, SymDiffVC.proverInterface.Context);
+          if (!CommandLineOptions.Clo.UseLabels)
+          {
+              VCExpr controlFlowFunctionAppl = SymDiffVC.exprGen.ControlFlowFunctionApplication(SymDiffVC.exprGen.Integer(BigNum.ZERO), SymDiffVC.exprGen.Integer(BigNum.ZERO));
+              VCExpr eqExpr = SymDiffVC.exprGen.Eq(controlFlowFunctionAppl, SymDiffVC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
+              vc = SymDiffVC.exprGen.Implies(eqExpr, vc);
+          }
+
+          if (CommandLineOptions.Clo.vcVariety == CommandLineOptions.VCVariety.Local)
+          {
+              SymDiffVC.handler = new VCGen.ErrorReporterLocal(gotoCmdOrigins, label2absy, impl.Blocks, SymDiffVC.vcgen.incarnationOriginMap, SymDiffVC.collector, mvInfo, SymDiffVC.proverInterface.Context, prog);
+          }
+          else
+          {
+              SymDiffVC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, SymDiffVC.vcgen.incarnationOriginMap, SymDiffVC.collector, mvInfo, SymDiffVC.proverInterface.Context, prog);
+          }
+          return vc;
+      }
+      #endregion
+
+  }
 
 
 }

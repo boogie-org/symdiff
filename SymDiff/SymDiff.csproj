@@ -166,8 +166,9 @@
     <Compile Include="source\CexVisitor.cs" />
     <Compile Include="source\CorralCheck.cs" />
     <Compile Include="source\MutualSummary.cs" />
-    <Compile Include="source\rvt.cs" />
+    <Compile Include="source\Rvt.cs" />
     <Compile Include="source\RVTCheck.cs" />
+    <Compile Include="source\SemanticTaint.cs" />
     <Compile Include="source\SymExec.cs" />
     <Compile Include="source\Driver.cs" />
     <Compile Include="source\Worklist.cs" />

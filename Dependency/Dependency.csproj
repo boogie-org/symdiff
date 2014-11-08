@@ -81,6 +81,7 @@
     <Compile Include="source\DependencyVisitor.cs" />
     <Compile Include="source\ReadSetVisitor.cs" />
     <Compile Include="source\RefineDependency.cs" />
+    <Compile Include="source\RefineStmtTaint.cs" />
     <Compile Include="source\SplitHeap.cs" />
     <Compile Include="source\Utils.cs" />
     <Compile Include="source\Worklist.cs" />
