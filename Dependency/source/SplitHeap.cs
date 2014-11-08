@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Microsoft.Boogie;
 
 
@@ -52,7 +53,8 @@ namespace Dependency
             string args = string.Format(" {0} /prune:{1} ", instrFilename, prunedFilename);
             //TODO: make the path relative
             //Utils.ExecuteBinary(@"d:\corral-codeplex\corral\addons\aliasAnalysis\aliasAnalysis\bin\debug\AliasAnalysis.exe", args);
-            Utils.ExecuteBinary(@"AliasAnalysis.exe", args);
+            Utils.ExecuteBinary(@"C:\Users\nimi\Documents\Codeplex\Corral\AddOns\AliasAnalysis\AliasAnalysis\bin\Debug\AliasAnalysis.exe", args);
+            //Utils.ExecuteBinary(@"AliasAnalysis.exe", args);
         }
 
         /// <summary>
@@ -237,6 +239,7 @@ namespace Dependency
 
             private Program prog;
             private Cmd currCmd;
+            private Implementation currImpl;
             private Tuple<string, List<Tuple<Expr,Expr>>> currMapInfo;
             private Function allocSiteFunc;
             public MapRewriteUsingAllocSites(Program prog, Function allocSiteFunc)
@@ -246,30 +249,93 @@ namespace Dependency
                 currMapInfo = null;
                 this.allocSiteFunc = allocSiteFunc;
             }
+
+            public override Implementation VisitImplementation(Implementation node)
+            {
+                currImpl = node;
+                return base.VisitImplementation(node);
+            }
+
+            // traverses a block and replaces maps according to alloc sites.
+            // this should be run only after multiple allocation sites cadidates has been split into blocks each with a single allocation site!
+            private Block DoBlock(Block node) {
+                currMapInfo = null; //reset currMap across blocks
+                var block = base.VisitBlock(node);
+                currMapInfo = null;
+                return block;
+            }
             public override Block VisitBlock(Block node)
             {
-                currMapInfo = null; //reset currMap across blocks
-                var b = base.VisitBlock(node);
-                currMapInfo = null;
-                return b;
-            }
-            public override Cmd VisitAssumeCmd(AssumeCmd node)
-            {
-                currCmd = node;
-                var mapName = QKeyValue.FindStringAttribute(node.Attributes, SplitConsts.allocAssumeAttr);
-                if (mapName != null)
+                for (int i = 0; i < node.Cmds.Count; ++i )
                 {
-                    //node.Expr should be AS(..) == A1 || AS(..) == A2
-                    List<Tuple<Expr,Expr>> allocSites = ExtractAllocSitesFromExpr(node.Expr);
-                    currMapInfo = Tuple.Create(mapName, allocSites);
-                    //Console.WriteLine("The list of allocSite consts = {0}, {1}", 
-                    //    currMapInfo.Item1, string.Join(" ", currMapInfo.Item2));
-                    node.Attributes.AddLast(new QKeyValue(Token.NoToken, SplitConsts.computedAllocSiteAttr,                    
-                        allocSites.Select(x => (object) x.Item2).ToList(), null));
+                    var asumCmd = node.Cmds[i] as AssumeCmd;
+                    if (asumCmd != null)
+                    {
+                        var mapName = QKeyValue.FindStringAttribute(asumCmd.Attributes, SplitConsts.allocAssumeAttr);
+                        if (mapName != null)
+                        {   // found alias analysis allocation site data
+                            #region transformation logic
+                            // the block:
+                            //
+                            // L: Cmds_start; Assume(AS(x) = AS1 || ... || ASn); Map[x] = y; Cmds_rest ; goto nextBlock;
+                            //
+                            // will be split as follows:
+                            //
+                            // L: Cmds_start; Assume(AS(x) = AS1 || ... || ASn); goto L_MapSplit_AS1, ..., L_MapSplit_ASn;
+                            // Lrest: Cmds_rest ; goto nextBlock;
+                            // L_MapSplit_AS1: Assume(AS(x) = AS1); Map[x] = y; goto Lrest;
+                            // ...
+                            // L_MapSplit_ASn: Assume(AS(x) = ASn); Map[x] = y; Map_ASn[x] = y; goto Lrest;
+                            //
+                            // And then the original (Shuvendu's) transormation will be run
+                            #endregion
+                            // get the map assign command
+                            AssignCmd asgnCmd = (node.Cmds.Count > i + 1) ? node.Cmds[i + 1] as AssignCmd : null;
+                            if (asgnCmd == null)
+                            {
+                                Console.WriteLine("Note: No map splitting performed for: " + node.Cmds[i]);
+                                node.Cmds.RemoveAt(i);
+                                continue;
+                            }
+
+                            string sourcefile = Utils.AttributeUtils.GetSourceFile(node);
+
+                            var labelPrefix = node.Label + "_MapSplit" + i;
+                            // create a block for the rest of the command 
+                            Block restBlock = new Block(Token.NoToken, labelPrefix, node.Cmds.GetRange(i + 2, node.Cmds.Count - (i + 2)), node.TransferCmd);
+                            currImpl.Blocks.Add(restBlock);
+                            if (sourcefile != null) // the containing block has sourcefile\line information, so copy it
+                                restBlock.Cmds.Insert(0, node.Cmds[0]);
+                            
+                            // remove the rest of the commands from the current block
+                            node.Cmds.RemoveRange(i, node.Cmds.Count - i);
+                            // create a block for each AS
+                            List<Tuple<Expr, Expr>> allocSites = ExtractAllocSitesFromExpr(asumCmd.Expr);
+                            var ASBlocks = new List<Block>();
+                            foreach (var allocSite in allocSites)
+                            {
+                                var asAssume = new AssumeCmd(Token.NoToken, allocSite.Item1);
+                                asAssume.Attributes = new QKeyValue(Token.NoToken, SplitConsts.allocAssumeAttr, new List<object> { mapName }, null);
+                                var mapAssign = new AssignCmd(Token.NoToken, new List<AssignLhs>(asgnCmd.Lhss), new List<Expr>(asgnCmd.Rhss));
+                                Block asSplitBlock = new Block(Token.NoToken, labelPrefix + "_" + allocSite.Item2, new List<Cmd> { asAssume, mapAssign }, new GotoCmd(Token.NoToken, new List<Block> { restBlock }));
+                                ASBlocks.Add(asSplitBlock);
+                                currImpl.Blocks.Add(asSplitBlock);
+                                if (sourcefile != null) // the containing block has sourcefile\line information, so copy it
+                                    asSplitBlock.Cmds.Insert(0, node.Cmds[0]);
+                                DoBlock(asSplitBlock);
+                            }
+                            // replace the goto at the end of the original block
+                            node.TransferCmd = new GotoCmd(Token.NoToken,ASBlocks);
+
+                            // do the same operation for the rest of the block
+                            VisitBlock(restBlock);
+                            break;
+                        }
+                    }
                 }
-                var b = base.VisitAssumeCmd(node);
-                return b;
-            } 
+                return DoBlock(node);
+            }
+
             public override Cmd VisitCallCmd(CallCmd node)
             {
                 if (node.Outs.Any(x => x.Decl.TypedIdent.Type.IsMap))
@@ -279,6 +345,23 @@ namespace Dependency
                 currCmd = null;
                 return b;
             }
+            
+            public override Cmd VisitAssumeCmd(AssumeCmd node)
+            {
+                currCmd = node;
+                var mapName = QKeyValue.FindStringAttribute(node.Attributes, SplitConsts.allocAssumeAttr);
+                if (mapName != null)
+                {
+                    //node.Expr should be AS(..) == A1 || AS(..) == A2
+                    List<Tuple<Expr,Expr>> allocSites = ExtractAllocSitesFromExpr(node.Expr);
+                    currMapInfo = Tuple.Create(mapName, allocSites);
+                    //Console.WriteLine("The list of allocSite consts = {0}, {1}", currMapInfo.Item1, string.Join(" ", currMapInfo.Item2));
+                    node.Attributes.AddLast(new QKeyValue(Token.NoToken, SplitConsts.computedAllocSiteAttr,                    
+                        allocSites.Select(x => (object) x.Item2).ToList(), null));
+                }
+                var b = base.VisitAssumeCmd(node);
+                return b;
+            } 
             public override Cmd VisitAssignCmd(AssignCmd node)
             {
                 var ac = base.VisitAssignCmd(node);
@@ -306,6 +389,7 @@ namespace Dependency
                 }
                 throw new NotImplementedException();
             }
+            
             public override Expr VisitIdentifierExpr(IdentifierExpr node)
             {
                 if (node.Decl.TypedIdent.Type.IsMap && currMapInfo != null) //currInfo == null means no assume was encountered (e.g. requires/ensures)
@@ -399,7 +483,7 @@ namespace Dependency
                     new List<Microsoft.Boogie.Type>() { Microsoft.Boogie.Type.Bool, btype, btype });
                 throw new NotImplementedException("Can only handle cases with unique allocation site");
             }
-
+            
             /// <summary>
             /// returns {(AS(..) == A1,A1), ...} from AS(..) == A1 || AS(..) == A2
             /// </summary>

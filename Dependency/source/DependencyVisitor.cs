@@ -199,6 +199,8 @@ namespace Dependency
                 worklist.stateSpace.Clear();
             }
 
+            ProcDependencies.Iter(pd => Console.Out.WriteLine(pd.Key + " : " + pd.Value));
+
             //node.Implementations.Iter(impl => Visit(impl));
 
             // compute top down taint
@@ -275,7 +277,7 @@ namespace Dependency
                 if (!branchCondVars.ContainsKey(currBlock))
                     branchCondVars[currBlock] = new HashSet<Variable>();
 
-                foreach (var succ in succs)
+                foreach (var succ in succs.Where(s => s.Cmds.Count > 0 && s.Cmds[0] is AssumeCmd))
                     branchCondVars[currBlock].UnionWith(Utils.VariableUtils.ExtractVars(succ.Cmds[0]));
             }
 

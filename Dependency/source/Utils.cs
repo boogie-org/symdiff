@@ -651,7 +651,7 @@ namespace Dependency
                 var succs = node.labelTargets;
                 if (succs.Count > 1)
                 {
-                    foreach (var succ in succs)
+                    foreach (var succ in succs.Where(s => s.Cmds.Count > 0))
                     {
                         var cmd = succ.Cmds[0] as AssumeCmd;
                         if (cmd != null)
