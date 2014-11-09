@@ -53,8 +53,8 @@ namespace Dependency
             string args = string.Format(" {0} /prune:{1} ", instrFilename, prunedFilename);
             //TODO: make the path relative
             //Utils.ExecuteBinary(@"d:\corral-codeplex\corral\addons\aliasAnalysis\aliasAnalysis\bin\debug\AliasAnalysis.exe", args);
-            Utils.ExecuteBinary(@"C:\Users\nimi\Documents\Codeplex\Corral\AddOns\AliasAnalysis\AliasAnalysis\bin\Debug\AliasAnalysis.exe", args);
-            //Utils.ExecuteBinary(@"AliasAnalysis.exe", args);
+            //Utils.ExecuteBinary(@"C:\Users\nimi\Documents\Codeplex\Corral\AddOns\AliasAnalysis\AliasAnalysis\bin\Debug\AliasAnalysis.exe", args);
+            Utils.ExecuteBinary(@"AliasAnalysis.exe", args);
         }
 
         /// <summary>
