@@ -26,14 +26,14 @@ namespace Dependency
         Program prog;
         Implementation currImpl;
         HashSet<Implementation> syntacticModifiedImpls;
-        Dictionary<AssignCmd, Constant> writeCollectorGuardConstants; //these are Boolean constants that will be used in unsat core
+        Dictionary<AssignCmd, Constant> guardWritesConsts; //these are Boolean constants that guard an assignment
         GlobalVariable globalCollectAssignmentsVar; //a global variable to collect the assignments
         Function collectBoolFunc, collectIntFunc, collectMapFunc; //functions to accumulate out := f(out, assign)
         public RefinedStmtTaintInstrumentation(Program prog, HashSet<Implementation> modifiedImpls)
         {
             this.prog = prog;
             syntacticModifiedImpls = modifiedImpls;
-            writeCollectorGuardConstants = new Dictionary<AssignCmd, Constant>();
+            guardWritesConsts = new Dictionary<AssignCmd, Constant>();
             globalCollectAssignmentsVar = new GlobalVariable(Token.NoToken,
                 new TypedIdent(Token.NoToken, globalCollectAssignName, BType.Int));
             globalCollectAssignmentsVar.AddAttribute(globalCollectAssignVarAttribute, Expr.True);
@@ -161,15 +161,28 @@ namespace Dependency
 
         private Constant LookupOrCreateNewGuardConst(AssignCmd assignCmd, Block blk)
         {
-            if (writeCollectorGuardConstants.ContainsKey(assignCmd)) return writeCollectorGuardConstants[assignCmd];
-            var count = writeCollectorGuardConstants.Count;
+            if (guardWritesConsts.ContainsKey(assignCmd)) return guardWritesConsts[assignCmd];
+
+            //Count number of consts with the same proc+block
+            //name of the guard is a function of (proc,block,position of assign), for both versions
+            var IsSameBlock = new Predicate<Constant>(c => 
+              {
+                var p = QKeyValue.FindStringAttribute(c.Attributes, "proc");
+                if (p == null || p != currImpl.Name) return false;
+                var b = QKeyValue.FindStringAttribute(c.Attributes, "blockLabel");
+                if (b == null || b != blk.Label) return false;
+                return true;
+              });
+
+            var count = guardWritesConsts.Where(x => IsSameBlock(x.Value)).Count();
             //Spent a few hours since the unique is default, and we have 3 boolean constants!!
-            var newConst = new Constant(Token.NoToken, new TypedIdent(Token.NoToken,  guardConstNamePrefix + count, BType.Bool), false);
+            var name = currImpl.Name + "_" + blk.Label + "_" + count;
+            var newConst = new Constant(Token.NoToken, new TypedIdent(Token.NoToken,  guardConstNamePrefix  + name, BType.Bool), false);
             newConst.AddAttribute(guardConstAttribute, Expr.True);
             newConst.AddAttribute("proc", currImpl.Name);
             newConst.AddAttribute("blockLabel", blk.Label);
             prog.AddTopLevelDeclaration(newConst);
-            writeCollectorGuardConstants[assignCmd] = newConst;
+            guardWritesConsts[assignCmd] = newConst;
             return newConst;
         }
     }

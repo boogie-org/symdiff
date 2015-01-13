@@ -55,6 +55,19 @@ namespace SymDiff
             .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "stmtTaintConst"))
             .Iter(x => taintGuardConsts.Add(x));
       }
+      private HashSet<Tuple<string,string>> GatherProcedureBlocksInConstants(IEnumerable<Constant> consts)
+      {
+        var GetProcedureBlock = new Func<Constant, Tuple<string,string>>(c =>
+        {
+          var p = QKeyValue.FindStringAttribute(c.Attributes, "proc");          
+          var b = QKeyValue.FindStringAttribute(c.Attributes, "blockLabel");
+          return new Tuple<string,string>(p,b);
+        });
+        var retHashSet = new HashSet<Tuple<string,string>>();
+        consts
+          .Iter(c => retHashSet.Add(GetProcedureBlock(c)));
+        return retHashSet;
+      }
       private void AnalyzeStmtTaint()
       {
         //Generate VC
@@ -89,6 +102,10 @@ namespace SymDiff
           return false;
         }
 
+        //mapping of VCExpr
+        Dictionary<VCExpr, Constant> vcexprsToConsts = new Dictionary<VCExpr, Constant>();
+        taintGuardConsts.Iter(c => { vcexprsToConsts[SymDiffVC.translator.LookupVariable(c)] = c; });
+
         var preInp = taintGuardConsts
             .Aggregate(VCExpressionGenerator.True, (x, y) => SymDiffVC.exprGen.And(x, SymDiffVC.translator.LookupVariable(y)));
         var newVC = SymDiffVC.exprGen.Implies(preInp, programVC);
@@ -115,6 +132,20 @@ namespace SymDiff
         //Add the list of all input constants
         taintGuardConsts.Iter(x => assumptions.Add(SymDiffVC.translator.LookupVariable(x)));
 
+        var core = AnalyzeUsingUnsatCoreHelper(programVC, ref cexs, ref outcome, ref preInp, assumptions);
+        Console.WriteLine("\nNumber of possibly tainted stmts / number of stmts = {0}/{1}", core.Count, taintGuardConsts.Count() / 2 /* one version */);
+        Console.WriteLine("\nThe list of taintedStmts are {0}", string.Join(",", core));
+        var allBlks = GatherProcedureBlocksInConstants(taintGuardConsts);
+        var taintedBlks = GatherProcedureBlocksInConstants(core.Select(c => vcexprsToConsts[c]));
+        Console.WriteLine("\nNumber of possibly tainted blocks / number of blocks = {0}/{1}", taintedBlks.Count, allBlks.Count);
+
+        return true;
+      }
+      private static List<VCExpr> AnalyzeUsingUnsatCoreHelper(VCExpr programVC, 
+        ref List<Counterexample> cexs, 
+        ref ProverInterface.Outcome outcome, 
+        ref VCExpr preInp, List<VCExpr> assumptions)
+      {
         List<int> unsatClauseIdentifiers = new List<int>();
         if (true) //in case we have to turn off the unsat core related logic
         {
@@ -130,35 +161,33 @@ namespace SymDiff
         var core0 = unsatClauseIdentifiers.Count() > 0 ?
           unsatClauseIdentifiers.Select(i => assumptions[i]) :
           assumptions;
-        Console.Write("(upper bound on tainted ={0}/{1})", core0.Count(), assumptions.Count());
+        Console.Write("(upper bound on tainted after unsat core ={0}/{1})", core0.Count(), assumptions.Count()/2);
         var core = new List<VCExpr>(core0);
 
         //Core may not be minimal, need to iterate
         if (true)
         {
-          core0
-              .Iter(b =>
-              {
-                //for singleton checks, we can disable all other Booleans to only consider this equality
-                var tmpAssumps = new List<VCExpr>(assumptions);
-                tmpAssumps.Remove(b);
-                preInp = tmpAssumps.Aggregate(VCExpressionGenerator.True, (x, y) => SymDiffVC.exprGen.And(x, y));
-                preInp = SymDiffVC.exprGen.And(preInp, SymDiffVC.exprGen.Not(b)); //consider the actual output
-                Console.Write(".");
-                outcome = SymDiffVC.VerifyVC("RefinedStmtTaint", SymDiffVC.exprGen.Implies(preInp, programVC), out cexs);
-                if (outcome == ProverInterface.Outcome.Valid)
-                {
-                  Console.Write("*");
-                  core.Remove(b); 
-                  return;
-                }
-                Console.Write("/"); //possibly different
-              });
+          foreach (var b in core0)
+          {
+            //for singleton checks, we can disable all other Booleans to only consider this equality
+            var tmpAssumps = new List<VCExpr>(assumptions);
+            tmpAssumps.Remove(b);
+            preInp = tmpAssumps.Aggregate(VCExpressionGenerator.True, (x, y) => SymDiffVC.exprGen.And(x, y));
+            preInp = SymDiffVC.exprGen.And(preInp, SymDiffVC.exprGen.Not(b)); //consider the actual output
+            Console.Write(".");
+            outcome = SymDiffVC.VerifyVC("RefinedStmtTaint", SymDiffVC.exprGen.Implies(preInp, programVC), out cexs);
+            if (outcome == ProverInterface.Outcome.Valid)
+            {
+              Console.Write("*");
+              core.Remove(b);
+              continue;
+            }
+            Console.Write("/"); //possibly different
+          }
         }
-        Console.WriteLine("Number of possibly tainted stmts / number of stmts = {0}/{1}", core.Count, taintGuardConsts.Count() / 2 /* one version */);
-        Console.WriteLine("The list of taintedStmts are {0}", string.Join(",", core));
-        return true;
+        return core;
       }
+
 
     }
 
