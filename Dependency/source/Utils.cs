@@ -730,6 +730,36 @@ namespace Dependency
             }
         }
 
+        /// <summary>
+        /// Rewrites M := M[e := e'] ---> M[e] := e'
+        /// </summary>
+        public class RewriteSingletonMapUdates : StandardVisitor
+        {
+            public override Cmd VisitAssignCmd(AssignCmd node)
+            {
+                var i = 0;
+                for(i = 0; i < node.Lhss.Count; ++i)
+                {
+                    var lhs = node.Lhss[i];
+                    var rhs = node.Rhss[i];
+                    if (lhs.DeepAssignedVariable.TypedIdent.Type.IsMap && lhs.Type.IsMap)
+                    {
+                        var x = rhs as NAryExpr;
+                        if (x == null) continue;
+                        if (x.Fun is MapStore && 
+                            lhs.DeepAssignedVariable.ToString() == x.Args[0].ToString())
+                        {
+                            Debug.Assert(x.Args.Count == 3, "Expecting MapStore(m,x,y)");
+                            node.Rhss[i] = x.Args[2];
+                            node.Lhss[i] = new MapAssignLhs(Token.NoToken, lhs, new List<Expr> {x.Args[1]}); 
+                        }
+                    }
+                }
+                return base.VisitAssignCmd(node);
+            }
+        }
+
+
         static public class CallGraphHelper
         {
             static public Graph<Procedure> ComputeCallGraph(Program program)
