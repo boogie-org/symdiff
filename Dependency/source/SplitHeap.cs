@@ -18,11 +18,12 @@ namespace Dependency
         public const string aliasQueryAttr = "aliasingQuery";
         public const string allocSiteStr = "allocationsites";
         public const string computedAllocSiteAttr = "computedallocationsites";
-        public const string allocSiteFnName= "allocSiteFn";
+        public const string allocSiteFnName = "allocSiteFn";
         public const string allocAssumeAttr = "allocSiteAssume";
         public const string allocInstrumentedFileExtention = ".mapLookupAssumes.bpl";
-        public const string allocSiteFunc = "AllocationSites";
+        public const string allocSiteFuncName = "AllocationSites";
         public const string iteFuncName = "ite";
+        public const string externalAlloc = "AS_EXT"; //allocate site for expression e that have AS(e) = {}
     }
 
     public class SplitHeapUsingAliasAnalysis
@@ -103,12 +104,12 @@ namespace Dependency
         {
             private Program prog;
             private HashSet<Function> queryFuncs;
-            private Dictionary<Cmd, HashSet<Tuple<Expr,Expr>>> lookupExprsPerCmd;
+            private Dictionary<Cmd, HashSet<Tuple<Expr, Expr>>> lookupExprsPerCmd;
             private Cmd currCmd;
             private int aliasFnCount;
 
-            public MapLookupAliasingQuery(Program prog) 
-            { 
+            public MapLookupAliasingQuery(Program prog)
+            {
                 this.prog = prog;
                 queryFuncs = new HashSet<Function>();
                 lookupExprsPerCmd = null;
@@ -127,7 +128,7 @@ namespace Dependency
                         {
                             var lookupExprs = lookupExprsPerCmd[x];
                             lookupExprs
-                                .Iter( y => 
+                                .Iter(y =>
                                 {
                                     var fnName = SplitConsts.allocSiteFnName + "_" + aliasFnCount++;
                                     Function aliasingFunc =
@@ -137,10 +138,10 @@ namespace Dependency
                                         Microsoft.Boogie.Type.Bool,
                                         new List<Microsoft.Boogie.Type>() { y.Item2.Type });
                                     aliasingFunc.AddAttribute(SplitConsts.aliasQueryAttr, new object[] { SplitConsts.allocSiteStr });
-                                    var expr = Utils.DeclUtils.MkFuncApp(aliasingFunc,  new List<Expr>() {y.Item2}); 
+                                    var expr = Utils.DeclUtils.MkFuncApp(aliasingFunc, new List<Expr>() { y.Item2 });
                                     AssumeCmd aCmd = new AssumeCmd(Token.NoToken, expr);
                                     aCmd.Attributes = new QKeyValue(Token.NoToken,
-                                        SplitConsts.allocAssumeAttr, new List<object>() {y.Item1.ToString()}, aCmd.Attributes);
+                                        SplitConsts.allocAssumeAttr, new List<object>() { y.Item2.ToString() }, aCmd.Attributes);
                                     newCmds.Add(aCmd);
                                 });
                         }
@@ -170,6 +171,13 @@ namespace Dependency
                 currCmd = null;
                 return b;
             }
+
+            public override AssignLhs VisitMapAssignLhs(MapAssignLhs node)
+            {
+                Debug.Assert(node.Indexes.Count() == 1, "Expecting 1D maps only");
+                this.Visit(node.AsExpr); //makes it as MapSelect(M,e)
+                return node;
+            }
             public override Expr VisitNAryExpr(NAryExpr node)
             {
                 if (node.Fun is MapSelect && node.Fun.ArgumentCount == 2 ||
@@ -196,7 +204,7 @@ namespace Dependency
     {
         Program splitHeapProgram; //this is the program that is the output of alias analysis
         private string prunedFilename;
-        private Function allocSiteFunc; 
+        private Function allocSiteFunc;
 
         public SplitHeapHelper(string prunedFilename)
         {
@@ -210,10 +218,10 @@ namespace Dependency
             if (!Utils.ParseProgram(prunedFilename, out splitHeapProgram)) return null;
             allocSiteFunc =
                 splitHeapProgram.TopLevelDeclarations.OfType<Function>()
-                .Where(f => f.Name == SplitConsts.allocSiteFunc)
+                .Where(f => f.Name == SplitConsts.allocSiteFuncName)
                 .FirstOrDefault();
             if (allocSiteFunc == null)
-                throw new Exception(string.Format("Could not find a function named {0} declared in file {1}", SplitConsts.allocSiteFunc, prunedFilename));
+                throw new Exception(string.Format("Could not find a function named {0} declared in file {1}", SplitConsts.allocSiteFuncName, prunedFilename));
             var mapRewriter = new MapRewriteUsingAllocSites(splitHeapProgram, allocSiteFunc);
             mapRewriter.Visit(splitHeapProgram);
             Utils.PrintProgram(splitHeapProgram, prunedFilename + ".mapsplit.bpl");
@@ -240,102 +248,54 @@ namespace Dependency
             private Program prog;
             private Cmd currCmd;
             private Implementation currImpl;
-            private Tuple<string, List<Tuple<Expr,Expr>>> currMapInfo;
+            private Tuple<string, List<Tuple<Expr, Expr>>> currMapInfo;
+            private Dictionary<Expr, HashSet<Expr>> currAllocSiteMapInfo; //expr -> {a0, a1, ...}, for M[expr]
             private Function allocSiteFunc;
+
             public MapRewriteUsingAllocSites(Program prog, Function allocSiteFunc)
             {
                 this.prog = prog;
                 currCmd = null;
                 currMapInfo = null;
                 this.allocSiteFunc = allocSiteFunc;
+                currAllocSiteMapInfo = null;
             }
-
             public override Implementation VisitImplementation(Implementation node)
             {
                 currImpl = node;
                 return base.VisitImplementation(node);
             }
-
-            // traverses a block and replaces maps according to alloc sites.
-            // this should be run only after multiple allocation sites cadidates has been split into blocks each with a single allocation site!
-            private Block DoBlock(Block node) {
-                currMapInfo = null; //reset currMap across blocks
-                var block = base.VisitBlock(node);
-                currMapInfo = null;
-                return block;
-            }
             public override Block VisitBlock(Block node)
             {
-                for (int i = 0; i < node.Cmds.Count; ++i )
+                currAllocSiteMapInfo = new Dictionary<Expr, HashSet<Expr>>(); //clear this after each assigns
+                foreach (var cmd in node.Cmds)
                 {
-                    var asumCmd = node.Cmds[i] as AssumeCmd;
+                    var asumCmd = cmd as AssumeCmd;
+                    //update the mapping from an expr to its allocation sites
                     if (asumCmd != null)
                     {
-                        var mapName = QKeyValue.FindStringAttribute(asumCmd.Attributes, SplitConsts.allocAssumeAttr);
-                        if (mapName != null)
-                        {   // found alias analysis allocation site data
-                            #region transformation logic
-                            // the block:
-                            //
-                            // L: Cmds_start; Assume(AS(x) = AS1 || ... || ASn); Map[x] = y; Cmds_rest ; goto nextBlock;
-                            //
-                            // will be split as follows:
-                            //
-                            // L: Cmds_start; Assume(AS(x) = AS1 || ... || ASn); goto L_MapSplit_AS1, ..., L_MapSplit_ASn;
-                            // Lrest: Cmds_rest ; goto nextBlock;
-                            // L_MapSplit_AS1: Assume(AS(x) = AS1); Map[x] = y; goto Lrest;
-                            // ...
-                            // L_MapSplit_ASn: Assume(AS(x) = ASn); Map[x] = y; Map_ASn[x] = y; goto Lrest;
-                            //
-                            // And then the original (Shuvendu's) transormation will be run
-                            #endregion
-                            // get the map assign command
-                            AssignCmd asgnCmd = (node.Cmds.Count > i + 1) ? node.Cmds[i + 1] as AssignCmd : null;
-                            if (asgnCmd == null)
+                        var exprArgName = QKeyValue.FindStringAttribute(asumCmd.Attributes, SplitConsts.allocAssumeAttr);
+                        if (exprArgName != null)
+                        {
+                            var allocSites = ExtractAllocSitesFromExpr(asumCmd.Expr);
+                            if (allocSites != null) //not assume true
                             {
-                                Console.WriteLine("Note: No map splitting performed for: " + node.Cmds[i]);
-                                node.Cmds.RemoveAt(i);
-                                continue;
+                                currAllocSiteMapInfo[allocSites.Item1] = allocSites.Item2; //overwrite any previous, even in same cmd
                             }
-
-                            string sourcefile = Utils.AttributeUtils.GetSourceFile(node);
-
-                            var labelPrefix = node.Label + "_MapSplit" + i;
-                            // create a block for the rest of the command 
-                            Block restBlock = new Block(Token.NoToken, labelPrefix, node.Cmds.GetRange(i + 2, node.Cmds.Count - (i + 2)), node.TransferCmd);
-                            currImpl.Blocks.Add(restBlock);
-                            if (sourcefile != null) // the containing block has sourcefile\line information, so copy it
-                                restBlock.Cmds.Insert(0, node.Cmds[0]);
-                            
-                            // remove the rest of the commands from the current block
-                            node.Cmds.RemoveRange(i, node.Cmds.Count - i);
-                            // create a block for each AS
-                            List<Tuple<Expr, Expr>> allocSites = ExtractAllocSitesFromExpr(asumCmd.Expr);
-                            var ASBlocks = new List<Block>();
-                            foreach (var allocSite in allocSites)
-                            {
-                                var asAssume = new AssumeCmd(Token.NoToken, allocSite.Item1);
-                                asAssume.Attributes = new QKeyValue(Token.NoToken, SplitConsts.allocAssumeAttr, new List<object> { mapName }, null);
-                                var mapAssign = new AssignCmd(Token.NoToken, new List<AssignLhs>(asgnCmd.Lhss), new List<Expr>(asgnCmd.Rhss));
-                                Block asSplitBlock = new Block(Token.NoToken, labelPrefix + "_" + allocSite.Item2, new List<Cmd> { asAssume, mapAssign }, new GotoCmd(Token.NoToken, new List<Block> { restBlock }));
-                                ASBlocks.Add(asSplitBlock);
-                                currImpl.Blocks.Add(asSplitBlock);
-                                if (sourcefile != null) // the containing block has sourcefile\line information, so copy it
-                                    asSplitBlock.Cmds.Insert(0, node.Cmds[0]);
-                                DoBlock(asSplitBlock);
-                            }
-                            // replace the goto at the end of the original block
-                            node.TransferCmd = new GotoCmd(Token.NoToken,ASBlocks);
-
-                            // do the same operation for the rest of the block
-                            VisitBlock(restBlock);
-                            break;
                         }
                     }
+                    Visit(cmd);
+                    if (cmd is AssignCmd)
+                        currAllocSiteMapInfo.Clear(); //clear so that the map for 
                 }
-                return DoBlock(node);
+                return node;
             }
-
+            public override Cmd VisitHavocCmd(HavocCmd node)
+            {
+                if (node.Vars.All(x => !x.Type.IsMap))
+                    return base.VisitHavocCmd(node);
+                throw new Exception(string.Format("Do not allow havoc over map variables, found {0}", node.ToString()));
+            }
             public override Cmd VisitCallCmd(CallCmd node)
             {
                 if (node.Outs.Any(x => x.Decl.TypedIdent.Type.IsMap))
@@ -345,23 +305,11 @@ namespace Dependency
                 currCmd = null;
                 return b;
             }
-            
-            public override Cmd VisitAssumeCmd(AssumeCmd node)
-            {
-                currCmd = node;
-                var mapName = QKeyValue.FindStringAttribute(node.Attributes, SplitConsts.allocAssumeAttr);
-                if (mapName != null)
-                {
-                    //node.Expr should be AS(..) == A1 || AS(..) == A2
-                    List<Tuple<Expr,Expr>> allocSites = ExtractAllocSitesFromExpr(node.Expr);
-                    currMapInfo = Tuple.Create(mapName, allocSites);
-                    //Console.WriteLine("The list of allocSite consts = {0}, {1}", currMapInfo.Item1, string.Join(" ", currMapInfo.Item2));
-                    node.Attributes.AddLast(new QKeyValue(Token.NoToken, SplitConsts.computedAllocSiteAttr,                    
-                        allocSites.Select(x => (object) x.Item2).ToList(), null));
-                }
-                var b = base.VisitAssumeCmd(node);
-                return b;
-            } 
+            /// <summary>
+            /// Rewrite map assignments to parallel assignments
+            /// </summary>
+            /// <param name="node"></param>
+            /// <returns></returns>
             public override Cmd VisitAssignCmd(AssignCmd node)
             {
                 var ac = base.VisitAssignCmd(node);
@@ -370,26 +318,33 @@ namespace Dependency
                 if (!containsMapAssign)
                     return ac;
                 if (lhss.Count > 1)
-                    throw new Exception(string.Format("Currently only handle single assignment per assign cmd, found {0}", node));
-                if (currMapInfo == null)
-                    return ac;
+                    throw new Exception(string.Format("Currently only handle single map assignment per assign cmd, found {0}", node));
                 var assign = ac as AssignCmd;
                 var rhs = assign.Rhss[0];
                 var lhs = lhss[0];
-                if (lhs.DeepAssignedVariable.TypedIdent.Type.IsMap)
+                Debug.Assert(lhs.DeepAssignedVariable.TypedIdent.Type.IsMap);
+                if (lhs.Type.IsMap)
                 {
-                    var mv = lhs.DeepAssignedVariable;
-                    if (currMapInfo.Item2.Count() != 1)
-                        throw new NotImplementedException("Can only handle cases with unique allocation site");
-                    if (mv.Name != currMapInfo.Item1)
-                        throw new Exception(string.Format("Map {0} in expression against {1} in allocSiteAssume", mv, currMapInfo.Item1));
-                    var splitMapVar = GetOrCreateSplitMap(mv, currMapInfo.Item2[0].Item2.ToString());
-                    assign.Lhss = new List<AssignLhs>() { new SimpleAssignLhs(Token.NoToken, IdentifierExpr.Ident(splitMapVar)) };
-                    return assign;
+                    //to generate M' := M'[x := y]
+                    //assign.Lhss = new List<AssignLhs>() { new SimpleAssignLhs(Token.NoToken, l[0].Item1) };
+                    //assign.Rhss = new List<Expr>() { l[0].Item2 };
+                    Console.WriteLine("Don't handle direct stores M := e yet, found {0}", node.ToString());
+                    return ac;
                 }
-                throw new NotImplementedException();
+                var index = (lhs.AsExpr as NAryExpr).Args[1];
+                var l = VisitMapStore(lhs.DeepAssignedIdentifier, index, rhs);
+                if (l != null)
+                {
+                    //to generate M'[x] := y
+                    assign.Lhss = l
+                        .Select(x => new MapAssignLhs(Token.NoToken, new SimpleAssignLhs(Token.NoToken, x.Item1), new List<Expr>() { index }))
+                        .ToList<AssignLhs>();
+                    assign.Rhss = l
+                        .Select(x => x.Item2)
+                        .ToList();
+                }
+                return ac;
             }
-            
             public override Expr VisitIdentifierExpr(IdentifierExpr node)
             {
                 if (node.Decl.TypedIdent.Type.IsMap && currMapInfo != null) //currInfo == null means no assume was encountered (e.g. requires/ensures)
@@ -397,124 +352,153 @@ namespace Dependency
                     if (node.Decl.Name != currMapInfo.Item1)
                         throw new Exception(string.Format("Expecting the map name {0} to match up with map name in last :allocSiteAssume {1}",
                             node.Decl.Name, currMapInfo.Item1));
-
-                    //create ite with allocation site
                 }
 
                 return base.VisitIdentifierExpr(node);
             }
-
+            /// <summary>
+            /// Rewirte map select expressions to ITE expressions
+            /// </summary>
+            /// <param name="node"></param>
+            /// <returns></returns>
             public override Expr VisitNAryExpr(NAryExpr node)
             {
-                //don't do any processing when outside a block
-                if (currMapInfo == null)
-                    return base.VisitNAryExpr(node);
-                Expr e = base.VisitNAryExpr(node);
+                var e = base.VisitNAryExpr(node);
                 var ret = e as NAryExpr;
                 if (ret == null) return e;
                 if (ret.Fun is MapSelect && ret.Fun.ArgumentCount == 2)
                     return VisitMapSelect(ret.Args[0], ret.Args[1], node.Type);
                 if (ret.Fun is MapStore && ret.Fun.ArgumentCount == 3)
-                    return VisitMapStore(ret.Args[0], ret.Args[1], ret.Args[2], node.Type);
+                    Console.WriteLine("Map stores directly not handled yet");
                 return ret;
             }
-
-            private Expr VisitMapStore(Expr map, Expr index, Expr value, Microsoft.Boogie.Type btype)
+            /// <summary>
+            /// Returns a set {m_i, updateexpr_i} for all m_i that are updated
+            /// </summary>
+            /// <param name="map"></param>
+            /// <param name="index"></param>
+            /// <param name="value"></param>
+            /// <param name="btype"></param>
+            /// <returns></returns>
+            private List<Tuple<IdentifierExpr, Expr>> VisitMapStore(IdentifierExpr mv, Expr index, Expr value)
             {
                 //get AS set and ASFunc for this map. lookup by name
                 //create m@1,..
                 //create n parallel assignments with 1 ite
-                //m@1, ... = ite(AS(index) == a1, m@1, value), ...
-                if (currMapInfo.Item2.Count() != 1)
-                    throw new NotImplementedException("Can only handle cases with unique allocation site");
-                var mv = map as IdentifierExpr;
-                if (mv == null) throw new Exception(string.Format("Expecting an identifier as map in Select, found {0}", map));
-                if (mv.Name != currMapInfo.Item1)
-                    throw new Exception(string.Format("Map {0} in expression against {1} in allocSiteAssume", map, currMapInfo.Item1));
-
-
-                var iteArgs = new List<Tuple<Expr, Expr>>(); //list of (cond,expr) pair
-                currMapInfo.Item2
+                //m@1[index], m@2[index],.. = ite(AS(index,AS1), value, m@1[index]), ite(...),..
+                var aSites = currAllocSiteMapInfo.ContainsKey(index) ? currAllocSiteMapInfo[index] : (new HashSet<Expr>());
+                if (aSites.Count == 0)
+                {
+                    //Case where AS(index) = {}
+                    var splitMapVar = GetOrCreateSplitMap(mv.Decl, SplitConsts.externalAlloc);
+                    return new List<Tuple<IdentifierExpr, Expr>>() {Tuple.Create(IdentifierExpr.Ident(splitMapVar), value)};
+                }
+                var btype = value.Type; 
+                var iteArgs = new List<Tuple<IdentifierExpr, Expr>>(); //list of (mv', ite(cond,trueExpr,falseExpr)) tuples
+                aSites
                     .Iter(x =>
                     {
-                        var tmp = Utils.DeclUtils.MkFuncApp(allocSiteFunc, new List<Expr>() { index });
-                        var cond = Expr.Eq(tmp, x.Item2);
-                        var splitMapVar = GetOrCreateSplitMap(mv.Decl, x.Item2.ToString());
-                        var arg = new NAryExpr(Token.NoToken,
-                            new MapStore(Token.NoToken, 1), //arity is args.Count - 2
-                            new List<Expr>() { IdentifierExpr.Ident(splitMapVar), index, value});
-                        iteArgs.Add(Tuple.Create((Expr)cond, (Expr)arg));
+                        var cond = Utils.DeclUtils.MkFuncApp(allocSiteFunc, new List<Expr>() { index, x }); //AS(index,AS1)
+                        var splitMapVar = GetOrCreateSplitMap(mv.Decl, x.ToString());      //m@AS1
+                        var arg = Expr.Select(IdentifierExpr.Ident(splitMapVar), new Expr[] { index }); //m@AS1[index]
+                        var iteFunc = Utils.DeclUtils.MkOrGetFunc(prog, SplitConsts.iteFuncName, btype,
+                            new List<Microsoft.Boogie.Type>() { Microsoft.Boogie.Type.Bool, btype, btype });
+                        var iteVal =
+                            Utils.DeclUtils.MkFuncApp(iteFunc, new List<Expr>() { (Expr)cond, value, (Expr)arg}); //ite(AS(index,AS1), value, m@AS1[index])
+                        iteArgs.Add(Tuple.Create(IdentifierExpr.Ident(splitMapVar),  (Expr)iteVal)); 
                     }
                     );
-                return iteArgs[0].Item2;
-                //var iteFunc = Utils.DeclUtils.MkOrGetFunc(prog, SplitConsts.iteFuncName, btype,
-                //    new List<Microsoft.Boogie.Type>() { Microsoft.Boogie.Type.Bool, btype, btype });
-                //create the nested n-1 level ite expression
-
-                throw new NotImplementedException();
+                return iteArgs;
             }
             private Expr VisitMapSelect(Expr map, Expr index, Microsoft.Boogie.Type btype)
             {
                 //get AS set and ASFunc for this map. lookup by name
                 //create m@1,..
                 //create ite with n-1 choices
-                //ite(AS(index) == a1, m@1, ite(..))
+                //ite(AS(index,a1), m@1[index], ite(..))
                 var mv = map as IdentifierExpr;
                 if (mv == null) throw new Exception(string.Format("Expecting an identifier as map in Select, found {0}", map));
-                if (mv.Name != currMapInfo.Item1)
-                    throw new Exception(string.Format("Map {0} in expression against {1} in allocSiteAssume", map, currMapInfo.Item1));
-                var iteArgs = new List<Tuple<Expr, Expr>> (); //list of (cond,expr) pair
-                currMapInfo.Item2
+                //find the AS for index
+                var aSites = currAllocSiteMapInfo.ContainsKey(index) ? currAllocSiteMapInfo[index] : (new HashSet<Expr>());
+                if (aSites.Count == 0)
+                {
+                    //Case where AS(index) = {}
+                    var splitMapVar = GetOrCreateSplitMap(mv.Decl, SplitConsts.externalAlloc);
+                    return Expr.Select(IdentifierExpr.Ident(splitMapVar), new Expr[] { index});
+                }
+
+                var iteArgs = new List<Tuple<Expr, Expr>>(); //list of (cond,expr) pair
+                aSites
                     .Iter(x =>
-                    { 
-                        var tmp = Utils.DeclUtils.MkFuncApp(allocSiteFunc, new List<Expr>(){index});
-                        var cond = Expr.Eq(tmp, x.Item2);
-                        var splitMapVar = GetOrCreateSplitMap(mv.Decl, x.Item2.ToString());
-                        var arg = new NAryExpr(Token.NoToken,
-                            new MapSelect(Token.NoToken, 1), //arity is args.Count - 1
-                            new List<Expr>() {IdentifierExpr.Ident(splitMapVar), index});
-                        iteArgs.Add(Tuple.Create((Expr)cond, (Expr) arg));
+                    {
+                        var cond = Utils.DeclUtils.MkFuncApp(allocSiteFunc, new List<Expr>() { index, x });
+                        var splitMapVar = GetOrCreateSplitMap(mv.Decl, x.ToString());
+                        var arg = Expr.Select(IdentifierExpr.Ident(splitMapVar), new Expr[] {index});
+                        iteArgs.Add(Tuple.Create((Expr)cond, (Expr)arg));
                     }
                     );
                 //create the nested n-1 level ite expression
-                if (currMapInfo.Item2.Count() == 1)
+                if (iteArgs.Count == 1)
                     return iteArgs[0].Item2;
                 var iteFunc = Utils.DeclUtils.MkOrGetFunc(prog, SplitConsts.iteFuncName, btype,
                     new List<Microsoft.Boogie.Type>() { Microsoft.Boogie.Type.Bool, btype, btype });
-                throw new NotImplementedException("Can only handle cases with unique allocation site");
+                //Create the n-1 level expression
+                iteArgs.Reverse();
+                var end = iteArgs[0].Item2;
+                iteArgs.RemoveAt(0);
+                var mkIteExpr = iteArgs
+                    .Aggregate(end,
+                    (x, y) => Utils.DeclUtils.MkFuncApp(iteFunc, new List<Expr>() { y.Item1, y.Item2, x })
+                    );
+                return mkIteExpr;
             }
-            
-            /// <summary>
-            /// returns {(AS(..) == A1,A1), ...} from AS(..) == A1 || AS(..) == A2
-            /// </summary>
-            /// <param name="expr"></param>
-            /// <returns></returns>
-            private List<Tuple<Expr,Expr>> ExtractAllocSitesFromExpr(Expr expr)
-            {
-                var asExtractor = new AllocSiteExtractor();
-                asExtractor.Visit(expr);
-                return asExtractor.allocSites;
-            }
-
             private Variable GetOrCreateSplitMap(Variable m, string allocSite)
             {
                 var splitname = m.Name + "_" + allocSite;
-                var y = prog.TopLevelDeclarations.OfType<Variable>()
-                    .Where(x => x.Name == splitname)
-                    .FirstOrDefault();
-                if (y != null) return y;
-                return Utils.DeclUtils.MkGlobalVariable(prog, splitname, m.TypedIdent.Type);
+                if (m is GlobalVariable)
+                {
+                    var y = prog.TopLevelDeclarations.OfType<Variable>()
+                        .Where(x => x.Name == splitname)
+                        .FirstOrDefault();
+                    if (y != null) return y;
+                    return Utils.DeclUtils.MkGlobalVariable(prog, splitname, m.TypedIdent.Type);
+                }
+                else if (m is LocalVariable)
+                {
+                    var y = currImpl.LocVars.OfType<Variable>()
+                        .Where(x => x.Name == splitname)
+                        .FirstOrDefault();
+                    if (y != null) return y;
+                    return Utils.DeclUtils.MkLocalVariable(prog, currImpl, splitname, m.TypedIdent.Type);
+                }
+                throw new Exception(string.Format("Maps are not allowed as parameters, found {0} in {1}", m, currImpl.Name));
             }
-
+            /// <summary>
+            /// </summary>
+            /// <param name="expr"></param>
+            /// <returns></returns>
+            private Tuple<Expr, HashSet<Expr>> ExtractAllocSitesFromExpr(Expr expr)
+            {
+                var asExtractor = new AllocSiteExtractor();
+                asExtractor.Visit(expr);
+                if (asExtractor.expr == null) return null;
+                return Tuple.Create(asExtractor.expr, asExtractor.allocSites);
+            }
             class AllocSiteExtractor : StandardVisitor
             {
-                public List<Tuple<Expr,Expr>> allocSites;
-                public AllocSiteExtractor() { allocSites = new List<Tuple<Expr, Expr>>(); }
+                //AllocSites(expr, allocSites)
+                public Expr expr;
+                public HashSet<Expr> allocSites;
+                public AllocSiteExtractor() { expr = null; allocSites = new HashSet<Expr>(); }
                 public override Expr VisitNAryExpr(NAryExpr node)
                 {
-                    if (node.Fun is BinaryOperator &&
-                        ((BinaryOperator)node.Fun).Op == BinaryOperator.Opcode.Eq)
-                        allocSites.Add(Tuple.Create((Expr) node, node.Args[1]));
+                    //AllocSite(a,A1) && AllocSite(a,A2) && ...
+                    if (node.Fun is FunctionCall &&
+                        node.Fun.FunctionName == SplitConsts.allocSiteFuncName)
+                    {
+                        expr = node.Args[0];
+                        allocSites.Add(node.Args[1]);
+                    }
                     return base.VisitNAryExpr(node);
                 }
             }

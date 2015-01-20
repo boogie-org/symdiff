@@ -151,6 +151,12 @@ namespace Dependency
                 prog.AddTopLevelDeclaration(g);
                 return g;
             }
+            public static Variable MkLocalVariable(Program prog, Implementation impl, string name, BType btype)
+            {
+                var l = new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, btype));
+                impl.LocVars.Add(l);
+                return l;
+            }
         }
 
         public static class AttributeUtils
