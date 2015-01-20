@@ -130,10 +130,10 @@ namespace Dependency
             //we will take the read/write set from upper bound, as lower bound may not have all the read vars
             var readSet = upperBoundDepImpl.ReadSet();
             var modSet = upperBoundDepImpl.ModSet();
-            readSet.RemoveAll(x => x.Name == Utils.VariableUtils.NonDetVar.Name);
+            readSet.RemoveWhere(x => x == Utils.VariableUtils.NonDetVar);
 
             //remove all entries from modSet for which upper/lower bounds are same or lower already has a *
-            modSet.RemoveAll(x =>
+            modSet.RemoveWhere(x =>
                 {
                     //lowerbound may have a * only for stubs, since it does not understand baked in stubs such as malloc
                     if (lowerBoundDepImpl[x].Contains(Utils.VariableUtils.NonDetVar)) return true; //already has *
@@ -339,7 +339,7 @@ namespace Dependency
             return outputGuards;
         }
 
-        private static List<Constant> CreateInputGuards(IEnumerable<Variable> readSet, string procName)
+        private static List<Constant> CreateInputGuards(VarSet readSet, string procName)
         {
             List<Constant> inputGuards = new List<Constant>();
             foreach (var r in readSet)
@@ -535,7 +535,7 @@ namespace Dependency
                     });
             }
             //We are about to refine the dependency of v, so we start with the empty set
-            result[v] = new HashSet<Variable>();
+            result[v] = new VarSet();
             //TODO: THIS HAS TO GO AWAY with proper variables!!!
             foreach (var ig in inputGuardConsts)
             {

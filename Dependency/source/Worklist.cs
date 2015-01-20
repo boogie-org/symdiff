@@ -19,7 +19,7 @@ namespace Dependency
         public Dictionary<Absy, AbsState> stateSpace = new Dictionary<Absy, AbsState>();
         internal List<Absy> workList = new List<Absy>();
         internal Dictionary<Absy, Block> cmdBlocks = new Dictionary<Absy, Block>();
-        internal Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure,HashSet<CallCmd>>();
+        internal Dictionary<Procedure, HashSet<CallCmd>> procCallers = new Dictionary<Procedure, HashSet<CallCmd>>();
 
         internal AbsState GatherPredecessorsState(Absy node, Block currBlock)
         {
@@ -28,7 +28,7 @@ namespace Dependency
             {
                 int index = currBlock.Cmds.IndexOf((Cmd)node);
                 if (index == 0)
-                    state = GatherBlockPredecessorsState(currBlock, state);
+                    state = GatherBlockPredecessorsState(currBlock);
                 else if (stateSpace.ContainsKey(currBlock.Cmds[index - 1]))
                     state = (AbsState)stateSpace[currBlock.Cmds[index - 1]].Clone();
                 else
@@ -37,7 +37,7 @@ namespace Dependency
             else if (node is TransferCmd)
             {
                 if (currBlock.Cmds.Count == 0)
-                    state = GatherBlockPredecessorsState(currBlock, state);
+                    state = GatherBlockPredecessorsState(currBlock);
                 else
                     state = (AbsState)stateSpace[currBlock.Cmds.Last()].Clone();
             }
@@ -46,22 +46,15 @@ namespace Dependency
             return state;
         }
 
-        internal AbsState GatherBlockPredecessorsState(Block currBlock, AbsState state)
+        internal AbsState GatherBlockPredecessorsState(Block currBlock)
         {
-            state = new AbsState();
+            var state = new AbsState();
+            
             foreach (var pred in currBlock.Predecessors)
             {
-                Absy cmd = null;
-                if (pred.Cmds.Count > 0)
-                    cmd = pred.Cmds.Last();
-                else
-                    cmd = pred.TransferCmd;
-
+                var cmd = (pred.Cmds.Count > 0) ? (Absy)pred.Cmds.Last() : (Absy)pred.TransferCmd;
                 if (stateSpace.ContainsKey(cmd))
-                {
-                    var predState = stateSpace[cmd];
-                    state.JoinWith(predState);
-                }
+                    state.JoinWith(stateSpace[cmd]);
             }
             return state;
         }
@@ -135,6 +128,8 @@ namespace Dependency
 
         internal void RunFixedPoint(StandardVisitor visitor, Implementation node)
         {
+            Dictionary<Absy, int> visitCount = new Dictionary<Absy, int>();
+            //VarSet.allSets.Clear();
             Absy entry = Utils.GetImplEntry(node);
             workList.Add(entry);
             cmdBlocks[entry] = node.Blocks[0];
@@ -142,16 +137,37 @@ namespace Dependency
             {
                 var cmd = workList[0];
                 workList.RemoveAt(0);
-#if DBG
-                    Console.WriteLine("Visiting L" + cmd.Line + ": " + cmd);
-#endif
-                visitor.Visit(cmd);
+//#if DBG
+                if (!visitCount.Keys.Contains(cmd))
+                    visitCount[cmd] = 0;
+                ++visitCount[cmd];
+                //Console.WriteLine("Visiting (" + visitCount[cmd] + ") L" + cmd.Line + ": " + cmd);
+//#endif
+                //if (cmd is ReturnCmd || visitCount[cmd] <= 1)
+                //if (visitCount[cmd] < 5)
+                    visitor.Visit(cmd);
+                //else
+                //{
+                //    stateSpace[cmd].SetTop(node);
+                //    if (!(cmd is ReturnCmd))
+                //        Propagate(cmd);
+                //}
+                //else
+                    //SimpleTransform(cmd);
+                //Console.WriteLine("State size is {0} (over {1} program locations)", stateSpace.Sum(s => (s.Value as Dependencies).Sum(vd => vd.Value.Count)), stateSpace.Keys.Count);
 #if DBG
                     if (stateSpace.ContainsKey(cmd))
                         Console.WriteLine(stateSpace[cmd].ToString());
                     Console.ReadLine();
 #endif
             }
+            //HashSet<Dependencies> deps = new HashSet<Dependencies>();
+            //int redundant = 0, overall = 0;
+            //stateSpace.Values.Iter(d => { var dd = d as Dependencies; if (!deps.Add(dd)) redundant++; });
+            //Console.WriteLine("{0} redundant dependiences in {1} locations", redundant, stateSpace.Keys.Count);
+            //HashSet<VarSet> sets = new HashSet<VarSet>();
+            //stateSpace.Values.Iter(d => (d as Dependencies).Values.Iter(s => { overall++; if (sets.Any(ss => ss.SetEquals(s))) redundant++; sets.Add(s); }));
+            //Console.WriteLine("{0} redundant var sets out of {1}, size of allsets = {2}", redundant, overall, VarSet.allSets.Count);
         }
     }
 

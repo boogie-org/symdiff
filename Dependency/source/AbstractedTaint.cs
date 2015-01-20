@@ -41,7 +41,7 @@ namespace Dependency
                 nonTaintedImpls
                     .Iter(x =>
                         {
-                            var modset = new HashSet<Variable>(allDeps[x.Proc].ModSet());
+                            var modset = new VarSet(allDeps[x.Proc].ModSet());
                             Utils.VariableUtils.PruneLocals(x, modset);
                             modset.RemoveWhere(v => x.Proc.OutParams.Contains(v));
                             x.Proc.Modifies = modset.Select(v => IdentifierExpr.Ident(v)).ToList();

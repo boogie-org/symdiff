@@ -10,9 +10,10 @@ namespace Dependency
 {
     public interface IAbstractState
     {
-        bool JoinWith(IAbstractState d);
+        bool JoinWith(IAbstractState s);
         IAbstractState Clone();
 
+        void SetTop(Implementation i);
     }
     public class TaintSet : HashSet<Variable>, IAbstractState
     {
@@ -24,6 +25,10 @@ namespace Dependency
         {
             return new TaintSet(this);
         }
+        public void SetTop(Implementation i) {
+
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -64,15 +69,130 @@ namespace Dependency
             JoinWith(result);
         }
     }
-    public class Dependencies : Dictionary<Variable, HashSet<Variable>>, IAbstractState
+    
+    public class VarSet : HashSet<Variable>
     {
+        public VarSet() : base() { }
+        public VarSet(IEnumerable<Variable> vs) : base(vs) { }
+
+    }
+    
+    /*
+    public class VarSet : IEnumerable<Variable>
+    {
+        static public HashSet<HashSet<Variable>> allSets = new HashSet<HashSet<Variable>>();
+
+        private HashSet<Variable> mySet;
+
+        private void AssignTo(HashSet<Variable> vs) {
+            var existingSet = allSets.FirstOrDefault(s => s.SetEquals(vs));
+            if (existingSet == null)
+            {
+                existingSet = vs;
+                allSets.Add(vs);
+            }
+            mySet = existingSet;
+        }
+
+        public VarSet()
+        {
+            AssignTo(new HashSet<Variable>());
+        }
+
+        public VarSet(IEnumerable<Variable> set)
+        {
+            HashSet<Variable> vs = new HashSet<Variable>(set);
+            AssignTo(vs);
+        }
+
+        public VarSet(VarSet vs)
+        {
+            mySet = vs.mySet;
+        }
+
+        IEnumerator<Variable> IEnumerable<Variable>.GetEnumerator()
+        {
+            return mySet.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return mySet.GetEnumerator();
+        }
+
+        public bool Add(Variable item)
+        {
+            HashSet<Variable> newSet = new HashSet<Variable>(mySet);
+            bool result = newSet.Add(item);
+            AssignTo(newSet);
+            return result;
+        }
+
+
+        public bool IsSupersetOf(IEnumerable<Variable> other)
+        {
+            return mySet.IsSupersetOf(other);
+        }
+
+
+        public bool SetEquals(IEnumerable<Variable> other)
+        {
+            return mySet.SetEquals(other);
+        }
+
+        public void UnionWith(IEnumerable<Variable> other)
+        {
+            HashSet<Variable> newSet = new HashSet<Variable>(mySet);
+            newSet.UnionWith(other);
+            AssignTo(newSet);
+        }
+
+        public bool Contains(Variable item)
+        {
+            return mySet.Contains(item);
+        }
+
+        public int Count
+        {
+            get { return mySet.Count; }
+        }
+
+        public bool Remove(Variable item)
+        {
+            HashSet<Variable> newSet = new HashSet<Variable>(mySet);
+            bool result = newSet.Remove(item);
+            AssignTo(newSet);
+            return result;
+        }
+
+        public int RemoveWhere(Predicate<Variable> match)
+        {
+            HashSet<Variable> newSet = new HashSet<Variable>(mySet);
+            int result = newSet.RemoveWhere(match);
+            AssignTo(newSet);
+            return result;
+        }
+
+    }
+    */
+    public class Dependencies : Dictionary<Variable, VarSet>, IAbstractState
+    {
+        private bool isTop = false;
         public Dependencies() : base() { }
 
         // this is a deep copy, since we keep sets in the dictionary
         public Dependencies(Dependencies d)
             : base(d)
         {
-            d.Keys.Iter(v => this[v] = new HashSet<Variable>(d[v]));
+            d.Keys.Iter(v => this[v] = new VarSet(d[v]));
+        }
+
+        public void SetTop(Implementation impl)
+        {
+            if (isTop)
+                return;
+            isTop = true;
+            //impl.LocVars.Iter(v => { if (this.ContainsKey(v)) this[v] = new VarSet(impl.LocVars); else this[v].UnionWith(impl.LocVars); });
         }
 
         public IAbstractState Clone()
@@ -148,15 +268,15 @@ namespace Dependency
         }
 
         // returns ( (this |_| ias) > this ) i.e. whether ias has dependencies that did not exists in this
-        public bool JoinWith(IAbstractState ias)
+        public bool JoinWith(IAbstractState state)
         {
             bool added = false;
-            Dependencies d = (Dependencies)ias;
+            Dependencies d = (Dependencies)state;
             foreach (var v in d.Keys)
             {
                 if (!ContainsKey(v))
                 {
-                    this[v] = new HashSet<Variable>(d[v]);
+                    this[v] = d[v];
                 }
                 else if (!this[v].IsSupersetOf(d[v]))
                 {
@@ -198,8 +318,6 @@ namespace Dependency
             }
             this.JoinWith(result);
         }
-
-        // TODO: replace this with PruneLocals
         public void Prune(Implementation impl)
         {
             var proc = impl.Proc;
