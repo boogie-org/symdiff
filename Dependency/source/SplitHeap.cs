@@ -250,9 +250,11 @@ namespace Dependency
             private Implementation currImpl;
             private Dictionary<Expr, HashSet<Expr>> currAllocSiteMapInfo; //expr -> {a0, a1, ...}, for M[expr]
             private Function allocSiteFunc;
+            private List<string> allAllocSites;
 
             private HashSet<Tuple<Expr, string>> insertedTypeWarnings;//missing types inserted
             private HashSet<Cmd> unhandledCommands; //commands not handled soundly
+
 
             public MapRewriteUsingAllocSites(Program prog, Function allocSiteFunc)
             {
@@ -260,17 +262,22 @@ namespace Dependency
                 currCmd = null;
                 this.allocSiteFunc = allocSiteFunc;
                 currAllocSiteMapInfo = null;
+                insertedTypeWarnings = new HashSet<Tuple<Expr, string>>();
+                unhandledCommands = new HashSet<Cmd>();
+                //find all the allocation sites 
+                allAllocSites = prog.Constants
+                    .Where(x => x.TypedIdent.Type.ToString() == "AS")
+                    .Select(x => x.ToString())
+                    .ToList();
+                allAllocSites.Add(SplitConsts.externalAlloc);
             }
             public override Program VisitProgram(Program node)
             {
-                insertedTypeWarnings = new HashSet<Tuple<Expr, string>>();
-                unhandledCommands = new HashSet<Cmd>();
                 var p = base.VisitProgram(node);
                 if (insertedTypeWarnings.Count > 0)
                     Console.WriteLine("Warning!: {0} cases of missing inserted types", insertedTypeWarnings.Count);
                 if (unhandledCommands.Count > 0)
                     Console.WriteLine("Warning!: {0} cases of unhandled commands", unhandledCommands.Count);
-
                 return p;
             }
             public override Implementation VisitImplementation(Implementation node)
@@ -364,15 +371,14 @@ namespace Dependency
                 var ac = new AssignCmd(Token.NoToken, new List<AssignLhs>() { lhs }, new List<Expr>() { rhs });
                 if (lhs.Type.IsMap)
                 {
-                    unhandledCommands.Add(ac);
-                    //Console.WriteLine("Don't handle direct stores M := e yet, found {0}", ac.ToString());
+                    ac = VisitEntireMapAssignment(lhs, rhs);
                     return ac;
                 }
                 var index = (lhs.AsExpr as NAryExpr).Args[1];
                 var l = VisitMapStore(lhs.DeepAssignedIdentifier, index, rhs);
                 if (l != null)
                 {
-                    ac = new AssignCmd(Token.NoToken, new List<AssignLhs>(), new List<Expr>());
+                    ac = new AssignCmd(Token.NoToken, new List<AssignLhs>(), new List<Expr>()); //overwrite
                     //to generate M'[x] := y
                     ac.Lhss = l
                         .Select(x => new MapAssignLhs(Token.NoToken, new SimpleAssignLhs(Token.NoToken, x.Item1), new List<Expr>() { index }))
@@ -381,6 +387,34 @@ namespace Dependency
                         .Select(x => x.Item2)
                         .ToList();
                 }
+                return ac;
+            }
+            /// <summary>
+            /// M := E
+            /// </summary>
+            /// <param name="lhs"></param>
+            /// <param name="rhs"></param>
+            /// <returns></returns>
+            private AssignCmd VisitEntireMapAssignment(AssignLhs lhs, Expr rhs)
+            {
+                Debug.Assert(lhs.DeepAssignedVariable.TypedIdent.Type.IsMap);
+                var ac = new AssignCmd(Token.NoToken, new List<AssignLhs>() { lhs }, new List<Expr>() { rhs });
+                //M := old(M)
+                if (!
+                    (rhs is OldExpr &&
+                    ((OldExpr)rhs).Expr is IdentifierExpr &&
+                    ((IdentifierExpr)((OldExpr)rhs).Expr).Decl == lhs.DeepAssignedVariable)
+                    )
+                {
+                    Console.WriteLine("Don't handle direct stores M := e yet, found {0}", ac.ToString());
+                    unhandledCommands.Add(ac);
+                    return ac;
+                }
+                var splitVars = allAllocSites
+                    .Select(x => GetOrCreateSplitMap(lhs.DeepAssignedVariable, x))
+                    .ToList();
+                ac.Lhss = splitVars.Select(x => (AssignLhs) new SimpleAssignLhs(Token.NoToken, IdentifierExpr.Ident(x))).ToList();
+                ac.Rhss = splitVars.Select(x => (Expr) new OldExpr(Token.NoToken, (Expr) IdentifierExpr.Ident(x))).ToList();
                 return ac;
             }
             /// <summary>
