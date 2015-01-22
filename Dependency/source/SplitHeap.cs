@@ -237,37 +237,53 @@ namespace Dependency
             #region transformation logic
             // - RHS: ||sel(m,a)|| = 
             //           let a' = ||a|| in
-            //           ite(AS(a') == 1, sel(m@1,a'), sel(m@2,a'))  //don't constraint ite
+            //           ite(AS(a', 1), sel(m@1,a'), sel(m@2,a'))  //don't constraint ite
             //- LHS: ||m := upd(m,b,c) || =
             //           let b',c' = ||b,c|| in
-            //           m@1  := ite(AS(b') == 1, upd(m@1, b', c'), m@1),
-            //           m@3  := ite(AS(b') == 3, upd(m@3, b', c'), m@3);
-            //       ||m := e || = XXX not allowed to update more than 1 location   
+            //           m@1[b']  := ite(AS(b', 1), c', m@1[b']),
+            //           m@3[b']  := ite(AS(b', 3), c', m@3[b']);
+            //       ||m := e || = XXX not allowed to update more than 1 location currently
             #endregion
 
             private Program prog;
             private Cmd currCmd;
             private Implementation currImpl;
-            private Tuple<string, List<Tuple<Expr, Expr>>> currMapInfo;
             private Dictionary<Expr, HashSet<Expr>> currAllocSiteMapInfo; //expr -> {a0, a1, ...}, for M[expr]
             private Function allocSiteFunc;
+
+            private HashSet<Tuple<Expr, string>> insertedTypeWarnings;//missing types inserted
+            private HashSet<Cmd> unhandledCommands; //commands not handled soundly
 
             public MapRewriteUsingAllocSites(Program prog, Function allocSiteFunc)
             {
                 this.prog = prog;
                 currCmd = null;
-                currMapInfo = null;
                 this.allocSiteFunc = allocSiteFunc;
                 currAllocSiteMapInfo = null;
+            }
+            public override Program VisitProgram(Program node)
+            {
+                insertedTypeWarnings = new HashSet<Tuple<Expr, string>>();
+                unhandledCommands = new HashSet<Cmd>();
+                var p = base.VisitProgram(node);
+                if (insertedTypeWarnings.Count > 0)
+                    Console.WriteLine("Warning!: {0} cases of missing inserted types", insertedTypeWarnings.Count);
+                if (unhandledCommands.Count > 0)
+                    Console.WriteLine("Warning!: {0} cases of unhandled commands", unhandledCommands.Count);
+
+                return p;
             }
             public override Implementation VisitImplementation(Implementation node)
             {
                 currImpl = node;
-                return base.VisitImplementation(node);
+                var n = base.VisitImplementation(node);
+                return n;
             }
             public override Block VisitBlock(Block node)
             {
                 currAllocSiteMapInfo = new Dictionary<Expr, HashSet<Expr>>(); //clear this after each assigns
+                //collect the assume commands from allocSiteAssume to be removed from Cmds
+                var allocAssumeCmds = new HashSet<AssumeCmd>();
                 foreach (var cmd in node.Cmds)
                 {
                     var asumCmd = cmd as AssumeCmd;
@@ -282,12 +298,14 @@ namespace Dependency
                             {
                                 currAllocSiteMapInfo[allocSites.Item1] = allocSites.Item2; //overwrite any previous, even in same cmd
                             }
+                            allocAssumeCmds.Add(asumCmd);
                         }
                     }
                     Visit(cmd);
                     if (cmd is AssignCmd)
                         currAllocSiteMapInfo.Clear(); //clear so that the map for 
                 }
+                node.Cmds.RemoveAll(allocAssumeCmds.Contains);
                 return node;
             }
             public override Cmd VisitHavocCmd(HavocCmd node)
@@ -312,49 +330,58 @@ namespace Dependency
             /// <returns></returns>
             public override Cmd VisitAssignCmd(AssignCmd node)
             {
-                var ac = base.VisitAssignCmd(node);
-                var lhss = node.Lhss;
+                var ac = (AssignCmd) base.VisitAssignCmd(node);
+                var lhss = ac.Lhss;
                 var containsMapAssign = lhss.Any(x => x.DeepAssignedVariable.TypedIdent.Type.IsMap);
                 if (!containsMapAssign)
                     return ac;
-                if (lhss.Count > 1)
-                    throw new Exception(string.Format("Currently only handle single map assignment per assign cmd, found {0}", node));
-                var assign = ac as AssignCmd;
-                var rhs = assign.Rhss[0];
-                var lhs = lhss[0];
+                int i = 0;
+                //create a new assignment with splitting the map assignments
+                List<AssignLhs> nLhss = new List<AssignLhs>();
+                List<Expr> nRhss = new List<Expr>();
+                for (; i < lhss.Count; ++i)
+                {
+                    var lhs = ac.Lhss[i];
+                    var rhs = ac.Rhss[i];
+                    if (!lhs.DeepAssignedVariable.TypedIdent.Type.IsMap)
+                    {
+                        nLhss.Add(lhs);
+                        nRhss.Add(rhs);
+                        continue;
+                    }
+                    //split the map
+                    var splitAssign = VisitMapAssignment(lhs, rhs);
+                    nLhss.AddRange(splitAssign.Lhss);
+                    nRhss.AddRange(splitAssign.Rhss);                    
+                }
+                ac.Lhss = nLhss;
+                ac.Rhss = nRhss;
+                return ac;
+            }
+            private AssignCmd VisitMapAssignment(AssignLhs lhs, Expr rhs)
+            {
                 Debug.Assert(lhs.DeepAssignedVariable.TypedIdent.Type.IsMap);
+                var ac = new AssignCmd(Token.NoToken, new List<AssignLhs>() { lhs }, new List<Expr>() { rhs });
                 if (lhs.Type.IsMap)
                 {
-                    //to generate M' := M'[x := y]
-                    //assign.Lhss = new List<AssignLhs>() { new SimpleAssignLhs(Token.NoToken, l[0].Item1) };
-                    //assign.Rhss = new List<Expr>() { l[0].Item2 };
-                    Console.WriteLine("Don't handle direct stores M := e yet, found {0}", node.ToString());
+                    unhandledCommands.Add(ac);
+                    //Console.WriteLine("Don't handle direct stores M := e yet, found {0}", ac.ToString());
                     return ac;
                 }
                 var index = (lhs.AsExpr as NAryExpr).Args[1];
                 var l = VisitMapStore(lhs.DeepAssignedIdentifier, index, rhs);
                 if (l != null)
                 {
+                    ac = new AssignCmd(Token.NoToken, new List<AssignLhs>(), new List<Expr>());
                     //to generate M'[x] := y
-                    assign.Lhss = l
+                    ac.Lhss = l
                         .Select(x => new MapAssignLhs(Token.NoToken, new SimpleAssignLhs(Token.NoToken, x.Item1), new List<Expr>() { index }))
                         .ToList<AssignLhs>();
-                    assign.Rhss = l
+                    ac.Rhss = l
                         .Select(x => x.Item2)
                         .ToList();
                 }
                 return ac;
-            }
-            public override Expr VisitIdentifierExpr(IdentifierExpr node)
-            {
-                if (node.Decl.TypedIdent.Type.IsMap && currMapInfo != null) //currInfo == null means no assume was encountered (e.g. requires/ensures)
-                {
-                    if (node.Decl.Name != currMapInfo.Item1)
-                        throw new Exception(string.Format("Expecting the map name {0} to match up with map name in last :allocSiteAssume {1}",
-                            node.Decl.Name, currMapInfo.Item1));
-                }
-
-                return base.VisitIdentifierExpr(node);
             }
             /// <summary>
             /// Rewirte map select expressions to ITE expressions
@@ -393,7 +420,10 @@ namespace Dependency
                     var splitMapVar = GetOrCreateSplitMap(mv.Decl, SplitConsts.externalAlloc);
                     return new List<Tuple<IdentifierExpr, Expr>>() {Tuple.Create(IdentifierExpr.Ident(splitMapVar), value)};
                 }
-                var btype = value.Type; 
+                var btype = value.Type;
+                if (btype == null)
+                   Console.WriteLine("Stop here");
+                Debug.Assert(btype != null);
                 var iteArgs = new List<Tuple<IdentifierExpr, Expr>>(); //list of (mv', ite(cond,trueExpr,falseExpr)) tuples
                 aSites
                     .Iter(x =>
@@ -401,10 +431,24 @@ namespace Dependency
                         var cond = Utils.DeclUtils.MkFuncApp(allocSiteFunc, new List<Expr>() { index, x }); //AS(index,AS1)
                         var splitMapVar = GetOrCreateSplitMap(mv.Decl, x.ToString());      //m@AS1
                         var arg = Expr.Select(IdentifierExpr.Ident(splitMapVar), new Expr[] { index }); //m@AS1[index]
+                        if (arg.Type == null)
+                        {
+                            arg.Type = (splitMapVar.TypedIdent.Type as MapType).Result;
+                            //Console.WriteLine("Inserted missing type for  mapselect expr {0}", arg);
+                            insertedTypeWarnings.Add(Tuple.Create((Expr)arg, "mapselect"));
+                        }
+
+                        Debug.Assert(arg.Type != null);
                         var iteFunc = Utils.DeclUtils.MkOrGetFunc(prog, SplitConsts.iteFuncName, btype,
                             new List<Microsoft.Boogie.Type>() { Microsoft.Boogie.Type.Bool, btype, btype });
                         var iteVal =
                             Utils.DeclUtils.MkFuncApp(iteFunc, new List<Expr>() { (Expr)cond, value, (Expr)arg}); //ite(AS(index,AS1), value, m@AS1[index])
+                        if (iteVal.Type == null)
+                        {
+                            //Console.WriteLine("Inserted missing type for ite expr {0}", iteVal);
+                            insertedTypeWarnings.Add(Tuple.Create((Expr)iteVal, "ite"));
+                            iteVal.Type = arg.Type;
+                        }
                         iteArgs.Add(Tuple.Create(IdentifierExpr.Ident(splitMapVar),  (Expr)iteVal)); 
                     }
                     );
@@ -424,7 +468,16 @@ namespace Dependency
                 {
                     //Case where AS(index) = {}
                     var splitMapVar = GetOrCreateSplitMap(mv.Decl, SplitConsts.externalAlloc);
-                    return Expr.Select(IdentifierExpr.Ident(splitMapVar), new Expr[] { index});
+                    var ms = Expr.Select(IdentifierExpr.Ident(splitMapVar), new Expr[] { index});
+                    if (ms.Type == null)
+                    {
+                        ms.Type = (splitMapVar.TypedIdent.Type as MapType).Result; 
+                        //Console.WriteLine("Inserted missing type for  mapselect expr {0}", ms);
+                        insertedTypeWarnings.Add(Tuple.Create((Expr)ms, "mapselect"));
+
+                    }
+                    Debug.Assert(ms.Type != null);
+                    return ms;
                 }
 
                 var iteArgs = new List<Tuple<Expr, Expr>>(); //list of (cond,expr) pair
@@ -434,12 +487,22 @@ namespace Dependency
                         var cond = Utils.DeclUtils.MkFuncApp(allocSiteFunc, new List<Expr>() { index, x });
                         var splitMapVar = GetOrCreateSplitMap(mv.Decl, x.ToString());
                         var arg = Expr.Select(IdentifierExpr.Ident(splitMapVar), new Expr[] {index});
+                        if (arg.Type == null)
+                        {
+                            arg.Type = (splitMapVar.TypedIdent.Type as MapType).Result;
+                            //Console.WriteLine("Inserted missing type for  mapselect expr {0}", arg);
+                            insertedTypeWarnings.Add(Tuple.Create((Expr)arg, "mapselect"));
+                        }
+                        Debug.Assert(arg.Type != null);
                         iteArgs.Add(Tuple.Create((Expr)cond, (Expr)arg));
                     }
                     );
                 //create the nested n-1 level ite expression
                 if (iteArgs.Count == 1)
                     return iteArgs[0].Item2;
+                if (btype == null)
+                    Console.WriteLine("Stop here");
+                Debug.Assert(btype != null);
                 var iteFunc = Utils.DeclUtils.MkOrGetFunc(prog, SplitConsts.iteFuncName, btype,
                     new List<Microsoft.Boogie.Type>() { Microsoft.Boogie.Type.Bool, btype, btype });
                 //Create the n-1 level expression
@@ -448,7 +511,17 @@ namespace Dependency
                 iteArgs.RemoveAt(0);
                 var mkIteExpr = iteArgs
                     .Aggregate(end,
-                    (x, y) => Utils.DeclUtils.MkFuncApp(iteFunc, new List<Expr>() { y.Item1, y.Item2, x })
+                    (x, y) => 
+                        {
+                            var iteVal = Utils.DeclUtils.MkFuncApp(iteFunc, new List<Expr>() { y.Item1, y.Item2, x });
+                            if (iteVal.Type == null)
+                            {
+                                //Console.WriteLine("Inserted missing type for ite expr {0}", iteVal);
+                                insertedTypeWarnings.Add(Tuple.Create((Expr)iteVal, "ite"));
+                                iteVal.Type = x.Type;
+                            }
+                            return iteVal;
+                        }
                     );
                 return mkIteExpr;
             }
@@ -461,6 +534,7 @@ namespace Dependency
                         .Where(x => x.Name == splitname)
                         .FirstOrDefault();
                     if (y != null) return y;
+                    Debug.Assert(m.TypedIdent.Type != null);
                     return Utils.DeclUtils.MkGlobalVariable(prog, splitname, m.TypedIdent.Type);
                 }
                 else if (m is LocalVariable)
@@ -469,6 +543,7 @@ namespace Dependency
                         .Where(x => x.Name == splitname)
                         .FirstOrDefault();
                     if (y != null) return y;
+                    Debug.Assert(m.TypedIdent.Type != null);
                     return Utils.DeclUtils.MkLocalVariable(prog, currImpl, splitname, m.TypedIdent.Type);
                 }
                 throw new Exception(string.Format("Maps are not allowed as parameters, found {0} in {1}", m, currImpl.Name));
