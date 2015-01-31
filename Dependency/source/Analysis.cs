@@ -151,10 +151,13 @@ namespace Dependency
             //remove some HAVOC generated methods 
             program.RemoveTopLevelDeclarations(x => (x is Procedure && ((Procedure)x).Name.Contains("HAVOC_memset")));
             //remove any forall axiom
-            Console.WriteLine("Cleanup:Removing all background quantified axioms");
-            program.RemoveTopLevelDeclarations(x => (x is Axiom && ((Axiom)x).Expr is ForallExpr));
-            //rewrite map update M := M [x := y] --> M[x] := y
-            (new Utils.RewriteSingletonMapUdates()).Visit(program);
+            if (SplitMapsWithAliasAnalysis)
+            {
+                Console.WriteLine("Cleanup:Removing all background quantified axioms");
+                program.RemoveTopLevelDeclarations(x => (x is Axiom && ((Axiom)x).Expr is ForallExpr));
+                //rewrite map update M := M [x := y] --> M[x] := y
+                (new Utils.RewriteSingletonMapUdates()).Visit(program);
+            }
             #endregion 
 
             if (SplitMapsWithAliasAnalysis)

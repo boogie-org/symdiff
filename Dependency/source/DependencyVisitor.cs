@@ -199,7 +199,9 @@ namespace Dependency
                 worklist.stateSpace.Clear();
             }
 
-            ProcDependencies.Iter(pd => Console.Out.WriteLine(pd.Key + " : " + pd.Value));
+            Console.WriteLine("Dependencies start");
+            //ProcDependencies.Iter(pd => Console.Out.WriteLine(pd.Key + " : " + pd.Value));
+            Console.WriteLine("Dependencies end");
 
             //node.Implementations.Iter(impl => Visit(impl));
 
