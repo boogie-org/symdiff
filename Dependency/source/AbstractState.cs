@@ -75,6 +75,16 @@ namespace Dependency
         public VarSet() : base() { }
         public VarSet(IEnumerable<Variable> vs) : base(vs) { }
 
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{ ");
+            this.Iter(v => sb.Append(v + ", "));
+            sb.Append(" }");
+            return sb.ToString();
+        }
+
+
     }
     
     /*
@@ -276,7 +286,7 @@ namespace Dependency
             {
                 if (!ContainsKey(v))
                 {
-                    this[v] = d[v];
+                    this[v] = new VarSet(d[v]);
                 }
                 else if (!this[v].IsSupersetOf(d[v]))
                 {

@@ -149,11 +149,13 @@ namespace Dependency
         private HashSet<Procedure> changedProcs;
         private HashSet<Block> changedBlocks;
 
+        private bool prune;
+        private bool taintOnly;
         private bool dataOnly;
         private bool detStubs;
 
         private int timeOut;
-        public DependencyVisitor(string filename, Program program, List<Tuple<string,string,int>> changeLog, int timeOut, bool dataOnly = false, bool detStubs = false)
+        public DependencyVisitor(string filename, Program program, List<Tuple<string,string,int>> changeLog, int timeOut, bool prune = true, bool dataOnly = false, bool detStubs = false)
         {
             this.filename = filename;
             this.program = program;
@@ -174,8 +176,10 @@ namespace Dependency
             this.changedBlocks = Utils.ComputeChangedBlocks(program, changeLog);
             this.changedProcs = Utils.ComputeChangedProcs(program, changeLog);
 
+            this.prune = prune;
             this.dataOnly = dataOnly;
             this.detStubs = detStubs;
+            this.taintOnly = false;
 
             this.timeOut = timeOut * 1000; // change to ms
         }
@@ -239,7 +243,8 @@ namespace Dependency
                 }
                 
                 worklist.stateSpace.Clear();
-                //GC.Collect();
+                if (numVisited % 25 == 0)
+                    GC.Collect();
             }
 
             // Removed. Printing directly to screen can be too huge.
@@ -294,7 +299,7 @@ namespace Dependency
                 dependencies[v] = new VarSet();
                 dependencies[v].Add(Utils.VariableUtils.NonDetVar);
 
-                InferDominatorDependency(currBlock, dependencies[v], v);
+                InferDominatorDependency(currBlock, dependencies[v]);
 
                 if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
                     dependencies[v].Add(Utils.VariableUtils.BottomUpTaintVar);
@@ -333,33 +338,37 @@ namespace Dependency
             // for assignment v1,...,vn = e1,...,en handle each vi = ei separately
             for (int i = 0; i < node.Lhss.Count; ++i)
             {
-                var lhs = Utils.VariableUtils.ExtractVars(node.Lhss[i]).First(); // TODO: stuff like: Mem_T.INT4[in_prio] := out_tempBoogie0
+                var lhs = Utils.VariableUtils.ExtractVars(node.Lhss[i]).First(); // stuff like: Mem_T.INT4[x] := y; does not affect x
                 var rhsVars = Utils.VariableUtils.ExtractVars(node.Rhss[i]);
 
-                var dependsSet = new VarSet();
+                dependencies[lhs] = new VarSet();
 
                 foreach (var rv in rhsVars)
                 {
-                    dependsSet.Add(rv);
+                    dependencies[lhs].Add(rv);
 
                     if (dependencies.ContainsKey(rv)) // a variable in rhs has dependencies
-                        dependsSet.UnionWith(dependencies[rv]);
+                        dependencies[lhs].UnionWith(dependencies[rv]);
                 }
 
-                InferDominatorDependency(currBlock, dependsSet, lhs);
+                InferDominatorDependency(currBlock, dependencies[lhs]);
 
-                dependencies[lhs] = dependsSet;
+                if (prune)
+                    dependencies[lhs].ExceptWith(nodeToImpl[node].LocVars);
+
+                if (taintOnly)
+                    dependencies[lhs].RemoveWhere(v => v != Utils.VariableUtils.BottomUpTaintVar && v != Utils.VariableUtils.TopDownTaintVar);
 
                 if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
                     dependencies[lhs].Add(Utils.VariableUtils.BottomUpTaintVar);
             }
-
+            
             if (worklist.Assign(node, dependencies))
                 worklist.Propagate(node);
             return node;
         }
 
-        private void InferDominatorDependency(Block currBlock, VarSet dependsSet, Variable left)
+        public void InferDominatorDependency(Block currBlock, VarSet dependsSet)
         {
             if (dataOnly)
                 return;
@@ -493,11 +502,11 @@ namespace Dependency
                 var formalOutput = callee.OutParams[i];
                 if (!calleeDependencies.ContainsKey(formalOutput))
                     continue;
-                var inferedOutputDependency = InferCalleeOutputDependancy(node, formalOutput, dependencies, inputExpressionsDependency);
                 var actualOutput = node.Outs[i].Decl;
-                dependencies[actualOutput] = inferedOutputDependency;
 
-                InferDominatorDependency(currBlock, dependencies[actualOutput], actualOutput); // conditionals may dominate/taint the return value
+                dependencies[actualOutput] = InferCalleeOutputDependancy(node, formalOutput, dependencies, inputExpressionsDependency);
+                InferDominatorDependency(currBlock, dependencies[actualOutput]); // conditionals may dominate/taint the return value
+                //dependencies[actualOutput].ExceptWith(nodeToImpl[node].LocVars);
 
                 if (nativeTaint) // native taint
                     dependencies[actualOutput].Add(Utils.VariableUtils.BottomUpTaintVar); // only applies to actual outputs (i.e. bottom up)
@@ -508,10 +517,9 @@ namespace Dependency
             {
                 if (!(g is GlobalVariable))
                     continue;
-                var inferedOutputDependency = InferCalleeOutputDependancy(node, g, dependencies, inputExpressionsDependency);
-                dependencies[g] = inferedOutputDependency;
-
-                InferDominatorDependency(currBlock, dependencies[g], g); // conditionals may dominate/taint the modified globals
+                dependencies[g] = InferCalleeOutputDependancy(node, g, dependencies, inputExpressionsDependency);
+                InferDominatorDependency(currBlock, dependencies[g]); // conditionals may dominate/taint the modified globals
+                //dependencies[g].ExceptWith(nodeToImpl[node].LocVars);
             }
 
             if (worklist.Assign(node, dependencies))
@@ -532,6 +540,7 @@ namespace Dependency
         {
             Block currBlock = worklist.cmdBlocks[node];
             Dependencies dependencies = worklist.GatherPredecessorsState(node, currBlock);
+
             if (worklist.Assign(node, dependencies))
                 worklist.Propagate(node,nodeToImpl[node].Proc);
             var proc = nodeToImpl[node].Proc;

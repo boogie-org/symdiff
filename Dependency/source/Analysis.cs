@@ -44,7 +44,7 @@ namespace Dependency
         public static bool ReadSet = false;
         static public int StackBound = 3;
         static public bool noMinUnsatCore = false;
-        static public int Timeout = 1000;
+        static public int Timeout = 300;
         static public bool AbstractNonTainted = false;
         static public bool AnnotateDependencies = false;
         static public bool SplitMapsWithAliasAnalysis = false;
@@ -282,7 +282,7 @@ namespace Dependency
 
         private static void RunAnalysis(string filename, Program program)
         {
-            var dataDepVisitor = new DependencyVisitor(filename, program, changeLog, Timeout, true, DetStubs);
+            var dataDepVisitor = new DependencyVisitor(filename, program, changeLog, Timeout, Prune, true, DetStubs);
             var dataDeps = dataDepVisitor.ProcDependencies;
             
             if (Refine || BothDependencies || DataOnly) {
@@ -294,7 +294,7 @@ namespace Dependency
             dataDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
             GC.Collect();
 
-            var allDepVisitor = new DependencyVisitor(filename, program, changeLog, Timeout, DataOnly, DetStubs);
+            var allDepVisitor = new DependencyVisitor(filename, program, changeLog, Timeout, Prune, DataOnly, DetStubs);
             var allDeps = allDepVisitor.ProcDependencies;
 
             if (Refine || !ReadSet)
@@ -357,7 +357,7 @@ namespace Dependency
             ProcReadSetVisitor rsVisitor = new ProcReadSetVisitor();
             if (ReadSet)
             {
-                RunReadSetAnalysis(program, rsVisitor, new DependencyVisitor(filename, program, changeLog, Timeout, DataOnly, DetStubs));
+                RunReadSetAnalysis(program, rsVisitor, new DependencyVisitor(filename, program, changeLog, Timeout, Prune, DataOnly, DetStubs));
                 #region ReadSet must contain the Control+Data dependencies
                 Debug.Assert(rsVisitor.ProcReadSet.All(prs =>
                 {

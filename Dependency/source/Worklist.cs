@@ -126,7 +126,7 @@ namespace Dependency
             return node;
         }
 
-        internal void RunFixedPoint(StandardVisitor visitor, Implementation node)
+        internal void RunFixedPoint(DependencyVisitor visitor, Implementation node)
         {
             Dictionary<Absy, int> visitCount = new Dictionary<Absy, int>();
             //VarSet.allSets.Clear();
@@ -145,7 +145,7 @@ namespace Dependency
 //#endif
                 //if (cmd is ReturnCmd || visitCount[cmd] <= 1)
                 //if (visitCount[cmd] < 5)
-                    visitor.Visit(cmd);
+                visitor.Visit(cmd);
                 //else
                 //{
                 //    stateSpace[cmd].SetTop(node);

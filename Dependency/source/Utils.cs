@@ -314,7 +314,8 @@ namespace Dependency
                     dominatedBy[controlled].Add(cd.Key);
                 }
             }
-
+            // TODO: there's no need for this since the dependencies of the immediate dominator should contain all predecessors
+            //       but somehow including this makes the analysis faster (?!)
             bool done;
             do
             {
@@ -337,7 +338,7 @@ namespace Dependency
                 if (!done)
                     newDominatedBy.Iter(dom => dominatedBy[dom.Key].UnionWith(dom.Value));
             } while (!done);
-            
+            //*/
 
         }
 
