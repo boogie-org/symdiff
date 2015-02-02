@@ -15,17 +15,6 @@ using Dependency;
 
 namespace Dependency
 {
-    public static class Extensions
-    {
-        public static void Print(this HashSet<Variable> vars)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("{ ");
-            vars.Iter(v => sb.Append(v.ToString() + (v == vars.Last() ? "" : ",")));
-            sb.Append(" }");
-            Console.WriteLine(sb.ToString());
-        }
-    }
     class Utils
     {
         public static void PrintError(string fname)
@@ -151,12 +140,6 @@ namespace Dependency
                 prog.AddTopLevelDeclaration(g);
                 return g;
             }
-            public static Variable MkLocalVariable(Program prog, Implementation impl, string name, BType btype)
-            {
-                var l = new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, name, btype));
-                impl.LocVars.Add(l);
-                return l;
-            }
         }
 
         public static class AttributeUtils
@@ -233,7 +216,7 @@ namespace Dependency
                 foreach (var proc in program.TopLevelDeclarations.OfType<Procedure>())
                 {
                     result[proc] = new Dependencies();
-                    proc.Modifies.Iter(m => result[proc][m.Decl] = new HashSet<Variable>());
+                    proc.Modifies.Iter(m => result[proc][m.Decl] = new VarSet());
                 }
                 return result;
             }
@@ -248,6 +231,7 @@ namespace Dependency
             {
                 procDependencies.Iter(pd => { var impl = program.Implementations.SingleOrDefault(i => i.Proc == pd.Key); if (impl != null) pd.Value.Prune(impl); });
             }
+
 
             //public static Dependencies SuperBlockDependencies(AbstractedTaint.SuperBlock superBlock, Dependencies exitBlockDeps, Dictionary<Procedure, Dependencies> procDependencies)
             //{
@@ -330,7 +314,8 @@ namespace Dependency
                     dominatedBy[controlled].Add(cd.Key);
                 }
             }
-
+            // TODO: there's no need for this since the dependencies of the immediate dominator should contain all predecessors
+            //       but somehow including this makes the analysis faster (?!)
             bool done;
             do
             {
@@ -353,7 +338,7 @@ namespace Dependency
                 if (!done)
                     newDominatedBy.Iter(dom => dominatedBy[dom.Key].UnionWith(dom.Value));
             } while (!done);
-            
+            //*/
 
         }
 
@@ -383,7 +368,7 @@ namespace Dependency
 
             private class VariableExtractor : StandardVisitor
             {
-                public HashSet<Variable> Vars = new HashSet<Variable>();
+                public VarSet Vars = new VarSet();
                 public override Variable VisitVariable(Variable node)
                 {
                     Vars.Add(node);
@@ -394,12 +379,12 @@ namespace Dependency
             
             public static HashSet<Variable> ExtractVars(Absy node)
             {
-                varExtractor.Vars = new HashSet<Variable>();
+                varExtractor.Vars = new VarSet();
                 varExtractor.Visit(node);
                 return varExtractor.Vars;
             }
 
-            public static void PruneLocals(Implementation impl, HashSet<Variable> vars)
+            public static void PruneLocals(Implementation impl, VarSet vars)
             {
                 if (impl == null) 
                     return;
@@ -407,11 +392,11 @@ namespace Dependency
             }
 
             // add in the Procedure's inputs\outputs that adhere to the Implementation inputs\outputs in vars
-            public static void FixFormals(Implementation impl, HashSet<Variable> vars)
+            public static void FixFormals(Implementation impl, VarSet vars)
             {
                 if (impl == null) // stubs
                     return;
-                var formals = new HashSet<Variable>();
+                var formals = new VarSet();
                 // inputs
                 formals.UnionWith(Utils.VariableUtils.ImplInputsToProcInputs(impl, vars));
                 // outputs
@@ -419,9 +404,9 @@ namespace Dependency
                 vars.UnionWith(formals);
             }
 
-            public static HashSet<Variable> ImplInputsToProcInputs(Implementation impl, HashSet<Variable> vars)
+            public static VarSet ImplInputsToProcInputs(Implementation impl, VarSet vars)
             {
-                var result = new HashSet<Variable>();
+                var result = new VarSet();
                 foreach (var v in vars)
                 {
                     if (impl.InParams.Contains(v))
@@ -445,7 +430,7 @@ namespace Dependency
             }
 
 
-            public static bool IsTainted(HashSet<Variable> vars)
+            public static bool IsTainted(VarSet vars)
             {
                 return vars.Contains(BottomUpTaintVar) || vars.Contains(TopDownTaintVar);
             }
@@ -457,7 +442,7 @@ namespace Dependency
             public const string DataAndControl = "Data And Control";
             public const string Refined = "Refined";
             public const string DataOnly = "Data Only";
-            public static void GenerateCSVOutput(string outFileName, List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>> statsLog)
+            public static void GenerateCSVOutput(string outFileName, List<Tuple<string, string, Procedure, Variable, VarSet>> statsLog)
             {
                 TextWriter output = new StreamWriter(outFileName);
                 output.WriteLine("Note: Only variables that do not have * on all kinds of analyses are aggregated");
@@ -500,14 +485,14 @@ namespace Dependency
                         var overall = pd.Item3.Sum(x => x.Value.Count); // overall size of dependencies (\Sigma_{v} Deps(v))
                         var numGlobals = pd.Item3.Where(x => x.Key is GlobalVariable).Count();
                         var sumGlobals = pd.Item3.Where(x => x.Key is GlobalVariable).Sum(x => x.Value.Count); // size of global vars dependencies
-                        HashSet<Variable> inputsGlobals = new HashSet<Variable>();
+                        HashSet<Variable> inputsGlobals = new VarSet();
                         foreach (var depSet in pd.Item3.Where(x => x.Key is GlobalVariable))
                             foreach (var v in depSet.Value)
                                 if (pd.Item2.InParams.Contains(v))
                                     inputsGlobals.Add(v);
                         var numOutputs = pd.Item3.Where(x => pd.Item2.OutParams.Contains(x.Key)).Count();
                         var sumOutputs = pd.Item3.Where(x => pd.Item2.OutParams.Contains(x.Key)).Sum(x => x.Value.Count); // size out outputs dependencies
-                        HashSet<Variable> inputsOutputs = new HashSet<Variable>();
+                        HashSet<Variable> inputsOutputs = new VarSet();
                         foreach (var depSet in pd.Item3.Where(x => pd.Item2.OutParams.Contains(x.Key)))
                             foreach (var v in depSet.Value)
                                 if (pd.Item2.InParams.Contains(v))
@@ -537,9 +522,9 @@ namespace Dependency
             HashSet<string> srcFiles;
             List<Tuple<string, string, int>> changedLines;  //{(file, func, line),..}
             List<Tuple<string, string, int>> taintedLines; //{(file, func, line), ..}
-            List<Tuple<string, string, int, string>> dependenciesLines; //{(file, func, line, {v1 <- {...},... vn <- {...}})}
+            List<Tuple<string, string, int, string, Dependencies>> dependenciesLines; //{(file, func, line, title, {v1 <- {...},... vn <- {...}})}
             List<Tuple<string, string, int, string>> taintedModSetLines; //{(file, func, line, {v1, ..., vn})}
-            public DisplayHtmlHelper(List<Tuple<string, string, int>> changedLines, List<Tuple<string, string, int>> taintedLines, List<Tuple<string, string, int, string>> dependenciesLines, List<Tuple<string, string, int, string>> taintedModSetLines)
+            public DisplayHtmlHelper(List<Tuple<string, string, int>> changedLines, List<Tuple<string, string, int>> taintedLines, List<Tuple<string, string, int, string, Dependencies>> dependenciesLines, List<Tuple<string, string, int, string>> taintedModSetLines)
             {
                 this.changedLines = changedLines;
                 this.taintedLines = taintedLines;
@@ -550,32 +535,12 @@ namespace Dependency
                 this.srcFiles.UnionWith(taintedLines.Select(t => t.Item1));
                 this.srcFiles.UnionWith(dependenciesLines.Select(t => t.Item1));
             }
-            public void GenerateHtmlOutput(string outFileName)
+            public void GenerateHtmlOutput()
             {
                 Func<string, string, string> MkLink = delegate(string s, string t)
                 {
                     return @"<a href=" + t + @">" + s + @"</a>";
                 };
-
-                TextWriter output = new StreamWriter(outFileName);
-                output.WriteLine("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">");
-                output.WriteLine("<html>");
-                output.WriteLine("<head>");
-                output.WriteLine("<title>Tainted outputs</title>");
-                output.WriteLine("<style type=\"text/css\"> "
-                    + "div.code {font-family:monospace; font-size:100%;} </style>");
-                output.WriteLine("<style type=\"text/css\"> "
-                    + "span.trace { background:yellow; color:red; font-weight:bold;} </style>");
-                output.WriteLine("<style type=\"text/css\"> "
-                    + "span.values { background:lightgray; color:black; font-weight:bold;} </style>");
-                output.WriteLine("<style type=\"text/css\"> "
-                    + "span.report { background:lightgreen; color:black; font-weight:bold;} </style>");
-                output.WriteLine("<style type=\"text/css\"> "
-                    + "span.reportstmt { background:lightgreen; color:red; font-weight:bold;} </style>");
-                output.WriteLine("</head>");
-                output.WriteLine("<body>");
-                output.WriteLine("");
-                output.WriteLine("<h1> Statements that are tainted given the taint source </h1> ");
 
                 //for each file f in the dependency set
                 //  for each sourceline l in f
@@ -584,16 +549,48 @@ namespace Dependency
                 //     elseif l is last line then l proc-deps 
                 foreach (var srcFile in srcFiles)
                 {
+                    Console.WriteLine("Generating " + srcFile + ".html");
                     StreamReader sr = null;
                     try
                     {
-                        sr = new StreamReader(srcFile);
+                        if (!File.Exists(srcFile)) // try the linux version
+                            sr = new StreamReader(srcFile.Replace('\\', '/'));
+                        else
+                            sr = new StreamReader(srcFile);
                     }
                     catch (Exception)
                     {
                         Console.WriteLine("Could not generate HTML for file " + srcFile + ". (file not found)");
                         continue;
                     }
+
+                    
+                    int index = srcFile.LastIndexOf('\\');
+                    if (index < 0)
+                        index = srcFile.LastIndexOf('/');
+
+                    string outFileName = ((index >= 0) ? srcFile.Substring(index + 1) : srcFile) + ".html";
+
+                    TextWriter output = new StreamWriter(outFileName);
+                    output.WriteLine("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">");
+                    output.WriteLine("<html>");
+                    output.WriteLine("<head>");
+                    output.WriteLine("<title>Tainted outputs</title>");
+                    output.WriteLine("<style type=\"text/css\"> "
+                        + "div.code {font-family:monospace; font-size:100%;} </style>");
+                    output.WriteLine("<style type=\"text/css\"> "
+                        + "span.trace { background:yellow; color:red; font-weight:bold;} </style>");
+                    output.WriteLine("<style type=\"text/css\"> "
+                        + "span.values { background:lightgray; color:black; font-weight:bold;} </style>");
+                    output.WriteLine("<style type=\"text/css\"> "
+                        + "span.report { background:lightgreen; color:black; font-weight:bold;} </style>");
+                    output.WriteLine("<style type=\"text/css\"> "
+                        + "span.reportstmt { background:lightgreen; color:red; font-weight:bold;} </style>");
+                    output.WriteLine("</head>");
+                    output.WriteLine("<body>");
+                    output.WriteLine("");
+                    output.WriteLine("<h1> Statements that are tainted given the taint source </h1> ");
+
                     // get all line from the file and close it
                     string ln;
                     List<string> srcLines = new List<string>();
@@ -619,18 +616,19 @@ namespace Dependency
                         else if (dependenciesLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) 
                         {// dependencies: can be obtained when not using /taint:change.txt
                             string deps = null;
-                            dependenciesLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).Iter(dep => deps = string.Format("<pre> {0} </pre>", dep.Item4));
+                            dependenciesLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).Iter(dep => deps = string.Format("<pre> {0} {1} </pre>", dep.Item4, dep.Item5.ToString()));
                             line += deps;
                         }
                         line = ("[" + lineNum + "]").PadRight(6).ToString().Replace(" ", "&nbsp;") + "   " + line + "<br>\n";
                         output.Write(line);
+                        output.Flush();
                     }
 
+                    output.WriteLine("</body>");
+                    output.WriteLine("</html>");
+                    output.Close();
                 }
 
-                output.WriteLine("</body>");
-                output.WriteLine("</html>");
-                output.Close();
             }
 
         }
@@ -729,36 +727,6 @@ namespace Dependency
                 return base.VisitCmdSeq(newCmdSeq);
             }
         }
-
-        /// <summary>
-        /// Rewrites M := M[e := e'] ---> M[e] := e'
-        /// </summary>
-        public class RewriteSingletonMapUdates : StandardVisitor
-        {
-            public override Cmd VisitAssignCmd(AssignCmd node)
-            {
-                var i = 0;
-                for(i = 0; i < node.Lhss.Count; ++i)
-                {
-                    var lhs = node.Lhss[i];
-                    var rhs = node.Rhss[i];
-                    if (lhs.DeepAssignedVariable.TypedIdent.Type.IsMap && lhs.Type.IsMap)
-                    {
-                        var x = rhs as NAryExpr;
-                        if (x == null) continue;
-                        if (x.Fun is MapStore && 
-                            lhs.DeepAssignedVariable.ToString() == x.Args[0].ToString())
-                        {
-                            Debug.Assert(x.Args.Count == 3, "Expecting MapStore(m,x,y)");
-                            node.Rhss[i] = x.Args[2];
-                            node.Lhss[i] = new MapAssignLhs(Token.NoToken, lhs, new List<Expr> {x.Args[1]}); 
-                        }
-                    }
-                }
-                return base.VisitAssignCmd(node);
-            }
-        }
-
 
         static public class CallGraphHelper
         {
@@ -997,7 +965,7 @@ namespace Dependency
                     foreach (var kv1 in kv.Value) //Var -> {Var}
                     {
                         var variable = ResolveVariableDeclsAcrossPrograms(kv1.Key, newProc, prog1, prog2);
-                        var deps = new HashSet<Variable>(kv1.Value.Select(x => ResolveVariableDeclsAcrossPrograms(x, newProc, prog1, prog2)));
+                        var deps = new VarSet(kv1.Value.Select(x => ResolveVariableDeclsAcrossPrograms(x, newProc, prog1, prog2)));
                         depends[variable] = deps;
                     }
                     newProcDepends[newProc] = depends;

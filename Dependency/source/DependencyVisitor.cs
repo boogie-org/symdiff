@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
 using Microsoft.Boogie.GraphUtil;
@@ -140,7 +141,7 @@ namespace Dependency
         public Dictionary<Procedure, Dependencies> ProcDependencies;
 
         private Dictionary<Block, HashSet<Block>> dominatedBy;
-        public Dictionary<Block, HashSet<Variable>> branchCondVars; // a mapping: branching Block -> { Variables in the branch conditional }
+        public Dictionary<Block, VarSet> branchCondVars; // a mapping: branching Block -> { Variables in the branch conditional }
         public WorkList<Dependencies> worklist;
 
         private Dictionary<Procedure, Dependencies> procEntryTDTaint;
@@ -148,10 +149,13 @@ namespace Dependency
         private HashSet<Procedure> changedProcs;
         private HashSet<Block> changedBlocks;
 
+        private bool prune;
+        private bool taintOnly;
         private bool dataOnly;
         private bool detStubs;
 
-        public DependencyVisitor(string filename, Program program, List<Tuple<string,string,int>> changeLog, bool dataOnly = false, bool detStubs = false)
+        private int timeOut;
+        public DependencyVisitor(string filename, Program program, List<Tuple<string,string,int>> changeLog, int timeOut, bool prune = true, bool dataOnly = false, bool detStubs = false)
         {
             this.filename = filename;
             this.program = program;
@@ -162,7 +166,7 @@ namespace Dependency
             this.ProcDependencies = new Dictionary<Procedure, Dependencies>();
 
             this.dominatedBy = new Dictionary<Block, HashSet<Block>>();
-            this.branchCondVars = new Dictionary<Block, HashSet<Variable>>();
+            this.branchCondVars = new Dictionary<Block, VarSet>();
 
             this.worklist = new WorkList<Dependencies>();
 
@@ -172,14 +176,22 @@ namespace Dependency
             this.changedBlocks = Utils.ComputeChangedBlocks(program, changeLog);
             this.changedProcs = Utils.ComputeChangedProcs(program, changeLog);
 
+            this.prune = prune;
             this.dataOnly = dataOnly;
             this.detStubs = detStubs;
+            this.taintOnly = false;
+
+            this.timeOut = timeOut * 1000; // change to ms
         }
 
         public override Program VisitProgram(Program node)
         {
+            Console.WriteLine("Starting...");
+            //Console.ReadLine();
             var orderedSCCs = Utils.CallGraphHelper.ComputeOrderedSCCs(callGraph);
             orderedSCCs.Reverse();
+            int numVisited = 0;
+            ProcReadSetVisitor rsv = new ProcReadSetVisitor();
             foreach (var scc in orderedSCCs)
             {
                 foreach (var proc in scc)
@@ -187,7 +199,40 @@ namespace Dependency
                     var impl = node.Implementations.FirstOrDefault(i => i.Proc == proc);
                     if (impl == null)
                         continue;
-                    Visit(impl);
+                    Console.Write("Visiting: {0} ({1}/{2}) [{3} cmds, {4} vars]", impl.Name, ++numVisited, program.Implementations.Count(), impl.Blocks.Sum(b => b.Cmds.Count + 1), impl.LocVars.Count);
+                    Stopwatch s = Stopwatch.StartNew();
+                    ManualResetEvent wait = new ManualResetEvent(false);
+                    Thread work = new Thread(new ThreadStart(() => { Visit(impl); wait.Set(); }));
+                    work.Start();
+                    Boolean signal = wait.WaitOne(timeOut);
+                    s.Stop();
+                    if (!signal)
+                    {
+                        work.Abort();
+                        Console.WriteLine("Aborted due to timeout. Reverting to readSet");
+
+                        // the worklist alg was interrupted, clear the worklist to be safe
+                        worklist.workList.Clear();
+                        worklist.stateSpace.Clear();
+                        GC.Collect();
+
+                        // compute the read set instead
+                        rsv.currentProc = impl.Proc;
+                        rsv.Visit(impl);
+
+                        // turn it to dependencies (\forall r \in ReadSet: r <- ReadSet)
+                        ProcDependencies[impl.Proc] = new Dependencies();
+                        rsv.ProcReadSet[impl.Proc].Iter(r => ProcDependencies[impl.Proc][r] = rsv.ProcReadSet[impl.Proc]);
+                        ProcDependencies[impl.Proc].FixFormals(impl);
+                    }
+                    else
+                    {
+                        Console.WriteLine(" {0} s", s.ElapsedMilliseconds / 1000.0);
+                        // maintain the readSet (for cases where the analysis is too long and we revert to readset)
+                        rsv.ProcReadSet[impl.Proc] = new VarSet();
+                        rsv.ProcReadSet[impl.Proc].UnionWith(ProcDependencies[impl.Proc].Keys);
+                        ProcDependencies[impl.Proc].Values.Iter(vs => rsv.ProcReadSet[impl.Proc].UnionWith(vs));
+                    }
                 }
                 foreach (var proc in scc)
                 {
@@ -196,20 +241,18 @@ namespace Dependency
                         continue;
                     Analysis.PopulateTaintLog(impl, Utils.ExtractTaint(this));
                 }
+                
                 worklist.stateSpace.Clear();
+                if (numVisited % 25 == 0)
+                    GC.Collect();
             }
 
-            Console.WriteLine("Dependencies start");
+            // Removed. Printing directly to screen can be too huge.
             //ProcDependencies.Iter(pd => Console.Out.WriteLine(pd.Key + " : " + pd.Value));
-            Console.WriteLine("Dependencies end");
 
             //node.Implementations.Iter(impl => Visit(impl));
 
             // compute top down taint
-            //bool done = false;
-            //while (!done)
-            //{
-            //    done = true;
             orderedSCCs.Reverse();
             foreach (var scc in orderedSCCs)
 	        {
@@ -226,7 +269,6 @@ namespace Dependency
                     {
                         worklist.Propagate(entry);
                         Visit(impl);
-                        //done = false;
                     }
                 }
 	        }
@@ -254,10 +296,10 @@ namespace Dependency
             // Havoc x translates to x <- *
             foreach (var v in node.Vars.Select(x => x.Decl))
             {
-                dependencies[v] = new HashSet<Variable>();
+                dependencies[v] = new VarSet();
                 dependencies[v].Add(Utils.VariableUtils.NonDetVar);
 
-                InferDominatorDependency(currBlock, dependencies[v], v);
+                InferDominatorDependency(currBlock, dependencies[v]);
 
                 if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
                     dependencies[v].Add(Utils.VariableUtils.BottomUpTaintVar);
@@ -277,7 +319,7 @@ namespace Dependency
             if (succs.Count > 1)
             { // here we create branchCondVars
                 if (!branchCondVars.ContainsKey(currBlock))
-                    branchCondVars[currBlock] = new HashSet<Variable>();
+                    branchCondVars[currBlock] = new VarSet();
 
                 foreach (var succ in succs.Where(s => s.Cmds.Count > 0 && s.Cmds[0] is AssumeCmd))
                     branchCondVars[currBlock].UnionWith(Utils.VariableUtils.ExtractVars(succ.Cmds[0]));
@@ -296,33 +338,37 @@ namespace Dependency
             // for assignment v1,...,vn = e1,...,en handle each vi = ei separately
             for (int i = 0; i < node.Lhss.Count; ++i)
             {
-                var lhs = Utils.VariableUtils.ExtractVars(node.Lhss[i]).First(); // TODO: stuff like: Mem_T.INT4[in_prio] := out_tempBoogie0
+                var lhs = Utils.VariableUtils.ExtractVars(node.Lhss[i]).First(); // stuff like: Mem_T.INT4[x] := y; does not affect x
                 var rhsVars = Utils.VariableUtils.ExtractVars(node.Rhss[i]);
 
-                var dependsSet = new HashSet<Variable>();
+                dependencies[lhs] = new VarSet();
 
                 foreach (var rv in rhsVars)
                 {
-                    dependsSet.Add(rv);
+                    dependencies[lhs].Add(rv);
 
                     if (dependencies.ContainsKey(rv)) // a variable in rhs has dependencies
-                        dependsSet.UnionWith(dependencies[rv]);
+                        dependencies[lhs].UnionWith(dependencies[rv]);
                 }
 
-                InferDominatorDependency(currBlock, dependsSet, lhs);
+                InferDominatorDependency(currBlock, dependencies[lhs]);
 
-                dependencies[lhs] = dependsSet;
+                if (prune)
+                    dependencies[lhs].ExceptWith(nodeToImpl[node].LocVars);
+
+                if (taintOnly)
+                    dependencies[lhs].RemoveWhere(v => v != Utils.VariableUtils.BottomUpTaintVar && v != Utils.VariableUtils.TopDownTaintVar);
 
                 if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
                     dependencies[lhs].Add(Utils.VariableUtils.BottomUpTaintVar);
             }
-
+            
             if (worklist.Assign(node, dependencies))
                 worklist.Propagate(node);
             return node;
         }
 
-        private void InferDominatorDependency(Block currBlock, HashSet<Variable> dependsSet, Variable left)
+        public void InferDominatorDependency(Block currBlock, VarSet dependsSet)
         {
             if (dataOnly)
                 return;
@@ -344,10 +390,10 @@ namespace Dependency
         }
 
 
-        private HashSet<Variable> InferCalleeOutputDependancy(CallCmd cmd, Variable output, Dependencies state, List<HashSet<Variable>> inputExpressionsDependency)
+        private VarSet InferCalleeOutputDependancy(CallCmd cmd, Variable output, Dependencies state, List<VarSet> inputExpressionsDependency)
         {
             var outputDependency = ProcDependencies[cmd.Proc][output]; // output is dependent on a set of formals and globals
-            var inferedOutputDependency = new HashSet<Variable>();
+            var inferedOutputDependency = new VarSet();
             foreach (var dependentOn in outputDependency) // foreach (formal parameter p\global g) o_i is dependent upon
             {
                 if (dependentOn is GlobalVariable) // global
@@ -380,8 +426,8 @@ namespace Dependency
                 // all outputs+modified depend on all inputs+modified
                 var outs = callee.OutParams.Union(callee.Modifies.Select(x => x.Decl));
                 foreach (var v in outs)
-                {   
-                    ProcDependencies[callee][v] = new HashSet<Variable>(callee.InParams.Union(callee.Modifies.Select(x => x.Decl)));
+                {
+                    ProcDependencies[callee][v] = new VarSet(callee.InParams.Union(callee.Modifies.Select(x => x.Decl)));
                     if (!detStubs /* || Utils.IsBakedInStub(callee)*/ ) //adding out == func(in) causes inconsistency for functions like malloc/det_choice etc.
                         ProcDependencies[callee][v].Add(Utils.VariableUtils.NonDetVar); // and on *
                 }
@@ -403,17 +449,17 @@ namespace Dependency
             {// if the line syntactically changed, we assume all of the actuals introduce top-down taint
                 foreach (var input in calleeImpl.InParams)
                 {
-                    topDownTaint[input] = new HashSet<Variable>();
+                    topDownTaint[input] = new VarSet();
                     topDownTaint[input].Add(Utils.VariableUtils.TopDownTaintVar);
                 }
             }
 
             // first, for f(e1,...,ek) find the dependency set of each ei
-            var inputExpressionsDependency = new List<HashSet<Variable>>();
+            var inputExpressionsDependency = new List<VarSet>();
             for (int i = 0; i < node.Ins.Count; ++i)
             {
                 var inExpr = node.Ins[i];
-                inputExpressionsDependency.Add(new HashSet<Variable>());
+                inputExpressionsDependency.Add(new VarSet());
                 int current = inputExpressionsDependency.Count - 1;
                 foreach (var v in Utils.VariableUtils.ExtractVars(inExpr))
                 {
@@ -425,7 +471,7 @@ namespace Dependency
                             Utils.VariableUtils.IsTainted(dependencies[v]))
                         {   // top down taint from input
                             var input = calleeImpl.InParams[i];
-                            topDownTaint[input] = new HashSet<Variable>();
+                            topDownTaint[input] = new VarSet();
                             topDownTaint[input].Add(Utils.VariableUtils.TopDownTaintVar);
                         }
                     }
@@ -437,7 +483,7 @@ namespace Dependency
                 if (calleeImpl != null && // not a stub
                     Utils.VariableUtils.IsTainted(dependencies[g]))
                 {   // top down taint from global
-                    topDownTaint[g] = new HashSet<Variable>();
+                    topDownTaint[g] = new VarSet();
                     topDownTaint[g].Add(Utils.VariableUtils.TopDownTaintVar);
                 }
             }
@@ -456,11 +502,11 @@ namespace Dependency
                 var formalOutput = callee.OutParams[i];
                 if (!calleeDependencies.ContainsKey(formalOutput))
                     continue;
-                var inferedOutputDependency = InferCalleeOutputDependancy(node, formalOutput, dependencies, inputExpressionsDependency);
                 var actualOutput = node.Outs[i].Decl;
-                dependencies[actualOutput] = inferedOutputDependency;
 
-                InferDominatorDependency(currBlock, dependencies[actualOutput], actualOutput); // conditionals may dominate/taint the return value
+                dependencies[actualOutput] = InferCalleeOutputDependancy(node, formalOutput, dependencies, inputExpressionsDependency);
+                InferDominatorDependency(currBlock, dependencies[actualOutput]); // conditionals may dominate/taint the return value
+                //dependencies[actualOutput].ExceptWith(nodeToImpl[node].LocVars);
 
                 if (nativeTaint) // native taint
                     dependencies[actualOutput].Add(Utils.VariableUtils.BottomUpTaintVar); // only applies to actual outputs (i.e. bottom up)
@@ -471,10 +517,9 @@ namespace Dependency
             {
                 if (!(g is GlobalVariable))
                     continue;
-                var inferedOutputDependency = InferCalleeOutputDependancy(node, g, dependencies, inputExpressionsDependency);
-                dependencies[g] = inferedOutputDependency;
-
-                InferDominatorDependency(currBlock, dependencies[g], g); // conditionals may dominate/taint the modified globals
+                dependencies[g] = InferCalleeOutputDependancy(node, g, dependencies, inputExpressionsDependency);
+                InferDominatorDependency(currBlock, dependencies[g]); // conditionals may dominate/taint the modified globals
+                //dependencies[g].ExceptWith(nodeToImpl[node].LocVars);
             }
 
             if (worklist.Assign(node, dependencies))
@@ -495,6 +540,7 @@ namespace Dependency
         {
             Block currBlock = worklist.cmdBlocks[node];
             Dependencies dependencies = worklist.GatherPredecessorsState(node, currBlock);
+
             if (worklist.Assign(node, dependencies))
                 worklist.Propagate(node,nodeToImpl[node].Proc);
             var proc = nodeToImpl[node].Proc;
@@ -507,8 +553,8 @@ namespace Dependency
             if (!procExitTDTaint.ContainsKey(proc))
                 procExitTDTaint[proc] = new Dependencies();
             ProcDependencies[proc].Where(d => d.Value.Contains(Utils.VariableUtils.TopDownTaintVar)).Iter(dep => { 
-                dep.Value.Remove(Utils.VariableUtils.TopDownTaintVar); 
-                procExitTDTaint[proc][dep.Key] = new HashSet<Variable>(); 
+                dep.Value.Remove(Utils.VariableUtils.TopDownTaintVar);
+                procExitTDTaint[proc][dep.Key] = new VarSet(); 
                 procExitTDTaint[proc][dep.Key].Add(Utils.VariableUtils.TopDownTaintVar);
             });
             return node;
