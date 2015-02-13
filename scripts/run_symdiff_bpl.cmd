@@ -148,6 +148,9 @@ sub PrintHoudiniStats{
   my $houdiniCount = 0;
   my $houdiniTrueCount = 0;
   foreach $line (<HOUDINI_OUT>) {
+    if ($line =~ /program verifier finished/) {
+        print "\t$line";
+    }
     next unless $line =~ /_houdini/;
     $houdiniCount = $houdiniCount + 1;
     next unless $line =~ / True/;
@@ -165,7 +168,16 @@ sub PrintHoudiniStats{
 ##################################
 
 $symdiff_root = $ENV{'SYMDIFF_ROOT'};
+
+
 ProcessOptions();
+
+#check the annotations in two versions separately
+print "Checking $v1.bpl...\n";
+MyExecAndDieOnFailure("$symdiff_root\\references\\boogie.exe /noinfer /doModSetAnalysis $v1.bpl > $v1$v2.log");
+print "Checking $v2.bpl...\n";
+MyExecAndDieOnFailure("$symdiff_root\\references\\boogie.exe /noinfer /doModSetAnalysis $v2.bpl >> $v1$v2.log");
+
 if ($rvt eq 1){
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -extractLoops $v1.bpl _v1.bpl");
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -extractLoops $v2.bpl _v2.bpl");
@@ -190,7 +202,7 @@ if (!($abstractNonTainted eq "")) {
 
 MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig _v1.bpl _v2.bpl > _v1_v2.config"); 
 
-MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString > $v1$v2.log"); 
+MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString >> $v1$v2.log"); 
 
 
 if ($inferContracts eq 1){
@@ -201,4 +213,5 @@ if ($inferContracts eq 1){
 
 close OUTPUT;
 print("Commands written to $symdiff_out, and output redirected to $v1$v2.log\n"); 
+
 exit(1);

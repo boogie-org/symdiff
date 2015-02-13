@@ -70,7 +70,6 @@ namespace SDiff
             cg1 = CallGraph.Make(p1);
             cg2 = CallGraph.Make(p2);
             Initialize(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg1);
-            //LoadMutualSummariesFromFile();
             MutualSummaryStart(mergedProgram);
         }
 
@@ -239,7 +238,12 @@ namespace SDiff
             }
             return paramListR;
         }
-        //Creates MS_f1_f2(...) and adds the axiom connecting with R_f1 and R_f2
+        /// <summary>
+        /// Creates MS_f1_f2(...) and adds the axiom connecting with R_f1 and R_f2
+        /// </summary>
+        /// <param name="f1"></param>
+        /// <param name="f2"></param>
+        /// <returns></returns>
         private static Function CreateMutualSummaryRelation(Procedure f1, Procedure f2)
         {
             Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f1), string.Format("Procedure {0} does not belong to the mergedProgram", f1.Name));
@@ -300,6 +304,47 @@ namespace SDiff
             mergedProgram.AddTopLevelDeclaration(MSAxiom);
             msFuncAxiomsAdded.Add(msFunc);
             return msFunc;
+        }
+        /// <summary>
+        /// Creates MS_pre$f1$f2(...) and adds it as requires to MS_Check_f1_f2
+        /// </summary>
+        /// <param name="f1"></param>
+        /// <param name="f2"></param>
+        /// <returns></returns>
+        private static Function CreateMutualPreconditionRelation(Procedure f1, Procedure f2)
+        {
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f1), string.Format("Procedure {0} does not belong to the mergedProgram", f1.Name));
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f2), string.Format("Procedure {0} does not belong to the mergedProgram", f2.Name));
+
+            //pull this earlier as we need them irrespective if msFunc is defined in the ms_symdiff_file.bpl
+            var msPreFuncParams = new List<Variable>();
+            List<TypeVariable> tS;
+            var i1 = GetParamsForSummaryRelation(f1, gSeq_p1, p1Prefix, out tS, false, true, false, true); //inputs for f1
+            var i2 = GetParamsForSummaryRelation(f2, gSeq_p2, p2Prefix, out tS, false, true, false, true); //inputs for f2
+            var a1 = new List<Variable>(); a1.AddRange(i1);  
+            var a2 = new List<Variable>(); a2.AddRange(i2); 
+            msPreFuncParams.AddRange(a1);
+            msPreFuncParams.AddRange(a2);
+
+            var msPreFuncName = "MS_pre_$" + f1.Name + "$" + f2.Name;
+            Function msPreFunc = mergedProgram.TopLevelDeclarations.FirstOrDefault(x => (x is Function) && ((Function)x).Name == msPreFuncName) as Function;
+            if (msPreFunc != null) //present 
+            {
+                if (msFuncAxiomsAdded.Contains(msPreFunc)) //already done processing this function
+                    return msPreFunc;
+            }
+            else //create the new function
+            {
+                var pm = cfg.FindProcedure(f1.Name, f2.Name);
+                msPreFunc = new Function(new Token(), msPreFuncName,
+                    msPreFuncParams,
+                    new Formal(new Token(), new TypedIdent(new Token(), "ret", BasicType.Bool), false));
+                msPreFunc.Body = Expr.True;
+                mergedProgram.AddTopLevelDeclaration(msPreFunc);
+                msPreFunc.AddAttribute("inline", Expr.True);
+            }
+
+            return msPreFunc;
         }
         //Creates the body of the mutual summary
         //Currently simply creates 1-1 equality between two lists (i1 == i2 ==> o1 == o2)
@@ -453,9 +498,15 @@ namespace SDiff
             var callMS = new FunctionCall(ms);
             ensuresSeq.Add(new Ensures(false, new NAryExpr(new Token(), callMS, exprListR)));
             var requiresSeq = new List<Requires>();
-            //Add requires as free requires            
-            //requiresSeq.AddRange(f1.Requires); 
-            //requiresSeq.AddRange(f2.Requires);
+            var msPre = CreateMutualPreconditionRelation(f1, f2);
+            var callMSPre = new FunctionCall(msPre);
+            exprListR = new List<Expr>();
+            exprListR.AddRange(Util.VarSeqToExprSeq(a1));
+            exprListR.AddRange(gSeq_p1.Select(x => IdentifierExpr.Ident(x)));
+            exprListR.AddRange(Util.VarSeqToExprSeq(a2));
+            exprListR.AddRange(gSeq_p2.Select(x => IdentifierExpr.Ident(x)));
+            requiresSeq.Add(new Requires(false, new NAryExpr(new Token(), callMSPre, exprListR)));
+
             if (Options.checkEquivWithDependencies)
             {
                 //Can't do it earlier as we need the variables for the MS_f1_f2 procedures that are only created in this 
@@ -748,7 +799,28 @@ namespace SDiff
                 else
                     AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2, false); //trust that outputs are equal
                 AddCandRequires(ref requiresSeq, f1, f2, i1, i2, o1, o2);
+                //add candidates for loop extracted procedures
+                if (f1.Name.Contains("_loop_"))
+                    AddLoopEnsures(f1, p1Prefix);
+                if (f2.Name.Contains("_loop_"))
+                    AddLoopEnsures(f2, p2Prefix);
                 return;
+            }
+            private static void AddLoopEnsures(Procedure f, string prefix)
+            {
+                var i = f.InParams;
+                var o = f.OutParams;
+                //name starts with _v1.in_/_v2.in
+                //get {x | in_x in i, out_x in o}
+                var inouts = new HashSet<Tuple<Variable, Variable>>(); //(in,out)
+                i.Iter(x => o.Iter(y => inouts.Add(Tuple.Create(x, y))));
+                var res = inouts
+                    .Where(x => ((Variable)x.Item1).Name.Replace("in_","")
+                                            == ((Variable)x.Item2).Name.Replace("out_",""));
+                var comparisons = new HashSet<Expr>(); //comparisons
+                res.Iter(x => CreateVariableComparisons(x.Item1, x.Item2).Iter(y => comparisons.Add(y)));
+                var censures = comparisons.Select(x => new Ensures(false, Expr.Imp(FreshHoudiniVar(), x)));
+                f.Ensures.AddRange(censures);
             }
             private static void AddCandRequires(ref List<Requires> requiresSeq, Procedure f1, Procedure f2,
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2,
