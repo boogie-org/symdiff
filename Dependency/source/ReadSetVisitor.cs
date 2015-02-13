@@ -42,7 +42,7 @@ namespace Dependency
                 }
                 else
                 {// a procedure with a body
-                    //Console.WriteLine("Visiting: {0} ({1}/{2})", impl.Name, ++numVisited, program.Implementations.Count());
+                    Console.WriteLine("Visiting: {0} ({1}/{2})", impl.Name, ++numVisited, program.Implementations.Count());
                     Visit(impl);
                 }
 
