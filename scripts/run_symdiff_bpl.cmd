@@ -144,21 +144,12 @@ sub AbstractNonTainted{
 # there is a houdini constant for each output of a procedure
 sub PrintHoudiniStats{
   my $file = shift;
-  my $v1 = shift;
-  my $v2 = shift;
-  my $mergedFile = shift;
-
-  my @arr = ($v1, $v1, $mergedFile);
-  
   open HOUDINI_OUT, "<$file" or die "can't open $file for parsing the output of run_symdiff_bpl.cmd\n";
   my $houdiniCount = 0;
   my $houdiniTrueCount = 0;
-  my $verifCount = 0;
-  my $i = 0;
   foreach $line (<HOUDINI_OUT>) {
-    if ($line =~ /Boogie program verifier finished/) {        
-        print "\t [$arr[$i]] $line";
-        $i++;
+    if ($line =~ /program verifier finished/) {
+        print "\t$line";
     }
     next unless $line =~ /_houdini/;
     $houdiniCount = $houdiniCount + 1;
@@ -217,7 +208,7 @@ MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -all
 if ($inferContracts eq 1){
   print "Running Houdini to infer additional contracts......\n";
   MyExecAndDieOnFailure("$symdiff_root\\references\\boogie.exe /noinfer /contractInfer /printAssignment $inferContractsOpts mergedProgSingle.bpl >> $v1$v2.log");
-  PrintHoudiniStats("$v1$v2.log", "$v1.bpl", "$v2.bpl", "mergedProgSingle.bpl");
+  PrintHoudiniStats("$v1$v2.log");
 }
 
 close OUTPUT;
