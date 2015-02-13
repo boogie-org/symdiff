@@ -44,7 +44,7 @@ namespace Dependency
         public static bool ReadSet = false;
         static public int StackBound = 3;
         static public bool noMinUnsatCore = false;
-        static public int Timeout = 1000;
+        static public int Timeout = 300;
         static public bool AbstractNonTainted = false;
         static public bool AnnotateDependencies = false;
         static public bool SplitMapsWithAliasAnalysis = false;
@@ -53,9 +53,9 @@ namespace Dependency
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
-        static private List<Tuple<string, string, int, string>> dependenciesLog = new List<Tuple<string, string, int, string>>();
+        static private List<Tuple<string, string, int, string, Dependencies>> dependenciesLog = new List<Tuple<string, string, int, string, Dependencies>>();
         static private List<Tuple<string, string, int, string>> taintedModSetLog = new List<Tuple<string, string, int, string>>();
-        static private List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>> statsLog = new List<Tuple<string, string, Procedure, Variable, HashSet<Variable>>>();
+        static private List<Tuple<string, string, Procedure, Variable, VarSet>> statsLog = new List<Tuple<string, string, Procedure, Variable, VarSet>>();
         static private string statsFile;
 
         
@@ -167,7 +167,7 @@ namespace Dependency
                 return 0;
             }
 
-            Utils.CallGraphHelper.WriteCallGraph(filename + ".cg.dot", Utils.CallGraphHelper.ComputeCallGraph(program));
+            Utils.CallGraphHelper.WriteCallGraph(filename + ".cg", Utils.CallGraphHelper.ComputeCallGraph(program));
             Dictionary<string, HashSet<int>> sourceLines = new Dictionary<string, HashSet<int>>();
             program.Implementations.Iter(i => i.Blocks.Iter(b =>
             {
@@ -180,6 +180,9 @@ namespace Dependency
                 }
             }));
 
+            // remove redundant cmds
+            program.Implementations.Iter(i => i.Blocks.Iter(b => b.Cmds.RemoveAll(c => c is AssumeCmd && (c as AssumeCmd).Expr.ToString().StartsWith("value_is"))));
+            //program.Implementations.Iter(i => i.Blocks.Iter(b => b.Cmds.RemoveAll(c => c is AssertCmd)));
 
             if (changeList != null) PopulateChangeLog(changeList,program);
             RunAnalysis(filename, program);
@@ -188,8 +191,7 @@ namespace Dependency
             #region Display and Log
 
             var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog, taintedModSetLog);
-            displayHtml.GenerateHtmlOutput(filename + ".html");
-            Console.WriteLine("Output generated in " + filename + ".html");
+            displayHtml.GenerateHtmlOutput();
 
             if (PrintStats)
             {
@@ -260,8 +262,8 @@ namespace Dependency
                 return;
             int lastSourceLine = sourceLines.Max();
 
-            string depStr = "<b> " + which + " for " + proc.Name + "(): (Size = " + deps.Sum(d => d.Value.Count) + ")</b> " + deps.ToString();
-            dependenciesLog.Add(new Tuple<string, string, int, string>(sourcefile, proc.Name, lastSourceLine, depStr));
+            string depStr = "<b> " + which + " for " + proc.Name + "(): (Size = " + deps.Sum(d => d.Value.Count) + ")</b> ";
+            dependenciesLog.Add(new Tuple<string, string, int, string, Dependencies>(sourcefile, proc.Name, lastSourceLine, depStr, deps));
             if (changeLog.Count > 0)
             {
                 string taintedModSetStr = "{ ";
@@ -283,14 +285,14 @@ namespace Dependency
             }
         }
 
-        public static void PopulateStatsLog(string type, Implementation impl, Variable key, HashSet<Variable> value)
+        public static void PopulateStatsLog(string type, Implementation impl, Variable key, VarSet value)
         {
-            statsLog.Add(new Tuple<string,string, Procedure, Variable,HashSet<Variable>>(type,Utils.AttributeUtils.GetImplSourceFile(impl), impl.Proc, key, value));
+            statsLog.Add(new Tuple<string, string, Procedure, Variable, VarSet>(type, Utils.AttributeUtils.GetImplSourceFile(impl), impl.Proc, key, value));
         }
 
         private static void RunAnalysis(string filename, Program program)
         {
-            var dataDepVisitor = new DependencyVisitor(filename, program, changeLog, true, DetStubs);
+            var dataDepVisitor = new DependencyVisitor(filename, program, changeLog, Timeout, Prune, true, DetStubs);
             var dataDeps = dataDepVisitor.ProcDependencies;
             
             if (Refine || BothDependencies || DataOnly) {
@@ -302,7 +304,7 @@ namespace Dependency
             dataDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
             GC.Collect();
 
-            var allDepVisitor = new DependencyVisitor(filename, program, changeLog, DataOnly, DetStubs);
+            var allDepVisitor = new DependencyVisitor(filename, program, changeLog, Timeout, Prune, DataOnly, DetStubs);
             var allDeps = allDepVisitor.ProcDependencies;
 
             if (Refine || !ReadSet)
@@ -365,7 +367,7 @@ namespace Dependency
             ProcReadSetVisitor rsVisitor = new ProcReadSetVisitor();
             if (ReadSet)
             {
-                RunReadSetAnalysis(program, rsVisitor, new DependencyVisitor(filename, program, changeLog, DataOnly, DetStubs));
+                RunReadSetAnalysis(program, rsVisitor, new DependencyVisitor(filename, program, changeLog, Timeout, Prune, DataOnly, DetStubs));
                 #region ReadSet must contain the Control+Data dependencies
                 Debug.Assert(rsVisitor.ProcReadSet.All(prs =>
                 {
@@ -465,7 +467,7 @@ namespace Dependency
             //taint 
             if (changeLog.Count > 0)
             {
-                DependencyVisitor visitor = new DependencyVisitor(filename, program, changeLog);
+                DependencyVisitor visitor = new DependencyVisitor(filename, program, changeLog, Timeout);
                 visitor.ProcDependencies = refineDepsWL.currDependencies;
                 visitor.Visit(program); // reminder: taint is essentially a dependecy analysis
                 // extract taint from dependencies and print
@@ -485,7 +487,7 @@ namespace Dependency
             rsVisitor.ProcReadSet.Keys.Iter(p => { rsProcDeps[p] = new Dependencies(); rsVisitor.ProcReadSet[p].Iter(r => rsProcDeps[p][r] = rsVisitor.ProcReadSet[p]); });
 
             // print
-            //program.Implementations.Iter(impl => PopulateDependencyLog(impl, rsProcDeps[impl.Proc], Utils.StatisticsHelper.ReadSet));
+            program.Implementations.Iter(impl => PopulateDependencyLog(impl, rsProcDeps[impl.Proc], Utils.StatisticsHelper.ReadSet));
 
             // taint
             if (changeLog.Count > 0)
