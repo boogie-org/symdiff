@@ -1,3 +1,9 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 2 verified, 0 errors
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 2 verified, 0 errors
 Parsing config file
 Parsing programs
 Namespacing ASTs
@@ -10,7 +16,7 @@ Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?)
 Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ImplMap: _v1.Bar, _v2.Bar
 Resolving and typechecking
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 Assignment computed by Houdini:
 _houdini_Foo_r_0 = True
 _houdini_Bar_r_1 = True
