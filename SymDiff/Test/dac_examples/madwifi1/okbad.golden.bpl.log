@@ -1,3 +1,95 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+ok.bpl(894,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(729,3): anon0
+    ok.bpl(771,3): label_5_false
+    ok.bpl(871,3): label_14_true
+    ok.bpl(886,3): label_16_true
+ok.bpl(903,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(729,3): anon0
+    ok.bpl(771,3): label_5_false
+    ok.bpl(871,3): label_14_true
+    ok.bpl(886,3): label_16_true
+ok.bpl(1032,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(1005,3): anon0
+ok.bpl(1063,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(1005,3): anon0
+    ok.bpl(1052,3): label_5_true
+ok.bpl(1085,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(1005,3): anon0
+    ok.bpl(1052,3): label_5_true
+    ok.bpl(1073,3): label_7_true
+ok.bpl(1185,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(1164,3): anon0
+ok.bpl(1194,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(1164,3): anon0
+ok.bpl(1204,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(1164,3): anon0
+ok.bpl(1272,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(1234,3): entry
+    ok.bpl(1303,3): label_14_true
+    ok.bpl(1287,3): label_16_true
+ok.bpl(1281,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(1234,3): entry
+    ok.bpl(1303,3): label_14_true
+    ok.bpl(1287,3): label_16_true
+
+Boogie program verifier finished with 0 verified, 10 errors
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+bad.bpl(892,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(727,3): anon0
+    bad.bpl(769,3): label_5_false
+    bad.bpl(869,3): label_14_true
+    bad.bpl(884,3): label_16_true
+bad.bpl(901,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(727,3): anon0
+    bad.bpl(769,3): label_5_false
+    bad.bpl(869,3): label_14_true
+    bad.bpl(884,3): label_16_true
+bad.bpl(1023,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(996,3): anon0
+bad.bpl(1054,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(996,3): anon0
+    bad.bpl(1043,3): label_5_true
+bad.bpl(1076,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(996,3): anon0
+    bad.bpl(1043,3): label_5_true
+    bad.bpl(1064,3): label_7_true
+bad.bpl(1176,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(1155,3): anon0
+bad.bpl(1185,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(1155,3): anon0
+bad.bpl(1195,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(1155,3): anon0
+bad.bpl(1256,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(1225,3): entry
+    bad.bpl(1287,3): label_14_true
+    bad.bpl(1271,3): label_16_true
+bad.bpl(1265,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(1225,3): entry
+    bad.bpl(1287,3): label_14_true
+    bad.bpl(1271,3): label_16_true
+
+Boogie program verifier finished with 0 verified, 10 errors
 RVT mode, diff-inline turned off
 Parsing config file
 Parsing programs
@@ -9,9 +101,6 @@ StubMap: _v1.havoc_assume, _v2.havoc_assume
 StubMap: _v1.__HAVOC_free, _v2.__HAVOC_free
 StubMap: _v1.__HAVOC_malloc, _v2.__HAVOC_malloc
 StubMap: _v1.__HAVOC_det_malloc, _v2.__HAVOC_det_malloc
-StubMap: _v1.__HAVOC_memset_split_1, _v2.__HAVOC_memset_split_1
-StubMap: _v1.__HAVOC_memset_split_2, _v2.__HAVOC_memset_split_2
-StubMap: _v1.__HAVOC_memset_split_4, _v2.__HAVOC_memset_split_4
 StubMap: _v1.nondet_choice, _v2.nondet_choice
 StubMap: _v1.det_choice, _v2.det_choice
 StubMap: _v1._strdup, _v2._strdup
@@ -23,7 +112,7 @@ ImplMap: _v1.giwscan_cb, _v2.giwscan_cb
 ImplMap: _v1.main, _v2.main
 ImplMap: _v1.encode_ie_loop_label_14_head, _v2.encode_ie_loop_label_14_head
 Resolving and typechecking
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 Assignment computed by Houdini:
 _houdini_0 = False
 _houdini_1 = False
@@ -64,9 +153,9 @@ _houdini_35 = True
 _houdini_36 = True
 _houdini_37 = True
 _houdini_38 = True
-_houdini_39 = False
+_houdini_39 = True
 _houdini_40 = False
-_houdini_41 = False
+_houdini_41 = True
 _houdini_42 = False
 _houdini_43 = False
 _houdini_44 = False
@@ -105,27 +194,27 @@ _houdini_76 = True
 _houdini_77 = True
 _houdini_78 = True
 _houdini_79 = True
-_houdini_80 = True
+_houdini_80 = False
 _houdini_81 = True
 _houdini_82 = True
-_houdini_83 = True
-_houdini_84 = False
-_houdini_85 = True
+_houdini_83 = False
+_houdini_84 = True
+_houdini_85 = False
 _houdini_86 = False
-_houdini_87 = True
+_houdini_87 = False
 _houdini_88 = True
-_houdini_89 = True
+_houdini_89 = False
 _houdini_90 = True
-_houdini_91 = True
-_houdini_92 = True
-_houdini_93 = True
+_houdini_91 = False
+_houdini_92 = False
+_houdini_93 = False
 _houdini_94 = True
 _houdini_95 = True
 _houdini_96 = True
 _houdini_97 = True
-_houdini_98 = True
+_houdini_98 = False
 _houdini_99 = True
-_houdini_100 = True
+_houdini_100 = False
 _houdini_101 = True
 _houdini_102 = True
 _houdini_103 = True
@@ -136,11 +225,25 @@ _houdini_107 = True
 _houdini_108 = True
 _houdini_109 = True
 _houdini_110 = True
-mergedProgSingle.bpl(5959,5): Error BP5003: A postcondition might not hold on this return path.
-mergedProgSingle.bpl(5503,3): Related location: This is the postcondition that might not hold.
+_houdini_111 = True
+_houdini_112 = True
+_houdini_113 = True
+_houdini_114 = True
+_houdini_115 = True
+_houdini_116 = True
+_houdini_117 = True
+_houdini_118 = True
+_houdini_119 = True
+_houdini_120 = True
+_houdini_121 = True
+_houdini_122 = True
+_houdini_123 = True
+_houdini_124 = True
+mergedProgSingle.bpl(5939,5): Error BP5003: A postcondition might not hold on this return path.
+mergedProgSingle.bpl(5511,3): Related location: This is the postcondition that might not hold.
 Execution trace:
-    mergedProgSingle.bpl(5658,3): START
-    mergedProgSingle.bpl(5935,3): MS_L_taken_0
-    mergedProgSingle.bpl(5958,3): MS_L_meet_0
+    mergedProgSingle.bpl(5666,3): START
+    mergedProgSingle.bpl(5915,3): MS_L_taken_0
+    mergedProgSingle.bpl(5938,3): MS_L_meet_0
 
 Boogie program verifier finished with 11 verified, 1 error

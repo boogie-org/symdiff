@@ -1,3 +1,17 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+ok.bpl(736,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(704,3): entry
+    ok.bpl(743,3): label_11_true
+
+Boogie program verifier finished with 1 verified, 1 error
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+bad.bpl(692,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(676,3): entry
+    bad.bpl(699,3): label_11_true
+
+Boogie program verifier finished with 1 verified, 1 error
 RVT mode, diff-inline turned off
 Parsing config file
 Parsing programs
@@ -9,9 +23,6 @@ StubMap: _v1.havoc_assume, _v2.havoc_assume
 StubMap: _v1.__HAVOC_free, _v2.__HAVOC_free
 StubMap: _v1.__HAVOC_malloc, _v2.__HAVOC_malloc
 StubMap: _v1.__HAVOC_det_malloc, _v2.__HAVOC_det_malloc
-StubMap: _v1.__HAVOC_memset_split_1, _v2.__HAVOC_memset_split_1
-StubMap: _v1.__HAVOC_memset_split_2, _v2.__HAVOC_memset_split_2
-StubMap: _v1.__HAVOC_memset_split_4, _v2.__HAVOC_memset_split_4
 StubMap: _v1.nondet_choice, _v2.nondet_choice
 StubMap: _v1.det_choice, _v2.det_choice
 StubMap: _v1._strdup, _v2._strdup
@@ -21,7 +32,7 @@ StubMap: _v1.nondet_int, _v2.nondet_int
 ImplMap: _v1.main, _v2.main
 ImplMap: _v1.main_loop_label_7_head, _v2.main_loop_label_7_head
 Resolving and typechecking
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 Assignment computed by Houdini:
 _houdini_0 = False
 _houdini_1 = False
@@ -57,17 +68,29 @@ _houdini_30 = True
 _houdini_31 = True
 _houdini_32 = True
 _houdini_33 = True
-mergedProgSingle.bpl(2348,5): Error BP5003: A postcondition might not hold on this return path.
-mergedProgSingle.bpl(1812,3): Related location: This is the postcondition that might not hold.
+_houdini_34 = False
+_houdini_35 = False
+_houdini_36 = False
+_houdini_37 = False
+_houdini_38 = False
+_houdini_39 = False
+_houdini_40 = False
+_houdini_41 = False
+_houdini_42 = True
+_houdini_43 = False
+_houdini_44 = False
+_houdini_45 = False
+mergedProgSingle.bpl(2258,5): Error BP5003: A postcondition might not hold on this return path.
+mergedProgSingle.bpl(1755,3): Related location: This is the postcondition that might not hold.
 Execution trace:
-    mergedProgSingle.bpl(1969,3): START
-    mergedProgSingle.bpl(2050,3): inline$_v1.main$0$label_11_false#2
-    mergedProgSingle.bpl(2060,3): inline$_v1.main$0$label_12_false#2
-    mergedProgSingle.bpl(2065,3): inline$_v1.main$0$label_17#2
-    mergedProgSingle.bpl(2234,3): inline$_v2.main$0$label_11_false#2
-    mergedProgSingle.bpl(2263,3): inline$_v2.main$0$label_12_true#2
-    mergedProgSingle.bpl(2249,3): inline$_v2.main$0$label_15#2
-    mergedProgSingle.bpl(2318,3): MS_L_taken_0
-    mergedProgSingle.bpl(2347,3): MS_L_meet_0
+    mergedProgSingle.bpl(1912,3): START
+    mergedProgSingle.bpl(1990,3): inline$_v1.main$0$label_11_false#2
+    mergedProgSingle.bpl(1999,3): inline$_v1.main$0$label_12_false#2
+    mergedProgSingle.bpl(2003,3): inline$_v1.main$0$label_17#2
+    mergedProgSingle.bpl(2156,3): inline$_v2.main$0$label_11_false#2
+    mergedProgSingle.bpl(2183,3): inline$_v2.main$0$label_12_true#2
+    mergedProgSingle.bpl(2169,3): inline$_v2.main$0$label_15#2
+    mergedProgSingle.bpl(2228,3): MS_L_taken_0
+    mergedProgSingle.bpl(2257,3): MS_L_meet_0
 
 Boogie program verifier finished with 5 verified, 1 error

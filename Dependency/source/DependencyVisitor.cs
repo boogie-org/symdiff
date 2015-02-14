@@ -186,7 +186,7 @@ namespace Dependency
 
         public override Program VisitProgram(Program node)
         {
-            Console.WriteLine("Starting...");
+            //Console.WriteLine("Starting...");
             //Console.ReadLine();
             var orderedSCCs = Utils.CallGraphHelper.ComputeOrderedSCCs(callGraph);
             orderedSCCs.Reverse();
@@ -199,7 +199,7 @@ namespace Dependency
                     var impl = node.Implementations.FirstOrDefault(i => i.Proc == proc);
                     if (impl == null)
                         continue;
-                    Console.Write("Visiting: {0} ({1}/{2}) [{3} cmds, {4} vars]", impl.Name, ++numVisited, program.Implementations.Count(), impl.Blocks.Sum(b => b.Cmds.Count + 1), impl.LocVars.Count);
+                    //Console.Write("Visiting: {0} ({1}/{2}) [{3} cmds, {4} vars]", impl.Name, ++numVisited, program.Implementations.Count(), impl.Blocks.Sum(b => b.Cmds.Count + 1), impl.LocVars.Count);
                     Stopwatch s = Stopwatch.StartNew();
                     ManualResetEvent wait = new ManualResetEvent(false);
                     Thread work = new Thread(new ThreadStart(() => { Visit(impl); wait.Set(); }));
@@ -227,7 +227,7 @@ namespace Dependency
                     }
                     else
                     {
-                        Console.WriteLine(" {0} s", s.ElapsedMilliseconds / 1000.0);
+                        //Console.WriteLine(" {0} s", s.ElapsedMilliseconds / 1000.0);
                         // maintain the readSet (for cases where the analysis is too long and we revert to readset)
                         rsv.ProcReadSet[impl.Proc] = new VarSet();
                         rsv.ProcReadSet[impl.Proc].UnionWith(ProcDependencies[impl.Proc].Keys);
