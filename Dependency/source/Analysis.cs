@@ -143,6 +143,7 @@ namespace Dependency
 
             #region Cleanups 
             //cleanup assume value_is, as we are not printing a trace now
+            //Dont cleanup value_is without this flag, SymDiff gets confused as it expects value_is for models
             if (StripValueIs)
                 (new Utils.RemoveValueIsAssumes()).Visit(program);
             // create explicit variables for conditionals
@@ -181,7 +182,6 @@ namespace Dependency
             }));
 
             // remove redundant cmds
-            program.Implementations.Iter(i => i.Blocks.Iter(b => b.Cmds.RemoveAll(c => c is AssumeCmd && (c as AssumeCmd).Expr.ToString().StartsWith("value_is"))));
             //program.Implementations.Iter(i => i.Blocks.Iter(b => b.Cmds.RemoveAll(c => c is AssertCmd)));
 
             if (changeList != null) PopulateChangeLog(changeList,program);
