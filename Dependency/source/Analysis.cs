@@ -65,6 +65,7 @@ namespace Dependency
         static private Stopwatch sw;
 
         static int Main(string[] args)
+
         {
             if (args.Length < 1)
             {

@@ -156,7 +156,7 @@ namespace Dependency
             {
                 for (QKeyValue attr = attributes; attr != null; attr = attr.Next)
                     if (attr.Key == key)
-                        return attr.Params;
+                        return (List<object>) attr.Params;
 
                 return new List<object>();
             }
@@ -744,10 +744,12 @@ namespace Dependency
             public override Cmd VisitAssignCmd(AssignCmd node)
             {
                 var i = 0;
+                List<AssignLhs> nLhss = new List<AssignLhs>(node.Lhss);
+                List<Expr> nRhss = new List<Expr>(node.Rhss);
                 for (i = 0; i < node.Lhss.Count; ++i)
                 {
-                    var lhs = node.Lhss[i];
-                    var rhs = node.Rhss[i];
+                    var lhs = node.Lhss[i]; 
+                    var rhs = node.Rhss[i]; 
                     if (lhs.DeepAssignedVariable.TypedIdent.Type.IsMap && lhs.Type.IsMap)
                     {
                         var x = rhs as NAryExpr;
@@ -756,11 +758,13 @@ namespace Dependency
                             lhs.DeepAssignedVariable.ToString() == x.Args[0].ToString())
                         {
                             Debug.Assert(x.Args.Count == 3, "Expecting MapStore(m,x,y)");
-                            node.Rhss[i] = x.Args[2];
-                            node.Lhss[i] = new MapAssignLhs(Token.NoToken, lhs, new List<Expr> { x.Args[1] });
+                            nRhss[i] = x.Args[2]; //node.Rhss[i] = x.Args[2];
+                            nLhss[i] = /*node.Lhss[i] =*/ new MapAssignLhs(Token.NoToken, lhs, new List<Expr> { x.Args[1] });
                         }
                     }
                 }
+                node.Lhss = nLhss;
+                node.Rhss = nRhss;
                 return base.VisitAssignCmd(node);
             }
         }
