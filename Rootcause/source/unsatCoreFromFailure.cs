@@ -393,7 +393,7 @@ namespace Rootcause
             }
             public override Cmd VisitAssignCmd(AssignCmd node)
             {
-                if (predOn || node.Rhss.Exists(ContainsPredFun))
+                if (predOn || node.Rhss.Where(ContainsPredFun).Count() > 0)
                 {
                     var a = CreatePred(node);
                     Utils.Assert(node.Lhss.Count() == node.Rhss.Count(), "#lhs == #rhs");

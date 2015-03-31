@@ -1823,7 +1823,7 @@ namespace Rootcause
                             //Each successor node must update the dependency set for work_node's variable
                             worklist.Add(new Tuple<AssignCmd, Variable>(a, work_node.Item2));
                             //Update all successors that depend on work_node's variable
-                            List<Variable> a_Lhss = a.Lhss.ConvertAll<Variable>(v => v.DeepAssignedVariable);
+                            List<Variable> a_Lhss = a.Lhss.Select(v => v.DeepAssignedVariable).ToList();
                             foreach (Variable a_Lhs in a_Lhss)
                             {
                                 //only consider successor nodes (x := y, z) where z is in lhs
@@ -2559,7 +2559,7 @@ namespace Rootcause
                     //parallel Assignments
                     if (rightAssignment.Lhss.Count > 1)
                     {
-                        List<Variable> lhss = rightAssignment.Lhss.ConvertAll<Variable>(l => l.DeepAssignedVariable);
+                        List<Variable> lhss = rightAssignment.Lhss.Select(l => l.DeepAssignedVariable).ToList();
                         int matchCount = 0;
                         foreach (List<Constant> match in FindMatchingLeftValues(lhss, this.leftAssumeConsts, L)) //parallel matches
                         {
@@ -2964,7 +2964,7 @@ namespace Rootcause
                     //parallel Assignments
                     if (rightAssignment.Lhss.Count > 1)
                     {
-                        List<Variable> lhss = rightAssignment.Lhss.ConvertAll<Variable>(l => l.DeepAssignedVariable);
+                        List<Variable> lhss = rightAssignment.Lhss.Select(l => l.DeepAssignedVariable).ToList();
                         foreach (List<Constant> match in FindMatchingLeftValues(lhss, this.leftAssumeConsts, L)) //parallel matches
                         {
                             //Console.Write("-");

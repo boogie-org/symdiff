@@ -53,7 +53,7 @@ namespace Rootcause
             /* Command line parsing */
             if (!Options.ParseCommandLine(String.Join(" ", args))) return;
 
-            foreach (var f in CommandLineOptions.Clo.Files.FindAll(x => x != ""))
+            foreach (var f in CommandLineOptions.Clo.Files.Where(x => x != ""))
             {
                 Console.WriteLine("Processing file {0}", f);
                 if (!Utils.ParseProgram(f, out prog)) return;
@@ -81,7 +81,7 @@ namespace Rootcause
         private static void Go(Implementation impl, string filename)
         {
             if (impl == null) return;
-            if (CommandLineOptions.Clo.ProcsToCheck != null && CommandLineOptions.Clo.ProcsToCheck.FindAll(x => impl.Name.StartsWith(x)).Count == 0) return;
+            if (CommandLineOptions.Clo.ProcsToCheck != null && CommandLineOptions.Clo.ProcsToCheck.Where(x => impl.Name.StartsWith(x)).Count() == 0) return;
             Console.WriteLine("############# Implementation = {0} #################", impl.Name);
 
 
@@ -1011,7 +1011,7 @@ namespace Rootcause
             }
             public override Cmd  VisitAssignCmd(AssignCmd node)
             {
-                if (predOn || node.Rhss.Exists(ContainsPredFun))
+                if (predOn || node.Rhss.Where(ContainsPredFun).Count() > 0)
                 {
                     var a = CreatePred(node);
                     Utils.Assert(node.Lhss.Count() == node.Rhss.Count(), "#lhs == #rhs");
