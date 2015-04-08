@@ -1,5 +1,9 @@
-//Instructions for evaluating the artifacts for CAV15 submission
+// This directory checks in the examples/scripts for applying SymDiff for verifying Approx transformations/control-flow equivalence (feb-2015)
+// The scripts may not work for future versions of SymDiff/Boogie/Z3
+// A zip file containing the binaries etc. are present here ) http://1drv.ms/1A5wuuj
+
 //Automated Differential Program Verification for Approximate Computing
+
 
 
 Directory structure
