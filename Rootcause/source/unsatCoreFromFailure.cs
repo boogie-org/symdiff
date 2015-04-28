@@ -961,7 +961,7 @@ namespace Rootcause
                 if (i != null) return new NAryExpr(e.tok, e.Fun, new List<Expr>(new Expr[] {
                     e.Args[0], MakeExpr(e.Args[1]), MakeExpr(e.Args[2]) }));
                 if (Options.verbose == 2) Console.WriteLine("interpreted function: " + e.Fun.FunctionName);
-                return MakeUnions(e.tok, e.Args, 0);
+                return MakeUnions(e.tok, e.Args.ToList(), 0);
             }
             internal static Expr MakeUnions(IToken tok, List<Expr> es, int offset)
             {

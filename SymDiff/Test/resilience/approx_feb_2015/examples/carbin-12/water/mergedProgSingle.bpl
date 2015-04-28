@@ -26,8 +26,8 @@ procedure _v2.water_loop_anon4_LoopHead(in_len_FF: int, in_len_RS: int, in_N: in
   free ensures {:io_dependency "FF", "FF", "in_N", "K", "RS", "in_gCUT2"} true;
   free ensures {:io_dependency "out_rand", "in_rand", "in_N", "K", "RS", "in_gCUT2"} true;
   free ensures _v2.OK ==> old(_v2.OK);
-  ensures _houdini_25 ==> in_rand <= out_rand;
-  ensures _houdini_26 ==> out_rand <= in_rand;
+  ensures _abshoudini_25(in_rand <= out_rand);
+  ensures _abshoudini_26(out_rand <= in_rand);
 
 
 
@@ -156,8 +156,8 @@ procedure _v1.water_loop_anon4_LoopHead(in_len_FF: int, in_len_RS: int, in_N: in
   free ensures {:io_dependency "FF", "FF", "in_N", "K", "RS", "in_gCUT2"} true;
   free ensures {:io_dependency "out_rand", "in_rand", "in_N", "K", "RS", "in_gCUT2"} true;
   free ensures _v1.OK ==> old(_v1.OK);
-  ensures _houdini_23 ==> in_rand <= out_rand;
-  ensures _houdini_24 ==> out_rand <= in_rand;
+  ensures _abshoudini_23(in_rand <= out_rand);
+  ensures _abshoudini_24(out_rand <= in_rand);
 
 
 
@@ -660,59 +660,86 @@ function {:inline true} MS_pre_$_v1.water_loop_anon4_LoopHead$_v2.water_loop_ano
   true
 }
 
-const {:existential true} _houdini_0: bool;
+// abshouini
+function {:existential true} _abshoudini_0(i0: bool) : bool;
 
-const {:existential true} _houdini_1: bool;
+// abshouini
+function {:existential true} _abshoudini_1(i0: bool) : bool;
 
-const {:existential true} _houdini_2: bool;
+// abshouini
+function {:existential true} _abshoudini_2(i0: bool) : bool;
 
-const {:existential true} _houdini_3: bool;
+// abshouini
+function {:existential true} _abshoudini_3(i0: bool) : bool;
 
-const {:existential true} _houdini_4: bool;
+// abshouini
+function {:existential true} _abshoudini_4(i0: bool) : bool;
 
-const {:existential true} _houdini_5: bool;
+// abshouini
+function {:existential true} _abshoudini_5(i0: bool) : bool;
 
-const {:existential true} _houdini_6: bool;
+// abshouini
+function {:existential true} _abshoudini_6(i0: bool) : bool;
 
-const {:existential true} _houdini_7: bool;
+// abshouini
+function {:existential true} _abshoudini_7(i0: bool) : bool;
 
-const {:existential true} _houdini_8: bool;
+// abshouini
+function {:existential true} _abshoudini_8(i0: bool) : bool;
 
-const {:existential true} _houdini_9: bool;
+// abshouini
+function {:existential true} _abshoudini_9(i0: bool) : bool;
 
-const {:existential true} _houdini_10: bool;
+// abshouini
+function {:existential true} _abshoudini_10(i0: bool) : bool;
 
-const {:existential true} _houdini_11: bool;
+// abshouini
+function {:existential true} _abshoudini_11(i0: bool) : bool;
 
-const {:existential true} _houdini_12: bool;
+// abshouini
+function {:existential true} _abshoudini_12(i0: bool) : bool;
 
-const {:existential true} _houdini_13: bool;
+// abshouini
+function {:existential true} _abshoudini_13(i0: bool) : bool;
 
-const {:existential true} _houdini_14: bool;
+// abshouini
+function {:existential true} _abshoudini_14(i0: bool) : bool;
 
-const {:existential true} _houdini_15: bool;
+// abshouini
+function {:existential true} _abshoudini_15(i0: bool) : bool;
 
-const {:existential true} _houdini_16: bool;
+// abshouini
+function {:existential true} _abshoudini_16(i0: bool) : bool;
 
-const {:existential true} _houdini_17: bool;
+// abshouini
+function {:existential true} _abshoudini_17(i0: bool) : bool;
 
-const {:existential true} _houdini_18: bool;
+// abshouini
+function {:existential true} _abshoudini_18(i0: bool) : bool;
 
-const {:existential true} _houdini_19: bool;
+// abshouini
+function {:existential true} _abshoudini_19(i0: bool) : bool;
 
-const {:existential true} _houdini_20: bool;
+// abshouini
+function {:existential true} _abshoudini_20(i0: bool) : bool;
 
-const {:existential true} _houdini_21: bool;
+// abshouini
+function {:existential true} _abshoudini_21(i0: bool) : bool;
 
-const {:existential true} _houdini_22: bool;
+// abshouini
+function {:existential true} _abshoudini_22(i0: bool) : bool;
 
-const {:existential true} _houdini_23: bool;
+// abshouini
+function {:existential true} _abshoudini_23(i0: bool) : bool;
 
-const {:existential true} _houdini_24: bool;
+// abshouini
+function {:existential true} _abshoudini_24(i0: bool) : bool;
 
-const {:existential true} _houdini_25: bool;
+// abshouini
+function {:existential true} _abshoudini_25(i0: bool) : bool;
 
-const {:existential true} _houdini_26: bool;
+// abshouini
+function {:existential true} _abshoudini_26(i0: bool) : bool;
 
 procedure MS_Check__v1.water_loop_anon4_LoopHead___v2.water_loop_anon4_LoopHead(_v1.in_len_FF: int, 
     _v1.in_len_RS: int, 
@@ -743,22 +770,22 @@ procedure MS_Check__v1.water_loop_anon4_LoopHead___v2.water_loop_anon4_LoopHead(
   _v2.RS, 
   _v2.K, 
   _v2.OK);
-  requires _houdini_7 ==> _v1.in_len_FF <= _v2.in_len_FF;
-  requires _houdini_8 ==> _v2.in_len_FF <= _v1.in_len_FF;
-  requires _houdini_9 ==> _v1.in_len_RS <= _v2.in_len_RS;
-  requires _houdini_10 ==> _v2.in_len_RS <= _v1.in_len_RS;
-  requires _houdini_11 ==> _v1.in_N <= _v2.in_N;
-  requires _houdini_12 ==> _v2.in_N <= _v1.in_N;
-  requires _houdini_13 ==> _v1.in_gCUT2 <= _v2.in_gCUT2;
-  requires _houdini_14 ==> _v2.in_gCUT2 <= _v1.in_gCUT2;
-  requires _houdini_15 ==> _v1.in_rand <= _v2.in_rand;
-  requires _houdini_16 ==> _v2.in_rand <= _v1.in_rand;
-  requires _houdini_17 ==> _v1.FF == _v2.FF;
-  requires _houdini_18 ==> _v1.RS == _v2.RS;
-  requires _houdini_19 ==> _v1.K <= _v2.K;
-  requires _houdini_20 ==> _v2.K <= _v1.K;
-  requires _houdini_21 ==> _v1.OK ==> _v2.OK;
-  requires _houdini_22 ==> _v2.OK ==> _v1.OK;
+  requires _abshoudini_7(_v1.in_len_FF <= _v2.in_len_FF);
+  requires _abshoudini_8(_v2.in_len_FF <= _v1.in_len_FF);
+  requires _abshoudini_9(_v1.in_len_RS <= _v2.in_len_RS);
+  requires _abshoudini_10(_v2.in_len_RS <= _v1.in_len_RS);
+  requires _abshoudini_11(_v1.in_N <= _v2.in_N);
+  requires _abshoudini_12(_v2.in_N <= _v1.in_N);
+  requires _abshoudini_13(_v1.in_gCUT2 <= _v2.in_gCUT2);
+  requires _abshoudini_14(_v2.in_gCUT2 <= _v1.in_gCUT2);
+  requires _abshoudini_15(_v1.in_rand <= _v2.in_rand);
+  requires _abshoudini_16(_v2.in_rand <= _v1.in_rand);
+  requires _abshoudini_17(_v1.FF == _v2.FF);
+  requires _abshoudini_18(_v1.RS == _v2.RS);
+  requires _abshoudini_19(_v1.K <= _v2.K);
+  requires _abshoudini_20(_v2.K <= _v1.K);
+  requires _abshoudini_21(_v1.OK ==> _v2.OK);
+  requires _abshoudini_22(_v2.OK ==> _v1.OK);
   modifies _v1.OK, _v1.K, _v1.FF, _v2.OK, _v2.K, _v2.FF;
   ensures MS$_v1.water_loop_anon4_LoopHead$_v2.water_loop_anon4_LoopHead(_v1.in_len_FF, 
   _v1.in_len_RS, 
@@ -786,13 +813,13 @@ procedure MS_Check__v1.water_loop_anon4_LoopHead___v2.water_loop_anon4_LoopHead(
   _v2.K, 
   _v2.FF, 
   _v2.out_rand);
-  ensures _houdini_0 ==> _v1.out_rand <= _v2.out_rand;
-  ensures _houdini_1 ==> _v2.out_rand <= _v1.out_rand;
-  ensures _houdini_2 ==> _v1.OK ==> _v2.OK;
-  ensures _houdini_3 ==> _v2.OK ==> _v1.OK;
-  ensures _houdini_4 ==> _v1.K <= _v2.K;
-  ensures _houdini_5 ==> _v2.K <= _v1.K;
-  ensures _houdini_6 ==> _v1.FF == _v2.FF;
+  ensures _abshoudini_0(_v1.out_rand <= _v2.out_rand);
+  ensures _abshoudini_1(_v2.out_rand <= _v1.out_rand);
+  ensures _abshoudini_2(_v1.OK ==> _v2.OK);
+  ensures _abshoudini_3(_v2.OK ==> _v1.OK);
+  ensures _abshoudini_4(_v1.K <= _v2.K);
+  ensures _abshoudini_5(_v2.K <= _v1.K);
+  ensures _abshoudini_6(_v1.FF == _v2.FF);
 
 
 
@@ -927,12 +954,10 @@ implementation MS_Check__v1.water_loop_anon4_LoopHead___v2.water_loop_anon4_Loop
     assume true;
     assume true;
     assume true;
-    assert _houdini_23
-   ==> inline$_v1.water_loop_anon4_LoopHead$0$in_rand
-     <= inline$_v1.water_loop_anon4_LoopHead$0$out_rand;
-    assert _houdini_24
-   ==> inline$_v1.water_loop_anon4_LoopHead$0$out_rand
-     <= inline$_v1.water_loop_anon4_LoopHead$0$in_rand;
+    assert _abshoudini_23(inline$_v1.water_loop_anon4_LoopHead$0$in_rand
+     <= inline$_v1.water_loop_anon4_LoopHead$0$out_rand);
+    assert _abshoudini_24(inline$_v1.water_loop_anon4_LoopHead$0$out_rand
+     <= inline$_v1.water_loop_anon4_LoopHead$0$in_rand);
     _v1.out_rand := inline$_v1.water_loop_anon4_LoopHead$0$out_rand;
     goto START$1;
 
@@ -1001,12 +1026,10 @@ implementation MS_Check__v1.water_loop_anon4_LoopHead___v2.water_loop_anon4_Loop
     assume true;
     assume true;
     assume true;
-    assert _houdini_25
-   ==> inline$_v2.water_loop_anon4_LoopHead$0$in_rand
-     <= inline$_v2.water_loop_anon4_LoopHead$0$out_rand;
-    assert _houdini_26
-   ==> inline$_v2.water_loop_anon4_LoopHead$0$out_rand
-     <= inline$_v2.water_loop_anon4_LoopHead$0$in_rand;
+    assert _abshoudini_25(inline$_v2.water_loop_anon4_LoopHead$0$in_rand
+     <= inline$_v2.water_loop_anon4_LoopHead$0$out_rand);
+    assert _abshoudini_26(inline$_v2.water_loop_anon4_LoopHead$0$out_rand
+     <= inline$_v2.water_loop_anon4_LoopHead$0$in_rand);
     _v2.out_rand := inline$_v2.water_loop_anon4_LoopHead$0$out_rand;
     goto START$2;
 

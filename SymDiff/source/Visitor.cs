@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Boogie;
 using System.Collections.Generic;
+using System.Linq;
 using SDiff.Boogie;
 using SDiff;
 using System.Diagnostics;
@@ -207,7 +208,7 @@ namespace SDiff
                         var pr = paramMap.Find(x => x.snd == pv.Name);
                         if (pr != null)
                         {
-                            var arg = GetArgOfParam(pr.fst, node.Args, thisFun.InParams);
+                            var arg = GetArgOfParam(pr.fst, node.Args.ToList(), thisFun.InParams);
                             if (arg == null)
                                 Log.Out(Log.Error, "Mapped param does not seem to exist in FunctionRenamer");
                             newArgs.Add(arg);
