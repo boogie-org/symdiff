@@ -9,6 +9,7 @@ namespace SDiff
 {
     public static class Options
     {
+        public enum INFER_OPT { NO_INFER, HOUDINI, ABS_HOUDINI }; 
 
         #region Some internal options
         //set these at compile time
@@ -54,6 +55,7 @@ namespace SDiff
         public static bool mutualSummaryMode;
         public static bool useMutualSummariesAsAxioms;
         public static bool dontUseHoudiniForMS;
+        public static bool useAbstractHoudiniInference;
         public static bool checkMutualPrecondNonTerminating; //use dependencies and Houdini to check for equivalence
         public static bool dontTypeCheckMergedProg;
         public static bool callCorralOnMergedProgram; //invoke corral to check the candidates in mutual summary procedures (for equivalence checking)

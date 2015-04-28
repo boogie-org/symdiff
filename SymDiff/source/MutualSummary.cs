@@ -20,6 +20,7 @@ namespace SDiff
         //options
         static bool dontUseMSAsAxioms = false; //when true, use the transformation in DAC paper without any R_f relations
         static bool useHoudini = true; //use houdini for candiates on MS procedures as pre/post
+        static Options.INFER_OPT inferOpt; //use Houdini/AbsHoudini/...
         static bool checkMutualPreconditionsForInfiniteLoops = false; //checking mutual preconditions in the presence of non-terminating programs
         static bool typeCheckMergedProgram = true; //avoid type checking the in memory mergedProgSingle as the type symbols in ms_symdiff_file.bpl are not merged
         static bool checkAssertsOnly = false; //if true, we only check OK1 => OK2
@@ -48,7 +49,9 @@ namespace SDiff
         //entry method
         public static void Start(Program p1, Program p2, Program mergedProgram, string p1Prefix, string p2Prefix, Config cfg1, 
             bool checkAssertsOnlyParam,
-            bool useMutualSummariesAsAxioms, bool useHoudiniOption, bool checkPreconditions, bool freeContractsIn,
+            bool useMutualSummariesAsAxioms, 
+            Options.INFER_OPT useHoudiniOption, 
+            bool checkPreconditions, bool freeContractsIn,
             bool dontTypeCheckMergedProg,
             bool callCorral = false)
         {
@@ -57,7 +60,8 @@ namespace SDiff
             ParseAddtionalMSFile(mergedProgram); //look for additional files
             dontUseMSAsAxioms = !useMutualSummariesAsAxioms;
             checkAssertsOnly = checkAssertsOnlyParam && !Options.checkEquivWithDependencies;
-            useHoudini = dontUseMSAsAxioms &&  useHoudiniOption;
+            useHoudini = dontUseMSAsAxioms &&  (useHoudiniOption != Options.INFER_OPT.NO_INFER);
+            inferOpt = useHoudiniOption;
             freeContracts = freeContractsIn;
             checkMutualPreconditionsForInfiniteLoops = dontUseMSAsAxioms && checkPreconditions;
             callCorralOnMergedProgram = callCorral;
@@ -786,7 +790,9 @@ namespace SDiff
         /// </summary>
         public static class DACHoudiniTemplates
         {
-            static HashSet<Constant> houdiniGuards = new HashSet<Constant>();            //Adds candidate and non-candidates for the MS procedures based on whether they are roots, leaves or neither
+            //Adds candidate and non-candidates for the MS procedures based on whether they are roots, leaves or neither
+            static HashSet<Constant> houdiniGuards = new HashSet<Constant>();
+            static HashSet<Function> absHoudiniFunctions = new HashSet<Function>();
             public static void AddHoudiniTemplates(ref List<Requires> requiresSeq, ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2)
             {
@@ -819,7 +825,7 @@ namespace SDiff
                                             == ((Variable)x.Item2).Name.Replace("out_",""));
                 var comparisons = new HashSet<Expr>(); //comparisons
                 res.Iter(x => CreateVariableComparisons(x.Item1, x.Item2).Iter(y => comparisons.Add(y)));
-                var censures = comparisons.Select(x => new Ensures(false, Expr.Imp(FreshHoudiniVar(), x)));
+                var censures = comparisons.Select(x => new Ensures(false, MkCandidateExpr(x)));
                 f.Ensures.AddRange(censures);
             }
             private static void AddCandRequires(ref List<Requires> requiresSeq, Procedure f1, Procedure f2,
@@ -830,10 +836,22 @@ namespace SDiff
                 comps.AddRange(CreateVariableSeqComparisons(gSeq_p1, gSeq_p2));
                 List<Requires> crequires;
                 if (isCandidate)
-                    crequires = comps.Map(x => new Requires(false, Expr.Imp(FreshHoudiniVar(), x)));
+                    crequires = comps.Map(x => new Requires(false, MkCandidateExpr(x)));
                 else
                     crequires = comps.Map(x => new Requires(false, x));
                 requiresSeq.AddRange(new List<Requires>(crequires.ToArray()));
+            }
+            private static Expr MkCandidateExpr(Expr x)
+            {
+                if (inferOpt == Options.INFER_OPT.HOUDINI)
+                {
+                    return Expr.Imp(FreshHoudiniVar(), x);
+                } else if (inferOpt == Options.INFER_OPT.ABS_HOUDINI)
+                {
+                    var f = FreshAbsHoudiniPred(1);
+                    return new NAryExpr(Token.NoToken, new FunctionCall(f), new List<Expr>() { x });
+                }
+                throw new NotImplementedException();
             }
             private static Expr FreshHoudiniVar()
             {
@@ -843,6 +861,18 @@ namespace SDiff
                 mergedProgram.AddTopLevelDeclaration(n);
                 return Expr.Ident(n);
             }
+            private static Function FreshAbsHoudiniPred(int arity)
+            {
+                var args = new List<Variable>();
+                for (int i = 0; i < arity; ++i)
+                    args.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "i" + i, Microsoft.Boogie.Type.Bool),true));
+                var f = new Function(Token.NoToken, "_abshoudini_" + absHoudiniFunctions.Count, args,
+                    new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "r", Microsoft.Boogie.Type.Bool), false), "abshouini");
+                f.AddAttribute("existential", Expr.True);
+                absHoudiniFunctions.Add(f);
+                mergedProgram.AddTopLevelDeclaration(f);
+                return f;
+            }
             private static void AddCandEnsures(ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2,
                 bool isCandidate=true)
@@ -851,7 +881,7 @@ namespace SDiff
                 comps.AddRange(CreateIdentExprSeqComparisons(f1.Modifies, f2.Modifies)); 
                 List<Ensures> censures;
                 if (isCandidate)
-                    censures = comps.Map(x => new Ensures(false, Expr.Imp(FreshHoudiniVar(), x)));
+                    censures = comps.Map(x => new Ensures(false, MkCandidateExpr(x)));
                 else
                 {
                     //params1 U old(mod1) == params2 U old(mod) ==> mod1 U o1 == mod2 U o2

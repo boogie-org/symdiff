@@ -213,6 +213,7 @@ MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inf
 
 MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString >> $v1$v2.log"); 
 
+MyExecAndDieOnFailure("echo Generated mergedProgSingle.bpl >> $v1$v2.log");
 
 if ($inferContracts eq 1){
   print "Running Houdini to infer additional contracts......\n";

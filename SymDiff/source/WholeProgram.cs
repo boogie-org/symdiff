@@ -82,7 +82,8 @@ namespace SDiff
           Console.WriteLine("\t -asserts        \n\t\tperforms differential assertion checking (wrt assertions present)");
           Console.WriteLine("\t -useMutualSummmariesAsAxioms \n\t\tuse the mutual summaries (CADE'13) when -usemutual is specified (default FSE'13 encoding even without -asserts)");
           Console.WriteLine("\t -checkEquivWithDependencies \n\t\tuse the FSE'13 encoding for checking equivalence with candidates given by dependency analysis");
-          Console.WriteLine("\t -dontUseHoudiniForMS \n\t\tomit the use of Houdini to infer candidate annotations with -usemutual");
+          Console.WriteLine("\t -dontUseHoudiniForMS \n\t\tomit the use of Houdini/AbsHoudini to infer candidate annotations with -usemutual");
+          Console.WriteLine("\t -useAbstractHoudiniInference \n\t\tuse AbstractHoudini to infer candidate annotations with -usemutual");
           Console.WriteLine("\t -checkMutualPrecondNonTerminating \n\t\tenable checking of mutual preconditions in the presence of non-terminating programs with -usemutual");
           Console.WriteLine("\t -dontTypeCheckMergedProg           \n\t\tskips typechecking in memory of the mergedProgSingle.bpl (doesn't typecheck due to ms_symdiff_file.bpl)");
             
@@ -113,6 +114,7 @@ namespace SDiff
             Options.mutualSummaryMode = argsList.Remove("-usemutual");
             Options.useMutualSummariesAsAxioms = argsList.Remove("-useMutualSummariesAsAxioms");
             Options.dontUseHoudiniForMS = argsList.Remove("-dontUseHoudiniForMS");
+            Options.useAbstractHoudiniInference = argsList.Remove("-useAbstractHoudiniInference");
             Options.checkMutualPrecondNonTerminating = argsList.Remove("-checkMutualPrecondNonTerminating");
             Options.freeContracts = argsList.Remove("-freeContracts");
             Options.checkEquivWithDependencies = argsList.Remove("-checkEquivWithDependencies");
@@ -1219,8 +1221,6 @@ namespace SDiff
             fnp += ".";
             var decl = new Function(new Token(), "ite", getVarsIte(), new Formal(new Token(), new TypedIdent(new Token(), "ret", BasicType.Int), false));
             
-
-
             var thenExpr = new NAryExpr(new Token(), new BinaryOperator(new Token(), BinaryOperator.Opcode.Imp), getThenArgSeq(fnp));
             var axiomThen = new Axiom(new Token(), new ForallExpr(new Token(), getVarsIte(), thenExpr));
 
@@ -1470,8 +1470,14 @@ namespace SDiff
             ///////////////////////////////////////////////////////////
             if (Options.mutualSummaryMode)
             {
+                var houdiniOpt = Options.dontUseHoudiniForMS ? Options.INFER_OPT.NO_INFER :
+                    !Options.useAbstractHoudiniInference ? Options.INFER_OPT.HOUDINI : 
+                    Options.INFER_OPT.ABS_HOUDINI; 
+
                 MutualSummary.Start(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg,
-                    Options.checkAssertsOnly, Options.useMutualSummariesAsAxioms, !Options.dontUseHoudiniForMS, Options.checkMutualPrecondNonTerminating,
+                    Options.checkAssertsOnly, Options.useMutualSummariesAsAxioms, 
+                    houdiniOpt, 
+                    Options.checkMutualPrecondNonTerminating,
                     Options.freeContracts, Options.dontTypeCheckMergedProg,
                     Options.callCorralOnMergedProgram);
                 return 0;

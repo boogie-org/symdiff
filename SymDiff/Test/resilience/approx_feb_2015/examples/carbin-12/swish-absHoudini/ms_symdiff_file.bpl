@@ -13,8 +13,9 @@ function {:inline true} MS$_v1.swish$_v2.swish(_v1.max_r: int,
 
 }
 
-const {:existential true} __my_houdini_0:bool; 
-const {:existential true} __my_houdini_1:bool; 
+function {:existential true} __cand_pre_0(a:bool, b:bool, c:bool):bool; 
+function {:existential true} __cand_post_0(a:bool, b:bool, c:bool):bool; 
+
 
 //const {:existential true} _houdini_10:bool; //correctly detects multiple decl
 
@@ -28,7 +29,7 @@ function {:inline true} MS_pre_$_v1.swish_loop_anon3_LoopHead$_v2.swish_loop_ano
     _v2.OK_old: bool)
    : bool
 {
-    __my_houdini_0 ==> /*BUG !*/_v2.RelaxedEq(_v1.in_max_r, _v2.in_max_r) //manual
+   __cand_pre_0(_v1.in_max_r == _v2.in_max_r, _v1.in_max_r <= 10, _v2.in_max_r >= 10)
 }
 
 
@@ -44,7 +45,7 @@ function {:inline true} MS$_v1.swish_loop_anon3_LoopHead$_v2.swish_loop_anon3_Lo
     _v2.out_num_r: int)
    : bool
 {
-    __my_houdini_1 ==> _v2.RelaxedEq(_v1.out_num_r, _v2.out_num_r) //manual
+    __cand_post_0(_v1.out_num_r == _v2.out_num_r, _v1.out_num_r <= 10, _v2.out_num_r >= 10) //manual
 }
   
  
