@@ -41,7 +41,7 @@ function {:inline true} MS$_v1.lu_loop_anon5_LoopHead$_v2.lu_loop_anon5_LoopHead
     _v2.out_old_a: int)
    : bool
 {
-  __cand_post_0(_v2.out_max <= _v1.out_max + _v2.e, _v1.out_max <= _v2.out_max + _v2.e);
+  __cand_post_0(_v2.out_max <= _v1.out_max + _v2.e, _v1.out_max <= _v2.out_max + _v2.e)
 }
 
 function {:inline true} MS_pre_$_v1.lu_loop_anon5_LoopHead$_v2.lu_loop_anon5_LoopHead(_v1.in_column: int, 
@@ -59,6 +59,6 @@ function {:inline true} MS_pre_$_v1.lu_loop_anon5_LoopHead$_v2.lu_loop_anon5_Loo
     _v2.OK_old: bool)
    : bool
 {
-  __cand_pre_0(_v2.in_max <= _v1.in_max + _v2.e, _v1.in_max <= _v2.in_max + _v2.e);
+  __cand_pre_0(_v2.in_max <= _v1.in_max + _v2.e, _v1.in_max <= _v2.in_max + _v2.e)
 }
 
