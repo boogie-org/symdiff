@@ -51,7 +51,7 @@ procedure Find(c:int) returns (position:int)
 }
 
 
-function ArrEqAfter(a:[int]int, b:[int]int, i:int) : bool
+function {:inline true} ArrEqAfter(a:[int]int, b:[int]int, i:int) : bool
 {
   (forall j:int :: {a[j]}{b[j]} j >= i ==> a[j] == b[j])
 }
