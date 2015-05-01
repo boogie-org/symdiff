@@ -25,21 +25,4 @@ procedure Helper(i:int) {
 }
 
 
-//auxiliary
-function ArrEqAfter(a:[int]int, b:[int]int, i:int) : bool
-{
-  (forall j:int :: j >= i ==> a[j] == b[j])
-}
 
-/*
-procedure Test(a:[int]int, b:[int]int, i:int)
-requires ArrEqAfter(a,b,i);
-{           
-    var ta, tb : [int]int;
-    ta, tb := a, b;
-
-    ta[i] := 1;
-    tb[i] := 1;
-    assert  ArrEqAfter(ta,tb,i+1);
-}
-*/

@@ -20,7 +20,7 @@ namespace SDiff
         //options
         static bool dontUseMSAsAxioms = false; //when true, use the transformation in DAC paper without any R_f relations
         static bool useHoudini = true; //use houdini for candiates on MS procedures as pre/post
-        static Options.INFER_OPT inferOpt; //use Houdini/AbsHoudini/...
+        static Options.INFER_OPT houdiniInferOpt; //use Houdini/AbsHoudini/...
         static bool checkMutualPreconditionsForInfiniteLoops = false; //checking mutual preconditions in the presence of non-terminating programs
         static bool typeCheckMergedProgram = true; //avoid type checking the in memory mergedProgSingle as the type symbols in ms_symdiff_file.bpl are not merged
         static bool checkAssertsOnly = false; //if true, we only check OK1 => OK2
@@ -61,7 +61,7 @@ namespace SDiff
             dontUseMSAsAxioms = !useMutualSummariesAsAxioms;
             checkAssertsOnly = checkAssertsOnlyParam && !Options.checkEquivWithDependencies;
             useHoudini = dontUseMSAsAxioms &&  (useHoudiniOption != Options.INFER_OPT.NO_INFER);
-            inferOpt = useHoudiniOption;
+            houdiniInferOpt = useHoudiniOption;
             freeContracts = freeContractsIn;
             checkMutualPreconditionsForInfiniteLoops = dontUseMSAsAxioms && checkPreconditions;
             callCorralOnMergedProgram = callCorral;
@@ -85,6 +85,7 @@ namespace SDiff
             //TODO: Have to merge the new types (including datatypes)
             if (ms != null)
                 mergedProgram.AddTopLevelDeclarations(ms.TopLevelDeclarations);
+            mergedProgram.Resolve(); 
         }
         public static void Initialize(Program q1, Program q2, Program mp, string q1Prefix, string q2Prefix, Config cfg1)
         {
@@ -253,6 +254,7 @@ namespace SDiff
             Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f1), string.Format("Procedure {0} does not belong to the mergedProgram", f1.Name));
             Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f2), string.Format("Procedure {0} does not belong to the mergedProgram", f2.Name));
 
+            var predicates = new List<Expr>();
             //pull this earlier as we need them irrespective if msFunc is defined in the ms_symdiff_file.bpl
             var msFuncParams = new List<Variable>();
             List<TypeVariable> tS;
@@ -271,6 +273,7 @@ namespace SDiff
             {
                 if (msFuncAxiomsAdded.Contains(msFunc)) //already done processing this function
                     return msFunc;
+                GenerateMSFuncBodyFromPredicates(msFunc, i1, i2, o1, o2);
             }
             else //create the new function
             {
@@ -280,7 +283,7 @@ namespace SDiff
                     new Formal(new Token(), new TypedIdent(new Token(), "ret", BasicType.Bool), false));
                 msFunc.Body = MkMutualSummaryBody(f1, f2, pm, i1, o1, i2, o2);
                 mergedProgram.AddTopLevelDeclaration(msFunc);
-                msFunc.AddAttribute("inline", Expr.True);
+                msFunc.AddAttribute("inline", new Expr[] {Expr.True, Expr.True, Expr.True});
             }
 
             if (dontUseMSAsAxioms) return msFunc;
@@ -309,6 +312,40 @@ namespace SDiff
             msFuncAxiomsAdded.Add(msFunc);
             return msFunc;
         }
+
+        /// <summary>
+        /// Generate teh body of MS$_f1_f2/MS_pre_f1_f2 with a candidate ensures based on relational predicates + predicates provided by user
+        /// For MS_pre, o1 and o2 should be empty lists
+        /// </summary>
+        /// <param name="msFunc"></param>
+        /// <param name="i1"></param>
+        /// <param name="i2"></param>
+        /// <param name="o1"></param>
+        /// <param name="o2"></param>
+        private static void GenerateMSFuncBodyFromPredicates(Function msFunc, List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2)
+        {
+            if (houdiniInferOpt == Options.INFER_OPT.ABS_HOUDINI)
+            {
+                bool allPreds;
+                var predicates = GetPredicatesFromFunc(msFunc, out allPreds);
+                if (predicates.Count == 0) return; //if set of preds = {}, keep the body
+
+                //ensure that the body is 'true' in case a predicate is specified
+                var msBodyExpr = msFunc.Body as  LiteralExpr;
+                Debug.Assert(msBodyExpr != null && msBodyExpr.IsTrue,
+                    string.Format("Non-empty set of predicates provided in {0} with non-trivial body {1}", 
+                    msFunc.Name, msFunc.Body));
+                var comps = CreateVariableSeqComparisons(i1, i2);
+                comps.AddRange(CreateVariableSeqComparisons(o1, o2));
+                var args = allPreds ? predicates : comps.Union(predicates);
+ 
+                var absHoudiniPred = DACHoudiniTemplates.FreshAbsHoudiniPred(args.Count());
+                var expr = new NAryExpr(Token.NoToken,
+                    new FunctionCall(absHoudiniPred),
+                    args.ToList());
+                msFunc.Body = expr;
+            }
+        }
         /// <summary>
         /// Creates MS_pre$f1$f2(...) and adds it as requires to MS_Check_f1_f2
         /// </summary>
@@ -320,6 +357,7 @@ namespace SDiff
             Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f1), string.Format("Procedure {0} does not belong to the mergedProgram", f1.Name));
             Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f2), string.Format("Procedure {0} does not belong to the mergedProgram", f2.Name));
 
+            var predicates = new List<Expr>(); 
             //pull this earlier as we need them irrespective if msFunc is defined in the ms_symdiff_file.bpl
             var msPreFuncParams = new List<Variable>();
             List<TypeVariable> tS;
@@ -336,6 +374,7 @@ namespace SDiff
             {
                 if (msFuncAxiomsAdded.Contains(msPreFunc)) //already done processing this function
                     return msPreFunc;
+                GenerateMSFuncBodyFromPredicates(msPreFunc, i1, i2, new List<Variable>(), new List<Variable>());
             }
             else //create the new function
             {
@@ -350,6 +389,28 @@ namespace SDiff
 
             return msPreFunc;
         }
+        
+        /// <summary>
+        /// allPreds = true if only these predicates have to be used for Boolean combination
+        /// </summary>
+        /// <param name="msFunc"></param>
+        /// <param name="allPreds"></param>
+        /// <returns></returns>
+        private static List<Expr> GetPredicatesFromFunc(Function msFunc, out bool allPreds)
+        {
+            allPreds = false;
+            var preds = new List<Expr>();
+            var attr1 = msFunc.FindAttribute("predicates_ms");
+            var attr2 = msFunc.FindAttribute("predicates_ms_only");
+            Debug.Assert(!(attr1 != null && attr2 != null), 
+                string.Format("At most only one of two attributes 'predicates_ms' or 'predicaes_ms_only' can be present for {0}", msFunc.Name));
+            if (attr1 == null && attr2 == null) return new List<Expr>();
+            var attr = attr1 != null ? attr1 : attr2;
+            allPreds = attr1 != null ? false : true;
+            Console.WriteLine("Predicates for {0} = [{1}]", msFunc.Name, string.Join(", ", attr.Params));
+            return attr.Params.Select(x => (Expr)x).ToList();
+        }
+
         //Creates the body of the mutual summary
         //Currently simply creates 1-1 equality between two lists (i1 == i2 ==> o1 == o2)
         //TODO: use the parameter mappinging from CFG
@@ -801,7 +862,7 @@ namespace SDiff
                     return;
                 }
                 if (!IsStubProcedure(f1) && !IsStubProcedure(f2))
-                    AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2);
+                    AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2, true);
                 else
                     AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2, false); //trust that outputs are equal
                 AddCandRequires(ref requiresSeq, f1, f2, i1, i2, o1, o2);
@@ -843,10 +904,10 @@ namespace SDiff
             }
             private static Expr MkCandidateExpr(Expr x)
             {
-                if (inferOpt == Options.INFER_OPT.HOUDINI)
+                if (houdiniInferOpt == Options.INFER_OPT.HOUDINI)
                 {
                     return Expr.Imp(FreshHoudiniVar(), x);
-                } else if (inferOpt == Options.INFER_OPT.ABS_HOUDINI)
+                } else if (houdiniInferOpt == Options.INFER_OPT.ABS_HOUDINI)
                 {
                     var f = FreshAbsHoudiniPred(1);
                     return new NAryExpr(Token.NoToken, new FunctionCall(f), new List<Expr>() { x });
@@ -861,12 +922,12 @@ namespace SDiff
                 mergedProgram.AddTopLevelDeclaration(n);
                 return Expr.Ident(n);
             }
-            private static Function FreshAbsHoudiniPred(int arity)
+            public static Function FreshAbsHoudiniPred(int arity)
             {
                 var args = new List<Variable>();
                 for (int i = 0; i < arity; ++i)
                     args.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "i" + i, Microsoft.Boogie.Type.Bool),true));
-                var f = new Function(Token.NoToken, "_abshoudini_" + absHoudiniFunctions.Count, args,
+                var f = new Function(Token.NoToken, "_abshoudini_" + absHoudiniFunctions.Count + "_" + arity, args,
                     new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "r", Microsoft.Boogie.Type.Bool), false), "abshouini");
                 f.AddAttribute("existential", Expr.True);
                 absHoudiniFunctions.Add(f);
@@ -893,6 +954,14 @@ namespace SDiff
                     censures.Add(new Ensures(false, Expr.Imp(inp, summ)));
                 }
                 ensuresSeq.AddRange(new List<Ensures>(censures.ToArray()));
+
+                //new: add a absHoudini candidate with all the comps + preds
+                //var absHoudiniPred = FreshAbsHoudiniPred(comps.Count + predicates.Count);
+                //var args = comps.Union(predicates);
+                //var expr = new NAryExpr(Token.NoToken,
+                //    new FunctionCall(absHoudiniPred),
+                //    args.ToList());
+                //msFn.Body = expr; 
             }
             private static void AddDACCheck(ref List<Requires> requiresSeq, ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2)

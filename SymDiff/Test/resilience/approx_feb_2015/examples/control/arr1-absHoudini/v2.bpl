@@ -23,3 +23,9 @@ procedure Helper(i:int) {
    }
    cf := uif(cf, 2);
 }
+
+//auxiliary
+function {:inline true} ArrEqAfter(a:[int]int, b:[int]int, i:int) : bool
+{
+  (forall j:int :: {a[j]}{b[j]} j >= i ==> a[j] == b[j])
+}
