@@ -96,10 +96,10 @@ function {:inline true} MS$_v1.Find_loop_anon5_LoopHead$_v2.Find_loop_anon5_Loop
 {
   // could not get rid of the two conjunctions
   __cand_post_2(
-    true, 
-    true, 
-    _v2.ArrEqAfter(_v1.array_old, _v2.array_old, _v1.in_d) &&
-    _v1.array_old[_v1.in_position] == _v2.array_old[_v1.in_position] &&
+    //true,  //Needs PredicateAbs::Disjuncts = 8 in Boogie.exe (instead of 3)
+    //true, 
+    _v2.ArrEqAfter(_v1.array_old, _v2.array_old, _v1.in_d),
+    _v1.array_old[_v1.in_position] == _v2.array_old[_v1.in_position], 
     _v1.in_position == _v2.in_position,
     _v1.cf_old == _v2.cf_old,
     _v1.out_position == _v2.out_position,
