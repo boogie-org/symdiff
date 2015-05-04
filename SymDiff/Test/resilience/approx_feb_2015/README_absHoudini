@@ -1,5 +1,12 @@
 //Using Abstract Houdini
 
+To run all the examples 
+------------------------
+   - run "run_symdiff_all_abshoudini.bat" 
+      - change the inference mechanism by changing the INFERENCE variable
+
+To run each example
+--------------------
 1. Specify the postcondition, the candidates  and predicates in ms_symdiff_file.bpl
    - provide a set of predicates as attributes over the parameters of MS$_f1_f2 or MS_pre_f1_f2 
       - {:predicates_ms p1, p2, p3} or {:predicates_ms_only p1, p2, p3}

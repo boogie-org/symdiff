@@ -109,7 +109,7 @@ function {:inline true} MS$_v1.Main$_v2.Main(_v1.g_old: int,
   _v1.g_ <= _v2.g_
 }
 
-function {:inline true} MS$_v1.F$_v2.F(_v1.x: int, 
+function {:inline true, true, true} {:inline} MS$_v1.F$_v2.F(_v1.x: int, 
     _v1.g_old: int, 
     _v1.OK_old: bool, 
     _v1.g_: int, 

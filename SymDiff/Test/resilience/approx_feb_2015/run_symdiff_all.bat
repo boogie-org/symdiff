@@ -1,5 +1,7 @@
 @echo off
 
+pushd examples
+
 echo ---------- paper\ex1 -----------
 pushd .
 cd paper\ex1
@@ -34,4 +36,6 @@ echo ---------- carbin-12\swish -----------
 pushd .
 cd carbin-12\swish
 CALL run_symdiff_bpl.cmd v1 v2 /rvt /opts:" -usemutual -asserts -freeContracts" /inferContracts:"/inlineDepth:1"
+popd
+echo ------
 popd

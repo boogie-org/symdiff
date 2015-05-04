@@ -300,7 +300,7 @@ implementation MS_Check__v1.ReplaceChar___v2.ReplaceChar()
 
 
 
-function {:inline true} MS$_v1.Helper$_v2.Helper(_v1.i: int, 
+function {:inline true, true, true} {:inline} MS$_v1.Helper$_v2.Helper(_v1.i: int, 
     _v1.array_old: [int]int, 
     _v1.cf_old: int, 
     _v1.OK_old: bool, 

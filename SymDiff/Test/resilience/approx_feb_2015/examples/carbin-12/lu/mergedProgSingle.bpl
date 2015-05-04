@@ -28,14 +28,14 @@ procedure _v2.lu_loop_anon5_LoopHead(in_column: int, in_N: int, in_max: int, in_
   free ensures {:io_dependency "out_a", "in_a", "in_N", "in_i"} true;
   free ensures {:io_dependency "out_old_a", "in_old_a", "in_N", "in_i", "in_column"} true;
   free ensures _v2.OK ==> old(_v2.OK);
-  ensures _abshoudini_24(in_max <= out_max);
-  ensures _abshoudini_25(out_max <= in_max);
-  ensures _abshoudini_26(in_i <= out_i);
-  ensures _abshoudini_27(out_i <= in_i);
-  ensures _abshoudini_28(in_a <= out_a);
-  ensures _abshoudini_29(out_a <= in_a);
-  ensures _abshoudini_30(in_old_a <= out_old_a);
-  ensures _abshoudini_31(out_old_a <= in_old_a);
+  ensures _houdini_24 ==> in_max <= out_max;
+  ensures _houdini_25 ==> out_max <= in_max;
+  ensures _houdini_26 ==> in_i <= out_i;
+  ensures _houdini_27 ==> out_i <= in_i;
+  ensures _houdini_28 ==> in_a <= out_a;
+  ensures _houdini_29 ==> out_a <= in_a;
+  ensures _houdini_30 ==> in_old_a <= out_old_a;
+  ensures _houdini_31 ==> out_old_a <= in_old_a;
 
 
 
@@ -154,12 +154,12 @@ procedure _v1.lu_loop_anon5_LoopHead(in_column: int, in_N: int, in_max: int, in_
   free ensures {:io_dependency "out_i", "in_i", "in_N"} true;
   free ensures {:io_dependency "out_a", "in_a", "in_N", "in_i", "in_column"} true;
   free ensures _v1.OK ==> old(_v1.OK);
-  ensures _abshoudini_18(in_max <= out_max);
-  ensures _abshoudini_19(out_max <= in_max);
-  ensures _abshoudini_20(in_i <= out_i);
-  ensures _abshoudini_21(out_i <= in_i);
-  ensures _abshoudini_22(in_a <= out_a);
-  ensures _abshoudini_23(out_a <= in_a);
+  ensures _houdini_18 ==> in_max <= out_max;
+  ensures _houdini_19 ==> out_max <= in_max;
+  ensures _houdini_20 ==> in_i <= out_i;
+  ensures _houdini_21 ==> out_i <= in_i;
+  ensures _houdini_22 ==> in_a <= out_a;
+  ensures _houdini_23 ==> out_a <= in_a;
 
 
 
@@ -557,101 +557,69 @@ implementation MS_Check__v1.lu___v2.lu(_v1.column: int,
 
 
 
-// abshouini
-function {:existential true} _abshoudini_0(i0: bool) : bool;
+const {:existential true} _houdini_0: bool;
 
-// abshouini
-function {:existential true} _abshoudini_1(i0: bool) : bool;
+const {:existential true} _houdini_1: bool;
 
-// abshouini
-function {:existential true} _abshoudini_2(i0: bool) : bool;
+const {:existential true} _houdini_2: bool;
 
-// abshouini
-function {:existential true} _abshoudini_3(i0: bool) : bool;
+const {:existential true} _houdini_3: bool;
 
-// abshouini
-function {:existential true} _abshoudini_4(i0: bool) : bool;
+const {:existential true} _houdini_4: bool;
 
-// abshouini
-function {:existential true} _abshoudini_5(i0: bool) : bool;
+const {:existential true} _houdini_5: bool;
 
-// abshouini
-function {:existential true} _abshoudini_6(i0: bool) : bool;
+const {:existential true} _houdini_6: bool;
 
-// abshouini
-function {:existential true} _abshoudini_7(i0: bool) : bool;
+const {:existential true} _houdini_7: bool;
 
-// abshouini
-function {:existential true} _abshoudini_8(i0: bool) : bool;
+const {:existential true} _houdini_8: bool;
 
-// abshouini
-function {:existential true} _abshoudini_9(i0: bool) : bool;
+const {:existential true} _houdini_9: bool;
 
-// abshouini
-function {:existential true} _abshoudini_10(i0: bool) : bool;
+const {:existential true} _houdini_10: bool;
 
-// abshouini
-function {:existential true} _abshoudini_11(i0: bool) : bool;
+const {:existential true} _houdini_11: bool;
 
-// abshouini
-function {:existential true} _abshoudini_12(i0: bool) : bool;
+const {:existential true} _houdini_12: bool;
 
-// abshouini
-function {:existential true} _abshoudini_13(i0: bool) : bool;
+const {:existential true} _houdini_13: bool;
 
-// abshouini
-function {:existential true} _abshoudini_14(i0: bool) : bool;
+const {:existential true} _houdini_14: bool;
 
-// abshouini
-function {:existential true} _abshoudini_15(i0: bool) : bool;
+const {:existential true} _houdini_15: bool;
 
-// abshouini
-function {:existential true} _abshoudini_16(i0: bool) : bool;
+const {:existential true} _houdini_16: bool;
 
-// abshouini
-function {:existential true} _abshoudini_17(i0: bool) : bool;
+const {:existential true} _houdini_17: bool;
 
-// abshouini
-function {:existential true} _abshoudini_18(i0: bool) : bool;
+const {:existential true} _houdini_18: bool;
 
-// abshouini
-function {:existential true} _abshoudini_19(i0: bool) : bool;
+const {:existential true} _houdini_19: bool;
 
-// abshouini
-function {:existential true} _abshoudini_20(i0: bool) : bool;
+const {:existential true} _houdini_20: bool;
 
-// abshouini
-function {:existential true} _abshoudini_21(i0: bool) : bool;
+const {:existential true} _houdini_21: bool;
 
-// abshouini
-function {:existential true} _abshoudini_22(i0: bool) : bool;
+const {:existential true} _houdini_22: bool;
 
-// abshouini
-function {:existential true} _abshoudini_23(i0: bool) : bool;
+const {:existential true} _houdini_23: bool;
 
-// abshouini
-function {:existential true} _abshoudini_24(i0: bool) : bool;
+const {:existential true} _houdini_24: bool;
 
-// abshouini
-function {:existential true} _abshoudini_25(i0: bool) : bool;
+const {:existential true} _houdini_25: bool;
 
-// abshouini
-function {:existential true} _abshoudini_26(i0: bool) : bool;
+const {:existential true} _houdini_26: bool;
 
-// abshouini
-function {:existential true} _abshoudini_27(i0: bool) : bool;
+const {:existential true} _houdini_27: bool;
 
-// abshouini
-function {:existential true} _abshoudini_28(i0: bool) : bool;
+const {:existential true} _houdini_28: bool;
 
-// abshouini
-function {:existential true} _abshoudini_29(i0: bool) : bool;
+const {:existential true} _houdini_29: bool;
 
-// abshouini
-function {:existential true} _abshoudini_30(i0: bool) : bool;
+const {:existential true} _houdini_30: bool;
 
-// abshouini
-function {:existential true} _abshoudini_31(i0: bool) : bool;
+const {:existential true} _houdini_31: bool;
 
 procedure MS_Check__v1.lu_loop_anon5_LoopHead___v2.lu_loop_anon5_LoopHead(_v1.in_column: int, 
     _v1.in_N: int, 
@@ -684,18 +652,18 @@ procedure MS_Check__v1.lu_loop_anon5_LoopHead___v2.lu_loop_anon5_LoopHead(_v1.in
   _v2.in_a, 
   _v2.in_old_a, 
   _v2.OK);
-  requires _abshoudini_6(_v1.in_column <= _v2.in_column);
-  requires _abshoudini_7(_v2.in_column <= _v1.in_column);
-  requires _abshoudini_8(_v1.in_N <= _v2.in_N);
-  requires _abshoudini_9(_v2.in_N <= _v1.in_N);
-  requires _abshoudini_10(_v1.in_max <= _v2.in_max);
-  requires _abshoudini_11(_v2.in_max <= _v1.in_max);
-  requires _abshoudini_12(_v1.in_i <= _v2.in_i);
-  requires _abshoudini_13(_v2.in_i <= _v1.in_i);
-  requires _abshoudini_14(_v1.in_a <= _v2.in_a);
-  requires _abshoudini_15(_v2.in_a <= _v1.in_a);
-  requires _abshoudini_16(_v1.OK ==> _v2.OK);
-  requires _abshoudini_17(_v2.OK ==> _v1.OK);
+  requires _houdini_6 ==> _v1.in_column <= _v2.in_column;
+  requires _houdini_7 ==> _v2.in_column <= _v1.in_column;
+  requires _houdini_8 ==> _v1.in_N <= _v2.in_N;
+  requires _houdini_9 ==> _v2.in_N <= _v1.in_N;
+  requires _houdini_10 ==> _v1.in_max <= _v2.in_max;
+  requires _houdini_11 ==> _v2.in_max <= _v1.in_max;
+  requires _houdini_12 ==> _v1.in_i <= _v2.in_i;
+  requires _houdini_13 ==> _v2.in_i <= _v1.in_i;
+  requires _houdini_14 ==> _v1.in_a <= _v2.in_a;
+  requires _houdini_15 ==> _v2.in_a <= _v1.in_a;
+  requires _houdini_16 ==> _v1.OK ==> _v2.OK;
+  requires _houdini_17 ==> _v2.OK ==> _v1.OK;
   ensures MS$_v1.lu_loop_anon5_LoopHead$_v2.lu_loop_anon5_LoopHead(_v1.in_column, 
   _v1.in_N, 
   _v1.in_max, 
@@ -716,12 +684,12 @@ procedure MS_Check__v1.lu_loop_anon5_LoopHead___v2.lu_loop_anon5_LoopHead(_v1.in
   _v2.out_i, 
   _v2.out_a, 
   _v2.out_old_a);
-  ensures _abshoudini_0(_v1.out_max <= _v2.out_max);
-  ensures _abshoudini_1(_v2.out_max <= _v1.out_max);
-  ensures _abshoudini_2(_v1.out_i <= _v2.out_i);
-  ensures _abshoudini_3(_v2.out_i <= _v1.out_i);
-  ensures _abshoudini_4(_v1.out_a <= _v2.out_a);
-  ensures _abshoudini_5(_v2.out_a <= _v1.out_a);
+  ensures _houdini_0 ==> _v1.out_max <= _v2.out_max;
+  ensures _houdini_1 ==> _v2.out_max <= _v1.out_max;
+  ensures _houdini_2 ==> _v1.out_i <= _v2.out_i;
+  ensures _houdini_3 ==> _v2.out_i <= _v1.out_i;
+  ensures _houdini_4 ==> _v1.out_a <= _v2.out_a;
+  ensures _houdini_5 ==> _v2.out_a <= _v1.out_a;
 
 
 
@@ -853,18 +821,24 @@ implementation MS_Check__v1.lu_loop_anon5_LoopHead___v2.lu_loop_anon5_LoopHead(_
     assume true;
     assume true;
     assume true;
-    assert _abshoudini_18(inline$_v1.lu_loop_anon5_LoopHead$0$in_max
-     <= inline$_v1.lu_loop_anon5_LoopHead$0$out_max);
-    assert _abshoudini_19(inline$_v1.lu_loop_anon5_LoopHead$0$out_max
-     <= inline$_v1.lu_loop_anon5_LoopHead$0$in_max);
-    assert _abshoudini_20(inline$_v1.lu_loop_anon5_LoopHead$0$in_i
-     <= inline$_v1.lu_loop_anon5_LoopHead$0$out_i);
-    assert _abshoudini_21(inline$_v1.lu_loop_anon5_LoopHead$0$out_i
-     <= inline$_v1.lu_loop_anon5_LoopHead$0$in_i);
-    assert _abshoudini_22(inline$_v1.lu_loop_anon5_LoopHead$0$in_a
-     <= inline$_v1.lu_loop_anon5_LoopHead$0$out_a);
-    assert _abshoudini_23(inline$_v1.lu_loop_anon5_LoopHead$0$out_a
-     <= inline$_v1.lu_loop_anon5_LoopHead$0$in_a);
+    assert _houdini_18
+   ==> inline$_v1.lu_loop_anon5_LoopHead$0$in_max
+     <= inline$_v1.lu_loop_anon5_LoopHead$0$out_max;
+    assert _houdini_19
+   ==> inline$_v1.lu_loop_anon5_LoopHead$0$out_max
+     <= inline$_v1.lu_loop_anon5_LoopHead$0$in_max;
+    assert _houdini_20
+   ==> inline$_v1.lu_loop_anon5_LoopHead$0$in_i
+     <= inline$_v1.lu_loop_anon5_LoopHead$0$out_i;
+    assert _houdini_21
+   ==> inline$_v1.lu_loop_anon5_LoopHead$0$out_i
+     <= inline$_v1.lu_loop_anon5_LoopHead$0$in_i;
+    assert _houdini_22
+   ==> inline$_v1.lu_loop_anon5_LoopHead$0$in_a
+     <= inline$_v1.lu_loop_anon5_LoopHead$0$out_a;
+    assert _houdini_23
+   ==> inline$_v1.lu_loop_anon5_LoopHead$0$out_a
+     <= inline$_v1.lu_loop_anon5_LoopHead$0$in_a;
     _v1.out_max := inline$_v1.lu_loop_anon5_LoopHead$0$out_max;
     _v1.out_i := inline$_v1.lu_loop_anon5_LoopHead$0$out_i;
     _v1.out_a := inline$_v1.lu_loop_anon5_LoopHead$0$out_a;
@@ -939,22 +913,30 @@ implementation MS_Check__v1.lu_loop_anon5_LoopHead___v2.lu_loop_anon5_LoopHead(_
     assume true;
     assume true;
     assume true;
-    assert _abshoudini_24(inline$_v2.lu_loop_anon5_LoopHead$0$in_max
-     <= inline$_v2.lu_loop_anon5_LoopHead$0$out_max);
-    assert _abshoudini_25(inline$_v2.lu_loop_anon5_LoopHead$0$out_max
-     <= inline$_v2.lu_loop_anon5_LoopHead$0$in_max);
-    assert _abshoudini_26(inline$_v2.lu_loop_anon5_LoopHead$0$in_i
-     <= inline$_v2.lu_loop_anon5_LoopHead$0$out_i);
-    assert _abshoudini_27(inline$_v2.lu_loop_anon5_LoopHead$0$out_i
-     <= inline$_v2.lu_loop_anon5_LoopHead$0$in_i);
-    assert _abshoudini_28(inline$_v2.lu_loop_anon5_LoopHead$0$in_a
-     <= inline$_v2.lu_loop_anon5_LoopHead$0$out_a);
-    assert _abshoudini_29(inline$_v2.lu_loop_anon5_LoopHead$0$out_a
-     <= inline$_v2.lu_loop_anon5_LoopHead$0$in_a);
-    assert _abshoudini_30(inline$_v2.lu_loop_anon5_LoopHead$0$in_old_a
-     <= inline$_v2.lu_loop_anon5_LoopHead$0$out_old_a);
-    assert _abshoudini_31(inline$_v2.lu_loop_anon5_LoopHead$0$out_old_a
-     <= inline$_v2.lu_loop_anon5_LoopHead$0$in_old_a);
+    assert _houdini_24
+   ==> inline$_v2.lu_loop_anon5_LoopHead$0$in_max
+     <= inline$_v2.lu_loop_anon5_LoopHead$0$out_max;
+    assert _houdini_25
+   ==> inline$_v2.lu_loop_anon5_LoopHead$0$out_max
+     <= inline$_v2.lu_loop_anon5_LoopHead$0$in_max;
+    assert _houdini_26
+   ==> inline$_v2.lu_loop_anon5_LoopHead$0$in_i
+     <= inline$_v2.lu_loop_anon5_LoopHead$0$out_i;
+    assert _houdini_27
+   ==> inline$_v2.lu_loop_anon5_LoopHead$0$out_i
+     <= inline$_v2.lu_loop_anon5_LoopHead$0$in_i;
+    assert _houdini_28
+   ==> inline$_v2.lu_loop_anon5_LoopHead$0$in_a
+     <= inline$_v2.lu_loop_anon5_LoopHead$0$out_a;
+    assert _houdini_29
+   ==> inline$_v2.lu_loop_anon5_LoopHead$0$out_a
+     <= inline$_v2.lu_loop_anon5_LoopHead$0$in_a;
+    assert _houdini_30
+   ==> inline$_v2.lu_loop_anon5_LoopHead$0$in_old_a
+     <= inline$_v2.lu_loop_anon5_LoopHead$0$out_old_a;
+    assert _houdini_31
+   ==> inline$_v2.lu_loop_anon5_LoopHead$0$out_old_a
+     <= inline$_v2.lu_loop_anon5_LoopHead$0$in_old_a;
     _v2.out_max := inline$_v2.lu_loop_anon5_LoopHead$0$out_max;
     _v2.out_i := inline$_v2.lu_loop_anon5_LoopHead$0$out_i;
     _v2.out_a := inline$_v2.lu_loop_anon5_LoopHead$0$out_a;

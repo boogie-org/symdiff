@@ -26,8 +26,8 @@ procedure _v2.water_loop_anon4_LoopHead(in_len_FF: int, in_len_RS: int, in_N: in
   free ensures {:io_dependency "FF", "FF", "in_N", "K", "RS", "in_gCUT2"} true;
   free ensures {:io_dependency "out_rand", "in_rand", "in_N", "K", "RS", "in_gCUT2"} true;
   free ensures _v2.OK ==> old(_v2.OK);
-  ensures _abshoudini_25(in_rand <= out_rand);
-  ensures _abshoudini_26(out_rand <= in_rand);
+  ensures _abshoudini_27_1(in_rand <= out_rand);
+  ensures _abshoudini_28_1(out_rand <= in_rand);
 
 
 
@@ -156,8 +156,8 @@ procedure _v1.water_loop_anon4_LoopHead(in_len_FF: int, in_len_RS: int, in_N: in
   free ensures {:io_dependency "FF", "FF", "in_N", "K", "RS", "in_gCUT2"} true;
   free ensures {:io_dependency "out_rand", "in_rand", "in_N", "K", "RS", "in_gCUT2"} true;
   free ensures _v1.OK ==> old(_v1.OK);
-  ensures _abshoudini_23(in_rand <= out_rand);
-  ensures _abshoudini_24(out_rand <= in_rand);
+  ensures _abshoudini_25_1(in_rand <= out_rand);
+  ensures _abshoudini_26_1(out_rand <= in_rand);
 
 
 
@@ -257,7 +257,7 @@ implementation _v1.water_loop_anon4_LoopHead(in_len_FF: int, in_len_RS: int, in_
 
 var _v1.OK: bool;
 
-function {:inline true} MS$_v1.water$_v2.water(_v1.len_FF: int, 
+function {:inline true, true, true} {:inline} MS$_v1.water$_v2.water(_v1.len_FF: int, 
     _v1.len_RS: int, 
     _v1.N: int, 
     _v1.gCUT2: int, 
@@ -282,8 +282,48 @@ function {:inline true} MS$_v1.water$_v2.water(_v1.len_FF: int,
     _v2.FF_: [int]int)
    : bool
 {
-  true
+  _abshoudini_0_19(_v1.len_FF <= _v2.len_FF, 
+  _v2.len_FF <= _v1.len_FF, 
+  _v1.len_RS <= _v2.len_RS, 
+  _v2.len_RS <= _v1.len_RS, 
+  _v1.N <= _v2.N, 
+  _v2.N <= _v1.N, 
+  _v1.gCUT2 <= _v2.gCUT2, 
+  _v2.gCUT2 <= _v1.gCUT2, 
+  _v1.FF_old == _v2.FF_old, 
+  _v1.RS_old == _v2.RS_old, 
+  _v1.K_old <= _v2.K_old, 
+  _v2.K_old <= _v1.K_old, 
+  _v1.OK_old ==> _v2.OK_old, 
+  _v2.OK_old ==> _v1.OK_old, 
+  _v1.K_ <= _v2.K_, 
+  _v2.K_ <= _v1.K_, 
+  _v1.OK_ ==> _v2.OK_, 
+  _v2.OK_ ==> _v1.OK_, 
+  _v1.FF_ == _v2.FF_)
 }
+
+// abshouini
+function {:existential true} _abshoudini_0_19(i0: bool, 
+    i1: bool, 
+    i2: bool, 
+    i3: bool, 
+    i4: bool, 
+    i5: bool, 
+    i6: bool, 
+    i7: bool, 
+    i8: bool, 
+    i9: bool, 
+    i10: bool, 
+    i11: bool, 
+    i12: bool, 
+    i13: bool, 
+    i14: bool, 
+    i15: bool, 
+    i16: bool, 
+    i17: bool, 
+    i18: bool)
+   : bool;
 
 function {:inline true} MS_pre_$_v1.water$_v2.water(_v1.len_FF: int, 
     _v1.len_RS: int, 
@@ -606,7 +646,7 @@ implementation MS_Check__v1.water___v2.water(_v1.len_FF: int,
 
 
 
-function {:inline true} MS$_v1.water_loop_anon4_LoopHead$_v2.water_loop_anon4_LoopHead(_v1.in_len_FF: int, 
+function {:inline true, true, true} {:inline} MS$_v1.water_loop_anon4_LoopHead$_v2.water_loop_anon4_LoopHead(_v1.in_len_FF: int, 
     _v1.in_len_RS: int, 
     _v1.in_N: int, 
     _v1.in_gCUT2: int, 
@@ -634,8 +674,56 @@ function {:inline true} MS$_v1.water_loop_anon4_LoopHead$_v2.water_loop_anon4_Lo
     _v2.out_rand: int)
    : bool
 {
-  true
+  _abshoudini_1_23(_v1.in_len_FF <= _v2.in_len_FF, 
+  _v2.in_len_FF <= _v1.in_len_FF, 
+  _v1.in_len_RS <= _v2.in_len_RS, 
+  _v2.in_len_RS <= _v1.in_len_RS, 
+  _v1.in_N <= _v2.in_N, 
+  _v2.in_N <= _v1.in_N, 
+  _v1.in_gCUT2 <= _v2.in_gCUT2, 
+  _v2.in_gCUT2 <= _v1.in_gCUT2, 
+  _v1.in_rand <= _v2.in_rand, 
+  _v2.in_rand <= _v1.in_rand, 
+  _v1.FF_old == _v2.FF_old, 
+  _v1.RS_old == _v2.RS_old, 
+  _v1.K_old <= _v2.K_old, 
+  _v2.K_old <= _v1.K_old, 
+  _v1.OK_old ==> _v2.OK_old, 
+  _v2.OK_old ==> _v1.OK_old, 
+  _v1.OK_ ==> _v2.OK_, 
+  _v2.OK_ ==> _v1.OK_, 
+  _v1.K_ <= _v2.K_, 
+  _v2.K_ <= _v1.K_, 
+  _v1.FF_ == _v2.FF_, 
+  _v1.out_rand <= _v2.out_rand, 
+  _v2.out_rand <= _v1.out_rand)
 }
+
+// abshouini
+function {:existential true} _abshoudini_1_23(i0: bool, 
+    i1: bool, 
+    i2: bool, 
+    i3: bool, 
+    i4: bool, 
+    i5: bool, 
+    i6: bool, 
+    i7: bool, 
+    i8: bool, 
+    i9: bool, 
+    i10: bool, 
+    i11: bool, 
+    i12: bool, 
+    i13: bool, 
+    i14: bool, 
+    i15: bool, 
+    i16: bool, 
+    i17: bool, 
+    i18: bool, 
+    i19: bool, 
+    i20: bool, 
+    i21: bool, 
+    i22: bool)
+   : bool;
 
 function {:inline true} MS_pre_$_v1.water_loop_anon4_LoopHead$_v2.water_loop_anon4_LoopHead(_v1.in_len_FF: int, 
     _v1.in_len_RS: int, 
@@ -661,85 +749,85 @@ function {:inline true} MS_pre_$_v1.water_loop_anon4_LoopHead$_v2.water_loop_ano
 }
 
 // abshouini
-function {:existential true} _abshoudini_0(i0: bool) : bool;
+function {:existential true} _abshoudini_2_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_1(i0: bool) : bool;
+function {:existential true} _abshoudini_3_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_2(i0: bool) : bool;
+function {:existential true} _abshoudini_4_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_3(i0: bool) : bool;
+function {:existential true} _abshoudini_5_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_4(i0: bool) : bool;
+function {:existential true} _abshoudini_6_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_5(i0: bool) : bool;
+function {:existential true} _abshoudini_7_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_6(i0: bool) : bool;
+function {:existential true} _abshoudini_8_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_7(i0: bool) : bool;
+function {:existential true} _abshoudini_9_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_8(i0: bool) : bool;
+function {:existential true} _abshoudini_10_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_9(i0: bool) : bool;
+function {:existential true} _abshoudini_11_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_10(i0: bool) : bool;
+function {:existential true} _abshoudini_12_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_11(i0: bool) : bool;
+function {:existential true} _abshoudini_13_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_12(i0: bool) : bool;
+function {:existential true} _abshoudini_14_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_13(i0: bool) : bool;
+function {:existential true} _abshoudini_15_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_14(i0: bool) : bool;
+function {:existential true} _abshoudini_16_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_15(i0: bool) : bool;
+function {:existential true} _abshoudini_17_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_16(i0: bool) : bool;
+function {:existential true} _abshoudini_18_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_17(i0: bool) : bool;
+function {:existential true} _abshoudini_19_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_18(i0: bool) : bool;
+function {:existential true} _abshoudini_20_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_19(i0: bool) : bool;
+function {:existential true} _abshoudini_21_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_20(i0: bool) : bool;
+function {:existential true} _abshoudini_22_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_21(i0: bool) : bool;
+function {:existential true} _abshoudini_23_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_22(i0: bool) : bool;
+function {:existential true} _abshoudini_24_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_23(i0: bool) : bool;
+function {:existential true} _abshoudini_25_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_24(i0: bool) : bool;
+function {:existential true} _abshoudini_26_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_25(i0: bool) : bool;
+function {:existential true} _abshoudini_27_1(i0: bool) : bool;
 
 // abshouini
-function {:existential true} _abshoudini_26(i0: bool) : bool;
+function {:existential true} _abshoudini_28_1(i0: bool) : bool;
 
 procedure MS_Check__v1.water_loop_anon4_LoopHead___v2.water_loop_anon4_LoopHead(_v1.in_len_FF: int, 
     _v1.in_len_RS: int, 
@@ -770,22 +858,22 @@ procedure MS_Check__v1.water_loop_anon4_LoopHead___v2.water_loop_anon4_LoopHead(
   _v2.RS, 
   _v2.K, 
   _v2.OK);
-  requires _abshoudini_7(_v1.in_len_FF <= _v2.in_len_FF);
-  requires _abshoudini_8(_v2.in_len_FF <= _v1.in_len_FF);
-  requires _abshoudini_9(_v1.in_len_RS <= _v2.in_len_RS);
-  requires _abshoudini_10(_v2.in_len_RS <= _v1.in_len_RS);
-  requires _abshoudini_11(_v1.in_N <= _v2.in_N);
-  requires _abshoudini_12(_v2.in_N <= _v1.in_N);
-  requires _abshoudini_13(_v1.in_gCUT2 <= _v2.in_gCUT2);
-  requires _abshoudini_14(_v2.in_gCUT2 <= _v1.in_gCUT2);
-  requires _abshoudini_15(_v1.in_rand <= _v2.in_rand);
-  requires _abshoudini_16(_v2.in_rand <= _v1.in_rand);
-  requires _abshoudini_17(_v1.FF == _v2.FF);
-  requires _abshoudini_18(_v1.RS == _v2.RS);
-  requires _abshoudini_19(_v1.K <= _v2.K);
-  requires _abshoudini_20(_v2.K <= _v1.K);
-  requires _abshoudini_21(_v1.OK ==> _v2.OK);
-  requires _abshoudini_22(_v2.OK ==> _v1.OK);
+  requires _abshoudini_9_1(_v1.in_len_FF <= _v2.in_len_FF);
+  requires _abshoudini_10_1(_v2.in_len_FF <= _v1.in_len_FF);
+  requires _abshoudini_11_1(_v1.in_len_RS <= _v2.in_len_RS);
+  requires _abshoudini_12_1(_v2.in_len_RS <= _v1.in_len_RS);
+  requires _abshoudini_13_1(_v1.in_N <= _v2.in_N);
+  requires _abshoudini_14_1(_v2.in_N <= _v1.in_N);
+  requires _abshoudini_15_1(_v1.in_gCUT2 <= _v2.in_gCUT2);
+  requires _abshoudini_16_1(_v2.in_gCUT2 <= _v1.in_gCUT2);
+  requires _abshoudini_17_1(_v1.in_rand <= _v2.in_rand);
+  requires _abshoudini_18_1(_v2.in_rand <= _v1.in_rand);
+  requires _abshoudini_19_1(_v1.FF == _v2.FF);
+  requires _abshoudini_20_1(_v1.RS == _v2.RS);
+  requires _abshoudini_21_1(_v1.K <= _v2.K);
+  requires _abshoudini_22_1(_v2.K <= _v1.K);
+  requires _abshoudini_23_1(_v1.OK ==> _v2.OK);
+  requires _abshoudini_24_1(_v2.OK ==> _v1.OK);
   modifies _v1.OK, _v1.K, _v1.FF, _v2.OK, _v2.K, _v2.FF;
   ensures MS$_v1.water_loop_anon4_LoopHead$_v2.water_loop_anon4_LoopHead(_v1.in_len_FF, 
   _v1.in_len_RS, 
@@ -813,13 +901,13 @@ procedure MS_Check__v1.water_loop_anon4_LoopHead___v2.water_loop_anon4_LoopHead(
   _v2.K, 
   _v2.FF, 
   _v2.out_rand);
-  ensures _abshoudini_0(_v1.out_rand <= _v2.out_rand);
-  ensures _abshoudini_1(_v2.out_rand <= _v1.out_rand);
-  ensures _abshoudini_2(_v1.OK ==> _v2.OK);
-  ensures _abshoudini_3(_v2.OK ==> _v1.OK);
-  ensures _abshoudini_4(_v1.K <= _v2.K);
-  ensures _abshoudini_5(_v2.K <= _v1.K);
-  ensures _abshoudini_6(_v1.FF == _v2.FF);
+  ensures _abshoudini_2_1(_v1.out_rand <= _v2.out_rand);
+  ensures _abshoudini_3_1(_v2.out_rand <= _v1.out_rand);
+  ensures _abshoudini_4_1(_v1.OK ==> _v2.OK);
+  ensures _abshoudini_5_1(_v2.OK ==> _v1.OK);
+  ensures _abshoudini_6_1(_v1.K <= _v2.K);
+  ensures _abshoudini_7_1(_v2.K <= _v1.K);
+  ensures _abshoudini_8_1(_v1.FF == _v2.FF);
 
 
 
@@ -954,9 +1042,9 @@ implementation MS_Check__v1.water_loop_anon4_LoopHead___v2.water_loop_anon4_Loop
     assume true;
     assume true;
     assume true;
-    assert _abshoudini_23(inline$_v1.water_loop_anon4_LoopHead$0$in_rand
+    assert _abshoudini_25_1(inline$_v1.water_loop_anon4_LoopHead$0$in_rand
      <= inline$_v1.water_loop_anon4_LoopHead$0$out_rand);
-    assert _abshoudini_24(inline$_v1.water_loop_anon4_LoopHead$0$out_rand
+    assert _abshoudini_26_1(inline$_v1.water_loop_anon4_LoopHead$0$out_rand
      <= inline$_v1.water_loop_anon4_LoopHead$0$in_rand);
     _v1.out_rand := inline$_v1.water_loop_anon4_LoopHead$0$out_rand;
     goto START$1;
@@ -1026,9 +1114,9 @@ implementation MS_Check__v1.water_loop_anon4_LoopHead___v2.water_loop_anon4_Loop
     assume true;
     assume true;
     assume true;
-    assert _abshoudini_25(inline$_v2.water_loop_anon4_LoopHead$0$in_rand
+    assert _abshoudini_27_1(inline$_v2.water_loop_anon4_LoopHead$0$in_rand
      <= inline$_v2.water_loop_anon4_LoopHead$0$out_rand);
-    assert _abshoudini_26(inline$_v2.water_loop_anon4_LoopHead$0$out_rand
+    assert _abshoudini_28_1(inline$_v2.water_loop_anon4_LoopHead$0$out_rand
      <= inline$_v2.water_loop_anon4_LoopHead$0$in_rand);
     _v2.out_rand := inline$_v2.water_loop_anon4_LoopHead$0$out_rand;
     goto START$2;

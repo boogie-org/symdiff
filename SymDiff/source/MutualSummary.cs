@@ -273,7 +273,6 @@ namespace SDiff
             {
                 if (msFuncAxiomsAdded.Contains(msFunc)) //already done processing this function
                     return msFunc;
-                GenerateMSFuncBodyFromPredicates(msFunc, i1, i2, o1, o2);
             }
             else //create the new function
             {
@@ -283,8 +282,9 @@ namespace SDiff
                     new Formal(new Token(), new TypedIdent(new Token(), "ret", BasicType.Bool), false));
                 msFunc.Body = MkMutualSummaryBody(f1, f2, pm, i1, o1, i2, o2);
                 mergedProgram.AddTopLevelDeclaration(msFunc);
-                msFunc.AddAttribute("inline", new Expr[] {Expr.True, Expr.True, Expr.True});
+                msFunc.AddAttribute("inline", new Expr[] {Expr.True});
             }
+            GenerateMSFuncBodyFromPredicates(msFunc, i1, i2, o1, o2);
 
             if (dontUseMSAsAxioms) return msFunc;
 
@@ -326,14 +326,13 @@ namespace SDiff
         {
             if (houdiniInferOpt == Options.INFER_OPT.ABS_HOUDINI)
             {
-                bool allPreds;
-                var predicates = GetPredicatesFromFunc(msFunc, out allPreds);
-                if (predicates.Count == 0) return; //if set of preds = {}, keep the body
+                bool allPreds, predicateAttrPresent;
+                var predicates = GetPredicatesFromFunc(msFunc, out allPreds, out predicateAttrPresent);
 
                 //ensure that the body is 'true' in case a predicate is specified
                 var msBodyExpr = msFunc.Body as  LiteralExpr;
-                Debug.Assert(msBodyExpr != null && msBodyExpr.IsTrue,
-                    string.Format("Non-empty set of predicates provided in {0} with non-trivial body {1}", 
+                Debug.Assert(!predicateAttrPresent  || (msBodyExpr != null && msBodyExpr.IsTrue),
+                    string.Format("Predicates provided in {0} with non-trivial body {1}", 
                     msFunc.Name, msFunc.Body));
                 var comps = CreateVariableSeqComparisons(i1, i2);
                 comps.AddRange(CreateVariableSeqComparisons(o1, o2));
@@ -374,7 +373,6 @@ namespace SDiff
             {
                 if (msFuncAxiomsAdded.Contains(msPreFunc)) //already done processing this function
                     return msPreFunc;
-                GenerateMSFuncBodyFromPredicates(msPreFunc, i1, i2, new List<Variable>(), new List<Variable>());
             }
             else //create the new function
             {
@@ -384,27 +382,31 @@ namespace SDiff
                     new Formal(new Token(), new TypedIdent(new Token(), "ret", BasicType.Bool), false));
                 msPreFunc.Body = Expr.True;
                 mergedProgram.AddTopLevelDeclaration(msPreFunc);
-                msPreFunc.AddAttribute("inline", Expr.True);
+                msPreFunc.AddAttribute("inline", new Expr[] {Expr.True});
             }
+
+            GenerateMSFuncBodyFromPredicates(msPreFunc, i1, i2, new List<Variable>(), new List<Variable>());
 
             return msPreFunc;
         }
         
         /// <summary>
         /// allPreds = true if only these predicates have to be used for Boolean combination
+        /// 
         /// </summary>
         /// <param name="msFunc"></param>
         /// <param name="allPreds"></param>
         /// <returns></returns>
-        private static List<Expr> GetPredicatesFromFunc(Function msFunc, out bool allPreds)
+        private static List<Expr> GetPredicatesFromFunc(Function msFunc, out bool allPreds, out bool predicateAttrPresent)
         {
-            allPreds = false;
+            allPreds = false; //true only when predicate_ms_only is specified
+            predicateAttrPresent = true; //no {:predicate_ms .. } or {:predicate_ms_only ..}  present
             var preds = new List<Expr>();
             var attr1 = msFunc.FindAttribute("predicates_ms");
             var attr2 = msFunc.FindAttribute("predicates_ms_only");
             Debug.Assert(!(attr1 != null && attr2 != null), 
                 string.Format("At most only one of two attributes 'predicates_ms' or 'predicaes_ms_only' can be present for {0}", msFunc.Name));
-            if (attr1 == null && attr2 == null) return new List<Expr>();
+            if (attr1 == null && attr2 == null) { predicateAttrPresent = false; return new List<Expr>(); }
             var attr = attr1 != null ? attr1 : attr2;
             allPreds = attr1 != null ? false : true;
             Console.WriteLine("Predicates for {0} = [{1}]", msFunc.Name, string.Join(", ", attr.Params));

@@ -582,7 +582,7 @@ implementation MS_Check__v1.foo___v2.foo() returns (_v1.r: int, _v2.r: int)
 
 
 
-function {:inline true} MS$_v1.foo_loop_anon4_LoopHead$_v2.foo_loop_anon4_LoopHead(_v1.in_r: int, 
+function {:inline true, true, true} {:inline} MS$_v1.foo_loop_anon4_LoopHead$_v2.foo_loop_anon4_LoopHead(_v1.in_r: int, 
     _v1.x_old: int, 
     _v1.n_old: int, 
     _v1.cf_old: int, 
