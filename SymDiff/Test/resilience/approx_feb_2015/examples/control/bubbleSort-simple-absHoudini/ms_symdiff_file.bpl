@@ -15,3 +15,4 @@ function {:inline true} MS$_v1.BubbleSort$_v2.BubbleSort(_v1.array_old: [int]int
 }
 
 
+//No non-trivial predicates needed as the havoc was done for an redundant parameter j to BubbleSort_Outer_loop(.., j, ..)
