@@ -83,8 +83,8 @@ namespace SDiff
             if (!System.IO.File.Exists(ms_file)) return;
             Program ms = SDiff.Boogie.Process.ParseProgram(ms_file);
             //TODO: Have to merge the new types (including datatypes)
-            if (ms != null)
-                mergedProgram.AddTopLevelDeclarations(ms.TopLevelDeclarations);
+            if (ms == null) throw new Exception("Parsing of ms_symdiff_file.bpl failed");
+            mergedProgram.AddTopLevelDeclarations(ms.TopLevelDeclarations);
             mergedProgram.Resolve(); 
         }
         public static void Initialize(Program q1, Program q2, Program mp, string q1Prefix, string q2Prefix, Config cfg1)
@@ -708,8 +708,9 @@ namespace SDiff
             cr.VisitImplementation(f);
             Block nxtBlock = null; //its the label of the next block
             List<Block> extraBlocks = new List<Block>(); //new blocks created
-            foreach (var h1 in cr.calleeArgs.Keys)
-                foreach (var h2 in cr.calleeArgs.Keys)
+            //We reverse the keys so that MS_f_f' comes after MS_g_g' if f << g in block order
+            foreach (var h1 in cr.calleeArgs.Keys.Reverse())
+                foreach (var h2 in cr.calleeArgs.Keys.Reverse())
                     if (implProcMap.Contains(new KeyValuePair<string, string>(h1.Name, h2.Name)))
                         foreach (Tuple<Variable, List<Variable>, List<Variable>> ca1 in cr.calleeArgs[h1])
                             foreach (Tuple<Variable, List<Variable>, List<Variable>> ca2 in cr.calleeArgs[h2])
