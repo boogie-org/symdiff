@@ -10,7 +10,7 @@ pushd .
 cd control\arr1-absHoudini
 CALL run_symdiff_bpl.cmd v1 v2 /rvt /opts:" -usemutual -asserts -freeContracts -useAbstractHoudiniInference " /inferContracts:"/inlineDepth:1 /abstractHoudini:%INFERENCE% "
 popd
-echo ---------- control\selSort-absHoudini -----------
+echo ---------- control\selSort-absHoudini (needs PredicateAbsFull) -----------
 pushd .
 cd control\selSort-absHoudini
 CALL run_symdiff_bpl.cmd v1 v2 /rvt /opts:" -usemutual -asserts -freeContracts -useAbstractHoudiniInference " /inferContracts:"/inlineDepth:1 /abstractHoudini:%INFERENCE% "
