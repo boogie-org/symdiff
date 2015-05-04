@@ -331,9 +331,12 @@ namespace SDiff
 
                 //ensure that the body is 'true' in case a predicate is specified
                 var msBodyExpr = msFunc.Body as  LiteralExpr;
-                Debug.Assert(!predicateAttrPresent  || (msBodyExpr != null && msBodyExpr.IsTrue),
+                var trivialBodyPresent = (msBodyExpr != null && msBodyExpr.IsTrue);
+                Debug.Assert(!predicateAttrPresent  || trivialBodyPresent,
                     string.Format("Predicates provided in {0} with non-trivial body {1}", 
                     msFunc.Name, msFunc.Body));
+                if (!trivialBodyPresent) return; //ignore any predicates 
+
                 var comps = CreateVariableSeqComparisons(i1, i2);
                 comps.AddRange(CreateVariableSeqComparisons(o1, o2));
                 var args = allPreds ? predicates : comps.Union(predicates);
