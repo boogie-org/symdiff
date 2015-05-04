@@ -1,10 +1,10 @@
 @echo off
 
-REM set INLINEDEPTH 1
-set INLINEDEPTH 0  
+REM set INLINEDEPTH=1
+set INLINEDEPTH=0  
 
-REM set INFERENCE=PredicateAbsFull
-set INFERENCE=PredicateAbs
+set INFERENCE=PredicateAbsFull
+REM set INFERENCE=PredicateAbs
 
 pushd examples
 
