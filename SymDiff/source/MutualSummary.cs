@@ -284,7 +284,9 @@ namespace SDiff
                 mergedProgram.AddTopLevelDeclaration(msFunc);
                 msFunc.AddAttribute("inline", new Expr[] {Expr.True});
             }
-            GenerateMSFuncBodyFromPredicates(msFunc, i1, i2, o1, o2);
+            //Check if predicates are specified for non-stub pair
+            if (IsNonStubProcedurePair(f1,cg1, f2,cg2))
+                GenerateMSFuncBodyFromPredicates(msFunc, i1, i2, o1, o2);
 
             if (dontUseMSAsAxioms) return msFunc;
 
@@ -388,7 +390,8 @@ namespace SDiff
                 msPreFunc.AddAttribute("inline", new Expr[] {Expr.True});
             }
 
-            GenerateMSFuncBodyFromPredicates(msPreFunc, i1, i2, new List<Variable>(), new List<Variable>());
+            if(!IsEntryProcedurePair(f1, cg1, f2, cg2))
+                GenerateMSFuncBodyFromPredicates(msPreFunc, i1, i2, new List<Variable>(), new List<Variable>());
 
             return msPreFunc;
         }
@@ -850,6 +853,16 @@ namespace SDiff
         {
             return (Util.getImplByName(mergedProgram, f1.Name) == null);
         }
+        //check on MS_f_f' for a pair of procedures
+        public static bool IsEntryProcedurePair(Procedure f1, CallGraph cg1, Procedure f2, CallGraph cg2)
+        {
+            return IsRootProcedures(f1, cg1) || IsRootProcedures(f2, cg2); 
+        }
+        public static bool IsNonStubProcedurePair(Procedure f1, CallGraph cg1, Procedure f2, CallGraph cg2)
+        {
+            return !IsStubProcedure(f1) && !IsStubProcedure(f2);
+        }
+
 
         /// <summary>
         /// class for houdini related stuff for DAC (FSE'13 encoding)
@@ -862,15 +875,15 @@ namespace SDiff
             public static void AddHoudiniTemplates(ref List<Requires> requiresSeq, ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2)
             {
-                if (IsRootProcedures(f1,cg1) || IsRootProcedures(f2,cg2)) {
+                if (IsEntryProcedurePair(f1,cg1,f2,cg2)) {
                     AddDACCheck(ref requiresSeq, ref ensuresSeq, f1, f2, i1, i2, o1, o2);
                     return;
                 }
-                if (!IsStubProcedure(f1) && !IsStubProcedure(f2))
+                if (IsNonStubProcedurePair(f1,cg1,f2,cg2))
                     AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2, true);
                 else
                     AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2, false); //trust that outputs are equal
-                AddCandRequires(ref requiresSeq, f1, f2, i1, i2, o1, o2);
+                AddCandRequires(ref requiresSeq, f1, f2, i1, i2, o1, o2); //we already know that both f1/f2 are non-entry procedures
                 //add candidates for loop extracted procedures
                 if (f1.Name.Contains("_loop_"))
                     AddLoopEnsures(f1, p1Prefix);
@@ -959,14 +972,6 @@ namespace SDiff
                     censures.Add(new Ensures(false, Expr.Imp(inp, summ)));
                 }
                 ensuresSeq.AddRange(new List<Ensures>(censures.ToArray()));
-
-                //new: add a absHoudini candidate with all the comps + preds
-                //var absHoudiniPred = FreshAbsHoudiniPred(comps.Count + predicates.Count);
-                //var args = comps.Union(predicates);
-                //var expr = new NAryExpr(Token.NoToken,
-                //    new FunctionCall(absHoudiniPred),
-                //    args.ToList());
-                //msFn.Body = expr; 
             }
             private static void AddDACCheck(ref List<Requires> requiresSeq, ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2)
