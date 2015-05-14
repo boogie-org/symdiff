@@ -1,0 +1,71 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 2 verified, 0 errors
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 2 verified, 0 errors
+Parsing config file
+Parsing programs
+Namespacing ASTs
+Resolving and typechecking
+Resolving and typechecking
+ImplMap: _v1.ReplaceChar, _v2.ReplaceChar
+Predicates for MS_pre_$_v1.Helper$_v2.Helper = [_v2.ArrEqAfter(_v1.array_old, _v2.array_old, _v1.i), _v1.i == _v2.i]
+ImplMap: _v1.Helper, _v2.Helper
+Resolving and typechecking
+Generated mergedProgSingle.bpl 
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+function {:existential true} {:inline} __cand_pre_0(a: bool, b: bool) : bool
+{
+  false
+}
+function {:existential true} {:inline} _abshoudini_0_10(i0: bool, i1: bool, i2: bool, i3: bool, i4: bool, i5: bool, i6: bool, i7: bool, i8: bool, i9: bool) : bool
+{
+  i0 && i1 && (i2 || !i9) && i3 && i4 && i5 && i6 && i7 && i8
+}
+function {:existential true} {:inline} _abshoudini_1_9(i0: bool, i1: bool, i2: bool, i3: bool, i4: bool, i5: bool, i6: bool, i7: bool, i8: bool) : bool
+{
+  i0 && i1 && i3 && i4 && i5 && i6 && i7 && i8
+}
+function {:existential true} {:inline} _abshoudini_2_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_3_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_4_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_5_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_6_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_7_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_8_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_9_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_10_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_11_1(i0: bool) : bool
+{
+  i0
+}
+
+Boogie program verifier finished with 1 verified, 0 errors

@@ -1,0 +1,189 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 3 verified, 0 errors
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 3 verified, 0 errors
+Parsing config file
+Parsing programs
+Namespacing ASTs
+Resolving and typechecking
+Resolving and typechecking
+ImplMap: _v1.BubbleSort, _v2.BubbleSort
+Predicates for MS$_v1.BubbleSort_Outer_Loop$_v2.BubbleSort_Outer_Loop = [_v2.ArrEqBefore(_v1.array_old, _v2.array_old, _v1.i), _v2.ArrEqBefore(_v1.array_, _v2.array_, _v1.out_i)]
+Predicates for MS$_v1.BubbleSort_Inner_Loop$_v2.BubbleSort_Inner_Loop = [_v2.ArrEqBefore(_v1.array_old, _v2.array_old, _v1.i), _v2.ArrEqBefore(_v1.array_, _v2.array_, _v1.i)]
+ImplMap: _v1.BubbleSort_Inner_Loop, _v2.BubbleSort_Inner_Loop
+ImplMap: _v1.BubbleSort_Outer_Loop, _v2.BubbleSort_Outer_Loop
+Resolving and typechecking
+Generated mergedProgSingle.bpl 
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+function {:existential true} {:inline} _abshoudini_0_22(i0: bool, i1: bool, i2: bool, i3: bool, i4: bool, i5: bool, i6: bool, i7: bool, i8: bool, i9: bool, i10: bool, i11: bool, i12: bool, i13: bool, i14: bool, i15: bool, i16: bool, i17: bool, i18: bool, i19: bool, i20: bool, i21: bool) : bool
+{
+  i0 && i1 && i2 && i3 && (i18 || !i6 || !i4) && (i18 || !i20 || !i4) && (i5 || i4) && (i5 || i18 || !i6) && (i5 || i18 || !i20) && (i11 || !i6 || !i7 || !i8) && (i12 || !i6 || !i8 || !i7) && (i19 || !i6 || !i5) && (i19 || i4 || !i6) && (i20 || !i6) && (i21 || !i6) && (i11 || !i20 || !i7 || !i8) && (i12 || !i20 || !i8 || !i7) && (i7 || i8) && i9 && i10 && (i11 || i12) && (i6 || !i13 || !i20) && (i21 || !i13) && i14 && i15 && i16 && i17 && (i19 || i18) && (i19 || i4 || !i20) && (i19 || !i20 || !i5) && (i21 || !i20)
+}
+function {:existential true} {:inline} _abshoudini_1_11(i0: bool, i1: bool, i2: bool, i3: bool, i4: bool, i5: bool, i6: bool, i7: bool, i8: bool, i9: bool, i10: bool) : bool
+{
+  i0 && i1 && i2 && i3 && (i5 || i4) && (i7 || i8) && i9 && i10
+}
+function {:existential true} {:inline} _abshoudini_2_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_3_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_4_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_5_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_6_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_7_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_8_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_9_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_10_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_11_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_12_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_13_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_14_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_15_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_16_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_17_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_18_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_19_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_20_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_21_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_22_20(i0: bool, i1: bool, i2: bool, i3: bool, i4: bool, i5: bool, i6: bool, i7: bool, i8: bool, i9: bool, i10: bool, i11: bool, i12: bool, i13: bool, i14: bool, i15: bool, i16: bool, i17: bool, i18: bool, i19: bool) : bool
+{
+  i0 && i1 && i2 && i3 && (i16 || !i6 || !i4) && (i16 || !i18 || !i4) && (i5 || i4) && (i5 || i16 || !i6) && (i5 || i16 || !i18) && (i12 || !i8 || !i6 || !i7) && (i11 || !i6 || !i7 || !i8) && (i13 || !i6) && (i17 || i4 || !i6) && (i17 || !i6 || !i5) && (i18 || !i6) && (i19 || !i6) && (i12 || !i8 || !i18 || !i7) && (i11 || !i18 || !i7 || !i8) && (i7 || i8) && i9 && i10 && (i11 || i12) && (i6 || !i18 || !i13) && (i19 || !i13) && i14 && i15 && (i17 || i16) && (i17 || i4 || !i18) && (i17 || !i18 || !i5) && (i19 || !i18)
+}
+function {:existential true} {:inline} _abshoudini_23_11(i0: bool, i1: bool, i2: bool, i3: bool, i4: bool, i5: bool, i6: bool, i7: bool, i8: bool, i9: bool, i10: bool) : bool
+{
+  i0 && i1 && i2 && i3 && (i4 || i5) && (i7 || i8) && i9 && i10
+}
+function {:existential true} {:inline} _abshoudini_24_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_25_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_26_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_27_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_28_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_29_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_30_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_31_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_32_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_33_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_34_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_35_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_36_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_37_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_38_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_39_1(i0: bool) : bool
+{
+  true
+}
+function {:existential true} {:inline} _abshoudini_40_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_41_1(i0: bool) : bool
+{
+  i0
+}
+
+Boogie program verifier finished with 1 verified, 0 errors

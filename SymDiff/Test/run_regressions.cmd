@@ -349,6 +349,34 @@ my $tag = "houdiniEq.bpl";
 RunExampleWithOptions("_bpl", \@houdini_examples, $flags, $cwd, $opt_regr, $tag);
 $infer = 0; 
 
+
+##############################################################
+## Resilience + abshoudini
+##############################################################
+my @abshoudini_examples = 
+  (
+    ##### resilience\approx_feb_2015\examples\carbin-12\lu-absHoudini #######
+     ["resilience\\approx_feb_2015\\examples\\carbin-12\\lu-absHoudini", "v1", "v2"],
+    ##### resilience\approx_feb_2015\examples\carbin-12\water-absHoudini #######
+     ["resilience\\approx_feb_2015\\examples\\carbin-12\\water-absHoudini", "v1", "v2"],
+    ##### resilience\approx_feb_2015\examples\carbin-12\swish-absHoudini #######
+     ["resilience\\approx_feb_2015\\examples\\carbin-12\\swish-absHoudini", "v1", "v2"],
+    ##### resilience\approx_feb_2015\examples\control\bubblesort-absHoudini #######
+#     ["resilience\\approx_feb_2015\\examples\\control\\bubblesort-absHoudini", "v1", "v2"],
+    ##### resilience\approx_feb_2015\examples\control\arr1-absHoudini #######
+     ["resilience\\approx_feb_2015\\examples\\control\\arr1-absHoudini", "v1", "v2"]
+  );
+
+print "-----------------------\n";
+print "AbsHoudini SymDiff regressions\n";
+print "-----------------------\n";
+$flags = " /rvt /opts:\" -usemutual -asserts -freeContracts -useAbstractHoudiniInference \" /inferContracts:\" /inlineDepth:0 /abstractHoudini:PredicateAbsFull \" ";
+$infer = 1; # checking DAC regression is different than other regressions
+my $tag = "abshoudini.bpl";
+RunExampleWithOptions("_bpl", \@abshoudini_examples, $flags, $cwd, $opt_regr, $tag);
+$infer = 0; 
+
+
 ##############################################################
 ## Example for Equivalence checking with Corral
 ##############################################################
