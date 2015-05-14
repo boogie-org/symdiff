@@ -17,8 +17,8 @@ function {:inline true} MS$_v1.SelectionSort$_v2.SelectionSort(_v1.array_old: [i
 //providing only predicates_ms blows up PredicateAbsFull, so we use predicates_ms_only to say which predicates to combine using Boolean connectives
 
 function {:inline true} 
-{:predicates_ms     _v2.ArrEqAfter(_v1.array_old, _v2.array_old, _v1.in_c)}
-/*{:predicates_ms_only
+/*{:predicates_ms     _v2.ArrEqAfter(_v1.array_old, _v2.array_old, _v1.in_c)}
+{:predicates_ms_only
     _v2.ArrEqAfter(_v1.array_old, _v2.array_old, _v1.in_c),
     _v1.in_position == _v2.in_position,
     _v1.in_c == _v2.in_c,
@@ -54,8 +54,8 @@ MS$_v1.SelectionSort_loop_anon5_LoopHead$_v2.SelectionSort_loop_anon5_LoopHead(_
 }
 
 function {:inline true} 
-{:predicates_ms _v2.ArrEqAfter(_v1.array_old, _v2.array_old, _v1.c)}
-/*
+/*{:predicates_ms _v2.ArrEqAfter(_v1.array_old, _v2.array_old, _v1.c)}
+
 {:predicates_ms_only
     _v2.ArrEqAfter(_v1.array_old, _v2.array_old, _v1.c),
     _v1.c == _v2.c,
@@ -82,9 +82,9 @@ MS$_v1.Find$_v2.Find(_v1.c: int,
 }
 
 function {:inline true} 
+/*
 {:predicates_ms     _v2.ArrEqAfter(_v1.array_old, _v2.array_old, _v1.in_d),
     _v1.array_old[_v1.in_position] == _v2.array_old[_v1.in_position]}
-/*
 {:predicates_ms_only
     _v2.ArrEqAfter(_v1.array_old, _v2.array_old, _v1.in_d),
     _v1.array_old[_v1.in_position] == _v2.array_old[_v1.in_position], 
