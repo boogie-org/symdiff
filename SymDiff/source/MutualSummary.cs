@@ -329,7 +329,7 @@ namespace SDiff
             if (houdiniInferOpt == Options.INFER_OPT.ABS_HOUDINI)
             {
                 bool allPreds, predicateAttrPresent;
-                var predicates = GetPredicatesFromFunc(msFunc, out allPreds, out predicateAttrPresent);
+                var userPreds = GetPredicatesFromFunc(msFunc, out allPreds, out predicateAttrPresent);
 
                 //ensure that the body is 'true' in case a predicate is specified
                 var msBodyExpr = msFunc.Body as  LiteralExpr;
@@ -339,15 +339,53 @@ namespace SDiff
                     msFunc.Name, msFunc.Body));
                 if (!trivialBodyPresent) return; //ignore any predicates 
 
-                var comps = CreateVariableSeqComparisons(i1, i2);
-                comps.AddRange(CreateVariableSeqComparisons(o1, o2));
-                var args = allPreds ? predicates : comps.Union(predicates);
- 
+                if (allPreds)
+                {
+                    //only consider predicates provided explicitly by user
+                    var absHoudiniPred1 = DACHoudiniTemplates.FreshAbsHoudiniPred(userPreds.Count());
+                    var expr = new NAryExpr(Token.NoToken,
+                        new FunctionCall(absHoudiniPred1),
+                        userPreds.ToList());
+                    msFunc.Body = expr;
+                    return;
+                }
+
+
+                var andExpr = (Expr)Expr.True;
+                var inpPreds = CreateVariableSeqComparisons(i1, i2).Union(userPreds);
+                var outPreds = CreateVariableSeqComparisons(o1, o2).Union(userPreds);
+
+                var args = inpPreds.Union(outPreds);
                 var absHoudiniPred = DACHoudiniTemplates.FreshAbsHoudiniPred(args.Count());
-                var expr = new NAryExpr(Token.NoToken,
-                    new FunctionCall(absHoudiniPred),
-                    args.ToList());
-                msFunc.Body = expr;
+                andExpr = Expr.And(andExpr, new NAryExpr(Token.NoToken, new FunctionCall(absHoudiniPred), args.ToList()));
+
+                #region Split predicates by output (expensive)
+                if (false)
+                {
+                    //I = input preds, O = output preds, Q = user preds 
+                    //I' = I U Q
+                    //O' = O U Q
+                    //foreach o in O'  pred(I' U o)
+                    if (outPreds.Count() == 0)
+                    {
+                        absHoudiniPred = DACHoudiniTemplates.FreshAbsHoudiniPred(inpPreds.Count());
+                        andExpr = new NAryExpr(Token.NoToken,
+                            new FunctionCall(absHoudiniPred),
+                            inpPreds.ToList());
+                    }
+                    else
+                    {
+                        andExpr = (Expr)Expr.True; 
+                        foreach (var op in outPreds)
+                        {
+                            args = inpPreds.Union(new List<Expr>() { op });
+                            absHoudiniPred = DACHoudiniTemplates.FreshAbsHoudiniPred(args.Count());
+                            andExpr = Expr.And(andExpr, new NAryExpr(Token.NoToken, new FunctionCall(absHoudiniPred), args.ToList()));
+                        }
+                    }
+                }
+                #endregion 
+                msFunc.Body = andExpr;
             }
         }
         /// <summary>
