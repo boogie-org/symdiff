@@ -13,6 +13,11 @@ pushd .
 cd control\arr1-absHoudini
 CALL run_symdiff_bpl.cmd v1 v2 /rvt /opts:" -usemutual -asserts -freeContracts -useAbstractHoudiniInference " /inferContracts:"/inlineDepth:%INLINEDEPTH% /abstractHoudini:%INFERENCE% "
 popd
+echo ---------- control\arrayop-absHoudini -----------
+pushd .
+cd control\arrayop_absHoudini
+CALL run_symdiff_bpl.cmd v1 v2 /rvt /opts:" -usemutual -asserts -freeContracts -useAbstractHoudiniInference " /inferContracts:"/inlineDepth:%INLINEDEPTH% /abstractHoudini:%INFERENCE% "
+popd
 echo ---------- control\bubbleSort-simple-absHoudini -----------
 pushd .
 cd control\bubbleSort-simple-absHoudini
