@@ -16,6 +16,7 @@ Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?)
 Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ImplMap: _v1.Eval_loop_anon3_LoopHead, _v2.Eval_loop_anon3_LoopHead
 Resolving and typechecking
+Generated mergedProgSingle.bpl 
 Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 Assignment computed by Houdini:
 _houdini_Eval_control_flag_0 = False

@@ -355,6 +355,8 @@ $infer = 0;
 ##############################################################
 my @abshoudini_examples = 
   (
+   ##### resilience\ms_order #######
+     ["resilience\\ms_order", "v1", "v2"],
     ##### resilience\approx_feb_2015\examples\carbin-12\lu-absHoudini #######
      ["resilience\\approx_feb_2015\\examples\\carbin-12\\lu-absHoudini", "v1", "v2"],
     ##### resilience\approx_feb_2015\examples\carbin-12\water-absHoudini #######
