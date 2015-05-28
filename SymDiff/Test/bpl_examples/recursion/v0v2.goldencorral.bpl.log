@@ -1,0 +1,58 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 2 verified, 0 errors
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 2 verified, 0 errors
+Parsing config file
+Parsing programs
+Namespacing ASTs
+Resolving and typechecking
+Resolving and typechecking
+ImplMap: _v1.Foo, _v2.Foo
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+ImplMap: _v1.Bar, _v2.Bar
+Resolving and typechecking
+Checking _houdini_Foo_r_0 using Corral....
+	END Executing corral.exe  mergedProgSingle_0.bpl /k:1 /main:MS_Check__v1.Foo___v2.Foo /recursionBound:4 /timeLimit:100 /noTrace 
+
+Output of Corral for _houdini_Foo_r_0 = Single threaded program detected
+Verifying program while tracking: {assertsPassed}
+Program has a potential bug: False bug
+Verifying program while tracking: {assertsPassed, _v1.D, _v2.D}
+Program has a potential bug: True bug
+
+Boogie verification time: 0.39 s
+Time spent reading-writing programs: 0.13 s
+
+Time spent checking a program (2): 0.59 s
+Time spent checking a path (4): 0.16 s
+
+Number of procedures inlined: 26
+Number of variables tracked: 3
+Total Time: 1.2017256 s
+Total User CPU time: 1.21875 s
+
+Checking _houdini_Bar_r_1 using Corral....
+	END Executing corral.exe  mergedProgSingle_1.bpl /k:1 /main:MS_Check__v1.Foo___v2.Foo /recursionBound:4 /timeLimit:100 /noTrace 
+
+Output of Corral for _houdini_Bar_r_1 = Single threaded program detected
+Verifying program while tracking: {assertsPassed}
+Program has a potential bug: False bug
+Verifying program while tracking: {assertsPassed, _v1.D, _v2.D}
+Program has a potential bug: True bug
+
+Boogie verification time: 0.35 s
+Time spent reading-writing programs: 0.11 s
+
+Time spent checking a program (2): 0.57 s
+Time spent checking a path (4): 0.16 s
+
+Number of procedures inlined: 21
+Number of variables tracked: 3
+Total Time: 1.1770003 s
+Total User CPU time: 1.1875 s
+

@@ -1,0 +1,173 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 1 verified, 0 errors
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 1 verified, 0 errors
+Parsing config file
+Parsing programs
+Namespacing ASTs
+Resolving and typechecking
+Resolving and typechecking
+ImplMap: _v1.Eval, _v2.Eval
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+ImplMap: _v1.Eval_loop_anon3_LoopHead, _v2.Eval_loop_anon3_LoopHead
+Resolving and typechecking
+Checking _houdini_Eval_control_flag_0 using Corral....
+	END Executing corral.exe  mergedProgSingle_0.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
+
+Output of Corral for _houdini_Eval_control_flag_0 = Single threaded program detected
+Verifying program while tracking: {assertsPassed}
+Program has a potential bug: False bug
+Turning off Z3 search due to parallel assignments
+Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_flag}
+Program has no bugs
+Reached recursion bound of 4
+
+Boogie verification time: 0.55 s
+Time spent reading-writing programs: 0.20 s
+
+Time spent checking a program (2): 0.72 s
+Time spent checking a path (9): 0.26 s
+
+Number of procedures inlined: 26
+Number of variables tracked: 3
+Total Time: 1.5170495 s
+Total User CPU time: 1.609375 s
+
+Checking _houdini_Eval_result_1 using Corral....
+	END Executing corral.exe  mergedProgSingle_1.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
+
+Output of Corral for _houdini_Eval_result_1 = Single threaded program detected
+Verifying program while tracking: {assertsPassed}
+Program has a potential bug: False bug
+Turning off Z3 search due to parallel assignments
+Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_flag}
+Program has no bugs
+Reached recursion bound of 4
+
+Boogie verification time: 0.58 s
+Time spent reading-writing programs: 0.20 s
+
+Time spent checking a program (2): 0.75 s
+Time spent checking a path (9): 0.27 s
+
+Number of procedures inlined: 26
+Number of variables tracked: 3
+Total Time: 1.5500895 s
+Total User CPU time: 1.515625 s
+
+Checking _houdini_Eval_loop_anon3_LoopHead_control_flag_2 using Corral....
+	END Executing corral.exe  mergedProgSingle_2.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
+
+Output of Corral for _houdini_Eval_loop_anon3_LoopHead_control_flag_2 = Single threaded program detected
+Verifying program while tracking: {assertsPassed}
+Program has a potential bug: False bug
+Turning off Z3 search due to parallel assignments
+Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_flag}
+Program has no bugs
+Reached recursion bound of 4
+
+Boogie verification time: 0.59 s
+Time spent reading-writing programs: 0.19 s
+
+Time spent checking a program (2): 0.76 s
+Time spent checking a path (9): 0.26 s
+
+Number of procedures inlined: 26
+Number of variables tracked: 3
+Total Time: 1.5510893 s
+Total User CPU time: 1.609375 s
+
+Checking _houdini_Eval_loop_anon3_LoopHead_out_count_3 using Corral....
+	END Executing corral.exe  mergedProgSingle_3.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
+
+Output of Corral for _houdini_Eval_loop_anon3_LoopHead_out_count_3 = Single threaded program detected
+Verifying program while tracking: {assertsPassed}
+Program has a potential bug: False bug
+Turning off Z3 search due to parallel assignments
+Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_flag}
+Program has no bugs
+Reached recursion bound of 4
+
+Boogie verification time: 0.57 s
+Time spent reading-writing programs: 0.19 s
+
+Time spent checking a program (2): 0.74 s
+Time spent checking a path (9): 0.26 s
+
+Number of procedures inlined: 26
+Number of variables tracked: 3
+Total Time: 1.5430894 s
+Total User CPU time: 1.515625 s
+
+Checking _houdini_Eval_loop_anon3_LoopHead_out_result_4 using Corral....
+	END Executing corral.exe  mergedProgSingle_4.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
+
+Output of Corral for _houdini_Eval_loop_anon3_LoopHead_out_result_4 = Single threaded program detected
+Verifying program while tracking: {assertsPassed}
+Program has a potential bug: False bug
+Turning off Z3 search due to parallel assignments
+Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_flag}
+Program has no bugs
+Reached recursion bound of 4
+
+Boogie verification time: 0.58 s
+Time spent reading-writing programs: 0.19 s
+
+Time spent checking a program (2): 0.74 s
+Time spent checking a path (9): 0.26 s
+
+Number of procedures inlined: 26
+Number of variables tracked: 3
+Total Time: 1.5370889 s
+Total User CPU time: 1.46875 s
+
+Checking _houdini_Eval_loop_anon3_LoopHead_out_x_5 using Corral....
+	END Executing corral.exe  mergedProgSingle_5.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
+
+Output of Corral for _houdini_Eval_loop_anon3_LoopHead_out_x_5 = Single threaded program detected
+Verifying program while tracking: {assertsPassed}
+Program has a potential bug: False bug
+Turning off Z3 search due to parallel assignments
+Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_flag}
+Program has no bugs
+Reached recursion bound of 4
+
+Boogie verification time: 0.59 s
+Time spent reading-writing programs: 0.20 s
+
+Time spent checking a program (2): 0.75 s
+Time spent checking a path (9): 0.26 s
+
+Number of procedures inlined: 26
+Number of variables tracked: 3
+Total Time: 1.5330886 s
+Total User CPU time: 1.5625 s
+
+Checking _houdini_Eval_loop_anon3_LoopHead_out_y_6 using Corral....
+	END Executing corral.exe  mergedProgSingle_6.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
+
+Output of Corral for _houdini_Eval_loop_anon3_LoopHead_out_y_6 = Single threaded program detected
+Verifying program while tracking: {assertsPassed}
+Program has a potential bug: False bug
+Turning off Z3 search due to parallel assignments
+Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_flag}
+Program has no bugs
+Reached recursion bound of 4
+
+Boogie verification time: 0.58 s
+Time spent reading-writing programs: 0.20 s
+
+Time spent checking a program (2): 0.74 s
+Time spent checking a path (9): 0.27 s
+
+Number of procedures inlined: 26
+Number of variables tracked: 3
+Total Time: 1.5580907 s
+Total User CPU time: 1.609375 s
+
+Generated mergedProgSingle.bpl 
