@@ -100,10 +100,10 @@ sub RunSymDiff {
   }	
   MyExec("run_symdiff$lang.cmd $v1 $v2 $o > $v1$v2.dmp");
   sleep(2);
-  MyExec("mv $v1$v2.log $v1$v2.output$tag.log");
+  MyExec("move $v1$v2.log $v1$v2.output$tag.log");
   if ($regr eq 1) { # generate golden files
     print "Generating golden file...\n";
-    MyExec("mv $v1$v2.output$tag.log $v1$v2.golden$tag.log");
+    MyExec("move $v1$v2.output$tag.log $v1$v2.golden$tag.log");
   } elsif ($regr eq 2) {
     CheckRegression("$v1$v2.golden$tag.log", "$v1$v2.output$tag.log");
   }	
