@@ -32,65 +32,97 @@ StubMap: _v1.nondet_int, _v2.nondet_int
 ImplMap: _v1.main, _v2.main
 ImplMap: _v1.main_loop_label_7_head, _v2.main_loop_label_7_head
 Resolving and typechecking
+Performing Houdini inference from within Symdiff.exe 
 Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
-Assignment computed by Houdini:
-_houdini_0 = False
-_houdini_1 = False
-_houdini_2 = True
-_houdini_3 = False
-_houdini_4 = False
-_houdini_5 = False
-_houdini_6 = True
-_houdini_7 = True
-_houdini_8 = True
-_houdini_9 = True
-_houdini_10 = True
-_houdini_11 = True
-_houdini_12 = False
-_houdini_13 = False
-_houdini_14 = False
-_houdini_15 = True
-_houdini_16 = False
-_houdini_17 = True
-_houdini_18 = True
-_houdini_19 = False
-_houdini_20 = False
-_houdini_21 = True
-_houdini_22 = True
-_houdini_23 = True
-_houdini_24 = True
-_houdini_25 = False
-_houdini_26 = True
-_houdini_27 = True
-_houdini_28 = True
-_houdini_29 = True
-_houdini_30 = True
-_houdini_31 = True
-_houdini_32 = True
-_houdini_33 = True
-_houdini_34 = False
-_houdini_35 = False
-_houdini_36 = False
-_houdini_37 = False
-_houdini_38 = False
-_houdini_39 = False
-_houdini_40 = False
-_houdini_41 = False
-_houdini_42 = True
-_houdini_43 = False
-_houdini_44 = False
-_houdini_45 = False
-mergedProgSingle.bpl(2258,5): Error BP5003: A postcondition might not hold on this return path.
-mergedProgSingle.bpl(1755,3): Related location: This is the postcondition that might not hold.
-Execution trace:
-    mergedProgSingle.bpl(1912,3): START
-    mergedProgSingle.bpl(1990,3): inline$_v1.main$0$label_11_false#2
-    mergedProgSingle.bpl(1999,3): inline$_v1.main$0$label_12_false#2
-    mergedProgSingle.bpl(2003,3): inline$_v1.main$0$label_17#2
-    mergedProgSingle.bpl(2156,3): inline$_v2.main$0$label_11_false#2
-    mergedProgSingle.bpl(2183,3): inline$_v2.main$0$label_12_true#2
-    mergedProgSingle.bpl(2169,3): inline$_v2.main$0$label_15#2
-    mergedProgSingle.bpl(2228,3): MS_L_taken_0
-    mergedProgSingle.bpl(2257,3): MS_L_meet_0
+---Command arguments
 
-Boogie program verifier finished with 5 verified, 1 error
+/typeEncoding:m
+/noinfer
+/trace
+/doModSetAnalysis
+--------------------
+Collecting existential constants...
+Building call graph...
+Number of implementations = 6
+Beginning VC generation for Houdini...
+Generating VC for _v2.main
+Generating VC for _v2.main_loop_label_7_head
+Generating VC for _v1.main
+Generating VC for _v1.main_loop_label_7_head
+Generating VC for MS_Check__v1.main___v2.main
+Generating VC for MS_Check__v1.main_loop_label_7_head___v2.main_loop_label_7_head
+Verifying _v1.main_loop_label_7_head
+Houdini assignment axiom: (And true _houdini_0 _houdini_1 _houdini_2 _houdini_3 _houdini_4 _houdini_5 _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 _houdini_12 _houdini_13 _houdini_14 _houdini_15 _houdini_16 _houdini_17 _houdini_18 _houdini_19 _houdini_20 _houdini_21 _houdini_22 _houdini_23 _houdini_24 _houdini_25 _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 _houdini_34 _houdini_35 _houdini_36 _houdini_37 _houdini_38 _houdini_39 _houdini_40 _houdini_41 _houdini_42 _houdini_43 _houdini_44 _houdini_45)
+Outcome = Invalid
+Time taken = 0.0250016
+Removing _houdini_36
+Removing _houdini_34
+Removing _houdini_35
+Removing _houdini_37
+Removing _houdini_38
+Verifying _v1.main_loop_label_7_head
+Houdini assignment axiom: (And true _houdini_0 _houdini_1 _houdini_2 _houdini_3 _houdini_4 _houdini_5 _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 _houdini_12 _houdini_13 _houdini_14 _houdini_15 _houdini_16 _houdini_17 _houdini_18 _houdini_19 _houdini_20 _houdini_21 _houdini_22 _houdini_23 _houdini_24 _houdini_25 _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 (! _houdini_34) (! _houdini_35) (! _houdini_36) (! _houdini_37) (! _houdini_38) _houdini_39 _houdini_40 _houdini_41 _houdini_42 _houdini_43 _houdini_44 _houdini_45)
+Outcome = Invalid
+Time taken = 0.004
+Removing _houdini_39
+Verifying _v1.main_loop_label_7_head
+Houdini assignment axiom: (And true _houdini_0 _houdini_1 _houdini_2 _houdini_3 _houdini_4 _houdini_5 _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 _houdini_12 _houdini_13 _houdini_14 _houdini_15 _houdini_16 _houdini_17 _houdini_18 _houdini_19 _houdini_20 _houdini_21 _houdini_22 _houdini_23 _houdini_24 _houdini_25 _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 (! _houdini_34) (! _houdini_35) (! _houdini_36) (! _houdini_37) (! _houdini_38) (! _houdini_39) _houdini_40 _houdini_41 _houdini_42 _houdini_43 _houdini_44 _houdini_45)
+Outcome = Valid
+Time taken = 0.0020005
+Verifying _v1.main
+Houdini assignment axiom: (And true _houdini_0 _houdini_1 _houdini_2 _houdini_3 _houdini_4 _houdini_5 _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 _houdini_12 _houdini_13 _houdini_14 _houdini_15 _houdini_16 _houdini_17 _houdini_18 _houdini_19 _houdini_20 _houdini_21 _houdini_22 _houdini_23 _houdini_24 _houdini_25 _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 (! _houdini_34) (! _houdini_35) (! _houdini_36) (! _houdini_37) (! _houdini_38) (! _houdini_39) _houdini_40 _houdini_41 _houdini_42 _houdini_43 _houdini_44 _houdini_45)
+Outcome = Valid
+Time taken = 0.0010004
+Verifying _v2.main_loop_label_7_head
+Houdini assignment axiom: (And true _houdini_0 _houdini_1 _houdini_2 _houdini_3 _houdini_4 _houdini_5 _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 _houdini_12 _houdini_13 _houdini_14 _houdini_15 _houdini_16 _houdini_17 _houdini_18 _houdini_19 _houdini_20 _houdini_21 _houdini_22 _houdini_23 _houdini_24 _houdini_25 _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 (! _houdini_34) (! _houdini_35) (! _houdini_36) (! _houdini_37) (! _houdini_38) (! _houdini_39) _houdini_40 _houdini_41 _houdini_42 _houdini_43 _houdini_44 _houdini_45)
+Outcome = Invalid
+Time taken = 0.0099998
+Removing _houdini_40
+Removing _houdini_41
+Removing _houdini_43
+Removing _houdini_44
+Removing _houdini_45
+Verifying _v2.main_loop_label_7_head
+Houdini assignment axiom: (And true _houdini_0 _houdini_1 _houdini_2 _houdini_3 _houdini_4 _houdini_5 _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 _houdini_12 _houdini_13 _houdini_14 _houdini_15 _houdini_16 _houdini_17 _houdini_18 _houdini_19 _houdini_20 _houdini_21 _houdini_22 _houdini_23 _houdini_24 _houdini_25 _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 (! _houdini_34) (! _houdini_35) (! _houdini_36) (! _houdini_37) (! _houdini_38) (! _houdini_39) (! _houdini_40) (! _houdini_41) _houdini_42 (! _houdini_43) (! _houdini_44) (! _houdini_45))
+Outcome = Valid
+Time taken = 0.0030003
+Verifying MS_Check__v1.main_loop_label_7_head___v2.main_loop_label_7_head
+Houdini assignment axiom: (And true _houdini_0 _houdini_1 _houdini_2 _houdini_3 _houdini_4 _houdini_5 _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 _houdini_12 _houdini_13 _houdini_14 _houdini_15 _houdini_16 _houdini_17 _houdini_18 _houdini_19 _houdini_20 _houdini_21 _houdini_22 _houdini_23 _houdini_24 _houdini_25 _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 (! _houdini_34) (! _houdini_35) (! _houdini_36) (! _houdini_37) (! _houdini_38) (! _houdini_39) (! _houdini_40) (! _houdini_41) _houdini_42 (! _houdini_43) (! _houdini_44) (! _houdini_45))
+Outcome = Invalid
+Time taken = 0.0190015
+Removing _houdini_13
+Removing _houdini_14
+Removing _houdini_16
+Removing _houdini_19
+Removing _houdini_20
+Verifying MS_Check__v1.main_loop_label_7_head___v2.main_loop_label_7_head
+Houdini assignment axiom: (And true _houdini_0 _houdini_1 _houdini_2 _houdini_3 _houdini_4 _houdini_5 _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 _houdini_12 (! _houdini_13) (! _houdini_14) _houdini_15 (! _houdini_16) _houdini_17 _houdini_18 (! _houdini_19) (! _houdini_20) _houdini_21 _houdini_22 _houdini_23 _houdini_24 _houdini_25 _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 (! _houdini_34) (! _houdini_35) (! _houdini_36) (! _houdini_37) (! _houdini_38) (! _houdini_39) (! _houdini_40) (! _houdini_41) _houdini_42 (! _houdini_43) (! _houdini_44) (! _houdini_45))
+Outcome = Invalid
+Time taken = 0.0200016
+Removing _houdini_25
+Removing _houdini_25
+Removing _houdini_0
+Removing _houdini_1
+Removing _houdini_3
+Verifying MS_Check__v1.main_loop_label_7_head___v2.main_loop_label_7_head
+Houdini assignment axiom: (And true (! _houdini_0) (! _houdini_1) _houdini_2 (! _houdini_3) _houdini_4 _houdini_5 _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 _houdini_12 (! _houdini_13) (! _houdini_14) _houdini_15 (! _houdini_16) _houdini_17 _houdini_18 (! _houdini_19) (! _houdini_20) _houdini_21 _houdini_22 _houdini_23 _houdini_24 (! _houdini_25) _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 (! _houdini_34) (! _houdini_35) (! _houdini_36) (! _houdini_37) (! _houdini_38) (! _houdini_39) (! _houdini_40) (! _houdini_41) _houdini_42 (! _houdini_43) (! _houdini_44) (! _houdini_45))
+Outcome = Invalid
+Time taken = 0.0190014
+Removing _houdini_4
+Removing _houdini_5
+Removing _houdini_12
+Verifying MS_Check__v1.main_loop_label_7_head___v2.main_loop_label_7_head
+Houdini assignment axiom: (And true (! _houdini_0) (! _houdini_1) _houdini_2 (! _houdini_3) (! _houdini_4) (! _houdini_5) _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 (! _houdini_12) (! _houdini_13) (! _houdini_14) _houdini_15 (! _houdini_16) _houdini_17 _houdini_18 (! _houdini_19) (! _houdini_20) _houdini_21 _houdini_22 _houdini_23 _houdini_24 (! _houdini_25) _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 (! _houdini_34) (! _houdini_35) (! _houdini_36) (! _houdini_37) (! _houdini_38) (! _houdini_39) (! _houdini_40) (! _houdini_41) _houdini_42 (! _houdini_43) (! _houdini_44) (! _houdini_45))
+Outcome = Valid
+Time taken = 0.0140011
+Verifying MS_Check__v1.main___v2.main
+Houdini assignment axiom: (And true (! _houdini_0) (! _houdini_1) _houdini_2 (! _houdini_3) (! _houdini_4) (! _houdini_5) _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 (! _houdini_12) (! _houdini_13) (! _houdini_14) _houdini_15 (! _houdini_16) _houdini_17 _houdini_18 (! _houdini_19) (! _houdini_20) _houdini_21 _houdini_22 _houdini_23 _houdini_24 (! _houdini_25) _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 (! _houdini_34) (! _houdini_35) (! _houdini_36) (! _houdini_37) (! _houdini_38) (! _houdini_39) (! _houdini_40) (! _houdini_41) _houdini_42 (! _houdini_43) (! _houdini_44) (! _houdini_45))
+Outcome = Invalid
+Time taken = 0.0070009
+Verifying _v2.main
+Houdini assignment axiom: (And true (! _houdini_0) (! _houdini_1) _houdini_2 (! _houdini_3) (! _houdini_4) (! _houdini_5) _houdini_6 _houdini_7 _houdini_8 _houdini_9 _houdini_10 _houdini_11 (! _houdini_12) (! _houdini_13) (! _houdini_14) _houdini_15 (! _houdini_16) _houdini_17 _houdini_18 (! _houdini_19) (! _houdini_20) _houdini_21 _houdini_22 _houdini_23 _houdini_24 (! _houdini_25) _houdini_26 _houdini_27 _houdini_28 _houdini_29 _houdini_30 _houdini_31 _houdini_32 _houdini_33 (! _houdini_34) (! _houdini_35) (! _houdini_36) (! _houdini_37) (! _houdini_38) (! _houdini_39) (! _houdini_40) (! _houdini_41) _houdini_42 (! _houdini_43) (! _houdini_44) (! _houdini_45))
+Outcome = Valid
+Time taken = 0.001
+Houdini finished and inferred 23/46 contracts
+Houdini finished with 5 verified, 1 errors, 0 inconclusives, 0 timeouts
+Generated mergedProgSingle.bpl 

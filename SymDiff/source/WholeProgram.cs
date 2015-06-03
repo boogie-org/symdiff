@@ -120,6 +120,7 @@ namespace SDiff
             Options.checkEquivWithDependencies = argsList.Remove("-checkEquivWithDependencies");
             Options.dontTypeCheckMergedProg = argsList.Remove("-dontTypeCheckMergedProg");
             Options.callCorralOnMergedProgram = argsList.Remove("-callCorralOnMergedProgram");
+            Options.invokeHoudiniDirectlyOnMergedBpl = argsList.Remove("-invokeHoudiniDirectlyOnMergedBpl");
             
             //taint related
             Options.refinedStmtTaint = argsList.Remove("-refinedStmtTaintAnalysis");
@@ -1357,6 +1358,13 @@ namespace SDiff
             /////////////////////////////////////////////////////////////////////////////////////
             // Some modification of p1, p2 ends
             /////////////////////////////////////////////////////////////////////////////////////
+
+            //just present to test invoking Houdini directly
+            if (Options.invokeHoudiniDirectlyOnMergedBpl)
+            {
+                MutualSummary.PerformHoudiniInferece(null); //invokes houdini in previously generated mergedProgSingle.bpl
+                return 0;
+            }
 
             /////////////////////////////////////////////////////////
             //// Inlining logic starts

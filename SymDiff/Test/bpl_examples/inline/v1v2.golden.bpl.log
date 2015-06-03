@@ -1,18 +1,12 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 1 verified, 0 errors
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 1 verified, 0 errors
 Parsing config file
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
----Command arguments
-/doModSetAnalysis
---------------------
 Parsing programs
 Namespacing ASTs
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
----Command arguments
-/printInstrumented
---------------------
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
----Command arguments
-/printInstrumented
---------------------
 Resolving and typechecking
 Resolving and typechecking
 Building callgraphs and computing read and write sets
@@ -20,30 +14,18 @@ Writing writesets as modifies clauses
 Resolving and Typechecking again..
 Adding instrumented equality functions to program and generating verification tasks
 Resolving and Typechecking again..
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
----Command arguments
--z3multipleErrors
-
--typeEncoding:m
--timeLimit:200
--removeEmptyBlocks:0
-
-/doModSetAnalysis
--printModel:1
-/printModelToFile:model.dmp
-
---------------------
 Verifier[0]: Preparing to verify 1 pairs
 Verifier[0]: Verifying EQ__v1.Eval__xx___v2.Eval
-  [0.1269373 s]  
+  [0.1800484 s]  
 Correct
-Verifier[0]: 0 counterexamples.
+Verifier[0]: 0 counterexamples...
 Verifier[0]: Result: Verified
-Time[0]: 143ms
+Time[0]: 204ms
 Summary[0]: Checked 1 procedures.
-Summary[0]: Max elapsed: 143ms
+Summary[0]: Max elapsed: 204ms
 Summary[0]: Total Counterexamples: 0
 Summary[0]: Number of failed verifies: 0
 Summary[0]: Number of verifier failures: 0
-M[0]: 	1	143	0	0	0	322	5	
-FinalStats: (#Procs, #Cex, #NotEq, #Crash, #Time) = (1,0,0,0,322)
+M[0]: 	1	204	0	0	0	461	5	
+FinalStats: (#Procs, #Cex, #NotEq, #Crash, #Time) = (1,0,0,0,461)
+Generated mergedProgSingle.bpl 

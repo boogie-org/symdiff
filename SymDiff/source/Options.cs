@@ -13,7 +13,7 @@ namespace SDiff
 
         #region Some internal options
         //set these at compile time
-        public const bool VerboseBoogieEnvironment = false;
+        public static bool VerboseBoogieEnvironment = false;
         public const bool TraceVerify = false;
         public const bool PrintZ3Model = false;
         public const bool DumpBeforeVerifying = false;
@@ -60,6 +60,7 @@ namespace SDiff
         public static bool dontTypeCheckMergedProg;
         public static bool callCorralOnMergedProgram; //invoke corral to check the candidates in mutual summary procedures (for equivalence checking)
         public static bool checkEquivWithDependencies = false;
+        public static bool invokeHoudiniDirectlyOnMergedBpl = false; //an option to test houdini
 
         //taint analysis
         public static bool refinedStmtTaint; //use SymDiff to check for non-tainted statements when inlined (works with nonModularMode + splitEquality)

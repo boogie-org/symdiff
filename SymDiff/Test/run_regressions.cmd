@@ -51,7 +51,8 @@ sub GetStats {
       }
     } elsif ($infer == 1) {
       if ($line =~ /Boogie program verifier finished with/ ||
-	  $line =~ /_houdini_.*= /) {
+	  $line =~ /_houdini_.*= / || 
+          $line =~ /Houdini finished/) {
 	$result = $result . " " . $line;
       }
     } else {
@@ -315,7 +316,7 @@ my @dac_examples =
 print "-----------------------\n";
 print "DAC SymDiff regressions\n";
 print "-----------------------\n";
-$flags = "/opts:\" -asserts -usemutual -rvt  \" /inferContracts:\"  \" ";
+$flags = "/opts:\" -asserts -usemutual -rvt  \" " ; # /inferContracts:\"  \" ";
 $infer = 1; # checking DAC regression is different than other regressions
 my $tag = ".bpl";
 RunExampleWithOptions("_bpl", \@dac_examples, $flags, $cwd, $opt_regr, $tag);
@@ -343,7 +344,7 @@ my @houdini_examples =
 print "-----------------------\n";
 print "Houdini SymDiff regressions\n";
 print "-----------------------\n";
-$flags = " /rvt /opts:\" -usemutual -checkEquivWithDependencies -freeContracts \" /inferContracts:\" /inlineDepth:1 /timeLimit:20 \" ";
+$flags = " /rvt /opts:\" -usemutual -checkEquivWithDependencies -freeContracts \" " ; # /inferContracts:\" /inlineDepth:1 /timeLimit:20 \" ";
 $infer = 1; # checking DAC regression is different than other regressions
 my $tag = "houdiniEq.bpl";
 RunExampleWithOptions("_bpl", \@houdini_examples, $flags, $cwd, $opt_regr, $tag);

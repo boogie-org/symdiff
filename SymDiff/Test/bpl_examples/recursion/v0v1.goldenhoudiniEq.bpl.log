@@ -16,6 +16,52 @@ Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?)
 Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ImplMap: _v1.Bar, _v2.Bar
 Resolving and typechecking
+Performing Houdini inference from within Symdiff.exe 
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+---Command arguments
+
+/typeEncoding:m
+/noinfer
+/trace
+/doModSetAnalysis
+--------------------
+Collecting existential constants...
+Building call graph...
+Number of implementations = 6
+Beginning VC generation for Houdini...
+Generating VC for _v2.Foo
+Generating VC for _v2.Bar
+Generating VC for _v1.Foo
+Generating VC for _v1.Bar
+Generating VC for MS_Check__v1.Foo___v2.Foo
+Generating VC for MS_Check__v1.Bar___v2.Bar
+Verifying _v1.Bar
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0.0140004
+Verifying _v1.Foo
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0.0010114
+Verifying _v2.Bar
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0
+Verifying MS_Check__v1.Bar___v2.Bar
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0.0010004
+Verifying MS_Check__v1.Foo___v2.Foo
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0.0009497
+Verifying _v2.Foo
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0
+Houdini finished and inferred 2/2 contracts
+Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
+Generated mergedProgSingle.bpl 
 Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 Assignment computed by Houdini:
 _houdini_Foo_r_0 = True

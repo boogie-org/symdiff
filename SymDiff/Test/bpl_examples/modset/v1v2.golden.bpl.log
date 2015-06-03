@@ -1,18 +1,12 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 2 verified, 0 errors
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 2 verified, 0 errors
 Parsing config file
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
----Command arguments
-/doModSetAnalysis
---------------------
 Parsing programs
 Namespacing ASTs
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
----Command arguments
-/printInstrumented
---------------------
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
----Command arguments
-/printInstrumented
---------------------
 Resolving and typechecking
 Resolving and typechecking
 Building callgraphs and computing read and write sets
@@ -20,63 +14,38 @@ Writing writesets as modifies clauses
 Resolving and Typechecking again..
 Adding instrumented equality functions to program and generating verification tasks
 Resolving and Typechecking again..
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
----Command arguments
--z3multipleErrors
-
--typeEncoding:m
--timeLimit:200
--removeEmptyBlocks:0
-
-/doModSetAnalysis
--printModel:1
-/printModelToFile:model.dmp
-
---------------------
 Verifier[0]: Preparing to verify 1 pairs
 Verifier[0]: Verifying EQ__v1.bar__xx___v2.bar
-  [0.138111 s]  
+  [0.1940088 s]  
 Errors
-Verifier[0]: 1 counterexamples.
+Verifier[0]: 1 counterexamples...
 Verifier[0]: Result: Error
 Constructing metatrace from location annotations
 Desugaring calls
 Executing trace downward
 Executing trace upward
 Grabbing final execution values
-Time[0]: 173ms
+Time[0]: 244ms
 Summary[0]: Checked 1 procedures.
-Summary[0]: Max elapsed: 173ms
+Summary[0]: Max elapsed: 244ms
 Summary[0]: Total Counterexamples: 1
 Summary[0]: Number of failed verifies: 1
 Summary[0]: Number of verifier failures: 0
 Failed proc with counterexample: _v1.bar
-M[0]: 	1	173	1	1	0	342	9	
+M[0]: 	1	244	1	1	0	487	9	
 Resolving and Typechecking again..
-Boogie program verifier version 2.2.30705.1126, Copyright (c) 2003-2014, Microsoft.
----Command arguments
--z3multipleErrors
-
--typeEncoding:m
--timeLimit:200
--removeEmptyBlocks:0
-
-/doModSetAnalysis
--printModel:1
-/printModelToFile:model.dmp
-
---------------------
 Verifier[0]: Preparing to verify 1 pairs
 Verifier[0]: Verifying EQ__v1.foo__xx___v2.foo
-  [0.0153905 s]  
+  [0.0240049 s]  
 Correct
-Verifier[0]: 0 counterexamples.
+Verifier[0]: 0 counterexamples...
 Verifier[0]: Result: Verified
-Time[0]: 27ms
+Time[0]: 45ms
 Summary[0]: Checked 1 procedures.
-Summary[0]: Max elapsed: 27ms
+Summary[0]: Max elapsed: 45ms
 Summary[0]: Total Counterexamples: 0
 Summary[0]: Number of failed verifies: 0
 Summary[0]: Number of verifier failures: 0
-M[0]: 	1	27	0	0	0	371	12	
-FinalStats: (#Procs, #Cex, #NotEq, #Crash, #Time) = (2,1,1,0,371)
+M[0]: 	1	45	0	0	0	535	12	
+FinalStats: (#Procs, #Cex, #NotEq, #Crash, #Time) = (2,1,1,0,535)
+Generated mergedProgSingle.bpl 

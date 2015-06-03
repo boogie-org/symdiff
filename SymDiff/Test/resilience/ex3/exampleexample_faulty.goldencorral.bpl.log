@@ -27,16 +27,16 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.55 s
-Time spent reading-writing programs: 0.20 s
+Boogie verification time: 0.61 s
+Time spent reading-writing programs: 0.19 s
 
-Time spent checking a program (2): 0.72 s
+Time spent checking a program (2): 0.78 s
 Time spent checking a path (9): 0.26 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5170495 s
-Total User CPU time: 1.609375 s
+Total Time: 1.5551012 s
+Total User CPU time: 1.53125 s
 
 Checking _houdini_Eval_result_1 using Corral....
 	END Executing corral.exe  mergedProgSingle_1.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -52,13 +52,13 @@ Reached recursion bound of 4
 Boogie verification time: 0.58 s
 Time spent reading-writing programs: 0.20 s
 
-Time spent checking a program (2): 0.75 s
-Time spent checking a path (9): 0.27 s
+Time spent checking a program (2): 0.76 s
+Time spent checking a path (9): 0.25 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5500895 s
-Total User CPU time: 1.515625 s
+Total Time: 1.5521011 s
+Total User CPU time: 1.59375 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_control_flag_2 using Corral....
 	END Executing corral.exe  mergedProgSingle_2.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -71,16 +71,16 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.59 s
-Time spent reading-writing programs: 0.19 s
+Boogie verification time: 0.62 s
+Time spent reading-writing programs: 0.21 s
 
-Time spent checking a program (2): 0.76 s
-Time spent checking a path (9): 0.26 s
+Time spent checking a program (2): 0.78 s
+Time spent checking a path (9): 0.29 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5510893 s
-Total User CPU time: 1.609375 s
+Total Time: 1.5981043 s
+Total User CPU time: 1.53125 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_out_count_3 using Corral....
 	END Executing corral.exe  mergedProgSingle_3.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -93,15 +93,15 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.57 s
+Boogie verification time: 0.60 s
 Time spent reading-writing programs: 0.19 s
 
-Time spent checking a program (2): 0.74 s
+Time spent checking a program (2): 0.78 s
 Time spent checking a path (9): 0.26 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5430894 s
+Total Time: 1.5491019 s
 Total User CPU time: 1.515625 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_out_result_4 using Corral....
@@ -116,15 +116,15 @@ Program has no bugs
 Reached recursion bound of 4
 
 Boogie verification time: 0.58 s
-Time spent reading-writing programs: 0.19 s
+Time spent reading-writing programs: 0.20 s
 
-Time spent checking a program (2): 0.74 s
-Time spent checking a path (9): 0.26 s
+Time spent checking a program (2): 0.75 s
+Time spent checking a path (9): 0.25 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5370889 s
-Total User CPU time: 1.46875 s
+Total Time: 1.5531008 s
+Total User CPU time: 1.609375 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_out_x_5 using Corral....
 	END Executing corral.exe  mergedProgSingle_5.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -137,16 +137,16 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.59 s
+Boogie verification time: 0.61 s
 Time spent reading-writing programs: 0.20 s
 
-Time spent checking a program (2): 0.75 s
-Time spent checking a path (9): 0.26 s
+Time spent checking a program (2): 0.77 s
+Time spent checking a path (9): 0.30 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5330886 s
-Total User CPU time: 1.5625 s
+Total Time: 1.607105 s
+Total User CPU time: 1.5 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_out_y_6 using Corral....
 	END Executing corral.exe  mergedProgSingle_6.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -162,12 +162,72 @@ Reached recursion bound of 4
 Boogie verification time: 0.58 s
 Time spent reading-writing programs: 0.20 s
 
-Time spent checking a program (2): 0.74 s
-Time spent checking a path (9): 0.27 s
+Time spent checking a program (2): 0.75 s
+Time spent checking a path (9): 0.26 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5580907 s
-Total User CPU time: 1.609375 s
+Total Time: 1.5190988 s
+Total User CPU time: 1.5625 s
 
+Performing Houdini inference from within Symdiff.exe 
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+---Command arguments
+
+/typeEncoding:m
+/noinfer
+/trace
+/doModSetAnalysis
+--------------------
+Collecting existential constants...
+Building call graph...
+Number of implementations = 6
+Beginning VC generation for Houdini...
+Generating VC for _v2.Eval
+Generating VC for _v2.Eval_loop_anon3_LoopHead
+Generating VC for _v1.Eval
+Generating VC for _v1.Eval_loop_anon3_LoopHead
+Generating VC for MS_Check__v1.Eval___v2.Eval
+Generating VC for MS_Check__v1.Eval_loop_anon3_LoopHead___v2.Eval_loop_anon3_LoopHead
+Verifying _v1.Eval_loop_anon3_LoopHead
+Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 _houdini_Eval_loop_anon3_LoopHead_control_flag_2 _houdini_Eval_loop_anon3_LoopHead_out_count_3 _houdini_Eval_loop_anon3_LoopHead_out_result_4 _houdini_Eval_loop_anon3_LoopHead_out_x_5 _houdini_Eval_loop_anon3_LoopHead_out_y_6)
+Outcome = Valid
+Time taken = 0.0100011
+Verifying _v1.Eval
+Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 _houdini_Eval_loop_anon3_LoopHead_control_flag_2 _houdini_Eval_loop_anon3_LoopHead_out_count_3 _houdini_Eval_loop_anon3_LoopHead_out_result_4 _houdini_Eval_loop_anon3_LoopHead_out_x_5 _houdini_Eval_loop_anon3_LoopHead_out_y_6)
+Outcome = Valid
+Time taken = 0.0010004
+Verifying _v2.Eval_loop_anon3_LoopHead
+Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 _houdini_Eval_loop_anon3_LoopHead_control_flag_2 _houdini_Eval_loop_anon3_LoopHead_out_count_3 _houdini_Eval_loop_anon3_LoopHead_out_result_4 _houdini_Eval_loop_anon3_LoopHead_out_x_5 _houdini_Eval_loop_anon3_LoopHead_out_y_6)
+Outcome = Valid
+Time taken = 0
+Verifying MS_Check__v1.Eval_loop_anon3_LoopHead___v2.Eval_loop_anon3_LoopHead
+Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 _houdini_Eval_loop_anon3_LoopHead_control_flag_2 _houdini_Eval_loop_anon3_LoopHead_out_count_3 _houdini_Eval_loop_anon3_LoopHead_out_result_4 _houdini_Eval_loop_anon3_LoopHead_out_x_5 _houdini_Eval_loop_anon3_LoopHead_out_y_6)
+Outcome = Invalid
+Time taken = 0.0090007
+Removing _houdini_Eval_loop_anon3_LoopHead_control_flag_2
+Removing _houdini_Eval_loop_anon3_LoopHead_out_count_3
+Removing _houdini_Eval_loop_anon3_LoopHead_out_result_4
+Removing _houdini_Eval_loop_anon3_LoopHead_out_x_5
+Removing _houdini_Eval_loop_anon3_LoopHead_out_y_6
+Verifying MS_Check__v1.Eval_loop_anon3_LoopHead___v2.Eval_loop_anon3_LoopHead
+Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 (! _houdini_Eval_loop_anon3_LoopHead_control_flag_2) (! _houdini_Eval_loop_anon3_LoopHead_out_count_3) (! _houdini_Eval_loop_anon3_LoopHead_out_result_4) (! _houdini_Eval_loop_anon3_LoopHead_out_x_5) (! _houdini_Eval_loop_anon3_LoopHead_out_y_6))
+Outcome = Valid
+Time taken = 0.0020005
+Verifying MS_Check__v1.Eval___v2.Eval
+Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 (! _houdini_Eval_loop_anon3_LoopHead_control_flag_2) (! _houdini_Eval_loop_anon3_LoopHead_out_count_3) (! _houdini_Eval_loop_anon3_LoopHead_out_result_4) (! _houdini_Eval_loop_anon3_LoopHead_out_x_5) (! _houdini_Eval_loop_anon3_LoopHead_out_y_6))
+Outcome = Invalid
+Time taken = 0.0010001
+Removing _houdini_Eval_control_flag_0
+Removing _houdini_Eval_result_1
+Verifying MS_Check__v1.Eval___v2.Eval
+Houdini assignment axiom: (And true (! _houdini_Eval_control_flag_0) (! _houdini_Eval_result_1) (! _houdini_Eval_loop_anon3_LoopHead_control_flag_2) (! _houdini_Eval_loop_anon3_LoopHead_out_count_3) (! _houdini_Eval_loop_anon3_LoopHead_out_result_4) (! _houdini_Eval_loop_anon3_LoopHead_out_x_5) (! _houdini_Eval_loop_anon3_LoopHead_out_y_6))
+Outcome = Valid
+Time taken = 0.0009998
+Verifying _v2.Eval
+Houdini assignment axiom: (And true (! _houdini_Eval_control_flag_0) (! _houdini_Eval_result_1) (! _houdini_Eval_loop_anon3_LoopHead_control_flag_2) (! _houdini_Eval_loop_anon3_LoopHead_out_count_3) (! _houdini_Eval_loop_anon3_LoopHead_out_result_4) (! _houdini_Eval_loop_anon3_LoopHead_out_x_5) (! _houdini_Eval_loop_anon3_LoopHead_out_y_6))
+Outcome = Valid
+Time taken = 0
+Houdini finished and inferred 0/7 contracts
+Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 

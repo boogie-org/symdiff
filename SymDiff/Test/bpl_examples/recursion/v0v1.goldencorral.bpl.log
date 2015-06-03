@@ -26,16 +26,16 @@ Verifying program while tracking: {assertsPassed, _v1.D, _v2.D}
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.34 s
-Time spent reading-writing programs: 0.09 s
+Boogie verification time: 0.36 s
+Time spent reading-writing programs: 0.08 s
 
-Time spent checking a program (2): 0.57 s
+Time spent checking a program (2): 0.61 s
 Time spent checking a path (3): 0.10 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.1110001 s
-Total User CPU time: 1.15625 s
+Total Time: 1.1750764 s
+Total User CPU time: 1.171875 s
 
 Checking _houdini_Bar_r_1 using Corral....
 	END Executing corral.exe  mergedProgSingle_1.bpl /k:1 /main:MS_Check__v1.Foo___v2.Foo /recursionBound:4 /timeLimit:100 /noTrace 
@@ -47,14 +47,60 @@ Verifying program while tracking: {assertsPassed, _v1.D, _v2.D}
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.34 s
+Boogie verification time: 0.36 s
 Time spent reading-writing programs: 0.08 s
 
-Time spent checking a program (2): 0.57 s
+Time spent checking a program (2): 0.60 s
 Time spent checking a path (3): 0.09 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.1110091 s
-Total User CPU time: 1.171875 s
+Total Time: 1.1680765 s
+Total User CPU time: 1.25 s
 
+Performing Houdini inference from within Symdiff.exe 
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+---Command arguments
+
+/typeEncoding:m
+/noinfer
+/trace
+/doModSetAnalysis
+--------------------
+Collecting existential constants...
+Building call graph...
+Number of implementations = 6
+Beginning VC generation for Houdini...
+Generating VC for _v2.Foo
+Generating VC for _v2.Bar
+Generating VC for _v1.Foo
+Generating VC for _v1.Bar
+Generating VC for MS_Check__v1.Foo___v2.Foo
+Generating VC for MS_Check__v1.Bar___v2.Bar
+Verifying _v1.Bar
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0.0120032
+Verifying _v1.Foo
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0.0009807
+Verifying _v2.Bar
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0
+Verifying MS_Check__v1.Bar___v2.Bar
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0.0020356
+Verifying MS_Check__v1.Foo___v2.Foo
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0.0010001
+Verifying _v2.Foo
+Houdini assignment axiom: (And true _houdini_Foo_r_0 _houdini_Bar_r_1)
+Outcome = Valid
+Time taken = 0
+Houdini finished and inferred 2/2 contracts
+Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
+Generated mergedProgSingle.bpl 

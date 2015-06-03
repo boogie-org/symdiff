@@ -79,30 +79,39 @@ namespace SDiff
 
             //If inferContracts is specified, then we call Houdini and do Inference and persist output into mergedProgram
             //add the flags for /inferContracts to Boogie
-            //Takes a long time on some of the regressions, turning off
-            //if (useHoudini) PerformHoudiniInferece(mergedProgram);
+            if (useHoudini && houdiniInferOpt == Options.INFER_OPT.HOUDINI) PerformHoudiniInferece();
         }
 
-
-        private static void PerformHoudiniInferece(Program mergedProgram)
+        /// <summary>
+        /// Reads "mergedProgSingle.bpl" directly
+        /// </summary>
+        public static void PerformHoudiniInferece()
         {
             Console.WriteLine("Performing Houdini inference from within Symdiff.exe ");
-            //TODO: need to pass inferContracts options to Boogie
-            var boogieOptions = " /typeEncoding:m /noinfer /trace " + Options.BoogieUserOpts;
+
+            Options.VerboseBoogieEnvironment = true; //just to debug
+            CommandLineOptions.Clo.UseUnsatCoreForContractInfer = true; //ROHIT
+            CommandLineOptions.Clo.PrintInstrumented = true;
+            CommandLineOptions.Clo.UseSubsumption = CommandLineOptions.SubsumptionOption.Never;
+            CommandLineOptions.Clo.ContractInfer = true;
+
+            //TODO: need to pass inferContracts options that run_symdiff_bpl passed to Boogie.exe
+            var boogieOptions = " /typeEncoding:m /noinfer " + Options.BoogieUserOpts /* + " /trace " */;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
             var program = SDiff.Boogie.Process.ParseProgram("mergedProgSingle.bpl");
-            program.Resolve();
-            program.Typecheck();
+            program.Resolve(); program.Typecheck();
+            
             HoudiniSession.HoudiniStatistics houdiniStats = new HoudiniSession.HoudiniStatistics();
             Houdini houdini = new Houdini(program, houdiniStats);
             HoudiniOutcome outcome = houdini.PerformHoudiniInference();
             houdini.Close();
-            Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts", 
-                outcome.Verified, outcome.ErrorCount, outcome.Inconclusives, outcome.TimeOuts);
 
             var trueConstants = new HashSet<string>();
             outcome.assignment.Iter(kvp => { if (kvp.Value) trueConstants.Add(kvp.Key); });
-            Console.WriteLine("Houdini inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
+            Console.WriteLine("Houdini finished and inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
+            Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts",
+                    outcome.Verified, outcome.ErrorCount, outcome.Inconclusives, outcome.TimeOuts);
+
         }
 
         private static void ParseAddtionalMSFile(Program mergedProgram)
