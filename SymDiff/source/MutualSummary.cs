@@ -109,11 +109,10 @@ namespace SDiff
             var trueConstants = extractVariableAssigned(true, outcome);
             var falseConstants = extractVariableAssigned(false, outcome);
             createInferedFactsAxiom(trueConstants, falseConstants, program);
+            SDiff.Boogie.Process.PrintProgram(program, "mergedProgSingle_inferred.bpl");
             Console.WriteLine("Houdini finished and inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
             Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts",
                     outcome.Verified, outcome.ErrorCount, outcome.Inconclusives, outcome.TimeOuts);
-            // This is just for debugging
-            SDiff.Boogie.Process.PrintProgram(program, "mergedProgSingle_inferred.bpl");
 
         }
         
