@@ -106,12 +106,40 @@ namespace SDiff
             HoudiniOutcome outcome = houdini.PerformHoudiniInference();
             houdini.Close();
 
-            var trueConstants = new HashSet<string>();
-            outcome.assignment.Iter(kvp => { if (kvp.Value) trueConstants.Add(kvp.Key); });
+            var trueConstants = extractVariableAssigned(true, outcome);
+            var falseConstants = extractVariableAssigned(false, outcome);
+            createInferedFactsAxiom(trueConstants, falseConstants, program);
             Console.WriteLine("Houdini finished and inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
             Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts",
                     outcome.Verified, outcome.ErrorCount, outcome.Inconclusives, outcome.TimeOuts);
+            // This is just for debugging
+            SDiff.Boogie.Process.PrintProgram(program, "mergedProgSingle_inferred.bpl");
 
+        }
+        
+        private static void createInferedFactsAxiom(HashSet<string> trueConstants, HashSet<string> falseConstants, Program program)
+        {
+            Expr ex = Expr.True;
+            foreach(var v in program.Variables) {
+                if (trueConstants.Contains(v.Name))
+                {                   
+                    ex = Expr.And(ex, Expr.Ident(v));
+                    continue;
+                } 
+                if(falseConstants.Contains(v.Name))
+                {
+                    ex = Expr.And(ex, Expr.Not(Expr.Ident(v)));
+                }
+            }
+            var axiom = new Axiom(Token.NoToken, ex, "Axiom of inferred facts from Houdini");
+            program.AddTopLevelDeclaration(axiom);            
+        }
+
+        private static HashSet<string> extractVariableAssigned(bool b, HoudiniOutcome outcome)
+        {
+            var trueConstants = new HashSet<string>();
+            outcome.assignment.Iter(kvp => { if (kvp.Value == b) trueConstants.Add(kvp.Key); });
+            return trueConstants;
         }
 
         private static void ParseAddtionalMSFile(Program mergedProgram)
