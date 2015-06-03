@@ -141,7 +141,6 @@ sub AbstractNonTainted{
 }
 
 # prints stats about how many houdini constants are proved 
-# there is a houdini constant for each output of a procedure
 sub PrintHoudiniStats{
   my $file = shift;
   my $v1 = shift;
@@ -160,7 +159,7 @@ sub PrintHoudiniStats{
         print "\t [$arr[$i]] $line";
         $i++;
     }
-    next unless $line =~ /_houdini/;
+    next unless $line =~ /_houdini/; #this is stale as the name of houdini constants can be anything
     $houdiniCount = $houdiniCount + 1;
     next unless $line =~ / True/;
     $houdiniTrueCount = $houdiniTrueCount + 1;    

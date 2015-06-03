@@ -122,6 +122,9 @@
     <Reference Include="Core">
       <HintPath>..\references\Core.dll</HintPath>
     </Reference>
+    <Reference Include="Houdini">
+      <HintPath>..\references\Houdini.dll</HintPath>
+    </Reference>
     <Reference Include="Model">
       <HintPath>..\references\Model.dll</HintPath>
     </Reference>

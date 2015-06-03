@@ -5,6 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using Microsoft.Boogie;
 using B = SDiff.Boogie;
+using Microsoft.Boogie.Houdini;
 
 namespace SDiff
 {
@@ -75,6 +76,33 @@ namespace SDiff
             cg2 = CallGraph.Make(p2);
             Initialize(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg1);
             MutualSummaryStart(mergedProgram);
+
+            //If inferContracts is specified, then we call Houdini and do Inference and persist output into mergedProgram
+            //add the flags for /inferContracts to Boogie
+            //Takes a long time on some of the regressions, turning off
+            //if (useHoudini) PerformHoudiniInferece(mergedProgram);
+        }
+
+
+        private static void PerformHoudiniInferece(Program mergedProgram)
+        {
+            Console.WriteLine("Performing Houdini inference from within Symdiff.exe ");
+            //TODO: need to pass inferContracts options to Boogie
+            var boogieOptions = " /typeEncoding:m /noinfer /trace " + Options.BoogieUserOpts;
+            SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
+            var program = SDiff.Boogie.Process.ParseProgram("mergedProgSingle.bpl");
+            program.Resolve();
+            program.Typecheck();
+            HoudiniSession.HoudiniStatistics houdiniStats = new HoudiniSession.HoudiniStatistics();
+            Houdini houdini = new Houdini(program, houdiniStats);
+            HoudiniOutcome outcome = houdini.PerformHoudiniInference();
+            houdini.Close();
+            Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts", 
+                outcome.Verified, outcome.ErrorCount, outcome.Inconclusives, outcome.TimeOuts);
+
+            var trueConstants = new HashSet<string>();
+            outcome.assignment.Iter(kvp => { if (kvp.Value) trueConstants.Add(kvp.Key); });
+            Console.WriteLine("Houdini inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
         }
 
         private static void ParseAddtionalMSFile(Program mergedProgram)
@@ -153,6 +181,7 @@ namespace SDiff
             //var oc = BoogieVerify.MyVerifyImplementation(mschkImpl, mergedProgram); //only the last one
             //Console.WriteLine("Outcome = {0}", oc);
             Util.DumpBplAST(mergedProgram, "mergedProgSingle.bpl");
+
             if (callCorralOnMergedProgram) 
                 (new CorralChecker(mergedProgram, rootMSProcs)).CheckCandidateAsserts();
         }
