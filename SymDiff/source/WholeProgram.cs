@@ -1362,7 +1362,7 @@ namespace SDiff
             //just present to test invoking Houdini directly
             if (Options.invokeHoudiniDirectlyOnMergedBpl)
             {
-                MutualSummary.PerformHoudiniInferece(null); //invokes houdini in previously generated mergedProgSingle.bpl
+                MutualSummary.PerformHoudiniInferece(); //invokes houdini in previously generated mergedProgSingle.bpl
                 return 0;
             }
 
