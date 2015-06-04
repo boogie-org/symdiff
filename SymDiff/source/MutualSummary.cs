@@ -395,7 +395,8 @@ namespace SDiff
             if (houdiniInferOpt == Options.INFER_OPT.ABS_HOUDINI)
             {
                 bool allPreds, predicateAttrPresent;
-                var userPreds = GetPredicatesFromFunc(msFunc, out allPreds, out predicateAttrPresent);
+                var userPreds = GetPredicatesFromFunc(msFunc, out allPreds, out predicateAttrPresent)
+                    .Select(x => MkExprWithAttr(x, "", new List<object>() { }));
 
                 //ensure that the body is 'true' in case a predicate is specified
                 var msBodyExpr = msFunc.Body as  LiteralExpr;
@@ -411,7 +412,7 @@ namespace SDiff
                     var absHoudiniPred1 = DACHoudiniTemplates.FreshAbsHoudiniPred(userPreds.Count());
                     var expr = new NAryExpr(Token.NoToken,
                         new FunctionCall(absHoudiniPred1),
-                        userPreds.ToList());
+                        userPreds.Select(x => x.Expr).ToList());
                     msFunc.Body = expr;
                     return;
                 }
@@ -423,7 +424,7 @@ namespace SDiff
 
                 var args = inpPreds.Union(outPreds);
                 var absHoudiniPred = DACHoudiniTemplates.FreshAbsHoudiniPred(args.Count());
-                andExpr = Expr.And(andExpr, new NAryExpr(Token.NoToken, new FunctionCall(absHoudiniPred), args.ToList()));
+                andExpr = Expr.And(andExpr, new NAryExpr(Token.NoToken, new FunctionCall(absHoudiniPred), args.Select(x=>x.Expr).ToList()));
 
                 #region Split predicates by output (expensive)
                 if (false)
@@ -437,16 +438,16 @@ namespace SDiff
                         absHoudiniPred = DACHoudiniTemplates.FreshAbsHoudiniPred(inpPreds.Count());
                         andExpr = new NAryExpr(Token.NoToken,
                             new FunctionCall(absHoudiniPred),
-                            inpPreds.ToList());
+                            inpPreds.Select(x => x.Expr).ToList());
                     }
                     else
                     {
                         andExpr = (Expr)Expr.True; 
                         foreach (var op in outPreds)
                         {
-                            args = inpPreds.Union(new List<Expr>() { op });
+                            args = inpPreds.Union(new List<ExprWithAttributes>() {op});
                             absHoudiniPred = DACHoudiniTemplates.FreshAbsHoudiniPred(args.Count());
-                            andExpr = Expr.And(andExpr, new NAryExpr(Token.NoToken, new FunctionCall(absHoudiniPred), args.ToList()));
+                            andExpr = Expr.And(andExpr, new NAryExpr(Token.NoToken, new FunctionCall(absHoudiniPred), args.Select(x => x.Expr).ToList()));
                         }
                     }
                 }
@@ -560,9 +561,20 @@ namespace SDiff
             Expr post = CreateVariableEqualities(o1, o2);
             return Expr.Imp(pre, post);
         }
-        private static List<Expr> CreateIdentExprSeqComparisons(List<IdentifierExpr> i1, List<IdentifierExpr> i2)
+
+        /// <summary>
+        /// Class for attaching attribute to an expression
+        /// </summary>
+        class ExprWithAttributes
         {
-            var ret = new List<Expr>();
+            public Expr Expr { get; set; }
+            public QKeyValue Attribute { get; set; }
+            public ExprWithAttributes(Expr e, QKeyValue a) { Expr = e; Attribute = a;}
+        }
+
+        private static List<ExprWithAttributes> CreateIdentExprSeqComparisons(List<IdentifierExpr> i1, List<IdentifierExpr> i2)
+        {
+            var ret = new List<ExprWithAttributes>();
             foreach (IdentifierExpr u in i1)
             {
                 //find p2prefix + (i1[i] - p1prefix) in i2
@@ -575,9 +587,9 @@ namespace SDiff
             }
             return ret;
         }
-        private static List<Expr> CreateVariableSeqComparisons(List<Variable> i1, List<Variable> i2)
+        private static List<ExprWithAttributes> CreateVariableSeqComparisons(List<Variable> i1, List<Variable> i2)
         {
-            var ret = new List<Expr>();
+            var ret = new List<ExprWithAttributes>();
             foreach (Variable u in i1)
             {
                 //find p2prefix + (i1[i] - p1prefix) in i2
@@ -590,25 +602,31 @@ namespace SDiff
             }
             return ret;
         }
-        private static List<Expr> CreateVariableComparisons(Variable u, Variable v)
+        private static ExprWithAttributes MkExprWithAttr(Expr e, string s, List<object> l )
+        { 
+            return new ExprWithAttributes(e, new QKeyValue(Token.NoToken, s, l, null)); 
+        }
+
+        private static List<ExprWithAttributes> CreateVariableComparisons(Variable u, Variable v)
         {
-            var ret = new List<Expr>();
+
+            var ret = new List<ExprWithAttributes>();
             var ue = Expr.Ident(u);
             var ve = Expr.Ident(v);
             Debug.Assert(u.TypedIdent.Type.Equals(v.TypedIdent.Type), "Expecting equal types for compared variables" + u + ", " + v);
             var t = u.TypedIdent.Type;
             if (t.Equals(Microsoft.Boogie.Type.Bool))
             {
-                ret.Add(Expr.Imp(ue, ve));
-                ret.Add(Expr.Imp(ve, ue));
+                ret.Add(MkExprWithAttr(Expr.Imp(ue, ve), "DAC_IMPLIES", new List<object>() {ue, ve}));
+                ret.Add(MkExprWithAttr(Expr.Imp(ve, ue), "DAC_IMPLIES", new List<object>() {ve, ue}));
             }
             else if (t.Equals(Microsoft.Boogie.Type.Int))
             {
-                ret.Add(Expr.Le(ue, ve));
-                ret.Add(Expr.Le(ve, ue));
+                ret.Add(MkExprWithAttr(Expr.Le(ue, ve), "DAC_LE", new List<object>() { ue, ve }));
+                ret.Add(MkExprWithAttr(Expr.Le(ve, ue), "DAC_LE", new List<object>() { ve, ue }));
             }
             else
-                ret.Add(Expr.Eq(ue, ve));
+                ret.Add(MkExprWithAttr(Expr.Eq(ue, ve), "DAC_EQ", new List<object>() { ue, ve }));
             return ret;
         }
         private static Expr CreateVariableEqualities(List<Variable> i1, List<Variable> i2)
@@ -1008,9 +1026,9 @@ namespace SDiff
                 var res = inouts
                     .Where(x => ((Variable)x.Item1).Name.Replace("in_","")
                                             == ((Variable)x.Item2).Name.Replace("out_",""));
-                var comparisons = new HashSet<Expr>(); //comparisons
+                var comparisons = new HashSet<ExprWithAttributes>(); //comparisons
                 res.Iter(x => CreateVariableComparisons(x.Item1, x.Item2).Iter(y => comparisons.Add(y)));
-                var censures = comparisons.Select(x => new Ensures(false, MkCandidateExpr(x)));
+                var censures = comparisons.Select(x => new Ensures(false, MkCandidateExpr(x.Expr)));
                 f.Ensures.AddRange(censures);
             }
             private static void AddCandRequires(ref List<Requires> requiresSeq, Procedure f1, Procedure f2,
@@ -1021,9 +1039,9 @@ namespace SDiff
                 comps.AddRange(CreateVariableSeqComparisons(gSeq_p1, gSeq_p2));
                 List<Requires> crequires;
                 if (isCandidate)
-                    crequires = comps.Map(x => new Requires(false, MkCandidateExpr(x)));
+                    crequires = comps.Map(x => new Requires(Token.NoToken, false, MkCandidateExpr(x.Expr), "DAC candidate", x.Attribute));
                 else
-                    crequires = comps.Map(x => new Requires(false, x));
+                    crequires = comps.Map(x => new Requires(false, x.Expr));
                 requiresSeq.AddRange(new List<Requires>(crequires.ToArray()));
             }
             private static Expr MkCandidateExpr(Expr x)
@@ -1066,14 +1084,14 @@ namespace SDiff
                 comps.AddRange(CreateIdentExprSeqComparisons(f1.Modifies, f2.Modifies)); 
                 List<Ensures> censures;
                 if (isCandidate)
-                    censures = comps.Map(x => new Ensures(false, MkCandidateExpr(x)));
+                    censures = comps.Map(x => new Ensures(Token.NoToken, false, MkCandidateExpr(x.Expr), "DAC candidate", x.Attribute));
                 else
                 {
                     //params1 U old(mod1) == params2 U old(mod) ==> mod1 U o1 == mod2 U o2
                     var inp = CreateVariableEqualities(i1, i2);
                     inp = new OldExpr(Token.NoToken,
                         Expr.And(inp, CreateVariableEqualities(Util.IdentSeqToVarSeq(f1.Modifies), Util.IdentSeqToVarSeq(f2.Modifies))));
-                    var summ = comps.Aggregate((Expr) Expr.True, (x, y) => Expr.And(x, y));
+                    var summ = comps.Aggregate((Expr) Expr.True, (x, y) => Expr.And(x, y.Expr));
                     censures = new List<Ensures>();
                     censures.Add(new Ensures(false, Expr.Imp(inp, summ)));
                 }
@@ -1162,6 +1180,7 @@ namespace SDiff
                     {
                         //Add a candidate houdini variable only when the static analysis thinks at least one of them is tainted
                         ens1 = new Ensures(false, Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(o12.Item1.Name, p1Prefix)), post));
+                        ens1.Attributes = new QKeyValue(Token.NoToken, "DAC_SUMMARY", new List<object> { Expr.Ident(o12.Item1), Expr.Ident(o12.Item2) }, null);
                     }
                     else
                     {
