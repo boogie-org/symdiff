@@ -42,6 +42,7 @@ namespace SDiff
         static Dictionary<Implementation, LocalVariable> abortVars; //each implementation has a local variable to abort
         static HashSet<Procedure> rootMSProcs; //set of MS_Check_ procedures not invoked in the module
 
+        //TODO: move dependency related stuff to a separate class/file
         //parse dependencies out of input files
         static Dictionary<Procedure, Dictionary<Variable, List<Variable>>> dependency = new Dictionary<Procedure, Dictionary<Variable, List<Variable>>>();
         //parse bottom up taints for procedures
@@ -693,11 +694,12 @@ namespace SDiff
             }
 
             if (useHoudini)
-                if (checkAssertsOnly)
+            {
+                if (!callCorralOnMergedProgram) //Corral only expects equiv specs
                     DACHoudiniTemplates.AddHoudiniTemplates(ref requiresSeq, ref ensuresSeq, f1, f2, a1, a2, b1, b2);
-                else if (Options.checkEquivWithDependencies)
+                if (Options.checkEquivWithDependencies) //add in addition to regular DAC candidates as well
                     EquivWithDependencyHoudiniTemplates.AddHoudiniTemplates(ref requiresSeq, ref ensuresSeq, f1, f2, a1, a2, b1, b2);
-
+            }
             //create signature (x1, x2) : (r1, r2)
             Procedure mschkProc =
                 new Procedure(Token.NoToken,

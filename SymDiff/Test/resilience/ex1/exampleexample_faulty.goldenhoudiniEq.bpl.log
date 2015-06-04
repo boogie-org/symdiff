@@ -12,6 +12,7 @@ Resolving and typechecking
 ImplMap: _v1.Eval, _v2.Eval
 Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
+---> Unable to find OK variables!!
 Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ImplMap: _v1.Eval_loop_anon3_LoopHead, _v2.Eval_loop_anon3_LoopHead
@@ -22,53 +23,8 @@ Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 
 /typeEncoding:m
 /noinfer
-/trace
 /doModSetAnalysis
 --------------------
-Collecting existential constants...
-Building call graph...
-Number of implementations = 6
-Beginning VC generation for Houdini...
-Generating VC for _v2.Eval
-Generating VC for _v2.Eval_loop_anon3_LoopHead
-Generating VC for _v1.Eval
-Generating VC for _v1.Eval_loop_anon3_LoopHead
-Generating VC for MS_Check__v1.Eval___v2.Eval
-Generating VC for MS_Check__v1.Eval_loop_anon3_LoopHead___v2.Eval_loop_anon3_LoopHead
-Verifying _v1.Eval_loop_anon3_LoopHead
-Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 _houdini_Eval_loop_anon3_LoopHead_control_flag_2 _houdini_Eval_loop_anon3_LoopHead_out_result_3 _houdini_Eval_loop_anon3_LoopHead_out_x_4)
-Outcome = Valid
-Time taken = 0.0110009
-Verifying _v1.Eval
-Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 _houdini_Eval_loop_anon3_LoopHead_control_flag_2 _houdini_Eval_loop_anon3_LoopHead_out_result_3 _houdini_Eval_loop_anon3_LoopHead_out_x_4)
-Outcome = Valid
-Time taken = 0
-Verifying _v2.Eval_loop_anon3_LoopHead
-Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 _houdini_Eval_loop_anon3_LoopHead_control_flag_2 _houdini_Eval_loop_anon3_LoopHead_out_result_3 _houdini_Eval_loop_anon3_LoopHead_out_x_4)
-Outcome = Valid
-Time taken = 0.0010001
-Verifying MS_Check__v1.Eval_loop_anon3_LoopHead___v2.Eval_loop_anon3_LoopHead
-Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 _houdini_Eval_loop_anon3_LoopHead_control_flag_2 _houdini_Eval_loop_anon3_LoopHead_out_result_3 _houdini_Eval_loop_anon3_LoopHead_out_x_4)
-Outcome = Invalid
-Time taken = 0.0069995
-Removing _houdini_Eval_loop_anon3_LoopHead_out_result_3
-Verifying MS_Check__v1.Eval_loop_anon3_LoopHead___v2.Eval_loop_anon3_LoopHead
-Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 _houdini_Eval_loop_anon3_LoopHead_control_flag_2 (! _houdini_Eval_loop_anon3_LoopHead_out_result_3) _houdini_Eval_loop_anon3_LoopHead_out_x_4)
-Outcome = Valid
-Time taken = 0.0020002
-Verifying MS_Check__v1.Eval___v2.Eval
-Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 _houdini_Eval_result_1 _houdini_Eval_loop_anon3_LoopHead_control_flag_2 (! _houdini_Eval_loop_anon3_LoopHead_out_result_3) _houdini_Eval_loop_anon3_LoopHead_out_x_4)
-Outcome = Invalid
-Time taken = 0.0010001
-Removing _houdini_Eval_result_1
-Verifying MS_Check__v1.Eval___v2.Eval
-Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 (! _houdini_Eval_result_1) _houdini_Eval_loop_anon3_LoopHead_control_flag_2 (! _houdini_Eval_loop_anon3_LoopHead_out_result_3) _houdini_Eval_loop_anon3_LoopHead_out_x_4)
-Outcome = Valid
-Time taken = 0.0020011
-Verifying _v2.Eval
-Houdini assignment axiom: (And true _houdini_Eval_control_flag_0 (! _houdini_Eval_result_1) _houdini_Eval_loop_anon3_LoopHead_control_flag_2 (! _houdini_Eval_loop_anon3_LoopHead_out_result_3) _houdini_Eval_loop_anon3_LoopHead_out_x_4)
-Outcome = Valid
-Time taken = 0.0009994
-Houdini finished and inferred 3/5 contracts
+Houdini finished and inferred 14/25 contracts
 Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 

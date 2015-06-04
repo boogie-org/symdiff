@@ -51,7 +51,6 @@ sub GetStats {
       }
     } elsif ($infer == 1) {
       if ($line =~ /Boogie program verifier finished with/ ||
-	  $line =~ /_houdini_.*= / || 
           $line =~ /Houdini finished/) {
 	$result = $result . " " . $line;
       }

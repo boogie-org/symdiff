@@ -26,16 +26,16 @@ Verifying program while tracking: {assertsPassed, _v1.D, _v2.D}
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.43 s
-Time spent reading-writing programs: 0.09 s
+Boogie verification time: 0.37 s
+Time spent reading-writing programs: 0.08 s
 
-Time spent checking a program (2): 0.71 s
-Time spent checking a path (3): 0.12 s
+Time spent checking a program (2): 0.61 s
+Time spent checking a path (3): 0.10 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.3140852 s
-Total User CPU time: 1.171875 s
+Total Time: 1.2020785 s
+Total User CPU time: 1.28125 s
 
 Checking _houdini_Bar_r_1 using Corral....
 	END Executing corral.exe  mergedProgSingle_1.bpl /k:1 /main:MS_Check__v1.Foo___v2.Foo /recursionBound:4 /timeLimit:100 /noTrace 
@@ -47,16 +47,16 @@ Verifying program while tracking: {assertsPassed, _v1.D, _v2.D}
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.37 s
+Boogie verification time: 0.39 s
 Time spent reading-writing programs: 0.08 s
 
-Time spent checking a program (2): 0.62 s
-Time spent checking a path (3): 0.10 s
+Time spent checking a program (2): 0.63 s
+Time spent checking a path (3): 0.09 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.2190801 s
-Total User CPU time: 1.3125 s
+Total Time: 1.2040426 s
+Total User CPU time: 1.1875 s
 
 Performing Houdini inference from within Symdiff.exe 
 Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
