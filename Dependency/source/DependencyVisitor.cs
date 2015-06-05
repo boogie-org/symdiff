@@ -634,7 +634,7 @@ namespace Dependency
             AddSummaryChangedAnnotations(node, buTaintedVars);
 
             taintedVars = new HashSet<Variable>(taintedVars.Union(buTaintedVars));
-            var untaintedVars = node.OutParams.Union(node.Modifies.Select(x => x.Decl));
+            var untaintedVars = node.OutParams.Union(node.Modifies.Select(x => x.Decl)).Where(x => !taintedVars.Contains(x));
 
             var untaintedNames = untaintedVars.Select(x => x.Name)
                                               .ToList<object>();
