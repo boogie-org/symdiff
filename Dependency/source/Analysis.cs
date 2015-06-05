@@ -357,8 +357,9 @@ namespace Dependency
             //output dependency in a bpl file
             if (AnnotateDependencies)
             {
-                Utils.DependenciesUtils.PruneProcDependencies(program, allDeps); //for now we prune it
-                (new DependencyWriter(program, allDeps)).Visit(program);
+                
+                Utils.DependenciesUtils.PruneProcDependencies(program, allDeps); //for now we prune it                
+                (new DependencyWriter(program, allDeps, allDepVisitor.procEntryTDTaint, allDepVisitor.procExitTDTaint)).Visit(program);
                 var depFileName = filename + "_w_dep.bpl";
                 Utils.PrintProgram(program, depFileName);
                 Console.WriteLine("Adding dependencies to program to {0}", depFileName);

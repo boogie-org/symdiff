@@ -18,10 +18,10 @@ namespace Dependency
 
         private Graph<Procedure> callGraph;
 
-         private readonly Dictionary<Procedure, Dependencies> lowerBoundProcDependencies; //never changes
-         private readonly Dictionary<Procedure, Dependencies> upperBoundProcDependencies; //never changes
-         public Dictionary<Procedure, Dependencies> currDependencies; 
-        
+        private readonly Dictionary<Procedure, Dependencies> lowerBoundProcDependencies; //never changes
+        private readonly Dictionary<Procedure, Dependencies> upperBoundProcDependencies; //never changes
+        public Dictionary<Procedure, Dependencies> currDependencies;
+
 
         private int stackBound;
 
@@ -69,7 +69,7 @@ namespace Dependency
             }
 
             //least fixed point, starting with lower-bound
-            currDependencies = new Dictionary<Procedure, Dependencies>(lowerBoundProcDependencies); 
+            currDependencies = new Dictionary<Procedure, Dependencies>(lowerBoundProcDependencies);
 
             //important note about *
             //We want to remove * from currDependency except for stubs
@@ -144,8 +144,8 @@ namespace Dependency
         public Dictionary<Block, VarSet> branchCondVars; // a mapping: branching Block -> { Variables in the branch conditional }
         public WorkList<Dependencies> worklist;
 
-        private Dictionary<Procedure, Dependencies> procEntryTDTaint;
-        private Dictionary<Procedure, Dependencies> procExitTDTaint;
+        public Dictionary<Procedure, Dependencies> procEntryTDTaint { get; private set; }
+        public Dictionary<Procedure, Dependencies> procExitTDTaint { get; private set; }
         private HashSet<Procedure> changedProcs;
         private HashSet<Block> changedBlocks;
 
@@ -155,7 +155,7 @@ namespace Dependency
         private bool detStubs;
 
         private int timeOut;
-        public DependencyVisitor(string filename, Program program, List<Tuple<string,string,int>> changeLog, int timeOut, bool prune = true, bool dataOnly = false, bool detStubs = false)
+        public DependencyVisitor(string filename, Program program, List<Tuple<string, string, int>> changeLog, int timeOut, bool prune = true, bool dataOnly = false, bool detStubs = false)
         {
             this.filename = filename;
             this.program = program;
@@ -241,7 +241,7 @@ namespace Dependency
                         continue;
                     Analysis.PopulateTaintLog(impl, Utils.ExtractTaint(this));
                 }
-                
+
                 worklist.stateSpace.Clear();
                 if (numVisited % 25 == 0)
                     GC.Collect();
@@ -255,7 +255,7 @@ namespace Dependency
             // compute top down taint
             orderedSCCs.Reverse();
             foreach (var scc in orderedSCCs)
-	        {
+            {
                 //foreach (var proc in procEntryTDTaint.Keys)
                 foreach (var proc in scc)
                 {
@@ -271,7 +271,7 @@ namespace Dependency
                         Visit(impl);
                     }
                 }
-	        }
+            }
 
             // the top down taint was removed from ProcDependencies so it won't flow up, so add it back in now
             procExitTDTaint.Iter(pd => ProcDependencies[pd.Key].JoinWith(pd.Value));
@@ -362,7 +362,7 @@ namespace Dependency
                 if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
                     dependencies[lhs].Add(Utils.VariableUtils.BottomUpTaintVar);
             }
-            
+
             if (worklist.Assign(node, dependencies))
                 worklist.Propagate(node);
             return node;
@@ -542,7 +542,7 @@ namespace Dependency
             Dependencies dependencies = worklist.GatherPredecessorsState(node, currBlock);
 
             if (worklist.Assign(node, dependencies))
-                worklist.Propagate(node,nodeToImpl[node].Proc);
+                worklist.Propagate(node, nodeToImpl[node].Proc);
             var proc = nodeToImpl[node].Proc;
             // set the dependencies result for the procedure
             if (!ProcDependencies.ContainsKey(proc))
@@ -552,9 +552,10 @@ namespace Dependency
             // top down taint can't flow up
             if (!procExitTDTaint.ContainsKey(proc))
                 procExitTDTaint[proc] = new Dependencies();
-            ProcDependencies[proc].Where(d => d.Value.Contains(Utils.VariableUtils.TopDownTaintVar)).Iter(dep => { 
+            ProcDependencies[proc].Where(d => d.Value.Contains(Utils.VariableUtils.TopDownTaintVar)).Iter(dep =>
+            {
                 dep.Value.Remove(Utils.VariableUtils.TopDownTaintVar);
-                procExitTDTaint[proc][dep.Key] = new VarSet(); 
+                procExitTDTaint[proc][dep.Key] = new VarSet();
                 procExitTDTaint[proc][dep.Key].Add(Utils.VariableUtils.TopDownTaintVar);
             });
             return node;
@@ -565,21 +566,102 @@ namespace Dependency
     {
         Program prog;
         Dictionary<Procedure, Dependencies> allDeps;
+        private Dictionary<Procedure, Dependencies> inputTaints;
+        private Dictionary<Procedure, Dependencies> outputTaints;
+        private Dictionary<Procedure, Dependencies> buDeps;
 
-        public DependencyWriter(Program prog, Dictionary<Procedure, Dependencies> allDeps)
+        public DependencyWriter(Program prog, Dictionary<Procedure, Dependencies> allDeps, Dictionary<Procedure, Dependencies> inputTaints, Dictionary<Procedure, Dependencies> outputTaints)
         {
             this.prog = prog;
             this.allDeps = allDeps;
+            this.buDeps = new Dictionary<Procedure, Dependencies>();
+            foreach (var proc in allDeps.Keys)
+            {
+                var deps = allDeps[proc];
+                var tmp = new Dependencies();
+                foreach (var v in deps.Keys)
+                {
+                    if (deps[v].Contains(Dependency.Utils.VariableUtils.BottomUpTaintVar))
+                        tmp[v] = deps[v];
+                }
+                buDeps[proc] = tmp;
+            }
+            this.inputTaints = inputTaints;
+            this.outputTaints = outputTaints;
         }
 
         public override Procedure VisitProcedure(Procedure node)
         {
+            //add the i/o dependencies as ensures
+            AddIODependencies(node);
+            AddTaintedInputs(node);
+            AddTaintedOutputs(node);
+
+            return base.VisitProcedure(node);
+        }
+
+        private void AddTaintedInputs(Procedure node)
+        {
+            if (!this.inputTaints.ContainsKey(node))
+            {
+                return;
+            }
+
+            var taintedVarNames = new HashSet<string>(this.inputTaints[node].Select(kv => kv.Key.Name));
+
+            var notTaintedVarNames = node.InParams.Where(x => !taintedVarNames.Contains(x.Name)).Select(x => x.Name).ToList<object>();
+
+
+            var req = new Requires(true, Expr.True);
+            req.Attributes = new QKeyValue(Token.NoToken, "in_ntainted", notTaintedVarNames, null);
+            node.Requires.Add(req);
+        }
+
+        private void AddTaintedOutputs(Procedure node)
+        {
+            if (!this.outputTaints.ContainsKey(node))
+            {
+                return;
+            }
+
+            var taintedVars = new HashSet<Variable>(this.outputTaints[node].Select(kv => kv.Key));
+            var buTaintedVars = new HashSet<Variable>(this.allDeps[node]
+                                                          .Where(x => x.Value.Contains(Dependency.Utils.VariableUtils.BottomUpTaintVar))
+                                                          .Select(x => x.Key));
+
+
+
+            AddSummaryChangedAnnotations(node, buTaintedVars);
+
+            taintedVars = new HashSet<Variable>(taintedVars.Union(buTaintedVars));
+            var untaintedVars = node.OutParams.Union(node.Modifies.Select(x => x.Decl));
+
+            var untaintedNames = untaintedVars.Select(x => x.Name)
+                                              .ToList<object>();
+
+            var ens = new Ensures(true, Expr.True);
+            ens.Attributes = new QKeyValue(Token.NoToken, "out_ntainted", untaintedNames, null);
+            node.Ensures.Add(ens);
+        }
+
+        private void AddSummaryChangedAnnotations(Procedure node, HashSet<Variable> buTaintedVars)
+        {
+            var ens = new Ensures(true, Expr.True);
+            var untaintedVars = node.OutParams.Union(node.Modifies.Select(x => x.Decl)).Where(x => !buTaintedVars.Contains(x));
+            ens.Attributes = new QKeyValue(Token.NoToken, "summ_ntainted", untaintedVars.Select(x => x.Name).ToList<object>(), null);
+            node.Ensures.Add(ens);
+        }
+
+        private void AddIODependencies(Procedure node)
+        {
             //stub procedures may not have dependencies
-            if (!allDeps.ContainsKey(node)) return base.VisitProcedure(node);
-            //add the dependencies as ensures
+            if (!allDeps.ContainsKey(node))
+            {
+                return;
+            }
             var depEnsures = new List<Ensures>();
             var deps = allDeps[node];
-            foreach(var kv in deps)
+            foreach (var kv in deps)
             {
                 var ens = new Ensures(true, Expr.True);
                 var outvar = kv.Key;
@@ -588,15 +670,14 @@ namespace Dependency
                 invars.Iter(i => Debug.Assert(i is GlobalVariable || node.InParams.Contains(i), "Dependency should only globals/inputs as values"));
                 var varL = new List<string>() { outvar.Name };
                 //don't add variables such as * and ~
-                invars.RemoveAll(x => x.Name == Utils.VariableUtils.NonDetVar.Name 
-                    || x.Name == Utils.VariableUtils.BottomUpTaintVar.Name 
+                invars.RemoveAll(x => x.Name == Utils.VariableUtils.NonDetVar.Name
+                    || x.Name == Utils.VariableUtils.BottomUpTaintVar.Name
                     || x.Name == Utils.VariableUtils.TopDownTaintVar.Name);
                 varL.AddRange(invars.Select(i => i.Name));
-                ens.Attributes = new QKeyValue(Token.NoToken, "io_dependency", varL.Select(x => (object) x).ToList(), null);
+                ens.Attributes = new QKeyValue(Token.NoToken, "io_dependency", varL.Select(x => (object)x).ToList(), null);
                 depEnsures.Add(ens);
             }
             node.Ensures.AddRange(depEnsures);
-            return base.VisitProcedure(node);
         }
     }
 }
