@@ -77,6 +77,7 @@ namespace SDiff
             cg2 = CallGraph.Make(p2);
             Initialize(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg1);
             MutualSummaryStart(mergedProgram);
+            (new TaintBasedSimplification(mergedProgram)).StartSimplifications();
 
             //If inferContracts is specified, then we call Houdini and do Inference and persist output into mergedProgram
             //add the flags for /inferContracts to Boogie
@@ -728,6 +729,7 @@ namespace SDiff
                     requiresSeq,
                     new List<IdentifierExpr>(),
                     ensuresSeq);
+            mschkProc.AddAttribute("MS_procs", f1.Name, f2.Name);
             mergedProgram.AddTopLevelDeclaration(mschkProc);
             //don't create body if either procedure does not have a body
             if (IsStubProcedure(f1)|| IsStubProcedure(f2))

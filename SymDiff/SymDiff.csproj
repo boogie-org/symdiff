@@ -183,6 +183,7 @@
     <Compile Include="source\Util.cs" />
     <Compile Include="source\Visitor.cs" />
     <Compile Include="source\WholeProgram.cs" />
+    <Compile Include="source\TaintBasedSimplification.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
