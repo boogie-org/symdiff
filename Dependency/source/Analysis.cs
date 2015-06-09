@@ -21,6 +21,7 @@ namespace Dependency
             public const string both = "/both";
             public const string dataOnly = "/dataOnly";
             public const string taint = "/taint";
+            public const string conservativeTaint = "/conservativeTaint";
             public const string debug = "/break";
             public const string detStubs = "/detStubs";
             public const string refine = "/refine";
@@ -50,6 +51,7 @@ namespace Dependency
         static public bool SplitMapsWithAliasAnalysis = false;
         static public bool StripValueIs = false;
         static public bool RefinedStmtTaintAnalysis = false; 
+        static public bool ConservativeTaint = false;
         
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
@@ -125,6 +127,8 @@ namespace Dependency
             AbstractNonTainted = args.Any(x => x.ToLower() == CmdLineOptsNames.abstractNonTainted.ToLower());
 
             AnnotateDependencies = args.Any(x => x.ToLower() == CmdLineOptsNames.annotateDependencies.ToLower());
+
+            ConservativeTaint = args.Any(x => x.ToLower() == CmdLineOptsNames.conservativeTaint.ToLower());
 
             StripValueIs = args.Any(x => x.ToLower() == CmdLineOptsNames.stripValueIs.ToLower());
 

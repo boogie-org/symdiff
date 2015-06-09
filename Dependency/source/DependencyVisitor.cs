@@ -594,9 +594,12 @@ namespace Dependency
         {
             //add the i/o dependencies as ensures
             AddIODependencies(node);
-            AddTaintedInputs(node);
-            AddTaintedOutputs(node);
-
+            if (!Analysis.ConservativeTaint)
+            {
+                AddTaintedInputs(node);
+                AddTaintedOutputs(node);
+            }                  
+            
             return base.VisitProcedure(node);
         }
 
