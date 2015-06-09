@@ -21,7 +21,6 @@ namespace Dependency
             public const string both = "/both";
             public const string dataOnly = "/dataOnly";
             public const string taint = "/taint";
-            public const string conservativeTaint = "/conservativeTaint";
             public const string debug = "/break";
             public const string detStubs = "/detStubs";
             public const string refine = "/refine";
@@ -50,9 +49,9 @@ namespace Dependency
         static public bool AnnotateDependencies = false;
         static public bool SplitMapsWithAliasAnalysis = false;
         static public bool StripValueIs = false;
-        static public bool RefinedStmtTaintAnalysis = false; 
+        static public bool RefinedStmtTaintAnalysis = false;
         static public bool ConservativeTaint = false;
-        
+
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int, string, Dependencies>> dependenciesLog = new List<Tuple<string, string, int, string, Dependencies>>();
@@ -95,6 +94,8 @@ namespace Dependency
             args.Where(x => x.StartsWith(CmdLineOptsNames.taint + ":"))
                 .Iter(s => changeList = s.Split(':')[1]);
 
+            ConservativeTaint = changeList == null;
+
             DataOnly = args.Any(x => x.ToLower() == CmdLineOptsNames.dataOnly.ToLower());
             BothDependencies = args.Any(x => x.ToLower() == CmdLineOptsNames.both.ToLower()) && !DataOnly;
             DetStubs = args.Any(x => x.ToLower() == CmdLineOptsNames.detStubs.ToLower());
@@ -126,9 +127,7 @@ namespace Dependency
 
             AbstractNonTainted = args.Any(x => x.ToLower() == CmdLineOptsNames.abstractNonTainted.ToLower());
 
-            AnnotateDependencies = args.Any(x => x.ToLower() == CmdLineOptsNames.annotateDependencies.ToLower());
-
-            ConservativeTaint = args.Any(x => x.ToLower() == CmdLineOptsNames.conservativeTaint.ToLower());
+            AnnotateDependencies = args.Any(x => x.ToLower() == CmdLineOptsNames.annotateDependencies.ToLower());            
 
             StripValueIs = args.Any(x => x.ToLower() == CmdLineOptsNames.stripValueIs.ToLower());
 

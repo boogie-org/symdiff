@@ -195,8 +195,8 @@ if ($rvt eq 1){
 }
 
 ## run dependency analysis (TODO: fold it together with abstractTainted)
-MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl /conservativeTaint /annotateDependencies "); #outputs to _v1.bpl_w_deps.bpl
-MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl /conservativeTaint /annotateDependencies "); #outputs to _v2.bpl_w_deps.bpl
+MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl /annotateDependencies "); #outputs to _v1.bpl_w_deps.bpl
+MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl /annotateDependencies "); #outputs to _v2.bpl_w_deps.bpl
 MyExecAndDieOnFailure("copy /Y _v1.bpl_w_dep.bpl  _v1.bpl"); 
 MyExecAndDieOnFailure("copy /Y _v2.bpl_w_dep.bpl  _v2.bpl"); 
 
