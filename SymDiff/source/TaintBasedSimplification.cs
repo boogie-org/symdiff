@@ -1,4 +1,5 @@
 ﻿using Microsoft.Boogie;
+using Microsoft.Boogie.Houdini;
 using SDiff;
 using System;
 using System.Collections.Generic;
@@ -6,23 +7,27 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace SymDiff
+namespace SDiff
 {
     class TaintBasedSimplification : StandardVisitor
     {
         private Program program;
-        private ProcedureCollectorVisitor procs;
+        private Dictionary<string, Procedure> procs;
+        private IList<string> candidateConsts;
+        private const string INFERRED_COMMENT = "Taint-Inferred DAC Candidate";
 
         public TaintBasedSimplification(Program p)
-        {            
+        {
             this.program = p;
+            this.candidateConsts = this.program.Variables.Where(Item =>
+                QKeyValue.FindBoolAttribute(Item.Attributes, "existential")).Select(Item => Item.Name).ToList();
+            this.procs = this.program.Procedures.Select(proc => new { proc.Name, x = proc }).ToDictionary(x => x.Name, x => x.x);
         }
 
         public void StartSimplifications()
         {
-            this.procs = new ProcedureCollectorVisitor();
-            this.procs.Visit(this.program);
             this.Visit(this.program);
+
         }
 
         public override Procedure VisitProcedure(Procedure node)
@@ -31,15 +36,14 @@ namespace SymDiff
             var ensToRem = new List<Ensures>();
             var reqToAdd = new List<Requires>();
             var reqToRem = new List<Requires>();
-            
+
             string f1, f2;
             if (node == null || !isMSProcedureWithMapping(node, out f1, out f2))
             {
                 return base.VisitProcedure(node);
             }
             HashSet<string> nonTaintedInputs, nonTaintedOutputs, nonTaintedSummaries;
-            //The util stuff is broken... make your own thing.
-            this.getTaintInfo(this.procs.nameToProcedure[f1], out nonTaintedInputs, out nonTaintedOutputs, out nonTaintedSummaries);
+            this.getTaintInfo(this.procs[f1], out nonTaintedInputs, out nonTaintedOutputs, out nonTaintedSummaries);
 
             foreach (var ens in node.Ensures)
             {
@@ -51,7 +55,7 @@ namespace SymDiff
                 // These are DAC contracts
                 if (ens.Attributes.Key.StartsWith("DAC_"))
                 {
-                    var vn = this.projectProductVarToOriginal(ens.Attributes.Params.First(_ => true).ToString());                    
+                    var vn = this.projectProductVarToOriginal(ens.Attributes.Params.First(_ => true).ToString());
                     // If this is a summary ensures
                     if (ens.Attributes.Key.EndsWith("SUMMARY"))
                     {
@@ -72,7 +76,7 @@ namespace SymDiff
             }
             foreach (var req in node.Requires)
             {
-                
+
                 if (req.Attributes == null)
                 {
                     continue;
@@ -92,6 +96,7 @@ namespace SymDiff
             reqToRem.ForEach(x => node.Requires.Remove(x));
             ensToAdd.ForEach(node.Ensures.Add);
             ensToRem.ForEach(x => node.Ensures.Remove(x));
+
             return base.VisitProcedure(node);
         }
 
@@ -105,13 +110,13 @@ namespace SymDiff
                 f1 = (string)node.Attributes.Params.ElementAt(0);
                 f2 = (string)node.Attributes.Params.ElementAt(1);
                 return true;
-            }            
-            return false;            
+            }
+            return false;
         }
 
         private void filterOutRequires(Procedure node, Requires req, List<Requires> reqToAdd, List<Requires> reqToRemove)
         {
-            var newReq = new Requires(true, req.Condition, "Inferred DAC Candidate");
+            var newReq = new Requires(true, req.Condition, INFERRED_COMMENT);
             reqToRemove.Add(req);
             reqToAdd.Add(newReq);
         }
@@ -119,9 +124,20 @@ namespace SymDiff
 
         private void filterOutEnsures(Procedure node, Ensures ens, List<Ensures> ensToAdd, List<Ensures> ensToRemove)
         {
-            var newEns = new Ensures(true, ens.Condition, "Inferred DAC Candidate");
+            var newEns = new Ensures(true, removeExistentialImplication(ens.Condition), INFERRED_COMMENT);
             ensToRemove.Add(ens);
             ensToAdd.Add(newEns);
+        }
+
+        private Expr removeExistentialImplication(Expr expr)
+        {
+
+            string match;
+            bool result = Houdini.GetCandidateWithoutConstant(expr, this.candidateConsts, out match, out expr);
+            Debug.Assert(result);
+
+
+            return expr;
         }
 
         private string projectProductVarToOriginal(string varName)
@@ -130,7 +146,7 @@ namespace SymDiff
         }
 
 
-        public void getTaintInfo(Procedure node, out HashSet<string> nonTaintedInputs, 
+        public void getTaintInfo(Procedure node, out HashSet<string> nonTaintedInputs,
             out HashSet<string> nonTaintedOutputs, out HashSet<string> nonTaintedSummaries)
         {
             nonTaintedInputs = new HashSet<string>();
@@ -157,16 +173,4 @@ namespace SymDiff
             }
         }
     }
-
-    class ProcedureCollectorVisitor : StandardVisitor
-    {
-        public Dictionary<string, Procedure> nameToProcedure = new Dictionary<string, Procedure>();
-        public override Procedure VisitProcedure(Procedure node)
-        {
-            if (!this.nameToProcedure.ContainsKey(node.Name))
-                this.nameToProcedure.Add(node.Name, node);
-            return base.VisitProcedure(node);
-        }
-    }
-    
 }

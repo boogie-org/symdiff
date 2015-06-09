@@ -76,8 +76,7 @@ namespace SDiff
             cg1 = CallGraph.Make(p1);
             cg2 = CallGraph.Make(p2);
             Initialize(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg1);
-            MutualSummaryStart(mergedProgram);
-            (new TaintBasedSimplification(mergedProgram)).StartSimplifications();
+            MutualSummaryStart(mergedProgram);            
 
             //If inferContracts is specified, then we call Houdini and do Inference and persist output into mergedProgram
             //add the flags for /inferContracts to Boogie
@@ -102,7 +101,8 @@ namespace SDiff
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
             var program = SDiff.Boogie.Process.ParseProgram("mergedProgSingle.bpl");
             program.Resolve(); program.Typecheck();
-            
+            (new TaintBasedSimplification(program)).StartSimplifications();
+
             HoudiniSession.HoudiniStatistics houdiniStats = new HoudiniSession.HoudiniStatistics();
             Houdini houdini = new Houdini(program, houdiniStats);
             HoudiniOutcome outcome = houdini.PerformHoudiniInference();
