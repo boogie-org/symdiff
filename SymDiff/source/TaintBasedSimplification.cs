@@ -116,7 +116,7 @@ namespace SDiff
 
         private void filterOutRequires(Procedure node, Requires req, List<Requires> reqToAdd, List<Requires> reqToRemove)
         {
-            var newReq = new Requires(true, req.Condition, INFERRED_COMMENT);
+            var newReq = new Requires(Token.NoToken, true, removeExistentialImplication(req.Condition), INFERRED_COMMENT);            
             reqToRemove.Add(req);
             reqToAdd.Add(newReq);
         }
@@ -124,7 +124,7 @@ namespace SDiff
 
         private void filterOutEnsures(Procedure node, Ensures ens, List<Ensures> ensToAdd, List<Ensures> ensToRemove)
         {
-            var newEns = new Ensures(true, removeExistentialImplication(ens.Condition), INFERRED_COMMENT);
+            var newEns = new Ensures(Token.NoToken, true, removeExistentialImplication(ens.Condition), INFERRED_COMMENT);
             ensToRemove.Add(ens);
             ensToAdd.Add(newEns);
         }
@@ -157,11 +157,7 @@ namespace SDiff
                 if (ens.Attributes == null)
                 {
                     continue;
-                }
-                if (ens.Attributes.Key.Equals("in_ntainted"))
-                {
-                    nonTaintedInputs = new HashSet<string>(ens.Attributes.Params.Cast<string>());
-                }
+                }     
                 else if (ens.Attributes.Key.Equals("out_ntainted"))
                 {
                     nonTaintedOutputs = new HashSet<string>(ens.Attributes.Params.Cast<string>());
@@ -169,6 +165,18 @@ namespace SDiff
                 else if (ens.Attributes.Key.Equals("summ_ntainted"))
                 {
                     nonTaintedSummaries = new HashSet<string>(ens.Attributes.Params.Cast<string>());
+                }
+            }
+
+            foreach (var req in node.Requires)
+            {
+                if (req.Attributes == null)
+                {
+                    continue;
+                }
+                if (req.Attributes.Key.Equals("in_ntainted"))
+                {
+                    nonTaintedInputs = new HashSet<string>(req.Attributes.Params.Cast<string>());
                 }
             }
         }
