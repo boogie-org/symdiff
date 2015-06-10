@@ -15,7 +15,7 @@ namespace SDiff
         private Dictionary<string, Procedure> procs;
         private IList<string> candidateConsts;
         private const string INFERRED_COMMENT = "Taint-Inferred DAC Candidate";
-
+        private HashSet<Procedure> visited = new HashSet<Procedure>();
         public TaintBasedSimplification(Program p)
         {
             this.program = p;
@@ -31,7 +31,12 @@ namespace SDiff
         }
 
         public override Procedure VisitProcedure(Procedure node)
-        {
+        {            
+            //TODO(t-algy): This gets called twice because it gets invoked when the visitor visits an implementation. Fix.
+            if(this.visited.Contains(node))
+                return base.VisitProcedure(node);
+            this.visited.Add(node);
+
             var ensToAdd = new List<Ensures>();
             var ensToRem = new List<Ensures>();
             var reqToAdd = new List<Requires>();
@@ -116,7 +121,7 @@ namespace SDiff
 
         private void filterOutRequires(Procedure node, Requires req, List<Requires> reqToAdd, List<Requires> reqToRemove)
         {
-            var newReq = new Requires(Token.NoToken, true, removeExistentialImplication(req.Condition), INFERRED_COMMENT);            
+            var newReq = new Requires(Token.NoToken, true, removeExistentialImplication(req.Condition), INFERRED_COMMENT, new QKeyValue(Token.NoToken,req.Attributes.Key, new List<object>(req.Attributes.Params),null) );            
             reqToRemove.Add(req);
             reqToAdd.Add(newReq);
         }
@@ -124,7 +129,7 @@ namespace SDiff
 
         private void filterOutEnsures(Procedure node, Ensures ens, List<Ensures> ensToAdd, List<Ensures> ensToRemove)
         {
-            var newEns = new Ensures(Token.NoToken, true, removeExistentialImplication(ens.Condition), INFERRED_COMMENT);
+            var newEns = new Ensures(Token.NoToken, true, removeExistentialImplication(ens.Condition), INFERRED_COMMENT, new QKeyValue(Token.NoToken, ens.Attributes.Key, new List<object>(ens.Attributes.Params), null));
             ensToRemove.Add(ens);
             ensToAdd.Add(newEns);
         }
