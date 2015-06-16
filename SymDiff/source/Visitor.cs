@@ -447,6 +447,7 @@ namespace SDiff
             if (!Visited.Contains(node))
             {
                 Visited.Add(node);
+                node.AddAttribute("prefix", this.Prefix);
                 node.Name = AppendPrefix(node.Name);
             }
             return base.VisitProcedure(node);

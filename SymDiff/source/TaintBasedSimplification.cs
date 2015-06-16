@@ -9,31 +9,22 @@ using System.Text;
 
 namespace SDiff
 {
-    class TaintBasedSimplification : StandardVisitor
+    class TaintBasedSimplification : SimplificationVisitor 
     {
-        private Program program;
-        private Dictionary<string, Procedure> procs;
-        private IList<string> candidateConsts;
-        private const string INFERRED_COMMENT = "Taint-Inferred DAC Candidate";
-        private HashSet<Procedure> visited = new HashSet<Procedure>();
+
         public TaintBasedSimplification(Program p)
-        {
+            : base(p, "Taint-Inferred DAC Candidate")
+        {            
             this.program = p;
             this.candidateConsts = this.program.Variables.Where(Item =>
                 QKeyValue.FindBoolAttribute(Item.Attributes, "existential")).Select(Item => Item.Name).ToList();
-            this.procs = this.program.Procedures.Select(proc => new { proc.Name, x = proc }).ToDictionary(x => x.Name, x => x.x);
-        }
-
-        public void StartSimplifications()
-        {
-            this.Visit(this.program);
-
+            this.procs = this.program.Procedures.Select(proc => new { proc.Name, x = proc }).ToDictionary(x => x.Name, x => x.x);            
         }
 
         public override Procedure VisitProcedure(Procedure node)
-        {            
+        {
             //TODO(t-algy): This gets called twice because it gets invoked when the visitor visits an implementation. Fix.
-            if(this.visited.Contains(node))
+            if (this.visited.Contains(node))
                 return base.VisitProcedure(node);
             this.visited.Add(node);
 
@@ -60,21 +51,21 @@ namespace SDiff
                 // These are DAC contracts
                 if (ens.Attributes.Key.StartsWith("DAC_"))
                 {
-                    var vn = this.projectProductVarToOriginal(ens.Attributes.Params.First(_ => true).ToString());
+                    var vn = this.projectProductVarToOriginal(ens.Attributes.Params.First().ToString());
                     // If this is a summary ensures
-                    if (ens.Attributes.Key.EndsWith("SUMMARY"))
+                    if (ens.Attributes.Key.Equals("DAC_SUMMARY"))
                     {
                         //get the varaible, map it, check if correspoinding summary is not tainted, if so make this free.                        
                         if (nonTaintedSummaries.Contains(vn))
                         {
-                            this.filterOutEnsures(node, ens, ensToAdd, ensToRem);
+                            this.makeFreeEnsures(node, ens, ensToAdd, ensToRem);
                         }
                     }
-                    else
+                    else if (ens.Attributes.Key.Equals("DAC_EQ") || ens.Attributes.Key.Equals("DAC_LE") || ens.Attributes.Key.Equals("DAC_IMPLIES"))
                     {
                         if (nonTaintedOutputs.Contains(vn))
                         {
-                            this.filterOutEnsures(node, ens, ensToAdd, ensToRem);
+                            this.makeFreeEnsures(node, ens, ensToAdd, ensToRem);
                         }
                     }
                 }
@@ -87,12 +78,12 @@ namespace SDiff
                     continue;
                 }
                 // These are DAC contracts
-                if (req.Attributes.Key.StartsWith("DAC_"))
+                if (req.Attributes.Key.Equals("DAC_EQ") || req.Attributes.Key.Equals("DAC_LE") || req.Attributes.Key.Equals("DAC_IMPLIES"))
                 {
                     var vn = this.projectProductVarToOriginal(req.Attributes.Params.First(_ => true).ToString());
                     if (nonTaintedInputs.Contains(vn))
                     {
-                        this.filterOutRequires(node, req, reqToAdd, reqToRem);
+                        this.makeFreeRequires(node, req, reqToAdd, reqToRem);
                     }
                 }
             }
@@ -105,52 +96,6 @@ namespace SDiff
             return base.VisitProcedure(node);
         }
 
-        private bool isMSProcedureWithMapping(Procedure node, out string f1, out string f2)
-        {
-            f1 = f2 = null;
-            if (node.Attributes == null)
-                return false;
-            if (node.Attributes.Key.Equals("MS_procs"))
-            {
-                f1 = (string)node.Attributes.Params.ElementAt(0);
-                f2 = (string)node.Attributes.Params.ElementAt(1);
-                return true;
-            }
-            return false;
-        }
-
-        private void filterOutRequires(Procedure node, Requires req, List<Requires> reqToAdd, List<Requires> reqToRemove)
-        {
-            var newReq = new Requires(Token.NoToken, true, removeExistentialImplication(req.Condition), INFERRED_COMMENT, new QKeyValue(Token.NoToken,req.Attributes.Key, new List<object>(req.Attributes.Params),null) );            
-            reqToRemove.Add(req);
-            reqToAdd.Add(newReq);
-        }
-
-
-        private void filterOutEnsures(Procedure node, Ensures ens, List<Ensures> ensToAdd, List<Ensures> ensToRemove)
-        {
-            var newEns = new Ensures(Token.NoToken, true, removeExistentialImplication(ens.Condition), INFERRED_COMMENT, new QKeyValue(Token.NoToken, ens.Attributes.Key, new List<object>(ens.Attributes.Params), null));
-            ensToRemove.Add(ens);
-            ensToAdd.Add(newEns);
-        }
-
-        private Expr removeExistentialImplication(Expr expr)
-        {
-
-            string match;
-            bool result = Houdini.GetCandidateWithoutConstant(expr, this.candidateConsts, out match, out expr);
-            Debug.Assert(result);
-
-
-            return expr;
-        }
-
-        private string projectProductVarToOriginal(string varName)
-        {
-            return varName.Substring(varName.IndexOf('.') + 1);
-        }
-
-
         public void getTaintInfo(Procedure node, out HashSet<string> nonTaintedInputs,
             out HashSet<string> nonTaintedOutputs, out HashSet<string> nonTaintedSummaries)
         {
@@ -162,7 +107,7 @@ namespace SDiff
                 if (ens.Attributes == null)
                 {
                     continue;
-                }     
+                }
                 else if (ens.Attributes.Key.Equals("out_ntainted"))
                 {
                     nonTaintedOutputs = new HashSet<string>(ens.Attributes.Params.Cast<string>());
@@ -184,6 +129,81 @@ namespace SDiff
                     nonTaintedInputs = new HashSet<string>(req.Attributes.Params.Cast<string>());
                 }
             }
+        }
+    }
+
+    abstract class SimplificationVisitor : StandardVisitor
+    {
+        protected Program program;
+        protected Dictionary<string, Procedure> procs;
+        protected IList<string> candidateConsts;
+        protected HashSet<Procedure> visited = new HashSet<Procedure>();
+        private string SIMPLIFICATION_COMMENT;
+        public SimplificationVisitor(Program p, string comment)
+        {
+            this.program = p;
+            this.candidateConsts = this.program.Variables.Where(Item =>
+                QKeyValue.FindBoolAttribute(Item.Attributes, "existential")).Select(Item => Item.Name).ToList();
+            this.procs = this.program.Procedures.Select(proc => new { proc.Name, x = proc }).ToDictionary(x => x.Name, x => x.x);
+            this.SIMPLIFICATION_COMMENT = comment;
+        }
+
+        public void StartSimplifications()
+        {
+            this.Visit(this.program);
+        }
+
+        protected bool isMSProcedureWithMapping(Procedure node, out string f1, out string f2)
+        {
+            f1 = f2 = null;
+            if (node.Attributes == null)
+                return false;
+            if (node.Attributes.Key.Equals("MS_procs"))
+            {
+                f1 = (string)node.Attributes.Params.ElementAt(0);
+                f2 = (string)node.Attributes.Params.ElementAt(1);
+                return true;
+            }
+            return false;
+        }
+
+        protected void makeFreeRequires(Procedure node, Requires req, List<Requires> reqToAdd, List<Requires> reqToRemove)
+        {
+            if (req.Attributes == null)
+            {
+                return;
+            }
+            var attribute = new QKeyValue(Token.NoToken, req.Attributes.Key, new List<object>(req.Attributes.Params), 
+                            new QKeyValue(Token.NoToken, "inferred", new List<object>(), null));
+            var newReq = new Requires(Token.NoToken, true, removeExistentialImplication(req.Condition), SIMPLIFICATION_COMMENT, attribute );            
+            reqToRemove.Add(req);
+            reqToAdd.Add(newReq);
+        }
+
+        protected void makeFreeEnsures(Procedure node, Ensures ens, List<Ensures> ensToAdd, List<Ensures> ensToRemove)
+        {
+            if (ens.Attributes == null)
+            {
+                return;
+            }
+            var attribute = new QKeyValue(Token.NoToken, ens.Attributes.Key, new List<object>(ens.Attributes.Params), 
+                            new QKeyValue(Token.NoToken, "inferred", new List<object>(), null));
+            var newEns = new Ensures(Token.NoToken, true, removeExistentialImplication(ens.Condition), SIMPLIFICATION_COMMENT, attribute);
+            ensToRemove.Add(ens);
+            ensToAdd.Add(newEns);
+        }
+
+        private Expr removeExistentialImplication(Expr expr)
+        {
+            string match;
+            bool result = Houdini.GetCandidateWithoutConstant(expr, this.candidateConsts, out match, out expr);
+            Debug.Assert(result);
+            return expr;
+        }
+
+        protected string projectProductVarToOriginal(string varName)
+        {
+            return varName.Substring(varName.IndexOf('.') + 1);
         }
     }
 }

@@ -25,11 +25,11 @@ namespace SDiff
         static bool checkMutualPreconditionsForInfiniteLoops = false; //checking mutual preconditions in the presence of non-terminating programs
         static bool typeCheckMergedProgram = true; //avoid type checking the in memory mergedProgSingle as the type symbols in ms_symdiff_file.bpl are not merged
         static bool checkAssertsOnly = false; //if true, we only check OK1 => OK2
-                                              //if false, then we check Dep(o1) == Dep(o2) ==> o1 == o2 (non-roots: all outs, roots: outvars)
+        //if false, then we check Dep(o1) == Dep(o2) ==> o1 == o2 (non-roots: all outs, roots: outvars)
 
         //globals
         static bool freeContracts = false;
-        static bool callCorralOnMergedProgram = false; 
+        static bool callCorralOnMergedProgram = false;
 
         static Program mergedProgram; //don't expose the progs p1 and p2, they are only used in Initialize
         static string p1Prefix, p2Prefix;
@@ -49,10 +49,10 @@ namespace SDiff
         static Dictionary<Procedure, HashSet<Variable>> bottomUpTaintVars = new Dictionary<Procedure, HashSet<Variable>>();
 
         //entry method
-        public static void Start(Program p1, Program p2, Program mergedProgram, string p1Prefix, string p2Prefix, Config cfg1, 
+        public static void Start(Program p1, Program p2, Program mergedProgram, string p1Prefix, string p2Prefix, Config cfg1,
             bool checkAssertsOnlyParam,
-            bool useMutualSummariesAsAxioms, 
-            Options.INFER_OPT useHoudiniOption, 
+            bool useMutualSummariesAsAxioms,
+            Options.INFER_OPT useHoudiniOption,
             bool checkPreconditions, bool freeContractsIn,
             bool dontTypeCheckMergedProg,
             bool callCorral = false)
@@ -62,7 +62,7 @@ namespace SDiff
             ParseAddtionalMSFile(mergedProgram); //look for additional files
             dontUseMSAsAxioms = !useMutualSummariesAsAxioms;
             checkAssertsOnly = checkAssertsOnlyParam && !Options.checkEquivWithDependencies;
-            useHoudini = dontUseMSAsAxioms &&  (useHoudiniOption != Options.INFER_OPT.NO_INFER);
+            useHoudini = dontUseMSAsAxioms && (useHoudiniOption != Options.INFER_OPT.NO_INFER);
             houdiniInferOpt = useHoudiniOption;
             freeContracts = freeContractsIn;
             checkMutualPreconditionsForInfiniteLoops = dontUseMSAsAxioms && checkPreconditions;
@@ -76,7 +76,7 @@ namespace SDiff
             cg1 = CallGraph.Make(p1);
             cg2 = CallGraph.Make(p2);
             Initialize(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg1);
-            MutualSummaryStart(mergedProgram);            
+            MutualSummaryStart(mergedProgram);
 
             //If inferContracts is specified, then we call Houdini and do Inference and persist output into mergedProgram
             //add the flags for /inferContracts to Boogie
@@ -102,7 +102,7 @@ namespace SDiff
             var program = SDiff.Boogie.Process.ParseProgram("mergedProgSingle.bpl");
             program.Resolve(); program.Typecheck();
             (new TaintBasedSimplification(program)).StartSimplifications();
-
+            
             HoudiniSession.HoudiniStatistics houdiniStats = new HoudiniSession.HoudiniStatistics();
             Houdini houdini = new Houdini(program, houdiniStats);
             HoudiniOutcome outcome = houdini.PerformHoudiniInference();
@@ -110,32 +110,19 @@ namespace SDiff
 
             var trueConstants = extractVariableAssigned(true, outcome);
             var falseConstants = extractVariableAssigned(false, outcome);
-            createInferedFactsAxiom(trueConstants, falseConstants, program);
+            persistHoudiniInferredFacts(trueConstants, falseConstants, program, houdini);
+            
             SDiff.Boogie.Process.PrintProgram(program, "mergedProgSingle_inferred.bpl");
             Console.WriteLine("Houdini finished and inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
             Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts",
                     outcome.Verified, outcome.ErrorCount, outcome.Inconclusives, outcome.TimeOuts);
 
         }
-        
-        private static void createInferedFactsAxiom(HashSet<string> trueConstants, HashSet<string> falseConstants, Program program)
-        {
-            Expr ex = Expr.True;
-            foreach(var v in program.Variables) {
-                if (trueConstants.Contains(v.Name))
-                {                   
-                    ex = Expr.And(ex, Expr.Ident(v));
-                    continue;
-                } 
-                if(falseConstants.Contains(v.Name))
-                {
-                    ex = Expr.And(ex, Expr.Not(Expr.Ident(v)));
-                }
-            }
-            var axiom = new Axiom(Token.NoToken, ex, "Axiom of inferred facts from Houdini");
-            program.AddTopLevelDeclaration(axiom);            
-        }
 
+        private static void persistHoudiniInferredFacts(HashSet<string> trueConstants, HashSet<string> falseConstants, Program program, Houdini houdini)
+        {
+            new HoudiniInferredFilter(trueConstants, falseConstants, program, houdini).StartSimplifications();
+        }
         private static HashSet<string> extractVariableAssigned(bool b, HoudiniOutcome outcome)
         {
             var trueConstants = new HashSet<string>();
@@ -151,11 +138,11 @@ namespace SDiff
             //TODO: Have to merge the new types (including datatypes)
             if (ms == null) throw new Exception("Parsing of ms_symdiff_file.bpl failed");
             mergedProgram.AddTopLevelDeclarations(ms.TopLevelDeclarations);
-            mergedProgram.Resolve(); 
+            mergedProgram.Resolve();
         }
         public static void Initialize(Program q1, Program q2, Program mp, string q1Prefix, string q2Prefix, Config cfg1)
         {
-            mergedProgram = mp;  p1Prefix = q1Prefix; p2Prefix = q2Prefix;
+            mergedProgram = mp; p1Prefix = q1Prefix; p2Prefix = q2Prefix;
             var allGlobals = mp.TopLevelDeclarations.OfType<GlobalVariable>();
             gSeq_p1 = q1.TopLevelDeclarations.OfType<GlobalVariable>()
                 .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
@@ -220,7 +207,7 @@ namespace SDiff
             //Console.WriteLine("Outcome = {0}", oc);
             Util.DumpBplAST(mergedProgram, "mergedProgSingle.bpl");
 
-            if (callCorralOnMergedProgram) 
+            if (callCorralOnMergedProgram)
                 (new CorralChecker(mergedProgram, rootMSProcs)).CheckCandidateAsserts();
         }
 
@@ -231,11 +218,11 @@ namespace SDiff
         /// <param name="f1"></param>
         private static void AddDefaultStubSpec(Procedure f, string prefix)
         {
-            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f), 
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f),
                 string.Format("Procedure {0} does not belong to the mergedProgram", f.Name));
             //return;
             var outs = f.OutParams.Union(f.Modifies.Select(x => x.Decl));
-            var ins =  f.InParams.Union(f.Modifies.Select(x => x.Decl));
+            var ins = f.InParams.Union(f.Modifies.Select(x => x.Decl));
             foreach (Variable o in outs)
             {
                 var oname = o is GlobalVariable ? Util.TrimPrefixWithDot(o.Name, prefix) : o.Name;
@@ -248,7 +235,7 @@ namespace SDiff
         }
 
         //Creates R_f(in, old_g, g, out) and adds a free postcondtion to f
-        private static void CreateSummaryRelation(Procedure p) 
+        private static void CreateSummaryRelation(Procedure p)
         {
             Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(p),
                 string.Format("Procedure {0} does not belong to the mergedProgram", p.Name));
@@ -270,7 +257,7 @@ namespace SDiff
             p.Ensures.Add(new Ensures(true, new NAryExpr(new Token(), callR, exprListR)));
         }
         //returns {in} U {old_g} U {g} U {out}, in/out have to renamed to avoid clash when creating MS(...) args
-        private static List<Variable> GetParamsForSummaryRelation(Procedure p, List<Variable> globs, string prefix, 
+        private static List<Variable> GetParamsForSummaryRelation(Procedure p, List<Variable> globs, string prefix,
             out List<TypeVariable> typeSeq, bool includeGlobals = true, bool includeInputs = true, bool includeOutputs = true, bool includeOldGlobals = true)
         {
             Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(p),
@@ -349,16 +336,16 @@ namespace SDiff
                     new Formal(new Token(), new TypedIdent(new Token(), "ret", BasicType.Bool), false));
                 msFunc.Body = MkMutualSummaryBody(f1, f2, pm, i1, o1, i2, o2);
                 mergedProgram.AddTopLevelDeclaration(msFunc);
-                msFunc.AddAttribute("inline", new Expr[] {Expr.True});
+                msFunc.AddAttribute("inline", new Expr[] { Expr.True });
             }
             //Check if predicates are specified for non-stub pair
-            if (IsNonStubProcedurePair(f1,cg1, f2,cg2))
+            if (IsNonStubProcedurePair(f1, cg1, f2, cg2))
                 GenerateMSFuncBodyFromPredicates(msFunc, i1, i2, o1, o2);
 
             if (dontUseMSAsAxioms) return msFunc;
 
             //Add the MS axiom (only when we use the R_f relations)
-            var r1 = summaryFuncs[f1]; 
+            var r1 = summaryFuncs[f1];
             var r2 = summaryFuncs[f2];
             var cr1 = new FunctionCall(r1);
             var cr2 = new FunctionCall(r2);
@@ -375,7 +362,7 @@ namespace SDiff
             TriggerSeq.Add(r2call);
 
             Axiom MSAxiom = new Axiom(new Token(),
-                new ForallExpr(new Token(), msFuncParams, new Trigger(new Token(), true, TriggerSeq), Expr.Imp(Expr.And(r1call, r2call), 
+                new ForallExpr(new Token(), msFuncParams, new Trigger(new Token(), true, TriggerSeq), Expr.Imp(Expr.And(r1call, r2call),
                     new NAryExpr(new Token(), cms, exprsMS))));
             mergedProgram.AddTopLevelDeclaration(MSAxiom);
             msFuncAxiomsAdded.Add(msFunc);
@@ -400,10 +387,10 @@ namespace SDiff
                     .Select(x => MkExprWithAttr(x, "", new List<object>() { }));
 
                 //ensure that the body is 'true' in case a predicate is specified
-                var msBodyExpr = msFunc.Body as  LiteralExpr;
+                var msBodyExpr = msFunc.Body as LiteralExpr;
                 var trivialBodyPresent = (msBodyExpr != null && msBodyExpr.IsTrue);
-                Debug.Assert(!predicateAttrPresent  || trivialBodyPresent,
-                    string.Format("Predicates provided in {0} with non-trivial body {1}", 
+                Debug.Assert(!predicateAttrPresent || trivialBodyPresent,
+                    string.Format("Predicates provided in {0} with non-trivial body {1}",
                     msFunc.Name, msFunc.Body));
                 if (!trivialBodyPresent) return; //ignore any predicates 
 
@@ -425,7 +412,7 @@ namespace SDiff
 
                 var args = inpPreds.Union(outPreds);
                 var absHoudiniPred = DACHoudiniTemplates.FreshAbsHoudiniPred(args.Count());
-                andExpr = Expr.And(andExpr, new NAryExpr(Token.NoToken, new FunctionCall(absHoudiniPred), args.Select(x=>x.Expr).ToList()));
+                andExpr = Expr.And(andExpr, new NAryExpr(Token.NoToken, new FunctionCall(absHoudiniPred), args.Select(x => x.Expr).ToList()));
 
                 #region Split predicates by output (expensive)
                 if (false)
@@ -443,16 +430,16 @@ namespace SDiff
                     }
                     else
                     {
-                        andExpr = (Expr)Expr.True; 
+                        andExpr = (Expr)Expr.True;
                         foreach (var op in outPreds)
                         {
-                            args = inpPreds.Union(new List<ExprWithAttributes>() {op});
+                            args = inpPreds.Union(new List<ExprWithAttributes>() { op });
                             absHoudiniPred = DACHoudiniTemplates.FreshAbsHoudiniPred(args.Count());
                             andExpr = Expr.And(andExpr, new NAryExpr(Token.NoToken, new FunctionCall(absHoudiniPred), args.Select(x => x.Expr).ToList()));
                         }
                     }
                 }
-                #endregion 
+                #endregion
                 msFunc.Body = andExpr;
             }
         }
@@ -467,14 +454,14 @@ namespace SDiff
             Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f1), string.Format("Procedure {0} does not belong to the mergedProgram", f1.Name));
             Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f2), string.Format("Procedure {0} does not belong to the mergedProgram", f2.Name));
 
-            var predicates = new List<Expr>(); 
+            var predicates = new List<Expr>();
             //pull this earlier as we need them irrespective if msFunc is defined in the ms_symdiff_file.bpl
             var msPreFuncParams = new List<Variable>();
             List<TypeVariable> tS;
             var i1 = GetParamsForSummaryRelation(f1, gSeq_p1, p1Prefix, out tS, false, true, false, true); //inputs for f1
             var i2 = GetParamsForSummaryRelation(f2, gSeq_p2, p2Prefix, out tS, false, true, false, true); //inputs for f2
-            var a1 = new List<Variable>(); a1.AddRange(i1);  
-            var a2 = new List<Variable>(); a2.AddRange(i2); 
+            var a1 = new List<Variable>(); a1.AddRange(i1);
+            var a2 = new List<Variable>(); a2.AddRange(i2);
             msPreFuncParams.AddRange(a1);
             msPreFuncParams.AddRange(a2);
 
@@ -493,15 +480,15 @@ namespace SDiff
                     new Formal(new Token(), new TypedIdent(new Token(), "ret", BasicType.Bool), false));
                 msPreFunc.Body = Expr.True;
                 mergedProgram.AddTopLevelDeclaration(msPreFunc);
-                msPreFunc.AddAttribute("inline", new Expr[] {Expr.True});
+                msPreFunc.AddAttribute("inline", new Expr[] { Expr.True });
             }
 
-            if(!IsEntryProcedurePair(f1, cg1, f2, cg2))
+            if (!IsEntryProcedurePair(f1, cg1, f2, cg2))
                 GenerateMSFuncBodyFromPredicates(msPreFunc, i1, i2, new List<Variable>(), new List<Variable>());
 
             return msPreFunc;
         }
-        
+
         /// <summary>
         /// allPreds = true if only these predicates have to be used for Boolean combination
         /// 
@@ -516,7 +503,7 @@ namespace SDiff
             var preds = new List<Expr>();
             var attr1 = msFunc.FindAttribute("predicates_ms");
             var attr2 = msFunc.FindAttribute("predicates_ms_only");
-            Debug.Assert(!(attr1 != null && attr2 != null), 
+            Debug.Assert(!(attr1 != null && attr2 != null),
                 string.Format("At most only one of two attributes 'predicates_ms' or 'predicaes_ms_only' can be present for {0}", msFunc.Name));
             if (attr1 == null && attr2 == null) { predicateAttrPresent = false; return new List<Expr>(); }
             var attr = attr1 != null ? attr1 : attr2;
@@ -570,7 +557,7 @@ namespace SDiff
         {
             public Expr Expr { get; set; }
             public QKeyValue Attribute { get; set; }
-            public ExprWithAttributes(Expr e, QKeyValue a) { Expr = e; Attribute = a;}
+            public ExprWithAttributes(Expr e, QKeyValue a) { Expr = e; Attribute = a; }
         }
 
         private static List<ExprWithAttributes> CreateIdentExprSeqComparisons(List<IdentifierExpr> i1, List<IdentifierExpr> i2)
@@ -603,9 +590,9 @@ namespace SDiff
             }
             return ret;
         }
-        private static ExprWithAttributes MkExprWithAttr(Expr e, string s, List<object> l )
-        { 
-            return new ExprWithAttributes(e, new QKeyValue(Token.NoToken, s, l, null)); 
+        private static ExprWithAttributes MkExprWithAttr(Expr e, string s, List<object> l)
+        {
+            return new ExprWithAttributes(e, new QKeyValue(Token.NoToken, s, l, null));
         }
 
         private static List<ExprWithAttributes> CreateVariableComparisons(Variable u, Variable v)
@@ -618,8 +605,8 @@ namespace SDiff
             var t = u.TypedIdent.Type;
             if (t.Equals(Microsoft.Boogie.Type.Bool))
             {
-                ret.Add(MkExprWithAttr(Expr.Imp(ue, ve), "DAC_IMPLIES", new List<object>() {ue, ve}));
-                ret.Add(MkExprWithAttr(Expr.Imp(ve, ue), "DAC_IMPLIES", new List<object>() {ve, ue}));
+                ret.Add(MkExprWithAttr(Expr.Imp(ue, ve), "DAC_IMPLIES", new List<object>() { ue, ve }));
+                ret.Add(MkExprWithAttr(Expr.Imp(ve, ue), "DAC_IMPLIES", new List<object>() { ve, ue }));
             }
             else if (t.Equals(Microsoft.Boogie.Type.Int))
             {
@@ -667,7 +654,7 @@ namespace SDiff
 
             var ivarSeq = new List<Variable>();
             var tvarSeq = new List<TypeVariable>();
-            List<TypeVariable> t1; 
+            List<TypeVariable> t1;
             var a1 = GetParamsForSummaryRelation(f1, null, p1Prefix, out t1, false, true, false, false);
             List<TypeVariable> t2;
             var a2 = GetParamsForSummaryRelation(f2, null, p2Prefix, out t2, false, true, false, false);
@@ -689,7 +676,7 @@ namespace SDiff
             //exprListR.AddRange(Util.VarSeqToExprSeq(gSeq_p2));
             exprListR.AddRange(f2.Modifies);
             exprListR.AddRange(Util.VarSeqToExprSeq(b2));
-            var ensuresSeq= new List<Ensures>();
+            var ensuresSeq = new List<Ensures>();
             var ms = CreateMutualSummaryRelation(f1, f2);
             var callMS = new FunctionCall(ms);
             ensuresSeq.Add(new Ensures(false, new NAryExpr(new Token(), callMS, exprListR)));
@@ -732,7 +719,7 @@ namespace SDiff
             mschkProc.AddAttribute("MS_procs", f1.Name, f2.Name);
             mergedProgram.AddTopLevelDeclaration(mschkProc);
             //don't create body if either procedure does not have a body
-            if (IsStubProcedure(f1)|| IsStubProcedure(f2))
+            if (IsStubProcedure(f1) || IsStubProcedure(f2))
             {
                 //remember to add the modset from the declarations as /doModsetAnalysis will keep the modset as {}
                 mschkProc.Modifies.AddRange(f1.Modifies);
@@ -766,22 +753,22 @@ namespace SDiff
 
             //inline f1, f2
             //The inline:spec inlines a procedure with {:inline 1} 1 times and uses the call for deeper calls
-            var boogieOptions = " -inline:spec " + Options.BoogieUserOpts; 
+            var boogieOptions = " -inline:spec " + Options.BoogieUserOpts;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
-            Util.InlineProcsInCaller(mergedProgram, mschkImpl, new Procedure[] {f1, f2});
+            Util.InlineProcsInCaller(mergedProgram, mschkImpl, new Procedure[] { f1, f2 });
             //Add additional instrumentation for 2->1 program transformation
             if (dontUseMSAsAxioms)
-                TrapCallArgs(mergedProgram, mschkImpl,f1,f2);
+                TrapCallArgs(mergedProgram, mschkImpl, f1, f2);
             //throw new NotImplementedException();
             return mschkProc;
         }
 
-        private static void ParseTaintAndDependenciesForProc(Procedure f, string prefix, 
+        private static void ParseTaintAndDependenciesForProc(Procedure f, string prefix,
             List<Variable> globals, List<Variable> ins, List<Variable> outs)
         {
             Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f), string.Format("Procedure {0} does not belong to the mergedProgram", f.Name));
 
-            dependency[f] = new Dictionary<Variable,List<Variable>>();
+            dependency[f] = new Dictionary<Variable, List<Variable>>();
             //get the dependecies
             foreach (var en in f.Ensures)
             {
@@ -800,14 +787,14 @@ namespace SDiff
                     {
                         if (!dependency[f].ContainsKey(v)) dependency[f][v] = new List<Variable>();
                     });
-            Debug.Assert(dependency[f].Keys.Count() == outs.Count + f.Modifies.Count, 
+            Debug.Assert(dependency[f].Keys.Count() == outs.Count + f.Modifies.Count,
                 string.Format("Mismatched number of output variables and io_dependency annotations for {0}", f.Name));
             //get the set of bottom up taints
             bool foundBottomUpTaintedInfo = false; //whether we have any annotation about "bottomup_tainted_vars"
             foreach (var en in f.Ensures)
             {
                 if (en.Attributes == null || en.Attributes.Key != "bottomup_tainted_vars") continue;
-                foundBottomUpTaintedInfo = true; 
+                foundBottomUpTaintedInfo = true;
                 var varNames = en.Attributes.Params.Select(x => x.ToString()).ToList();
                 var ovars = varNames.Select(x => Util.getVariableByName(prefix + "." + x, globals.Union(outs)));
                 //Console.WriteLine("BottomUpTaint[{0}] = [{1}]", f.Name, string.Join(",", ovars.Select(y => y.Name)));
@@ -858,11 +845,11 @@ namespace SDiff
             foreach (Block b in extraBlocks)
                 f.Blocks.Add(b);
         }
-        private static void MkMSCallCmds(Implementation f, Procedure f1, Procedure f2, 
+        private static void MkMSCallCmds(Implementation f, Procedure f1, Procedure f2,
              Procedure h1, Procedure h2,
              Tuple<Variable, List<Variable>, List<Variable>> cargs1,
              Tuple<Variable, List<Variable>, List<Variable>> cargs2,
-            int pairCnt, 
+            int pairCnt,
             ref Block nxtBlock,
             ref List<Block> newBlocks)
         {
@@ -873,11 +860,11 @@ namespace SDiff
             //guard it if the calls have been made along the path
             var b1 = cargs1.Item1;
             var b2 = cargs2.Item1;
-            
+
             //store the mod globals for the parent functions
             var modStores1 = new List<Variable>();
             var modStores2 = new List<Variable>();
-            foreach(IdentifierExpr g in f1.Modifies) modStores1.Add(B.Factory.MakeLocal("store__" + pairCnt + "_" + g.Name, g.Type));
+            foreach (IdentifierExpr g in f1.Modifies) modStores1.Add(B.Factory.MakeLocal("store__" + pairCnt + "_" + g.Name, g.Type));
             foreach (IdentifierExpr g in f2.Modifies) modStores2.Add(B.Factory.MakeLocal("store__" + pairCnt + "_" + g.Name, g.Type));
             var cmd0 = Util.MkAssignCmdIdentSeq(modStores1, f1.Modifies);
             if (cmd0 != null) cmds.Add(cmd0);
@@ -892,7 +879,7 @@ namespace SDiff
             Util.PartitionVarListByIndex(cargs1.Item3, h1.OutParams.Count, out out1_g, out out1_p);
             Util.PartitionVarListByIndex(cargs2.Item2, h2.InParams.Count, out in2_g, out in2_p);
             Util.PartitionVarListByIndex(cargs2.Item3, h2.OutParams.Count, out out2_g, out out2_p);
-            
+
             //set the globals to the recoreded value
             var cmd2 = Util.MkAssignCmdIdentSeq(f1.Modifies, new List<IdentifierExpr>(in1_g.Map(x => Expr.Ident(x)).ToArray()));
             if (cmd2 != null) cmds.Add(cmd2);
@@ -936,17 +923,17 @@ namespace SDiff
             var exprTaken = Expr.And(Expr.Ident(cargs1.Item1), Expr.Ident(cargs2.Item1));
             var assumeTaken = new AssumeCmd(Token.NoToken, exprTaken);
             var assumeNotTaken = new AssumeCmd(Token.NoToken, Expr.Not(exprTaken));
-            var transferCmd = nxtBlock == null ? 
-                (new ReturnCmd(Token.NoToken) as TransferCmd) : 
-                (new GotoCmd(Token.NoToken, new List<Block>() {nxtBlock}) as TransferCmd);
+            var transferCmd = nxtBlock == null ?
+                (new ReturnCmd(Token.NoToken) as TransferCmd) :
+                (new GotoCmd(Token.NoToken, new List<Block>() { nxtBlock }) as TransferCmd);
             var meetCmds = new List<Cmd>();
             if (checkMutualPreconditionsForInfiniteLoops)
                 meetCmds.Add(new AssumeCmd(Token.NoToken, Expr.Not(new IdentifierExpr(Token.NoToken, abortVars[f]))));
             bl3 = new Block(Token.NoToken, "MS_L_meet_" + pairCnt, meetCmds, transferCmd);
             var cmds1 = new List<Cmd>(); cmds1.Add(assumeTaken); cmds1.AddRange(cmds);
-            bl1 = new Block(Token.NoToken, "MS_L_taken_"+ pairCnt, cmds1, new GotoCmd(Token.NoToken, new List<Block>() { bl3 }));
-            bl2 = new Block(Token.NoToken, "MS_L_not_taken_"+ pairCnt, new List<Cmd>(){assumeNotTaken}, new GotoCmd(Token.NoToken, new List<Block>() { bl3 }));
-            bl0 = new Block(Token.NoToken, "MS_L_0_"+ pairCnt, new List<Cmd>(), new GotoCmd(Token.NoToken, new List<Block>() { bl1, bl2 }));
+            bl1 = new Block(Token.NoToken, "MS_L_taken_" + pairCnt, cmds1, new GotoCmd(Token.NoToken, new List<Block>() { bl3 }));
+            bl2 = new Block(Token.NoToken, "MS_L_not_taken_" + pairCnt, new List<Cmd>() { assumeNotTaken }, new GotoCmd(Token.NoToken, new List<Block>() { bl3 }));
+            bl0 = new Block(Token.NoToken, "MS_L_0_" + pairCnt, new List<Cmd>(), new GotoCmd(Token.NoToken, new List<Block>() { bl1, bl2 }));
             nxtBlock = bl0; //destination of previous block
             newBlocks.AddRange(new List<Block>() { bl0, bl1, bl2, bl3 });
 
@@ -982,7 +969,7 @@ namespace SDiff
         //check on MS_f_f' for a pair of procedures
         public static bool IsEntryProcedurePair(Procedure f1, CallGraph cg1, Procedure f2, CallGraph cg2)
         {
-            return IsRootProcedures(f1, cg1) || IsRootProcedures(f2, cg2); 
+            return IsRootProcedures(f1, cg1) || IsRootProcedures(f2, cg2);
         }
         public static bool IsNonStubProcedurePair(Procedure f1, CallGraph cg1, Procedure f2, CallGraph cg2)
         {
@@ -1001,11 +988,12 @@ namespace SDiff
             public static void AddHoudiniTemplates(ref List<Requires> requiresSeq, ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2)
             {
-                if (IsEntryProcedurePair(f1,cg1,f2,cg2)) {
+                if (IsEntryProcedurePair(f1, cg1, f2, cg2))
+                {
                     AddDACCheck(ref requiresSeq, ref ensuresSeq, f1, f2, i1, i2, o1, o2);
                     return;
                 }
-                if (IsNonStubProcedurePair(f1,cg1,f2,cg2))
+                if (IsNonStubProcedurePair(f1, cg1, f2, cg2))
                     AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2, true);
                 else
                     AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2, false); //trust that outputs are equal
@@ -1026,8 +1014,8 @@ namespace SDiff
                 var inouts = new HashSet<Tuple<Variable, Variable>>(); //(in,out)
                 i.Iter(x => o.Iter(y => inouts.Add(Tuple.Create(x, y))));
                 var res = inouts
-                    .Where(x => ((Variable)x.Item1).Name.Replace("in_","")
-                                            == ((Variable)x.Item2).Name.Replace("out_",""));
+                    .Where(x => ((Variable)x.Item1).Name.Replace("in_", "")
+                                            == ((Variable)x.Item2).Name.Replace("out_", ""));
                 var comparisons = new HashSet<ExprWithAttributes>(); //comparisons
                 res.Iter(x => CreateVariableComparisons(x.Item1, x.Item2).Iter(y => comparisons.Add(y)));
                 var censures = comparisons.Select(x => new Ensures(false, MkCandidateExpr(x.Expr)));
@@ -1035,7 +1023,7 @@ namespace SDiff
             }
             private static void AddCandRequires(ref List<Requires> requiresSeq, Procedure f1, Procedure f2,
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2,
-                bool isCandidate=true)
+                bool isCandidate = true)
             {
                 var comps = CreateVariableSeqComparisons(i1, i2);
                 comps.AddRange(CreateVariableSeqComparisons(gSeq_p1, gSeq_p2));
@@ -1051,7 +1039,8 @@ namespace SDiff
                 if (houdiniInferOpt == Options.INFER_OPT.HOUDINI)
                 {
                     return Expr.Imp(FreshHoudiniVar(), x);
-                } else if (houdiniInferOpt == Options.INFER_OPT.ABS_HOUDINI)
+                }
+                else if (houdiniInferOpt == Options.INFER_OPT.ABS_HOUDINI)
                 {
                     var f = FreshAbsHoudiniPred(1);
                     return new NAryExpr(Token.NoToken, new FunctionCall(f), new List<Expr>() { x });
@@ -1070,7 +1059,7 @@ namespace SDiff
             {
                 var args = new List<Variable>();
                 for (int i = 0; i < arity; ++i)
-                    args.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "i" + i, Microsoft.Boogie.Type.Bool),true));
+                    args.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "i" + i, Microsoft.Boogie.Type.Bool), true));
                 var f = new Function(Token.NoToken, "_abshoudini_" + absHoudiniFunctions.Count + "_" + arity, args,
                     new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "r", Microsoft.Boogie.Type.Bool), false), "abshouini");
                 f.AddAttribute("existential", Expr.True);
@@ -1080,10 +1069,10 @@ namespace SDiff
             }
             private static void AddCandEnsures(ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
                 List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2,
-                bool isCandidate=true)
+                bool isCandidate = true)
             {
                 var comps = CreateVariableSeqComparisons(o1, o2);
-                comps.AddRange(CreateIdentExprSeqComparisons(f1.Modifies, f2.Modifies)); 
+                comps.AddRange(CreateIdentExprSeqComparisons(f1.Modifies, f2.Modifies));
                 List<Ensures> censures;
                 if (isCandidate)
                     censures = comps.Map(x => new Ensures(Token.NoToken, false, MkCandidateExpr(x.Expr), "DAC candidate", x.Attribute));
@@ -1093,7 +1082,7 @@ namespace SDiff
                     var inp = CreateVariableEqualities(i1, i2);
                     inp = new OldExpr(Token.NoToken,
                         Expr.And(inp, CreateVariableEqualities(Util.IdentSeqToVarSeq(f1.Modifies), Util.IdentSeqToVarSeq(f2.Modifies))));
-                    var summ = comps.Aggregate((Expr) Expr.True, (x, y) => Expr.And(x, y.Expr));
+                    var summ = comps.Aggregate((Expr)Expr.True, (x, y) => Expr.And(x, y.Expr));
                     censures = new List<Ensures>();
                     censures.Add(new Ensures(false, Expr.Imp(inp, summ)));
                 }
@@ -1122,7 +1111,7 @@ namespace SDiff
         /// </summary>
         public static class EquivWithDependencyHoudiniTemplates
         {
-            static HashSet<Constant> houdiniGuards = new HashSet<Constant>();            
+            static HashSet<Constant> houdiniGuards = new HashSet<Constant>();
             //Adds candidate and non-candidates for the MS procedures based on whether they are roots, leaves or neither
 
             public static void AddHoudiniTemplates(ref List<Requires> requiresSeq, ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2,
@@ -1137,7 +1126,7 @@ namespace SDiff
             }
             private static Expr FreshHoudiniVar(string procName, string tag)
             {
-                var n = new Constant(Token.NoToken, 
+                var n = new Constant(Token.NoToken,
                     new TypedIdent(Token.NoToken, "_houdini_" + procName + "_" + tag + "_" + houdiniGuards.Count, Microsoft.Boogie.Type.Bool), false);
                 n.AddAttribute("existential", Expr.True);
                 houdiniGuards.Add(n);
@@ -1157,7 +1146,7 @@ namespace SDiff
                 var og1 = o1.Union(gSeq_p1).ToList();
                 var og2 = o2.Union(gSeq_p2).ToList();
                 og1.Sort(varOrder); og2.Sort(varOrder);
-                foreach(var o12 in og1.Zip(og2))
+                foreach (var o12 in og1.Zip(og2))
                 {
                     if (!dependency[f1].ContainsKey(o12.Item1) || !dependency[f2].ContainsKey(o12.Item2)) continue;
                     var dep1 = dependency[f1][o12.Item1];
@@ -1166,7 +1155,7 @@ namespace SDiff
                     MakeDependenciesIdentical(dep1, dep2, i2.Union(gSeq_p2), p1Prefix, p2Prefix); //updates dep2 with dep1\dep2
                     MakeDependenciesIdentical(dep2, dep1, i1.Union(gSeq_p1), p2Prefix, p1Prefix); //updates dep1 with dep2\dep1
                     dep1.Sort(varOrder); dep2.Sort(varOrder);
-                    if(dep1.Count != dep2.Count)
+                    if (dep1.Count != dep2.Count)
                     {
                         Util.PrintError(string.Format("WARNING: Expecting cardinality of dependencies for {0} to be identical. No candidate variable ", o12.Item1.Name));
                         var ens = new Ensures(false,
@@ -1191,10 +1180,10 @@ namespace SDiff
                         ens1.Attributes = new QKeyValue(Token.NoToken, "InlineAssume", new List<object>(), ens1.Attributes);
                     }
                     ensuresSeq.Add(ens1);
-                }                                
+                }
             }
 
-            private static void MakeDependenciesIdentical(List<Variable> dep1, List<Variable> dep2, 
+            private static void MakeDependenciesIdentical(List<Variable> dep1, List<Variable> dep2,
                 IEnumerable<Variable> ins2, string prefix1, string prefix2)
             {
                 foreach (var i in dep1)
@@ -1236,7 +1225,7 @@ namespace SDiff
                 this.f1 = f1;
                 this.f2 = f2;
                 this.callCnt = 0;
-                callWitnessVars = new List<LocalVariable>();    
+                callWitnessVars = new List<LocalVariable>();
             }
             public override Block VisitBlock(Block b)
             {
@@ -1314,7 +1303,7 @@ namespace SDiff
         public class AbortInstrumentForDAC : FixedVisitor
         {
             Block nxtBlock;
-            Implementation impl; 
+            Implementation impl;
             public AbortInstrumentForDAC(Block nxtBlock)
             {
                 this.nxtBlock = nxtBlock;
@@ -1328,7 +1317,7 @@ namespace SDiff
                 foreach (Block b in blks)
                 {
                     var splitBlks = SplitBlocksByCallsForAbort(b, 0);
-                    newBlks.AddRange(splitBlks); 
+                    newBlks.AddRange(splitBlks);
                 }
                 node.Blocks = newBlks;
                 return base.VisitImplementation(node);
@@ -1343,12 +1332,12 @@ namespace SDiff
                 var newCmds = new List<Cmd>() { normalAssume };
                 newCmds.AddRange(b.Cmds.GetRange(i + 1, b.Cmds.Count - i - 1));
                 var blk1 = new Block(b.tok, b.Label + "__normal_" + level, newCmds, b.TransferCmd);
-                var blk2 = new Block(b.tok, b.Label + "__abort_" + level, new List<Cmd>() {abortAssume}, new GotoCmd(Token.NoToken, new List<Block>() { nxtBlock }));
+                var blk2 = new Block(b.tok, b.Label + "__abort_" + level, new List<Cmd>() { abortAssume }, new GotoCmd(Token.NoToken, new List<Block>() { nxtBlock }));
                 b.Cmds = b.Cmds.GetRange(0, i + 1);
-                b.Cmds.Add(new HavocCmd(Token.NoToken, new List<IdentifierExpr>() {new IdentifierExpr(Token.NoToken, abortVar)}));
-                b.TransferCmd = new GotoCmd(Token.NoToken, new List<Block>() {blk1, blk2}); 
+                b.Cmds.Add(new HavocCmd(Token.NoToken, new List<IdentifierExpr>() { new IdentifierExpr(Token.NoToken, abortVar) }));
+                b.TransferCmd = new GotoCmd(Token.NoToken, new List<Block>() { blk1, blk2 });
                 var nextBlocks = SplitBlocksByCallsForAbort(blk1, level + 1);
-                return (new List<Block>() {b, blk2}).Concat(nextBlocks).ToList(); 
+                return (new List<Block>() { b, blk2 }).Concat(nextBlocks).ToList();
             }
         }
 
@@ -1367,7 +1356,7 @@ namespace SDiff
         }
 
         //return --> goto L, where L adds extra calls to MS_f1_f2 procedures
-        public class RedirectReturnForDAC: FixedVisitor
+        public class RedirectReturnForDAC : FixedVisitor
         {
             Block nxtBlock;
             public RedirectReturnForDAC(Block nxt) { this.nxtBlock = nxt; }
@@ -1380,5 +1369,66 @@ namespace SDiff
             }
         }
 
+        public class HoudiniInferredFilter : SimplificationVisitor
+        {
+            private HashSet<string> trueHoudinis;
+            private HashSet<string> falseHoudinis;
+            private Houdini houdini;
+            public HoudiniInferredFilter(HashSet<string> trueHoudinis, HashSet<string> falseHoudinis, Program p, Houdini h)
+                : base(p, "Houdini-Inferred DAC Candidate")
+            {
+                this.trueHoudinis = trueHoudinis;
+                this.falseHoudinis = falseHoudinis;
+                this.houdini = h;
+            }
+            public override Procedure VisitProcedure(Procedure node)
+            {
+                var ensToAdd = new List<Ensures>();
+                var ensToRem = new List<Ensures>();
+                var reqToAdd = new List<Requires>();
+                var reqToRem = new List<Requires>();
+
+                foreach (var req in node.Requires)
+                {
+                    string candidate;
+                    if (this.houdini.MatchCandidate(req.Condition, out candidate))
+                    {
+                        if (this.trueHoudinis.Contains(candidate))
+                        {
+                            this.makeFreeRequires(node, req, reqToAdd, reqToRem);
+                        }
+                        else
+                        {
+                            Debug.Assert(this.falseHoudinis.Contains(candidate));                            
+                            reqToRem.Add(req);
+                        }
+
+                    }
+                }
+                foreach (var ens in node.Ensures)
+                {
+                    string candidate;
+                    if (this.houdini.MatchCandidate(ens.Condition, out candidate))
+                    {
+                        if (this.trueHoudinis.Contains(candidate))
+                        {
+                            this.makeFreeEnsures(node, ens, ensToAdd, ensToRem);
+                        }
+                        else
+                        {
+                            Debug.Assert(this.falseHoudinis.Contains(candidate));
+                            ensToRem.Add(ens);
+                        }
+
+                    }
+                }
+
+                reqToAdd.ForEach(node.Requires.Add);
+                reqToRem.ForEach(x => node.Requires.Remove(x));
+                ensToAdd.ForEach(node.Ensures.Add);
+                ensToRem.ForEach(x => node.Ensures.Remove(x));
+                return base.VisitProcedure(node);
+            }
+        }
     }
 }
