@@ -285,6 +285,8 @@ namespace Dependency
 
             worklist.RunFixedPoint(this, node);
             //Console.WriteLine("Analyzed " + node + "( ).");
+            RemoveTaintBasedOnDac(node);
+
             return node;
         }
 
@@ -302,7 +304,12 @@ namespace Dependency
                 InferDominatorDependency(currBlock, dependencies[v]);
 
                 if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
-                    dependencies[v].Add(Utils.VariableUtils.BottomUpTaintVar);
+                {
+                    if (Analysis.DacMerged == null || !Analysis.DacSimplifier.nonImpactedSummaries[nodeToImpl[node].Proc].Contains(v))
+                    {
+                        dependencies[v].Add(Utils.VariableUtils.BottomUpTaintVar);
+                    }
+                }
             }
 
             if (worklist.Assign(node, dependencies))
@@ -360,7 +367,12 @@ namespace Dependency
                     dependencies[lhs].RemoveWhere(v => v != Utils.VariableUtils.BottomUpTaintVar && v != Utils.VariableUtils.TopDownTaintVar);
 
                 if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
-                    dependencies[lhs].Add(Utils.VariableUtils.BottomUpTaintVar);
+                {                    
+                    if (Analysis.DacMerged == null || !Analysis.DacSimplifier.nonImpactedSummaries[nodeToImpl[node].Proc].Contains(lhs))
+                    {
+                        dependencies[lhs].Add(Utils.VariableUtils.BottomUpTaintVar);
+                    }
+                }
             }
 
             if (worklist.Assign(node, dependencies))
@@ -450,7 +462,10 @@ namespace Dependency
                 foreach (var input in calleeImpl.InParams)
                 {
                     topDownTaint[input] = new VarSet();
-                    topDownTaint[input].Add(Utils.VariableUtils.TopDownTaintVar);
+                    if(Analysis.DacMerged == null || !Analysis.DacSimplifier.nonImpactedInputs[callee].Contains(input))
+                    {                        
+                        topDownTaint[input].Add(Utils.VariableUtils.TopDownTaintVar);
+                    }
                 }
             }
 
@@ -472,7 +487,10 @@ namespace Dependency
                         {   // top down taint from input
                             var input = calleeImpl.InParams[i];
                             topDownTaint[input] = new VarSet();
-                            topDownTaint[input].Add(Utils.VariableUtils.TopDownTaintVar);
+                            if (Analysis.DacMerged == null || !Analysis.DacSimplifier.nonImpactedInputs[calleeImpl.Proc].Contains(input))
+                            {                                
+                                topDownTaint[input].Add(Utils.VariableUtils.TopDownTaintVar);
+                            }
                         }
                     }
                 }
@@ -482,9 +500,12 @@ namespace Dependency
             {
                 if (calleeImpl != null && // not a stub
                     Utils.VariableUtils.IsTainted(dependencies[g]))
-                {   // top down taint from global
+                {   // top down taint from global                    
                     topDownTaint[g] = new VarSet();
-                    topDownTaint[g].Add(Utils.VariableUtils.TopDownTaintVar);
+                    if (Analysis.DacMerged == null || !Analysis.DacSimplifier.nonImpactedOutputs[calleeImpl.Proc].Contains(g))
+                    {                        
+                        topDownTaint[g].Add(Utils.VariableUtils.TopDownTaintVar);
+                    }
                 }
             }
 
@@ -509,7 +530,12 @@ namespace Dependency
                 //dependencies[actualOutput].ExceptWith(nodeToImpl[node].LocVars);
 
                 if (nativeTaint) // native taint
-                    dependencies[actualOutput].Add(Utils.VariableUtils.BottomUpTaintVar); // only applies to actual outputs (i.e. bottom up)
+                {                    
+                    if (Analysis.DacMerged == null || !Analysis.DacSimplifier.nonImpactedSummaries[callee].Select(x=>x.Name).Contains(actualOutput.Name))
+                    {
+                        dependencies[actualOutput].Add(Utils.VariableUtils.BottomUpTaintVar); // only applies to actual outputs (i.e. bottom up)
+                    }
+                }
             }
 
             // handle globals affected by the call
@@ -556,9 +582,38 @@ namespace Dependency
             {
                 dep.Value.Remove(Utils.VariableUtils.TopDownTaintVar);
                 procExitTDTaint[proc][dep.Key] = new VarSet();
-                procExitTDTaint[proc][dep.Key].Add(Utils.VariableUtils.TopDownTaintVar);
+                if (Analysis.DacMerged == null ||  (!Analysis.DacSimplifier.nonImpactedInputs[proc].Contains(dep.Key) && !Analysis.DacSimplifier.nonImpactedOutputs[proc].Contains(dep.Key)))
+                {                    
+                    procExitTDTaint[proc][dep.Key].Add(Utils.VariableUtils.TopDownTaintVar);
+                    
+                }
             });
+            // Remove taint based on DAC
+            this.RemoveTaintBasedOnDac(nodeToImpl[node]);
             return node;
+        }
+
+        private void RemoveTaintBasedOnDac(Implementation node)
+        {
+            if (Analysis.DacMerged == null)
+                return;
+            foreach (var v in node.OutParams)
+            {
+                if (Analysis.DacSimplifier.nonImpactedOutputs[node.Proc].Contains(v))
+                {
+                    this.ProcDependencies[node.Proc][v].Remove(Utils.VariableUtils.BottomUpTaintVar);
+                    this.ProcDependencies[node.Proc][v].Remove(Utils.VariableUtils.TopDownTaintVar);
+                }
+            }
+
+            foreach (var v in node.Proc.Modifies.Select(x => x.Decl))
+            {
+                if (Analysis.DacSimplifier.nonImpactedOutputs[node.Proc].Contains(v))
+                {
+                    this.ProcDependencies[node.Proc][v].Remove(Utils.VariableUtils.BottomUpTaintVar);
+                    this.ProcDependencies[node.Proc][v].Remove(Utils.VariableUtils.TopDownTaintVar);
+                }
+            }
         }
     }
 

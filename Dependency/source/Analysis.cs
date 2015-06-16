@@ -31,7 +31,8 @@ namespace Dependency
             public const string splitMapsWithAliasAnalysis = "/splitMapsWithAliasAnalysis";
             public const string stripValueIs = "/stripValueIs";
             public const string annotateDependencies = "/annotateDependencies";
-            public const string refinedStmtTaintAnalysis = "/refinedStmtTaintAnalysis"; 
+            public const string refinedStmtTaintAnalysis = "/refinedStmtTaintAnalysis";
+            public const string dacMerged = "/dacMerged";
         }
 
         static public bool DataOnly = false;
@@ -51,6 +52,7 @@ namespace Dependency
         static public bool StripValueIs = false;
         static public bool RefinedStmtTaintAnalysis = false;
         static public bool ConservativeTaint = false;
+        static public string DacMerged;
 
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
@@ -64,6 +66,7 @@ namespace Dependency
         static private Program program;
 
         static private Stopwatch sw;
+        public static DacBasedSimplification DacSimplifier;
 
         static int Main(string[] args)
 
@@ -93,6 +96,9 @@ namespace Dependency
             string changeList = null;
             args.Where(x => x.StartsWith(CmdLineOptsNames.taint + ":"))
                 .Iter(s => changeList = s.Split(':')[1]);
+            
+            args.Where(x => x.StartsWith(CmdLineOptsNames.dacMerged + ":"))
+                .Iter(s => DacMerged = s.Split(':')[1]);
 
             ConservativeTaint = changeList == null;
 
@@ -188,10 +194,22 @@ namespace Dependency
             // remove redundant cmds
             //program.Implementations.Iter(i => i.Blocks.Iter(b => b.Cmds.RemoveAll(c => c is AssertCmd)));
 
+            Analysis.DacSimplifier = new DacBasedSimplification(program, null);
+            if (DacMerged != null)
+            {
+                Program mergedProgram;
+                Utils.ParseProgram(DacMerged, out mergedProgram);
+                Analysis.DacSimplifier = new DacBasedSimplification(program, mergedProgram);
+                mergedProgram.Resolve();
+                mergedProgram.Typecheck();
+                DacSimplifier.Start();
+            }
+
+
             if (changeList != null) PopulateChangeLog(changeList,program);
             RunAnalysis(filename, program);
 
-
+            
             #region Display and Log
 
             var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog, taintedModSetLog);
