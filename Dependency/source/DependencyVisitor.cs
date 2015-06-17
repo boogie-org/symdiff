@@ -404,6 +404,10 @@ namespace Dependency
 
         private VarSet InferCalleeOutputDependancy(CallCmd cmd, Variable output, Dependencies state, List<VarSet> inputExpressionsDependency)
         {
+            if (Analysis.DacMerged != null && Analysis.DacSimplifier.nonImpactedOutputs[cmd.Proc].Contains(output))
+            {
+                return new VarSet();
+            }
             var outputDependency = ProcDependencies[cmd.Proc][output]; // output is dependent on a set of formals and globals
             var inferedOutputDependency = new VarSet();
             foreach (var dependentOn in outputDependency) // foreach (formal parameter p\global g) o_i is dependent upon
