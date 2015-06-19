@@ -32,9 +32,9 @@ namespace Dependency
         {
             foreach (var msProcedure in this.mergedProgram.Procedures.Where(IsMSProcedure))
             {
-                var renamedVersionProcedureName = this.GetVersionProcedureFromMSProcedure(msProcedure, 0);
+                var renamedVersionProcedureName = this.GetVersionProcedureFromMSProcedure(msProcedure, 1);
                 var versionPrefix = this.GetPrefix(renamedVersionProcedureName);
-                var versionImpl = Util.getImplByName(this.program, this.TrimPrefix(renamedVersionProcedureName, versionPrefix + "."));
+                var versionImpl = Util.getImplByName(this.program, this.TrimPrefix(renamedVersionProcedureName, versionPrefix + "."));                
                 var versionProcedure = versionImpl.Proc;
 
                 this.nonImpactedInputs.Add(versionProcedure, new HashSet<Variable>());
