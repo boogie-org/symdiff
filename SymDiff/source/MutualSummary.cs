@@ -102,16 +102,22 @@ namespace SDiff
             var program = SDiff.Boogie.Process.ParseProgram("mergedProgSingle.bpl");
             program.Resolve(); program.Typecheck();
             (new TaintBasedSimplification(program)).StartSimplifications();
-            
+
+            SDiff.Boogie.Process.PrintProgram(program, "mergedProgSingle_preInferred.bpl");
+            program = SDiff.Boogie.Process.ParseProgram("mergedProgSingle_preInferred.bpl");
+            program.Resolve(); program.Typecheck();
+
             HoudiniSession.HoudiniStatistics houdiniStats = new HoudiniSession.HoudiniStatistics();
             Houdini houdini = new Houdini(program, houdiniStats);
             HoudiniOutcome outcome = houdini.PerformHoudiniInference();
             houdini.Close();
 
+            program = SDiff.Boogie.Process.ParseProgram("mergedProgSingle_preInferred.bpl");
+            program.Resolve(); program.Typecheck();
             var trueConstants = extractVariableAssigned(true, outcome);
             var falseConstants = extractVariableAssigned(false, outcome);
             persistHoudiniInferredFacts(trueConstants, falseConstants, program, houdini);
-            
+
             SDiff.Boogie.Process.PrintProgram(program, "mergedProgSingle_inferred.bpl");
             Console.WriteLine("Houdini finished and inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
             Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts",
