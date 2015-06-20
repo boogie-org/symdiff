@@ -97,7 +97,7 @@ namespace Dependency
             {
                 string dacAttributeKey;
                 QKeyValue dacAttribute;
-                if (this.HasMatchingAttribute(ens.Attributes, attr => "inferred".Equals(attr)) && IsMathcingDacAttribute(ens.Attributes, out dacAttributeKey, out dacAttribute))
+                if (this.HasMatchingAttribute(ens.Attributes, attr => TaintBasedSimplification.TaintInferredAttribute.Equals(attr) || HoudiniInferredFilter.HoudiniInferredAttribute.Equals(attr)) && IsMathcingDacAttribute(ens.Attributes, out dacAttributeKey, out dacAttribute))
                 {
                     if ("DAC_SUMMARY".Equals(dacAttributeKey) && dacAttribute.Params.Cast<Microsoft.Boogie.IdentifierExpr>().Select(x => x.Name).Contains(variable))
                     {
@@ -119,7 +119,7 @@ namespace Dependency
             {
                 string dacAttributeKey;
                 QKeyValue dacAttribute;
-                if (this.HasMatchingAttribute(ens.Attributes, attr => "inferred".Equals(attr)) && IsMathcingDacAttribute(ens.Attributes, out dacAttributeKey, out dacAttribute))
+                if (this.HasMatchingAttribute(ens.Attributes, attr => TaintBasedSimplification.TaintInferredAttribute.Equals(attr) || HoudiniInferredFilter.HoudiniInferredAttribute.Equals(attr)) && IsMathcingDacAttribute(ens.Attributes, out dacAttributeKey, out dacAttribute))
                 {
                     isNotImpacted = RelationalDacCase(variable, ref fst, ref snd, dacAttributeKey, dacAttribute);
                     if (isNotImpacted)
@@ -142,7 +142,7 @@ namespace Dependency
             {
                 string dacAttributeKey;
                 QKeyValue dacAttribute;
-                if (this.HasMatchingAttribute(req.Attributes, attr => "inferred".Equals(attr)) && IsMathcingDacAttribute(req.Attributes, out dacAttributeKey, out dacAttribute))
+                if (this.HasMatchingAttribute(req.Attributes, attr => TaintBasedSimplification.TaintInferredAttribute.Equals(attr) || HoudiniInferredFilter.HoudiniInferredAttribute.Equals(attr)) && IsMathcingDacAttribute(req.Attributes, out dacAttributeKey, out dacAttribute))
                 {
                     isNotImpacted = RelationalDacCase(variable, ref fst, ref snd, dacAttributeKey, dacAttribute);
                     if (isNotImpacted)

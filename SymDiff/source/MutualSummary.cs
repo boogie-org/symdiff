@@ -1374,67 +1374,70 @@ namespace SDiff
                 return base.VisitBlock(b);
             }
         }
+    }
 
-        public class HoudiniInferredFilter : SimplificationVisitor
+    public class HoudiniInferredFilter : SimplificationVisitor
+    {
+        public static string HoudiniInferredAttribute = "inferred_houdini";
+        public static string HoudiniInferredComment = "Houdini-Inferred DAC Candidate";
+        private HashSet<string> trueHoudinis;
+        private HashSet<string> falseHoudinis;
+        private Houdini houdini;
+        public HoudiniInferredFilter(HashSet<string> trueHoudinis, HashSet<string> falseHoudinis, Program p, Houdini h)
+            : base(p, HoudiniInferredComment, HoudiniInferredAttribute)
         {
-            private HashSet<string> trueHoudinis;
-            private HashSet<string> falseHoudinis;
-            private Houdini houdini;
-            public HoudiniInferredFilter(HashSet<string> trueHoudinis, HashSet<string> falseHoudinis, Program p, Houdini h)
-                : base(p, "Houdini-Inferred DAC Candidate")
+            this.trueHoudinis = trueHoudinis;
+            this.falseHoudinis = falseHoudinis;
+            this.houdini = h;
+        }
+        public override Procedure VisitProcedure(Procedure node)
+        {
+            var ensToAdd = new List<Ensures>();
+            var ensToRem = new List<Ensures>();
+            var reqToAdd = new List<Requires>();
+            var reqToRem = new List<Requires>();
+
+            foreach (var req in node.Requires)
             {
-                this.trueHoudinis = trueHoudinis;
-                this.falseHoudinis = falseHoudinis;
-                this.houdini = h;
+                string candidate;
+                if (this.houdini.MatchCandidate(req.Condition, out candidate))
+                {
+                    if (this.trueHoudinis.Contains(candidate))
+                    {
+                        this.makeFreeRequires(node, req, reqToAdd, reqToRem);
+                    }
+                    else
+                    {
+                        Debug.Assert(this.falseHoudinis.Contains(candidate));
+                        reqToRem.Add(req);
+                    }
+
+                }
             }
-            public override Procedure VisitProcedure(Procedure node)
+            foreach (var ens in node.Ensures)
             {
-                var ensToAdd = new List<Ensures>();
-                var ensToRem = new List<Ensures>();
-                var reqToAdd = new List<Requires>();
-                var reqToRem = new List<Requires>();
-
-                foreach (var req in node.Requires)
+                string candidate;
+                if (this.houdini.MatchCandidate(ens.Condition, out candidate))
                 {
-                    string candidate;
-                    if (this.houdini.MatchCandidate(req.Condition, out candidate))
+                    if (this.trueHoudinis.Contains(candidate))
                     {
-                        if (this.trueHoudinis.Contains(candidate))
-                        {
-                            this.makeFreeRequires(node, req, reqToAdd, reqToRem);
-                        }
-                        else
-                        {
-                            Debug.Assert(this.falseHoudinis.Contains(candidate));                            
-                            reqToRem.Add(req);
-                        }
-
+                        this.makeFreeEnsures(node, ens, ensToAdd, ensToRem);
                     }
-                }
-                foreach (var ens in node.Ensures)
-                {
-                    string candidate;
-                    if (this.houdini.MatchCandidate(ens.Condition, out candidate))
+                    else
                     {
-                        if (this.trueHoudinis.Contains(candidate))
-                        {
-                            this.makeFreeEnsures(node, ens, ensToAdd, ensToRem);
-                        }
-                        else
-                        {
-                            Debug.Assert(this.falseHoudinis.Contains(candidate));
-                            ensToRem.Add(ens);
-                        }
-
+                        Debug.Assert(this.falseHoudinis.Contains(candidate));
+                        ensToRem.Add(ens);
                     }
-                }
 
-                reqToAdd.ForEach(node.Requires.Add);
-                reqToRem.ForEach(x => node.Requires.Remove(x));
-                ensToAdd.ForEach(node.Ensures.Add);
-                ensToRem.ForEach(x => node.Ensures.Remove(x));
-                return base.VisitProcedure(node);
+                }
             }
+
+            reqToAdd.ForEach(node.Requires.Add);
+            reqToRem.ForEach(x => node.Requires.Remove(x));
+            ensToAdd.ForEach(node.Ensures.Add);
+            ensToRem.ForEach(x => node.Ensures.Remove(x));
+            return base.VisitProcedure(node);
         }
     }
+
 }

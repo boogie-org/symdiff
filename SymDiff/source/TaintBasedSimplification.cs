@@ -9,11 +9,12 @@ using System.Text;
 
 namespace SDiff
 {
-    class TaintBasedSimplification : SimplificationVisitor 
+    public class TaintBasedSimplification : SimplificationVisitor 
     {
-
+        public static string TaintInferredAttribute = "inferred_taint";
+        public static string TaintInferredComment = "Taint-Inferred DAC Candidate";
         public TaintBasedSimplification(Program p)
-            : base(p, "Taint-Inferred DAC Candidate")
+            : base(p, TaintInferredComment, TaintInferredAttribute)
         {            
             this.program = p;
             this.candidateConsts = this.program.Variables.Where(Item =>
@@ -132,20 +133,22 @@ namespace SDiff
         }
     }
 
-    abstract class SimplificationVisitor : StandardVisitor
+    public abstract class SimplificationVisitor : StandardVisitor
     {
         protected Program program;
         protected Dictionary<string, Procedure> procs;
         protected IList<string> candidateConsts;
         protected HashSet<Procedure> visited = new HashSet<Procedure>();
         private string SIMPLIFICATION_COMMENT;
-        public SimplificationVisitor(Program p, string comment)
+        private string FILTERING_REASON;
+        public SimplificationVisitor(Program p, string comment, string filteringReason)
         {
             this.program = p;
             this.candidateConsts = this.program.Variables.Where(Item =>
                 QKeyValue.FindBoolAttribute(Item.Attributes, "existential")).Select(Item => Item.Name).ToList();
             this.procs = this.program.Procedures.Select(proc => new { proc.Name, x = proc }).ToDictionary(x => x.Name, x => x.x);
             this.SIMPLIFICATION_COMMENT = comment;
+            this.FILTERING_REASON = filteringReason;
         }
 
         public void StartSimplifications()
@@ -174,7 +177,7 @@ namespace SDiff
                 return;
             }
             var attribute = new QKeyValue(Token.NoToken, req.Attributes.Key, new List<object>(req.Attributes.Params), 
-                            new QKeyValue(Token.NoToken, "inferred", new List<object>(), null));
+                            new QKeyValue(Token.NoToken, this.FILTERING_REASON, new List<object>(), null));
             var newReq = new Requires(Token.NoToken, true, removeExistentialImplication(req.Condition), SIMPLIFICATION_COMMENT, attribute );            
             reqToRemove.Add(req);
             reqToAdd.Add(newReq);
@@ -186,8 +189,8 @@ namespace SDiff
             {
                 return;
             }
-            var attribute = new QKeyValue(Token.NoToken, ens.Attributes.Key, new List<object>(ens.Attributes.Params), 
-                            new QKeyValue(Token.NoToken, "inferred", new List<object>(), null));
+            var attribute = new QKeyValue(Token.NoToken, ens.Attributes.Key, new List<object>(ens.Attributes.Params),
+                            new QKeyValue(Token.NoToken, this.FILTERING_REASON, new List<object>(), null));
             var newEns = new Ensures(Token.NoToken, true, removeExistentialImplication(ens.Condition), SIMPLIFICATION_COMMENT, attribute);
             ensToRemove.Add(ens);
             ensToAdd.Add(newEns);
