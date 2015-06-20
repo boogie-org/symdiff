@@ -519,6 +519,30 @@ namespace Dependency
                         output.WriteLine("{0},{1},{2},{3},{4}", procDeps.Item1, procDeps.Item2, procDeps.Item3, procDeps.Item4, procDeps.Item5);
                 output.Close();
             }
+
+            internal static void GenerateCSVOutput(string outFileName, List<Tuple<string, string, int>> taintLog)
+            {
+                TextWriter output = new StreamWriter(outFileName);
+                foreach (var taint in taintLog)
+                {
+                    output.WriteLine(taint.Item1 + "," + taint.Item2 + "," + taint.Item3);
+                }
+                output.Close();
+            }
+            internal static List<Tuple<string, string, int>> ReadCSVOutput(string outFileName)
+            {
+                List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
+                TextReader input = new StreamReader(outFileName);
+                string line;
+                while ((line = input.ReadLine()) != null)
+                {
+
+                    var items = line.Split(',');
+                    taintLog.Add(new Tuple<string, string, int>(items[0], items[1], int.Parse(items[2])));
+                }
+                input.Close();
+                return taintLog;
+            }
         }
 
         public class DisplayHtmlHelper
@@ -529,10 +553,13 @@ namespace Dependency
             HashSet<string> srcFiles;
             List<Tuple<string, string, int>> changedLines;  //{(file, func, line),..}
             List<Tuple<string, string, int>> taintedLines; //{(file, func, line), ..}
+            List<Tuple<string, string, int>> dependencyTaintedLines; //{(file, func, line), ..}
             List<Tuple<string, string, int, string, Dependencies>> dependenciesLines; //{(file, func, line, title, {v1 <- {...},... vn <- {...}})}
             List<Tuple<string, string, int, string>> taintedModSetLines; //{(file, func, line, {v1, ..., vn})}
-            public DisplayHtmlHelper(List<Tuple<string, string, int>> changedLines, List<Tuple<string, string, int>> taintedLines, List<Tuple<string, string, int, string, Dependencies>> dependenciesLines, List<Tuple<string, string, int, string>> taintedModSetLines)
+
+            public DisplayHtmlHelper(List<Tuple<string, string, int>> changedLines, List<Tuple<string, string, int>> taintedLines, List<Tuple<string, string, int, string, Dependencies>> dependenciesLines, List<Tuple<string, string, int, string>> taintedModSetLines, List<Tuple<string, string, int>> dependencyTaintedLines)
             {
+                this.dependencyTaintedLines = dependencyTaintedLines;
                 this.changedLines = changedLines;
                 this.taintedLines = taintedLines;
                 this.dependenciesLines = dependenciesLines;
@@ -542,6 +569,12 @@ namespace Dependency
                 this.srcFiles.UnionWith(taintedLines.Select(t => t.Item1));
                 this.srcFiles.UnionWith(dependenciesLines.Select(t => t.Item1));
             }
+
+            public DisplayHtmlHelper(List<Tuple<string, string, int>> changedLines, List<Tuple<string, string, int>> taintedLines, List<Tuple<string, string, int, string, Dependencies>> dependenciesLines, List<Tuple<string, string, int, string>> taintedModSetLines)
+                :this(changedLines, taintedLines, dependenciesLines, taintedModSetLines, new List<Tuple<string, string, int>>())
+            {                
+            }
+
             public void GenerateHtmlOutput()
             {
                 Func<string, string, string> MkLink = delegate(string s, string t)
@@ -569,13 +602,8 @@ namespace Dependency
                         Console.WriteLine("Could not generate HTML for file " + srcFile + ". (file not found)");
                         continue;
                     }
-
                     
-                    int index = srcFile.LastIndexOf('\\');
-                    if (index < 0)
-                        index = srcFile.LastIndexOf('/');
-
-                    string outFileName = ((index >= 0) ? srcFile.Substring(index + 1) : srcFile) + ".html";
+                    string outFileName = srcFile + (Analysis.DacMerged!=null?".DAC":"") + ".html";
 
                     Console.WriteLine("Generating " + outFileName);
 
@@ -610,11 +638,21 @@ namespace Dependency
                     {
                         string line = srcLines[lineNum - 1].ToString().Replace(" ", "&nbsp;").Replace("\t", "&nbsp;&nbsp;&nbsp;");
                         if (changedLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // changed
+                        {
                             //line = string.Format("<b> <i> {0}  </i> </b>", line);
                             line = string.Format("<b> <font color=\"red\"> {0} </font> </b>", line);
+                        }
                         else if (taintedLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) // tainted
+                        {
                             //line = string.Format("<b> <u> {0} </u> </b>", line);
                             line = string.Format("<b> <font color=\"blue\"> {0} </font> </b>", line);
+                        }
+                        else if (dependencyTaintedLines.Exists(l => l.Item1.Equals(srcFile) && l.Item3 == lineNum)) // tainted from previous
+                        {
+                            //line = string.Format("<b> <u> {0} </u> </b>", line);
+                            line = string.Format("<b> <font color=\"green\"> {0} </font> </b>", line);
+                        }
+                        
                         /*else */if (taintedModSetLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum))
                         {
                             string taintedModset = null;
@@ -670,6 +708,7 @@ namespace Dependency
                         {
                             // create a fresh variable
                             var v = new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, succ.Label + "_Cond", Microsoft.Boogie.Type.Bool));
+                            //Debug.Assert(!currImpl.LocVars.Select(x => x.Name).Contains(v.Name));
                             currImpl.LocVars.Add(v);
                             var id = new IdentifierExpr(Token.NoToken, v);
                             // create and add the assignment

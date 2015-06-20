@@ -33,6 +33,8 @@ namespace Dependency
             public const string annotateDependencies = "/annotateDependencies";
             public const string refinedStmtTaintAnalysis = "/refinedStmtTaintAnalysis";
             public const string dacMerged = "/dacMerged";
+            public const string depTainted = "/depTainted";
+            public const string dumpTaint = "/dumpTaint";
         }
 
         static public bool DataOnly = false;
@@ -53,6 +55,8 @@ namespace Dependency
         static public bool RefinedStmtTaintAnalysis = false;
         static public bool ConservativeTaint = false;
         static public string DacMerged;
+        static public string DependencyTaint;
+        static public bool DumpTaint = true;
 
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
@@ -100,8 +104,12 @@ namespace Dependency
             args.Where(x => x.StartsWith(CmdLineOptsNames.dacMerged + ":"))
                 .Iter(s => DacMerged = s.Split(':')[1]);
 
+            args.Where(x => x.StartsWith(CmdLineOptsNames.depTainted + ":"))
+                .Iter(s => DependencyTaint = s.Split(':')[1]);
+
             ConservativeTaint = changeList == null;
 
+            DumpTaint = args.Any(x => x.ToLower() == CmdLineOptsNames.dumpTaint.ToLower());
             DataOnly = args.Any(x => x.ToLower() == CmdLineOptsNames.dataOnly.ToLower());
             BothDependencies = args.Any(x => x.ToLower() == CmdLineOptsNames.both.ToLower()) && !DataOnly;
             DetStubs = args.Any(x => x.ToLower() == CmdLineOptsNames.detStubs.ToLower());
@@ -211,14 +219,27 @@ namespace Dependency
 
             
             #region Display and Log
-
-            var displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog, taintedModSetLog);
+            Utils.DisplayHtmlHelper displayHtml;
+            if(DependencyTaint != null)
+            {
+                List<Tuple<string, string, int>> dependencyTaintedLines = Utils.StatisticsHelper.ReadCSVOutput(DependencyTaint);
+                displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog, taintedModSetLog, dependencyTaintedLines);
+            }
+            else
+            {
+                displayHtml = new Utils.DisplayHtmlHelper(changeLog, taintLog, dependenciesLog, taintedModSetLog);
+            }
             displayHtml.GenerateHtmlOutput();
 
             if (PrintStats)
             {
                 Utils.StatisticsHelper.GenerateCSVOutput(statsFile, statsLog);
                 Console.WriteLine("Statistics generated in " + statsFile);
+            }
+
+            if (DumpTaint)
+            {
+                Utils.StatisticsHelper.GenerateCSVOutput(args[0] + ".taint", taintLog);
             }
 
             Dictionary<string,HashSet<int>> oldSourceLines = new Dictionary<string,HashSet<int>>(sourceLines);
