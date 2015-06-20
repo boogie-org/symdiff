@@ -92,6 +92,11 @@ sub ProcessOptions {
   ## other options
   while ($ARGV[0]){
     $opt = shift @ARGV;
+    if($opt =~ /^\/changedLines$/){
+	$v1ChangedLines = "/taint:$v1\\changed_lines.txt";
+	$v2ChangedLines = "/taint:$v2\\changed_lines.txt";
+    }
+
     if($opt =~ /^\/lu:([0-9]+)$/){
       $luCount = $1;
       print "\tLoop unroll count is $1\n";
@@ -195,8 +200,8 @@ if ($rvt eq 1){
 }
 
 ## run dependency analysis (TODO: fold it together with abstractTainted)
-MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl /annotateDependencies "); #outputs to _v1.bpl_w_deps.bpl
-MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl /annotateDependencies "); #outputs to _v2.bpl_w_deps.bpl
+MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl $v1ChangedLines /annotateDependencies "); #outputs to _v1.bpl_w_deps.bpl
+MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl $v2ChangedLines /annotateDependencies "); #outputs to _v2.bpl_w_deps.bpl
 MyExecAndDieOnFailure("copy /Y _v1.bpl_w_dep.bpl  _v1.bpl"); 
 MyExecAndDieOnFailure("copy /Y _v2.bpl_w_dep.bpl  _v2.bpl"); 
 
