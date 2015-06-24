@@ -163,23 +163,62 @@ namespace Dependency
 
             static public string GetSourceFile(Block block)
             {
-                AssertCmd cmd = (block.Cmds != null && block.Cmds.Count > 0) ?  block.Cmds[0] as AssertCmd : null;
-                if (cmd == null) return null;
-                // TODO: magic strings
-                var file = QKeyValue.FindStringAttribute(cmd.Attributes, "sourceFile");
-                if (file == null) file = QKeyValue.FindStringAttribute(cmd.Attributes, "sourcefile");
+                if (block.cmds == null)
+                {
+                    return null;
+                }
+                string file = null;
+                foreach (var cmd in block.cmds)
+                {
+
+                    if (cmd is AssertCmd)
+                    {
+                        var assert = cmd as AssertCmd;
+                        if (assert == null)
+                        {
+                            continue;
+                        }
+                        // TODO: magic strings
+                        file = QKeyValue.FindStringAttribute(assert.Attributes, "sourceFile");
+                        file = file == null ? QKeyValue.FindStringAttribute(assert.Attributes, "sourcefile") : file;
+                        if (file != null)
+                        {
+                            break;
+                        }
+                    }
+                }
+                
                 if (file == "unknown") return null;
                 return file;
             }
 
             static public int GetSourceLine(Block block)
             {
-                AssertCmd cmd = (block.Cmds != null && block.Cmds.Count > 0) ? block.Cmds[0] as AssertCmd : null;
-                if (cmd == null) return -1;
-                // TODO: magic strings
-                var line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceLine", -1);
-                if (line == -1) line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceline", -1);
-                return line;
+                if (block.cmds == null)
+                {
+                    return -1;
+                }
+                int lineno = -1;
+                foreach (var cmd in block.cmds)
+                {
+
+                    if (cmd is AssertCmd)
+                    {
+                        var assert = cmd as AssertCmd;
+                        if (assert == null)
+                        {
+                            continue;
+                        }
+                        // TODO: magic strings
+                        lineno = QKeyValue.FindIntAttribute(assert.Attributes, "sourceLine", -1);
+                        lineno = lineno == -1 ? QKeyValue.FindIntAttribute(assert.Attributes, "sourceline", -1) : lineno;
+                        if (lineno != -1)
+                        {
+                            break;
+                        }
+                    }
+                }
+                return lineno;                
             }
 
             // returns the source line adhering to the end of the implementaition
@@ -599,7 +638,7 @@ namespace Dependency
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine("Could not generate HTML for file " + srcFile + ". (file not found)");
+                        Console.WriteLine("Could not generate HTML for file " + (srcFile == null ? "null" : srcFile) + ". (file not found)");
                         continue;
                     }
                     
