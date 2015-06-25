@@ -195,7 +195,7 @@ namespace Dependency
                 {
                     if (!sourceLines.ContainsKey(sourceFile))
                         sourceLines[sourceFile] = new HashSet<int>();
-                    sourceLines[sourceFile].Add(Utils.AttributeUtils.GetSourceLine(b));
+                    Utils.AttributeUtils.GetSourceLines(b).Iter(x => sourceLines[sourceFile].Add(x));
                 }
             }));
 
@@ -251,7 +251,8 @@ namespace Dependency
                 {
                     if (!sourceLines.ContainsKey(sourceFile))
                         sourceLines[sourceFile] = new HashSet<int>();
-                    sourceLines[sourceFile].Add(Utils.AttributeUtils.GetSourceLine(b));
+                    //sourceLines[sourceFile].Add(Utils.AttributeUtils.GetSourceLine(b));
+                    Utils.AttributeUtils.GetSourceLines(b).Iter(x => sourceLines[sourceFile].Add(x));
                 }
             }));
             if (changeList != null)
@@ -300,7 +301,9 @@ namespace Dependency
             if (impl == null) return; //if this is a stub
             var proc = impl.Proc;
             string sourcefile = Utils.AttributeUtils.GetImplSourceFile(impl);
-            var sourceLines = impl.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.AttributeUtils.GetSourceLine(b));
+            //var sourceLines = impl.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd).Select(b => Utils.AttributeUtils.GetSourceLine(b));
+            var sourceLines = new HashSet<int>();
+            impl.Blocks.Iter(b => Utils.AttributeUtils.GetSourceLines(b).Iter(l => sourceLines.Add(l)));
             if (sourceLines.Count() == 0)
                 return;
             int lastSourceLine = sourceLines.Max();
@@ -322,9 +325,12 @@ namespace Dependency
             string sourcefile = Utils.AttributeUtils.GetImplSourceFile(node);
             foreach (var block in taintedBlocks)
             {
-                int sourceline = Utils.AttributeUtils.GetSourceLine(block);
-                if (sourceline >= 0)
-                    taintLog.Add(new Tuple<string, string, int>(sourcefile, node.Proc.Name, sourceline));
+                //int sourceline = Utils.AttributeUtils.GetSourceLine(block);
+                //if (sourceline >= 0)
+                //    taintLog.Add(new Tuple<string, string, int>(sourcefile, node.Proc.Name, sourceline));
+                var sourceLines = Utils.AttributeUtils.GetSourceLines(block);
+                if (sourceLines.Count() > 0)
+                    taintLog.AddRange(sourceLines.Select(l => new Tuple<string, string, int>(sourcefile, node.Proc.Name, l)));
             }
         }
 

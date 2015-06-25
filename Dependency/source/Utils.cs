@@ -172,15 +172,33 @@ namespace Dependency
                 return file;
             }
 
-            static public int GetSourceLine(Block block)
+            //static public int GetSourceLine(Block block)
+            //{
+            //    AssertCmd cmd = (block.Cmds != null && block.Cmds.Count > 0) ? block.Cmds[0] as AssertCmd : null;
+            //    if (cmd == null) return -1;
+            //    // TODO: magic strings
+            //    var line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceLine", -1);
+            //    if (line == -1) line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceline", -1);
+            //    return line;
+            //}
+
+            /// <summary>
+            /// Returns the list of sourcelines in a block
+            /// </summary>
+            /// <param name="block"></param>
+            /// <returns></returns>
+            static public HashSet<int> GetSourceLines(Block block)
             {
-                AssertCmd cmd = (block.Cmds != null && block.Cmds.Count > 0) ? block.Cmds[0] as AssertCmd : null;
-                if (cmd == null) return -1;
-                // TODO: magic strings
-                var line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceLine", -1);
-                if (line == -1) line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceline", -1);
-                return line;
+                var lines = new HashSet<int>();
+                foreach(AssertCmd cmd in block.Cmds.Where(x => x is AssertCmd))
+                {
+                    var line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceLine", -1);
+                    if (line == -1) line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceline", -1);
+                    if (line != -1) lines.Add(line);
+                }
+                return lines;
             }
+
 
             // returns the source line adhering to the end of the implementaition
             static public string GetImplSourceFile(Implementation node)
@@ -278,8 +296,11 @@ namespace Dependency
                             foreach (var procChange in changesPerProc)
                             {
                                 // add in the block pertaining to the changed line
-                                impl.Blocks.Where(b => Utils.AttributeUtils.GetSourceLine(b) == procChange.Item3)
-                                                    .Iter(b => result.Add(b));
+                                //impl.Blocks.Where(b => Utils.AttributeUtils.GetSourceLine(b) == procChange.Item3)
+                                //                    .Iter(b => result.Add(b));
+                                impl.Blocks
+                                    .Where(b => Utils.AttributeUtils.GetSourceLines(b).Contains(procChange.Item3))
+                                    .Iter(b => result.Add(b));
                             }
                     }
                 }
