@@ -18,7 +18,7 @@ namespace SmackProcessing.source
         }
     }
 
-    class BoogieCallsRewriter : StandardVisitor
+    class BoogieCallsRewriter : FixedVisitor
     {
         public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
         {
@@ -42,7 +42,7 @@ namespace SmackProcessing.source
         }
     }    
 
-    class SourceInfoRewriter : StandardVisitor
+    class SourceInfoRewriter : FixedVisitor
     {
         public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
         {
@@ -78,7 +78,7 @@ namespace SmackProcessing.source
         }
     }
 
-    class SplitBlockAcrossAssertsRewriter : StandardVisitor
+    class SplitBlockAcrossAssertsRewriter : FixedVisitor
     {
         public override Implementation VisitImplementation(Implementation node)
         {
@@ -139,13 +139,49 @@ namespace SmackProcessing.source
 
     }
 
-    class ArrayAccessRewriter : StandardVisitor
+    class ArrayAccessRewriter : FixedVisitor
     {
+        //TODO: review conditions for multiple assignments to the same array, e.g., M[i], M[j] := x, y;
+        // This transformation will not work in that case(maybe)?
         public override Block VisitBlock(Block node)
         {
             foreach (Cmd cmd in node.cmds)
             {
-
+                if (cmd is AssignCmd)
+                {                    
+                    var assign = cmd as AssignCmd;
+                    List<AssignLhs> newLhs = new List<AssignLhs>();
+                    List<Expr> newRhs = new List<Expr>();
+                    for (int i = 0; i < assign.Lhss.Count; i++)
+                    {
+                        var lhsi = assign.Lhss[i].AsExpr as NAryExpr;
+                        if (lhsi != null && lhsi.Fun is MapSelect)
+                        {
+                            var rhsi = assign.Rhss[i];
+                            //TODO: If rhs of array assignment is not already a Map Store, replace it (maybe wrong, since it could be another unrelatedmap store)
+                            if (rhsi as NAryExpr == null || !((rhsi as NAryExpr).Fun is MapStore))
+                            {
+                                Debug.Assert(lhsi.Args.Count.Equals(2));
+                                var index = lhsi.Args[1];
+                                var arr = lhsi.Args[0];
+                                // Fishy cast?
+                                var newLhsi = new SimpleAssignLhs(Token.NoToken, arr as IdentifierExpr);
+                                var newRhsi = new NAryExpr(Token.NoToken, new MapStore(Token.NoToken, 1), new List<Expr>() { arr, index, rhsi });
+                                newLhs.Add(newLhsi);
+                                newRhs.Add(newRhsi);
+                            }
+                        }
+                        else
+                        {
+                            newLhs.Add(assign.Lhss[i]);
+                            newRhs.Add(assign.Rhss[i]);
+                        }
+                        
+                    }
+                    assign.Rhss = newRhs;
+                    assign.Lhss = newLhs;
+                }
+                
             }
             return base.VisitBlock(node);
         }
