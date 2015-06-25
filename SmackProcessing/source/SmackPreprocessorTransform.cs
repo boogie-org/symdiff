@@ -6,27 +6,19 @@ using System.Diagnostics;
 
 namespace SmackProcessing.source
 {
-    class SmackPreprocessorTransform  : TransformationPass 
+    public class SmackPreprocessorTransform  : TransformationPass 
     {
         protected override Program runPass(Program inp)
         {
-            new BoogieCallsVisitor().VisitProgram(inp);
-            new SourceInfoProcessor().VisitProgram(inp);
+            new BoogieCallsRewriter().VisitProgram(inp);
+            new SourceInfoRewriter().VisitProgram(inp);
+            new ArrayAccessRewriter().Visit(inp);
             new SplitBlockAcrossAssertsRewriter().VisitProgram(inp);
             return inp;
         }
     }
 
-    class DummyVisitor : FixedVisitor
-    {
-        public override Cmd VisitAssertCmd(AssertCmd node)
-        {
-            node.Expr = Expr.False; 
-            return base.VisitAssertCmd(node);
-        }
-    }
-
-    class BoogieCallsVisitor : FixedVisitor
+    class BoogieCallsRewriter : StandardVisitor
     {
         public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
         {
@@ -50,7 +42,7 @@ namespace SmackProcessing.source
         }
     }    
 
-    class SourceInfoProcessor : FixedVisitor
+    class SourceInfoRewriter : StandardVisitor
     {
         public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
         {
@@ -86,7 +78,7 @@ namespace SmackProcessing.source
         }
     }
 
-    class SplitBlockAcrossAssertsRewriter : FixedVisitor
+    class SplitBlockAcrossAssertsRewriter : StandardVisitor
     {
         public override Implementation VisitImplementation(Implementation node)
         {
@@ -145,6 +137,18 @@ namespace SmackProcessing.source
             return splitBlocks;
         }
 
+    }
+
+    class ArrayAccessRewriter : StandardVisitor
+    {
+        public override Block VisitBlock(Block node)
+        {
+            foreach (Cmd cmd in node.cmds)
+            {
+
+            }
+            return base.VisitBlock(node);
+        }
     }
 
 }  
