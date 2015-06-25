@@ -807,6 +807,15 @@ namespace SDiff
           }
       }
 
+
+      public static bool IsSourceInfoAssertCmd(Cmd cmd)
+      {
+          AssertCmd acmd = cmd as AssertCmd;
+          if (acmd == null) return false; 
+          var line = QKeyValue.FindIntAttribute(acmd.Attributes, "sourceLine", -1);
+          if (line == -1) line = QKeyValue.FindIntAttribute(acmd.Attributes, "sourceline", -1);
+          return line != -1; 
+      }
   }
 
     /// <summary>

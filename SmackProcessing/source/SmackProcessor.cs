@@ -3,6 +3,7 @@ using System;
 using SmackProcessing.source;
 using ProgTransformation;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SmackProcessing
 {
@@ -10,19 +11,18 @@ namespace SmackProcessing
     {
         private static int PrintUsage()
         {
-            Console.WriteLine("SmackProcessor takes as input a bpl file.");
+            Console.WriteLine("SmackProcessor.exe a.bpl [-break]");
             return -1;
         }
 
         static int Main(string[] args)
         {
-            if (args.Length != 1)
+            if (args.Length < 1)
             {
                 return PrintUsage();
             }
 
-            Debugger.Launch();
-
+            if (args.ToList().Any(x => x == "-break")) Debugger.Launch();
 
             CommandLineOptions.Install(new CommandLineOptions());
 
