@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace SmackProcessing.source
 {
-    class SmackPreprocessorTransform : TransformationPass
+    class SmackPreprocessorTransform  : TransformationPass 
     {
         protected override Program runPass(Program inp)
         {
@@ -14,6 +14,15 @@ namespace SmackProcessing.source
             new SourceInfoProcessor().VisitProgram(inp);
             new SplitBlockAcrossAssertsRewriter().VisitProgram(inp);
             return inp;
+        }
+    }
+
+    class DummyVisitor : FixedVisitor
+    {
+        public override Cmd VisitAssertCmd(AssertCmd node)
+        {
+            node.Expr = Expr.False; 
+            return base.VisitAssertCmd(node);
         }
     }
 
@@ -89,8 +98,11 @@ namespace SmackProcessing.source
                 List<Block> splitBlocks = SplitBlockAcrossAsserts(b);
                 newBlocks.AddRange(splitBlocks);
             }
-            node.Blocks = newBlocks; 
-            return base.VisitImplementation(node);
+            //Setting the Blocks does not help persist the change, have to create a new implementation
+            //node.Blocks = newBlocks;
+            //node.OriginalBlocks = newBlocks;
+            var nimpl = new Implementation(node.tok, node.Name, node.TypeParameters, node.InParams, node.OutParams, node.LocVars, newBlocks);
+            return base.VisitImplementation(nimpl);
         }
 
         private List<Block> SplitBlockAcrossAsserts(Block b)
@@ -105,6 +117,7 @@ namespace SmackProcessing.source
             var splitBlocks = new List<Block>();
             splitBlocks.Add(b); //b is the first block in this set
 
+            bool firstSourceInfoAssert = false; 
             foreach(var cmd in cmds)
             {
                 if (!SDiff.Util.IsSourceInfoAssertCmd(cmd))
@@ -112,14 +125,20 @@ namespace SmackProcessing.source
                     currBlock.Cmds.Add(cmd);
                     continue;
                 }
+                //dont split the block before the first sourceline assert cmd
+                if (!firstSourceInfoAssert) 
+                {
+                    currBlock.Cmds.Add(cmd);
+                    firstSourceInfoAssert = true;
+                    continue;
+                }
                 //start a new block when you see an Assert Cmd with sourceline
                 nxtBlock = new Block();
+                nxtBlock.Cmds = new List<Cmd>() { cmd };
                 nxtBlock.Label = b.Label + "_splitSourceLine_" + splitBlocks.Count;
                 currBlock.TransferCmd = new GotoCmd(Token.NoToken, new List<Block>() { nxtBlock });
                 splitBlocks.Add(nxtBlock);
                 currBlock = nxtBlock;
-                // Add the current source information to the newly created block
-                currBlock.Cmds.Add(cmd);
             }
             if (nxtBlock != null)
                 nxtBlock.TransferCmd = transfer;

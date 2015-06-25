@@ -33,8 +33,9 @@ namespace SmackProcessing
 
             PersistentProgram persistentProgram = new PersistentProgram(program);
 
-            TransformationPass pass = new SmackPreprocessorTransform();
-            persistentProgram = pass.run(persistentProgram);                
+            var pass = new SmackPreprocessorTransform();
+            SmackPreprocessorTransform.writeAllFiles = true;
+            persistentProgram = pass.run(persistentProgram);
             Debug.Assert(programFileName.Contains(".bpl"));
             string processedFileName = programFileName.Substring(0, programFileName.LastIndexOf(".bpl")) + "_unsmacked.bpl";
             persistentProgram.writeToFile(processedFileName);
