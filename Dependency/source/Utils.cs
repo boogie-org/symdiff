@@ -214,7 +214,6 @@ namespace Dependency
                 {
                     return lines;
                 }
-                
                 foreach(AssertCmd cmd in block.Cmds.Where(x => x is AssertCmd))
                 {
                     var line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceLine", -1);
