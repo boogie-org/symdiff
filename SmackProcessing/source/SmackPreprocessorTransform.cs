@@ -35,8 +35,8 @@ namespace SmackProcessing.source
                 }
                 newSeq.Add(cmd);
             }
-            cmdSeq.RemoveAll(x => true);
-            newSeq.ForEach(item => cmdSeq.Add(item));
+            cmdSeq.Clear();
+            cmdSeq.AddRange(newSeq);
             return base.VisitCmdSeq(cmdSeq);
         }
     }    
@@ -59,8 +59,8 @@ namespace SmackProcessing.source
                 }
                 newSeq.Add(cmd);
             }
-            cmdSeq.RemoveAll(x => true);
-            newSeq.ForEach(item => cmdSeq.Add(item));
+            cmdSeq.Clear();
+            cmdSeq.AddRange(newSeq);
             return base.VisitCmdSeq(cmdSeq);
         }
 
@@ -118,6 +118,8 @@ namespace SmackProcessing.source
                 currBlock.TransferCmd = new GotoCmd(Token.NoToken, new List<Block>() { nxtBlock });
                 splitBlocks.Add(nxtBlock);
                 currBlock = nxtBlock;
+                // Add the current source information to the newly created block
+                currBlock.Cmds.Add(cmd);
             }
             if (nxtBlock != null)
                 nxtBlock.TransferCmd = transfer;
