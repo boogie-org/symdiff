@@ -99,8 +99,8 @@ namespace SmackProcessing.source
                 newBlocks.AddRange(splitBlocks);
             }
             //Setting the Blocks does not help persist the change, have to create a new implementation
-            //node.Blocks = newBlocks;
-            //node.OriginalBlocks = newBlocks;
+            //node.Blocks.Clear(); node.Blocks.AddRange(newBlocks);
+            //if (node.OriginalBlocks != null) { node.OriginalBlocks.Clear(); node.OriginalBlocks.AddRange(newBlocks); }
             var nimpl = new Implementation(node.tok, node.Name, node.TypeParameters, node.InParams, node.OutParams, node.LocVars, newBlocks);
             return base.VisitImplementation(nimpl);
         }

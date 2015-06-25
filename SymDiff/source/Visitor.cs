@@ -663,6 +663,7 @@ public class FixedVisitor : StandardVisitor
         {
             node.InParams = this.VisitVariableSeq(node.InParams);
             node.OutParams = this.VisitVariableSeq(node.OutParams);
+            if (node.Body != null) node.Body = this.VisitExpr(node.Body);
         }
         return node;
     }
