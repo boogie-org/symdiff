@@ -192,34 +192,38 @@ namespace Dependency
                 return file;
             }
 
-            static public int GetSourceLine(Block block)
+            //static public int GetSourceLine(Block block)
+            //{
+            //    AssertCmd cmd = (block.Cmds != null && block.Cmds.Count > 0) ? block.Cmds[0] as AssertCmd : null;
+            //    if (cmd == null) return -1;
+            //    // TODO: magic strings
+            //    var line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceLine", -1);
+            //    if (line == -1) line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceline", -1);
+            //    return line;
+            //}
+
+            /// <summary>
+            /// Returns the list of sourcelines in a block
+            /// </summary>
+            /// <param name="block"></param>
+            /// <returns></returns>
+            static public HashSet<int> GetSourceLines(Block block)
             {
+                var lines = new HashSet<int>();
                 if (block.cmds == null)
                 {
-                    return -1;
+                    return lines;
                 }
-                int lineno = -1;
-                foreach (var cmd in block.cmds)
+                
+                foreach(AssertCmd cmd in block.Cmds.Where(x => x is AssertCmd))
                 {
-
-                    if (cmd is AssertCmd)
-                    {
-                        var assert = cmd as AssertCmd;
-                        if (assert == null)
-                        {
-                            continue;
-                        }
-                        // TODO: magic strings
-                        lineno = QKeyValue.FindIntAttribute(assert.Attributes, "sourceLine", -1);
-                        lineno = lineno == -1 ? QKeyValue.FindIntAttribute(assert.Attributes, "sourceline", -1) : lineno;
-                        if (lineno != -1)
-                        {
-                            break;
-                        }
-                    }
+                    var line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceLine", -1);
+                    if (line == -1) line = QKeyValue.FindIntAttribute(cmd.Attributes, "sourceline", -1);
+                    if (line != -1) lines.Add(line);
                 }
-                return lineno;                
+                return lines;
             }
+
 
             // returns the source line adhering to the end of the implementaition
             static public string GetImplSourceFile(Implementation node)
@@ -317,8 +321,11 @@ namespace Dependency
                             foreach (var procChange in changesPerProc)
                             {
                                 // add in the block pertaining to the changed line
-                                impl.Blocks.Where(b => Utils.AttributeUtils.GetSourceLine(b) == procChange.Item3)
-                                                    .Iter(b => result.Add(b));
+                                //impl.Blocks.Where(b => Utils.AttributeUtils.GetSourceLine(b) == procChange.Item3)
+                                //                    .Iter(b => result.Add(b));
+                                impl.Blocks
+                                    .Where(b => Utils.AttributeUtils.GetSourceLines(b).Contains(procChange.Item3))
+                                    .Iter(b => result.Add(b));
                             }
                     }
                 }

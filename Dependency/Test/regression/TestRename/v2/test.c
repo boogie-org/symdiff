@@ -1,19 +1,25 @@
 //Example to contain effect of rename
+#include<stdlib.h>
 
-typedef struct _A {int f; int g;} A;
+typedef struct _A { int f; int g; } A;
+
+int baz(int x) {
+	return x;
+}
 
 void foo(A *x) {
-  int w, v = 2;  //renamed w -> v
-  w = baz(w);
-  x->g = w;
+	int w = 2, v = 2;
+	w = baz(v);
+	x->g = w;
 }
 
 void bar(A *x, int i) {
-  x->f = i;
+	x->f = i;
 }
 
-void main(A *x) {
-  foo(x);
-  bar(x, x->g);
+int main(int argc, char** argv) {
+	A* x = (A*)malloc(sizeof(A));
+	foo(x);
+	bar(x, x->g);
 }
 

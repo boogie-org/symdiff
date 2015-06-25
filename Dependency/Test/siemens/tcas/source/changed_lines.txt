@@ -1,3 +1,0 @@
-Non_Crossing_Biased_Descend, 90
-main, 155
-main, 172
