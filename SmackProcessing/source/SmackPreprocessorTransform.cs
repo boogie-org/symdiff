@@ -158,18 +158,14 @@ namespace SmackProcessing.source
                         if (lhsi != null && lhsi.Fun is MapSelect)
                         {
                             var rhsi = assign.Rhss[i];
-                            //TODO: If rhs of array assignment is not already a Map Store, replace it (maybe wrong, since it could be another unrelatedmap store)
-                            if (rhsi as NAryExpr == null || !((rhsi as NAryExpr).Fun is MapStore))
-                            {
-                                Debug.Assert(lhsi.Args.Count.Equals(2));
-                                var index = lhsi.Args[1];
-                                var arr = lhsi.Args[0];
-                                // Fishy cast?
-                                var newLhsi = new SimpleAssignLhs(Token.NoToken, arr as IdentifierExpr);
-                                var newRhsi = new NAryExpr(Token.NoToken, new MapStore(Token.NoToken, 1), new List<Expr>() { arr, index, rhsi });
-                                newLhs.Add(newLhsi);
-                                newRhs.Add(newRhsi);
-                            }
+                            Debug.Assert(lhsi.Args.Count.Equals(2));
+                            var index = lhsi.Args[1];
+                            var arr = lhsi.Args[0];
+                            Debug.Assert(arr is IdentifierExpr);
+                            var newLhsi = new SimpleAssignLhs(Token.NoToken, arr as IdentifierExpr);
+                            var newRhsi = new NAryExpr(Token.NoToken, new MapStore(Token.NoToken, 1), new List<Expr>() { arr, index, rhsi });
+                            newLhs.Add(newLhsi);
+                            newRhs.Add(newRhsi);
                         }
                         else
                         {

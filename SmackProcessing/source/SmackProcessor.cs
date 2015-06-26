@@ -29,7 +29,10 @@ namespace SmackProcessing
 
             string programFileName = args[0];
             Program program = SDiff.Boogie.Process.ParseProgram(programFileName);
-            program.Resolve(); program.Typecheck();
+            program.Resolve(); 
+            ModSetCollector c = new ModSetCollector();
+            c.DoModSetAnalysis(program);
+            program.Typecheck();
 
             PersistentProgram persistentProgram = new PersistentProgram(program);
 
