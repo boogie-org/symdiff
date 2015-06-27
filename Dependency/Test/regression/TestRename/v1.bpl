@@ -1,786 +1,2465 @@
-type {:extern} name;
-type {:extern} byte;
-function {:extern}  OneByteToInt(byte) returns (int);
-function {:extern}  TwoBytesToInt(byte, byte) returns (int);
-function {:extern}  FourBytesToInt(byte, byte, byte, byte) returns (int);
-axiom(forall b0:byte, c0:byte :: {OneByteToInt(b0), OneByteToInt(c0)} OneByteToInt(b0) == OneByteToInt(c0) ==> b0 == c0);
-axiom(forall b0:byte, b1: byte, c0:byte, c1:byte :: {TwoBytesToInt(b0, b1), TwoBytesToInt(c0, c1)} TwoBytesToInt(b0, b1) == TwoBytesToInt(c0, c1) ==> b0 == c0 && b1 == c1);
-axiom(forall b0:byte, b1: byte, b2:byte, b3:byte, c0:byte, c1:byte, c2:byte, c3:byte :: {FourBytesToInt(b0, b1, b2, b3), FourBytesToInt(c0, c1, c2, c3)} FourBytesToInt(b0, b1, b2, b3) == FourBytesToInt(c0, c1, c2, c3) ==> b0 == c0 && b1 == c1 && b2 == c2 && b3 == c3);
-
-// Memory model
-
-// Mutable
-var {:extern} Mem: [name][int]int;
-var {:extern} alloc:int;
-
-// Immutable
-function {:extern}  Field(int) returns (name);
-function {:extern}  Base(int) returns (int);
-//axiom(forall x: int :: {Base(x)} Base(x) <= x);
-axiom(forall x: int :: {Base(x)} INT_LEQ(Base(x), x));
-
-function {:extern} DT(int) returns(name);
-var {:extern} Mem_T.INT4 : [int]int;
-var {:extern} Mem_T.PVOID : [int]int;
-var {:extern} Mem_T.UINT4 : [int]int;
-var {:extern} Mem_T.f__A : [int]int;
-var {:extern} Mem_T.g__A : [int]int;
-function {:extern} Match(a:int, t:name) returns (bool);
-function {:extern} MatchBase(b:int, a:int, t:name) returns (bool);
-function {:extern} HasType(v:int, t:name) returns (bool);
-
-function {:extern} T.Ptr(t:name) returns (name);
-axiom(forall a:int, t:name :: {Match(a, T.Ptr(t))} Match(a, T.Ptr(t)) <==> Field(a) == T.Ptr(t));   //marker for a 
-axiom(forall b:int, a:int, t:name :: {MatchBase(b, a, T.Ptr(t))} MatchBase(b, a, T.Ptr(t)) <==> Base(a) == b); // marker for b 
-axiom(forall v:int, t:name :: {HasType(v, T.Ptr(t))} HasType(v, T.Ptr(t)) <==> (v == 0 || (INT_GT(v, 0) && Match(v, t) && MatchBase(Base(v), v, t))));
-
-// Field declarations without typesafety
-const {:extern} unique T.f__A:name;
-const {:extern} unique T.g__A:name;
-
-// Type declarations for type safety 
-
-const {:extern} unique T.CHAR:name;
-const {:extern} unique T.INT4:name;
-const {:extern} unique T.PCHAR:name;
-const {:extern} unique T.PINT4:name;
-const {:extern} unique T.PPCHAR:name;
-const {:extern} unique T.PPPCHAR:name;
-const {:extern} unique T.PPVOID:name;
-const {:extern} unique T.PP_A:name;
-const {:extern} unique T.PVOID:name;
-const {:extern} unique T.P_A:name;
-const {:extern} unique T.UINT4:name;
-const {:extern} unique T.VOID:name;
-const {:extern} unique T._A:name;
-
-// Field offset definitions
-
-function {:extern}  f__A(int) returns (int);        
-axiom (forall x:int :: {f__A(x)} f__A(x) == INT_ADD(x, 0));
-axiom (forall x:int :: {f__A(x)} f__A(x) == PLUS(x, 1, 0));
-
-function {:extern}  g__A(int) returns (int);        
-axiom (forall x:int :: {g__A(x)} g__A(x) == INT_ADD(x, 4));
-axiom (forall x:int :: {g__A(x)} g__A(x) == PLUS(x, 1, 4));
-
-
-///////////////////////////////////
-// will be replaced by:
-// "//" when using bv mode
-// ""   when using int mode
-// main reason is to avoid using bv for constants
-// or avoid translating lines that are complex or unsound
-//////////////////////////////////
-
-////////////////////////////////////////////
-/////// function {:extern} s for int type /////////////
-// Theorem prover does not see INT_ADD etc.
-////////////////////////////////////////////
-function {:extern}   INT_EQ(x:int, y:int)  returns  (bool)   {x == y}
-function {:extern}   INT_NEQ(x:int, y:int)  returns  (bool)   {x != y}
-
-function {:extern}   INT_ADD(x:int, y:int)  returns  (int)   {x + y}
-function {:extern}   INT_SUB(x:int, y:int)  returns  (int)   {x - y}
-function {:extern}   INT_MULT(x:int, y:int) returns  (int)   {x * y}
-//function {:extern}   INT_DIV(x:int, y:int)  returns  (int)   {x / y}
-function {:extern}   INT_LT(x:int, y:int)   returns  (bool)  {x < y}
-function {:extern}   INT_ULT(x:int, y:int)   returns  (bool)  {x < y}
-function {:extern}   INT_LEQ(x:int, y:int)  returns  (bool)  {x <= y}
-function {:extern}   INT_ULEQ(x:int, y:int)  returns  (bool)  {x <= y}
-function {:extern}   INT_GT(x:int, y:int)   returns  (bool)  {x > y}
-function {:extern}   INT_UGT(x:int, y:int)   returns  (bool)  {x > y}
-function {:extern}   INT_GEQ(x:int, y:int)  returns  (bool)  {x >= y}
-function {:extern}   INT_UGEQ(x:int, y:int)  returns  (bool)  {x >= y}
-
-
-////////////////////////////////////////////
-/////// function {:extern} s for bv32 type /////////////
-// Theorem prover does not see INT_ADD etc.
-// we are treating unsigned ops now
-////////////////////////////////////////////
-function {:extern}   BV32_EQ(x:bv32, y:bv32)  returns  (bool)   {x == y}
-function {:extern}   BV32_NEQ(x:bv32, y:bv32)  returns  (bool)  {x != y}
-
-function {:extern}  {:bvbuiltin "bvadd"}  BV32_ADD(x:bv32, y:bv32)  returns  (bv32);
-function {:extern}  {:bvbuiltin "bvsub"}  BV32_SUB(x:bv32, y:bv32)  returns  (bv32);
-function {:extern}  {:bvbuiltin "bvmul"}  BV32_MULT(x:bv32, y:bv32) returns  (bv32);
-function {:extern}  {:bvbuiltin "bvudiv"} BV32_DIV(x:bv32, y:bv32)  returns  (bv32);
-function {:extern}  {:bvbuiltin "bvult"}  BV32_ULT(x:bv32, y:bv32)   returns  (bool);
-function {:extern}  {:bvbuiltin "bvslt"}  BV32_LT(x:bv32, y:bv32)   returns  (bool);
-function {:extern}  {:bvbuiltin "bvule"}  BV32_ULEQ(x:bv32, y:bv32)  returns  (bool);
-function {:extern}  {:bvbuiltin "bvsle"}  BV32_LEQ(x:bv32, y:bv32)  returns  (bool);
-function {:extern}  {:bvbuiltin "bvugt"}  BV32_UGT(x:bv32, y:bv32)   returns  (bool);
-function {:extern}  {:bvbuiltin "bvsgt"}  BV32_GT(x:bv32, y:bv32)   returns  (bool);
-function {:extern}  {:bvbuiltin "bvuge"}  BV32_UGEQ(x:bv32, y:bv32)  returns  (bool);
-function {:extern}  {:bvbuiltin "bvsge"}  BV32_GEQ(x:bv32, y:bv32)  returns  (bool);
-
-//what about bitwise ops {BIT_AND, BIT_OR, BIT_NOT, ..}
-//only enabled with bv theory
-// function {:extern}  {:bvbuiltin "bvand"} BIT_BAND(a:int, b:int) returns (x:int);
-// function {:extern}  {:bvbuiltin "bvor"}  BIT_BOR(a:int, b:int) returns (x:int);
-// function {:extern}  {:bvbuiltin "bvxor"} BIT_BXOR(a:int, b:int) returns (x:int);
-// function {:extern}  {:bvbuiltin "bvnot"} BIT_BNOT(a:int) returns (x:int);
-
-//////////////////////////////////
-// Generic C Arithmetic operations
-/////////////////////////////////
-
-//Is this sound for bv32?
-function {:extern}  MINUS_BOTH_PTR_OR_BOTH_INT(a:int, b:int, size:int) returns (int); 
- axiom  (forall a:int, b:int, size:int :: {MINUS_BOTH_PTR_OR_BOTH_INT(a,b,size)} 
-//size * MINUS_BOTH_PTR_OR_BOTH_INT(a,b,size) <= a - b && a - b < size * (MINUS_BOTH_PTR_OR_BOTH_INT(a,b,size) + 1));
- INT_LEQ( INT_MULT(size, MINUS_BOTH_PTR_OR_BOTH_INT(a,b,size)),  INT_SUB(a, b)) && INT_LT( INT_SUB(a, b),  INT_MULT(size, (INT_ADD(MINUS_BOTH_PTR_OR_BOTH_INT(a,b,size), 1)))));
-
-//we just keep this axiom for size = 1
-axiom  (forall a:int, b:int, size:int :: {MINUS_BOTH_PTR_OR_BOTH_INT(a,b,size)}  MINUS_BOTH_PTR_OR_BOTH_INT(a,b,1) == INT_SUB(a,b));
-
-
-function {:extern}  MINUS_LEFT_PTR(a:int, a_size:int, b:int) returns (int);
-//axiom(forall a:int, a_size:int, b:int :: {MINUS_LEFT_PTR(a,a_size,b)} MINUS_LEFT_PTR(a,a_size,b) == a - a_size * b);
-axiom(forall a:int, a_size:int, b:int :: {MINUS_LEFT_PTR(a,a_size,b)} MINUS_LEFT_PTR(a,a_size,b) == INT_SUB(a, INT_MULT(a_size, b)));
-
-
-function {:extern}  PLUS(a:int, a_size:int, b:int) returns (int);
-//axiom (forall a:int, a_size:int, b:int :: {PLUS(a,a_size,b)} PLUS(a,a_size,b) == a + a_size * b);
-axiom (forall a:int, a_size:int, b:int :: {PLUS(a,a_size,b)} PLUS(a,a_size,b) == INT_ADD(a, INT_MULT(a_size, b)));
- 
-function {:extern}  MULT(a:int, b:int) returns (int); // a*b
-//axiom(forall a:int, b:int :: {MULT(a,b)} MULT(a,b) == a * b);
-axiom(forall a:int, b:int :: {MULT(a,b)} MULT(a,b) == INT_MULT(a, b));
- 
-function {:extern}  DIV(a:int, b:int) returns (int); // a/b	
-
-function {:extern}  BINARY_UNKNOWN(a:int, b:int) returns (int); //unknown op, should fix it.
-
-
-// Not sure if these axioms hold for BV too, just commet them for BV 	      
- axiom(forall a:int, b:int :: {DIV(a,b)}
- a >= 0 && b > 0 ==> b * DIV(a,b) <= a && a < b * (DIV(a,b) + 1)
- ); 
- 
- axiom(forall a:int, b:int :: {DIV(a,b)}
- a >= 0 && b < 0 ==> b * DIV(a,b) <= a && a < b * (DIV(a,b) - 1)
- ); 
- 
- axiom(forall a:int, b:int :: {DIV(a,b)}
- a < 0 && b > 0 ==> b * DIV(a,b) >= a && a > b * (DIV(a,b) - 1)
- ); 
- 
- axiom(forall a:int, b:int :: {DIV(a,b)}
- a < 0 && b < 0 ==> b * DIV(a,b) >= a && a > b * (DIV(a,b) + 1)
- ); 
- 
-
-//uninterpreted binary op
-function {:extern}  BINARY_BOTH_INT(a:int, b:int) returns (int);
-
-
-//////////////////////////////////////////
-//// Bitwise ops (uninterpreted, used with int)
-//////////////////////////////////////////
-function {:extern}  POW2(a:int) returns (bool);
-axiom POW2(1);
-axiom POW2(2);
-axiom POW2(4);
-axiom POW2(8);
-axiom POW2(16);
-axiom POW2(32);
-axiom POW2(64);
-axiom POW2(128);
-axiom POW2(256);
-axiom POW2(512);
-axiom POW2(1024);
-axiom POW2(2048);
-axiom POW2(4096);
-axiom POW2(8192);
-axiom POW2(16384);
-axiom POW2(32768);
-axiom POW2(65536);
-axiom POW2(131072);
-axiom POW2(262144);
-axiom POW2(524288);
-axiom POW2(1048576);
-axiom POW2(2097152);
-axiom POW2(4194304);
-axiom POW2(8388608);
-axiom POW2(16777216);
-axiom POW2(33554432);
-
- function {:extern}  BIT_BAND(a:int, b:int) returns (x:int);
- axiom(forall a:int, b:int :: {BIT_BAND(a,b)} a == b ==> BIT_BAND(a,b) == a);
- axiom(forall a:int, b:int :: {BIT_BAND(a,b)} POW2(a) && POW2(b) && a != b ==> BIT_BAND(a,b) == 0);
- axiom(forall a:int, b:int :: {BIT_BAND(a,b)} a == 0 || b == 0 ==> BIT_BAND(a,b) == 0);
-
- function {:extern}  BIT_BOR(a:int, b:int) returns (x:int);
- function {:extern}  BIT_BXOR(a:int, b:int) returns (x:int);
- function {:extern}  BIT_BNOT(a:int) returns (int);
-
-
-function {:extern}  choose(a:bool, b:int, c:int) returns (x:int);
-axiom(forall a:bool, b:int, c:int :: {choose(a,b,c)} a ==> choose(a,b,c) == b);
-axiom(forall a:bool, b:int, c:int :: {choose(a,b,c)} !a ==> choose(a,b,c) == c);
-
-function {:extern}  LIFT(a:bool) returns (int);
-axiom(forall a:bool :: {LIFT(a)} a <==> LIFT(a) != 0);
-
-function {:extern}  PTR_NOT(a:int) returns (int);
-axiom(forall a:int :: {PTR_NOT(a)} a == 0 ==> PTR_NOT(a) != 0);
-axiom(forall a:int :: {PTR_NOT(a)} a != 0 ==> PTR_NOT(a) == 0);
-
-function {:extern}  NULL_CHECK(a:int) returns (int);
-axiom(forall a:int :: {NULL_CHECK(a)} a == 0 ==> NULL_CHECK(a) != 0);
-axiom(forall a:int :: {NULL_CHECK(a)} a != 0 ==> NULL_CHECK(a) == 0);
-
-procedure {:extern}  havoc_assert(i:int);
-requires (i != 0);
-
-procedure {:extern}  havoc_assume(i:int);
-ensures (i != 0);
-
-procedure {:extern}  __HAVOC_free(a:int);
-
-function {:extern}  NewAlloc(x:int, y:int) returns (z:int);
-
-
-procedure {:extern}  __HAVOC_malloc(obj_size:int) returns (new:int);
-free requires INT_GEQ(obj_size, 0); //requires obj_size >= 0;
-modifies alloc;
-ensures new == old(alloc);
-ensures INT_GT(alloc, INT_ADD(new, obj_size)); //ensures alloc > new + obj_size;
-ensures Base(new) == new;
-
-//deterministic HAVOC_malloc 
-procedure {:extern}  __HAVOC_det_malloc(obj_size:int) returns (new:int);
-free requires INT_GEQ(obj_size, 0); //requires obj_size >= 0;
-modifies alloc;
-ensures new == old(alloc);
-ensures INT_GT(alloc, INT_ADD(new, obj_size)); //ensures alloc > new + obj_size;
-ensures Base(new) == new;
-ensures alloc == NewAlloc(old(alloc), obj_size);
-
-
-//////////////////
-// Memset starts
-//////////////////
-//A quick/dirty version of memset 
-//M_T := memset(M_T, p, c, s, n)
-
-// we make a copy for each concrete size
- procedure {:extern}  __HAVOC_memset_split_1(A:[int]int, p:int, c:int, n:int) returns (ret:[int]int);
- ensures (Subset(Empty(), Array(p,1,n)) && (forall i:int:: {ret[i]}  Array(p,1,n)[i] || ret[i] == A[i]));
- ensures (Subset(Empty(), Array(p,1,n)) && (forall i:int:: {ret[i]}  Array(p,1,n)[i] ==> ret[i] == c));
-
-
- procedure {:extern}  __HAVOC_memset_split_2(A:[int]int, p:int, c:int, n:int) returns (ret:[int]int);
- ensures (Subset(Empty(), Array(p,2,n)) && (forall i:int:: {ret[i]}  Array(p,2,n)[i] || ret[i] == A[i]));
- ensures (Subset(Empty(), Array(p,2,n)) && (forall i:int:: {ret[i]}  Array(p,2,n)[i] ==> ret[i] == c));
-
-
-
- procedure {:extern}  __HAVOC_memset_split_4(A:[int]int, p:int, c:int, n:int) returns (ret:[int]int);
- ensures (Subset(Empty(), Array(p,4,n)) && (forall i:int:: {ret[i]}  Array(p,4,n)[i] || ret[i] == A[i]));
- ensures (Subset(Empty(), Array(p,4,n)) && (forall i:int:: {ret[i]}  Array(p,4,n)[i] ==> ret[i] == c));
-
-//////////////////
-// Memset ends
-
-//////////////////
-
-//a common nondet for all instrinsic returns
-procedure {:extern}  nondet_intrinsic() returns (x:int);
-
-procedure {:extern}  nondet_choice() returns (x:int);
-
-//----deterministic (but arbitrary) choice
-var {:extern} detChoiceCnt:int;
-function {:extern}  DetChoiceFunc(a:int) returns (x:int);
-
-procedure {:extern}  det_choice() returns (x:int);
-//ensures detChoiceCnt == old(detChoiceCnt) + 1;
-ensures detChoiceCnt == INT_ADD(old(detChoiceCnt),1);
-ensures x == DetChoiceFunc(old(detChoiceCnt));
-modifies detChoiceCnt;
-
-procedure {:extern}  _strdup(str:int) returns (new:int);
-
-procedure {:extern}  _xstrcasecmp(a0:int, a1:int) returns (ret:int);
-
-procedure {:extern}  _xstrcmp(a0:int, a1:int) returns (ret:int);
-
-
-/*
-//bv function {:extern} s
-function {:extern}  bv8ToInt(bv8)   returns (int);
-function {:extern}  bv16ToInt(bv16) returns (int);
-function {:extern}  bv32ToInt(bv32) returns (int);
-function {:extern}  bv64ToInt(bv64) returns (int);
-
-function {:extern}  intToBv8(int)    returns (bv8);
-function {:extern}  intToBv16(int)   returns (bv16);
-function {:extern}  intToBv32(int)   returns (bv32);
-function {:extern}  intToBv64(int)   returns (bv64);
-
-axiom(forall a:int ::  {intToBv8(a)} bv8ToInt(intToBv8(a)) == a);
-axiom(forall a:int ::  {intToBv16(a)} bv16ToInt(intToBv16(a)) == a);
-axiom(forall a:int ::  {intToBv32(a)} bv32ToInt(intToBv32(a)) == a);
-axiom(forall a:int ::  {intToBv64(a)} bv64ToInt(intToBv64(a)) == a);
-
-axiom(forall b:bv8 ::  {bv8ToInt(b)} intToBv8(bv8ToInt(b)) == b);
-axiom(forall b:bv16 ::  {bv16ToInt(b)} intToBv16(bv16ToInt(b)) == b);
-axiom(forall b:bv32 ::  {bv32ToInt(b)} intToBv32(bv32ToInt(b)) == b);
-axiom(forall b:bv64 ::  {bv64ToInt(b)} intToBv64(bv64ToInt(b)) == b);
-*/
-
-
-
-
-function {:extern}  Equal([int]bool, [int]bool) returns (bool);
-function {:extern}  Subset([int]bool, [int]bool) returns (bool);
-function {:extern}  Disjoint([int]bool, [int]bool) returns (bool);
-
-function {:extern}  Empty() returns ([int]bool);
-function {:extern}  SetTrue() returns ([int]bool);
-function {:extern}  Singleton(int) returns ([int]bool);
-function {:extern}  Reachable([int,int]bool, int) returns ([int]bool);
-function {:extern}  Union([int]bool, [int]bool) returns ([int]bool);
-function {:extern}  Intersection([int]bool, [int]bool) returns ([int]bool);
-function {:extern}  Difference([int]bool, [int]bool) returns ([int]bool);
-function {:extern}  Dereference([int]bool, [int]int) returns ([int]bool);
-function {:extern}  Inverse(f:[int]int, x:int) returns ([int]bool);
-
-function {:extern}  AtLeast(int, int) returns ([int]bool);
-function {:extern}  Rep(int, int) returns (int);
-//axiom(forall n:int, x:int, y:int :: {AtLeast(n,x)[y]} AtLeast(n,x)[y] ==> x <= y && Rep(n,x) == Rep(n,y));
-axiom(forall n:int, x:int, y:int :: {AtLeast(n,x)[y]} AtLeast(n,x)[y] ==> INT_LEQ(x, y) && Rep(n,x) == Rep(n,y));
-//axiom(forall n:int, x:int, y:int :: {AtLeast(n,x),Rep(n,x),Rep(n,y)} x <= y && Rep(n,x) == Rep(n,y) ==> AtLeast(n,x)[y]);
-axiom(forall n:int, x:int, y:int :: {AtLeast(n,x),Rep(n,x),Rep(n,y)} INT_LEQ(x, y) && Rep(n,x) == Rep(n,y) ==> AtLeast(n,x)[y]);
-axiom(forall n:int, x:int :: {AtLeast(n,x)} AtLeast(n,x)[x]);
-axiom(forall n:int, x:int, z:int :: {PLUS(x,n,z)} Rep(n,x) == Rep(n,PLUS(x,n,z)));
-//axiom(forall n:int, x:int :: {Rep(n,x)} (exists k:int :: Rep(n,x) - x  == n*k));
-axiom(forall n:int, x:int :: {Rep(n,x)} (exists k:int :: INT_SUB(Rep(n,x),x)  == INT_MULT(n,k)));
-
-/*
-function {:extern}  AtLeast(int, int) returns ([int]bool);
-function {:extern}  ModEqual(int, int, int) returns (bool);
-axiom(forall n:int, x:int :: ModEqual(n,x,x));
-axiom(forall n:int, x:int, y:int :: {ModEqual(n,x,y)} ModEqual(n,x,y) ==> ModEqual(n,y,x));
-axiom(forall n:int, x:int, y:int, z:int :: {ModEqual(n,x,y), ModEqual(n,y,z)} ModEqual(n,x,y) && ModEqual(n,y,z) ==> ModEqual(n,x,z));
-axiom(forall n:int, x:int, z:int :: {PLUS(x,n,z)} ModEqual(n,x,PLUS(x,n,z)));
-axiom(forall n:int, x:int, y:int :: {ModEqual(n,x,y)} ModEqual(n,x,y) ==> (exists k:int :: x - y == n*k));
-axiom(forall x:int, n:int, y:int :: {AtLeast(n,x)[y]}{ModEqual(n,x,y)} AtLeast(n,x)[y] <==> x <= y && ModEqual(n,x,y));
-axiom(forall x:int, n:int :: {AtLeast(n,x)} AtLeast(n,x)[x]);
-*/
-
-function {:extern}  Array(int, int, int) returns ([int]bool);
-axiom(forall x:int, n:int, z:int :: {Array(x,n,z)} INT_LEQ(z,0) ==> Equal(Array(x,n,z), Empty()));
-axiom(forall x:int, n:int, z:int :: {Array(x,n,z)} INT_GT(z, 0) ==> Equal(Array(x,n,z), Difference(AtLeast(n,x),AtLeast(n,PLUS(x,n,z)))));
-
-
-axiom(forall x:int :: !Empty()[x]);
-
-axiom(forall x:int :: SetTrue()[x]);
-
-axiom(forall x:int, y:int :: {Singleton(y)[x]} Singleton(y)[x] <==> x == y);
-axiom(forall y:int :: {Singleton(y)} Singleton(y)[y]);
-
-axiom(forall x:int, S:[int]bool, T:[int]bool :: {Union(S,T)[x]}{Union(S,T),S[x]}{Union(S,T),T[x]} Union(S,T)[x] <==> S[x] || T[x]);
-axiom(forall x:int, S:[int]bool, T:[int]bool :: {Intersection(S,T)[x]}{Intersection(S,T),S[x]}{Intersection(S,T),T[x]} Intersection(S,T)[x] <==>  S[x] && T[x]);
-axiom(forall x:int, S:[int]bool, T:[int]bool :: {Difference(S,T)[x]}{Difference(S,T),S[x]}{Difference(S,T),T[x]} Difference(S,T)[x] <==> S[x] && !T[x]);
-
-axiom(forall S:[int]bool, T:[int]bool :: {Equal(S,T)} Equal(S,T) <==> Subset(S,T) && Subset(T,S));
-axiom(forall x:int, S:[int]bool, T:[int]bool :: {S[x],Subset(S,T)}{T[x],Subset(S,T)} S[x] && Subset(S,T) ==> T[x]);
-axiom(forall S:[int]bool, T:[int]bool :: {Subset(S,T)} Subset(S,T) || (exists x:int :: S[x] && !T[x]));
-axiom(forall x:int, S:[int]bool, T:[int]bool :: {S[x],Disjoint(S,T)}{T[x],Disjoint(S,T)} !(S[x] && Disjoint(S,T) && T[x]));
-axiom(forall S:[int]bool, T:[int]bool :: {Disjoint(S,T)} Disjoint(S,T) || (exists x:int :: S[x] && T[x]));
-
-axiom(forall f:[int]int, x:int :: {Inverse(f,f[x])} Inverse(f,f[x])[x]);
-axiom(forall f:[int]int, x:int, y:int :: {Inverse(f,y), f[x]} Inverse(f,y)[x] ==> f[x] == y);
-axiom(forall f:[int]int, x:int, y:int :: {Inverse(f[x := y],y)} Equal(Inverse(f[x := y],y), Union(Inverse(f,y), Singleton(x))));
-axiom(forall f:[int]int, x:int, y:int, z:int :: {Inverse(f[x := y],z)} y == z || Equal(Inverse(f[x := y],z), Difference(Inverse(f,z), Singleton(x))));
-
-
-axiom(forall x:int, S:[int]bool, M:[int]int :: {Dereference(S,M)[x]} Dereference(S,M)[x] ==> (exists y:int :: x == M[y] && S[y]));
-axiom(forall x:int, S:[int]bool, M:[int]int :: {M[x], S[x], Dereference(S,M)} S[x] ==> Dereference(S,M)[M[x]]);
-axiom(forall x:int, y:int, S:[int]bool, M:[int]int :: {Dereference(S,M[x := y])} !S[x] ==> Equal(Dereference(S,M[x := y]), Dereference(S,M)));
-axiom(forall x:int, y:int, S:[int]bool, M:[int]int :: {Dereference(S,M[x := y])} 
-     S[x] &&  Equal(Intersection(Inverse(M,M[x]), S), Singleton(x)) ==> Equal(Dereference(S,M[x := y]), Union(Difference(Dereference(S,M), Singleton(M[x])), Singleton(y))));
-axiom(forall x:int, y:int, S:[int]bool, M:[int]int :: {Dereference(S,M[x := y])} 
-     S[x] && !Equal(Intersection(Inverse(M,M[x]), S), Singleton(x)) ==> Equal(Dereference(S,M[x := y]), Union(Dereference(S,M), Singleton(y))));
-
-function {:extern}  Unified([name][int]int) returns ([int]int);
-axiom(forall M:[name][int]int, x:int :: {Unified(M)[x]} Unified(M)[x] == M[Field(x)][x]);
-axiom(forall M:[name][int]int, x:int, y:int :: {Unified(M[Field(x) := M[Field(x)][x := y]])} Unified(M[Field(x) := M[Field(x)][x := y]]) == Unified(M)[x := y]);
-//CToBplModel constants
-function  {:extern} value_is(c:int , e:int) returns (r:bool);
-const {:extern} {:model_const "x"} {:sourceFile ".\v1\test.c"} {:sourceLine 13} unique __ctobpl_const_10:int;
-const {:extern} {:model_const "x->g"} {:sourceFile ".\v1\test.c"} {:sourceLine 13} unique __ctobpl_const_11:int;
-const {:extern} {:model_const "w"} {:sourceFile ".\v1\test.c"} {:sourceLine 13} unique __ctobpl_const_12:int;
-const {:extern} {:model_const "x"} {:sourceFile ".\v1\test.c"} {:sourceLine 7} unique __ctobpl_const_4:int;
-const {:extern} {:model_const "w"} {:sourceFile ".\v1\test.c"} {:sourceLine 12} unique __ctobpl_const_7:int;
-const {:extern} {:model_const "w"} {:sourceFile ".\v1\test.c"} {:sourceLine 11} unique __ctobpl_const_5:int;
-const {:extern} {:model_const "w"} {:sourceFile ".\v1\test.c"} {:sourceLine 12} unique __ctobpl_const_6:int;
-const {:extern} {:model_const "x"} {:sourceFile ".\v1\test.c"} {:sourceLine 17} unique __ctobpl_const_1:int;
-const {:extern} {:model_const "i"} {:sourceFile ".\v1\test.c"} {:sourceLine 17} unique __ctobpl_const_3:int;
-const {:extern} {:model_const "x->f"} {:sourceFile ".\v1\test.c"} {:sourceLine 17} unique __ctobpl_const_2:int;
-const {:extern} {:model_const "x"} {:sourceFile ".\v1\test.c"} {:sourceLine 23} unique __ctobpl_const_17:int;
-const {:extern} {:model_const "x"} {:sourceFile ".\v1\test.c"} {:sourceLine 23} unique __ctobpl_const_18:int;
-const {:extern} {:model_const "result.malloc"} {:sourceFile ".\v1\test.c"} {:sourceLine 21} unique __ctobpl_const_14:int;
-const {:extern} {:model_const "x->g"} {:sourceFile ".\v1\test.c"} {:sourceLine 23} unique __ctobpl_const_19:int;
-const {:extern} {:model_const "x"} {:sourceFile ".\v1\test.c"} {:sourceLine 21} unique __ctobpl_const_13:int;
-const {:extern} {:model_const "x"} {:sourceFile ".\v1\test.c"} {:sourceLine 22} unique __ctobpl_const_16:int;
-const {:extern} {:model_const "x"} {:sourceFile ".\v1\test.c"} {:sourceLine 22} unique __ctobpl_const_15:int;
-const {:extern} {:model_const "x"} {:sourceFile ".\v1\test.c"} {:sourceLine 23} unique __ctobpl_const_20:int;
-const {:extern} {:model_const "x"} {:sourceFile ".\v1\test.c"} {:sourceLine 23} unique __ctobpl_const_21:int;
-const {:extern} {:model_const "x->g"} {:sourceFile ".\v1\test.c"} {:sourceLine 23} unique __ctobpl_const_22:int;
-const {:extern} {:model_const "w"} {:sourceFile ".\v1\test.c"} {:sourceLine 12} unique __ctobpl_const_8:int;
-const {:extern} {:model_const "result.baz"} {:sourceFile ".\v1\test.c"} {:sourceLine 12} unique __ctobpl_const_9:int;
-
-
-procedure {:extern}  bar(x.__1:int, i.__1:int)
-
-//TAG: alloc is always > 0
-free requires INT_LT(0, alloc);
-//TAG: alloc increases
-free ensures INT_LEQ(old(alloc), alloc);
-
-//TAG: havoc memory locations by default
+type i1 = int;
+
+type i8 = int;
+
+type i16 = int;
+
+type i32 = int;
+
+type i64 = int;
+
+type ref = i64;
+
+const $0: i32;
+
+axiom $0 == 0;
+
+const $0.ref: ref;
+
+const $1.ref: ref;
+
+const $2.ref: ref;
+
+const $3.ref: ref;
+
+const $4.ref: ref;
+
+const $5.ref: ref;
+
+const $6.ref: ref;
+
+const $7.ref: ref;
+
+axiom $0.ref == 0;
+
+axiom $1.ref == 1;
+
+axiom $2.ref == 2;
+
+axiom $3.ref == 3;
+
+axiom $4.ref == 4;
+
+axiom $5.ref == 5;
+
+axiom $6.ref == 6;
+
+axiom $7.ref == 7;
+
+var $M.0: [ref]i8;
+
+var $M.1: [ref]i8;
+
+axiom $GLOBALS_BOTTOM == $sub.ref(0, 88);
+
+axiom $EXTERNS_BOTTOM == $sub.ref(0, 32768);
+
+axiom $MALLOC_TOP == 2136997887;
+
+function {:builtin "bv2int"} $bv2int.64(i: bv64) : i64;
+
+function {:builtin "(_ int2bv 64)"} $int2bv.64(i: i64) : bv64;
+
+function {:inline} $p2i.ref.i8(p: ref) : i8
 {
-var {:extern} havoc_stringTemp:int;
-var {:extern} condVal:int;
-var {:extern} i : int;
-var {:extern} x : int;
-var {:extern} tempBoogie0:int;
-var {:extern} tempBoogie1:int;
-var {:extern} tempBoogie2:int;
-var {:extern} tempBoogie3:int;
-var {:extern} tempBoogie4:int;
-var {:extern} tempBoogie5:int;
-var {:extern} tempBoogie6:int;
-var {:extern} tempBoogie7:int;
-var {:extern} tempBoogie8:int;
-var {:extern} tempBoogie9:int;
-var {:extern} tempBoogie10:int;
-var {:extern} tempBoogie11:int;
-var {:extern} tempBoogie12:int;
-var {:extern} tempBoogie13:int;
-var {:extern} tempBoogie14:int;
-var {:extern} tempBoogie15:int;
-var {:extern} tempBoogie16:int;
-var {:extern} tempBoogie17:int;
-var {:extern} tempBoogie18:int;
-var {:extern} tempBoogie19:int;
-havoc_stringTemp := 0;//Initialize havoc_stringTemp 
+  $trunc.i64.i8(p)
+}
+
+function {:inline} $i2p.i8.ref(i: i8) : ref
+{
+  $zext.i8.i64(i)
+}
+
+function {:inline} $p2i.ref.i16(p: ref) : i16
+{
+  $trunc.i64.i16(p)
+}
+
+function {:inline} $i2p.i16.ref(i: i16) : ref
+{
+  $zext.i16.i64(i)
+}
+
+function {:inline} $p2i.ref.i32(p: ref) : i32
+{
+  $trunc.i64.i32(p)
+}
+
+function {:inline} $i2p.i32.ref(i: i32) : ref
+{
+  $zext.i32.i64(i)
+}
+
+function {:inline} $p2i.ref.i64(p: ref) : i64
+{
+  p
+}
+
+function {:inline} $i2p.i64.ref(i: i64) : ref
+{
+  i
+}
+
+function {:inline} $eq.ref(p1: ref, p2: ref) : i1
+{
+  (if $eq.i64.bool(p1, p2) then 1 else 0)
+}
+
+function {:inline} $eq.ref.bool(p1: ref, p2: ref) : bool
+{
+  $eq.i64.bool(p1, p2)
+}
+
+function {:inline} $ne.ref(p1: ref, p2: ref) : i1
+{
+  (if $ne.i64.bool(p1, p2) then 1 else 0)
+}
+
+function {:inline} $ne.ref.bool(p1: ref, p2: ref) : bool
+{
+  $ne.i64.bool(p1, p2)
+}
+
+function {:inline} $sge.ref(p1: ref, p2: ref) : i1
+{
+  (if $sge.i64.bool(p1, p2) then 1 else 0)
+}
+
+function {:inline} $sge.ref.bool(p1: ref, p2: ref) : bool
+{
+  $sge.i64.bool(p1, p2)
+}
+
+function {:inline} $sgt.ref(p1: ref, p2: ref) : i1
+{
+  (if $sgt.i64.bool(p1, p2) then 1 else 0)
+}
+
+function {:inline} $sgt.ref.bool(p1: ref, p2: ref) : bool
+{
+  $sgt.i64.bool(p1, p2)
+}
+
+function {:inline} $sle.ref(p1: ref, p2: ref) : i1
+{
+  (if $sle.i64.bool(p1, p2) then 1 else 0)
+}
+
+function {:inline} $sle.ref.bool(p1: ref, p2: ref) : bool
+{
+  $sle.i64.bool(p1, p2)
+}
+
+function {:inline} $slt.ref(p1: ref, p2: ref) : i1
+{
+  (if $slt.i64.bool(p1, p2) then 1 else 0)
+}
+
+function {:inline} $slt.ref.bool(p1: ref, p2: ref) : bool
+{
+  $slt.i64.bool(p1, p2)
+}
+
+function {:inline} $add.ref(p1: ref, p2: ref) : ref
+{
+  $add.i64(p1, p2)
+}
+
+function {:inline} $sub.ref(p1: ref, p2: ref) : ref
+{
+  $sub.i64(p1, p2)
+}
+
+function {:inline} $mul.ref(p1: ref, p2: ref) : ref
+{
+  $mul.i64(p1, p2)
+}
+
+const __SMACK_code: ref;
+
+const __SMACK_decls: ref;
+
+const __SMACK_dummy: ref;
+
+const __SMACK_top_decl: ref;
+
+const bar: ref;
+
+const baz: ref;
+
+const foo: ref;
+
+const llvm.dbg.declare: ref;
+
+const llvm.dbg.value: ref;
+
+const main: ref;
+
+const malloc: ref;
+
+procedure $init_funcs();
 
 
-start:
 
-assume INT_LT(x.__1, alloc);
-i:= 0;//Init locals 
-x:= 0;//Init locals 
-x := x.__1;
-i := i.__1;
-goto label_3;
+implementation $init_funcs()
+{
 
-
-// .\v1\test.c(17)
-label_3:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 17} true;
-//TAG: Dereferenced object is non-null
-assert(x != 0);
-Mem_T.f__A := Mem_T.f__A[f__A(x) := i];
-assume value_is(__ctobpl_const_1, x);
-assume value_is(__ctobpl_const_2, Mem_T.f__A[f__A(x)]);
-assume value_is(__ctobpl_const_3, i);
-goto label_1;
-
-
-// .\v1\test.c(18)
-label_1:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 18} true;
-return;
-
+  anon0:
+    return;
 }
 
 
 
-procedure {:extern}  baz(x.__1:int) returns (result.baz$1:int)
+procedure $static_init();
+  modifies $CurrAddr;
 
-//TAG: alloc is always > 0
-free requires INT_LT(0, alloc);
-//TAG: alloc increases
-free ensures INT_LEQ(old(alloc), alloc);
 
-//TAG: havoc memory locations by default
+
+implementation $static_init()
 {
-var {:extern} havoc_stringTemp:int;
-var {:extern} condVal:int;
-var {:extern} x : int;
-var {:extern} tempBoogie0:int;
-var {:extern} tempBoogie1:int;
-var {:extern} tempBoogie2:int;
-var {:extern} tempBoogie3:int;
-var {:extern} tempBoogie4:int;
-var {:extern} tempBoogie5:int;
-var {:extern} tempBoogie6:int;
-var {:extern} tempBoogie7:int;
-var {:extern} tempBoogie8:int;
-var {:extern} tempBoogie9:int;
-var {:extern} tempBoogie10:int;
-var {:extern} tempBoogie11:int;
-var {:extern} tempBoogie12:int;
-var {:extern} tempBoogie13:int;
-var {:extern} tempBoogie14:int;
-var {:extern} tempBoogie15:int;
-var {:extern} tempBoogie16:int;
-var {:extern} tempBoogie17:int;
-var {:extern} tempBoogie18:int;
-var {:extern} tempBoogie19:int;
-havoc_stringTemp := 0;//Initialize havoc_stringTemp 
 
-
-start:
-
-result.baz$1 := 0;//initialize returns 
-x:= 0;//Init locals 
-x := x.__1;
-goto label_3;
-
-
-// .\v1\test.c(7)
-label_3:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 7} true;
-result.baz$1 := x ;
-assume value_is(__ctobpl_const_4, x);
-goto label_1;
-
-
-// .\v1\test.c(8)
-label_1:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 8} true;
-return;
-
+  anon0:
+    $CurrAddr := 1024;
+    return;
 }
 
 
 
-procedure {:extern}  foo(x.__1:int)
+procedure __SMACK_code.ref($p0: ref);
 
-//TAG: alloc is always > 0
-free requires INT_LT(0, alloc);
-//TAG: alloc increases
-free ensures INT_LEQ(old(alloc), alloc);
 
-//TAG: havoc memory locations by default
+
+procedure __SMACK_dummy(v: i32);
+  modifies $exn;
+
+
+
+implementation __SMACK_dummy(v: i32)
 {
-var {:extern} havoc_stringTemp:int;
-var {:extern} condVal:int;
-var {:extern} result.baz$1 : int;
-var {:extern} w : int;
-var {:extern} x : int;
-var {:extern} tempBoogie0:int;
-var {:extern} tempBoogie1:int;
-var {:extern} tempBoogie2:int;
-var {:extern} tempBoogie3:int;
-var {:extern} tempBoogie4:int;
-var {:extern} tempBoogie5:int;
-var {:extern} tempBoogie6:int;
-var {:extern} tempBoogie7:int;
-var {:extern} tempBoogie8:int;
-var {:extern} tempBoogie9:int;
-var {:extern} tempBoogie10:int;
-var {:extern} tempBoogie11:int;
-var {:extern} tempBoogie12:int;
-var {:extern} tempBoogie13:int;
-var {:extern} tempBoogie14:int;
-var {:extern} tempBoogie15:int;
-var {:extern} tempBoogie16:int;
-var {:extern} tempBoogie17:int;
-var {:extern} tempBoogie18:int;
-var {:extern} tempBoogie19:int;
-havoc_stringTemp := 0;//Initialize havoc_stringTemp 
 
+  $bb0:
+    assert {:sourcefile "/home/vagrant/smack/share/smack/lib/smack.c"} {:sourceline 31} true;
+    assume true;
+    goto $bb0_splitSourceLine_1;
 
-start:
-
-assume INT_LT(x.__1, alloc);
-result.baz$1:= 0;//Init locals 
-w:= 0;//Init locals 
-x:= 0;//Init locals 
-x := x.__1;
-goto label_3;
-
-
-// .\v1\test.c(11)
-label_3:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 11} true;
-goto label_4;
-
-
-// .\v1\test.c(11)
-label_4:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 11} true;
-w := 2 ;
-assume value_is(__ctobpl_const_5, w);
-goto label_5;
-
-
-// .\v1\test.c(12)
-label_5:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 12} true;
-call result.baz$1 := baz (w);
-assume value_is(__ctobpl_const_6, w);
-assume value_is(__ctobpl_const_7, w);
-goto label_8;
-
-
-// .\v1\test.c(12)
-label_8:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 12} true;
-w := result.baz$1 ;
-assume value_is(__ctobpl_const_8, w);
-assume value_is(__ctobpl_const_9, result.baz$1);
-goto label_9;
-
-
-// .\v1\test.c(13)
-label_9:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 13} true;
-//TAG: Dereferenced object is non-null
-assert(x != 0);
-Mem_T.g__A := Mem_T.g__A[g__A(x) := w];
-assume value_is(__ctobpl_const_10, x);
-assume value_is(__ctobpl_const_11, Mem_T.g__A[g__A(x)]);
-assume value_is(__ctobpl_const_12, w);
-goto label_1;
-
-
-// .\v1\test.c(14)
-label_1:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 14} true;
-return;
-
-
-// .\v1\test.c(14)
-label_2:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 14} true;
-assume false;
-return;
-
+  $bb0_splitSourceLine_1:
+    assert {:sourcefile "/home/vagrant/smack/share/smack/lib/smack.c"} {:sourceline 32} true;
+    $exn := false;
+    return;
 }
 
 
 
-procedure {:extern}  main(argc.__1:int, argv.__1:int) returns (result.main$1:int)
+procedure __SMACK_top_decl.ref($p0: ref);
 
-//TAG: alloc is always > 0
-free requires INT_LT(0, alloc);
-//TAG: alloc increases
-free ensures INT_LEQ(old(alloc), alloc);
 
-//TAG: havoc memory locations by default
+
+procedure bar(x: ref, i: i32);
+  modifies $M.1, $exn;
+
+
+
+implementation bar(x: ref, i: i32)
 {
-var {:extern} havoc_stringTemp:int;
-var {:extern} condVal:int;
-var {:extern} argc : int;
-var {:extern} argv : int;
-var {:extern} result.malloc$2 : int;
-var {:extern} x : int;
-var {:extern} tempBoogie0:int;
-var {:extern} tempBoogie1:int;
-var {:extern} tempBoogie2:int;
-var {:extern} tempBoogie3:int;
-var {:extern} tempBoogie4:int;
-var {:extern} tempBoogie5:int;
-var {:extern} tempBoogie6:int;
-var {:extern} tempBoogie7:int;
-var {:extern} tempBoogie8:int;
-var {:extern} tempBoogie9:int;
-var {:extern} tempBoogie10:int;
-var {:extern} tempBoogie11:int;
-var {:extern} tempBoogie12:int;
-var {:extern} tempBoogie13:int;
-var {:extern} tempBoogie14:int;
-var {:extern} tempBoogie15:int;
-var {:extern} tempBoogie16:int;
-var {:extern} tempBoogie17:int;
-var {:extern} tempBoogie18:int;
-var {:extern} tempBoogie19:int;
-havoc_stringTemp := 0;//Initialize havoc_stringTemp 
+  var $p0: ref;
 
+  $bb0:
+    assert {:sourcefile "v1/test.c"} {:sourceline 17} true;
+    $p0 := x;
+    goto $bb0_splitSourceLine_1;
 
-start:
+  $bb0_splitSourceLine_1:
+    assert {:sourcefile "v1/test.c"} {:sourceline 17} true;
+    $M.1 := $M.1[$p0 := i];
+    goto $bb0_splitSourceLine_2;
 
-assume INT_LT(argv.__1, alloc);
-argc:= 0;//Init locals 
-argv:= 0;//Init locals 
-result.main$1 := 0;//initialize returns 
-result.malloc$2:= 0;//Init locals 
-x:= 0;//Init locals 
-argc := argc.__1;
-argv := argv.__1;
-goto label_3;
-
-
-// .\v1\test.c(21)
-label_3:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 21} true;
-goto label_4;
-
-
-// .\v1\test.c(21)
-label_4:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 21} true;
-call result.malloc$2 := __HAVOC_det_malloc (8);
-goto label_7;
-
-
-// .\v1\test.c(21)
-label_7:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 21} true;
-x := result.malloc$2 ;
-assume value_is(__ctobpl_const_13, x);
-assume value_is(__ctobpl_const_14, result.malloc$2);
-goto label_8;
-
-
-// .\v1\test.c(22)
-label_8:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 22} true;
-call foo (x);
-assume value_is(__ctobpl_const_15, x);
-assume value_is(__ctobpl_const_16, x);
-goto label_11;
-
-
-// .\v1\test.c(23)
-label_11:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 23} true;
-//TAG: Dereferenced object is non-null
-assert(x != 0);
-//TAG: Dereferenced object is non-null
-assert(x != 0);
-call bar (x, Mem_T.g__A[g__A(x)]);
-assume value_is(__ctobpl_const_17, x);
-assume value_is(__ctobpl_const_18, x);
-assume value_is(__ctobpl_const_19, Mem_T.g__A[g__A(x)]);
-assume value_is(__ctobpl_const_20, x);
-assume value_is(__ctobpl_const_21, x);
-assume value_is(__ctobpl_const_22, Mem_T.g__A[g__A(x)]);
-goto label_1;
-
-
-// .\v1\test.c(24)
-label_1:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 24} true;
-return;
-
-
-// .\v1\test.c(24)
-label_2:
-assert {:sourcefile ".\v1\test.c"} {:sourceline 24} true;
-assume false;
-return;
-
+  $bb0_splitSourceLine_2:
+    assert {:sourcefile "v1/test.c"} {:sourceline 18} true;
+    $exn := false;
+    return;
 }
 
+
+
+procedure baz(x: i32) returns ($r: i32);
+  modifies $exn;
+
+
+
+implementation baz(x: i32) returns ($r: i32)
+{
+
+  $bb0:
+    assert {:sourcefile "v1/test.c"} {:sourceline 7} true;
+    $r := x;
+    $exn := false;
+    return;
+}
+
+
+
+procedure foo(x: ref);
+  modifies $exn, $M.1;
+
+
+
+implementation foo(x: ref)
+{
+  var $i0: i32;
+  var $p1: ref;
+
+  $bb0:
+    assert {:sourcefile "v1/test.c"} {:sourceline 12} true;
+    call $i0 := baz(2);
+    goto $bb0_splitSourceLine_1;
+
+  $bb0_splitSourceLine_1:
+    assert {:sourcefile "v1/test.c"} {:sourceline 13} true;
+    $p1 := $add.ref(x, 4);
+    goto $bb0_splitSourceLine_2;
+
+  $bb0_splitSourceLine_2:
+    assert {:sourcefile "v1/test.c"} {:sourceline 13} true;
+    $M.1 := $M.1[$p1 := $i0];
+    goto $bb0_splitSourceLine_3;
+
+  $bb0_splitSourceLine_3:
+    assert {:sourcefile "v1/test.c"} {:sourceline 14} true;
+    $exn := false;
+    return;
+}
+
+
+
+procedure llvm.dbg.value($p0: ref, $i1: i64, $p2: ref);
+
+
+
+procedure {:entrypoint} main(argc: i32, argv: ref) returns ($r: i32);
+  modifies $CurrAddr, $exn, $M.1, $Alloc;
+
+
+
+implementation main(argc: i32, argv: ref) returns ($r: i32)
+{
+  var $i3: i32;
+  var $p0: ref;
+  var $p1: ref;
+  var $p2: ref;
+
+  $bb0:
+    call $static_init();
+    call $init_funcs();
+    assert {:sourcefile "v1/test.c"} {:sourceline 21} true;
+    call $p0 := malloc(8);
+    goto $bb0_splitSourceLine_1;
+
+  $bb0_splitSourceLine_1:
+    assert {:sourcefile "v1/test.c"} {:sourceline 21} true;
+    $p1 := $bitcast.ref.ref($p0);
+    goto $bb0_splitSourceLine_2;
+
+  $bb0_splitSourceLine_2:
+    assert {:sourcefile "v1/test.c"} {:sourceline 22} true;
+    call foo($p1);
+    goto $bb0_splitSourceLine_3;
+
+  $bb0_splitSourceLine_3:
+    assert {:sourcefile "v1/test.c"} {:sourceline 23} true;
+    $p2 := $add.ref($p1, 4);
+    goto $bb0_splitSourceLine_4;
+
+  $bb0_splitSourceLine_4:
+    assert {:sourcefile "v1/test.c"} {:sourceline 23} true;
+    $i3 := $M.1[$p2];
+    goto $bb0_splitSourceLine_5;
+
+  $bb0_splitSourceLine_5:
+    assert {:sourcefile "v1/test.c"} {:sourceline 23} true;
+    call bar($p1, $i3);
+    goto $bb0_splitSourceLine_6;
+
+  $bb0_splitSourceLine_6:
+    assert {:sourcefile "v1/test.c"} {:sourceline 24} true;
+    $r := 0;
+    $exn := false;
+    return;
+}
+
+
+
+procedure malloc(n: i64) returns (r: ref);
+  modifies $CurrAddr, $Alloc;
+
+
+
+implementation malloc(n: i64) returns (r: ref)
+{
+
+  anon0:
+    call r := $alloc(n);
+    return;
+}
+
+
+
+axiom baz == $sub.ref(0, 8);
+
+axiom llvm.dbg.declare == $sub.ref(0, 16);
+
+axiom foo == $sub.ref(0, 24);
+
+axiom bar == $sub.ref(0, 32);
+
+axiom main == $sub.ref(0, 40);
+
+axiom malloc == $sub.ref(0, 48);
+
+axiom __SMACK_dummy == $sub.ref(0, 56);
+
+axiom __SMACK_code == $sub.ref(0, 64);
+
+axiom __SMACK_decls == $sub.ref(0, 72);
+
+axiom __SMACK_top_decl == $sub.ref(0, 80);
+
+axiom llvm.dbg.value == $sub.ref(0, 88);
+
+axiom $and.i1(0, 0) == 0;
+
+axiom $and.i1(0, 1) == 0;
+
+axiom $and.i1(1, 0) == 0;
+
+axiom $and.i1(1, 1) == 1;
+
+axiom $or.i1(0, 0) == 0;
+
+axiom $or.i1(0, 1) == 1;
+
+axiom $or.i1(1, 0) == 1;
+
+axiom $or.i1(1, 1) == 1;
+
+axiom $xor.i1(0, 0) == 0;
+
+axiom $xor.i1(0, 1) == 1;
+
+axiom $xor.i1(1, 0) == 1;
+
+axiom $xor.i1(1, 1) == 0;
+
+axiom (forall f1: float, f2: float :: f1 != f2 || $foeq.bool(f1, f2));
+
+axiom (forall f: float :: $si2fp.i16($fp2si.i16(f)) == f);
+
+axiom (forall f: float :: $si2fp.i32($fp2si.i32(f)) == f);
+
+axiom (forall f: float :: $si2fp.i64($fp2si.i64(f)) == f);
+
+axiom (forall f: float :: $si2fp.i8($fp2si.i8(f)) == f);
+
+axiom (forall f: float :: $ui2fp.i16($fp2ui.i16(f)) == f);
+
+axiom (forall f: float :: $ui2fp.i32($fp2ui.i32(f)) == f);
+
+axiom (forall f: float :: $ui2fp.i64($fp2ui.i64(f)) == f);
+
+axiom (forall f: float :: $ui2fp.i8($fp2ui.i8(f)) == f);
+
+axiom (forall i: i16 :: $fp2si.i16($si2fp.i16(i)) == i);
+
+axiom (forall i: i16 :: $fp2ui.i16($ui2fp.i16(i)) == i);
+
+axiom (forall i: i32 :: $fp2si.i32($si2fp.i32(i)) == i);
+
+axiom (forall i: i32 :: $fp2ui.i32($ui2fp.i32(i)) == i);
+
+axiom (forall i: i64 :: $fp2si.i64($si2fp.i64(i)) == i);
+
+axiom (forall i: i64 :: $fp2ui.i64($ui2fp.i64(i)) == i);
+
+axiom (forall i: i8 :: $fp2si.i8($si2fp.i8(i)) == i);
+
+axiom (forall i: i8 :: $fp2ui.i8($ui2fp.i8(i)) == i);
+
+const $EXTERNS_BOTTOM: ref;
+
+const $GLOBALS_BOTTOM: ref;
+
+const $MALLOC_TOP: ref;
+
+const $MOP: $mop;
+
+function $and.i1(i1: i1, i2: i1) : i1;
+
+function $and.i16(i1: i16, i2: i16) : i16;
+
+function $and.i32(i1: i32, i2: i32) : i32;
+
+function $and.i64(i1: i64, i2: i64) : i64;
+
+function $and.i8(i1: i8, i2: i8) : i8;
+
+function $ashr.i1(i1: i1, i2: i1) : i1;
+
+function $ashr.i16(i1: i16, i2: i16) : i16;
+
+function $ashr.i32(i1: i32, i2: i32) : i32;
+
+function $ashr.i64(i1: i64, i2: i64) : i64;
+
+function $ashr.i8(i1: i8, i2: i8) : i8;
+
+function $base(ref) : ref;
+
+function $extractvalue(p: int, i: int) : int;
+
+function $fadd.float(f1: float, f2: float) : float;
+
+function $fdiv.float(f1: float, f2: float) : float;
+
+function $ffalse.float(f1: float, f2: float) : i1;
+
+function $fmul.float(f1: float, f2: float) : float;
+
+function $foeq.bool(f1: float, f2: float) : bool;
+
+function $foge.float(f1: float, f2: float) : i1;
+
+function $fogt.float(f1: float, f2: float) : i1;
+
+function $fole.float(f1: float, f2: float) : i1;
+
+function $folt.float(f1: float, f2: float) : i1;
+
+function $fone.float(f1: float, f2: float) : i1;
+
+function $ford.float(f1: float, f2: float) : i1;
+
+function $fp(ipart: int, fpart: int, epart: int) : float;
+
+function $fp2si.i16(f: float) : i16;
+
+function $fp2si.i32(f: float) : i32;
+
+function $fp2si.i64(f: float) : i64;
+
+function $fp2si.i8(f: float) : i8;
+
+function $fp2ui.i16(f: float) : i16;
+
+function $fp2ui.i32(f: float) : i32;
+
+function $fp2ui.i64(f: float) : i64;
+
+function $fp2ui.i8(f: float) : i8;
+
+function $frem.float(f1: float, f2: float) : float;
+
+function $fsub.float(f1: float, f2: float) : float;
+
+function $ftrue.float(f1: float, f2: float) : i1;
+
+function $fueq.float(f1: float, f2: float) : i1;
+
+function $fuge.float(f1: float, f2: float) : i1;
+
+function $fugt.float(f1: float, f2: float) : i1;
+
+function $fule.float(f1: float, f2: float) : i1;
+
+function $fult.float(f1: float, f2: float) : i1;
+
+function $fune.float(f1: float, f2: float) : i1;
+
+function $funo.float(f1: float, f2: float) : i1;
+
+function $lshr.i1(i1: i1, i2: i1) : i1;
+
+function $lshr.i16(i1: i16, i2: i16) : i16;
+
+function $lshr.i32(i1: i32, i2: i32) : i32;
+
+function $lshr.i64(i1: i64, i2: i64) : i64;
+
+function $lshr.i8(i1: i8, i2: i8) : i8;
+
+function $nand.i1(i1: i1, i2: i1) : i1;
+
+function $nand.i16(i1: i16, i2: i16) : i16;
+
+function $nand.i32(i1: i32, i2: i32) : i32;
+
+function $nand.i64(i1: i64, i2: i64) : i64;
+
+function $nand.i8(i1: i8, i2: i8) : i8;
+
+function $not.i1(i: i1) : i1;
+
+function $not.i16(i: i16) : i16;
+
+function $not.i32(i: i32) : i32;
+
+function $not.i64(i: i64) : i64;
+
+function $not.i8(i: i8) : i8;
+
+function $or.i1(i1: i1, i2: i1) : i1;
+
+function $or.i16(i1: i16, i2: i16) : i16;
+
+function $or.i32(i1: i32, i2: i32) : i32;
+
+function $or.i64(i1: i64, i2: i64) : i64;
+
+function $or.i8(i1: i8, i2: i8) : i8;
+
+function $shl.i1(i1: i1, i2: i1) : i1;
+
+function $shl.i16(i1: i16, i2: i16) : i16;
+
+function $shl.i32(i1: i32, i2: i32) : i32;
+
+function $shl.i64(i1: i64, i2: i64) : i64;
+
+function $shl.i8(i1: i8, i2: i8) : i8;
+
+function $si2fp.i16(i: i16) : float;
+
+function $si2fp.i32(i: i32) : float;
+
+function $si2fp.i64(i: i64) : float;
+
+function $si2fp.i8(i: i8) : float;
+
+function $ui2fp.i16(i: i16) : float;
+
+function $ui2fp.i32(i: i32) : float;
+
+function $ui2fp.i64(i: i64) : float;
+
+function $ui2fp.i8(i: i8) : float;
+
+function $xor.i1(i1: i1, i2: i1) : i1;
+
+function $xor.i16(i1: i16, i2: i16) : i16;
+
+function $xor.i32(i1: i32, i2: i32) : i32;
+
+function $xor.i64(i1: i64, i2: i64) : i64;
+
+function $xor.i8(i1: i8, i2: i8) : i8;
+
+function {:builtin "div"} $div(i1: int, i2: int) : int;
+
+function {:builtin "div"} $sdiv.i1(i1: i1, i2: i1) : i1;
+
+function {:builtin "div"} $sdiv.i16(i1: i16, i2: i16) : i16;
+
+function {:builtin "div"} $sdiv.i32(i1: i32, i2: i32) : i32;
+
+function {:builtin "div"} $sdiv.i64(i1: i64, i2: i64) : i64;
+
+function {:builtin "div"} $sdiv.i8(i1: i8, i2: i8) : i8;
+
+function {:builtin "div"} $udiv.i1(i1: i1, i2: i1) : i1;
+
+function {:builtin "div"} $udiv.i16(i1: i16, i2: i16) : i16;
+
+function {:builtin "div"} $udiv.i32(i1: i32, i2: i32) : i32;
+
+function {:builtin "div"} $udiv.i64(i1: i64, i2: i64) : i64;
+
+function {:builtin "div"} $udiv.i8(i1: i8, i2: i8) : i8;
+
+function {:builtin "mod"} $mod(i1: int, i2: int) : int;
+
+function {:builtin "mod"} $smod.i1(i1: i1, i2: i1) : i1;
+
+function {:builtin "mod"} $smod.i16(i1: i16, i2: i16) : i16;
+
+function {:builtin "mod"} $smod.i32(i1: i32, i2: i32) : i32;
+
+function {:builtin "mod"} $smod.i64(i1: i64, i2: i64) : i64;
+
+function {:builtin "mod"} $smod.i8(i1: i8, i2: i8) : i8;
+
+function {:builtin "rem"} $rem(i1: int, i2: int) : int;
+
+function {:builtin "rem"} $srem.i1(i1: i1, i2: i1) : i1;
+
+function {:builtin "rem"} $srem.i16(i1: i16, i2: i16) : i16;
+
+function {:builtin "rem"} $srem.i32(i1: i32, i2: i32) : i32;
+
+function {:builtin "rem"} $srem.i64(i1: i64, i2: i64) : i64;
+
+function {:builtin "rem"} $srem.i8(i1: i8, i2: i8) : i8;
+
+function {:builtin "rem"} $urem.i1(i1: i1, i2: i1) : i1;
+
+function {:builtin "rem"} $urem.i16(i1: i16, i2: i16) : i16;
+
+function {:builtin "rem"} $urem.i32(i1: i32, i2: i32) : i32;
+
+function {:builtin "rem"} $urem.i64(i1: i64, i2: i64) : i64;
+
+function {:builtin "rem"} $urem.i8(i1: i8, i2: i8) : i8;
+
+function {:bvbuiltin "(_ sign_extend 16)"} $sext.bv16.bv32(i: bv16) : bv32;
+
+function {:bvbuiltin "(_ sign_extend 24)"} $sext.bv8.bv32(i: bv8) : bv32;
+
+function {:bvbuiltin "(_ sign_extend 32)"} $sext.bv32.bv64(i: bv32) : bv64;
+
+function {:bvbuiltin "(_ sign_extend 48)"} $sext.bv16.bv64(i: bv16) : bv64;
+
+function {:bvbuiltin "(_ sign_extend 56)"} $sext.bv8.bv64(i: bv8) : bv64;
+
+function {:bvbuiltin "(_ sign_extend 8)"} $sext.bv8.bv16(i: bv8) : bv16;
+
+function {:bvbuiltin "(_ zero_extend 16)"} $zext.bv16.bv32(i: bv16) : bv32;
+
+function {:bvbuiltin "(_ zero_extend 24)"} $zext.bv8.bv32(i: bv8) : bv32;
+
+function {:bvbuiltin "(_ zero_extend 32)"} $zext.bv32.bv64(i: bv32) : bv64;
+
+function {:bvbuiltin "(_ zero_extend 48)"} $zext.bv16.bv64(i: bv16) : bv64;
+
+function {:bvbuiltin "(_ zero_extend 56)"} $zext.bv8.bv64(i: bv8) : bv64;
+
+function {:bvbuiltin "(_ zero_extend 8)"} $zext.bv8.bv16(i: bv8) : bv16;
+
+function {:bvbuiltin "bvadd"} $add.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvadd"} $add.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvadd"} $add.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvadd"} $add.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvadd"} $add.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvand"} $and.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvand"} $and.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvand"} $and.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvand"} $and.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvand"} $and.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvashr"} $ashr.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvashr"} $ashr.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvashr"} $ashr.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvashr"} $ashr.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvashr"} $ashr.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvlshr"} $lshr.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvlshr"} $lshr.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvlshr"} $lshr.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvlshr"} $lshr.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvlshr"} $lshr.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvmul"} $mul.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvmul"} $mul.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvmul"} $mul.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvmul"} $mul.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvmul"} $mul.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvnand"} $nand.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvnand"} $nand.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvnand"} $nand.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvnand"} $nand.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvnand"} $nand.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvnot"} $not.bv1(i: bv1) : bv1;
+
+function {:bvbuiltin "bvnot"} $not.bv16(i: bv16) : bv16;
+
+function {:bvbuiltin "bvnot"} $not.bv32(i: bv32) : bv32;
+
+function {:bvbuiltin "bvnot"} $not.bv64(i: bv64) : bv64;
+
+function {:bvbuiltin "bvnot"} $not.bv8(i: bv8) : bv8;
+
+function {:bvbuiltin "bvor"} $or.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvor"} $or.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvor"} $or.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvor"} $or.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvor"} $or.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvsdiv"} $sdiv.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvsdiv"} $sdiv.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvsdiv"} $sdiv.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvsdiv"} $sdiv.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvsdiv"} $sdiv.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvsge"} $sge.bv1.bool(i1: bv1, i2: bv1) : bool;
+
+function {:inline} $sge.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $sge.bv1.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsge"} $sge.bv16.bool(i1: bv16, i2: bv16) : bool;
+
+function {:inline} $sge.bv16(i1: bv16, i2: bv16) : bv1
+{
+  (if $sge.bv16.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsge"} $sge.bv32.bool(i1: bv32, i2: bv32) : bool;
+
+function {:inline} $sge.bv32(i1: bv32, i2: bv32) : bv1
+{
+  (if $sge.bv32.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsge"} $sge.bv64.bool(i1: bv64, i2: bv64) : bool;
+
+function {:inline} $sge.bv64(i1: bv64, i2: bv64) : bv1
+{
+  (if $sge.bv64.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsge"} $sge.bv8.bool(i1: bv8, i2: bv8) : bool;
+
+function {:inline} $sge.bv8(i1: bv8, i2: bv8) : bv1
+{
+  (if $sge.bv8.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsgt"} $sgt.bv1.bool(i1: bv1, i2: bv1) : bool;
+
+function {:inline} $sgt.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $sgt.bv1.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsgt"} $sgt.bv16.bool(i1: bv16, i2: bv16) : bool;
+
+function {:inline} $sgt.bv16(i1: bv16, i2: bv16) : bv1
+{
+  (if $sgt.bv16.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsgt"} $sgt.bv32.bool(i1: bv32, i2: bv32) : bool;
+
+function {:inline} $sgt.bv32(i1: bv32, i2: bv32) : bv1
+{
+  (if $sgt.bv32.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsgt"} $sgt.bv64.bool(i1: bv64, i2: bv64) : bool;
+
+function {:inline} $sgt.bv64(i1: bv64, i2: bv64) : bv1
+{
+  (if $sgt.bv64.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsgt"} $sgt.bv8.bool(i1: bv8, i2: bv8) : bool;
+
+function {:inline} $sgt.bv8(i1: bv8, i2: bv8) : bv1
+{
+  (if $sgt.bv8.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvshl"} $shl.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvshl"} $shl.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvshl"} $shl.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvshl"} $shl.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvshl"} $shl.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvsle"} $sle.bv1.bool(i1: bv1, i2: bv1) : bool;
+
+function {:inline} $sle.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $sle.bv1.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsle"} $sle.bv16.bool(i1: bv16, i2: bv16) : bool;
+
+function {:inline} $sle.bv16(i1: bv16, i2: bv16) : bv1
+{
+  (if $sle.bv16.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsle"} $sle.bv32.bool(i1: bv32, i2: bv32) : bool;
+
+function {:inline} $sle.bv32(i1: bv32, i2: bv32) : bv1
+{
+  (if $sle.bv32.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsle"} $sle.bv64.bool(i1: bv64, i2: bv64) : bool;
+
+function {:inline} $sle.bv64(i1: bv64, i2: bv64) : bv1
+{
+  (if $sle.bv64.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsle"} $sle.bv8.bool(i1: bv8, i2: bv8) : bool;
+
+function {:inline} $sle.bv8(i1: bv8, i2: bv8) : bv1
+{
+  (if $sle.bv8.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvslt"} $slt.bv1.bool(i1: bv1, i2: bv1) : bool;
+
+function {:inline} $slt.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $slt.bv1.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvslt"} $slt.bv16.bool(i1: bv16, i2: bv16) : bool;
+
+function {:inline} $slt.bv16(i1: bv16, i2: bv16) : bv1
+{
+  (if $slt.bv16.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvslt"} $slt.bv32.bool(i1: bv32, i2: bv32) : bool;
+
+function {:inline} $slt.bv32(i1: bv32, i2: bv32) : bv1
+{
+  (if $slt.bv32.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvslt"} $slt.bv64.bool(i1: bv64, i2: bv64) : bool;
+
+function {:inline} $slt.bv64(i1: bv64, i2: bv64) : bv1
+{
+  (if $slt.bv64.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvslt"} $slt.bv8.bool(i1: bv8, i2: bv8) : bool;
+
+function {:inline} $slt.bv8(i1: bv8, i2: bv8) : bv1
+{
+  (if $slt.bv8.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvsmod"} $smod.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvsmod"} $smod.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvsmod"} $smod.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvsmod"} $smod.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvsmod"} $smod.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvsrem"} $srem.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvsrem"} $srem.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvsrem"} $srem.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvsrem"} $srem.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvsrem"} $srem.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvsub"} $sub.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvsub"} $sub.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvsub"} $sub.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvsub"} $sub.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvsub"} $sub.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvudiv"} $udiv.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvudiv"} $udiv.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvudiv"} $udiv.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvudiv"} $udiv.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvudiv"} $udiv.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvuge"} $uge.bv1.bool(i1: bv1, i2: bv1) : bool;
+
+function {:inline} $uge.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $uge.bv1.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvuge"} $uge.bv16.bool(i1: bv16, i2: bv16) : bool;
+
+function {:inline} $uge.bv16(i1: bv16, i2: bv16) : bv1
+{
+  (if $uge.bv16.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvuge"} $uge.bv32.bool(i1: bv32, i2: bv32) : bool;
+
+function {:inline} $uge.bv32(i1: bv32, i2: bv32) : bv1
+{
+  (if $uge.bv32.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvuge"} $uge.bv64.bool(i1: bv64, i2: bv64) : bool;
+
+function {:inline} $uge.bv64(i1: bv64, i2: bv64) : bv1
+{
+  (if $uge.bv64.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvuge"} $uge.bv8.bool(i1: bv8, i2: bv8) : bool;
+
+function {:inline} $uge.bv8(i1: bv8, i2: bv8) : bv1
+{
+  (if $uge.bv8.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvugt"} $ugt.bv1.bool(i1: bv1, i2: bv1) : bool;
+
+function {:inline} $ugt.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $ugt.bv1.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvugt"} $ugt.bv16.bool(i1: bv16, i2: bv16) : bool;
+
+function {:inline} $ugt.bv16(i1: bv16, i2: bv16) : bv1
+{
+  (if $ugt.bv16.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvugt"} $ugt.bv32.bool(i1: bv32, i2: bv32) : bool;
+
+function {:inline} $ugt.bv32(i1: bv32, i2: bv32) : bv1
+{
+  (if $ugt.bv32.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvugt"} $ugt.bv64.bool(i1: bv64, i2: bv64) : bool;
+
+function {:inline} $ugt.bv64(i1: bv64, i2: bv64) : bv1
+{
+  (if $ugt.bv64.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvugt"} $ugt.bv8.bool(i1: bv8, i2: bv8) : bool;
+
+function {:inline} $ugt.bv8(i1: bv8, i2: bv8) : bv1
+{
+  (if $ugt.bv8.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvule"} $ule.bv1.bool(i1: bv1, i2: bv1) : bool;
+
+function {:inline} $ule.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $ule.bv1.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvule"} $ule.bv16.bool(i1: bv16, i2: bv16) : bool;
+
+function {:inline} $ule.bv16(i1: bv16, i2: bv16) : bv1
+{
+  (if $ule.bv16.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvule"} $ule.bv32.bool(i1: bv32, i2: bv32) : bool;
+
+function {:inline} $ule.bv32(i1: bv32, i2: bv32) : bv1
+{
+  (if $ule.bv32.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvule"} $ule.bv64.bool(i1: bv64, i2: bv64) : bool;
+
+function {:inline} $ule.bv64(i1: bv64, i2: bv64) : bv1
+{
+  (if $ule.bv64.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvule"} $ule.bv8.bool(i1: bv8, i2: bv8) : bool;
+
+function {:inline} $ule.bv8(i1: bv8, i2: bv8) : bv1
+{
+  (if $ule.bv8.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvult"} $ult.bv1.bool(i1: bv1, i2: bv1) : bool;
+
+function {:inline} $ult.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $ult.bv1.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvult"} $ult.bv16.bool(i1: bv16, i2: bv16) : bool;
+
+function {:inline} $ult.bv16(i1: bv16, i2: bv16) : bv1
+{
+  (if $ult.bv16.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvult"} $ult.bv32.bool(i1: bv32, i2: bv32) : bool;
+
+function {:inline} $ult.bv32(i1: bv32, i2: bv32) : bv1
+{
+  (if $ult.bv32.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvult"} $ult.bv64.bool(i1: bv64, i2: bv64) : bool;
+
+function {:inline} $ult.bv64(i1: bv64, i2: bv64) : bv1
+{
+  (if $ult.bv64.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvult"} $ult.bv8.bool(i1: bv8, i2: bv8) : bool;
+
+function {:inline} $ult.bv8(i1: bv8, i2: bv8) : bv1
+{
+  (if $ult.bv8.bool(i1, i2) then 1bv1 else 0bv1)
+}
+
+function {:bvbuiltin "bvurem"} $urem.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvurem"} $urem.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvurem"} $urem.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvurem"} $urem.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvurem"} $urem.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:bvbuiltin "bvxor"} $xor.bv1(i1: bv1, i2: bv1) : bv1;
+
+function {:bvbuiltin "bvxor"} $xor.bv16(i1: bv16, i2: bv16) : bv16;
+
+function {:bvbuiltin "bvxor"} $xor.bv32(i1: bv32, i2: bv32) : bv32;
+
+function {:bvbuiltin "bvxor"} $xor.bv64(i1: bv64, i2: bv64) : bv64;
+
+function {:bvbuiltin "bvxor"} $xor.bv8(i1: bv8, i2: bv8) : bv8;
+
+function {:inline} $add.i1(i1: i1, i2: i1) : i1
+{
+  i1 + i2
+}
+
+function {:inline} $add.i16(i1: i16, i2: i16) : i16
+{
+  i1 + i2
+}
+
+function {:inline} $add.i32(i1: i32, i2: i32) : i32
+{
+  i1 + i2
+}
+
+function {:inline} $add.i64(i1: i64, i2: i64) : i64
+{
+  i1 + i2
+}
+
+function {:inline} $add.i8(i1: i8, i2: i8) : i8
+{
+  i1 + i2
+}
+
+function {:inline} $bitcast.ref.ref(i: ref) : ref
+{
+  i
+}
+
+function {:inline} $eq.bv1.bool(i1: bv1, i2: bv1) : bool
+{
+  i1 == i2
+}
+
+function {:inline} $eq.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if i1 == i2 then 1bv1 else 0bv1)
+}
+
+function {:inline} $eq.bv16.bool(i1: bv16, i2: bv16) : bool
+{
+  i1 == i2
+}
+
+function {:inline} $eq.bv16(i1: bv16, i2: bv16) : bv1
+{
+  (if i1 == i2 then 1bv1 else 0bv1)
+}
+
+function {:inline} $eq.bv32.bool(i1: bv32, i2: bv32) : bool
+{
+  i1 == i2
+}
+
+function {:inline} $eq.bv32(i1: bv32, i2: bv32) : bv1
+{
+  (if i1 == i2 then 1bv1 else 0bv1)
+}
+
+function {:inline} $eq.bv64.bool(i1: bv64, i2: bv64) : bool
+{
+  i1 == i2
+}
+
+function {:inline} $eq.bv64(i1: bv64, i2: bv64) : bv1
+{
+  (if i1 == i2 then 1bv1 else 0bv1)
+}
+
+function {:inline} $eq.bv8.bool(i1: bv8, i2: bv8) : bool
+{
+  i1 == i2
+}
+
+function {:inline} $eq.bv8(i1: bv8, i2: bv8) : bv1
+{
+  (if i1 == i2 then 1bv1 else 0bv1)
+}
+
+function {:inline} $eq.i1.bool(i1: i1, i2: i1) : bool
+{
+  i1 == i2
+}
+
+function {:inline} $eq.i1(i1: i1, i2: i1) : i1
+{
+  (if i1 == i2 then 1 else 0)
+}
+
+function {:inline} $eq.i16.bool(i1: i16, i2: i16) : bool
+{
+  i1 == i2
+}
+
+function {:inline} $eq.i16(i1: i16, i2: i16) : i1
+{
+  (if i1 == i2 then 1 else 0)
+}
+
+function {:inline} $eq.i32.bool(i1: i32, i2: i32) : bool
+{
+  i1 == i2
+}
+
+function {:inline} $eq.i32(i1: i32, i2: i32) : i1
+{
+  (if i1 == i2 then 1 else 0)
+}
+
+function {:inline} $eq.i64.bool(i1: i64, i2: i64) : bool
+{
+  i1 == i2
+}
+
+function {:inline} $eq.i64(i1: i64, i2: i64) : i1
+{
+  (if i1 == i2 then 1 else 0)
+}
+
+function {:inline} $eq.i8.bool(i1: i8, i2: i8) : bool
+{
+  i1 == i2
+}
+
+function {:inline} $eq.i8(i1: i8, i2: i8) : i1
+{
+  (if i1 == i2 then 1 else 0)
+}
+
+function {:inline} $foeq.float(f1: float, f2: float) : i1
+{
+  (if $foeq.bool(f1, f2) then 1 else 0)
+}
+
+function {:inline} $isExternal(p: ref) : bool
+{
+  $slt.ref.bool(p, $EXTERNS_BOTTOM)
+}
+
+function {:inline} $load.bv16(M: [ref]bv8, p: ref) : bv16
+{
+  M[$add.ref(p, $1.ref)] ++ M[p]
+}
+
+function {:inline} $load.bv32(M: [ref]bv8, p: ref) : bv32
+{
+  M[$add.ref(p, $3.ref)] ++ M[$add.ref(p, $2.ref)] ++ M[$add.ref(p, $1.ref)] ++ M[p]
+}
+
+function {:inline} $load.bv64(M: [ref]bv8, p: ref) : bv64
+{
+  $load.bv32(M, $add.ref(p, $4.ref)) ++ $load.bv32(M, p)
+}
+
+function {:inline} $load.bv8(M: [ref]bv8, p: ref) : bv8
+{
+  M[p]
+}
+
+function {:inline} $max(i1: int, i2: int) : int
+{
+  (if i1 > i2 then i1 else i2)
+}
+
+function {:inline} $max.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $sgt.bv1.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $max.bv16(i1: bv16, i2: bv16) : bv16
+{
+  (if $sgt.bv16.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $max.bv32(i1: bv32, i2: bv32) : bv32
+{
+  (if $sgt.bv32.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $max.bv64(i1: bv64, i2: bv64) : bv64
+{
+  (if $sgt.bv64.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $max.bv8(i1: bv8, i2: bv8) : bv8
+{
+  (if $sgt.bv8.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $min(i1: int, i2: int) : int
+{
+  (if i1 < i2 then i1 else i2)
+}
+
+function {:inline} $min.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $slt.bv1.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $min.bv16(i1: bv16, i2: bv16) : bv16
+{
+  (if $slt.bv16.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $min.bv32(i1: bv32, i2: bv32) : bv32
+{
+  (if $slt.bv32.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $min.bv64(i1: bv64, i2: bv64) : bv64
+{
+  (if $slt.bv64.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $min.bv8(i1: bv8, i2: bv8) : bv8
+{
+  (if $slt.bv8.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $mul.i1(i1: i1, i2: i1) : i1
+{
+  i1 * i2
+}
+
+function {:inline} $mul.i16(i1: i16, i2: i16) : i16
+{
+  i1 * i2
+}
+
+function {:inline} $mul.i32(i1: i32, i2: i32) : i32
+{
+  i1 * i2
+}
+
+function {:inline} $mul.i64(i1: i64, i2: i64) : i64
+{
+  i1 * i2
+}
+
+function {:inline} $mul.i8(i1: i8, i2: i8) : i8
+{
+  i1 * i2
+}
+
+function {:inline} $ne.bv1.bool(i1: bv1, i2: bv1) : bool
+{
+  i1 != i2
+}
+
+function {:inline} $ne.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if i1 != i2 then 1bv1 else 0bv1)
+}
+
+function {:inline} $ne.bv16.bool(i1: bv16, i2: bv16) : bool
+{
+  i1 != i2
+}
+
+function {:inline} $ne.bv16(i1: bv16, i2: bv16) : bv1
+{
+  (if i1 != i2 then 1bv1 else 0bv1)
+}
+
+function {:inline} $ne.bv32.bool(i1: bv32, i2: bv32) : bool
+{
+  i1 != i2
+}
+
+function {:inline} $ne.bv32(i1: bv32, i2: bv32) : bv1
+{
+  (if i1 != i2 then 1bv1 else 0bv1)
+}
+
+function {:inline} $ne.bv64.bool(i1: bv64, i2: bv64) : bool
+{
+  i1 != i2
+}
+
+function {:inline} $ne.bv64(i1: bv64, i2: bv64) : bv1
+{
+  (if i1 != i2 then 1bv1 else 0bv1)
+}
+
+function {:inline} $ne.bv8.bool(i1: bv8, i2: bv8) : bool
+{
+  i1 != i2
+}
+
+function {:inline} $ne.bv8(i1: bv8, i2: bv8) : bv1
+{
+  (if i1 != i2 then 1bv1 else 0bv1)
+}
+
+function {:inline} $ne.i1.bool(i1: i1, i2: i1) : bool
+{
+  i1 != i2
+}
+
+function {:inline} $ne.i1(i1: i1, i2: i1) : i1
+{
+  (if i1 != i2 then 1 else 0)
+}
+
+function {:inline} $ne.i16.bool(i1: i16, i2: i16) : bool
+{
+  i1 != i2
+}
+
+function {:inline} $ne.i16(i1: i16, i2: i16) : i1
+{
+  (if i1 != i2 then 1 else 0)
+}
+
+function {:inline} $ne.i32.bool(i1: i32, i2: i32) : bool
+{
+  i1 != i2
+}
+
+function {:inline} $ne.i32(i1: i32, i2: i32) : i1
+{
+  (if i1 != i2 then 1 else 0)
+}
+
+function {:inline} $ne.i64.bool(i1: i64, i2: i64) : bool
+{
+  i1 != i2
+}
+
+function {:inline} $ne.i64(i1: i64, i2: i64) : i1
+{
+  (if i1 != i2 then 1 else 0)
+}
+
+function {:inline} $ne.i8.bool(i1: i8, i2: i8) : bool
+{
+  i1 != i2
+}
+
+function {:inline} $ne.i8(i1: i8, i2: i8) : i1
+{
+  (if i1 != i2 then 1 else 0)
+}
+
+function {:inline} $sext.bv1.bv16(i: bv1) : bv16
+{
+  (if i == 0bv1 then 0bv16 else 65535bv16)
+}
+
+function {:inline} $sext.bv1.bv32(i: bv1) : bv32
+{
+  (if i == 0bv1 then 0bv32 else 4294967295bv32)
+}
+
+function {:inline} $sext.bv1.bv64(i: bv1) : bv64
+{
+  (if i == 0bv1 then 0bv64 else 18446744073709551615bv64)
+}
+
+function {:inline} $sext.bv1.bv8(i: bv1) : bv8
+{
+  (if i == 0bv1 then 0bv8 else 255bv8)
+}
+
+function {:inline} $sext.i1.i16(i: i1) : i16
+{
+  i
+}
+
+function {:inline} $sext.i1.i32(i: i1) : i32
+{
+  i
+}
+
+function {:inline} $sext.i1.i64(i: i1) : i64
+{
+  i
+}
+
+function {:inline} $sext.i1.i8(i: i1) : i8
+{
+  i
+}
+
+function {:inline} $sext.i16.i32(i: i16) : i32
+{
+  i
+}
+
+function {:inline} $sext.i16.i64(i: i16) : i64
+{
+  i
+}
+
+function {:inline} $sext.i32.i64(i: i32) : i64
+{
+  i
+}
+
+function {:inline} $sext.i8.i16(i: i8) : i16
+{
+  i
+}
+
+function {:inline} $sext.i8.i32(i: i8) : i32
+{
+  i
+}
+
+function {:inline} $sext.i8.i64(i: i8) : i64
+{
+  i
+}
+
+function {:inline} $sge.i1.bool(i1: i1, i2: i1) : bool
+{
+  i1 >= i2
+}
+
+function {:inline} $sge.i1(i1: i1, i2: i1) : i1
+{
+  (if i1 >= i2 then 1 else 0)
+}
+
+function {:inline} $sge.i16.bool(i1: i16, i2: i16) : bool
+{
+  i1 >= i2
+}
+
+function {:inline} $sge.i16(i1: i16, i2: i16) : i1
+{
+  (if i1 >= i2 then 1 else 0)
+}
+
+function {:inline} $sge.i32.bool(i1: i32, i2: i32) : bool
+{
+  i1 >= i2
+}
+
+function {:inline} $sge.i32(i1: i32, i2: i32) : i1
+{
+  (if i1 >= i2 then 1 else 0)
+}
+
+function {:inline} $sge.i64.bool(i1: i64, i2: i64) : bool
+{
+  i1 >= i2
+}
+
+function {:inline} $sge.i64(i1: i64, i2: i64) : i1
+{
+  (if i1 >= i2 then 1 else 0)
+}
+
+function {:inline} $sge.i8.bool(i1: i8, i2: i8) : bool
+{
+  i1 >= i2
+}
+
+function {:inline} $sge.i8(i1: i8, i2: i8) : i1
+{
+  (if i1 >= i2 then 1 else 0)
+}
+
+function {:inline} $sgt.i1.bool(i1: i1, i2: i1) : bool
+{
+  i1 > i2
+}
+
+function {:inline} $sgt.i1(i1: i1, i2: i1) : i1
+{
+  (if i1 > i2 then 1 else 0)
+}
+
+function {:inline} $sgt.i16.bool(i1: i16, i2: i16) : bool
+{
+  i1 > i2
+}
+
+function {:inline} $sgt.i16(i1: i16, i2: i16) : i1
+{
+  (if i1 > i2 then 1 else 0)
+}
+
+function {:inline} $sgt.i32.bool(i1: i32, i2: i32) : bool
+{
+  i1 > i2
+}
+
+function {:inline} $sgt.i32(i1: i32, i2: i32) : i1
+{
+  (if i1 > i2 then 1 else 0)
+}
+
+function {:inline} $sgt.i64.bool(i1: i64, i2: i64) : bool
+{
+  i1 > i2
+}
+
+function {:inline} $sgt.i64(i1: i64, i2: i64) : i1
+{
+  (if i1 > i2 then 1 else 0)
+}
+
+function {:inline} $sgt.i8.bool(i1: i8, i2: i8) : bool
+{
+  i1 > i2
+}
+
+function {:inline} $sgt.i8(i1: i8, i2: i8) : i1
+{
+  (if i1 > i2 then 1 else 0)
+}
+
+function {:inline} $sle.i1.bool(i1: i1, i2: i1) : bool
+{
+  i1 <= i2
+}
+
+function {:inline} $sle.i1(i1: i1, i2: i1) : i1
+{
+  (if i1 <= i2 then 1 else 0)
+}
+
+function {:inline} $sle.i16.bool(i1: i16, i2: i16) : bool
+{
+  i1 <= i2
+}
+
+function {:inline} $sle.i16(i1: i16, i2: i16) : i1
+{
+  (if i1 <= i2 then 1 else 0)
+}
+
+function {:inline} $sle.i32.bool(i1: i32, i2: i32) : bool
+{
+  i1 <= i2
+}
+
+function {:inline} $sle.i32(i1: i32, i2: i32) : i1
+{
+  (if i1 <= i2 then 1 else 0)
+}
+
+function {:inline} $sle.i64.bool(i1: i64, i2: i64) : bool
+{
+  i1 <= i2
+}
+
+function {:inline} $sle.i64(i1: i64, i2: i64) : i1
+{
+  (if i1 <= i2 then 1 else 0)
+}
+
+function {:inline} $sle.i8.bool(i1: i8, i2: i8) : bool
+{
+  i1 <= i2
+}
+
+function {:inline} $sle.i8(i1: i8, i2: i8) : i1
+{
+  (if i1 <= i2 then 1 else 0)
+}
+
+function {:inline} $slt.i1.bool(i1: i1, i2: i1) : bool
+{
+  i1 < i2
+}
+
+function {:inline} $slt.i1(i1: i1, i2: i1) : i1
+{
+  (if i1 < i2 then 1 else 0)
+}
+
+function {:inline} $slt.i16.bool(i1: i16, i2: i16) : bool
+{
+  i1 < i2
+}
+
+function {:inline} $slt.i16(i1: i16, i2: i16) : i1
+{
+  (if i1 < i2 then 1 else 0)
+}
+
+function {:inline} $slt.i32.bool(i1: i32, i2: i32) : bool
+{
+  i1 < i2
+}
+
+function {:inline} $slt.i32(i1: i32, i2: i32) : i1
+{
+  (if i1 < i2 then 1 else 0)
+}
+
+function {:inline} $slt.i64.bool(i1: i64, i2: i64) : bool
+{
+  i1 < i2
+}
+
+function {:inline} $slt.i64(i1: i64, i2: i64) : i1
+{
+  (if i1 < i2 then 1 else 0)
+}
+
+function {:inline} $slt.i8.bool(i1: i8, i2: i8) : bool
+{
+  i1 < i2
+}
+
+function {:inline} $slt.i8(i1: i8, i2: i8) : i1
+{
+  (if i1 < i2 then 1 else 0)
+}
+
+function {:inline} $smax.i1(i1: i1, i2: i1) : i1
+{
+  $max(i1, i2)
+}
+
+function {:inline} $smax.i16(i1: i16, i2: i16) : i16
+{
+  $max(i1, i2)
+}
+
+function {:inline} $smax.i32(i1: i32, i2: i32) : i32
+{
+  $max(i1, i2)
+}
+
+function {:inline} $smax.i64(i1: i64, i2: i64) : i64
+{
+  $max(i1, i2)
+}
+
+function {:inline} $smax.i8(i1: i8, i2: i8) : i8
+{
+  $max(i1, i2)
+}
+
+function {:inline} $smin.i1(i1: i1, i2: i1) : i1
+{
+  $min(i1, i2)
+}
+
+function {:inline} $smin.i16(i1: i16, i2: i16) : i16
+{
+  $min(i1, i2)
+}
+
+function {:inline} $smin.i32(i1: i32, i2: i32) : i32
+{
+  $min(i1, i2)
+}
+
+function {:inline} $smin.i64(i1: i64, i2: i64) : i64
+{
+  $min(i1, i2)
+}
+
+function {:inline} $smin.i8(i1: i8, i2: i8) : i8
+{
+  $min(i1, i2)
+}
+
+function {:inline} $store.bv16(M: [ref]bv8, p: ref, v: bv16) : [ref]bv8
+{
+  M[p := v[8:0]][$add.ref(p, $1.ref) := v[16:8]]
+}
+
+function {:inline} $store.bv32(M: [ref]bv8, p: ref, v: bv32) : [ref]bv8
+{
+  M[p := v[8:0]][$add.ref(p, $1.ref) := v[16:8]][$add.ref(p, $2.ref) := v[24:16]][$add.ref(p, $3.ref) := v[32:24]]
+}
+
+function {:inline} $store.bv64(M: [ref]bv8, p: ref, v: bv64) : [ref]bv8
+{
+  M[p := v[8:0]][$add.ref(p, $1.ref) := v[16:8]][$add.ref(p, $2.ref) := v[24:16]][$add.ref(p, $3.ref) := v[32:24]][$add.ref(p, $4.ref) := v[40:32]][$add.ref(p, $5.ref) := v[48:40]][$add.ref(p, $6.ref) := v[56:48]][$add.ref(p, $7.ref) := v[64:56]]
+}
+
+function {:inline} $store.bv8(M: [ref]bv8, p: ref, v: bv8) : [ref]bv8
+{
+  M[p := v]
+}
+
+function {:inline} $sub.i1(i1: i1, i2: i1) : i1
+{
+  i1 - i2
+}
+
+function {:inline} $sub.i16(i1: i16, i2: i16) : i16
+{
+  i1 - i2
+}
+
+function {:inline} $sub.i32(i1: i32, i2: i32) : i32
+{
+  i1 - i2
+}
+
+function {:inline} $sub.i64(i1: i64, i2: i64) : i64
+{
+  i1 - i2
+}
+
+function {:inline} $sub.i8(i1: i8, i2: i8) : i8
+{
+  i1 - i2
+}
+
+function {:inline} $trunc.bv16.bv1(i: bv16) : bv1
+{
+  i[1:0]
+}
+
+function {:inline} $trunc.bv16.bv8(i: bv16) : bv8
+{
+  i[8:0]
+}
+
+function {:inline} $trunc.bv32.bv1(i: bv32) : bv1
+{
+  i[1:0]
+}
+
+function {:inline} $trunc.bv32.bv16(i: bv32) : bv16
+{
+  i[16:0]
+}
+
+function {:inline} $trunc.bv32.bv8(i: bv32) : bv8
+{
+  i[8:0]
+}
+
+function {:inline} $trunc.bv64.bv1(i: bv64) : bv1
+{
+  i[1:0]
+}
+
+function {:inline} $trunc.bv64.bv16(i: bv64) : bv16
+{
+  i[16:0]
+}
+
+function {:inline} $trunc.bv64.bv32(i: bv64) : bv32
+{
+  i[32:0]
+}
+
+function {:inline} $trunc.bv64.bv8(i: bv64) : bv8
+{
+  i[8:0]
+}
+
+function {:inline} $trunc.bv8.bv1(i: bv8) : bv1
+{
+  i[1:0]
+}
+
+function {:inline} $trunc.i16.i1(i: i16) : i1
+{
+  i
+}
+
+function {:inline} $trunc.i16.i8(i: i16) : i8
+{
+  i
+}
+
+function {:inline} $trunc.i32.i1(i: i32) : i1
+{
+  i
+}
+
+function {:inline} $trunc.i32.i16(i: i32) : i16
+{
+  i
+}
+
+function {:inline} $trunc.i32.i8(i: i32) : i8
+{
+  i
+}
+
+function {:inline} $trunc.i64.i1(i: i64) : i1
+{
+  i
+}
+
+function {:inline} $trunc.i64.i16(i: i64) : i16
+{
+  i
+}
+
+function {:inline} $trunc.i64.i32(i: i64) : i32
+{
+  i
+}
+
+function {:inline} $trunc.i64.i8(i: i64) : i8
+{
+  i
+}
+
+function {:inline} $trunc.i8.i1(i: i8) : i1
+{
+  i
+}
+
+function {:inline} $uge.i1.bool(i1: i1, i2: i1) : bool
+{
+  i1 >= i2
+}
+
+function {:inline} $uge.i1(i1: i1, i2: i1) : i1
+{
+  (if i1 >= i2 then 1 else 0)
+}
+
+function {:inline} $uge.i16.bool(i1: i16, i2: i16) : bool
+{
+  i1 >= i2
+}
+
+function {:inline} $uge.i16(i1: i16, i2: i16) : i1
+{
+  (if i1 >= i2 then 1 else 0)
+}
+
+function {:inline} $uge.i32.bool(i1: i32, i2: i32) : bool
+{
+  i1 >= i2
+}
+
+function {:inline} $uge.i32(i1: i32, i2: i32) : i1
+{
+  (if i1 >= i2 then 1 else 0)
+}
+
+function {:inline} $uge.i64.bool(i1: i64, i2: i64) : bool
+{
+  i1 >= i2
+}
+
+function {:inline} $uge.i64(i1: i64, i2: i64) : i1
+{
+  (if i1 >= i2 then 1 else 0)
+}
+
+function {:inline} $uge.i8.bool(i1: i8, i2: i8) : bool
+{
+  i1 >= i2
+}
+
+function {:inline} $uge.i8(i1: i8, i2: i8) : i1
+{
+  (if i1 >= i2 then 1 else 0)
+}
+
+function {:inline} $ugt.i1.bool(i1: i1, i2: i1) : bool
+{
+  i1 > i2
+}
+
+function {:inline} $ugt.i1(i1: i1, i2: i1) : i1
+{
+  (if i1 > i2 then 1 else 0)
+}
+
+function {:inline} $ugt.i16.bool(i1: i16, i2: i16) : bool
+{
+  i1 > i2
+}
+
+function {:inline} $ugt.i16(i1: i16, i2: i16) : i1
+{
+  (if i1 > i2 then 1 else 0)
+}
+
+function {:inline} $ugt.i32.bool(i1: i32, i2: i32) : bool
+{
+  i1 > i2
+}
+
+function {:inline} $ugt.i32(i1: i32, i2: i32) : i1
+{
+  (if i1 > i2 then 1 else 0)
+}
+
+function {:inline} $ugt.i64.bool(i1: i64, i2: i64) : bool
+{
+  i1 > i2
+}
+
+function {:inline} $ugt.i64(i1: i64, i2: i64) : i1
+{
+  (if i1 > i2 then 1 else 0)
+}
+
+function {:inline} $ugt.i8.bool(i1: i8, i2: i8) : bool
+{
+  i1 > i2
+}
+
+function {:inline} $ugt.i8(i1: i8, i2: i8) : i1
+{
+  (if i1 > i2 then 1 else 0)
+}
+
+function {:inline} $ule.i1.bool(i1: i1, i2: i1) : bool
+{
+  i1 <= i2
+}
+
+function {:inline} $ule.i1(i1: i1, i2: i1) : i1
+{
+  (if i1 <= i2 then 1 else 0)
+}
+
+function {:inline} $ule.i16.bool(i1: i16, i2: i16) : bool
+{
+  i1 <= i2
+}
+
+function {:inline} $ule.i16(i1: i16, i2: i16) : i1
+{
+  (if i1 <= i2 then 1 else 0)
+}
+
+function {:inline} $ule.i32.bool(i1: i32, i2: i32) : bool
+{
+  i1 <= i2
+}
+
+function {:inline} $ule.i32(i1: i32, i2: i32) : i1
+{
+  (if i1 <= i2 then 1 else 0)
+}
+
+function {:inline} $ule.i64.bool(i1: i64, i2: i64) : bool
+{
+  i1 <= i2
+}
+
+function {:inline} $ule.i64(i1: i64, i2: i64) : i1
+{
+  (if i1 <= i2 then 1 else 0)
+}
+
+function {:inline} $ule.i8.bool(i1: i8, i2: i8) : bool
+{
+  i1 <= i2
+}
+
+function {:inline} $ule.i8(i1: i8, i2: i8) : i1
+{
+  (if i1 <= i2 then 1 else 0)
+}
+
+function {:inline} $ult.i1.bool(i1: i1, i2: i1) : bool
+{
+  i1 < i2
+}
+
+function {:inline} $ult.i1(i1: i1, i2: i1) : i1
+{
+  (if i1 < i2 then 1 else 0)
+}
+
+function {:inline} $ult.i16.bool(i1: i16, i2: i16) : bool
+{
+  i1 < i2
+}
+
+function {:inline} $ult.i16(i1: i16, i2: i16) : i1
+{
+  (if i1 < i2 then 1 else 0)
+}
+
+function {:inline} $ult.i32.bool(i1: i32, i2: i32) : bool
+{
+  i1 < i2
+}
+
+function {:inline} $ult.i32(i1: i32, i2: i32) : i1
+{
+  (if i1 < i2 then 1 else 0)
+}
+
+function {:inline} $ult.i64.bool(i1: i64, i2: i64) : bool
+{
+  i1 < i2
+}
+
+function {:inline} $ult.i64(i1: i64, i2: i64) : i1
+{
+  (if i1 < i2 then 1 else 0)
+}
+
+function {:inline} $ult.i8.bool(i1: i8, i2: i8) : bool
+{
+  i1 < i2
+}
+
+function {:inline} $ult.i8(i1: i8, i2: i8) : i1
+{
+  (if i1 < i2 then 1 else 0)
+}
+
+function {:inline} $umax.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $ugt.bv1.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $umax.bv16(i1: bv16, i2: bv16) : bv16
+{
+  (if $ugt.bv16.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $umax.bv32(i1: bv32, i2: bv32) : bv32
+{
+  (if $ugt.bv32.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $umax.bv64(i1: bv64, i2: bv64) : bv64
+{
+  (if $ugt.bv64.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $umax.bv8(i1: bv8, i2: bv8) : bv8
+{
+  (if $ugt.bv8.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $umax.i1(i1: i1, i2: i1) : i1
+{
+  $max(i1, i2)
+}
+
+function {:inline} $umax.i16(i1: i16, i2: i16) : i16
+{
+  $max(i1, i2)
+}
+
+function {:inline} $umax.i32(i1: i32, i2: i32) : i32
+{
+  $max(i1, i2)
+}
+
+function {:inline} $umax.i64(i1: i64, i2: i64) : i64
+{
+  $max(i1, i2)
+}
+
+function {:inline} $umax.i8(i1: i8, i2: i8) : i8
+{
+  $max(i1, i2)
+}
+
+function {:inline} $umin.bv1(i1: bv1, i2: bv1) : bv1
+{
+  (if $ult.bv1.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $umin.bv16(i1: bv16, i2: bv16) : bv16
+{
+  (if $ult.bv16.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $umin.bv32(i1: bv32, i2: bv32) : bv32
+{
+  (if $ult.bv32.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $umin.bv64(i1: bv64, i2: bv64) : bv64
+{
+  (if $ult.bv64.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $umin.bv8(i1: bv8, i2: bv8) : bv8
+{
+  (if $ult.bv8.bool(i1, i2) then i1 else i2)
+}
+
+function {:inline} $umin.i1(i1: i1, i2: i1) : i1
+{
+  $min(i1, i2)
+}
+
+function {:inline} $umin.i16(i1: i16, i2: i16) : i16
+{
+  $min(i1, i2)
+}
+
+function {:inline} $umin.i32(i1: i32, i2: i32) : i32
+{
+  $min(i1, i2)
+}
+
+function {:inline} $umin.i64(i1: i64, i2: i64) : i64
+{
+  $min(i1, i2)
+}
+
+function {:inline} $umin.i8(i1: i8, i2: i8) : i8
+{
+  $min(i1, i2)
+}
+
+function {:inline} $zext.bv1.bv16(i: bv1) : bv16
+{
+  (if i == 0bv1 then 0bv16 else 1bv16)
+}
+
+function {:inline} $zext.bv1.bv32(i: bv1) : bv32
+{
+  (if i == 0bv1 then 0bv32 else 1bv32)
+}
+
+function {:inline} $zext.bv1.bv64(i: bv1) : bv64
+{
+  (if i == 0bv1 then 0bv64 else 1bv64)
+}
+
+function {:inline} $zext.bv1.bv8(i: bv1) : bv8
+{
+  (if i == 0bv1 then 0bv8 else 1bv8)
+}
+
+function {:inline} $zext.i1.i16(i: i1) : i16
+{
+  i
+}
+
+function {:inline} $zext.i1.i32(i: i1) : i32
+{
+  i
+}
+
+function {:inline} $zext.i1.i64(i: i1) : i64
+{
+  i
+}
+
+function {:inline} $zext.i1.i8(i: i1) : i8
+{
+  i
+}
+
+function {:inline} $zext.i16.i32(i: i16) : i32
+{
+  i
+}
+
+function {:inline} $zext.i16.i64(i: i16) : i64
+{
+  i
+}
+
+function {:inline} $zext.i32.i64(i: i32) : i64
+{
+  i
+}
+
+function {:inline} $zext.i8.i16(i: i8) : i16
+{
+  i
+}
+
+function {:inline} $zext.i8.i32(i: i8) : i32
+{
+  i
+}
+
+function {:inline} $zext.i8.i64(i: i8) : i64
+{
+  i
+}
+
+procedure {:inline 1} $alloc(n: ref) returns (p: ref);
+  modifies $CurrAddr, $Alloc;
+
+
+
+implementation $alloc(n: ref) returns (p: ref)
+{
+
+  anon0:
+    assume $sgt.ref.bool($CurrAddr, $0.ref);
+    p := $CurrAddr;
+    goto anon4_Then, anon4_Else;
+
+  anon4_Then:
+    assume {:partition} $sgt.ref.bool(n, $0.ref);
+    $CurrAddr := $add.ref($CurrAddr, n);
+    goto anon3;
+
+  anon4_Else:
+    assume {:partition} !$sgt.ref.bool(n, $0.ref);
+    $CurrAddr := $add.ref($CurrAddr, $1.ref);
+    goto anon3;
+
+  anon3:
+    $Alloc := $Alloc[p := true];
+    return;
+}
+
+
+
+procedure {:inline 1} $free(p: ref);
+  modifies $Alloc;
+
+
+
+implementation $free(p: ref)
+{
+
+  anon0:
+    $Alloc := $Alloc[p := false];
+    return;
+}
+
+
+
+procedure boogie_si_record_bool(i: bool);
+
+
+
+procedure boogie_si_record_bv1(i: bv1);
+
+
+
+procedure boogie_si_record_bv16(i: bv16);
+
+
+
+procedure boogie_si_record_bv32(i: bv32);
+
+
+
+procedure boogie_si_record_bv64(i: bv64);
+
+
+
+procedure boogie_si_record_bv8(i: bv8);
+
+
+
+procedure boogie_si_record_float(i: float);
+
+
+
+procedure boogie_si_record_i1(i: i1);
+
+
+
+procedure boogie_si_record_i16(i: i16);
+
+
+
+procedure boogie_si_record_i32(i: i32);
+
+
+
+procedure boogie_si_record_i64(i: i64);
+
+
+
+procedure boogie_si_record_i8(i: i8);
+
+
+
+procedure boogie_si_record_mop(m: $mop);
+
+
+
+procedure boogie_si_record_ref(i: ref);
+
+
+
+type $mop;
+
+type float;
+
+var $Alloc: [ref]bool;
+
+var $CurrAddr: ref;
+
+var $exn: bool;
+
+var $exnv: int;
