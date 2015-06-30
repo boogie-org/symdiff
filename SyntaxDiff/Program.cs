@@ -80,18 +80,15 @@ namespace SyntaxDiff
         public ITextDifferencingSelectorService differencingServiceSelector = null;
         [Import]
         public IContentTypeRegistryService contentTypeRegistryService = null;
-
+        
         ITextDifferencingService differenceService = null;
 
-        [Import]
-        IHierarchicalStringDifferenceService hierarchicalStringDifferenceService = null;
 
+        //[Import]
+        //ITextBufferFactoryService textBufferFactoryService = null;
 
-        [Import]
-        ITextBufferFactoryService textBufferFactoryService = null;
-
-        [Import]
-        IDifferenceBufferFactoryService differenceBufferFactoryService = null;
+        //[Import]
+        //IDifferenceBufferFactoryService differenceBufferFactoryService = null;
 
         public HashSet<Tuple<int, int>> PerformDiffFiles(string file1, string file2)
         {
