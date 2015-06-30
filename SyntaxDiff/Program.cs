@@ -24,27 +24,34 @@ namespace SyntaxDiff
     {
         static void Main(string[] args)
         {
-            var diffInfo = new DiffInfo();
+            var diffInfo = new DiffAnalyzer();
             Debug.Assert(args.Count() >= 2);
             var diffOut = diffInfo.PerformDiffString(args[0], args[1]);
         }
 
     }
-    class DiffInfo
+    class DiffAnalyzer
     {
-        //MEF compoennts dir
-        public const string componentsDir = @"D:\vmv-analysis\VMV\";
+  
+        public DiffAnalyzer() 
+        {
+            LoadMEFComponents();
 
-        [Import]
-        IHierarchicalStringDifferenceService differenceService = null;
-        public DiffInfo() { LoadMEFComponents(); }
+            var a = contentTypeRegistryService.ContentTypes;
+            IContentType b;
+
+            differenceService = differencingServiceSelector.GetTextDifferencingService(null);
+        }
         public void LoadMEFComponents()
         {
-            string[] ComponentDllFilters = new string[] { /*"CodeFlow*.exe", "Microsoft.CodeFlow.*.dll", */ "Delta.dll", "Microsoft.VisualStudio*.dll" };
+            string[] ComponentDllFilters = new string[] { "Microsoft.VisualStudio.CoreUtility.dll", "CFEditor.dll", "Microsoft.VisualStudio.Text*dll" /*, "Microsoft.VisualStudio.Diagram*dll"*/ };
             /* this is lame and needs to be set for the machine that it is running on
              * There is probably a way to autodetect this, but I don't know it */
 
             //string componentsDir = "./";// ConfigurationManager.AppSettings["ComponentsDIR"];
+            string executionDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly() == null ? Assembly.GetExecutingAssembly().Location : Assembly.GetEntryAssembly().Location);
+            string componentsDir = executionDirectory;
+
             AggregateCatalog catalog = new AggregateCatalog();
             foreach (string filter in ComponentDllFilters)
             {
@@ -63,11 +70,29 @@ namespace SyntaxDiff
             {
                 foreach (Exception loaderException in ex.LoaderExceptions)
                 {
-                    Console.WriteLine(loaderException.ToString());
+                    Debug.WriteLine(loaderException.ToString());
                 }
                 throw;
             }
         }
+
+        [Import]
+        public ITextDifferencingSelectorService differencingServiceSelector = null;
+        [Import]
+        public IContentTypeRegistryService contentTypeRegistryService = null;
+
+        ITextDifferencingService differenceService = null;
+
+        [Import]
+        IHierarchicalStringDifferenceService hierarchicalStringDifferenceService = null;
+
+
+        [Import]
+        ITextBufferFactoryService textBufferFactoryService = null;
+
+        [Import]
+        IDifferenceBufferFactoryService differenceBufferFactoryService = null;
+
         public HashSet<Tuple<int, int>> PerformDiffFiles(string file1, string file2)
         {
             HashSet<Tuple<int, int>> diffRanges = new HashSet<Tuple<int, int>>();
