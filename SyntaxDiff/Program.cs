@@ -12,6 +12,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.TeamFoundation.VersionControl.Client;
+using Microsoft.TeamFoundation.VersionControl.Common;
 
 
 
@@ -24,12 +26,51 @@ namespace SyntaxDiff
     {
         static void Main(string[] args)
         {
+            new Diff2(args);
+            return;
+
+            VisualStudioTextDiff(args); 
+        }
+
+        /// <summary>
+        /// MEF based diffing of strings
+        /// Doesn't work due to CFEditor dependency
+        /// </summary>
+        /// <param name="args"></param>
+        private static void VisualStudioTextDiff(string[] args)
+        {
             var diffInfo = new DiffAnalyzer();
             Debug.Assert(args.Count() >= 2);
             var diffOut = diffInfo.PerformDiffString(args[0], args[1]);
         }
 
     }
+
+    class Diff2
+    {
+        public Diff2(string[] args)
+        {
+            Debug.Assert(args.Count() >= 2, "Usage: SyntaxDiff.exe file1 file2");
+            string file1 = args[0], file2 = args[1];
+            DiffOptions diffOptions = new DiffOptions();
+            diffOptions.UseThirdPartyTool = false;
+            diffOptions.OutputType = DiffOutputType.Unified;
+            // Wherever we want to send our text-based diff output 
+            diffOptions.StreamWriter = new System.IO.StreamWriter(Console.OpenStandardOutput());
+
+            Console.WriteLine("Difference.DiffFiles - output to console");
+            DiffSegment diffs = Microsoft.TeamFoundation.VersionControl.Client.Difference.DiffFiles(
+                file1, FileType.Detect(file1, null), file2, FileType.Detect(file2, null),  diffOptions);
+
+            var diff = diffs;
+            while (diff != null)
+            {
+                Console.WriteLine("Diff ==> {0} {1}:{2} {3}:{4}", diff.Type, diff.OriginalStart, diff.OriginalLength, diff.ModifiedStart, diff.ModifiedLength);
+                diff = diff.Next;
+            }
+        }
+    }
+
     class DiffAnalyzer
     {
   
