@@ -24,12 +24,14 @@ namespace SyntaxDiff
     /// </summary>
     class Program
     {
+        const bool useVisualStudioMEFDiff = true; 
+
         static void Main(string[] args)
         {
-            new Diff2(args);
-            return;
-
-            VisualStudioTextDiff(args); 
+            if (!useVisualStudioMEFDiff)
+                new Diff2(args);
+            else
+                VisualStudioTextDiff(args); 
         }
 
         /// <summary>
@@ -39,7 +41,7 @@ namespace SyntaxDiff
         /// <param name="args"></param>
         private static void VisualStudioTextDiff(string[] args)
         {
-            var diffInfo = new DiffAnalyzer();
+            var diffInfo = new DiffAnalyzerUsingMEFAndVisualStudio();
             Debug.Assert(args.Count() >= 2);
             var diffOut = diffInfo.PerformDiffString(args[0], args[1]);
         }
@@ -55,6 +57,7 @@ namespace SyntaxDiff
             DiffOptions diffOptions = new DiffOptions();
             diffOptions.UseThirdPartyTool = false;
             diffOptions.OutputType = DiffOutputType.Unified;
+
             // Wherever we want to send our text-based diff output 
             diffOptions.StreamWriter = new System.IO.StreamWriter(Console.OpenStandardOutput());
 
@@ -65,27 +68,28 @@ namespace SyntaxDiff
             var diff = diffs;
             while (diff != null)
             {
-                Console.WriteLine("Diff ==> {0} {1}:{2} {3}:{4}", diff.Type, diff.OriginalStart, diff.OriginalLength, diff.ModifiedStart, diff.ModifiedLength);
+                Console.WriteLine("Diff ==> {0} {1}:{2}:{3} {4}:{5}:{6}", 
+                    diff.Type, diff.OriginalStart, diff.OriginalLength, diff.OriginalStartOffset, diff.ModifiedStart, diff.ModifiedLength, diff.ModifiedStartOffset);
                 diff = diff.Next;
             }
         }
     }
 
-    class DiffAnalyzer
+    class DiffAnalyzerUsingMEFAndVisualStudio
     {
   
-        public DiffAnalyzer() 
+        public DiffAnalyzerUsingMEFAndVisualStudio() 
         {
             LoadMEFComponents();
 
-            var a = contentTypeRegistryService.ContentTypes;
-            IContentType b;
+            //var a = contentTypeRegistryService.ContentTypes;
+            //IContentType b;
 
             differenceService = differencingServiceSelector.GetTextDifferencingService(null);
         }
         public void LoadMEFComponents()
         {
-            string[] ComponentDllFilters = new string[] { "Microsoft.VisualStudio.CoreUtility.dll", "CFEditor.dll", "Microsoft.VisualStudio.Text*dll" /*, "Microsoft.VisualStudio.Diagram*dll"*/ };
+            string[] ComponentDllFilters = new string[] { "Microsoft.VisualStudio.CoreUtility.dll", /*"CFEditor.dll",*/ "Delta.dll", "Microsoft.VisualStudio.Text*dll" /*, "Microsoft.VisualStudio.Diagram*dll"*/ };
             /* this is lame and needs to be set for the machine that it is running on
              * There is probably a way to autodetect this, but I don't know it */
 
