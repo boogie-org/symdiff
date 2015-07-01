@@ -77,8 +77,8 @@ namespace SDiff
         Console.WriteLine("    option to do analyze two BPL programs");
         Console.WriteLine("-loopUnroll");
         Console.WriteLine("    unroll loops in a boogie program");
-        Console.WriteLine("-extractLoops");
-        Console.WriteLine("    extracts loops as tail-recursive functions");
+        Console.WriteLine("-extractLoops[:n]");
+        Console.WriteLine("    extracts loops as tail-recursive functions (optional :n makes extracted proc non-deterministic)");
 
         Console.WriteLine("\nHelper options\n");
         Console.WriteLine("-recurCheck");
@@ -135,11 +135,11 @@ namespace SDiff
         }
         return LoopUnroller(args);
       }
-      else if (args[0].Equals("-extractLoops"))
+      else if (args[0].StartsWith("-extractLoops")) //can be -extractLoops:n to make non-det loop extract
       {
           if (args.Length < 3)
           {
-              Console.WriteLine("Usage: SymDiff -extractLoops infile outfile");
+              Console.WriteLine("Usage: SymDiff -extractLoops[:n] infile outfile //optional :n");
               return 1;
           }
           return ExtractLoops(args);
@@ -277,7 +277,11 @@ namespace SDiff
         var filename = args[1];
         var outfilename = args[2];
 
-        string boogieOptions = "/printInstrumented /deterministicExtractLoops " + Options.BoogieUserOpts;
+        string boogieOptions = "/printInstrumented  " + Options.BoogieUserOpts;
+
+        if (args[0] == "-extractLoops") //if -extractLoops:n then don't pass the flag (need to fix a bug 7/1/15)
+            boogieOptions += " /deterministicExtractLoops ";
+
         //Log.Out(Log.Normal, "Initializing Boogie");
         if (SDiff.Boogie.Process.InitializeBoogie(boogieOptions))
             return 1;

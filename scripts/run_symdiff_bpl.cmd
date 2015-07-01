@@ -52,7 +52,7 @@ sub PrintUsage{
   print "usage: run_symdiff_c v1 v2 [/options]\n";
   print "\t  v1, v2: to analyze the files v1.bpl v2.bpl\n";
   print "\t  /lu:k : unroll loops k times (default on with k = 2)\n";
-  print "\t  /rvt : extract loops as tail-recursive procedures (default off)\n";
+  print "\t  /rvt[:n] : extract loops as tail-recursive procedures (default off) (:n makes the extraction non-deterministic)\n";
   print "\t  /useConfig:file : use file as the config file (default auto generated)\n";
   print "\t  /opts:\"<option-string>\" : <option-string> is passed to SymDiff.exe -allInOne\n";
   print "\t  /inferContracts:\"<option-string>\" : perform Boogie /contractInfer to infer mutual summaries with <option-string> \n";
@@ -64,6 +64,7 @@ my $v1 = "";
 my $v2 = "";
 my $luCount = 2;
 my $rvt = 0;
+my $nonDeterministicLoopExtract = 0;
 my $configFile = "";
 my $returnOnlyStr = "";
 my $optString = "";
@@ -96,7 +97,6 @@ sub ProcessOptions {
 	$v1ChangedLines = "/taint:$v1\\changed_lines.txt";
 	$v2ChangedLines = "/taint:$v2\\changed_lines.txt";
     }
-
     if($opt =~ /^\/lu:([0-9]+)$/){
       $luCount = $1;
       print "\tLoop unroll count is $1\n";
@@ -105,6 +105,11 @@ sub ProcessOptions {
       $rvt = 1;
       print "\tExtracting loops  as procedures\n";
     }
+    if($opt =~ /^\/rvt:n$/){
+      $rvt = 1;
+      $nonDeterministicLoopExtract = 1;
+      print "\tExtracting loops  as non-deterministic procedures\n";
+    }    
     if($opt =~ /^\/opts:(.*)$/){
       $optString = $1;
       print "\tPassing options \"$1\" to symdiff.exe -allInOne\n";
@@ -192,8 +197,12 @@ print "Checking $v2.bpl...\n";
 MyExecAndDieOnFailure("$symdiff_root\\references\\boogie.exe /noinfer /doModSetAnalysis $v2.bpl >> $v1$v2.log");
 
 if ($rvt eq 1){
-  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -extractLoops $v1.bpl _v1.bpl");
-  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -extractLoops $v2.bpl _v2.bpl");
+  my $loopStr = "-extractLoops";
+  if ($nonDeterministicLoopExtract eq 1) {
+    $loopStr = $loopStr + ":n";
+  }
+  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe $loopStr $v1.bpl _v1.bpl");
+  MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe $loopStr $v2.bpl _v2.bpl");
 } else {
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $luCount $v1.bpl _v1.bpl");
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $luCount $v2.bpl _v2.bpl");

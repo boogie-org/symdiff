@@ -29,7 +29,7 @@ namespace SyntaxDiff
         static void Main(string[] args)
         {
             if (!useVisualStudioMEFDiff)
-                new Diff2(args);
+                new DiffUsingTFS(args);
             else
                 VisualStudioTextDiff(args); 
         }
@@ -48,9 +48,9 @@ namespace SyntaxDiff
 
     }
 
-    class Diff2
+    class DiffUsingTFS
     {
-        public Diff2(string[] args)
+        public DiffUsingTFS(string[] args)
         {
             Debug.Assert(args.Count() >= 2, "Usage: SyntaxDiff.exe file1 file2");
             string file1 = args[0], file2 = args[1];
