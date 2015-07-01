@@ -199,7 +199,7 @@ MyExecAndDieOnFailure("$symdiff_root\\references\\boogie.exe /noinfer /doModSetA
 if ($rvt eq 1){
   my $loopStr = "-extractLoops";
   if ($nonDeterministicLoopExtract eq 1) {
-    $loopStr = $loopStr + ":n";
+    $loopStr = $loopStr . ":n";
   }
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe $loopStr $v1.bpl _v1.bpl");
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe $loopStr $v2.bpl _v2.bpl");
