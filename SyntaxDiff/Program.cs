@@ -24,7 +24,7 @@ namespace SyntaxDiff
     /// </summary>
     class Program
     {
-        const bool useVisualStudioMEFDiff = true; 
+        const bool useVisualStudioMEFDiff = false; 
 
         static void Main(string[] args)
         {
