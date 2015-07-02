@@ -16,6 +16,8 @@ namespace SmackProcessing
             return -1;
         }
 
+        private static string relativeDir = "";
+
         static int Main(string[] args)
         {
             if (args.Length < 1)
@@ -24,6 +26,9 @@ namespace SmackProcessing
             }
 
             if (args.ToList().Any(x => x == "-break")) Debugger.Launch();
+            args.Where(x => x.StartsWith("-relativeSourceDir:"))
+                .Iter(s => relativeDir = s.Split(':')[1]);
+           
 
             CommandLineOptions.Install(new CommandLineOptions());
 
@@ -37,7 +42,7 @@ namespace SmackProcessing
 
             PersistentProgram persistentProgram = new PersistentProgram(program);
 
-            var pass = new SmackPreprocessorTransform();
+            var pass = new SmackPreprocessorTransform(relativeDir);
             SmackPreprocessorTransform.writeAllFiles = true;
             persistentProgram = pass.run(persistentProgram);
             Debug.Assert(programFileName.Contains(".bpl"));

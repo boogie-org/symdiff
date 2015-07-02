@@ -8,10 +8,16 @@ namespace SmackProcessing.source
 {
     public class SmackPreprocessorTransform  : TransformationPass 
     {
+        private string relativeDir;
+
+        public SmackPreprocessorTransform(string relativeDir)
+        {            
+            this.relativeDir = relativeDir;
+        }
         protected override Program runPass(Program inp)
         {
             new BoogieCallsRewriter().VisitProgram(inp);
-            new SourceInfoRewriter().VisitProgram(inp);
+            new SourceInfoRewriter(relativeDir).VisitProgram(inp);
             new ArrayAccessRewriter().Visit(inp);
             new SplitBlockAcrossAssertsRewriter().VisitProgram(inp);
             return inp;
@@ -44,6 +50,12 @@ namespace SmackProcessing.source
 
     class SourceInfoRewriter : FixedVisitor
     {
+        private string relativeDir;
+
+        public SourceInfoRewriter(string relativeDir)
+        {
+            this.relativeDir = relativeDir;
+        }
         public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
         {
             List<Cmd> newSeq = new List<Cmd>();
@@ -64,11 +76,11 @@ namespace SmackProcessing.source
             cmdSeq.AddRange(newSeq);
             return base.VisitCmdSeq(cmdSeq);
         }
-
+        
         private AssertCmd makeHavocStyleSourceInfo(IList<object> list)
         {
             var fn = new List<object>();
-            fn.Add(list[0]);
+            fn.Add(this.relativeDir + list[0]);
             var lineno = new List<object>();
             lineno.Add(list[1]);
             var assert = new AssertCmd(Token.NoToken, Expr.True,
