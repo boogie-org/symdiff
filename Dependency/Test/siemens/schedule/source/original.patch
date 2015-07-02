@@ -1,0 +1,97 @@
+--- orig.schedule.c	2015-07-01 02:07:47.292250200 +0000
++++ schedule.c	2015-07-01 17:21:18.614233700 +0000
+@@ -2,10 +2,11 @@
+ 
+ 
+ #include <stdio.h>
++#include<stdlib.h>
+ 
+ /* A job descriptor. */
+ 
+-#define NULL 0
++//#define NULL 0
+ 
+ 
+ #define NEW_JOB        1
+@@ -150,6 +151,22 @@
+ List *prio_queue[MAXPRIO+1]; 	/* 0th element unused */
+ List *block_queue;
+ 
++void schedule()
++{
++    int i;
++    
++    cur_proc = NULL;
++    for (i=MAXPRIO; i > 0; i--)
++    {
++	if (prio_queue[i]->mem_count > 0)
++	{
++	    cur_proc = prio_queue[i]->first;
++	    prio_queue[i] = del_ele(prio_queue[i], cur_proc);
++	    return;
++	}
++    }
++}
++
+ void
+ finish_process()
+ {
+@@ -172,22 +189,6 @@
+ 	finish_process();
+ }
+ 
+-schedule()
+-{
+-    int i;
+-    
+-    cur_proc = NULL;
+-    for (i=MAXPRIO; i > 0; i--)
+-    {
+-	if (prio_queue[i]->mem_count > 0)
+-	{
+-	    cur_proc = prio_queue[i]->first;
+-	    prio_queue[i] = del_ele(prio_queue[i], cur_proc);
+-	    return;
+-	}
+-    }
+-}
+-
+ void
+ upgrade_process_prio(prio, ratio)
+ int prio;
+@@ -302,7 +303,7 @@
+ }
+ 				
+ /* test driver */
+-main(argc, argv)
++int main(argc, argv)
+ int argc;
+ char *argv[];
+ {
+@@ -314,7 +315,7 @@
+     if (argc < (MAXPRIO+1))
+     {
+ 	fprintf(stdout, "incorrect usage\n");
+-	return;
++	return -1;
+     }
+     
+     initialize();
+@@ -346,7 +347,7 @@
+ 	    fscanf(stdin, "%f", &ratio);
+ 	    if (prio > MAXPRIO || prio <= 0) { 
+ 		fprintf(stdout, "** invalid priority\n");
+-		return;
++		return 0;
+ 	    }
+ 	    else 
+ 		upgrade_process_prio(prio, ratio);
+@@ -355,7 +356,7 @@
+ 	    fscanf(stdin, "%d", &prio);
+ 	    if (prio > MAXPRIO || prio <= 0) {
+ 		fprintf(stdout, "** invalid priority\n");
+-		return;
++		return 2;
+ 	    }
+ 	    else 
+ 		add_process(prio);

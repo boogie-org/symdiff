@@ -1,0 +1,98 @@
+--- orig.print_tokens.c	2015-07-01 17:46:11.787944300 +0000
++++ print_tokens.c	2015-07-01 17:45:12.671738000 +0000
+@@ -1,7 +1,8 @@
+ 
+ 
+ # include <ctype.h>
+-
++#include<string.h>
++#include<stdlib.h>
+ # define START  5
+ # define TRUE  1
+ # define FALSE 0
+@@ -19,12 +20,15 @@
+ static int check_delimiter(char ch);
+ static int keyword(int state);
+ static int special(int state);
+-static skip(character_stream stream_ptr);
++static void skip(character_stream stream_ptr);
+ static int constant(int state,char token_str[],int token_ind);
+ static int next_state(int state,char ch);
+-static get_actual_token(char token_str[],int token_ind);
++static void get_actual_token(char token_str[],int token_ind);
++
++BOOLEAN print_token(token token_ptr);
++
+ 
+-main(argc,argv)
++int main(argc,argv)
+ int argc;
+ char *argv[];
+ {
+@@ -130,7 +134,7 @@
+                    to unget the character then it returns
+  * ******************************************************************* */
+ 
+-unget_char(ch,stream_ptr)
++void unget_char(ch,stream_ptr)
+ CHARACTER ch;
+ character_stream stream_ptr;
+ {
+@@ -305,11 +309,13 @@
+                    token.
+  * *****************************************************************/
+ 
+-static token error_or_eof_case(tstream_ptr,token_ptr,cu_state,token_str,token_ind,ch)
+-token_stream tstream_ptr;
+-token token_ptr;
+-int cu_state,token_ind;
+-char token_str[],ch;
++static token error_or_eof_case(
++			       token_stream tstream_ptr,
++			       token token_ptr,
++			       int cu_state,
++			       char token_str[],
++			       int token_ind,
++			       char ch)
+ {
+       if(is_end_of_character_stream(tstream_ptr->ch_stream)) 
+       {
+@@ -338,8 +344,7 @@
+                    it returns FALSE. 
+  * ******************************************************************* */
+ 
+-static int check_delimiter(ch)
+-char ch;
++static int check_delimiter(char ch)
+ {
+       if(!isalpha(ch) && !isdigit(ch)) /* Check for digit and alpha */
+           return(TRUE);
+@@ -409,7 +414,7 @@
+                    end_of_character_stream.                   
+  * ******************************************************************* */
+ 
+-static skip(stream_ptr)
++static void skip(stream_ptr)
+ character_stream stream_ptr;
+ {
+         char c;
+@@ -453,9 +458,7 @@
+                    state state and the inpu character ch.
+  * ****************************************************************** */
+               
+-static int next_state(state,ch)
+-int state;
+-char ch;
++static int next_state(int state, char ch)
+ {
+     if(state < 0)
+       return(state);
+@@ -546,7 +549,7 @@
+                    the leading and trailing  spaces and prints the token.
+  * ****************************************************************** */
+ 
+-static get_actual_token(token_str,token_ind)
++static void get_actual_token(token_str,token_ind)
+ int token_ind;
+ char token_str[];
+ {

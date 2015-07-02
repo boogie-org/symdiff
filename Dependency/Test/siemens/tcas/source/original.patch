@@ -1,0 +1,22 @@
+--- orig.tcas.c	2015-06-25 16:22:59.238787500 +0000
++++ tcas.c	2015-07-01 18:01:20.857628000 +0000
+@@ -6,7 +6,7 @@
+  * */
+ 
+ #include <stdio.h>
+-
++#include<stdlib.h>
+ #define OLEV       600		/* in feets/minute */
+ #define MAXALTDIFF 600		/* max altitude difference in feet */
+ #define MINSEP     300          /* min separation in feet */
+@@ -45,6 +45,10 @@
+ #define UPWARD_RA 1
+ #define DOWNWARD_RA 2
+ 
++bool Own_Below_Threat();
++bool Own_Above_Threat();
++
++
+ void initialize()
+ {
+     Positive_RA_Alt_Thresh[0] = 400;

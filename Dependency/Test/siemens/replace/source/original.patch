@@ -1,0 +1,32 @@
+--- orig.replace.c	2015-07-01 01:29:36.338008300 +0000
++++ replace.c	2015-07-01 17:05:11.263150600 +0000
+@@ -2,6 +2,7 @@
+ 
+ extern void	exit();
+ # include <stdio.h>
++#include <ctype.h>
+ 
+ void	Caseerror();
+ 
+@@ -36,7 +37,7 @@
+ typedef char string[MAXSTR];
+ 
+ bool
+-getline(s, maxsize)
++_getline(s, maxsize)
+ char	*s;
+ int	maxsize;
+ {
+@@ -510,10 +511,10 @@
+     string  line;
+     bool result;
+     
+-    result = getline(line, MAXSTR);
++    result = _getline(line, MAXSTR);
+     while ((result)) {
+ 	subline(line, pat, sub);
+-	result = getline(line, MAXSTR);
++	result = _getline(line, MAXSTR);
+     }
+ }
+ 
