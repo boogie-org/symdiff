@@ -810,12 +810,30 @@ namespace SDiff
 
       public static bool IsSourceInfoAssertCmd(Cmd cmd)
       {
-          AssertCmd acmd = cmd as AssertCmd;
-          if (acmd == null) return false; 
-          var line = QKeyValue.FindIntAttribute(acmd.Attributes, "sourceLine", -1);
-          if (line == -1) line = QKeyValue.FindIntAttribute(acmd.Attributes, "sourceline", -1);
-          return line != -1; 
+          string srcFile = null;
+          int srcLine = -1;
+          return IsSourceInfoAssertCmd(cmd, out srcFile, out srcLine);
       }
+      /// <summary>
+      /// Returns the srcFile and srcLine when the return is true
+      /// </summary>
+      /// <param name="cmd"></param>
+      /// <param name="srcFile"></param>
+      /// <param name="srcLine"></param>
+      /// <returns></returns>
+      public static bool IsSourceInfoAssertCmd(Cmd cmd, out string srcFile, out int srcLine)
+      {
+          srcFile = null;
+          srcLine = -1;
+          AssertCmd acmd = cmd as AssertCmd;
+          if (acmd == null) return false;
+          srcLine = QKeyValue.FindIntAttribute(acmd.Attributes, "sourceLine", -1);
+          if (srcLine == -1) srcLine = QKeyValue.FindIntAttribute(acmd.Attributes, "sourceline", -1);
+          srcFile = QKeyValue.FindStringAttribute(acmd.Attributes, "sourceFile");
+          if (srcFile == null) srcFile = QKeyValue.FindStringAttribute(acmd.Attributes, "sourcefile");          
+          return srcFile != null;
+      }
+
   }
 
     /// <summary>
