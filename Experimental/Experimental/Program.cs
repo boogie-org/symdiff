@@ -25,7 +25,7 @@ namespace Experimental
             string[] lines = File.ReadAllLines(path);
             if(lines.Length != 1) {
                 Console.WriteLine("[WARNING] key.txt appears not to conform to the format. We expect a single line containing the key.");
-                Console.WriteLine("[WARNING] We will make unauthenticate API requests! Note that this is subject to stricter rate limiting.");
+                Console.WriteLine("[WARNING] We will make unauthenticated API requests! Note that this is subject to stricter rate limiting.");
                 return;
             }
             var creds = new Credentials(lines[0]);
@@ -37,7 +37,8 @@ namespace Experimental
             InstallCredentials();
 
             var sc = new SearchRepositoriesRequest();
-            sc.Language = Language.C;            
+            sc.Language = Language.C;
+            sc.Size = Range.LessThan(100);
 
             
             
@@ -65,10 +66,14 @@ namespace Experimental
             {
                 using (System.IO.StreamWriter details = new System.IO.StreamWriter(@"verbose.txt"))
                 {
-                    foreach (var repo in repos)
+                    using (System.IO.StreamWriter log = new System.IO.StreamWriter(@"log.txt"))
                     {
-                        summary.Write(repo.ToString());
-                        details.Write(repo.VerboseInterestingShas());
+                        foreach (var repo in repos)
+                        {
+                            log.WriteLine(repo.GitUrl);
+                            summary.Write(repo.ToString());
+                            details.Write(repo.VerboseInterestingShas());
+                        }
                     }
                 }
             }

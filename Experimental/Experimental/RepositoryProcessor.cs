@@ -10,7 +10,7 @@ namespace Experimental
     class RepositoryProcessor
     {
         private static int CommitsPerRepo = 1000;
-        private static int CommitsPerRequest = 100;
+        private static int CommitsPerRequest = 200;
         private static DateTimeOffset ExperimentsInitTime = DateTimeOffset.Now;
         public Repository Repository { get; private set; }
 
@@ -41,9 +41,10 @@ namespace Experimental
                 Console.WriteLine("Number of commits: " + commitsTask.Result.Count);
                 foreach (var comm in commitsTask.Result)
                 {
-                    if (comm.Commit.Message.ToLower().Contains("refactoring"))
+                    var statsCommit = _fixture.Get(Repository.Owner, Repository.Name, comm.Sha);
+                    statsCommit.Wait();
+                    if (IsInteresting(statsCommit.Result))
                     {
-                        
                         this.Repository.InterestingShas.Add(new Tuple<string, string>(comm.Sha, comm.Commit.Message));
                     }
                 }
@@ -51,12 +52,19 @@ namespace Experimental
                 commitsFiltered += commitsTask.Result.Count;
                 double factor = CommitsPerRequest / (commitsTask.Result.Count == 0 ? CommitsPerRequest/2.0 : commitsTask.Result.Count * 1.0 );
                 interval = interval * factor;
+                interval = interval < -730 ? -730 : interval;
                 until = since;
                 since = since.AddDays(interval);
                 if (since.Year < 2005)
                     break;
                 
             }
+        }
+
+        private static bool IsInteresting(GitHubCommit comm)
+        {
+            return comm.Stats.Total < 5 && comm.Files.All(file => file.Filename.EndsWith(".c"));
+            //return comm.Commit.Message.ToLower().Contains("refactoring");
         }
     }
 }
