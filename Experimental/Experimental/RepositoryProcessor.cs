@@ -12,9 +12,9 @@ namespace Experimental
         private static int CommitsPerRepo = 1000;
         private static int CommitsPerRequest = 200;
         private static DateTimeOffset ExperimentsInitTime = DateTimeOffset.Now;
-        public Repository Repository { get; private set; }
+        public RepositoryInfo Repository { get; private set; }
 
-        public RepositoryProcessor(Repository repo)
+        public RepositoryProcessor(RepositoryInfo repo)
         {
             this.Repository = repo;
         }
