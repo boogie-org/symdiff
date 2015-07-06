@@ -60,13 +60,18 @@ namespace SyntaxDiff
             var diffImpls = FindImplementsWithDifferentBodies(v1Prog, v2Prog);
 
             //perform the diff on the source files in which the implemnation pair is present
+            var v1Changes = new List<string>();
+            var v2Changes = new List<string>();
             foreach(var i12 in diffImpls)
             {
                 var d12 = FindDiffSourceLinesInImplementation(i12.Item1, v1srcInfo, i12.Item2, v2srcInfo);
 
-                PrintChangedLinesForProcedure("v0", i12.Item1.Name, d12.Item1);
-                PrintChangedLinesForProcedure("v1", i12.Item2.Name, d12.Item2);                
+                v1Changes.AddRange(FormatChangedLinesForProcedure(i12.Item1.Name, d12.Item1, v1srcInfo.srcInfoPerImpl[i12.Item1].Item1));
+                v2Changes.AddRange(FormatChangedLinesForProcedure(i12.Item2.Name, d12.Item2, v2srcInfo.srcInfoPerImpl[i12.Item2].Item1));
             }
+
+            PrintChangedLinesToFile(v1Changes, Path.Combine(Path.GetDirectoryName(v1), "v1_changed_lines.txt"));
+            PrintChangedLinesToFile(v2Changes, Path.Combine(Path.GetDirectoryName(v2), "v2_changed_lines.txt"));
 
             return; 
 
@@ -76,16 +81,21 @@ namespace SyntaxDiff
                 new DiffAnalyzerUsingMEFAndVisualStudio().PerformDiffString(args[0], args[1]);
         }
 
-        private static void PrintChangedLinesForProcedure(string fn, string procName, List<int> lines)
+        private static void PrintChangedLinesToFile(List<string> v1Changes, string p)
         {
-            if (lines.Count > 0)
+            using (var stream = new StreamWriter(p))
             {
-                Console.WriteLine("Diff for {0}:", fn);
+                stream.Write(string.Join("\n", v1Changes));
+            }
+        }
+
+        private static IEnumerable<string> FormatChangedLinesForProcedure(string procName, List<int> lines, string fn)
+        {
+          
                 foreach (var lineNo in lines)
                 {
-                    Console.WriteLine("{0}, {1}", procName, lineNo);
+                    yield return procName + ", " + lineNo + ", " + fn;
                 }
-            }
         }
 
         private static Tuple<List<int>, List<int>> FindDiffSourceLinesInImplementation(Implementation implementation1, SourceInfoManager v1srcInfo, Implementation implementation2, SourceInfoManager v2srcInfo)
@@ -200,7 +210,7 @@ namespace SyntaxDiff
     {
         Program program;
         HashSet<string> srcFiles; 
-        Dictionary<Implementation, Tuple<string, Tuple<int, int>>> srcInfoPerImpl; //impl -> (src-file, (min,max))
+        public Dictionary<Implementation, Tuple<string, Tuple<int, int>>> srcInfoPerImpl; //impl -> (src-file, (min,max))
         Dictionary<Implementation, List<string>> srcLinesPerImpl; //impl -> srcLines 
         private string bplPath;
         public SourceInfoManager(Program prog, string bplPath)
