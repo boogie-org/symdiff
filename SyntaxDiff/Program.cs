@@ -63,10 +63,9 @@ namespace SyntaxDiff
             foreach(var i12 in diffImpls)
             {
                 var d12 = FindDiffSourceLinesInImplementation(i12.Item1, v1srcInfo, i12.Item2, v2srcInfo);
-                if (d12.Item1.Count > 0)
-                    Console.WriteLine("Lines diff in v1::{0} = {1}", i12.Item1.Name, string.Join(",", d12.Item1));
-                if (d12.Item2.Count > 0)
-                Console.WriteLine("Lines diff in v2::{0} = {1}", i12.Item2.Name, string.Join(",", d12.Item2));
+
+                PrintChangedLinesForProcedure("v0", i12.Item1.Name, d12.Item1);
+                PrintChangedLinesForProcedure("v1", i12.Item2.Name, d12.Item2);                
             }
 
             return; 
@@ -75,6 +74,18 @@ namespace SyntaxDiff
                 new DiffUsingTFS(args);
             else
                 new DiffAnalyzerUsingMEFAndVisualStudio().PerformDiffString(args[0], args[1]);
+        }
+
+        private static void PrintChangedLinesForProcedure(string fn, string procName, List<int> lines)
+        {
+            if (lines.Count > 0)
+            {
+                Console.WriteLine("Diff for {0}:", fn);
+                foreach (var lineNo in lines)
+                {
+                    Console.WriteLine("{0}, {1}", procName, lineNo);
+                }
+            }
         }
 
         private static Tuple<List<int>, List<int>> FindDiffSourceLinesInImplementation(Implementation implementation1, SourceInfoManager v1srcInfo, Implementation implementation2, SourceInfoManager v2srcInfo)
@@ -243,7 +254,7 @@ namespace SyntaxDiff
                     srcLinesPerImpl[impl] = new List<string>();
                     var info = srcInfoPerImpl[impl];
                     for (int i = info.Item2.Item1; i < info.Item2.Item2; ++i)
-                        srcLinesPerImpl[impl].Add(contentSrc[i]);
+                        srcLinesPerImpl[impl].Add(contentSrc[i-1]);
                 }
             }
         }
@@ -327,16 +338,29 @@ namespace SyntaxDiff
             var tDiffLines = new List<int>();
             if (diff.Next != null) //some diff
             {
+                int sLast = int.MaxValue;
+                int tLast = int.MaxValue;
                 while (diff != null)
                 {
-                    Console.WriteLine("Diff ==> {0} {1}:{2}:{3} {4}:{5}:{6}",
-                        diff.Type, diff.OriginalStart, diff.OriginalLength, diff.OriginalStartOffset, diff.ModifiedStart, diff.ModifiedLength, diff.ModifiedStartOffset);
-                    sDiffLines.Add(diff.OriginalStart + diff.OriginalLength); //TODO: other lines upto the next common segment
-                    tDiffLines.Add(diff.ModifiedStart + diff.ModifiedLength); //TODO: other lines upto the next common segment
+                    /*Console.WriteLine("Diff ==> {0} {1}:{2}:{3} {4}:{5}:{6}",
+                        diff.Type, diff.OriginalStart, diff.OriginalLength, diff.OriginalStartOffset, diff.ModifiedStart, diff.ModifiedLength, diff.ModifiedStartOffset);*/
+                    sDiffLines.AddRange(ComputeRange(sLast, diff.OriginalStart));
+                    sLast = diff.OriginalStart + diff.OriginalLength;
+                    tDiffLines.AddRange(ComputeRange(tLast, diff.ModifiedStart));
+                    tLast = diff.ModifiedStart + diff.ModifiedLength;
                     diff = diff.Next;
                 }
             }
             return Tuple.Create(sDiffLines, tDiffLines);
+        }
+
+        private IEnumerable<int> ComputeRange(int start, int end)
+        {
+            while (start < end)
+            {
+                yield return start;
+                start++;
+            }
         }
     }
 
