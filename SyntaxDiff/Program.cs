@@ -246,7 +246,7 @@ namespace SyntaxDiff
                 var contentSrc = new List<string>();
                 using (var srcStream = new StreamReader(Path.Combine(bplPath, src)))
                 {
-                    while (srcStream.Peek() >= 0) { contentSrc.Add(srcStream.ReadLine()); }
+                    while (srcStream.Peek() >= 0) { contentSrc.Add(srcStream.ReadLine().Trim()); }
                 }
                 var implsInSrc = program.Implementations.Where(i => srcInfoPerImpl[i].Item1 == src);
                 foreach(var impl in implsInSrc)
