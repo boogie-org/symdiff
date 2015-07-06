@@ -47,9 +47,9 @@ namespace SyntaxDiff
             var v1Prog = SDiff.Boogie.Process.ParseProgram(v1);
             var v2Prog = SDiff.Boogie.Process.ParseProgram(v2);
 
-            var v1srcInfo = new SourceInfoManager(v1Prog);
+            var v1srcInfo = new SourceInfoManager(v1Prog, Path.GetDirectoryName(v1));
             v1srcInfo.ComputeSourceInfoForImplementations();
-            var v2srcInfo = new SourceInfoManager(v2Prog);
+            var v2srcInfo = new SourceInfoManager(v2Prog, Path.GetDirectoryName(v2));
             v2srcInfo.ComputeSourceInfoForImplementations();
 
             //remove any sourcefile/sourceline info before doing a syntactic diff
@@ -191,9 +191,11 @@ namespace SyntaxDiff
         HashSet<string> srcFiles; 
         Dictionary<Implementation, Tuple<string, Tuple<int, int>>> srcInfoPerImpl; //impl -> (src-file, (min,max))
         Dictionary<Implementation, List<string>> srcLinesPerImpl; //impl -> srcLines 
-        public SourceInfoManager(Program prog)
+        private string bplPath;
+        public SourceInfoManager(Program prog, string bplPath)
         {
             program = prog;
+            this.bplPath = bplPath;
             srcFiles = new HashSet<string>();
             srcInfoPerImpl = new Dictionary<Implementation, Tuple<string, Tuple<int, int>>>();
             srcLinesPerImpl = new Dictionary<Implementation, List<string>>();
@@ -231,7 +233,7 @@ namespace SyntaxDiff
             foreach(var src in srcFiles)
             {
                 var contentSrc = new List<string>();
-                using (var srcStream = new StreamReader(src))
+                using (var srcStream = new StreamReader(Path.Combine(bplPath, src)))
                 {
                     while (srcStream.Peek() >= 0) { contentSrc.Add(srcStream.ReadLine()); }
                 }
