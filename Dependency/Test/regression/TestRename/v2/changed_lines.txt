@@ -1,2 +1,8 @@
+baz, 4
+baz, 5
+baz, 6
+foo, 8
+foo, 9
 foo, 11
-foo, 12
+bar, 13
+main, 17
