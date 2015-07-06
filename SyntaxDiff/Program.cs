@@ -247,7 +247,7 @@ namespace SyntaxDiff
         }
         public List<string> GetSrcLinesForImpl(Implementation i)
         {
-            if (i == null) return null;  //impl is not present
+            if (i == null || !srcLinesPerImpl.ContainsKey(i)) return new List<string>();  //impl is not present
             return srcLinesPerImpl[i];
         }
         public int GetStartLineForImplInFile(Implementation i)
