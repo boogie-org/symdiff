@@ -93,9 +93,9 @@ sub ProcessOptions {
   ## other options
   while ($ARGV[0]){
     $opt = shift @ARGV;
-    if($opt =~ /^\/changedLines$/){
-	$v1ChangedLines = "/taint:$v1\\changed_lines.txt";
-	$v2ChangedLines = "/taint:$v2\\changed_lines.txt";
+    if($opt =~ /^\/changedLines:\[(.*) (.*)\]$/){
+      $v1ChangedLines = $1;
+      $v2ChangedLines = $2;
     }
     if($opt =~ /^\/lu:([0-9]+)$/){
       $luCount = $1;
