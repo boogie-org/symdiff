@@ -309,60 +309,6 @@ sub SetEnvVars{
 }
 
 
-sub GenerateChangedFile{
-
-  #generate the changedFile if AnalyzeCallersOnly is specified (overrides /cf option)
-  if ($analyzeCallersOnly eq 1){
-        if (not($changedFile eq "")){
-	    Error("Use of /analyzeCallersOnly and /cf together is not permitted\n");
-	    PrintUsage();
-	}
-	
-	#################################################################################
-	#Generate the starting line for each procedure in the module
-	#################################################################################
-	my $newcmd;
-	my $cmd = "$havoc_dll_dir\havoc.cmd";
-	if ($oacr eq 1){
-	  $cmd = "$havoc_dll_dir\havoc.cmd /oacr";
-	}
-	if ($smv eq 1){
-	  $cmd = "$havoc_dll_dir\havoc.cmd /smv";
-	}
-
-	$cmd = "$cmd $ascpp "; # to control the -TP option
-
-	$newcmd = "$cmd /TranslateMode=PrintProcedureSourceLines  \| grep CFG_SOURCE_LINE \| sort \| uniq \| sed s/\"CFG_SOURCE_LINES::\"//g > func_source_lines.txt";
-	MyExec($newcmd);
-
-	#################################################################################
-	#Use the output of diff and the func_source_lines to generate the $changedFile
-	#################################################################################
-	#1. Generate the diff_v1_v2 file
-	#2. For each line in diff_v1_v2, figure out the enclosing procedure from $func_source_lines.txt
-	#3. Output it to $changedFile (give it some name)
-         
-        #--------------- Added by Agnelo--------------------- 
-        @fnArray = &GetModifiedFuncList ("func_source_lines.txt", \%fileDiffInfo);
-        $changedFile = "automodfunclist.txt";
-        if (open MFFILE, ">$changedFile")
-        {
-            for my $funcName (@fnArray)
-            {
-               print MFFILE "$funcName\n";
-            }
-            close MFFILE;
-        }
-        else
-        {
-            $changedFile = "";
-        }
-        #--------------- Added by Agnelo--------------------- 
-        
-  }
- 
-
-}
 
 sub ProcessCDir{
   my $dir = shift;
@@ -392,9 +338,6 @@ sub ProcessCDir{
   }
   $cmd = "$cmd $ascpp "; # to control the -TP option
 
-  if ($skipbpl eq 0) {
-    GenerateChangedFile();
-  }
 
   #generate the public_funcs.txt from the changedFile
   #MyExec("attrib -R public_funcs.txt*");
@@ -481,189 +424,6 @@ sub ProcessCDir{
 }
 
 
-#-------------------------------------------------------------------------------
-# Agnelo :: Added code for detection of changed fucntions
-#-------------------------------------------------------------------------------
-#
-
-#-------------------------------------------------------------------------------
-# GetModifiedFileInfo (dir1, dir2)
-#-------------------------------------------------------------------------------
-#   params : dir1 and dir2 are the paths of the directories being compared
-#   return : hash containing the names of modified files and the modified line numbers
-#            {{filename1, {array of modified line numbers}}
-#             .............................................
-#             {filenameN, {array of modified line numbers}}}
-#             
-sub GetModifiedFileInfo {
-  my $dir1 = shift;
-  my $dir2 = shift;
-  my $cmd, $res, $fileCount;
-  my @diffFiles, %diffInfo;
-
-  # Get the list of modified files
-  $cmd = "diff --brief -r $dir1 $dir2 | grep ^Files | grep \"\\.c \" | cut -d\" \" -f2,4 --output-delimiter=\",\"";
-  print OUTPUT "$cmd\n";
-  @diffFiles = `$cmd`;
-
-  $fileCount = $#diffFiles + 1;
-  %diffInfo = undef; 
-
-  # get line diff information for each modified file
-  for ($f=0;  $f < $fileCount; $f++)
-  {
-    my (@lineArr, @diff, @fpair) = (undef, undef, undef);
-    my ($lineCount, $n) = (0, 0);
-    my $tmp, $l1, $l2;
-
-    chomp ($diffFiles[$f]);
-    @fpair = split (/\,/,$diffFiles[$f]);
-
-    $cmd = "diff $fpair[0] $fpair[1] | grep -v \"^[<>-]\"";
-    print OUTPUT "$cmd\n";
-    @diff = `$cmd`;
-
-    $lineCount = $#diff + 1;
-
-    for ($l=0;  $l < $lineCount;  $l++)
-    {
-      $diff[$l] =~ m/^([^adc]+)/;
-      $tmp = $1;
-      $tmp =~ m/(\d+)(,(\d+))?/;
-      $l1 = $1;
-      $l2 = $3;
-  
-      $lineArr[$n++] = $l1;
-      if ($l2 != undef)
-      {
-        for (++$l1; $l1<=$l2; ++$l1)
-	  {
-	  $lineArr[$n++] = $l1;diffInfo
-        }
-      }
-    }
-
-    $diffInfo {$fpair[0]} = \@lineArr;
-  }
-
-  delete $diffInfo{""};
-  return %diffInfo;
-}
-
-
-#-------------------------------------------------------------------------------
-# GetFunctionInfo ($modified_file_name, $func_sources_list_filename)
-#-------------------------------------------------------------------------------
-# Return : Returns a structure containing line number information for each 
-#          modified function in $modified_file_name by referring to func_sources_list.txt
-#
-sub GetFunctionInfo {
-  my $file   = shift;
-  my $dbFile = shift;
-  my $n, $cmd, $file, $fnCount;
-  my (@res, @ftable) = (undef, undef);
-
-  $file =~ tr/\//\\/;
-  $file =~ s/([^A-Za-z0-9])/\\$1/g;
-  $file =~ s/\\\\/\\\\\\/g;
-  $cmd = "grep -i \"$file,\" $dbFile | cut -d\",\" -f2,3 --output-delimiter=\",\"";
-  @res = `$cmd`;
-  $fnCount = $#res + 1;
-
-  for ($n=0;  $n < $fnCount;  $n++)
-  {
-    chomp ($res[$n]);
-    if ($res[$n] =~ m/\s+([0-9]+)\,(\S+)/)
-    {
-      my @fdetails;
-
-      @fdetails[0] = $1; # line number
-      @fdetails[1] = $2; # function name
-
-      $ftable[$n] = \@fdetails;
-    }
-  }
-  
-  return @ftable;
-}
-
-
-#-------------------------------------------------------------------------------
-# GetModifiedFuncList ($func_sources_list_filename, $diffFileInfo)
-#-------------------------------------------------------------------------------
-# params : $func_sources_list_filename - path to func_sources_list.txt
-#        : $diffFileInfo - reference to hash containing file diff info
-# return : array of modified function names
-#
-sub GetModifiedFuncList {
-  my $dbFile = shift;
-  my $tmp = shift;
-  my %diffFileInfo = %$tmp;
-
-  my $file, $fnCount, $count = 0;
-  my (@ftable, @funcList, @lineList) = (undef, undef, undef);
-
-  open DIFF_OUTUT,  ">changed_lines.txt" or die "can't open changed_lines.txt...\n";
-
-  
-  foreach $file (keys(%diffFileInfo))
-  {
-    my @tmpArr = ("2147483647", "dummy");
-
-    @ftable = &GetFunctionInfo ($file, $dbFile);
-    $fnCount = $#ftable;
-    $ftable[$fnCount+1] = \@tmpArr;
-
-    @lineList = @{$diffFileInfo {$file}};
-
-    $l = 0;
-    $f = 0;
-    for my $lineNo (@lineList)
-    {
-      #get function correspoding to each modified line number
-      if ($f==1)
-      {
-	if ($lineNo < $ftable[$m+1][0])
-	{
-	  if (not($lineNo eq "")) {
-	    print DIFF_OUTUT "$ftable[$m][1], $lineNo\n";
-	  }
-          next;
-	}
-      }
-
-      $h = $fnCount;
-      $f = 0;
-
-      # Binary Search to find the enclosing function
-      while ($l <= $h)
-      {
-        $m = int (($l+$h)/2);
-        if ($lineNo >= $ftable[$m][0]  &&  $lineNo < $ftable[$m+1][0])
-        {
-	  $f = 1;	
-	  last;
-        }
-    
-        ($lineNo < $ftable[$m][0]) ?  ($h = $m-1) : ($l = $m+1);
-      }
-
-      if ($f == 1)
-      {
-        $funcList[$count++] = $ftable[$m][1];
-	  if (not($lineNo eq "")) {
-	    print DIFF_OUTUT "$ftable[$m][1], $lineNo\n";
-	  }
-        $l = $m;
-      } 
-    }
-  }
-
-  close DIFF_OUTUT;
-
-  return @funcList;
-}
-
 #if the directory has nested structure (c:\a\b\c\..\, then we will remove the {:,\,.} 
 sub GetWfDirName{
   my $dir = shift;
@@ -704,30 +464,11 @@ if (not($changedFile eq "")){
 }
 
 Marker("Processing C files", "Start");
-#----- Added by Agnelo -----
-# Get file Diff Info
-if ($analyzeCallersOnly eq 1)
-{
-  %fileDiffInfo = &GetModifiedFileInfo ($dir1, $dir2);
-}
-#----- Agnelo End ----------
 
 my $dir1name = GetWfDirName($dir1);
 my $dir2name = GetWfDirName($dir2);
 
-#----- Added by Agnelo -----
-# Get file Diff Info
-if ($analyzeCallersOnly eq 1)
-{
-  %fileDiffInfo = &GetModifiedFileInfo ($dir1, $dir2);
-}
-#----- Agnelo End ----------
 ProcessCDir($dir1);
-#reset the changedFile
-if ($analyzeCallersOnly eq 1){
-  $changedFile = "";
-  %fileDiffInfo = &GetModifiedFileInfo ($dir2, $dir1);
-}
 ProcessCDir($dir2);
 
 if ($analyzeCallersOnly eq 1){
