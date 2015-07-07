@@ -4,6 +4,7 @@ using SmackProcessing.source;
 using ProgTransformation;
 using System.Diagnostics;
 using System.Linq;
+using System.IO;
 
 
 namespace SmackProcessing
@@ -34,7 +35,23 @@ namespace SmackProcessing
 
 
             string programFileName = args[0];
-            Program program = SDiff.Boogie.Process.ParseProgram(programFileName);
+            Debug.Assert(programFileName.Contains(".bpl"), string.Format("File name is expected to have the .bpl extension: {0}.", programFileName));
+            string outFileName = programFileName.Substring(0, programFileName.LastIndexOf(".bpl")) + "_unsmacked.bpl";
+
+            //Sort of a hack.
+            using (Stream prelude = File.OpenRead(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources", "prelude.bpl")))
+            {
+                using (Stream bpl = File.OpenRead(programFileName))
+                {
+                    using (Stream outBpl = new FileStream(outFileName, FileMode.Create))
+                    {
+                        bpl.CopyTo(outBpl);
+                        prelude.CopyTo(outBpl);
+                    }
+                }
+            }
+
+            Program program = SDiff.Boogie.Process.ParseProgram(outFileName);
             program.Resolve(); 
             ModSetCollector c = new ModSetCollector();
             c.DoModSetAnalysis(program);
@@ -44,10 +61,8 @@ namespace SmackProcessing
 
             var pass = new SmackPreprocessorTransform(relativeDir);
             SmackPreprocessorTransform.writeAllFiles = true;
-            persistentProgram = pass.run(persistentProgram);
-            Debug.Assert(programFileName.Contains(".bpl"));
-            string processedFileName = programFileName.Substring(0, programFileName.LastIndexOf(".bpl")) + "_unsmacked.bpl";
-            persistentProgram.writeToFile(processedFileName);
+            persistentProgram = pass.run(persistentProgram);            
+            persistentProgram.writeToFile(outFileName);
 
             return 0;
         }

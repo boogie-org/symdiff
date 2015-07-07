@@ -20,6 +20,7 @@ namespace SmackProcessing.source
             new SourceInfoRewriter(relativeDir).VisitProgram(inp);
             new ArrayAccessRewriter().Visit(inp);
             new SplitBlockAcrossAssertsRewriter().VisitProgram(inp);
+            new PruneCallsVisitor().VisitProgram(inp);
             return inp;
         }
     }
@@ -194,5 +195,29 @@ namespace SmackProcessing.source
             return base.VisitBlock(node);
         }
     }
+    class PruneCallsVisitor : FixedVisitor
+    {
+        ISet<string> callsToPrune = new HashSet<string>() { "printf.ref.i32.float" };
+        public override List<Cmd> VisitCmdSeq(List<Cmd> cmdSeq)
+        {
+            List<Cmd> newSeq = new List<Cmd>();
+            foreach (var cmd in cmdSeq)
+            {
+                if (cmd is CallCmd)
+                {
+                    var call = cmd as CallCmd;
+                    if (callsToPrune.Contains(call.callee))
+                    {
+                        continue;
+                    }
+                }
+                newSeq.Add(cmd);
+            }
+            cmdSeq.Clear();
+            cmdSeq.AddRange(newSeq);
+            return base.VisitCmdSeq(cmdSeq);
+        }
+    }
+
 
 }  
