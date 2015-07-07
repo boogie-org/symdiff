@@ -94,8 +94,8 @@ sub ProcessOptions {
   while ($ARGV[0]){
     $opt = shift @ARGV;
     if($opt =~ /^\/changedLines:\[(.*) (.*)\]$/){
-      $v1ChangedLines = $1;
-      $v2ChangedLines = $2;
+      $v1ChangedLines = "/taint:$1";
+      $v2ChangedLines = "/taint:$2";
     }
     if($opt =~ /^\/lu:([0-9]+)$/){
       $luCount = $1;
