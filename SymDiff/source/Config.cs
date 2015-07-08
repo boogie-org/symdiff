@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Collections.Generic;
 using Microsoft.Boogie;
+using SymDiffUtils;
 
 
 //note:

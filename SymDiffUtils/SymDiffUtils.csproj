@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6DBD754A-9537-4835-AD68-12525D41ED20}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{699F0912-D902-4854-9E1E-9892B46BCDBD}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SmackProcessing</RootNamespace>
-    <AssemblyName>SmackProcessing</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>SymDiffUtils</RootNamespace>
+    <AssemblyName>SymDiffUtils</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,15 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Basetypes">
+      <HintPath>..\references\Basetypes.dll</HintPath>
+    </Reference>
     <Reference Include="Core">
       <HintPath>..\references\Core.dll</HintPath>
     </Reference>
-    <Reference Include="ParserHelper, Version=2.3.0.61016, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\references\ParserHelper.dll</HintPath>
+    <Reference Include="Model">
+      <HintPath>..\references\Model.dll</HintPath>
     </Reference>
-    <Reference Include="ProgTransformation">
-      <HintPath>..\references\ProgTransformation.dll</HintPath>
+    <Reference Include="ParserHelper">
+      <HintPath>..\references\ParserHelper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,24 +50,18 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="VCExpr">
+      <HintPath>..\references\VCExpr.dll</HintPath>
+    </Reference>
+    <Reference Include="VCGeneration">
+      <HintPath>..\references\VCGeneration.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="source\SmackPreprocessorTransform.cs" />
-    <Compile Include="source\SmackProcessor.cs" />
+    <Compile Include="BoogieUtils.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SymDiffUtils\SymDiffUtils.csproj">
-      <Project>{699f0912-d902-4854-9e1e-9892b46bcdbd}</Project>
-      <Name>SymDiffUtils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SymDiff\SymDiff.csproj">
-      <Project>{4a428490-cd6f-4fbf-aa15-5f579be6c4b9}</Project>
-      <Name>SymDiff</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

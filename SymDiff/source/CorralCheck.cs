@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using Microsoft.Boogie;
 using SymDiff;
+using SymDiffUtils;
 
 namespace SDiff
 {

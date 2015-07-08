@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using Microsoft.Boogie;
 using System.Collections.Generic;
 using System.Linq;
 using SDiff.Boogie;
 using SDiff;
 using System.Diagnostics;
+using SymDiffUtils;
 
 /* Classes for crawling the Boogie AST */
 

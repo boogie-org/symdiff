@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,7 @@ using SDiff.Boogie;
 using System.IO;
 using System.Text.RegularExpressions;
 using SDiff;
+using SymDiffUtils;
 
 namespace BoogieWrapper
 {

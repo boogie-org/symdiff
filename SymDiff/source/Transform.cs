@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Boogie;
 using B = SDiff.Boogie;
 using SDiff.Boogie;
+using SymDiffUtils;
 
 /* High level code transformation */
 

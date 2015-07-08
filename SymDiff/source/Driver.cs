@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +7,7 @@ using Microsoft.Boogie;
 using Bpl = Microsoft.Boogie;
 using B = SDiff.Boogie;
 using SDiff.Boogie;
+using SymDiffUtils;
 
 
 // This is the main procedure

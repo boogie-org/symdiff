@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +7,7 @@ using Microsoft.Basetypes; //For BigNum
 using SDiff.Boogie;
 using System.IO;
 using System.Text.RegularExpressions;
+using SymDiffUtils;
 
 namespace SDiff
 {
@@ -43,14 +44,11 @@ namespace SDiff
     {
         public VerificationResult Result;
         public List<Variable> DesiredOutputVars;
-        public List<DiffCondition> Diff;
-
         public VerificationTask(Implementation eq, Implementation left, Implementation right)
             : base(eq, left, right)
         {
             Result = VerificationResult.TBA;
             DesiredOutputVars = new List<Variable>();
-            Diff = new List<DiffCondition>();
         }
 
         public VerificationTask(Implementation eq, Implementation left, Implementation right, List<Variable> outputVars)
