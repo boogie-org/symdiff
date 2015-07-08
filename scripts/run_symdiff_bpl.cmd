@@ -207,6 +207,8 @@ if ($rvt eq 1){
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $luCount $v2.bpl _v2.bpl");
 }
 
+MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig _v1.bpl _v2.bpl > _v1_v2.config"); 
+
 if ($doChangedBasedDep eq 1){
       $v1ChangedLines = "/taint:_v1.bpl_changed_lines.txt";
       $v2ChangedLines = "/taint:_v2.bpl_changed_lines.txt";
@@ -225,8 +227,6 @@ if (!($abstractNonTainted eq "")) {
   MyExecAndDieOnFailure("copy /Y $v1.bpl  _v1.bpl"); #renaming v1.bpl destroys the pristine files
   MyExecAndDieOnFailure("copy /Y $v2.bpl  _v2.bpl"); #renaming v1.bpl destroys the pristine files
 }
-
-MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig _v1.bpl _v2.bpl > _v1_v2.config"); 
 
 MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString >> $v1$v2.log"); 
 
