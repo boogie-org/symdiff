@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.Boogie;
+using SymDiffUtils;
 
 namespace SDiff
 {

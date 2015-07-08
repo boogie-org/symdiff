@@ -1,5 +1,6 @@
-﻿using Microsoft.Boogie;
+using Microsoft.Boogie;
 using ProgTransformation;
+using SymDiffUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -125,7 +126,7 @@ namespace SmackProcessing.source
             bool firstSourceInfoAssert = false; 
             foreach(var cmd in cmds)
             {
-                if (!SDiff.Util.IsSourceInfoAssertCmd(cmd))
+                if (!Util.IsSourceInfoAssertCmd(cmd))
                 {
                     currBlock.Cmds.Add(cmd);
                     continue;

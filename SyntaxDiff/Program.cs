@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Differencing;
 using Microsoft.VisualStudio.Utilities;
 using SourceAnalyzer;
@@ -14,7 +14,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.VersionControl.Common;
-using Microsoft.Boogie; 
+using Microsoft.Boogie;
+using SymDiffUtils; 
 
 
 
@@ -195,7 +196,7 @@ namespace SyntaxDiff
     {
         public override Cmd VisitAssertCmd(AssertCmd node)
         {
-            if (SDiff.Util.IsSourceInfoAssertCmd(node))
+            if (Util.IsSourceInfoAssertCmd(node))
             {
                 node.Attributes = null; 
             }
@@ -233,11 +234,11 @@ namespace SyntaxDiff
                 impl.Blocks
                     .Iter(b =>
                     {
-                        b.Cmds.Where(c => SDiff.Util.IsSourceInfoAssertCmd(c))
+                        b.Cmds.Where(c => Util.IsSourceInfoAssertCmd(c))
                             .Iter(ac =>
                             {
                                 int srcLine;
-                                SDiff.Util.IsSourceInfoAssertCmd(ac, out srcFile, out srcLine);
+                                Util.IsSourceInfoAssertCmd(ac, out srcFile, out srcLine);
                                 srcFiles.Add(srcFile);
                                 lines.Add(srcLine);
                             });

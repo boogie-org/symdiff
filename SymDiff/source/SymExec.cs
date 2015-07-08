@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,7 @@ using Microsoft.Boogie;
 using Bpl = Microsoft.Boogie;
 using B = SDiff.Boogie;
 using SDiff.Boogie;
+using SymDiffUtils;
 
 namespace SDiff.SymEx
 {

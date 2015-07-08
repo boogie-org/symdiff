@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 //using PureCollections;
 using Microsoft.Boogie;
 using SDiff;
+using SymDiffUtils;
 
 namespace SDiff.Boogie
 {
@@ -28,27 +29,6 @@ namespace SDiff.Boogie
 
   public static class U
   {
-    public static Duple<Procedure, Implementation> ExtractFirstProc(Program p)
-    {
-      Procedure pr = null;
-      Implementation di = null;
-
-      foreach (Declaration d in p.TopLevelDeclarations)
-        if (d is Procedure)
-        {
-          pr = (Procedure)d;
-          foreach (Declaration dd in p.TopLevelDeclarations)
-            if (dd is Implementation && ((Implementation)dd).Name == pr.Name)
-            {
-              di = (Implementation)dd;
-              break;
-            }
-        }
-      if (pr == null || di == null)
-        return null;
-      return new Duple<Procedure, Implementation>(pr, di);
-    }
-
     public static Expr BigAnd(Expr[] es)
     {
       Expr a = Expr.True;
@@ -73,24 +53,6 @@ namespace SDiff.Boogie
     public static List<Expr> ExprSeqOfVariableSeq(List<Variable> vs)
     {
       return new List<Expr>(IdentifierExprsOfVariableSeq(vs));
-    }
-
-    public static TypedIdent[] TypedIdentsOfVariableSeq(List<Variable> vs)
-    {
-      TypedIdent[] ts = new TypedIdent[vs.Count];
-      for (int i = 0; i < vs.Count; i++)
-        ts[i] = vs[i].TypedIdent;
-      return ts;
-    }
-
-    public static List<Variable> SeqOfVariableList(List<Variable> vars)
-    {
-      if (vars == null)
-        return null;
-      List<Variable> vs = new List<Variable>();
-      foreach (var v in vars)
-        vs.Add(v);
-      return vs;
     }
 
     public static Variable[] VariablesOfVariableSeq(List<Variable> vs)
@@ -166,51 +128,6 @@ namespace SDiff.Boogie
     }
   }
 
-  //Temporary variable factory
-  public static class Dummy
-  {
-    public static GlobalVariable MakeGlobal(Microsoft.Boogie.Type t)
-    {
-      return Factory.MakeGlobal(UniqueNumber.GetName("AA_CONST"), t);
-    }
-
-    public static GlobalVariable MakeGlobal(Variable v)
-    {
-      return MakeGlobal(v.TypedIdent.Type);
-    }
-
-    public static LocalVariable MakeLocal(Microsoft.Boogie.Type t)
-    {
-      return Factory.MakeLocal(UniqueNumber.GetName("AA_CONST"), t);
-    }
-
-    public static LocalVariable MakeLocal(Variable v)
-    {
-      return MakeLocal(v.TypedIdent.Type);
-    }
-
-    public static Constant MakeConstant(Microsoft.Boogie.Type t)
-    {
-      return Factory.MakeConstant(UniqueNumber.GetName("AA_CONST"), t);
-    }
-
-    public static Constant MakeConstant(Variable v)
-    {
-      return MakeConstant(v.TypedIdent.Type);
-    }
-
-    public static Formal MakeFormal(Microsoft.Boogie.Type t, bool incoming)
-    {
-      return Factory.MakeFormal(UniqueNumber.GetName("AA_CONST"), t, incoming);
-    }
-
-    public static Formal MakeFormal(Variable v, bool incoming)
-    {
-      return MakeFormal(v.TypedIdent.Type, incoming);
-    }
-  }
-
-  //singleton for adding constants to the program during normalization of variables
   public class ConstantFactory
   {
     private static ConstantFactory instance = null;
@@ -253,12 +170,6 @@ namespace SDiff.Boogie
 
   public static class SeqExt
   {
-    public static void AddRange(this List<Cmd> s, Cmd[] cs)
-    {
-      foreach (Cmd c in cs)
-        s.Add(c);
-    }
-
     public static List<Variable> Map(this List<Variable> vs, Converter<Variable, Variable> f)
     {
       var nvs = new List<Variable>();
@@ -266,40 +177,6 @@ namespace SDiff.Boogie
         nvs.Add(f(v));
       return nvs;
     }
-
-    public static bool Contains(this List<Variable> vs, Variable vv)
-    {
-      foreach (Variable v in vs)
-        if (v == vv)
-          return true;
-      return false;
-    }
-
-    public static List<Variable> ToList(this List<Variable> vs)
-    {
-      var l = new List<Variable>();
-      foreach (Variable v in vs)
-        l.Add(v);
-      return l;
-    }
-
-    public static List<Variable> Filter(this List<Variable> vs, Predicate<Variable> f)
-    {
-      var nvs = new List<Variable>();
-      foreach (Variable v in vs)
-        if (f(v))
-          nvs.Add(v);
-      return nvs;
-    }
-
-    public static Variable Find(this List<Variable> vs, Predicate<Variable> f)
-    {
-      foreach (Variable v in vs)
-        if (f(v))
-          return v;
-      return null;
-    }
-
     public static List<Variable> Append(this List<Variable> vs, List<Variable> os)
     {
       var ns = new List<Variable>(vs);
@@ -310,14 +187,6 @@ namespace SDiff.Boogie
 
   public static class BlockSeqExt
   {
-    public static List<Block> ToList(this List<Block> bs)
-    {
-      var nbl = new List<Block>();
-      foreach (Block b in bs)
-        nbl.Add(b);
-      return nbl;
-    }
-
     public static bool HasByLabel(this List<Block> bs, Block y)
     {
       if (y == null)
@@ -347,13 +216,6 @@ namespace SDiff.Boogie
       v.Name = name;
       v.TypedIdent.Name = name;
     }
-  }
-
-  //TODO: implement the program dictionary as a proper abstracted data structure
-  public class ProgramDictionary : Dictionary<string, Declaration>
-  {
-
-
   }
 
   public static class ExprExt
@@ -727,116 +589,5 @@ namespace SDiff.Boogie
       }
       return true;
     }
-
-    public static bool RewriteUninterpretedOnCondDiseq(VerificationTask vt, Dictionary<string, Declaration> progDict)
-    {
-      if (vt.Diff.Count == 0)
-        return true;
-
-      foreach (var d in vt.Diff)
-      {
-
-
-      }
-      return false;
-    }
   }
-
-  public class DiffCondition : Duple<SymEx.Constraint, SymEx.SymbolicStore>
-  {
-    public SymEx.Constraint Condition
-    {
-      get
-      {
-        return fst;
-      }
-    }
-
-    public SymEx.SymbolicStore Values
-    {
-      get
-      {
-        return snd;
-      }
-    }
-    
-    public DiffCondition(SymEx.Constraint cons, SymEx.SymbolicStore store) : base(cons, store)
-    {
-
-    }
-
-
-    //public List<BigBlock> ToBigBlocks()
-    //{
-    //  var elseb = new BigBlock(Token.NoToken, "Default", 
-    //  for (int i = Differentials.Count - 1; i >= 0; i--)
-    //  {
-    //    var diff = Differentials[i];
-    //    var ifc = new IfCmd(Token.NoToken, diff.fst, diff.snd, 
-    //  }
-
-    //}
-  }
-
-
-  //    public Cmd CmdOfCond(Expr expr)
-  //    {
-  //      var cmd = null;
-  //      var eq = expr as NAryExpr;
-  //      if (eq != null && eq.Args.Count == 2 && ((BinaryOperator)eq.Fun).Op == BinaryOperator.Opcode.Eq)
-  //      {
-  //        var lhs = new List<AssignLhs>();
-  //        lhs.Add(new SimpleAssignLhs(eq.Args[0].tok, ((IdentifierExpr)eq.Args[0])));
-  //        var rhs = new List<Expr>();
-  //        rhs.Add(eq.Args[1]);
-  //        cmd = new AssignCmd(assume.tok, lhs, rhs);
-  //      }
-  //      return cmd;
-  //    }
-
-  //    public static BigBlock BigBlockOfDifferential(Duple<Expr, Expr> diff)
-  //    {
-  //      var ifc = new IfCmd(Token.NoToken, diff.fst, diff.snd, null);
-  //      return new BigBlock(Token.NoToken, "", new List<Cmd>(), ifc, null);
-  //    }
-
-  //    public static BigBlock BigBlockOfDefault(Expr def)
-  //    {
-  //      return new BigBlock(Token.NoToken, "Default", 
-  //    }
-
-    //public static Duplicator duper = new Duplicator();
-
-    //public static Procedure DupeProcedure(Procedure proc, string newName)
-    //{
-    //  var newProc = new Procedure(Token.NoToken, newName,
-    //                              DupeTypeVariableSeq(proc.TypeParameters),
-    //                              Transform.DuplicateVariableSeq(proc.InParams),
-    //                              Transform.DuplicateVariableSeq(proc.OutParams),
-    //                              duper.VisitRequiresSeq(proc.Requires),
-    //                              duper.VisitIdentifierExprSeq(proc.Modifies),
-    //                              duper.VisitEnsuresSeq(proc.Ensures));
-    //  return newProc;
-    //}
-
-    //public static List<TypeVariable> DupeTypeVariableSeq(TypeVariableSeq ts)
-    //{
-    //  var nts = new List<TypeVariable>();
-    //  foreach (TypeVariable t in ts)
-    //    nts.Add(duper.VisitTypeVariable(t));
-    //  return nts;
-    //}
-
-    //public static Procedure MakeInlineProcedure(Procedure proc)
-    //{
-    //  return DupeProcedure(proc, proc.Name + "_INLINE");
-    //}
-
-    //public static Implementation MakeInlineImplementation(Procedure proc, DiffCondition diffc)
-    //{
-    //  BigBlock bb = new BigBlock(Token.NoToken, "", 
-
-    //}
-
- 
 }

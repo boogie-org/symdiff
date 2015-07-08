@@ -1,9 +1,12 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymDiff", "SymDiff\SymDiff.csproj", "{4A428490-CD6F-4FBF-AA15-5F579BE6C4B9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{699F0912-D902-4854-9E1E-9892B46BCDBD} = {699F0912-D902-4854-9E1E-9892B46BCDBD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoogieWrapper", "BoogieWrapper\BoogieWrapper.csproj", "{1E16DB2A-17E4-4E2B-BDE0-C6994B236152}"
 EndProject
@@ -16,6 +19,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmackProcessing", "SmackProcessing\SmackProcessing.csproj", "{6DBD754A-9537-4835-AD68-12525D41ED20}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxDiff", "SyntaxDiff\SyntaxDiff.csproj", "{54ECDB2C-8C51-44ED-80E0-319D667A6E56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymDiffUtils", "SymDiffUtils\SymDiffUtils.csproj", "{699F0912-D902-4854-9E1E-9892B46BCDBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +104,16 @@ Global
 		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Release|x86.ActiveCfg = Release|Any CPU
+		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

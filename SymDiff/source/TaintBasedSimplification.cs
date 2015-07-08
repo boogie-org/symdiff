@@ -1,4 +1,4 @@
-﻿using Microsoft.Boogie;
+using Microsoft.Boogie;
 using Microsoft.Boogie.Houdini;
 using SDiff;
 using System;

@@ -1,4 +1,4 @@
-﻿using Microsoft.Boogie;
+using Microsoft.Boogie;
 using System;
 using SmackProcessing.source;
 using ProgTransformation;

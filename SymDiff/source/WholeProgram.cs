@@ -1,10 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Diagnostics;
 using Microsoft.Boogie;
 using B = SDiff.Boogie;
+
+using SymDiffUtils;
 
 //there is massive duplication here in case it turns out that the allinone approach (even with dumping at every verify) is not useful
 
@@ -361,7 +363,7 @@ namespace SDiff
             mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
             var mergedGlobals = mergedProgram.TopLevelDeclarations.Where(x => x is GlobalVariable);
             //moved this out of DifferntialInline
-            Util.RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Where(x => x is Implementation && x.ToString().StartsWith(p1Prefix)).ToList(), 
+            RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Where(x => x is Implementation && x.ToString().StartsWith(p1Prefix)).ToList(), 
                 mergedProgram.TopLevelDeclarations.Where(x => x is Constant).ToList(), p1Prefix, p2Prefix);
             //--------------- renaming ends ----------------------------------
 
@@ -373,6 +375,57 @@ namespace SDiff
                 return 1;
             return 0;
         }
+        public static void RenameModelConstsInProcImpl(List<Declaration> procImpl, List<Declaration> consts, string p1Prefix, string p2Prefix)
+        {
+            foreach (Implementation imp1 in procImpl)
+            {
+                foreach (Block b1 in imp1.Blocks)
+                {
+                    foreach (Object sq in b1.Cmds)
+                    {
+                        if (sq is AssumeCmd)
+                        {
+                            AssumeCmd ccmd = (AssumeCmd)sq;
+                            if (ccmd.Expr is NAryExpr)
+                            {
+                                NAryExpr expr = (NAryExpr)ccmd.Expr;
+                                //foreach (var v in expr.Args)
+                                foreach (var v in expr.Args)
+                                {
+                                    if (v is IdentifierExpr)
+                                    {
+                                        IdentifierExpr ieV = (IdentifierExpr)v;
+                                        if (Util.hasConst(ieV.Name, consts))
+                                        {
+                                            ieV.Name = ieV.Name.Replace(p2Prefix, p1Prefix);
+                                            Variable variableReplace = (Constant) Util.getDeclarationByName(ieV.Name, consts);
+                                            ieV.Decl = variableReplace;
+                                            ieV.Decl.TypedIdent.Name = ieV.Name.Replace(p2Prefix, p1Prefix);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        public static void RenameSymbolsByVersion(ref Program p, List<Declaration> gs, List<Declaration> cs, List<Declaration> fs, string vname)
+        {
+            //strip_path(...) is string v1.foo.bpl --> foo.bpl  
+            var namespacer1 = new PrefixRenamer(Util.strip_suffix(Util.strip_path(vname)), gs.Append(cs), fs);
+            p = namespacer1.VisitProgram(p);
+            //This is needed to tell Boogie to print the instrumented program (inlined version)
+            Boogie.Process.InitializeBoogie("/printInstrumented");
+            Util.DumpBplAST(p, vname.Replace(".bpl", "_temp.bpl"));
+            p = SDiff.Boogie.Process.ParseProgram(vname.Replace(".bpl", "_temp.bpl"));
+            if (Options.TraceVerify)
+            {
+                Log.Out(Log.Normal, "Pre-merged program:");
+                Log.LogEmit(Log.Normal, p.Emit);
+            }
+        }
+
         private static void RemoveDuplicateDatatypeFunctions(ref List<Declaration> decls)
         {
             var visitedFuncs = new List<string>(); //not using a set to keep the same order
@@ -1383,8 +1436,8 @@ namespace SDiff
                 roots_cg1 = cg1_temp.Roots;
                 roots_cg2 = cg2_temp.Roots;
                 //RS: Inline to create one big procedure
-                Util.InlineEverything(p1); //just adds the attributes, does not inline yet
-                Util.InlineEverything(p2);
+                Util.InlineEverything(p1, Options.inlineAllRecursionDepth); //just adds the attributes, does not inline yet
+                Util.InlineEverything(p2, Options.inlineAllRecursionDepth);
             }
             else
             {
@@ -1441,8 +1494,8 @@ namespace SDiff
             //now we'll uniquely rename everything by prefixing with the filename root
             //has the side effect of dumping->reading from the disk (TODO: remove)
             Log.Out(Log.Normal, "Namespacing ASTs");
-            Util.RenameSymbolsByVersion(ref p1, g1s.ToList(), c1s.ToList(), f1s.ToList(), v1name);
-            Util.RenameSymbolsByVersion(ref p2, g2s.ToList(), c2s.ToList(), f2s.ToList(), v2name);
+            RenameSymbolsByVersion(ref p1, g1s.ToList(), c1s.ToList(), f1s.ToList(), v1name);
+            RenameSymbolsByVersion(ref p2, g2s.ToList(), c2s.ToList(), f2s.ToList(), v2name);
             //////////////////////////////////////////////////////////
             // Renaming logic ends
             //////////////////////////////////////////////////////////            

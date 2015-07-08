@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -180,7 +180,6 @@
     <Compile Include="source\Options.cs" />
     <Compile Include="source\State.cs" />
     <Compile Include="source\Transform.cs" />
-    <Compile Include="source\Util.cs" />
     <Compile Include="source\Visitor.cs" />
     <Compile Include="source\WholeProgram.cs" />
     <Compile Include="source\TaintBasedSimplification.cs" />
@@ -215,6 +214,12 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SymDiffUtils\SymDiffUtils.csproj">
+      <Project>{699f0912-d902-4854-9e1e-9892b46bcdbd}</Project>
+      <Name>SymDiffUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

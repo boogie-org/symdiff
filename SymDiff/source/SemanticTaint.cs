@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,7 @@ using System.Diagnostics;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using SDiff;
+using SymDiffUtils;
 
 //This file contains various routines for performing taint related analysis
 namespace SymDiff
@@ -44,7 +45,7 @@ namespace SymDiff
         InlineImpl(leftImpl);
         InlineImpl(rightImpl);
         Inliner.ProcessImplementation(mergedProg, eqImpl);
-        SDiff.Util.DumpBplAST(mergedProg, "mergedProg.bpl");
+        Util.DumpBplAST(mergedProg, "mergedProg.bpl");
       }
 
       private void GatherTaintGuardBoolConsts()
