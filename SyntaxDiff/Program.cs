@@ -71,8 +71,8 @@ namespace SyntaxDiff
                 v2Changes.AddRange(FormatChangedLinesForProcedure(i12.Item2.Name, d12.Item2, v2srcInfo.srcInfoPerImpl[i12.Item2].Item1));
             }
 
-            PrintChangedLinesToFile(v1Changes, Path.Combine(Path.GetDirectoryName(v1), "v1_changed_lines.txt"));
-            PrintChangedLinesToFile(v2Changes, Path.Combine(Path.GetDirectoryName(v2), "v2_changed_lines.txt"));
+            PrintChangedLinesToFile(v1Changes, Path.Combine(Path.GetDirectoryName(v1), v1 + "_changed_lines.txt"));
+            PrintChangedLinesToFile(v2Changes, Path.Combine(Path.GetDirectoryName(v2), v2 + "_changed_lines.txt"));
 
             return; 
 

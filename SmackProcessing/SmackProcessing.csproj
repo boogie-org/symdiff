@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="resources\prelude.bpl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SymDiffUtils\SymDiffUtils.csproj">

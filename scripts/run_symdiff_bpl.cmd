@@ -94,8 +94,7 @@ sub ProcessOptions {
   while ($ARGV[0]){
     $opt = shift @ARGV;
     if($opt =~ /^\/changedLines$/){
-	$v1ChangedLines = "/taint:$v1\\changed_lines.txt";
-	$v2ChangedLines = "/taint:$v2\\changed_lines.txt";
+      $doChangedBasedDep = 1;
     }
     if($opt =~ /^\/lu:([0-9]+)$/){
       $luCount = $1;
@@ -208,6 +207,11 @@ if ($rvt eq 1){
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $luCount $v2.bpl _v2.bpl");
 }
 
+if ($doChangedBasedDep eq 1){
+      $v1ChangedLines = "/taint:_v1.bpl_changed_lines.txt";
+      $v2ChangedLines = "/taint:_v2.bpl_changed_lines.txt";
+      MyExecAndDieOnFailure("$symdiff_root\\SyntaxDiff\\bin\\debug\\SyntaxDiff.exe _v1.bpl _v2.bpl _v1_v2.config") #outputs _v1.bpl_changed_lines.txt and _v2.bpl.changed_lines.txt
+}
 ## run dependency analysis (TODO: fold it together with abstractTainted)
 MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl $v1ChangedLines /annotateDependencies /prune"); #outputs to _v1.bpl_w_deps.bpl
 MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl $v2ChangedLines /annotateDependencies /prune"); #outputs to _v2.bpl_w_deps.bpl
