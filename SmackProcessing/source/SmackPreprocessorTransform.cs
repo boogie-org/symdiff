@@ -21,6 +21,7 @@ namespace SmackProcessing.source
             new SourceInfoRewriter(relativeDir).VisitProgram(inp);
             new ArrayAccessRewriter().Visit(inp);
             new SplitBlockAcrossAssertsRewriter().VisitProgram(inp);
+            //TODO: Remove prune visitor calls
             new PruneCallsVisitor().VisitProgram(inp);
             return inp;
         }
