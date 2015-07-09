@@ -19,19 +19,21 @@ def cToBplByHavoc(v1, v2):
    return  ['run_symdiff_c.cmd', v1, v2, '/nocpp', '/rvt', '/nohtml', '/genBplsOnly', '/analyzeChangedCallersOnly', '/stripAbsolutePathsInBpl']
 
 def runSymdiffBpl(v1,v2):
-    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt:n', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts ']
+    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt:n', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts ', '/changedLines']
 
 def dependency_dac(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '\changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl']
+    return ['Dependency.exe', '_v2.bpl', '/taint:_v2.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl']
 
 def dependency(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '\changed_lines.txt']
+    return ['Dependency.exe', '_v2.bpl', '/taint:_v2.bpl_changed_lines.txt']
 
 def smackPreprocess(fn ,v):
     return ['SmackProcessing.exe', fn, '-relativeSourceDir:' + v + '\\']
 
 
 class Project:
+    smackImportedDirs = set()
+    
     def __init__(self, proj, versions, commandLog, resultsSummary, bplRepo):
         self.projectDir = proj        
         self.versions = versions
@@ -57,6 +59,8 @@ class Project:
 
     def process(self):
         print("Processing " + self.projectDir)
+        if not os.path.exists(self.projectDir):
+                os.makedirs(self.projectDir)
         with cd(self.projectDir):
             referenceVersion = self.versions[0]
             for version in self.versions[1:]:
@@ -65,31 +69,36 @@ class Project:
     def processVersionPair(self, v1, v2):
         print('\t -' + v1 + '  ' + v2);
         with open('LOG_' + v1 + '_' + v2 + '_outlog', 'w') as outStream:
+            try:
+                timeCToBpl, output = 'n/a', ''
 
-            timeCToBpl, output = 'n/a', ''
-
-            #if a bplRepo is passed in then just import the bpls from the repo
-            if self.bplRepo:
-                self.importSmackFiles(v1, v2)
-                self.runStage(smackPreprocess(v1 + '_smacked.bpl', v1), outStream)
-                print(v1)
-                print(os.getcwd())
-                shutil.copy(v1 + '_smacked_unsmacked.bpl', v1 + '.bpl')
-                self.runStage(smackPreprocess(v2 + '_smacked.bpl', v2), outStream)
-                shutil.copy(v2 + '_smacked_unsmacked.bpl', v2 + '.bpl')                
-            else:
-                timeCToBpl, output = self.runStage(cToBplByHavoc(v1,v2), outStream)
+                #if a bplRepo is passed in then just import the bpls from the repo
+                if self.bplRepo:
+                    self.importSmackFiles(v1)
+                    self.importSmackFiles(v2)
+                    self.runStage(smackPreprocess(v1 + '_smacked.bpl', v1), outStream)
+                    print(v1)
+                    print(os.getcwd())
+                    shutil.copy(v1 + '_smacked_unsmacked.bpl', v1 + '.bpl')
+                    self.runStage(smackPreprocess(v2 + '_smacked.bpl', v2), outStream)
+                    shutil.copy(v2 + '_smacked_unsmacked.bpl', v2 + '.bpl')                
+                else:
+                    timeCToBpl, output = self.runStage(cToBplByHavoc(v1,v2), outStream)
             
-            timeRunSymdiffBpl, output = self.runStage(runSymdiffBpl(v1,v2), outStream)
+                timeRunSymdiffBpl, output = self.runStage(runSymdiffBpl(v1,v2), outStream)
 
-            timeDependencyDac, output = self.runStage(dependency_dac(v2), outStream)
-            lines, dacTainted = self.processDependencyOutput(output)
+                timeDependencyDac, output = self.runStage(dependency_dac(v2), outStream)
+                lines, dacTainted = self.processDependencyOutput(output)
 
-            timeDependencySimple, output = self.runStage(dependency(v2), outStream)
-            lines, depTainted = self.processDependencyOutput(output)
-
-        with open(self.resultsSummary, 'a') as summary:
-            print(','.join(str(x) for x in [self.projectDir, v1, v2, timeCToBpl, timeRunSymdiffBpl, timeDependencySimple, timeDependencyDac, lines, depTainted, dacTainted]), file=summary)
+                timeDependencySimple, output = self.runStage(dependency(v2), outStream)
+                lines, depTainted = self.processDependencyOutput(output)
+            except Exception as ex:
+                print('[Error] Processing versions ' + v1 + ' ' +v2)
+                print('[Error] Processing versions ' + v1 + ' ' +v2, file=outStream)
+                print('Exception:' + str(ex), file=outStream)
+            else:
+                with open(self.resultsSummary, 'a') as summary:
+                    print(','.join(str(x) for x in [self.projectDir, v1, v2, timeCToBpl, timeRunSymdiffBpl, timeDependencySimple, timeDependencyDac, lines, depTainted, dacTainted]), file=summary)
 
 
     def processDependencyOutput(self, output):
@@ -115,14 +124,16 @@ class Project:
         return timeToRun, out
 
 
-    def importSmackFiles(self, v1, v2):
-        v1Loc = os.path.join(self.bplRepo, self.projectDir, v1, 'smacked.bpl')
-        v2Loc = os.path.join(self.bplRepo, self.projectDir, v2, 'smacked.bpl')
-        print(v1Loc)
-        print(v2Loc)        
-        shutil.copy(v1Loc, v1 + '_smacked.bpl')
-        shutil.copy(v2Loc, v2 + '_smacked.bpl')
-
+    def importSmackFiles(self, v1):
+        v1_fp = os.path.abspath(v1)
+        if os.path.isdir(v1_fp):
+            if not v1_fp in Project.smackImportedDirs:
+                print("[Warning]: could not copy " + v1_fp + " because the directory already exists")
+        else:
+            v1Loc = os.path.join(self.bplRepo, self.projectDir, v1)
+            shutil.copytree(v1Loc, v1)
+        shutil.copy(os.path.join(v1, 'smacked.bpl'), v1 + '_smacked.bpl')
+        Project.smackImportedDirs.add(v1_fp)
 
 def executeCommand(cmd):
     start = time.time()
