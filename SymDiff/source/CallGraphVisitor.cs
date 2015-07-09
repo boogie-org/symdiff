@@ -79,14 +79,11 @@ namespace SDiff
       //changed to eliminate the existing modifies set instead.
       if (node.Impl == null && node.Proc != null)
       {
-        //DEBUG
-          if (Options.UseModifiesForStubs)
+          //DEBUG
+          foreach (IdentifierExpr ie in node.Proc.Modifies)
           {
-              foreach (IdentifierExpr ie in node.Proc.Modifies)
-              {
-                  node.WriteSet.Add(ie.Decl);
-                  node.ReadSet.Add(ie.Decl);
-              }
+              node.WriteSet.Add(ie.Decl);
+              node.ReadSet.Add(ie.Decl);
           }
         return node;
       }
