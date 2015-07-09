@@ -67,8 +67,10 @@ namespace SyntaxDiff
             {
                 var d12 = FindDiffSourceLinesInImplementation(i12.Item1, v1srcInfo, i12.Item2, v2srcInfo);
 
-                v1Changes.AddRange(FormatChangedLinesForProcedure(i12.Item1.Name, d12.Item1, v1srcInfo.srcInfoPerImpl[i12.Item1].Item1));
-                v2Changes.AddRange(FormatChangedLinesForProcedure(i12.Item2.Name, d12.Item2, v2srcInfo.srcInfoPerImpl[i12.Item2].Item1));
+                if (i12.Item1 != null)
+                    v1Changes.AddRange(FormatChangedLinesForProcedure(i12.Item1.Name, d12.Item1, v1srcInfo.srcInfoPerImpl[i12.Item1].Item1));
+                if (i12.Item2 != null)
+                    v2Changes.AddRange(FormatChangedLinesForProcedure(i12.Item2.Name, d12.Item2, v2srcInfo.srcInfoPerImpl[i12.Item2].Item1));
             }
 
             PrintChangedLinesToFile(v1Changes, Path.Combine(Path.GetDirectoryName(v1), v1 + "_changed_lines.txt"));
@@ -114,8 +116,24 @@ namespace SyntaxDiff
                 var d2 = diffLines.Item2.Select(x => x + i2StartLine).ToList();
                 return Tuple.Create(d1, d2);
             }
-            //TODO: if implementation_i is null, then add all the lines in implementation2 
-            throw new NotImplementedException();
+            else
+            {
+                var d1 = new List<int>();
+                var d2 = new List<int>();
+                if (implementation1 != null)
+                {
+                    var i1StartLine = v1srcInfo.GetStartLineForImplInFile(implementation1);
+                    var i1EndLine = v1srcInfo.GetEndLineForImplInFile(implementation1);
+                    d1.AddRange(Enumerable.Range(i1StartLine, i1EndLine - i1StartLine + 1));
+                }
+                if (implementation2 != null)
+                {
+                    var i2StartLine = v2srcInfo.GetStartLineForImplInFile(implementation2);
+                    var i2EndLine = v2srcInfo.GetEndLineForImplInFile(implementation2);
+                    d2.AddRange(Enumerable.Range(i2StartLine, i2EndLine - i2StartLine + 1));
+                }
+                return Tuple.Create(d1, d2);
+            }
         }
         /// <summary>
         /// Returns implementations in the two versions with a difference in string representation of body
@@ -280,6 +298,12 @@ namespace SyntaxDiff
         {
             Debug.Assert(i != null && srcInfoPerImpl.ContainsKey(i));
             return srcInfoPerImpl[i].Item2.Item1;
+        }
+
+        public int GetEndLineForImplInFile(Implementation i)
+        {
+            Debug.Assert(i != null && srcInfoPerImpl.ContainsKey(i));
+            return srcInfoPerImpl[i].Item2.Item2;
         }
     }
 
