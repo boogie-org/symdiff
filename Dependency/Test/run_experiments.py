@@ -6,13 +6,14 @@ from subprocess import Popen, PIPE, STDOUT
 from contextlib import contextmanager
 import os
 import argparse
+import subprocess
 
 
 def setupArgs():
     parser = argparse.ArgumentParser(description='Harness to run experiments.')
     parser.add_argument('configFile', help='config file with versions. see examples_with_versions.config for an example.')
     parser.add_argument('--bplRepo', '-b', type=str, help='path to root of bpl repository.')
-    parser.add_argument('--smackShare', '-s', type=str, help='path to root of smack share.')
+    parser.add_argument('--timeout', '-t', type=int, default=1200, help='timeout per executed command. default is 20 minutes.')
     return parser.parse_args()
 
 
@@ -35,18 +36,19 @@ def smackPreprocess(fn ,v):
 class Project:
     smackImportedDirs = set()
     
-    def __init__(self, proj, versions, commandLog, resultsSummary, bplRepo):
+    def __init__(self, proj, versions, commandLog, resultsSummary, bplRepo, timeout):
         self.projectDir = proj        
         self.versions = versions
         self.commandLog = commandLog
         self.resultsSummary = resultsSummary
         self.bplRepo = bplRepo
+        self.timeout = timeout
         
         if len(self.versions) < 2:
             print("[ERROR:] Missing versions for " + self.projectDir)
 
     @staticmethod
-    def readConfig(configFile, commandLog, resultsSummary, bplRepo):
+    def readConfig(configFile, commandLog, resultsSummary, bplRepo, timeout):
         projects = list()
         with open(configFile) as fin:
             for line in fin:
@@ -54,7 +56,7 @@ class Project:
                     continue
                 components = line.split()
                 if components:
-                    projects.append(Project(components[0], components[1:], commandLog, resultsSummary, bplRepo))
+                    projects.append(Project(components[0], components[1:], commandLog, resultsSummary, bplRepo, timeout))
         return projects
 
 
@@ -117,7 +119,7 @@ class Project:
         print('cd ' + os.getcwd(), file=outStream)
         self.commandLog.append(' '.join(cmd))
         print(' '.join(cmd), file=outStream)
-        timeToRun, out, retCode = executeCommand(cmd)
+        timeToRun, out, retCode = executeCommand(cmd, self.timeout)
         if retCode:
             print('[Warning]: Error code returned: ' + str(retCode), file=outStream)
         print(str(timeToRun), file=outStream)
@@ -136,10 +138,11 @@ class Project:
         shutil.copy(os.path.join(v1, 'smacked.bpl'), v1 + '_smacked.bpl')
         Project.smackImportedDirs.add(v1_fp)
 
-def executeCommand(cmd):
+
+def executeCommand(cmd, tout):
     start = time.time()
     p = Popen(cmd, shell=True, stdout=PIPE, stderr=STDOUT)
-    output, err = p.communicate()
+    output, err = p.communicate(timeout=tout)
     end = time.time()
     timeToRun = end-start
     out = output.decode("ascii")
@@ -170,7 +173,11 @@ def main():
     with open(resultsSummary, 'w') as results:
         print(','.join(['Project', 'v1', 'v2', 'timeCToBpl', 'timeRunSymdiffBpl', 'timeDependencySimple', 'timeDependencyDac', 'lines', 'depTainted', 'dacTainted']), file=results)
 
-    projects = Project.readConfig(args.configFile, commandLog, resultsSummary, args.bplRepo)
+    projects = Project.readConfig(args.configFile, commandLog, resultsSummary, args.bplRepo, args.timeout)
+
+    #copy the smack share over so that it is visible for syntaxdiff and others in the toolchain
+    if args.bplRepo:
+        shutil.copytree(os.path.join(args.bplRepo, 'smackShare'), 'smackShare')
 
     for project in projects:
         project.process()
