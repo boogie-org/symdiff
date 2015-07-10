@@ -1,13 +1,12 @@
 using Microsoft.Boogie;
 using System;
-using SmackProcessing.source;
 using ProgTransformation;
 using System.Diagnostics;
 using System.Linq;
 using System.IO;
 
 
-namespace SmackProcessing
+namespace SymDiffPreProcess
 {
     class SmackProcessor
     {

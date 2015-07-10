@@ -28,7 +28,7 @@ def dependency(v):
     return ['Dependency.exe', '_v2.bpl', '/taint:_v2.bpl_changed_lines.txt']
 
 def smackPreprocess(fn ,v):
-    return ['SmackProcessing.exe', fn, '-relativeSourceDir:' + v + '\\']
+    return ['SymDiffPreProcess.exe', fn, '-relativeSourceDir:' + v + '\\']
 
 
 class Project:
@@ -77,8 +77,6 @@ class Project:
                     self.importSmackFiles(v1)
                     self.importSmackFiles(v2)
                     self.runStage(smackPreprocess(v1 + '_smacked.bpl', v1), outStream)
-                    print(v1)
-                    print(os.getcwd())
                     shutil.copy(v1 + '_smacked_unsmacked.bpl', v1 + '.bpl')
                     self.runStage(smackPreprocess(v2 + '_smacked.bpl', v2), outStream)
                     shutil.copy(v2 + '_smacked_unsmacked.bpl', v2 + '.bpl')                
@@ -113,7 +111,7 @@ class Project:
 
 
     def runStage(self, cmd, outStream):
-        print(" ".join(cmd))
+        #print(" ".join(cmd))
         self.commandLog.append('cd ' + os.getcwd())
         print('cd ' + os.getcwd(), file=outStream)
         self.commandLog.append(' '.join(cmd))
