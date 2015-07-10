@@ -1028,11 +1028,11 @@ namespace Dependency
             static public void WriteCallGraph(string filename, Graph<Procedure> callGraph)
             {
                 TextWriter output = new StreamWriter(filename + ".dot");
-                var stubs =
+                var leaves = 
                     callGraph.Nodes.Where(p => callGraph.Successors(p).Count() == 0);
                 output.Write(callGraph.ToDot(p => p.ToString(), 
                     p => 
-                        stubs.Contains(p) ? "[shape=box style=filled fillcolor=yellow]" : "[shape=oval]" ));
+                        leaves.Contains(p) ? "[shape=box style=filled fillcolor=yellow]" : "[shape=oval]" ));
                 output.Close();
             }
         }
@@ -1189,6 +1189,7 @@ namespace Dependency
         /// <returns></returns>
         internal static bool IsBakedInStub(Procedure callee)
         {
+            Debug.Assert(false, "Not expecting stubs....did you run dependency.exe for " + callee);
             var name = callee.Name.ToLower();
             return
                 name.Contains("_malloc") ||

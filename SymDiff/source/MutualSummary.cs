@@ -188,12 +188,12 @@ namespace SDiff
             foreach (var kv in stubProcMap)
             {
                 Debug.Assert(false, string.Format("Stub encountered {0}...did you not run dependency.exe", kv.Key));
-                Console.WriteLine("StubMap: {0}, {1}", kv.Key, kv.Value);
-                var f1 = Util.getProcedureByName(mergedProgram, kv.Key);
-                var f2 = Util.getProcedureByName(mergedProgram, kv.Value);
-                //Create MSCheck procedure
-                AddDefaultStubSpec(f1, p1Prefix);
-                AddDefaultStubSpec(f2, p2Prefix);
+                //Console.WriteLine("StubMap: {0}, {1}", kv.Key, kv.Value);
+                //var f1 = Util.getProcedureByName(mergedProgram, kv.Key);
+                //var f2 = Util.getProcedureByName(mergedProgram, kv.Value);
+                ////Create MSCheck procedure
+                //AddDefaultStubSpec(f1, p1Prefix);
+                //AddDefaultStubSpec(f2, p2Prefix);
             }
             foreach (var kv in implProcMap)
             {

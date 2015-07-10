@@ -72,11 +72,9 @@ namespace Dependency
             currDependencies = new Dictionary<Procedure, Dependencies>(lowerBoundProcDependencies);
 
             //important note about *
-            //We want to remove * from currDependency except for stubs
             currDependencies.Iter(kv =>
                   {
                       Debug.Assert(!IsStub(kv.Key), string.Format("Stubs not {0} expected...did you run dependency.exe?", kv.Key));
-                      //not a stub
                       currDependencies[kv.Key].Iter
                           (v => currDependencies[kv.Key][v.Key].Remove(Utils.VariableUtils.NonDetVar));
                   }
@@ -435,8 +433,6 @@ namespace Dependency
             Block currBlock = worklist.cmdBlocks[node];
             Dependencies dependencies = worklist.GatherPredecessorsState(node, currBlock);
 
-            //TODO: why do we have to deal with callee stubs in the callee command?
-            // an external stub
             if (program.Implementations.Where(x => x.Proc == callee).Count() == 0)
             {
                 Debug.Assert(false, string.Format("Stubs not {0} expected...did you run dependency.exe?", callee));

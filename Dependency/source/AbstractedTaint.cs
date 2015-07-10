@@ -69,7 +69,7 @@ namespace Dependency
                     procBottomUpTaintVars.Select(v => (object)v.Name).ToList(), null);
                 x.Ensures.Add(ens);
             });
-            Console.WriteLine("#outputs with no bottomuptaint / #outputs (includes stubs) = {0} / {1} ", outvars.Count - botTaintOutVars.Count, outvars.Count);
+            Console.WriteLine("#outputs with no bottomuptaint / #outputs = {0} / {1} ", outvars.Count - botTaintOutVars.Count, outvars.Count);
 
             //Do the removal after you are done with nonTaintedImpls, otherwise that becomes an empty set
             program.RemoveTopLevelDeclarations(x => nonTaintedImpls.Contains(x));

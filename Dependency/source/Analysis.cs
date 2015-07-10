@@ -158,7 +158,7 @@ namespace Dependency
 
             #region Cleanups 
             //first thing is to remove Stubs
-            new source.ProcessStubs(program).EliminateStubs();
+            program = new source.ProcessStubs(program).EliminateStubs();
 
             //cleanup assume value_is, as we are not printing a trace now
             //Dont cleanup value_is without this flag, SymDiff gets confused as it expects value_is for models
@@ -167,8 +167,9 @@ namespace Dependency
             // create explicit variables for conditionals
             if (changeList != null) //only do this for taint analysis
                 (new Utils.AddExplicitConditionalVars()).Visit(program);
-            //remove some HAVOC generated methods 
-            program.RemoveTopLevelDeclarations(x => (x is Procedure && ((Procedure)x).Name.Contains("HAVOC_memset")));
+            //remove some HAVOC generated methods (should be in preprocess)
+            //program.RemoveTopLevelDeclarations(x => (x is Procedure && ((Procedure)x).Name.Contains("HAVOC_memset")));
+            //program.RemoveTopLevelDeclarations(x => (x is Implementation && ((Implementation)x).Name.Contains("HAVOC_memset")));
             //remove any forall axiom
             if (SplitMapsWithAliasAnalysis)
             {

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
+using System.Diagnostics;
+using SymDiffUtils;
 
 namespace Dependency.source
 {
@@ -17,12 +19,14 @@ namespace Dependency.source
         public ProcessStubs(Program p) { prog = p; }
         public Program EliminateStubs()
         {
+            Debug.Assert(!prog.TopLevelDeclarationsAreFrozen, "Frozen top level decls");
             var procs = new HashSet<Procedure>(prog.Procedures);
-            var impls = new HashSet<Implementation>(prog.Implementations);
+            var impls = prog.Implementations;
 
             var stubs = procs.Where(p => impls.Where(i => i.Name == p.Name).Count() == 0);
-            var stubImpls = stubs.Select(p => MkStubImpl(p)); //already added to topleveldecls
-            prog.Resolve(); prog.Typecheck();
+            var stubImpls = new List<Implementation>(stubs.Select(p => MkStubImpl(p))); //need to have new List(){..}
+            Console.WriteLine("Stubimpls = {0}", string.Join(",", stubImpls.Select(x => x.Name))); 
+            stubImpls.Iter(i => Debug.Assert(prog.TopLevelDeclarations.Contains(i)));
             return prog;
         }
         private Implementation MkStubImpl(Procedure p)
@@ -31,6 +35,7 @@ namespace Dependency.source
             var ctr = new GlobalVariable(Token.NoToken,
                 new TypedIdent(Token.NoToken, p.Name + "__det_ctr", Microsoft.Boogie.Type.Int));
             prog.AddTopLevelDeclaration(ctr);
+            prog.Resolve();
 
             var inParams = new List<Variable>(p.InParams);
             var outParams = new List<Variable>(p.OutParams);
@@ -51,7 +56,7 @@ namespace Dependency.source
                     "_stub_upd_" + p.Name + "_" + v.Name, //func name
                     ins.Select((e,i) => ithVar(e, i)).ToList(), 
                     new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "ret", v.TypedIdent.Type), false));
-                prog.AddTopLevelDeclaration(f);
+                prog.AddTopLevelDeclaration(f); prog.Resolve();
                 var r =
                     new NAryExpr(Token.NoToken,
                         new FunctionCall(f),
@@ -77,6 +82,7 @@ namespace Dependency.source
                 new List<Block>(){blk});
             impl.Proc = p;
             prog.AddTopLevelDeclaration(impl);
+            prog.Resolve();
             return impl;
         }
     }
