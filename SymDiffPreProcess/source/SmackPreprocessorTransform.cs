@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace SymDiffPreProcess
+namespace SymdiffPreprocess
 {
     public class SmackPreprocessorTransform  : TransformationPass 
     {

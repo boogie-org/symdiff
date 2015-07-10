@@ -6,9 +6,13 @@ using System.Linq;
 using System.IO;
 
 
-namespace SymDiffPreProcess
+namespace SymdiffPreprocess
 {
-    class SmackProcessor
+    /// <summary>
+    /// Put any transformations that need to be done to prepare a BPL file for SymDiff
+    /// (e.g. specific to some front end perhaps guarded by flags)
+    /// </summary>
+    class Preprocess
     {
         private static int PrintUsage()
         {
