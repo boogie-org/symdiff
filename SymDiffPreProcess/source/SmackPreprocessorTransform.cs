@@ -22,7 +22,7 @@ namespace SymdiffPreprocess
             new ArrayAccessRewriter().Visit(inp);
             new SplitBlockAcrossAssertsRewriter().VisitProgram(inp);
             //TODO: Remove prune visitor calls
-            new PruneCallsVisitor().VisitProgram(inp);
+            //new PruneCallsVisitor().VisitProgram(inp);
             return inp;
         }
     }
