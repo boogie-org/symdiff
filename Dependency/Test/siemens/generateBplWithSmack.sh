@@ -5,7 +5,7 @@ INSTALL_SHARE=../../share
 
 for file in `find $CRNT_DIR -name '*'`; do dos2unix $file; done
 
-cp -rf $INSTALL_SHARE smackShare
+cp -rf $INSTALL_SHARE $CRNT_DIR/../smackShare
 
 for proj in $(ls $CRNT_DIR); do
     cd $CRNT_DIR
@@ -14,7 +14,7 @@ for proj in $(ls $CRNT_DIR); do
 	cd $CRNT_DIR/$proj
 	cd source
 	patch -N < ../source/original.patch
-	make -f smackMakefile clean all &> /dev/null
+	#make -f smackMakefile clean all &> /dev/null
 	#diff -u orig.$proj.c $proj.c  > original.patch
 	cd -
 
@@ -25,11 +25,10 @@ for proj in $(ls $CRNT_DIR); do
 		pwd
 		cp ../source/smackMakefile .
 		patch -N < ../source/original.patch
-		make -f smackMakefile clean all &> /dev/null
+		#make -f smackMakefile clean all &> /dev/null
 		cd $CRNT_DIR/$proj
 	    fi
 	done
-
     fi
 done
 
