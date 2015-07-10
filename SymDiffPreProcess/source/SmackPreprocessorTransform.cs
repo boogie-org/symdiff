@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace SymdiffPreprocess.source
+namespace SymdiffPreprocess
 {
     public class SmackPreprocessorTransform  : TransformationPass 
     {
@@ -21,6 +21,7 @@ namespace SymdiffPreprocess.source
             new SourceInfoRewriter(relativeDir).VisitProgram(inp);
             new ArrayAccessRewriter().Visit(inp);
             new SplitBlockAcrossAssertsRewriter().VisitProgram(inp);
+            //TODO: Remove prune visitor calls
             new PruneCallsVisitor().VisitProgram(inp);
             return inp;
         }

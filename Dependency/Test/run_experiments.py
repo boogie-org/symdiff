@@ -12,6 +12,7 @@ def setupArgs():
     parser = argparse.ArgumentParser(description='Harness to run experiments.')
     parser.add_argument('configFile', help='config file with versions. see examples_with_versions.config for an example.')
     parser.add_argument('--bplRepo', '-b', type=str, help='path to root of bpl repository.')
+    parser.add_argument('--smackShare', '-s', type=str, help='path to root of smack share.')
     return parser.parse_args()
 
 
@@ -22,13 +23,13 @@ def runSymdiffBpl(v1,v2):
     return ['run_symdiff_bpl.cmd', v1, v2, '/rvt:n', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts ', '/changedLines']
 
 def dependency_dac(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:_v2.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl']
+    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl']
 
 def dependency(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:_v2.bpl_changed_lines.txt']
+    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt']
 
 def smackPreprocess(fn ,v):
-    return ['SmackProcessing.exe', fn, '-relativeSourceDir:' + v + '\\']
+    return ['SymDiffPreProcess.exe', fn, '-relativeSourceDir:' + v + '\\']
 
 
 class Project:
@@ -77,8 +78,6 @@ class Project:
                     self.importSmackFiles(v1)
                     self.importSmackFiles(v2)
                     self.runStage(smackPreprocess(v1 + '_smacked.bpl', v1), outStream)
-                    print(v1)
-                    print(os.getcwd())
                     shutil.copy(v1 + '_smacked_unsmacked.bpl', v1 + '.bpl')
                     self.runStage(smackPreprocess(v2 + '_smacked.bpl', v2), outStream)
                     shutil.copy(v2 + '_smacked_unsmacked.bpl', v2 + '.bpl')                
@@ -113,12 +112,14 @@ class Project:
 
 
     def runStage(self, cmd, outStream):
-        print(" ".join(cmd))
+        #print(" ".join(cmd))
         self.commandLog.append('cd ' + os.getcwd())
         print('cd ' + os.getcwd(), file=outStream)
         self.commandLog.append(' '.join(cmd))
         print(' '.join(cmd), file=outStream)
-        timeToRun, out = executeCommand(cmd)
+        timeToRun, out, retCode = executeCommand(cmd)
+        if retCode:
+            print('[Warning]: Error code returned: ' + str(retCode), file=outStream)
         print(str(timeToRun), file=outStream)
         print(out, file=outStream)
         return timeToRun, out
@@ -142,7 +143,9 @@ def executeCommand(cmd):
     end = time.time()
     timeToRun = end-start
     out = output.decode("ascii")
-    return timeToRun, out
+    if p.returncode:
+        print('[Warning]: error executing command(' + str(p.returncode) + '): ' + str(cmd))
+    return timeToRun, out, p.returncode
 
 
 

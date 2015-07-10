@@ -207,13 +207,18 @@ if ($rvt eq 1){
   MyExec("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -loopUnroll $luCount $v2.bpl _v2.bpl");
 }
 
-MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig _v1.bpl _v2.bpl > _v1_v2.config"); 
+
 
 if ($doChangedBasedDep eq 1){
-      $v1ChangedLines = "/taint:_v1.bpl_changed_lines.txt";
-      $v2ChangedLines = "/taint:_v2.bpl_changed_lines.txt";
-      MyExecAndDieOnFailure("$symdiff_root\\SyntaxDiff\\bin\\debug\\SyntaxDiff.exe _v1.bpl _v2.bpl _v1_v2.config") #outputs _v1.bpl_changed_lines.txt and _v2.bpl.changed_lines.txt
+    ## call infer config here on the originals, since after loop extractions inferConfig causes issues
+    MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig $v1.bpl $v2.bpl > $v1$v2.config"); 
+    $v1ChangedLines = "/taint:$v1.bpl_changed_lines.txt";
+    $v2ChangedLines = "/taint:$v2.bpl_changed_lines.txt";
+    MyExecAndDieOnFailure("$symdiff_root\\SyntaxDiff\\bin\\debug\\SyntaxDiff.exe $v1.bpl $v2.bpl $v1$v2.config") #outputs _v1.bpl_changed_lines.txt and _v2.bpl.changed_lines.txt
 }
+
+MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig _v1.bpl _v2.bpl > _v1_v2.config");
+
 ## run dependency analysis (TODO: fold it together with abstractTainted)
 MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl $v1ChangedLines /annotateDependencies /prune"); #outputs to _v1.bpl_w_deps.bpl
 MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl $v2ChangedLines /annotateDependencies /prune"); #outputs to _v2.bpl_w_deps.bpl

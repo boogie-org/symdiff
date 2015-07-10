@@ -14,12 +14,14 @@ namespace Experimental
         private string gitUrl;
         private string sha;
         private string projectName;
-        public RepositorySetup(string pathToSetup, string gitUrl, string projectName, string sha)
+        private StreamWriter stream;
+        public RepositorySetup(string pathToSetup, string gitUrl, string projectName, string sha, StreamWriter stream)
         {
             this.setupRoot = pathToSetup;
             this.gitUrl = gitUrl;
             this.projectName = projectName;
             this.sha = sha;
+            this.stream = stream;
         }
 
         public void DoWork()
@@ -38,6 +40,7 @@ namespace Experimental
             Repository.Clone(this.gitUrl, v1Dir);
             repo = new Repository(v1Dir);
             repo.Checkout(this.sha);
+            this.stream.WriteLine(res + " v0 v1");
         }
     }
 }
