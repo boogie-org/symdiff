@@ -1,15 +1,19 @@
 using Microsoft.Boogie;
 using System;
-using SmackProcessing.source;
+using SymdiffPreprocess.source;
 using ProgTransformation;
 using System.Diagnostics;
 using System.Linq;
 using System.IO;
 
 
-namespace SmackProcessing
+namespace SymdiffPreprocess
 {
-    class SmackProcessor
+    /// <summary>
+    /// Put any transformations that need to be done to prepare a BPL file for SymDiff
+    /// (e.g. specific to some front end perhaps guarded by flags)
+    /// </summary>
+    class Preprocess
     {
         private static int PrintUsage()
         {
