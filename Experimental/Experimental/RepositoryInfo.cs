@@ -53,7 +53,7 @@ namespace Experimental
                 var r = repo.Split(',');
                 if (!result.ContainsKey(r[2]))
                 {
-                    result.Add(r[2], new RepositoryInfo(r[0], r[1], r[2]));
+                    result.Add(r[2], new RepositoryInfo(r[1], r[0], r[2]));
                 }
                 result[r[2]].InterestingShas.Add(new Tuple<string, string>("", r[3]));
             }
