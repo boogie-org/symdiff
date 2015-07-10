@@ -282,7 +282,7 @@ namespace SyntaxDiff
                 {
                     srcLinesPerImpl[impl] = new List<string>();
                     var info = srcInfoPerImpl[impl];
-                    Debug.Assert(contentSrc.Count > info.Item2.Item2, 
+                    Debug.Assert(contentSrc.Count >= info.Item2.Item2, 
                         string.Format("The impl {0} in source file {1} has fewer lines than in BPL", impl.Name, src));
                     for (int i = info.Item2.Item1; i < info.Item2.Item2; ++i)
                         srcLinesPerImpl[impl].Add(contentSrc[i-1]);
