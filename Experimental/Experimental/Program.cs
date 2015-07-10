@@ -19,7 +19,7 @@ namespace Experimental
         [Option('r', "repos", DefaultValue = @".\setupRepo", HelpText = "Directory to clone repositories.")]
         public string RootToRepo { get; set; }
         
-        [Option('s', "setup", DefaultValue = false, HelpText = "Crawl Github for Repos")]
+        [Option('s', "setup", DefaultValue = false, HelpText = "Setup repos")]
         public bool SetupRepo { get; set; }
 
         [Option('c', "crawl", DefaultValue=false, HelpText="Crawl Github for Repos")]
@@ -64,14 +64,18 @@ namespace Experimental
 
         private static void SetupRepositories(List<RepositoryInfo> repos)
         {
-            foreach (var repo in repos)
+            Directory.CreateDirectory(options.RootToRepo);
+            using (var stream = new StreamWriter(Path.Combine(options.RootToRepo, "projects.config")))
             {
-                foreach (var sha in repo.InterestingShas)
+                foreach (var repo in repos)
                 {
-                    new RepositorySetup(options.RootToRepo, repo.GitUrl, repo.Name, sha.Item2).DoWork();
+                    foreach (var sha in repo.InterestingShas)
+                    {
+                        new RepositorySetup(options.RootToRepo, repo.GitUrl, repo.Name, sha.Item2, stream).DoWork();
+                    }
                 }
-            }
 
+            }
         }
 
         private static List<RepositoryInfo> CrawlGithub()
