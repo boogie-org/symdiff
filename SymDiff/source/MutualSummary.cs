@@ -13,7 +13,6 @@ namespace SDiff
     /// <summary>
     /// This class implements the Mutual summaries (mutual summary and relative termination) (CADE'13)
     /// It also implements the 2->1 program transformation from Rahul Sharma's internship (FSE'13)
-    /// 10/4/14: for stubs, we will have a spec that it is a function (params + modsets) are equal, then (outs + modsets) are equal
     /// 
     /// Do all the lookups by name since we have 3 programs p1, p2, p12 
     /// </summary>
@@ -188,12 +187,13 @@ namespace SDiff
                     CreateSummaryRelation(f);
             foreach (var kv in stubProcMap)
             {
-                Console.WriteLine("StubMap: {0}, {1}", kv.Key, kv.Value);
-                var f1 = Util.getProcedureByName(mergedProgram, kv.Key);
-                var f2 = Util.getProcedureByName(mergedProgram, kv.Value);
-                //Create MSCheck procedure
-                AddDefaultStubSpec(f1, p1Prefix);
-                AddDefaultStubSpec(f2, p2Prefix);
+                Debug.Assert(false, string.Format("Stub encountered {0}...did you not run dependency.exe", kv.Key));
+                //Console.WriteLine("StubMap: {0}, {1}", kv.Key, kv.Value);
+                //var f1 = Util.getProcedureByName(mergedProgram, kv.Key);
+                //var f2 = Util.getProcedureByName(mergedProgram, kv.Value);
+                ////Create MSCheck procedure
+                //AddDefaultStubSpec(f1, p1Prefix);
+                //AddDefaultStubSpec(f2, p2Prefix);
             }
             foreach (var kv in implProcMap)
             {
@@ -1126,7 +1126,7 @@ namespace SDiff
             {
                 //we are going to add 
                 //cand ensures dep(o) == dep(o') ==> o == o' for every o in output
-                //we do this for roots, non-roots and stubs (where they get assumed)
+                //we do this for roots, non-roots (no more stubs as expanded in front end)
                 //AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2); //without dependencies
                 AddCandEnsuresWithDependency(ref ensuresSeq, f1, f2, i1, i2, o1, o2);
                 return;

@@ -31,7 +31,6 @@ namespace SDiff
         public static bool PreciseDifferentialInline = true;
         public static bool EnumerateAllPaths = false; //setting to true means we check assert(F) in EQ
         public static bool RVTOption = false; //RVT option
-        //public static bool UseModifiesForStubs = true; //RS: changed to true //assume the stubs have no side-effect except returns when false
         public static string LoopStringIdentifier = "_loop_"; // if a function name contains this string we assume it was a loop converted into a recursive function.
         //mode where a procedure is inlined when not equal (non-recursive only) [For evaluation of diff inlining]
         public const bool InlineWhenFail = false; //make sure DifferentialInline is turned off

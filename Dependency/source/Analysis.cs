@@ -22,7 +22,6 @@ namespace Dependency
             public const string dataOnly = "/dataOnly";
             public const string taint = "/taint";
             public const string debug = "/break";
-            public const string detStubs = "/detStubs";
             public const string refine = "/refine";
             public const string readSet = "/readSet";
             public const string noMinUnsatCore = "/noMinUnsatCore";
@@ -41,7 +40,6 @@ namespace Dependency
         static public bool BothDependencies = false;
         static public bool Prune = false;
         static public bool PrintStats = false;
-        static public bool DetStubs = false;
         static public bool Refine = false;
         public static bool SemanticDep = false;
         public static bool ReadSet = false;
@@ -112,7 +110,6 @@ namespace Dependency
             DumpTaint = args.Any(x => x.ToLower() == CmdLineOptsNames.dumpTaint.ToLower());
             DataOnly = args.Any(x => x.ToLower() == CmdLineOptsNames.dataOnly.ToLower());
             BothDependencies = args.Any(x => x.ToLower() == CmdLineOptsNames.both.ToLower()) && !DataOnly;
-            DetStubs = args.Any(x => x.ToLower() == CmdLineOptsNames.detStubs.ToLower());
 
             PrintStats = args.Any(x => x.ToLower() == CmdLineOptsNames.stats.ToLower() || x.StartsWith(CmdLineOptsNames.stats + ":"));
             args.Where(x => x.StartsWith(CmdLineOptsNames.stats + ":"))
@@ -160,6 +157,9 @@ namespace Dependency
             }
 
             #region Cleanups 
+            //first thing is to remove Stubs
+            program = new source.ProcessStubs(program).EliminateStubs();
+
             //cleanup assume value_is, as we are not printing a trace now
             //Dont cleanup value_is without this flag, SymDiff gets confused as it expects value_is for models
             if (StripValueIs)
@@ -167,8 +167,9 @@ namespace Dependency
             // create explicit variables for conditionals
             if (changeList != null) //only do this for taint analysis
                 (new Utils.AddExplicitConditionalVars()).Visit(program);
-            //remove some HAVOC generated methods 
-            program.RemoveTopLevelDeclarations(x => (x is Procedure && ((Procedure)x).Name.Contains("HAVOC_memset")));
+            //remove some HAVOC generated methods (should be in preprocess)
+            //program.RemoveTopLevelDeclarations(x => (x is Procedure && ((Procedure)x).Name.Contains("HAVOC_memset")));
+            //program.RemoveTopLevelDeclarations(x => (x is Implementation && ((Implementation)x).Name.Contains("HAVOC_memset")));
             //remove any forall axiom
             if (SplitMapsWithAliasAnalysis)
             {
@@ -341,7 +342,7 @@ namespace Dependency
 
         private static void RunAnalysis(string filename, Program program)
         {
-            var dataDepVisitor = new DependencyVisitor(filename, program, changeLog, Timeout, Prune, true, DetStubs);
+            var dataDepVisitor = new DependencyVisitor(filename, program, changeLog, Timeout, Prune, true);
             var dataDeps = dataDepVisitor.ProcDependencies;
             
             if (Refine || BothDependencies || DataOnly) {
@@ -353,7 +354,7 @@ namespace Dependency
             dataDepVisitor.worklist.stateSpace.Clear(); // helping the garbage collector
             GC.Collect();
 
-            var allDepVisitor = new DependencyVisitor(filename, program, changeLog, Timeout, Prune, DataOnly, DetStubs);
+            var allDepVisitor = new DependencyVisitor(filename, program, changeLog, Timeout, Prune, DataOnly);
             var allDeps = allDepVisitor.ProcDependencies;
 
             if (Refine || !ReadSet)
@@ -417,7 +418,7 @@ namespace Dependency
             ProcReadSetVisitor rsVisitor = new ProcReadSetVisitor();
             if (ReadSet)
             {
-                RunReadSetAnalysis(program, rsVisitor, new DependencyVisitor(filename, program, changeLog, Timeout, Prune, DataOnly, DetStubs));
+                RunReadSetAnalysis(program, rsVisitor, new DependencyVisitor(filename, program, changeLog, Timeout, Prune, DataOnly));
                 #region ReadSet must contain the Control+Data dependencies
                 Debug.Assert(rsVisitor.ProcReadSet.All(prs =>
                 {
@@ -575,7 +576,6 @@ namespace Dependency
             Console.WriteLine(CmdLineOptsNames.both.PadRight(length,' ') + " - compute both data & control dependencies for showing in HTML");
             Console.WriteLine(CmdLineOptsNames.prune.PadRight(length,' ') + " - show only in\\out\\global dependencies (no locals)");
             Console.WriteLine((CmdLineOptsNames.stats + "[:statsfile.csv]").PadRight(length,' ') +  " - print dependecies statistics in CSV format [to a specified file]");
-            Console.WriteLine(CmdLineOptsNames.detStubs.PadRight(length, ' ') + " - (unsoundly) assume stub functions to depend only on input (and not be non-deterministic)");
             Console.WriteLine(CmdLineOptsNames.readSet.PadRight(length, ' ') + " - compute a naive read set (for comparison purposes)");
             Console.WriteLine((CmdLineOptsNames.refine + "[:<int>]").PadRight(length, ' ') + " - refine dependencies [with inlining up to stack bound]");
         }
