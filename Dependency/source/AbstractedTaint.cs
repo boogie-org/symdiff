@@ -35,6 +35,7 @@ namespace Dependency
 
             if (false)
             {
+                throw new NotImplementedException("Don't exercise abstraction as it causes mismatch of signatures on two sides");
                 //TODO: We get into parsing problems (print_tokens\(source,v2)) when one side is abstracted, and we get
                 //different modsets later given the implementation for one and stub for another
                 new HashSet<Implementation>(impls.Where(x => !taintedImpls.Contains(x))); //make a copy since topleveldecl changes

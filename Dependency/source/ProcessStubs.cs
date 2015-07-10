@@ -1,0 +1,83 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Boogie;
+
+namespace Dependency.source
+{
+    /// <summary>
+    /// Eliminate stubs by updating return, outs, mods deterministically
+    /// There should not be any stubs in rest of the dependency/symdiff
+    /// </summary>
+    public class ProcessStubs
+    {
+        Program prog;
+        public ProcessStubs(Program p) { prog = p; }
+        public Program EliminateStubs()
+        {
+            var procs = new HashSet<Procedure>(prog.Procedures);
+            var impls = new HashSet<Implementation>(prog.Implementations);
+
+            var stubs = procs.Where(p => impls.Where(i => i.Name == p.Name).Count() == 0);
+            var stubImpls = stubs.Select(p => MkStubImpl(p)); //already added to topleveldecls
+            prog.Resolve(); prog.Typecheck();
+            return prog;
+        }
+        private Implementation MkStubImpl(Procedure p)
+        {
+            //add a global var p_det_ctr
+            var ctr = new GlobalVariable(Token.NoToken,
+                new TypedIdent(Token.NoToken, p.Name + "__det_ctr", Microsoft.Boogie.Type.Int));
+            prog.AddTopLevelDeclaration(ctr);
+
+            var inParams = new List<Variable>(p.InParams);
+            var outParams = new List<Variable>(p.OutParams);
+
+            //make the body
+            //let in = (inParms U modifies U ctr)
+            var ins = new List<Expr>();
+            ins.AddRange(inParams.Select(x => Expr.Ident(x)));
+            ins.AddRange(p.Modifies);
+            ins.Add(Expr.Ident(ctr));
+            //x, .. := uf_p_x(in), ..
+            
+            var mkUifExpr = new Func<Variable, Expr> (v => 
+            {
+                var ithVar = new Func<Expr, int,Variable>((e,j) => 
+                    new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "arg" + j, e.Type), true));
+                var f = new Function(Token.NoToken, 
+                    "_stub_upd_" + p.Name + "_" + v.Name, //func name
+                    ins.Select((e,i) => ithVar(e, i)).ToList(), 
+                    new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "ret", v.TypedIdent.Type), false));
+                prog.AddTopLevelDeclaration(f);
+                var r =
+                    new NAryExpr(Token.NoToken,
+                        new FunctionCall(f),
+                        ins);
+                return r;
+            });
+            //outs = (return U outs U ctr)
+            var outs = new List<Variable>();
+            outs.AddRange(outParams);
+            outs.AddRange(p.Modifies.Select(o => o.Decl));
+            outs.Add(ctr);
+            //rhss
+            var rhss = new List<Expr>(outs.Select(o => mkUifExpr(o)));
+            var lhss = new List<AssignLhs>(outs.Select(o => new SimpleAssignLhs(Token.NoToken, Expr.Ident(o))));
+            var ac = new AssignCmd(Token.NoToken, lhss, rhss);
+            var blk = new Block(Token.NoToken, "START_STUB_" + p.Name, new List<Cmd>() { ac }, new ReturnCmd(Token.NoToken));
+            //make an impl
+            var impl = new Implementation(Token.NoToken, p.Name, 
+                new List<TypeVariable>(),
+                inParams,
+                outParams, 
+                new List<Variable>(), //no locals
+                new List<Block>(){blk});
+            impl.Proc = p;
+            prog.AddTopLevelDeclaration(impl);
+            return impl;
+        }
+    }
+}

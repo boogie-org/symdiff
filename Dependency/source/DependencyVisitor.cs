@@ -75,12 +75,10 @@ namespace Dependency
             //We want to remove * from currDependency except for stubs
             currDependencies.Iter(kv =>
                   {
+                      Debug.Assert(!IsStub(kv.Key), string.Format("Stubs not {0} expected...did you run dependency.exe?", kv.Key));
                       //not a stub
-                      if (!IsStub(kv.Key))
-                      {
-                          currDependencies[kv.Key].Iter
-                              (v => currDependencies[kv.Key][v.Key].Remove(Utils.VariableUtils.NonDetVar));
-                      }
+                      currDependencies[kv.Key].Iter
+                          (v => currDependencies[kv.Key][v.Key].Remove(Utils.VariableUtils.NonDetVar));
                   }
                 );
 
@@ -152,10 +150,9 @@ namespace Dependency
         private bool prune;
         private bool taintOnly;
         private bool dataOnly;
-        private bool detStubs;
 
         private int timeOut;
-        public DependencyVisitor(string filename, Program program, List<Tuple<string, string, int>> changeLog, int timeOut, bool prune = true, bool dataOnly = false, bool detStubs = false)
+        public DependencyVisitor(string filename, Program program, List<Tuple<string, string, int>> changeLog, int timeOut, bool prune = true, bool dataOnly = false)
         {
             this.filename = filename;
             this.program = program;
@@ -178,7 +175,6 @@ namespace Dependency
 
             this.prune = prune;
             this.dataOnly = dataOnly;
-            this.detStubs = detStubs;
             this.taintOnly = false;
 
             this.timeOut = timeOut * 1000; // change to ms
@@ -443,14 +439,15 @@ namespace Dependency
             // an external stub
             if (program.Implementations.Where(x => x.Proc == callee).Count() == 0)
             {
+                Debug.Assert(false, string.Format("Stubs not {0} expected...did you run dependency.exe?", callee));
                 ProcDependencies[callee] = new Dependencies();
                 // all outputs+modified depend on all inputs+modified
                 var outs = callee.OutParams.Union(callee.Modifies.Select(x => x.Decl));
                 foreach (var v in outs)
                 {
                     ProcDependencies[callee][v] = new VarSet(callee.InParams.Union(callee.Modifies.Select(x => x.Decl)));
-                    if (!detStubs /* || Utils.IsBakedInStub(callee)*/ ) //adding out == func(in) causes inconsistency for functions like malloc/det_choice etc.
-                        ProcDependencies[callee][v].Add(Utils.VariableUtils.NonDetVar); // and on *
+                    //if (!detStubs /* || Utils.IsBakedInStub(callee)*/ ) //adding out == func(in) causes inconsistency for functions like malloc/det_choice etc.
+                    ProcDependencies[callee][v].Add(Utils.VariableUtils.NonDetVar); // and on *
                 }
             }
 
