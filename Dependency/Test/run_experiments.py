@@ -12,6 +12,7 @@ def setupArgs():
     parser = argparse.ArgumentParser(description='Harness to run experiments.')
     parser.add_argument('configFile', help='config file with versions. see examples_with_versions.config for an example.')
     parser.add_argument('--bplRepo', '-b', type=str, help='path to root of bpl repository.')
+    parser.add_argument('--smackShare', '-s', type=str, help='path to root of smack share.')
     return parser.parse_args()
 
 
@@ -116,7 +117,9 @@ class Project:
         print('cd ' + os.getcwd(), file=outStream)
         self.commandLog.append(' '.join(cmd))
         print(' '.join(cmd), file=outStream)
-        timeToRun, out = executeCommand(cmd)
+        timeToRun, out, retCode = executeCommand(cmd)
+        if retCode:
+            print('[Warning]: Error code returned: ' + str(retCode), file=outStream)
         print(str(timeToRun), file=outStream)
         print(out, file=outStream)
         return timeToRun, out
@@ -140,7 +143,9 @@ def executeCommand(cmd):
     end = time.time()
     timeToRun = end-start
     out = output.decode("ascii")
-    return timeToRun, out
+    if p.returncode:
+        print('[Warning]: error executing command(' + p.returncode + '): ' + str(cmd))
+    return timeToRun, out, p.returncode
 
 
 
