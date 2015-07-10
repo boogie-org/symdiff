@@ -144,7 +144,7 @@ def executeCommand(cmd):
     timeToRun = end-start
     out = output.decode("ascii")
     if p.returncode:
-        print('[Warning]: error executing command(' + p.returncode + '): ' + str(cmd))
+        print('[Warning]: error executing command(' + str(p.returncode) + '): ' + str(cmd))
     return timeToRun, out, p.returncode
 
 
