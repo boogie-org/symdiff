@@ -446,8 +446,11 @@ namespace Dependency
             // add in the Procedure's inputs\outputs that adhere to the Implementation inputs\outputs in vars
             public static void FixFormals(Implementation impl, VarSet vars)
             {
-                if (impl == null) // stubs
+                if (impl == null)
+                {// stubs
+                    Debug.Assert(false, string.Format("Stubs not expected...did you run dependency.exe?"));
                     return;
+                }
                 var formals = new VarSet();
                 // inputs
                 formals.UnionWith(Utils.VariableUtils.ImplInputsToProcInputs(impl, vars));
