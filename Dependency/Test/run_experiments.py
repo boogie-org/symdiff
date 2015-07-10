@@ -14,6 +14,7 @@ def setupArgs():
     parser.add_argument('configFile', help='config file with versions. see examples_with_versions.config for an example.')
     parser.add_argument('--bplRepo', '-b', type=str, help='path to root of bpl repository.')
     parser.add_argument('--timeout', '-t', type=int, default=1200, help='timeout per executed command. default is 20 minutes.')
+    parser.add_argument('--smack', '-s', default=False, action='store_true', help='use script to only run smack')
     return parser.parse_args()
 
 
@@ -32,6 +33,9 @@ def dependency(v):
 def smackPreprocess(fn ,v):
     return ['SymDiffPreProcess.exe', fn, '-relativeSourceDir:' + v + '\\']
 
+
+def smack():
+    return 'make -f smackMakefile clean all'
 
 class Project:
     smackImportedDirs = set()
@@ -59,6 +63,12 @@ class Project:
                     projects.append(Project(components[0], components[1:], commandLog, resultsSummary, bplRepo, timeout))
         return projects
 
+    def runSmack(self):
+        with cd(self.projectDir.replace('\\', '/')):
+            for v in self.versions:
+                with cd(v):
+                    with open('smackMakefileLog', 'w') as fout:                
+                        self.runStage(smack(), fout)
 
     def process(self):
         print("Processing " + self.projectDir)
@@ -147,7 +157,7 @@ def executeCommand(cmd, tout):
     timeToRun = end-start
     out = output.decode("ascii")
     if p.returncode:
-        print('[Warning]: error executing command(' + str(p.returncode) + '): ' + str(cmd))
+        print('[Warning]: error executing command(' + str(p.returncode) + '): ' + str(cmd) + " in " + os.getcwd())
     return timeToRun, out, p.returncode
 
 
@@ -175,6 +185,11 @@ def main():
 
     projects = Project.readConfig(args.configFile, commandLog, resultsSummary, args.bplRepo, args.timeout)
 
+    if args.smack:
+        for project in projects:
+            project.runSmack()
+        exit()
+    
     #copy the smack share over so that it is visible for syntaxdiff and others in the toolchain
     if args.bplRepo:
         shutil.copytree(os.path.join(args.bplRepo, 'smackShare'), 'smackShare')
