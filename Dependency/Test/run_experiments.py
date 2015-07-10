@@ -22,10 +22,10 @@ def runSymdiffBpl(v1,v2):
     return ['run_symdiff_bpl.cmd', v1, v2, '/rvt:n', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts ', '/changedLines']
 
 def dependency_dac(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:_v2.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl']
+    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl']
 
 def dependency(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:_v2.bpl_changed_lines.txt']
+    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt']
 
 def smackPreprocess(fn ,v):
     return ['SymDiffPreProcess.exe', fn, '-relativeSourceDir:' + v + '\\']
