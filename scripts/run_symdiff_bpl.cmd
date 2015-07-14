@@ -217,8 +217,6 @@ if ($doChangedBasedDep eq 1){
     MyExecAndDieOnFailure("$symdiff_root\\SyntaxDiff\\bin\\debug\\SyntaxDiff.exe $v1.bpl $v2.bpl $v1$v2.config") #outputs _v1.bpl_changed_lines.txt and _v2.bpl.changed_lines.txt
 }
 
-MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig _v1.bpl _v2.bpl > _v1_v2.config");
-
 ## run dependency analysis (TODO: fold it together with abstractTainted)
 MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl $v1ChangedLines /annotateDependencies /prune"); #outputs to _v1.bpl_w_deps.bpl
 MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl $v2ChangedLines /annotateDependencies /prune"); #outputs to _v2.bpl_w_deps.bpl
@@ -232,6 +230,9 @@ if (!($abstractNonTainted eq "")) {
   MyExecAndDieOnFailure("copy /Y $v1.bpl  _v1.bpl"); #renaming v1.bpl destroys the pristine files
   MyExecAndDieOnFailure("copy /Y $v2.bpl  _v2.bpl"); #renaming v1.bpl destroys the pristine files
 }
+
+#rerun inferConfig since some stubs may have been inlined and removed
+MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig _v1.bpl _v2.bpl > _v1_v2.config");
 
 MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -allInOne _v1.bpl _v2.bpl _v1_v2.config $returnOnlyStr $optString >> $v1$v2.log"); 
 

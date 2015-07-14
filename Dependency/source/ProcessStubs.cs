@@ -29,14 +29,18 @@ namespace Dependency.source
             stubImpls.Iter(i => Debug.Assert(prog.TopLevelDeclarations.Contains(i)));
 
             //inline all the stubs
-            //Console.WriteLine("Inlining all stubs");
-            //Expr one = Expr.Literal(1);
-            //stubImpls.Iter(i => { i.AddAttribute("inline", one); i.Proc.AddAttribute("inline", one); });
-            //Util.InlineProg(prog);
-            //prog.Resolve();
-            //stubImpls.Iter(i => { prog.RemoveTopLevelDeclaration(i); prog.RemoveTopLevelDeclaration(i.Proc);});
-            //prog.Resolve();
-            //Utils.PrintProgram(prog, "__stub_inlined.bpl");
+            Console.WriteLine("Inlining all stubs");
+            Expr one = Expr.Literal(1);
+            stubImpls.Iter(i => { i.AddAttribute("inline", one); i.Proc.AddAttribute("inline", one); });
+            Util.InlineProg(prog);
+            prog.Resolve();
+            stubImpls.Iter(i => { prog.RemoveTopLevelDeclaration(i); prog.RemoveTopLevelDeclaration(i.Proc); });
+            prog.Resolve();
+            Utils.PrintProgram(prog, "__stub_inlined.bpl");
+            if (!Utils.ParseProgram("__stub_inlined.bpl", out prog))
+            {
+                Debug.Assert(false, "Unable to parse the program after inlining stub");
+            }
             return prog;
         }
         private Implementation MkStubImpl(Procedure p)
