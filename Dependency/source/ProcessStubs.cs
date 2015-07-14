@@ -11,7 +11,8 @@ namespace Dependency.source
 {
     /// <summary>
     /// Eliminate stubs by updating return, outs, mods deterministically
-    /// There should not be any stubs in rest of the dependency/symdiff
+    /// Adding a new global foo_det_ctr per stub in the read/write set
+    /// There should not be any stubs in rest of the dependency/symdiff!!!
     /// </summary>
     public class ProcessStubs
     {
@@ -36,6 +37,7 @@ namespace Dependency.source
             prog.Resolve();
             stubImpls.Iter(i => { prog.RemoveTopLevelDeclaration(i); prog.RemoveTopLevelDeclaration(i.Proc); });
             prog.Resolve();
+            //some weird issue with dependency.exe (no return encountered in dac_examples\madwifi 7/13/15). persisting and reading back
             Utils.PrintProgram(prog, "__stub_inlined.bpl");
             if (!Utils.ParseProgram("__stub_inlined.bpl", out prog))
             {
