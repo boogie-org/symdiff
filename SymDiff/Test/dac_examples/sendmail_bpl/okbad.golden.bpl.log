@@ -1,0 +1,43 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+ok.bpl(32,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(26,6): anon0
+    ok.bpl(32,5): anon6_LoopBody
+ok.bpl(46,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    ok.bpl(26,6): anon0
+    ok.bpl(30,3): anon6_LoopDone
+    ok.bpl(46,5): anon8_Then
+
+Boogie program verifier finished with 0 verified, 2 errors
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+bad.bpl(29,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(23,6): anon0
+    bad.bpl(29,5): anon4_LoopBody
+bad.bpl(39,5): Error BP5001: This assertion might not hold.
+Execution trace:
+    bad.bpl(23,6): anon0
+    bad.bpl(27,3): anon4_LoopDone
+    bad.bpl(39,5): anon5_Then
+
+Boogie program verifier finished with 0 verified, 2 errors
+RVT mode, diff-inline turned off
+Parsing config file
+Parsing programs
+Namespacing ASTs
+Resolving and typechecking
+Resolving and typechecking
+ImplMap: _v1.main, _v2.main
+Resolving and typechecking
+Performing Houdini inference from within Symdiff.exe 
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+---Command arguments
+
+/typeEncoding:m
+/noinfer
+/doModSetAnalysis
+--------------------
+Houdini finished and inferred 0/0 contracts
+Houdini finished with 2 verified, 1 errors, 0 inconclusives, 0 timeouts
+Generated mergedProgSingle.bpl 

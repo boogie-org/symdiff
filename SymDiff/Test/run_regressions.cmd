@@ -303,13 +303,17 @@ my @dac_examples =
   	##### madwifi1 #######
      ["dac_examples\\madwifi1\\", "bad", "ok"],
 	 ##### madwifi1 #######
-	 ["dac_examples\\madwifi1\\", "ok", "bad"],
-    ##### sendmail1 #######
-     ["dac_examples\\sendmail1\\", "bad", "ok"],
-    ##### sendmail1 #######
-     ["dac_examples\\sendmail1\\", "ok", "bad"],
+     ["dac_examples\\madwifi1\\", "ok", "bad"],
+        ##### sendmail1 #######
+    # ["dac_examples\\sendmail1\\", "bad", "ok"],
+        ##### sendmail1 #######
+    # ["dac_examples\\sendmail1\\", "ok", "bad"],
 	##### sendmail2 #######
     # ["dac_examples\\sendmail2\\", "bad", "ok"]
+   	##### sendmail_bpl #######
+     ["dac_examples\\sendmail_bpl\\", "bad", "ok"],
+   	##### sendmail_bpl #######
+     ["dac_examples\\sendmail_bpl\\", "ok", "bad"]
   );
 
 print "-----------------------\n";
