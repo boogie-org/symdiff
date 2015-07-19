@@ -1,0 +1,1 @@
+An example that illustrates problem with missing variables that appear only in break nodes.

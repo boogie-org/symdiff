@@ -345,13 +345,20 @@ namespace SDiff
 
     public static Expr EmitEq(IdentifierExpr leftVar, IdentifierExpr rightVar, HashSet<Variable> ignoreSet)
     {
-      //ignore uninitialized void returns due to havoc artifact
-      //if (ignoreSet.Contains(leftVar.Decl) || ignoreSet.Contains(rightVar.Decl))
-      //  return Expr.True;
+
                    
        // just blocking poly map for now - hemr
        if (!(leftVar.Decl.TypedIdent.Type is MapType || leftVar.Decl.TypedIdent.Type is TypeSynonymAnnotation))
         return Expr.Eq(leftVar, rightVar);
+
+       if (leftVar.Decl.TypedIdent.Type is TypeSynonymAnnotation)
+       {
+           var l = leftVar.Decl.TypedIdent.Type as TypeSynonymAnnotation;
+           System.Diagnostics.Debug.Assert(!l.IsMap, "only handle non map typesynonymAnnotations, found " + l);
+           return Expr.Eq(leftVar, rightVar);
+       }
+
+
       List<Variable> bound = null;
       BoundVariable[] bvs = new BoundVariable[leftVar.Decl.TypedIdent.Type.AsMap.Arguments.Count];
       int i = 0;

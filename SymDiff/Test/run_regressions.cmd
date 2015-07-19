@@ -250,6 +250,7 @@ my @bpl_examples =
      ["bpl_examples\\datatype_danfeng\\", "v1", "v2"],
     ##### datatype #######
      ["bpl_examples\\datatype_danfeng\\", "v3", "v4"]
+
   );
 
 print "--------------------------\n";
@@ -292,6 +293,27 @@ my $tag = ".bpl";
 RunExampleWithOptions("_bpl", \@bpl_examples, $flags, $cwd, $opt_regr, $tag);
 
 ##############################################################
+## Example for deterministic loop extraction
+##############################################################
+my @loop_examples =
+(
+   	##### loopExtractSmackBug #######
+     #["bpl_examples\\loopExtractSmackBug\\", "source", "v1"]  # too long
+   	##### detLoopExtract #######
+     ["bpl_examples\\detLoopExtract\\", "loop", "v1"] 
+   
+);
+
+print "----------------------------------\n";
+print "BPL deterministic  loop extraction\n";
+print "----------------------------------\n";
+$flags = "/rvt  /opts:\" -usemutual -checkEquivWithDependencies -freeContracts \" " ;
+my $tag = ".bpl";
+$infer = 1; # checking DAC regression is different than other regressions
+RunExampleWithOptions("_bpl", \@loop_examples, $flags, $cwd, $opt_regr, $tag);
+$infer = 0;
+
+##############################################################
 ## Example for Differential Assertion Checking
 ##############################################################
 my @dac_examples = 
@@ -313,17 +335,19 @@ my @dac_examples =
    	##### sendmail_bpl #######
      ["dac_examples\\sendmail_bpl\\", "bad", "ok"],
    	##### sendmail_bpl #######
-     ["dac_examples\\sendmail_bpl\\", "ok", "bad"]
+     ["dac_examples\\sendmail_bpl\\", "ok", "bad"] 
   );
 
 print "-----------------------\n";
 print "DAC SymDiff regressions\n";
 print "-----------------------\n";
-$flags = "/opts:\" -asserts -usemutual -rvt  \" " ; # /inferContracts:\"  \" ";
+$flags = "/rvt /opts:\" -asserts -usemutual -rvt  \" " ; # /inferContracts:\"  \" ";
 $infer = 1; # checking DAC regression is different than other regressions
 my $tag = ".bpl";
 RunExampleWithOptions("_bpl", \@dac_examples, $flags, $cwd, $opt_regr, $tag);
 $infer = 0; 
+
+
 
 
 ##############################################################

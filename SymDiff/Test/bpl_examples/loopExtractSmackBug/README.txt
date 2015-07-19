@@ -1,0 +1,1 @@
+Testing that deterministic loop extraction does not have undeclared variables

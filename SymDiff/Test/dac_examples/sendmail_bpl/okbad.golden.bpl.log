@@ -29,6 +29,7 @@ Namespacing ASTs
 Resolving and typechecking
 Resolving and typechecking
 ImplMap: _v1.main, _v2.main
+ImplMap: _v1.main_loop_anon6_LoopHead, _v2.main_loop_anon4_LoopHead
 Resolving and typechecking
 Performing Houdini inference from within Symdiff.exe 
 Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
@@ -38,6 +39,6 @@ Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 /noinfer
 /doModSetAnalysis
 --------------------
-Houdini finished and inferred 0/0 contracts
-Houdini finished with 2 verified, 1 errors, 0 inconclusives, 0 timeouts
+Houdini finished and inferred 13/26 contracts
+Houdini finished with 5 verified, 1 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 
