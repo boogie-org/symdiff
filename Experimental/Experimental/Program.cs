@@ -13,17 +13,26 @@ namespace Experimental
 {
     class CommandLineOptions
     {
-        [Option('i',"interestingRepos", DefaultValue="repos.txt", HelpText="File with repositories and shas to clone.")]
+        [Option('i', "interestingRepos", DefaultValue = Program.Commits, HelpText = "File with repositories and shas to clone.")]
         public string RepositoriesToInitialize { get; set; }
-        
+
         [Option('r', "repos", DefaultValue = @".\setupRepo", HelpText = "Directory to clone repositories.")]
         public string RootToRepo { get; set; }
-        
+
         [Option('s', "setup", DefaultValue = false, HelpText = "Setup repos")]
         public bool SetupRepo { get; set; }
 
-        [Option('c', "crawl", DefaultValue=false, HelpText="Crawl Github for Repos")]
+        [Option('c', "crawl", DefaultValue = false, HelpText = "Crawl Github for Repos")]
         public bool Crawl { get; set; }
+
+        [Option('f', "findCommits", DefaultValue = false, HelpText = "Filter Github Commits for Repos")]
+        public bool FilterCommits { get; set; }
+
+        [Option('g', "gitRepos", DefaultValue = false, HelpText = "File with git repos to process")]
+        public bool GitRepositoriesFile { get; set; }
+
+        [Option('n', "numberToCrawl", DefaultValue = 100, HelpText = "Crawl Github for n Repos")]
+        public int NumberOfRepos { get; set; }
 
         [ParserState]
         public IParserState LastParserState { get; set; }
@@ -37,9 +46,14 @@ namespace Experimental
     }
     class Program
     {
+        public const string Repositories = @"repositories.txt";
+        public const string Commits = @"commits_repositories.txt";
+        public const string VerboseCommits = @"verbose_commits_repositories.txt";
+        public const string Config = @"projects.config";
+
         public static GitHubClient GitHubClient { get; set; }
         private static CommandLineOptions options;
-        
+
         static void Main(string[] args)
         {
             options = new CommandLineOptions();
@@ -48,30 +62,42 @@ namespace Experimental
                 List<RepositoryInfo> repos = null;
                 if (options.Crawl)
                 {
+                    Program.GitHubClient = new GitHubClient(new ProductHeaderValue("experiments_t-algy"));
+                    InstallCredentials();
                     repos = CrawlGithub();
+                }
+                if (options.FilterCommits)
+                {
+                    Program.GitHubClient = new GitHubClient(new ProductHeaderValue("experiments_t-algy"));
+                    GitHubClient.Search.SearchRepo(new SearchRepositoriesRequest());
+                    InstallCredentials();
+                    
+                    repos = RepositoryInfo.ReadReposFromScrappedFile(Program.Repositories);                    
+
+                    ProcessRepos(repos);
                 }
                 if (options.SetupRepo)
                 {
                     if (repos == null)
                     {
-                        repos= RepositoryInfo.ReadReposFromFile(options.RepositoriesToInitialize);
+                        repos = RepositoryInfo.ReadReposFromCommitsFile(options.RepositoriesToInitialize);
                     }
                     SetupRepositories(repos);
                 }
             }
-            
+
         }
 
         private static void SetupRepositories(List<RepositoryInfo> repos)
         {
             Directory.CreateDirectory(options.RootToRepo);
-            using (var stream = new StreamWriter(Path.Combine(options.RootToRepo, "projects.config")))
+            using (var stream = new StreamWriter(Path.Combine(options.RootToRepo, Program.Config)))
             {
                 foreach (var repo in repos)
                 {
                     foreach (var sha in repo.InterestingShas)
                     {
-                        new RepositorySetup(options.RootToRepo, repo.GitUrl, repo.Name, sha.Item2, stream).DoWork();
+                        new RepositorySetup(options.RootToRepo, repo.GitUrl, repo.Name, sha.Item1, stream).DoWork();
                     }
                 }
 
@@ -80,53 +106,90 @@ namespace Experimental
 
         private static List<RepositoryInfo> CrawlGithub()
         {
-            Program.GitHubClient = new GitHubClient(new ProductHeaderValue("experiments_t-algy"));
-            InstallCredentials();
+            File.Delete(Program.VerboseCommits);
+            File.Delete(Program.Commits);
 
-            var sc = new SearchRepositoriesRequest();
-            sc.Language = Language.C;
-            sc.Size = Range.LessThan(200);
-
-
-
-
-            var result = Program.GitHubClient.Search.SearchRepo(sc);
-            result.Wait();
-
-
+            int numOfPages = Convert.ToInt32(Math.Ceiling(options.NumberOfRepos / 100.0));
+            int reposLeft = options.NumberOfRepos;
             List<RepositoryInfo> repos = new List<RepositoryInfo>();
 
-            foreach (var repo in result.Result.Items)
+            for (int pi = 0; pi < numOfPages; pi++)
+            {
+                var sc = new SearchRepositoriesRequest();
+                sc.Language = Language.C;
+                sc.Size = Range.LessThan(1000);
+                sc.Page = pi;
+
+                var result = Program.GitHubClient.Search.SearchRepo(sc);
+                result.Wait();
+
+                foreach (var repo in result.Result.Items.Take(reposLeft))
+                {
+                    var r = new RepositoryInfo(repo.Name, repo.Owner.Login, repo.GitUrl);
+                    repos.Add(r);                    
+                }
+                reposLeft -= result.Result.Items.Count;
+            }
+
+            PrintRepositories(repos);
+
+            return repos;
+        }
+
+        private static void PrintRepositories(List<RepositoryInfo> repos)
+        {
+            using (System.IO.StreamWriter repositoriesFile = new System.IO.StreamWriter(Program.Repositories, false))
+            {
+                foreach (var repo in repos)
+                {
+                    repositoriesFile.Write(repo.ToString());
+                }
+            }
+        }
+
+        public static void ProcessRepos(List<RepositoryInfo> repos)
+        {
+
+            foreach (var r in repos)
             {
                 try
                 {
-                    var r = new RepositoryInfo(repo.Name, repo.Owner.Login, repo.GitUrl);
-                    repos.Add(r);
                     new RepositoryProcessor(r).Process();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Exception");
-                    Console.WriteLine(ex.Message);
-                }
-            }
-
-            using (System.IO.StreamWriter summary = new System.IO.StreamWriter(@"repos.txt"))
-            {
-                using (System.IO.StreamWriter details = new System.IO.StreamWriter(@"verbose.txt"))
-                {
-                    using (System.IO.StreamWriter log = new System.IO.StreamWriter(@"log.txt"))
+                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine("Retrying after waiting 60 seconds - mitigating rate limiting.");
+                    try
                     {
-                        foreach (var repo in repos)
-                        {
-                            log.WriteLine(repo.GitUrl);
-                            summary.Write(repo.ToString());
-                            details.Write(repo.VerboseInterestingShas());
-                        }
+                        System.Threading.Thread.Sleep(60000);
+                        new RepositoryProcessor(r).Process();
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Retry failed!");
+                        return;
                     }
                 }
+                finally
+                {
+                    LogRepositoryInfo(r);
+                }
             }
-            return repos;
+        }
+
+
+        private static void LogRepositoryInfo(RepositoryInfo repo)
+        {
+            using (System.IO.StreamWriter summary = new System.IO.StreamWriter(Program.Commits, true))
+            {
+                using (System.IO.StreamWriter details = new System.IO.StreamWriter(Program.VerboseCommits, true))
+                {   
+                        summary.Write(repo.PrintShas());
+                        details.Write(repo.VerboseInterestingShas());
+                }
+            }
         }
 
         static void InstallCredentials()

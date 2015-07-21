@@ -10,7 +10,7 @@ namespace Experimental
     class RepositoryProcessor
     {
         private static int CommitsPerRepo = 1000;
-        private static int CommitsPerRequest = 200;
+        private static int CommitsPerRequest = 500;
         private static DateTimeOffset ExperimentsInitTime = DateTimeOffset.Now;
         public RepositoryInfo Repository { get; private set; }
 
@@ -24,7 +24,8 @@ namespace Experimental
             var _fixture = Program.GitHubClient.Repository.Commits;
             Console.WriteLine(this.Repository.Owner + "/" + this.Repository.Name);
             int commitsFiltered = 0;
-            double interval = -7;
+            // Past 30 days
+            double interval = -30;
             
             var since = ExperimentsInitTime.AddDays(interval);
             var until = ExperimentsInitTime;
@@ -37,15 +38,14 @@ namespace Experimental
                 commitReq.Since = since;
                 commitReq.Until = until;
                 var commitsTask = _fixture.GetAll(Repository.Owner, Repository.Name, commitReq);
-                commitsTask.Wait();
-                Console.WriteLine("Number of commits: " + commitsTask.Result.Count);
+                commitsTask.Wait();                
                 foreach (var comm in commitsTask.Result)
                 {
                     var statsCommit = _fixture.Get(Repository.Owner, Repository.Name, comm.Sha);
                     statsCommit.Wait();
                     if (IsInteresting(statsCommit.Result))
                     {
-                        this.Repository.InterestingShas.Add(new Tuple<string, string>(comm.Sha, comm.Commit.Message));
+                        this.Repository.InterestingShas.Add(new Tuple<string, string, string>(comm.Sha, comm.Commit.Message, comm.HtmlUrl));
                     }
                 }
 
