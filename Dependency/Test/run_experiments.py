@@ -7,6 +7,8 @@ from contextlib import contextmanager
 import os
 import argparse
 import subprocess
+import fnmatch
+import ntpath
 
 
 def setupArgs():
@@ -143,12 +145,32 @@ class Project:
             if not v1_fp in Project.smackImportedDirs:
                 print("[Warning]: could not copy " + v1_fp + " because the directory already exists")
         else:
+
             v1Loc = os.path.join(self.bplRepo, self.projectDir, v1)
-            shutil.copytree(v1Loc, v1)
+            os.mkdir(v1_fp)
+            filesToCopy = getRelevantFilesInDir(v1Loc)
+            
+            #print('\n'.join(filesToCopy))
+            for f in filesToCopy:                
+                fdest = ntpath.basename(f)
+                fdest = os.path.join(v1,fdest)
+                if os.path.exists(fdest):
+                    print('[WARNING] overwriting files in flattenning: ' + fdest)
+                shutil.copy(f, fdest)
+            #shutil.copytree(v1Loc, v1)
         shutil.copy(os.path.join(v1, 'smacked.bpl'), v1 + '_smacked.bpl')
         Project.smackImportedDirs.add(v1_fp)
 
 
+def getRelevantFilesInDir(d):
+    matches = list()
+    for root, dirnames, filenames in os.walk(d):
+        matches.extend(map(lambda x: os.path.join(root,x), fnmatch.filter(filenames, '*.c')))
+        matches.extend(map(lambda x: os.path.join(root,x), fnmatch.filter(filenames, '*.h')))
+        matches.extend(map(lambda x: os.path.join(root,x), fnmatch.filter(filenames, '*.bpl')))
+    return matches
+
+        
 def executeCommand(cmd, tout):
     start = time.time()
     p = Popen(cmd, shell=True, stdout=PIPE, stderr=STDOUT)
@@ -192,7 +214,8 @@ def main():
     
     #copy the smack share over so that it is visible for syntaxdiff and others in the toolchain
     if args.bplRepo:
-        shutil.copytree(os.path.join(args.bplRepo, 'smackShare'), 'smackShare')
+        if not os.path.isdir('smackShare'):
+            shutil.copytree(os.path.join(args.bplRepo, 'smackShare'), 'smackShare')
 
     for project in projects:
         project.process()
