@@ -42,7 +42,8 @@ def smack():
 class Project:
     smackImportedDirs = set()
     
-    def __init__(self, proj, versions, commandLog, resultsSummary, bplRepo, timeout):
+    def __init__(self, rootDir, proj, versions, commandLog, resultsSummary, bplRepo, timeout):
+        self.rootDir  = rootDir
         self.projectDir = proj        
         self.versions = versions
         self.commandLog = commandLog
@@ -54,7 +55,7 @@ class Project:
             print("[ERROR:] Missing versions for " + self.projectDir)
 
     @staticmethod
-    def readConfig(configFile, commandLog, resultsSummary, bplRepo, timeout):
+    def readConfig(rootDir, configFile, commandLog, resultsSummary, bplRepo, timeout):
         projects = list()
         with open(configFile) as fin:
             for line in fin:
@@ -62,7 +63,7 @@ class Project:
                     continue
                 components = line.split()
                 if components:
-                    projects.append(Project(components[0], components[1:], commandLog, resultsSummary, bplRepo, timeout))
+                    projects.append(Project(rootDir, components[0], components[1:], commandLog, resultsSummary, bplRepo, timeout))
         return projects
 
     def runSmack(self):
@@ -149,6 +150,7 @@ class Project:
             v1Loc = os.path.join(self.bplRepo, self.projectDir, v1)
             os.mkdir(v1_fp)
             filesToCopy = getRelevantFilesInDir(v1Loc)
+            filesToCopy.extend(getRelevantFilesInDir(os.path.join(self.rootDir, 'smackShare', 'smack')))
             
             #print('\n'.join(filesToCopy))
             for f in filesToCopy:                
@@ -205,7 +207,7 @@ def main():
     with open(resultsSummary, 'w') as results:
         print(','.join(['Project', 'v1', 'v2', 'timeCToBpl', 'timeRunSymdiffBpl', 'timeDependencySimple', 'timeDependencyDac', 'lines', 'depTainted', 'dacTainted']), file=results)
 
-    projects = Project.readConfig(args.configFile, commandLog, resultsSummary, args.bplRepo, args.timeout)
+    projects = Project.readConfig(os.path.abspath('.'), args.configFile, commandLog, resultsSummary, args.bplRepo, args.timeout)
 
     if args.smack:
         for project in projects:
