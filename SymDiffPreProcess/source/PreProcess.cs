@@ -40,22 +40,39 @@ namespace SymdiffPreprocess
             string programFileName = args[0];
             Debug.Assert(programFileName.Contains(".bpl"), string.Format("File name is expected to have the .bpl extension: {0}.", programFileName));
             string outFileName = programFileName.Substring(0, programFileName.LastIndexOf(".bpl")) + "_unsmacked.bpl";
+            Program program;
 
-            //Sort of a hack.
-            using (Stream prelude = File.OpenRead(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources", "prelude.bpl")))
+            try
             {
-                using (Stream bpl = File.OpenRead(programFileName))
+                program = SDiff.Boogie.Process.ParseProgram(programFileName);
+                program.Resolve();
+                File.Copy(programFileName, outFileName, true);
+            }
+            catch
+            {
+
+                //Sort of a hack.
+                using (Stream prelude = File.OpenRead(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources", "prelude.bpl")))
                 {
-                    using (Stream outBpl = new FileStream(outFileName, FileMode.Create))
+                    using (Stream bpl = File.OpenRead(programFileName))
                     {
-                        bpl.CopyTo(outBpl);
-                        prelude.CopyTo(outBpl);
+                        using (Stream outBpl = new FileStream(outFileName, FileMode.Create))
+                        {
+                            bpl.CopyTo(outBpl);
+                            prelude.CopyTo(outBpl);
+                        }
                     }
                 }
+
+                
+            }
+            finally
+            {
+                program = SDiff.Boogie.Process.ParseProgram(outFileName);
+                program.Resolve();
             }
 
-            Program program = SDiff.Boogie.Process.ParseProgram(outFileName);
-            program.Resolve(); 
+            
             ModSetCollector c = new ModSetCollector();
             c.DoModSetAnalysis(program);
             program.Typecheck();

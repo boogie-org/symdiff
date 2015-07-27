@@ -83,13 +83,22 @@ namespace SymdiffPreprocess
         private AssertCmd makeHavocStyleSourceInfo(IList<object> list)
         {
             var fn = new List<object>();
-            fn.Add(this.relativeDir + list[0]);
+            fn.Add(this.relativeDir + trimPrefix((string)list[0]));
             var lineno = new List<object>();
             lineno.Add(list[1]);
             var assert = new AssertCmd(Token.NoToken, Expr.True,
                 new QKeyValue(Token.NoToken, "sourcefile", fn,
                 new QKeyValue(Token.NoToken, "sourceline", lineno, null)));
             return assert;
+        }
+
+        private string trimPrefix(string p)
+        {
+            int i = p.LastIndexOf('/');
+            p = p.Substring(i<0 ? 0 : i);
+            i = p.LastIndexOf('\\');
+            p = p.Substring(i < 0 ? 0 : i);
+            return p;
         }
     }
 
