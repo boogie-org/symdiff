@@ -12,14 +12,16 @@ namespace Experimental
         public string Name { get; set; }
         public string Owner { get; set; }
         public string GitUrl { get; set; }
+        public string HttpUrl { get; set; }
 
         public List<Tuple<string, string, string>> InterestingShas { get; private set; }
 
-        public RepositoryInfo(string name, string owner, string gitUrl)
+        public RepositoryInfo(string name, string owner, string gitUrl, string HttpUrl)
         {
             this.Name = name;
             this.Owner = owner;
             this.GitUrl = gitUrl;
+            this.HttpUrl = HttpUrl;
             this.InterestingShas = new List<Tuple<string, string, string>>();
         }
 
@@ -29,7 +31,7 @@ namespace Experimental
             {
                 return "";
             }
-            return InterestingShas.Select(tuple => this.Name + ", " + this.Owner + ", " + GitUrl + ", " + tuple.Item1 + ", " + tuple.Item3 + "\n").Aggregate((x, y) => x + y);
+            return InterestingShas.Select(tuple => this.Name + ", " + this.Owner + ", " + GitUrl + ", " + tuple.Item1 + ", " + tuple.Item3 + ", " + this.HttpUrl + "\n").Aggregate((x, y) => x + y);
         }
 
         public string VerboseInterestingShas()
@@ -53,7 +55,7 @@ namespace Experimental
                 var r = repo.Split(',');
                 if (!result.ContainsKey(r[2].Trim()))
                 {
-                    result.Add(r[2].Trim(), new RepositoryInfo(r[0].Trim(), r[1].Trim(), r[2].Trim()));
+                    result.Add(r[2].Trim(), new RepositoryInfo(r[0].Trim(), r[1].Trim(), r[2].Trim(), r[5].Trim()));
                 }
                 result[r[2].Trim()].InterestingShas.Add(new Tuple<string, string, string>(r[3].Trim(), "", r[4].Trim()));
             }
@@ -69,7 +71,7 @@ namespace Experimental
             foreach (var repo in lines)
             {
                 var r = repo.Split(',');                
-                result.Add(new RepositoryInfo(r[0].Trim(), r[1].Trim(), r[2].Trim()));                                
+                result.Add(new RepositoryInfo(r[0].Trim(), r[1].Trim(), r[2].Trim(), r[3].Trim()));                                
             }
 
             return result;
@@ -77,7 +79,7 @@ namespace Experimental
 
         public override string ToString()
         {            
-            return  this.Name + ", " + this.Owner + ", " + GitUrl + "\n";
+            return  this.Name + ", " + this.Owner + ", " + GitUrl + ", " + this.HttpUrl + "\n";
         }
 
         public override bool Equals(object obj)

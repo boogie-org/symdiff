@@ -51,6 +51,8 @@ namespace Experimental
         public const string VerboseCommits = @"verbose_commits_repositories.txt";
         public const string Config = @"projects.config";
 
+        public const int ProgramSize = 4000;
+
         public static GitHubClient GitHubClient { get; set; }
         private static CommandLineOptions options;
 
@@ -117,7 +119,7 @@ namespace Experimental
             {
                 var sc = new SearchRepositoriesRequest();
                 sc.Language = Language.C;
-                sc.Size = Range.LessThan(1000);
+                sc.Size = Range.LessThan(Program.ProgramSize);
                 sc.Page = pi;
 
                 var result = Program.GitHubClient.Search.SearchRepo(sc);
@@ -125,7 +127,7 @@ namespace Experimental
 
                 foreach (var repo in result.Result.Items.Take(reposLeft))
                 {
-                    var r = new RepositoryInfo(repo.Name, repo.Owner.Login, repo.GitUrl);
+                    var r = new RepositoryInfo(repo.Name, repo.Owner.Login, repo.GitUrl, repo.HtmlUrl);
                     repos.Add(r);                    
                 }
                 reposLeft -= result.Result.Items.Count;
@@ -163,7 +165,7 @@ namespace Experimental
                     Console.WriteLine("Retrying after waiting 60 seconds - mitigating rate limiting.");
                     try
                     {
-                        System.Threading.Thread.Sleep(60000);
+                        System.Threading.Thread.Sleep(3600000);
                         new RepositoryProcessor(r).Process();
                     }
                     catch (Exception)
