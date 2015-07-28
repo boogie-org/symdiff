@@ -40,17 +40,15 @@ namespace SymdiffPreprocess
             string programFileName = args[0];
             Debug.Assert(programFileName.Contains(".bpl"), string.Format("File name is expected to have the .bpl extension: {0}.", programFileName));
             string outFileName = programFileName.Substring(0, programFileName.LastIndexOf(".bpl")) + "_unsmacked.bpl";
-            Program program;
+            PersistentProgram persistentProgram;
 
             try
             {
-                program = SDiff.Boogie.Process.ParseProgram(programFileName);
-                program.Resolve();
+                persistentProgram = ParseAndTypeCheckProgram(programFileName);
                 File.Copy(programFileName, outFileName, true);
             }
             catch
             {
-
                 //Sort of a hack.
                 using (Stream prelude = File.OpenRead(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\resources", "prelude.bpl")))
                 {
@@ -68,16 +66,11 @@ namespace SymdiffPreprocess
             }
             finally
             {
-                program = SDiff.Boogie.Process.ParseProgram(outFileName);
-                program.Resolve();
+                persistentProgram = ParseAndTypeCheckProgram(outFileName);
             }
 
             
-            ModSetCollector c = new ModSetCollector();
-            c.DoModSetAnalysis(program);
-            program.Typecheck();
-
-            PersistentProgram persistentProgram = new PersistentProgram(program);
+            
 
             var pass = new SmackPreprocessorTransform(relativeDir);
             SmackPreprocessorTransform.writeAllFiles = true;
@@ -85,6 +78,22 @@ namespace SymdiffPreprocess
             persistentProgram.writeToFile(outFileName);
 
             return 0;
+        }
+
+        private static PersistentProgram ParseAndTypeCheckProgram(string programFileName)
+        {
+            Program program;
+            program = SDiff.Boogie.Process.ParseProgram(programFileName);
+            int errors = program.Resolve();
+            if (errors > 0)
+                throw new ArgumentException("Unable to resolve " + programFileName);
+            ModSetCollector c = new ModSetCollector();
+            c.DoModSetAnalysis(program);
+            errors = program.Typecheck();
+            if (errors > 0)
+                throw new ArgumentException("Unable to typecheck " + programFileName);
+            PersistentProgram persistentProgram = new PersistentProgram(program);
+            return persistentProgram;
         }
     }
 }
