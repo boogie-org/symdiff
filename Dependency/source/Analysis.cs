@@ -157,8 +157,19 @@ namespace Dependency
             }
 
             #region Cleanups 
-            //first thing is to remove Stubs
-            program = new source.ProcessStubs(program).EliminateStubs();
+            //first thing is to prune based on callgraph, if receiving a change list
+            if (changeList != null)
+            {
+                PopulateChangeLog(changeList, program);
+                List<Procedure> changedProcs = new List<Procedure>();
+                foreach (var tuple  in changeLog)
+                {
+                    changedProcs.Add(program.FindProcedure(tuple.Item2));
+                }
+                program = new CallGraphBasedPruning(program, changedProcs).PruneProgram();
+            }
+            //second thing is to remove Stubs
+            program = new source.ProcessStubs(program).EliminateStubs();            
 
             //cleanup assume value_is, as we are not printing a trace now
             //Dont cleanup value_is without this flag, SymDiff gets confused as it expects value_is for models
@@ -215,7 +226,6 @@ namespace Dependency
             }
 
 
-            if (changeList != null) PopulateChangeLog(changeList,program);
             RunAnalysis(filename, program);
 
             
