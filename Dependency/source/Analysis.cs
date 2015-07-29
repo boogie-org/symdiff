@@ -156,20 +156,18 @@ namespace Dependency
                 return -1;
             }
 
-            #region Cleanups 
-            /*
+            #region Cleanups             
             //first thing is to prune based on callgraph, if receiving a change list
             if (changeList != null)
             {
                 PopulateChangeLog(changeList, program);
-                List<Procedure> changedProcs = new List<Procedure>();
+                HashSet<Procedure> changedProcs = new HashSet<Procedure>();
                 foreach (var tuple  in changeLog)
                 {
                     changedProcs.Add(program.FindProcedure(tuple.Item2));
                 }
                 program = new CallGraphBasedPruning(program, changedProcs).PruneProgram();
-            }
-             * */
+            }             
             //second thing is to remove Stubs
             program = new source.ProcessStubs(program).EliminateStubs();            
 

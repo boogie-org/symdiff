@@ -15,9 +15,9 @@ namespace Dependency
 
         private HashSet<Procedure> callers = new HashSet<Procedure>();
         private HashSet<Procedure> callees = new HashSet<Procedure>();
-        private List<Procedure> changedProcedures;
+        private HashSet<Procedure> changedProcedures;
 
-        public CallGraphBasedPruning(Program program, List<Procedure> changedProcedures)
+        public CallGraphBasedPruning(Program program, HashSet<Procedure> changedProcedures)
         {
             this.program = program;
             this.changedProcedures = changedProcedures;
@@ -30,6 +30,9 @@ namespace Dependency
             foreach (var proc in changedProcedures)
             {
                 this.ComputeTransitiveCallers(proc);
+            }
+            foreach (var proc in callers)
+            {
                 this.ComputeTransitiveCallees(proc);
             }
 
