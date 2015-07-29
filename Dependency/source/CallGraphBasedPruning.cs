@@ -43,7 +43,7 @@ namespace Dependency
             int total = this.program.Procedures.Count();
             int removed = 0;
             foreach(var impl in this.program.Implementations.ToList()) {
-                if(!this.callees.Contains(impl.Proc) && !this.callers.Contains(impl.Proc)) {
+                if(!this.callers.Contains(impl.Proc)) {
                     Console.WriteLine("[INFO:] Pruned procedure based on callgraph: " + impl.Name);
                     this.program.RemoveTopLevelDeclaration(impl);
                     this.program.RemoveTopLevelDeclaration(impl.Proc);
@@ -53,7 +53,7 @@ namespace Dependency
 
             foreach (var proc in this.program.Procedures.ToList())
             {
-                if(!this.callees.Contains(proc) && !this.callers.Contains(proc)) {
+                if(!this.callers.Contains(proc)) {
                     Console.WriteLine("[INFO:] Pruned procedure based on callgraph: " + proc.Name);
                     this.program.RemoveTopLevelDeclaration(proc);
                     removed++;
