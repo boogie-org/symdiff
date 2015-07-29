@@ -157,6 +157,7 @@ namespace Dependency
             }
 
             #region Cleanups 
+            /*
             //first thing is to prune based on callgraph, if receiving a change list
             if (changeList != null)
             {
@@ -168,6 +169,7 @@ namespace Dependency
                 }
                 program = new CallGraphBasedPruning(program, changedProcs).PruneProgram();
             }
+             * */
             //second thing is to remove Stubs
             program = new source.ProcessStubs(program).EliminateStubs();            
 
