@@ -2,6 +2,7 @@
 using Microsoft.Boogie.GraphUtil;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,14 +37,14 @@ namespace Dependency
                 this.ComputeTransitiveCallees(proc);
             }
 
-            return this.Prune();            
+            return this.Prune();
         }
 
         private Program Prune() {
             int total = this.program.Procedures.Count();
             int removed = 0;
             foreach(var impl in this.program.Implementations.ToList()) {
-                if(!this.callers.Contains(impl.Proc)) {
+                if(!this.callees.Contains(impl.Proc)) {
                     Console.WriteLine("[INFO:] Pruned procedure based on callgraph: " + impl.Name);
                     this.program.RemoveTopLevelDeclaration(impl);
                     this.program.RemoveTopLevelDeclaration(impl.Proc);
@@ -53,7 +54,7 @@ namespace Dependency
 
             foreach (var proc in this.program.Procedures.ToList())
             {
-                if(!this.callers.Contains(proc)) {
+                if(!this.callees.Contains(proc)) {
                     Console.WriteLine("[INFO:] Pruned procedure based on callgraph: " + proc.Name);
                     this.program.RemoveTopLevelDeclaration(proc);
                     removed++;
