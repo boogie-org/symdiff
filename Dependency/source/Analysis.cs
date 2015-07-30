@@ -157,6 +157,7 @@ namespace Dependency
             }
 
             #region Cleanups
+            /*
             Debug.Assert(program.Resolve() == 0 && program.Typecheck() == 0, "Initial program has errors.");
             //first thing is to prune based on callgraph, if receiving a change list
             if (changeList != null)
@@ -169,7 +170,7 @@ namespace Dependency
                 }
                 program = new CallGraphBasedPruning(program, changedProcs).PruneProgram();
                 Debug.Assert(program.Resolve() == 0 &&  program.Typecheck() == 0, "After Callgraph pruning the program has errors.");
-            }             
+            } */            
             //second thing is to remove Stubs
             program = new source.ProcessStubs(program).EliminateStubs();            
 
