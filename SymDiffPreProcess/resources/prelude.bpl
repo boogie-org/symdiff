@@ -10,5 +10,6 @@ function $ui2fp.i64.float(x : i64) : float;
 function $fptrunc.float.float(x : float) : float;
 // Some bugs in smack
 procedure dyad_panic.ref(x : ref);
+procedure panic.ref(x : ref);
 procedure strdup.ref(x : ref) returns (r: i32);
 procedure atoi.ref(x : ref) returns (r: i32);
