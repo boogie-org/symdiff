@@ -38,10 +38,12 @@ namespace Dependency.source
             stubImpls.Iter(i => { prog.RemoveTopLevelDeclaration(i); prog.RemoveTopLevelDeclaration(i.Proc); });
             prog.Resolve();
             //some weird issue with dependency.exe (no return encountered in dac_examples\madwifi 7/13/15). persisting and reading back
-            Utils.PrintProgram(prog, "__stub_inlined.bpl");
-            if (!Utils.ParseProgram("__stub_inlined.bpl", out prog))
+            var sibpl = "__stub_inlined.bpl";
+            Utils.PrintProgram(prog, sibpl);
+            Console.WriteLine("Printed stub inlined program to {0}", sibpl);
+            if (!Utils.ParseProgram(sibpl, out prog))
             {
-                Debug.Assert(false, "Unable to parse the program after inlining stub");
+                Debug.Assert(false, "Unable to parse the program in after inlining stub " + sibpl);
             }
             return prog;
         }

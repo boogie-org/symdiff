@@ -4,6 +4,7 @@ using SymDiffUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SymdiffPreprocess
 {
@@ -21,6 +22,7 @@ namespace SymdiffPreprocess
             new SourceInfoRewriter(relativeDir).VisitProgram(inp);
             new ArrayAccessRewriter().Visit(inp);
             new SplitBlockAcrossAssertsRewriter().VisitProgram(inp);
+            new PruneQuantifiedSpecsOfSelectProcedures().VisitProgram(inp);
             //TODO: Remove prune visitor calls
             //new PruneCallsVisitor().VisitProgram(inp);
             return inp;
@@ -230,5 +232,21 @@ namespace SymdiffPreprocess
         }
     }
 
+    /// <summary>
+    /// Removing quantified specs of certain procedures that lead to variable capture while 
+    /// inlining (e.g. alloc has a spec with (b ==> foral a. ...), where a can conflict wiht a local/parameter
+    /// </summary>
+    class PruneQuantifiedSpecsOfSelectProcedures : FixedVisitor
+    {
+        ISet<string> procedures = new HashSet<string>() { "$alloc", "$free" };
+        public override Procedure VisitProcedure(Procedure node)
+        {
+            if (!procedures.Contains(node.Name)) return base.VisitProcedure(node);
+            node.Requires = new List<Requires>();
+            node.Ensures = new List<Ensures>();
+            return base.VisitProcedure(node);
+        }
+
+    }
 
 }  
