@@ -1,13 +1,12 @@
 using Microsoft.Boogie;
 using Microsoft.Boogie.Houdini;
-using SDiff;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace SDiff
+namespace SymDiffUtils
 {
     public class TaintBasedSimplification : SimplificationVisitor 
     {

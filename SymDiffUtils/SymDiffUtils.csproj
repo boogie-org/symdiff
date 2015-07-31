@@ -37,6 +37,13 @@
     <Reference Include="Core">
       <HintPath>..\references\Core.dll</HintPath>
     </Reference>
+    <Reference Include="Graph, Version=2.3.0.61016, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\references\Graph.dll</HintPath>
+    </Reference>
+    <Reference Include="Houdini">
+      <HintPath>..\references\Houdini.dll</HintPath>
+    </Reference>
     <Reference Include="Model">
       <HintPath>..\references\Model.dll</HintPath>
     </Reference>
@@ -59,7 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoogieUtils.cs" />
+    <Compile Include="CallGraphHelper.cs" />
+    <Compile Include="HoudiniInferredFilter.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="TaintBasedSimplification.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

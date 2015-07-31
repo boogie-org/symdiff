@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -122,6 +122,10 @@
     <Reference Include="Core">
       <HintPath>..\references\Core.dll</HintPath>
     </Reference>
+    <Reference Include="Graph, Version=2.3.0.61016, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\references\Graph.dll</HintPath>
+    </Reference>
     <Reference Include="Houdini">
       <HintPath>..\references\Houdini.dll</HintPath>
     </Reference>
@@ -182,7 +186,6 @@
     <Compile Include="source\Transform.cs" />
     <Compile Include="source\Visitor.cs" />
     <Compile Include="source\WholeProgram.cs" />
-    <Compile Include="source\TaintBasedSimplification.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

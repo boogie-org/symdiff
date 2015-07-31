@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Boogie;
 using System.Diagnostics;
 using SymDiffUtils;
-using SDiff;
 
 
 namespace Dependency

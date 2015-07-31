@@ -111,10 +111,6 @@
       <Project>{699f0912-d902-4854-9e1e-9892b46bcdbd}</Project>
       <Name>SymDiffUtils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SymDiff\SymDiff.csproj">
-      <Project>{4a428490-cd6f-4fbf-aa15-5f579be6c4b9}</Project>
-      <Name>SymDiff</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
