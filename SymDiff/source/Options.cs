@@ -10,7 +10,13 @@ namespace SDiff
 {
     public static class Options
     {
-        public enum INFER_OPT { NO_INFER, HOUDINI, ABS_HOUDINI }; 
+        public enum INFER_OPT { NO_INFER, HOUDINI, ABS_HOUDINI };
+        /// <summary>
+        /// Options for DAC encoding
+        /// DAC_LINEAR: only consider ith callsite of foo with ith callsite of foo' in some order
+        /// DAC_NORMAL: consider all callsites of foo with all callsites of foo' 
+        /// </summary>
+        public enum DAC_ENCODING_OPT { DAC_LINEAR, DAC_NORMAL }; 
 
         #region Some internal options
         //set these at compile time
@@ -61,6 +67,7 @@ namespace SDiff
         public static bool callCorralOnMergedProgram; //invoke corral to check the candidates in mutual summary procedures (for equivalence checking)
         public static bool checkEquivWithDependencies = false;
         public static bool invokeHoudiniDirectlyOnMergedBpl = false; //an option to test houdini
+        public static DAC_ENCODING_OPT dacEncoding = DAC_ENCODING_OPT.DAC_NORMAL; // DAC_ENCODING_OPT.DAC_LINEAR; 
 
         //taint analysis
         public static bool refinedStmtTaint; //use SymDiff to check for non-tainted statements when inlined (works with nonModularMode + splitEquality)

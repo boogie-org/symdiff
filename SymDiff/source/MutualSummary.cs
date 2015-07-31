@@ -19,6 +19,7 @@ namespace SDiff
     class MutualSummary
     {
         //options
+        static Options.DAC_ENCODING_OPT dacEncoding = Options.DAC_ENCODING_OPT.DAC_NORMAL;
         static bool dontUseMSAsAxioms = false; //when true, use the transformation in DAC paper without any R_f relations
         static bool useHoudini = true; //use houdini for candiates on MS procedures as pre/post
         static Options.INFER_OPT houdiniInferOpt; //use Houdini/AbsHoudini/...
@@ -55,6 +56,7 @@ namespace SDiff
             Options.INFER_OPT useHoudiniOption,
             bool checkPreconditions, bool freeContractsIn,
             bool dontTypeCheckMergedProg,
+            Options.DAC_ENCODING_OPT dacEnc, 
             bool callCorral = false)
         {
 
@@ -65,6 +67,7 @@ namespace SDiff
             useHoudini = dontUseMSAsAxioms && (useHoudiniOption != Options.INFER_OPT.NO_INFER);
             houdiniInferOpt = useHoudiniOption;
             freeContracts = freeContractsIn;
+            dacEncoding = dacEnc;
             checkMutualPreconditionsForInfiniteLoops = dontUseMSAsAxioms && checkPreconditions;
             callCorralOnMergedProgram = callCorral;
             //lets drop the modifies of all procedures (e.g. default generated alloc/detchoicent by havoc
@@ -728,6 +731,7 @@ namespace SDiff
             //don't create body if either procedure does not have a body
             if (IsStubProcedure(f1) || IsStubProcedure(f2))
             {
+                Debug.Assert(false, string.Format("No stub procedure expected {0} {1}, did you do stubInlining?", f1.Name, f2.Name));
                 //remember to add the modset from the declarations as /doModsetAnalysis will keep the modset as {}
                 mschkProc.Modifies.AddRange(f1.Modifies);
                 mschkProc.Modifies.AddRange(f2.Modifies);
@@ -828,13 +832,27 @@ namespace SDiff
             Block nxtBlock = null; //its the label of the next block
             List<Block> extraBlocks = new List<Block>(); //new blocks created
             //We reverse the keys so that MS_f_f' comes after MS_g_g' if f << g in block order
+            //[DAC_LINEAR] keep track of the occurrence of each procedure to be able to map (ith version of foo, ith version of foo') 
+            if (dacEncoding == Options.DAC_ENCODING_OPT.DAC_LINEAR)
+                Console.WriteLine("Using the DAC_LINEAR option that is more compact but may lose precision. Remove -dacEncodingLinear option to use the more precise encoding");
+            Dictionary<string, int> v1ProcInstance = new Dictionary<string, int>();
             foreach (var h1 in cr.calleeArgs.Keys.Reverse())
+            {
+                v1ProcInstance[h1.Name] = !v1ProcInstance.ContainsKey(h1.Name) ? 1 : v1ProcInstance[h1.Name] + 1;
+                Dictionary<string, int> v2ProcInstance = new Dictionary<string, int>();
                 foreach (var h2 in cr.calleeArgs.Keys.Reverse())
+                {
+                    v2ProcInstance[h2.Name] = !v2ProcInstance.ContainsKey(h2.Name) ? 1 : v2ProcInstance[h2.Name] + 1;
                     if (implProcMap.Contains(new KeyValuePair<string, string>(h1.Name, h2.Name)))
-                        foreach (Tuple<Variable, List<Variable>, List<Variable>> ca1 in cr.calleeArgs[h1])
-                            foreach (Tuple<Variable, List<Variable>, List<Variable>> ca2 in cr.calleeArgs[h2])
-                                MkMSCallCmds(f, f1, f2, h1, h2, ca1, ca2, pairCnt++, ref nxtBlock, ref extraBlocks);
-
+                        if (dacEncoding != Options.DAC_ENCODING_OPT.DAC_LINEAR ||
+                            v1ProcInstance[h1.Name] == v2ProcInstance[h2.Name])
+                        {
+                            foreach (Tuple<Variable, List<Variable>, List<Variable>> ca1 in cr.calleeArgs[h1])
+                                foreach (Tuple<Variable, List<Variable>, List<Variable>> ca2 in cr.calleeArgs[h2])
+                                    MkMSCallCmds(f, f1, f2, h1, h2, ca1, ca2, pairCnt++, ref nxtBlock, ref extraBlocks);
+                        }
+                }
+            }
             //change any return --> goto nxtBlock; return, which makes the return unreachable
             //careful not to add the extraBlocks as they have a return too that will get rewritten
             if (nxtBlock != null)

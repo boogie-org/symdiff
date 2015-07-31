@@ -88,8 +88,9 @@ namespace SDiff
           Console.WriteLine("\t -useAbstractHoudiniInference \n\t\tuse AbstractHoudini to infer candidate annotations with -usemutual");
           Console.WriteLine("\t -checkMutualPrecondNonTerminating \n\t\tenable checking of mutual preconditions in the presence of non-terminating programs with -usemutual");
           Console.WriteLine("\t -dontTypeCheckMergedProg           \n\t\tskips typechecking in memory of the mergedProgSingle.bpl (doesn't typecheck due to ms_symdiff_file.bpl)");
+          Console.WriteLine("\t -dacEncodingLinear                 \n\t\t(with DAC FSE'13 encoding) only pairs ith callsites of a procedure from two programs when creating merged program (linear in number of callsites)");
             
-          Console.WriteLine("\n[Options specific to differential assertion checking (not generally useful)]");
+          Console.WriteLine("\n[Options specific to evaluating differential assertion checking (not generally useful)]");
           Console.WriteLine("\t -oneproc        only check one version (works with -asserts)");
           Console.WriteLine("\t -main           just run on EQ_main_main (not well-tested)");
           Console.WriteLine("\t -bogusmodular   unsound modular checker which treats callees as equivalent");
@@ -123,6 +124,7 @@ namespace SDiff
             Options.dontTypeCheckMergedProg = argsList.Remove("-dontTypeCheckMergedProg");
             Options.callCorralOnMergedProgram = argsList.Remove("-callCorralOnMergedProgram");
             Options.invokeHoudiniDirectlyOnMergedBpl = argsList.Remove("-invokeHoudiniDirectlyOnMergedBpl");
+            Options.dacEncoding = argsList.Remove("-dacEncodingLinear") ? Options.DAC_ENCODING_OPT.DAC_LINEAR : Options.DAC_ENCODING_OPT.DAC_NORMAL;
             
             //taint related
             Options.refinedStmtTaint = argsList.Remove("-refinedStmtTaintAnalysis");
@@ -1540,6 +1542,7 @@ namespace SDiff
                     houdiniOpt, 
                     Options.checkMutualPrecondNonTerminating,
                     Options.freeContracts, Options.dontTypeCheckMergedProg,
+                    Options.dacEncoding,
                     Options.callCorralOnMergedProgram);
                 return 0;
             }
