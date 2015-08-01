@@ -67,8 +67,7 @@ namespace SDiff
         public static bool callCorralOnMergedProgram; //invoke corral to check the candidates in mutual summary procedures (for equivalence checking)
         public static bool checkEquivWithDependencies = false;
         public static bool invokeHoudiniDirectlyOnMergedBpl = false; //an option to test houdini
-        public static DAC_ENCODING_OPT dacEncoding = DAC_ENCODING_OPT.DAC_NORMAL; // DAC_ENCODING_OPT.DAC_LINEAR; 
-
+        public static DAC_ENCODING_OPT dacEncoding =  DAC_ENCODING_OPT.DAC_NORMAL; 
         //taint analysis
         public static bool refinedStmtTaint; //use SymDiff to check for non-tainted statements when inlined (works with nonModularMode + splitEquality)
 

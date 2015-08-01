@@ -365,7 +365,9 @@ my @houdini_examples =
     ##### recursion #######
      ["bpl_examples\\recursion\\", "v0", "v1"],
     ##### recursion #######
-     ["bpl_examples\\recursion\\", "v0", "v2"]
+     ["bpl_examples\\recursion\\", "v0", "v2"],
+    ##### dacLinear #######
+     ["bpl_examples\\dacLinear\\", "v0", "v1"]
   );
 
 print "-----------------------\n";

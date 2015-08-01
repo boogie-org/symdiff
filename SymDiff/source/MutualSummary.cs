@@ -832,25 +832,30 @@ namespace SDiff
             Block nxtBlock = null; //its the label of the next block
             List<Block> extraBlocks = new List<Block>(); //new blocks created
             //We reverse the keys so that MS_f_f' comes after MS_g_g' if f << g in block order
-            //[DAC_LINEAR] keep track of the occurrence of each procedure to be able to map (ith version of foo, ith version of foo') 
             if (dacEncoding == Options.DAC_ENCODING_OPT.DAC_LINEAR)
                 Console.WriteLine("Using the DAC_LINEAR option that is more compact but may lose precision. Remove -dacEncodingLinear option to use the more precise encoding");
             Dictionary<string, int> v1ProcInstance = new Dictionary<string, int>();
             foreach (var h1 in cr.calleeArgs.Keys.Reverse())
             {
-                v1ProcInstance[h1.Name] = !v1ProcInstance.ContainsKey(h1.Name) ? 1 : v1ProcInstance[h1.Name] + 1;
-                Dictionary<string, int> v2ProcInstance = new Dictionary<string, int>();
                 foreach (var h2 in cr.calleeArgs.Keys.Reverse())
                 {
-                    v2ProcInstance[h2.Name] = !v2ProcInstance.ContainsKey(h2.Name) ? 1 : v2ProcInstance[h2.Name] + 1;
                     if (implProcMap.Contains(new KeyValuePair<string, string>(h1.Name, h2.Name)))
-                        if (dacEncoding != Options.DAC_ENCODING_OPT.DAC_LINEAR ||
-                            v1ProcInstance[h1.Name] == v2ProcInstance[h2.Name])
+                    {
+                        int i1 = 0, i2; //callsite number
+                        foreach (Tuple<Variable, List<Variable>, List<Variable>> ca1 in cr.calleeArgs[h1])
                         {
-                            foreach (Tuple<Variable, List<Variable>, List<Variable>> ca1 in cr.calleeArgs[h1])
-                                foreach (Tuple<Variable, List<Variable>, List<Variable>> ca2 in cr.calleeArgs[h2])
+                            i2 = 0;
+                            i1++;
+                            foreach (Tuple<Variable, List<Variable>, List<Variable>> ca2 in cr.calleeArgs[h2])
+                            {
+                                i2++;
+                                //[DAC_LINEAR] keep track of the occurrence of each procedure to be able to map (ith version of foo, ith version of foo') 
+                                if (dacEncoding != Options.DAC_ENCODING_OPT.DAC_LINEAR ||
+                                    i1 == i2)
                                     MkMSCallCmds(f, f1, f2, h1, h2, ca1, ca2, pairCnt++, ref nxtBlock, ref extraBlocks);
+                            }
                         }
+                    }
                 }
             }
             //change any return --> goto nxtBlock; return, which makes the return unreachable
