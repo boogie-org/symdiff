@@ -162,15 +162,15 @@ namespace SDiff
         {
             mergedProgram = mp; p1Prefix = q1Prefix; p2Prefix = q2Prefix;
             var allGlobals = mp.TopLevelDeclarations.OfType<GlobalVariable>();
-            //var q1uses = GetUsedVariables(q1).GetUseSetForProgram();
-            //var q2uses = GetUsedVariables(q2).GetUseSetForProgram();
+            var q1uses = GetUsedVariables(q1).GetUseSetForProgram();
+            var q2uses = GetUsedVariables(q2).GetUseSetForProgram();
             gSeq_p1 = q1.TopLevelDeclarations.OfType<GlobalVariable>()
                 .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
-                //.Where(x => q1uses.Any(y => y.Name.Equals(x.Name)))
+                .Where(x => q1uses.Any(y => y.Name.Equals(x.Name)))
                 .ToList<Variable>();
             gSeq_p2 = q2.TopLevelDeclarations.OfType<GlobalVariable>()
                 .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
-                //.Where(x => q2uses.Any(y => y.Name.Equals(x.Name)))
+                .Where(x => q2uses.Any(y => y.Name.Equals(x.Name)))
                 .ToList<Variable>();
 
             summaryFuncs = new Dictionary<Procedure, Function>();
