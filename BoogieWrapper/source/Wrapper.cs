@@ -42,7 +42,7 @@ namespace BoogieWrapper
                 Log.Out(Log.Verifier, "Parse Error!!! in   " + args[1]);
                 return -1;
             }
-            if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile))
+            if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(prog, args[0]))
                 return -1;
             //code duplication
 
