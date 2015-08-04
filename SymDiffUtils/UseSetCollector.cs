@@ -118,7 +118,10 @@ namespace SymDiffUtils
                 {
                     foreach (var pred in this.callGraph.Predecessors(current))
                     {
-                        workQueue.Enqueue(pred);
+                        if (!workQueue.Contains(pred) && !pred.Equals(current))
+                        {
+                            workQueue.Enqueue(pred);
+                        }
                     }
                 }
             }
