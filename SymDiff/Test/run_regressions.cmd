@@ -367,7 +367,10 @@ my @houdini_examples =
     ##### recursion #######
      ["bpl_examples\\recursion\\", "v0", "v2"],
     ##### dacLinear #######
-     ["bpl_examples\\dacLinear\\", "v0", "v1"]
+     ["bpl_examples\\dacLinear\\", "v0", "v1"],
+    ##### freesPruning #######
+     ["bpl_examples\\freesPruning\\", "v0", "v1"]   
+
   );
 
 print "-----------------------\n";

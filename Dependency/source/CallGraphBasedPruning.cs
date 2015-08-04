@@ -1,5 +1,6 @@
 ﻿using Microsoft.Boogie;
 using Microsoft.Boogie.GraphUtil;
+using SymDiffUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +27,7 @@ namespace Dependency
 
         public Program PruneProgram()
         {
-            this.callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);
+            this.callGraph = CallGraphHelper.ComputeCallGraph(program);
 
             foreach (var proc in changedProcedures)
             {

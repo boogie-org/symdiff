@@ -8,6 +8,7 @@ using Microsoft.Boogie;
 using Microsoft.Boogie.GraphUtil;
 using System.Collections;
 using System.Diagnostics;
+using SymDiffUtils;
 
 namespace Dependency
 {
@@ -201,7 +202,7 @@ namespace Dependency
                 return 0;
             }
 
-            Utils.CallGraphHelper.WriteCallGraph(filename + ".cg", Utils.CallGraphHelper.ComputeCallGraph(program));
+            CallGraphHelper.WriteCallGraph(filename + ".cg", CallGraphHelper.ComputeCallGraph(program));
             Dictionary<string, HashSet<int>> sourceLines = new Dictionary<string, HashSet<int>>();
             program.Implementations.Iter(i => i.Blocks.Iter(b =>
             {

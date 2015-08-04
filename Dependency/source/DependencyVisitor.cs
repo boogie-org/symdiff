@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Boogie;
 using Microsoft.Boogie.GraphUtil;
 using System.Diagnostics;
+using SymDiffUtils;
 
 namespace Dependency
 {
@@ -32,7 +33,7 @@ namespace Dependency
             this.lowerBoundProcDependencies = lowerBoundProcDependencies;
             this.upperBoundProcDependencies = upperBoundProcDependencies;
             this.stackBound = stackBound;
-            this.callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);
+            this.callGraph = CallGraphHelper.ComputeCallGraph(program);
             currDependencies = null;
 
             program.TopLevelDeclarations.OfType<Procedure>().Iter(proc =>
@@ -53,7 +54,7 @@ namespace Dependency
             var worklist = new List<Procedure>();
             bool acyclic;
             List<Procedure> topSortedProcedures;
-            Graph<Procedure> callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);   //constant
+            Graph<Procedure> callGraph = CallGraphHelper.ComputeCallGraph(program);   //constant
             //HACK: lets try with self-recursion (includes loops) removed
             Graph<Procedure> selfLessCg = new Graph<Procedure>();
             callGraph.Edges.Where(e => e.Item1 != e.Item2).Iter(e => selfLessCg.AddEdge(e.Item1, e.Item2));
@@ -64,7 +65,7 @@ namespace Dependency
             {
                 Console.WriteLine("---------\nMutual recursion exists: the work lists are not optimized\n--------");
                 //TODO: Compute SCCs and topSort over SCCs
-                worklist.AddRange(Utils.CallGraphHelper.BottomUp(callGraph)); //does this help?
+                worklist.AddRange(CallGraphHelper.BottomUp(callGraph)); //does this help?
                 // worklist.AddRange(program.TopLevelDeclarations.Where(d => d is Procedure).Select(p => p as Procedure));
             }
 
@@ -103,7 +104,7 @@ namespace Dependency
                     Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(upperBoundProcDependencies, program, newProg),
                     Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(currDependencies, program, newProg),
                     stackBound,
-                    Utils.CallGraphHelper.ComputeCallGraph(newProg));
+                    CallGraphHelper.ComputeCallGraph(newProg));
                 var tmp = Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms(rdpi.Run(), newProg, program)[proc];
 
                 Debug.Assert(tmp.Keys.All(v => proc.InParams.Contains(v) || proc.OutParams.Contains(v) || v is GlobalVariable));
@@ -155,7 +156,7 @@ namespace Dependency
             this.filename = filename;
             this.program = program;
 
-            this.callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);
+            this.callGraph = CallGraphHelper.ComputeCallGraph(program);
             this.nodeToImpl = Utils.ComputeNodeToImpl(program);
 
             this.ProcDependencies = new Dictionary<Procedure, Dependencies>();
@@ -182,7 +183,7 @@ namespace Dependency
         {
             //Console.WriteLine("Starting...");
             //Console.ReadLine();
-            var orderedSCCs = Utils.CallGraphHelper.ComputeOrderedSCCs(callGraph);
+            var orderedSCCs = CallGraphHelper.ComputeOrderedSCCs(callGraph);
             orderedSCCs.Reverse();
             int numVisited = 0;
             ProcReadSetVisitor rsv = new ProcReadSetVisitor();

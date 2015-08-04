@@ -67,7 +67,7 @@
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisLogFile>bin\Debug\SymDiff.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
@@ -172,6 +172,7 @@
     <Compile Include="source\CallGraphVisitor.cs" />
     <Compile Include="source\CexVisitor.cs" />
     <Compile Include="source\CorralCheck.cs" />
+    <Compile Include="source\FreesPruning.cs" />
     <Compile Include="source\MutualSummary.cs" />
     <Compile Include="source\rvt.cs" />
     <Compile Include="source\RVTCheck.cs" />

@@ -7,6 +7,7 @@ using Microsoft.Boogie;
 using B = SDiff.Boogie;
 using Microsoft.Boogie.Houdini;
 using SymDiffUtils;
+using SymDiff;
 
 namespace SDiff
 {
@@ -112,6 +113,8 @@ namespace SDiff
             program = SDiff.Boogie.Process.ParseProgram(mpsPi);
             Boogie.Process.ResolveAndTypeCheckThrow(program, mpsPi); 
 
+            new FreesPruning(program).Prune();
+
             HoudiniSession.HoudiniStatistics houdiniStats = new HoudiniSession.HoudiniStatistics();
             Houdini houdini = new Houdini(program, houdiniStats);
             HoudiniOutcome outcome = houdini.PerformHoudiniInference();
@@ -127,7 +130,6 @@ namespace SDiff
             var trueConstants = extractVariableAssigned(true, outcome);
             var falseConstants = extractVariableAssigned(false, outcome);
             persistHoudiniInferredFacts(trueConstants, falseConstants, program, houdini);
-
             SDiff.Boogie.Process.PrintProgram(program, "mergedProgSingle_inferred.bpl");
             Console.WriteLine("Houdini finished and inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
             Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts",
@@ -161,7 +163,7 @@ namespace SDiff
             mergedProgram = mp; p1Prefix = q1Prefix; p2Prefix = q2Prefix;
             var allGlobals = mp.TopLevelDeclarations.OfType<GlobalVariable>();
             gSeq_p1 = q1.TopLevelDeclarations.OfType<GlobalVariable>()
-                .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
+                .Select(x => allGlobals.Where(y => y.Name == x.Name).First())                
                 .ToList<Variable>();
             gSeq_p2 = q2.TopLevelDeclarations.OfType<GlobalVariable>()
                 .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
@@ -173,6 +175,14 @@ namespace SDiff
             msFuncAxiomsAdded = new HashSet<Function>();
             abortVars = new Dictionary<Implementation, LocalVariable>();
         }
+
+        private static UseSetCollector GetUsedVariables(Program prog)
+        {
+            UseSetCollector visitor = new UseSetCollector(prog);
+            visitor.Visit(prog);
+            visitor.Propagate();
+            return visitor;         
+        } 
 
         private static void InitializeProcMaps(Config cfg)
         {

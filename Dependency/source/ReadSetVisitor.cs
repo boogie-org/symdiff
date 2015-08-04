@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Boogie;
 using Microsoft.Boogie.GraphUtil;
+using SymDiffUtils;
 
 namespace Dependency
 {
@@ -16,7 +17,7 @@ namespace Dependency
 
         public override Program VisitProgram(Program program)
         {
-            var callGraph = Utils.CallGraphHelper.ComputeCallGraph(program);
+            var callGraph = CallGraphHelper.ComputeCallGraph(program);
 
             var worklist = new List<Procedure>();
             program.TopLevelDeclarations.Iter(d => { if (d is Procedure) worklist.Add(d as Procedure); });
