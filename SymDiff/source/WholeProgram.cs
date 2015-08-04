@@ -323,7 +323,7 @@ namespace SDiff
             //Program mergedProgram = new Program();
             //mergedProgram.TopLevelDeclarations = p2.TopLevelDeclarations.Append(p1.TopLevelDeclarations.ToList());
             Log.Out(Log.Normal, "Resolving and typechecking");
-            if (SDiff.Boogie.Process.ResolveAndTypeCheck(mergedProgram, Options.MergedProgramOutputFile))
+            if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
                 return 1;
 
             //--------------- renaming starts ----------------------------------
@@ -373,7 +373,7 @@ namespace SDiff
             mergedProgram = SDiff.Boogie.Process.ParseProgram(p1Prefix + p2Prefix + "_temp.bpl");
             Log.Out(Log.Normal, "Resolving and typechecking");
             //we now have a single AST that contains all of the elements of each of the individual ASTs
-            if (SDiff.Boogie.Process.ResolveAndTypeCheck(mergedProgram, Options.MergedProgramOutputFile))
+            if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
                 return 1;
             return 0;
         }
@@ -456,7 +456,7 @@ namespace SDiff
             Log.Out(Log.Normal, "Writing writesets as modifies clauses");
             SDiff.Boogie.Process.SetModifies(mergedProgram.TopLevelDeclarations.ToList(), cg);
             Log.Out(Log.Normal, "Resolving and Typechecking again..");
-            if (SDiff.Boogie.Process.ResolveAndTypeCheck(mergedProgram, Options.MergedProgramOutputFile))
+            if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
                 return 1;
             if (Options.TraceVerify)
             {
@@ -1092,7 +1092,7 @@ namespace SDiff
                     mergedProgram.AddTopLevelDeclarations(canonicalConst);
 
                     Log.Out(Log.Normal, "Resolving and Typechecking again..");
-                    if (SDiff.Boogie.Process.ResolveAndTypeCheck(mergedProgram, Options.MergedProgramOutputFile))
+                    if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
                     {
                         Log.LogEmit(Log.Normal, mergedProgram.Emit);
                         return 1;

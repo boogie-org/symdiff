@@ -88,7 +88,7 @@ namespace SDiff
         }
 
         /// <summary>
-        /// Reads "mergedProgSingle.bpl" directly
+        /// Reads mergedProgSingle directly
         /// </summary>
         public static void PerformHoudiniInferece()
         {
@@ -103,13 +103,15 @@ namespace SDiff
             //TODO: need to pass inferContracts options that run_symdiff_bpl passed to Boogie.exe
             var boogieOptions = " /typeEncoding:m /noinfer " + Options.BoogieUserOpts /* + " /trace " */;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
-            var program = SDiff.Boogie.Process.ParseProgram("mergedProgSingle.bpl");
-            program.Resolve(); program.Typecheck();
+            var mps = Options.MergedProgramOutputFile; 
+            var program = SDiff.Boogie.Process.ParseProgram(mps);
+            Boogie.Process.ResolveAndTypeCheckThrow(program, mps);             
             (new TaintBasedSimplification(program)).StartSimplifications();
 
-            SDiff.Boogie.Process.PrintProgram(program, "mergedProgSingle_preInferred.bpl");
-            program = SDiff.Boogie.Process.ParseProgram("mergedProgSingle_preInferred.bpl");
-            program.Resolve(); program.Typecheck();
+            var mpsPi = "mergedProgSingle_preInferred.bpl";
+            SDiff.Boogie.Process.PrintProgram(program, mpsPi);
+            program = SDiff.Boogie.Process.ParseProgram(mpsPi);
+            Boogie.Process.ResolveAndTypeCheckThrow(program, mpsPi); 
 
             new FreesPruning(program).Prune();
 
@@ -117,9 +119,14 @@ namespace SDiff
             Houdini houdini = new Houdini(program, houdiniStats);
             HoudiniOutcome outcome = houdini.PerformHoudiniInference();
             houdini.Close();
-
-            program = SDiff.Boogie.Process.ParseProgram("mergedProgSingle_preInferred.bpl");
-            program.Resolve(); program.Typecheck();
+            Console.WriteLine("Houdini statistics:: Prover Time {0} NumProver Queries {1} UnsatProver time {2} NumUnsat prunings {3}", 
+                houdiniStats.proverTime,
+                houdiniStats.numProverQueries,
+                houdiniStats.unsatCoreProverTime,
+                houdiniStats.numUnsatCorePrunings);
+            //program changes due to Houdini transformations
+            program = SDiff.Boogie.Process.ParseProgram(mpsPi);
+            Boogie.Process.ResolveAndTypeCheckThrow(program, mpsPi); 
             var trueConstants = extractVariableAssigned(true, outcome);
             var falseConstants = extractVariableAssigned(false, outcome);
             persistHoudiniInferredFacts(trueConstants, falseConstants, program, houdini);
@@ -217,15 +224,13 @@ namespace SDiff
                 var msproc = FindOrCreateMSCheckProcedure(f1, f2);
                 if (IsRootProcedures(f1, cg1) || IsRootProcedures(f2, cg2)) rootMSProcs.Add(msproc);
             }
+            //this does not verify, and also produces @ symbols in the resulting printed file
+            Util.DumpBplAST(mergedProgram, Options.MergedProgramOutputFile);
             if (typeCheckMergedProgram)
             {
                 Log.Out(Log.Normal, "Resolving and typechecking");
-                SDiff.Boogie.Process.ResolveAndTypeCheck(mergedProgram, Options.MergedProgramOutputFile);
+                SDiff.Boogie.Process.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile);
             }
-            //this does not verify, and also produces @ symbols in the resulting printed file
-            //var oc = BoogieVerify.MyVerifyImplementation(mschkImpl, mergedProgram); //only the last one
-            //Console.WriteLine("Outcome = {0}", oc);
-            Util.DumpBplAST(mergedProgram, "mergedProgSingle.bpl");
 
             if (callCorralOnMergedProgram)
                 (new CorralChecker(mergedProgram, rootMSProcs)).CheckCandidateAsserts();
@@ -810,6 +815,8 @@ namespace SDiff
                     });
             Debug.Assert(dependency[f].Keys.Count() == outs.Count + f.Modifies.Count,
                 string.Format("Mismatched number of output variables and io_dependency annotations for {0}", f.Name));
+
+            //TODO: This part should be deprecated as we already look for tainted variables (input/output/summary)
             //get the set of bottom up taints
             bool foundBottomUpTaintedInfo = false; //whether we have any annotation about "bottomup_tainted_vars"
             foreach (var en in f.Ensures)
@@ -823,7 +830,7 @@ namespace SDiff
             }
             if (!foundBottomUpTaintedInfo)
             {
-                Console.WriteLine("Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted");
+                //Console.WriteLine("Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted");
                 bottomUpTaintVars[f] = new HashSet<Variable>(outs.Union(f.Modifies.Select(x => x.Decl))); //assume all are tainted
             }
         }

@@ -342,22 +342,30 @@ namespace SDiff.Boogie
       return errorCount != 0;
     }
 
-    public static bool ResolveAndTypeCheck(Program p, string filename)
+    private static bool ResolveAndTypeCheck(Program p, string filename)
     {
       if (ResolveProgram(p, ""))
       {
-        Log.Out(Log.Error, "Failed to resolve merged program");
+        Log.Out(Log.Error, "Failed to resolve  program");
         return true;
       }
       if (TypecheckProgram(p, ""))
       {
-        Log.Out(Log.Error, "Failed to typecheck merged program");
-        Log.LogEmit(Log.Normal, p.Emit);
+        Log.Out(Log.Error, "Failed to typecheck program");
+        //Log.LogEmit(Log.Normal, p.Emit);
         // PrintProgram(p, "");
         return true;
       }
       return false;
     }
+
+    public static bool ResolveAndTypeCheckThrow(Program p, string filename)
+    {
+        if (ResolveAndTypeCheck(p, filename))
+            throw new Exception("Program " + filename + " does not resolve/typecheck");
+        return false;
+    }
+
 
     public static Program ParseProgram(string f)
     {
