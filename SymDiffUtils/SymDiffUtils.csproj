@@ -70,6 +70,7 @@
     <Compile Include="HoudiniInferredFilter.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="TaintBasedSimplification.cs" />
+    <Compile Include="UseSetCollector.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

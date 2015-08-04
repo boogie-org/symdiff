@@ -7,6 +7,7 @@ using Microsoft.Boogie;
 using B = SDiff.Boogie;
 using Microsoft.Boogie.Houdini;
 using SymDiffUtils;
+using SymDiff;
 
 namespace SDiff
 {
@@ -155,7 +156,7 @@ namespace SDiff
             mergedProgram = mp; p1Prefix = q1Prefix; p2Prefix = q2Prefix;
             var allGlobals = mp.TopLevelDeclarations.OfType<GlobalVariable>();
             gSeq_p1 = q1.TopLevelDeclarations.OfType<GlobalVariable>()
-                .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
+                .Select(x => allGlobals.Where(y => y.Name == x.Name).First())                
                 .ToList<Variable>();
             gSeq_p2 = q2.TopLevelDeclarations.OfType<GlobalVariable>()
                 .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
@@ -167,6 +168,14 @@ namespace SDiff
             msFuncAxiomsAdded = new HashSet<Function>();
             abortVars = new Dictionary<Implementation, LocalVariable>();
         }
+
+        private static UseSetCollector GetUsedVariables(Program prog)
+        {
+            UseSetCollector visitor = new UseSetCollector(prog);
+            visitor.Visit(prog);
+            visitor.Propagate();
+            return visitor;         
+        } 
 
         private static void InitializeProcMaps(Config cfg)
         {
