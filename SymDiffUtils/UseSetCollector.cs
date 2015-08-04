@@ -29,46 +29,66 @@ namespace SymDiffUtils
         public HashSet<Variable> GetUseSetForProcedure(Procedure proc)
         {
             Debug.Assert(this.ProcedureToUseSet.ContainsKey(proc));
+            BitArray bitarray = this.ProcedureToUseSet[proc];
+            HashSet<Variable> vars = GetUseSetFromBitArray(bitarray);
+            return vars;
+        }
+
+        private HashSet<Variable> GetUseSetFromBitArray(BitArray bitarray)
+        {
             HashSet<Variable> vars = new HashSet<Variable>();
-            foreach(BitArray bitarray in this.ProcedureToUseSet[proc]){
-                for (int i = 0; i < bitarray.Count; i++)
+
+            for (int i = 0; i < bitarray.Count; i++)
+            {
+                if (bitarray.Get(i))
                 {
-                    if (bitarray.Get(i))
-                    {
-                        vars.Add(this.idToVariable[i]);
-                    }
+                    vars.Add(this.idToVariable[i]);
                 }
             }
             return vars;
         }
 
+        public HashSet<Variable> GetUseSetForProgram()
+        {
+            BitArray allUses = this.ProcedureToUseSet.Values.Aggregate(new BitArray(this.variableDecls, false), (x, y) => x.Or(y));
+            return this.GetUseSetFromBitArray(allUses);
+        }
+
         public override Procedure VisitProcedure(Procedure node)
         {
             last = node;
-            Debug.Assert(!this.ProcedureToUseSet.ContainsKey(node));
-            this.ProcedureToUseSet.Add(node, new BitArray(this.variableDecls));
-            return base.VisitProcedure(node);
+            if (!this.ProcedureToUseSet.ContainsKey(node))
+            {
+                this.ProcedureToUseSet.Add(node, new BitArray(this.variableDecls));
+            }
+            var result = base.VisitProcedure(node);
+            last = null;
+            return result;
         }
 
         public override Expr VisitIdentifierExpr(IdentifierExpr node)
         {
-            Debug.Assert(this.last != null);
+            if (this.last == null)
+            {
+                return base.VisitIdentifierExpr(node);
+            }
+
             if (node.Decl is GlobalVariable)
             {
-                this.ProcedureToUseSet[this.last].Set(this.getId(node.Decl), true);
+                this.ProcedureToUseSet[this.last].Set(this.GetId(node.Decl), true);
             }
             return base.VisitIdentifierExpr(node);
         }
 
-        private int getId(Variable variable)
+        private int GetId(Variable variable)
         {
-            if(!this.variableToId.ContainsKey(variable))
+            if (!this.variableToId.ContainsKey(variable))
             {
                 this.variableToId.Add(variable, this.currentId);
                 this.idToVariable.Add(this.currentId, variable);
                 this.currentId++;
             }
-            
+
             return this.variableToId[variable];
 
         }
@@ -76,9 +96,9 @@ namespace SymDiffUtils
         public void Propagate()
         {
             this.callGraph = CallGraphHelper.ComputeCallGraph(program);
-            
+
             Queue<Procedure> workQueue = new Queue<Procedure>(this.ProcedureToUseSet.Keys);
-            
+
             while (workQueue.Count > 0)
             {
                 Procedure current = workQueue.Dequeue();
@@ -87,13 +107,15 @@ namespace SymDiffUtils
                 bool changed = false;
                 foreach (var suc in this.callGraph.Successors(current))
                 {
-                    if (!useSet.Or(this.ProcedureToUseSet[suc]).Equals(copy))
-                    {
-                        changed = true;
-                    }
+                    useSet.Or(this.ProcedureToUseSet[suc]);
                 }
-                
-                if(changed) {
+                if (!useSet.Equals(copy))
+                {
+                    changed = true;
+                }
+
+                if (changed)
+                {
                     foreach (var pred in this.callGraph.Predecessors(current))
                     {
                         workQueue.Enqueue(pred);
