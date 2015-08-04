@@ -462,6 +462,7 @@ namespace Dependency
             // TODO: create tainted blocks and block dependencies
             if (AbstractNonTainted)
             {
+                throw new NotImplementedException("AbstractNonTainted is not tested currently");
                 Utils.DependenciesUtils.PruneProcDependencies(program, allDeps); //for now we prune it
                 var antc = new AbstractNonTaintProgram(program, allDeps, null, null);
                 antc.AbstractNonTaintedImplementations();

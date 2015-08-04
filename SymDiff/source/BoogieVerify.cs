@@ -883,7 +883,7 @@ namespace SDiff
                     Log.Out(Log.Verifier, "Parse Error!!! in   " + vt.Eq.Name);
                     return 1;
                 }
-                if (SDiff.Boogie.Process.ResolveAndTypeCheck(prog, Options.MergedProgramOutputFile))
+                if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile))
                     return 1;
 
                 newEq = vt.Eq;

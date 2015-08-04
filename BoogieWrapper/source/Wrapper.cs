@@ -42,7 +42,7 @@ namespace BoogieWrapper
                 Log.Out(Log.Verifier, "Parse Error!!! in   " + args[1]);
                 return -1;
             }
-            if (SDiff.Boogie.Process.ResolveAndTypeCheck(prog, Options.MergedProgramOutputFile))
+            if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile))
                 return -1;
             //code duplication
 
@@ -52,7 +52,7 @@ namespace BoogieWrapper
                 //System.Diagnostics.Debugger.Break();
                 var bvdI = new BvdInstrument();
                 Program prog1 = bvdI.VisitProgram(prog);                
-                if (SDiff.Boogie.Process.ResolveAndTypeCheck(prog, fileName)) return -1;
+                if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(prog, fileName)) return -1;
                 Util.DumpBplAST(prog, "merged_bvd.bpl");
                 return -1;
             }
