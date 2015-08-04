@@ -21,12 +21,14 @@ namespace SymDiffUtils
             this.procs = this.program.Procedures.Select(proc => new { proc.Name, x = proc }).ToDictionary(x => x.Name, x => x.x);            
         }
 
-        public override Procedure VisitProcedure(Procedure node)
+        public override Implementation VisitImplementation(Implementation node)
         {
             //TODO(t-algy): This gets called twice because it gets invoked when the visitor visits an implementation. Fix.
-            if (this.visited.Contains(node))
-                return base.VisitProcedure(node);
-            this.visited.Add(node);
+            if (this.visited.Contains(node.Proc))
+            {
+                return base.VisitImplementation(node);
+            }
+            this.visited.Add(node.Proc);
 
             var ensToAdd = new List<Ensures>();
             var ensToRem = new List<Ensures>();
@@ -34,14 +36,14 @@ namespace SymDiffUtils
             var reqToRem = new List<Requires>();
 
             string f1, f2;
-            if (node == null || !isMSProcedureWithMapping(node, out f1, out f2))
+            if (node == null || !isMSProcedureWithMapping(node.Proc, out f1, out f2))
             {
-                return base.VisitProcedure(node);
+                return base.VisitImplementation(node);
             }
             HashSet<string> nonTaintedInputs, nonTaintedOutputs, nonTaintedSummaries;
             this.getTaintInfo(this.procs[f1], out nonTaintedInputs, out nonTaintedOutputs, out nonTaintedSummaries);
 
-            foreach (var ens in node.Ensures)
+            foreach (var ens in node.Proc.Ensures)
             {
 
                 if (ens.Attributes == null)
@@ -58,19 +60,19 @@ namespace SymDiffUtils
                         //get the varaible, map it, check if correspoinding summary is not tainted, if so make this free.                        
                         if (nonTaintedSummaries.Contains(vn))
                         {
-                            this.makeFreeEnsures(node, ens, ensToAdd, ensToRem);
+                            this.makeFreeEnsures(node.Proc, ens, ensToAdd, ensToRem);
                         }
                     }
                     else if (ens.Attributes.Key.Equals("DAC_EQ") || ens.Attributes.Key.Equals("DAC_LE") || ens.Attributes.Key.Equals("DAC_IMPLIES"))
                     {
                         if (nonTaintedOutputs.Contains(vn))
                         {
-                            this.makeFreeEnsures(node, ens, ensToAdd, ensToRem);
+                            this.makeFreeEnsures(node.Proc, ens, ensToAdd, ensToRem);
                         }
                     }
                 }
             }
-            foreach (var req in node.Requires)
+            foreach (var req in node.Proc.Requires)
             {
 
                 if (req.Attributes == null)
@@ -83,17 +85,17 @@ namespace SymDiffUtils
                     var vn = this.projectProductVarToOriginal(req.Attributes.Params.First(_ => true).ToString());
                     if (nonTaintedInputs.Contains(vn))
                     {
-                        this.makeFreeRequires(node, req, reqToAdd, reqToRem);
+                        this.makeFreeRequires(node.Proc, req, reqToAdd, reqToRem);
                     }
                 }
             }
 
-            reqToAdd.ForEach(node.Requires.Add);
-            reqToRem.ForEach(x => node.Requires.Remove(x));
-            ensToAdd.ForEach(node.Ensures.Add);
-            ensToRem.ForEach(x => node.Ensures.Remove(x));
+            reqToAdd.ForEach(node.Proc.Requires.Add);
+            reqToRem.ForEach(x => node.Proc.Requires.Remove(x));
+            ensToAdd.ForEach(node.Proc.Ensures.Add);
+            ensToRem.ForEach(x => node.Proc.Ensures.Remove(x));
 
-            return base.VisitProcedure(node);
+            return base.VisitImplementation(node);
         }
 
         public void getTaintInfo(Procedure node, out HashSet<string> nonTaintedInputs,
