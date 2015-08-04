@@ -43,7 +43,7 @@ namespace SDiff
         #endregion
 
         #region Static variables, not options
-        public static string MergedProgramOutputFile = null;
+        public static string MergedProgramOutputFile = "mergedProgSingle.bpl";
         public static HashSet<string> OutputVars = new HashSet<string>();
         public static string BoogieUserOpts = "/doModSetAnalysis";
         public static bool ok; // *

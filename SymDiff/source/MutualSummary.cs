@@ -88,7 +88,7 @@ namespace SDiff
         }
 
         /// <summary>
-        /// Reads "mergedProgSingle.bpl" directly
+        /// Reads mergedProgSingle directly
         /// </summary>
         public static void PerformHoudiniInferece()
         {
@@ -103,7 +103,7 @@ namespace SDiff
             //TODO: need to pass inferContracts options that run_symdiff_bpl passed to Boogie.exe
             var boogieOptions = " /typeEncoding:m /noinfer " + Options.BoogieUserOpts /* + " /trace " */;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
-            var mps = "mergedProgSingle.bpl";
+            var mps = Options.MergedProgramOutputFile; 
             var program = SDiff.Boogie.Process.ParseProgram(mps);
             Boogie.Process.ResolveAndTypeCheckThrow(program, mps);             
             (new TaintBasedSimplification(program)).StartSimplifications();
@@ -119,7 +119,7 @@ namespace SDiff
             Houdini houdini = new Houdini(program, houdiniStats);
             HoudiniOutcome outcome = houdini.PerformHoudiniInference();
             houdini.Close();
-            Console.WriteLine("Houdini statistics = Prover Time {0} NumProver Queries {1} UnsatProver time{2} NumUnsat prunings {3}", 
+            Console.WriteLine("Houdini statistics:: Prover Time {0} NumProver Queries {1} UnsatProver time {2} NumUnsat prunings {3}", 
                 houdiniStats.proverTime,
                 houdiniStats.numProverQueries,
                 houdiniStats.unsatCoreProverTime,
@@ -224,15 +224,13 @@ namespace SDiff
                 var msproc = FindOrCreateMSCheckProcedure(f1, f2);
                 if (IsRootProcedures(f1, cg1) || IsRootProcedures(f2, cg2)) rootMSProcs.Add(msproc);
             }
+            //this does not verify, and also produces @ symbols in the resulting printed file
+            Util.DumpBplAST(mergedProgram, Options.MergedProgramOutputFile);
             if (typeCheckMergedProgram)
             {
                 Log.Out(Log.Normal, "Resolving and typechecking");
                 SDiff.Boogie.Process.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile);
             }
-            //this does not verify, and also produces @ symbols in the resulting printed file
-            //var oc = BoogieVerify.MyVerifyImplementation(mschkImpl, mergedProgram); //only the last one
-            //Console.WriteLine("Outcome = {0}", oc);
-            Util.DumpBplAST(mergedProgram, "mergedProgSingle.bpl");
 
             if (callCorralOnMergedProgram)
                 (new CorralChecker(mergedProgram, rootMSProcs)).CheckCandidateAsserts();
