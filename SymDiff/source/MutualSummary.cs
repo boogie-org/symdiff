@@ -1198,7 +1198,10 @@ namespace SDiff
                 var og1 = o1.Union(gSeq_p1).ToList();
                 var og2 = o2.Union(gSeq_p2).ToList();
                 og1.Sort(varOrder); og2.Sort(varOrder);
-                foreach (var o12 in og1.Zip(og2))
+                //pair variables by names
+                List<Variable> mismatch1, mismatch2;  
+                var l12 = FindMatchingPairs(og1, og2, p1Prefix, p2Prefix, out mismatch1, out mismatch2);
+                foreach (var o12 in l12)
                 {
                     if (!dependency[f1].ContainsKey(o12.Item1) || !dependency[f2].ContainsKey(o12.Item2)) continue;
                     var dep1 = dependency[f1][o12.Item1];
@@ -1250,6 +1253,34 @@ namespace SDiff
                     }
                     dep2.Add(missing2.First());
                 }
+            }
+            /// <summary>
+            /// Returns {(v1.x, v2.x) | v1.x in l1 and v2.x in l2}
+            /// also returns the mismatched variables in l1 and l2
+            /// </summary>
+            /// <param name="l1"></param>
+            /// <param name="l2"></param>
+            /// <returns></returns>
+            private static List<Tuple<Variable, Variable>> FindMatchingPairs(List<Variable> l1, List<Variable> l2,
+                string prefix1, string prefix2, 
+                out List<Variable> misMatched1, out List<Variable> misMatched2)
+            {
+                var pairList = new List<Tuple<Variable, Variable>>();
+                misMatched1 = new List<Variable>();
+                misMatched2 = new List<Variable>();
+                foreach (var i in l1)
+                {
+                    var name = Util.TrimPrefixWithDot(i.Name, prefix1);
+                    if (l2.Any(x => Util.TrimPrefixWithDot(x.Name, prefix2) == name))
+                    {
+                        var j = l2.First(x => Util.TrimPrefixWithDot(x.Name, prefix2) == name);
+                        pairList.Add(Tuple.Create(i, j));
+                        continue;
+                    }
+                    misMatched1.Add(i);
+                }
+                misMatched2 = l2.Where(x => !pairList.Select(y => y.Item2).Contains(x)).ToList();
+                return pairList;
             }
 
         }
