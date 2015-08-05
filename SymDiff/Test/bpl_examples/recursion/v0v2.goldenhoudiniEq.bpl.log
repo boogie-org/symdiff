@@ -10,11 +10,7 @@ Namespacing ASTs
 Resolving and typechecking
 Resolving and typechecking
 ImplMap: _v1.Foo, _v2.Foo
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ---> Unable to find OK variables!!
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ImplMap: _v1.Bar, _v2.Bar
 Resolving and typechecking
 Performing Houdini inference from within Symdiff.exe 
@@ -25,6 +21,11 @@ Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 /noinfer
 /doModSetAnalysis
 --------------------
-Houdini finished and inferred 2/7 contracts
-Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
+Pruning procedure with no contract: _v2.Foo
+Pruning procedure with no contract: _v2.Bar
+Pruning procedure with no contract: _v1.Foo
+Pruning procedure with no contract: _v1.Bar
+Houdini statistics:: Prover Time 0.0420055 NumProver Queries 6 UnsatProver time 0.0030002 NumUnsat prunings 0
+Houdini finished and inferred 1/6 contracts
+Houdini finished with 2 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 

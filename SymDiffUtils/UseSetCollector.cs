@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -96,20 +97,21 @@ namespace SymDiffUtils
         public void Propagate()
         {
             this.callGraph = CallGraphHelper.ComputeCallGraph(program);
-
+            File.WriteAllText("foo.dot", this.callGraph.ToDot());
             Queue<Procedure> workQueue = new Queue<Procedure>(this.ProcedureToUseSet.Keys);
 
             while (workQueue.Count > 0)
             {
                 Procedure current = workQueue.Dequeue();
                 BitArray useSet = this.ProcedureToUseSet[current];
-                var copy = useSet.Clone();
+                BitArray copy = useSet.Clone() as BitArray;
+                Debug.Assert(copy != null);
                 bool changed = false;
                 foreach (var suc in this.callGraph.Successors(current))
                 {
                     useSet.Or(this.ProcedureToUseSet[suc]);
                 }
-                if (!useSet.Equals(copy))
+                if (!this.BitArrayEquals(copy,useSet))
                 {
                     changed = true;
                 }
@@ -125,6 +127,17 @@ namespace SymDiffUtils
                     }
                 }
             }
+        }
+
+        private bool BitArrayEquals(BitArray b1, BitArray b2)
+        {
+            Debug.Assert(b1.Count.Equals(b2.Count));
+            for (int i = 0; i < b1.Count; i++)
+            {
+                if (b1.Get(i) != b2.Get(i))
+                    return false;
+            }
+            return true;
         }
     }
 }

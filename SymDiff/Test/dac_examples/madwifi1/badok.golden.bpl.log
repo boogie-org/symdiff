@@ -109,6 +109,7 @@ Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 /noinfer
 /doModSetAnalysis
 --------------------
-Houdini finished and inferred 199/223 contracts
+Houdini statistics:: Prover Time 0.2710697 NumProver Queries 19 UnsatProver time 0.0930127 NumUnsat prunings 0
+Houdini finished and inferred 91/115 contracts
 Houdini finished with 12 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 

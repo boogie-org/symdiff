@@ -1384,6 +1384,19 @@ namespace SDiff
             //the types of the two programs are unified even before Resolve
             //collect globals, constants, functions, and axioms
             //Filter : 'a list -> ('a -> bool) -> 'a list
+            Boogie.Process.ResolveAndTypeCheckThrow(p1, v1name);
+            Boogie.Process.ResolveAndTypeCheckThrow(p2, v2name);
+
+            //new: remove unused global upfront (exception later)
+            //var g1Uses = GetUsedVariables(p1).GetUseSetForProgram();
+            //var g2Uses = GetUsedVariables(p2).GetUseSetForProgram();
+            //p1.RemoveTopLevelDeclarations(x =>
+            //    (x is GlobalVariable &&
+            //    !g1Uses.Contains(x)));
+            //p2.RemoveTopLevelDeclarations(x =>
+            //    (x is GlobalVariable &&
+            //    !g2Uses.Contains(x)));                
+
             IEnumerable<Declaration>
               g1s = p1.TopLevelDeclarations.Where(x => x is GlobalVariable),
               g2s = p2.TopLevelDeclarations.Where(x => x is GlobalVariable);

@@ -16,16 +16,16 @@ Adding instrumented equality functions to program and generating verification ta
 Resolving and Typechecking again..
 Verifier[0]: Preparing to verify 1 pairs
 Verifier[0]: Verifying EQ__v1.Eval__xx___v2.Eval
-  [0.1800484 s]  
+  [0.5605294 s]  
 Correct
 Verifier[0]: 0 counterexamples...
 Verifier[0]: Result: Verified
-Time[0]: 204ms
+Time[0]: 646ms
 Summary[0]: Checked 1 procedures.
-Summary[0]: Max elapsed: 204ms
+Summary[0]: Max elapsed: 646ms
 Summary[0]: Total Counterexamples: 0
 Summary[0]: Number of failed verifies: 0
 Summary[0]: Number of verifier failures: 0
-M[0]: 	1	204	0	0	0	461	5	
-FinalStats: (#Procs, #Cex, #NotEq, #Crash, #Time) = (1,0,0,0,461)
+M[0]: 	1	646	0	0	0	1566	5	
+FinalStats: (#Procs, #Cex, #NotEq, #Crash, #Time) = (1,0,0,0,1567)
 Generated mergedProgSingle.bpl 
