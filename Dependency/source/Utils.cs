@@ -278,7 +278,15 @@ namespace Dependency
 
             public static void PruneProcDependencies(Program program, Dictionary<Procedure, Dependencies> procDependencies)
             {
-                procDependencies.Iter(pd => { var impl = program.Implementations.SingleOrDefault(i => i.Proc == pd.Key); if (impl != null) pd.Value.Prune(impl); });
+                procDependencies.Iter(pd =>
+                {
+                    var impl = program.Implementations.SingleOrDefault(i => i.Proc == pd.Key);
+                    if (impl != null)
+                    {
+                        pd.Value.FixFormals(impl);
+                        pd.Value.Prune(impl);
+                    }
+                });
             }
 
 
@@ -350,7 +358,15 @@ namespace Dependency
         public static Dictionary<Absy, Implementation> ComputeNodeToImpl(Program program)
         {
             Dictionary<Absy, Implementation> result = new Dictionary<Absy, Implementation>();
-            program.Implementations.Iter(impl => impl.Blocks.Iter(b => { b.Cmds.Iter(c => result[c] = impl); result[b.TransferCmd] = impl; }));
+            program.Implementations.Iter(impl =>
+            {
+                result[impl.Proc] = impl;
+                impl.Blocks.Iter(b =>
+                {
+                    b.Cmds.Iter(c => result[c] = impl);
+                    result[b.TransferCmd] = impl;
+                });
+            });
             return result;
         }
 
