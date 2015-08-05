@@ -21,10 +21,13 @@ namespace SymDiffUtils
         private int variableDecls;
         private int currentId = 0;
 
+        private HashSet<Variable> usedGlobals;
+
         public UseSetCollector(Program prog)
         {
             this.variableDecls = prog.Variables.Count();
             this.program = prog;
+            usedGlobals = new HashSet<Variable>();
         }
 
         public HashSet<Variable> GetUseSetForProcedure(Procedure proc)
@@ -51,6 +54,8 @@ namespace SymDiffUtils
 
         public HashSet<Variable> GetUseSetForProgram()
         {
+            return usedGlobals;
+
             BitArray allUses = this.ProcedureToUseSet.Values.Aggregate(new BitArray(this.variableDecls, false), (x, y) => x.Or(y));
             return this.GetUseSetFromBitArray(allUses);
         }
@@ -69,6 +74,7 @@ namespace SymDiffUtils
 
         public override Expr VisitIdentifierExpr(IdentifierExpr node)
         {
+            if (node.Decl is GlobalVariable) usedGlobals.Add(node.Decl);
             if (this.last == null)
             {
                 return base.VisitIdentifierExpr(node);
