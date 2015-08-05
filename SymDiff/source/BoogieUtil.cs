@@ -389,6 +389,14 @@ namespace SDiff.Boogie
       return p;
     }
 
+    public static UseSetCollector GetUsedVariables(Program prog)
+    {
+        UseSetCollector visitor = new UseSetCollector(prog);
+        visitor.Visit(prog);
+        visitor.Propagate();
+        return visitor;
+    } 
+
 
     public static bool SetModifies(List<Declaration> program, CallGraph cg)
     {

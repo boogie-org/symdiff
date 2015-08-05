@@ -161,7 +161,7 @@ namespace SDiff
         public static void Initialize(Program q1, Program q2, Program mp, string q1Prefix, string q2Prefix, Config cfg1)
         {
             mergedProgram = mp; p1Prefix = q1Prefix; p2Prefix = q2Prefix;
-            var mpUses = GetUsedVariables(mergedProgram).GetUseSetForProgram(); 
+            var mpUses = Boogie.Process.GetUsedVariables(mergedProgram).GetUseSetForProgram(); 
             //look for uses in mergedProgram as some variables are not present in either q1 or q2 (e.g. OK)
             var allGlobals = mp.TopLevelDeclarations.OfType<GlobalVariable>()
                 .Where(x => mpUses.Any(y => y.Name == x.Name));
@@ -181,14 +181,6 @@ namespace SDiff
             msFuncAxiomsAdded = new HashSet<Function>();
             abortVars = new Dictionary<Implementation, LocalVariable>();
         }
-
-        private static UseSetCollector GetUsedVariables(Program prog)
-        {
-            UseSetCollector visitor = new UseSetCollector(prog);
-            visitor.Visit(prog);
-            visitor.Propagate();
-            return visitor;         
-        } 
 
         private static void InitializeProcMaps(Config cfg)
         {
