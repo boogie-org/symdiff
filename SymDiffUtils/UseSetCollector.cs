@@ -56,6 +56,18 @@ namespace SymDiffUtils
             return this.GetUseSetFromBitArray(allUses);
         }
 
+        public override Procedure VisitProcedure(Procedure node)
+        {
+            last = node;
+            if (!this.ProcedureToUseSet.ContainsKey(node))
+            {
+                this.ProcedureToUseSet.Add(node, new BitArray(this.variableDecls));
+            }
+            var result = base.VisitProcedure(node);
+            last = null;
+            return result;
+        }
+
         public override Implementation VisitImplementation(Implementation node)
         {
             last = node.Proc;
