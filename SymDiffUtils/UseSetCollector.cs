@@ -21,13 +21,10 @@ namespace SymDiffUtils
         private int variableDecls;
         private int currentId = 0;
 
-        private HashSet<Variable> usedGlobals;
-
         public UseSetCollector(Program prog)
         {
             this.variableDecls = prog.Variables.Count();
             this.program = prog;
-            usedGlobals = new HashSet<Variable>();
         }
 
         public HashSet<Variable> GetUseSetForProcedure(Procedure proc)
@@ -54,29 +51,27 @@ namespace SymDiffUtils
 
         public HashSet<Variable> GetUseSetForProgram()
         {
-            return usedGlobals;
 
             BitArray allUses = this.ProcedureToUseSet.Values.Aggregate(new BitArray(this.variableDecls, false), (x, y) => x.Or(y));
             return this.GetUseSetFromBitArray(allUses);
         }
 
-        public override Procedure VisitProcedure(Procedure node)
+        public override Implementation VisitImplementation(Implementation node)
         {
-            last = node;
-            if (!this.ProcedureToUseSet.ContainsKey(node))
+            last = node.Proc;
+            if (!this.ProcedureToUseSet.ContainsKey(node.Proc))
             {
-                this.ProcedureToUseSet.Add(node, new BitArray(this.variableDecls));
+                this.ProcedureToUseSet.Add(node.Proc, new BitArray(this.variableDecls));
             }
-            var result = base.VisitProcedure(node);
+            var result = base.VisitImplementation(node);
             last = null;
             return result;
         }
 
         public override Expr VisitIdentifierExpr(IdentifierExpr node)
         {
-            if (node.Decl is GlobalVariable) usedGlobals.Add(node.Decl);
             if (this.last == null)
-            {
+            {                
                 return base.VisitIdentifierExpr(node);
             }
 
@@ -103,7 +98,6 @@ namespace SymDiffUtils
         public void Propagate()
         {
             this.callGraph = CallGraphHelper.ComputeCallGraph(program);
-            File.WriteAllText("foo.dot", this.callGraph.ToDot());
             Queue<Procedure> workQueue = new Queue<Procedure>(this.ProcedureToUseSet.Keys);
 
             while (workQueue.Count > 0)
