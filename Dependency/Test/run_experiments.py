@@ -124,6 +124,7 @@ class Project:
             summary = summary.split(',')
             summary = [int(x.strip()) for x in summary]
             return summary[0], summary[1]
+        return -1, -1
 
 
     def runStage(self, cmd, outStream):
