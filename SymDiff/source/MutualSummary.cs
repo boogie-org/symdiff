@@ -161,17 +161,18 @@ namespace SDiff
         public static void Initialize(Program q1, Program q2, Program mp, string q1Prefix, string q2Prefix, Config cfg1)
         {
             mergedProgram = mp; p1Prefix = q1Prefix; p2Prefix = q2Prefix;
-            var allGlobals = mp.TopLevelDeclarations.OfType<GlobalVariable>();
-            var q1uses = GetUsedVariables(q1).GetUseSetForProgram();
-            var q2uses = GetUsedVariables(q2).GetUseSetForProgram();
+            var mpUses = GetUsedVariables(mergedProgram).GetUseSetForProgram(); 
+            //look for uses in mergedProgram as some variables are not present in either q1 or q2 (e.g. OK)
+            var allGlobals = mp.TopLevelDeclarations.OfType<GlobalVariable>()
+                .Where(x => mpUses.Any(y => y.Name == x.Name));
             gSeq_p1 = q1.TopLevelDeclarations.OfType<GlobalVariable>()
-                .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
-                //.Where(x => q1uses.Any(y => y.Name.Equals(x.Name)))
+                .Where(x => allGlobals.Any(y => y.Name == x.Name))  //ensure that the collection is non-empty
+                .Select(x => allGlobals.Where(y => y.Name == x.Name).First()) 
                 .ToList<Variable>();
             gSeq_p2 = q2.TopLevelDeclarations.OfType<GlobalVariable>()
+                .Where(x => allGlobals.Any(y => y.Name == x.Name)) //ensure that the collection is non-empty
                 .Select(x => allGlobals.Where(y => y.Name == x.Name).First())
-                //.Where(x => q2uses.Any(y => y.Name.Equals(x.Name)))
-                .ToList<Variable>();
+                .ToList<Variable>();               
 
             summaryFuncs = new Dictionary<Procedure, Function>();
             cfg = cfg1;

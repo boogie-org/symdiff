@@ -25,7 +25,7 @@ Pruning procedure with no contract: _v2.Foo
 Pruning procedure with no contract: _v2.Bar
 Pruning procedure with no contract: _v1.Foo
 Pruning procedure with no contract: _v1.Bar
-Houdini statistics:: Prover Time 0.0310033 NumProver Queries 2 UnsatProver time 0.0070001 NumUnsat prunings 0
-Houdini finished and inferred 7/7 contracts
+Houdini statistics:: Prover Time 0.0269997 NumProver Queries 2 UnsatProver time 0.0060008 NumUnsat prunings 0
+Houdini finished and inferred 6/6 contracts
 Houdini finished with 2 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 
