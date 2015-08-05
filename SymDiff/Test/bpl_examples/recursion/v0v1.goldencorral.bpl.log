@@ -10,10 +10,6 @@ Namespacing ASTs
 Resolving and typechecking
 Resolving and typechecking
 ImplMap: _v1.Foo, _v2.Foo
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ImplMap: _v1.Bar, _v2.Bar
 Resolving and typechecking
 Checking _houdini_Foo_r_0 using Corral....
@@ -26,16 +22,16 @@ Verifying program while tracking: {assertsPassed, _v1.D, _v2.D}
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.37 s
-Time spent reading-writing programs: 0.08 s
+Boogie verification time: 0.41 s
+Time spent reading-writing programs: 0.10 s
 
-Time spent checking a program (2): 0.61 s
-Time spent checking a path (3): 0.10 s
+Time spent checking a program (2): 0.86 s
+Time spent checking a path (3): 0.35 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.2020785 s
-Total User CPU time: 1.28125 s
+Total Time: 1.7881254 s
+Total User CPU time: 1.4375 s
 
 Checking _houdini_Bar_r_1 using Corral....
 	END Executing corral.exe  mergedProgSingle_1.bpl /k:1 /main:MS_Check__v1.Foo___v2.Foo /recursionBound:4 /timeLimit:100 /noTrace 
@@ -47,16 +43,16 @@ Verifying program while tracking: {assertsPassed, _v1.D, _v2.D}
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.39 s
-Time spent reading-writing programs: 0.08 s
+Boogie verification time: 0.41 s
+Time spent reading-writing programs: 0.10 s
 
-Time spent checking a program (2): 0.63 s
-Time spent checking a path (3): 0.09 s
+Time spent checking a program (2): 0.88 s
+Time spent checking a path (3): 0.35 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.2040426 s
-Total User CPU time: 1.1875 s
+Total Time: 1.7971268 s
+Total User CPU time: 1.546875 s
 
 Performing Houdini inference from within Symdiff.exe 
 Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
@@ -66,6 +62,11 @@ Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 /noinfer
 /doModSetAnalysis
 --------------------
+Pruning procedure with no contract: _v2.Foo
+Pruning procedure with no contract: _v2.Bar
+Pruning procedure with no contract: _v1.Foo
+Pruning procedure with no contract: _v1.Bar
+Houdini statistics:: Prover Time 0.0310033 NumProver Queries 2 UnsatProver time 0.0060008 NumUnsat prunings 0
 Houdini finished and inferred 2/2 contracts
-Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
+Houdini finished with 2 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 
