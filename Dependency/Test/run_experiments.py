@@ -24,13 +24,13 @@ def cToBplByHavoc(v1, v2):
    return  ['run_symdiff_c.cmd', v1, v2, '/nocpp', '/rvt', '/nohtml', '/genBplsOnly', '/analyzeChangedCallersOnly', '/stripAbsolutePathsInBpl']
 
 def runSymdiffBpl(v1,v2):
-    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts ', '/changedLines']
+    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear ', '/changedLines']
 
 def dependency_dac(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl']
+    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle.bpl', '/prune']
 
 def dependency(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt']
+    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/prune']
 
 def smackPreprocess(fn ,v):
     return ['SymDiffPreProcess.exe', fn, '-relativeSourceDir:' + v + '\\']
@@ -180,7 +180,10 @@ def executeCommand(cmd, tout):
     output, err = p.communicate(timeout=tout)
     end = time.time()
     timeToRun = end-start
-    out = output.decode("ascii")
+    try:
+        out = output.decode("ascii")
+    except:
+        out = ""
     if p.returncode:
         print('[Warning]: error executing command(' + str(p.returncode) + '): ' + str(cmd) + " in " + os.getcwd())
     return timeToRun, out, p.returncode
