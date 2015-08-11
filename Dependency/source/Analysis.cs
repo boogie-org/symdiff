@@ -170,7 +170,7 @@ namespace Dependency
                     changedProcs.Add(program.FindProcedure(tuple.Item2));
                 }
                 //add an attribute to identify the changedProcs for later analysis
-                changedProcs.Iter(p => p.AddAttribute("syntacticChangedProc", null));
+                changedProcs.Iter(p => p.AddAttribute("syntacticChangedProc", new string[] {}));
                 program = new CallGraphBasedPruning(program, changedProcs).PruneProgram();
                 Debug.Assert(program.Resolve() == 0 &&  program.Typecheck() == 0, "After Callgraph pruning the program has errors.");
             }
