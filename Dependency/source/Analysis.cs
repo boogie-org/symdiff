@@ -163,12 +163,14 @@ namespace Dependency
             //first thing is to prune based on callgraph, if receiving a change list
             if (changeList != null)
             {
-                PopulateChangeLog(changeList, program);
+                changeLog = PopulateChangeLog(changeList, program);
                 HashSet<Procedure> changedProcs = new HashSet<Procedure>();
                 foreach (var tuple  in changeLog)
                 {
                     changedProcs.Add(program.FindProcedure(tuple.Item2));
                 }
+                //add an attribute to identify the changedProcs for later analysis
+                changedProcs.Iter(p => p.AddAttribute("syntacticChangedProc", null));
                 program = new CallGraphBasedPruning(program, changedProcs).PruneProgram();
                 Debug.Assert(program.Resolve() == 0 &&  program.Typecheck() == 0, "After Callgraph pruning the program has errors.");
             }
@@ -286,10 +288,11 @@ namespace Dependency
             return 0;
         }
 
-        public static void PopulateChangeLog(string changelist, Program program)
+        public static List<Tuple<string,string, int>> PopulateChangeLog(string changelist, Program program)
         {
+            var myChangeLog = new List<Tuple<string, string, int>>();
             if (changelist == null)
-                return;
+                return myChangeLog;
             StreamReader reader = File.OpenText(changelist);
             string line;
             while ((line = reader.ReadLine()) != null)
@@ -301,7 +304,7 @@ namespace Dependency
                     // locate the source file for the procedure
                     var impl = program.Implementations.Single(i => i.Name == procName);
                     impl.Blocks.Find(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd && (procFile = Utils.AttributeUtils.GetSourceFile(b)) != null);
-                    changeLog.Add(Tuple.Create(procFile, procName, int.Parse(items[1])));
+                    myChangeLog.Add(Tuple.Create(procFile, procName, int.Parse(items[1])));
                 }
                 catch (Exception)
                 {
@@ -309,6 +312,7 @@ namespace Dependency
                     continue;
                 }
             }
+            return myChangeLog;
         }
 
         static public void PopulateDependencyLog(Implementation impl, Dependencies deps, string which)

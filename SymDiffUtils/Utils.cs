@@ -778,6 +778,39 @@ namespace SymDiffUtils
             return srcFile != null;
         }
 
+        public static bool IsMSProcedureWithMapping(Procedure node, out string f1, out string f2)
+        {
+            f1 = f2 = null;
+            if (node.Attributes == null)
+                return false;
+            if (node.Attributes.Key.Equals("MS_procs"))
+            {
+                f1 = (string)node.Attributes.Params.ElementAt(0);
+                f2 = (string)node.Attributes.Params.ElementAt(1);
+                return true;
+            }
+            return false;
+        }
+
+        public static IEnumerable<Procedure> FindChangedMSProcs(Program mergedProgram)
+        {
+            var changedMSProcs = new List<Procedure>();
+            foreach(var p in mergedProgram.TopLevelDeclarations.OfType<Procedure>())
+            {
+                string f1, f2;
+                if (IsMSProcedureWithMapping(p, out f1, out f2))
+                {
+                    var pf1 = mergedProgram.TopLevelDeclarations.OfType<Procedure>().Where(x => x.Name == f1).FirstOrDefault();
+                    var pf2 = mergedProgram.TopLevelDeclarations.OfType<Procedure>().Where(x => x.Name == f2).FirstOrDefault();
+
+                    //at least one of the component procedure has a changed attribute
+                    if (pf1 != null && QKeyValue.FindBoolAttribute(pf1.Attributes, "syntacticChangedProc") ||
+                        pf2 != null && QKeyValue.FindBoolAttribute(pf2.Attributes, "syntacticChangedProc"))
+                        changedMSProcs.Add(p);
+                }
+            }
+            return changedMSProcs;
+        }
     }
 
     /// <summary>

@@ -89,6 +89,8 @@ namespace SDiff
           Console.WriteLine("\t -checkMutualPrecondNonTerminating \n\t\tenable checking of mutual preconditions in the presence of non-terminating programs with -usemutual");
           Console.WriteLine("\t -dontTypeCheckMergedProg           \n\t\tskips typechecking in memory of the mergedProgSingle.bpl (doesn't typecheck due to ms_symdiff_file.bpl)");
           Console.WriteLine("\t -dacEncodingLinear                 \n\t\t(with DAC FSE'13 encoding) only pairs ith callsites of a procedure from two programs when creating merged program (linear in number of callsites)");
+          Console.WriteLine("\t -dacConsiderChangedProcOnly         \n\t\t(with DAC FSE'13 encoding) only considers those MS_f1_f2 procedures for inference where at least f1/f2 is marked syntacticChanged (by dependency)");
+
             
           Console.WriteLine("\n[Options specific to evaluating differential assertion checking (not generally useful)]");
           Console.WriteLine("\t -oneproc        only check one version (works with -asserts)");
@@ -125,7 +127,8 @@ namespace SDiff
             Options.callCorralOnMergedProgram = argsList.Remove("-callCorralOnMergedProgram");
             Options.invokeHoudiniDirectlyOnMergedBpl = argsList.Remove("-invokeHoudiniDirectlyOnMergedBpl");
             Options.dacEncoding = argsList.Remove("-dacEncodingLinear") ? Options.DAC_ENCODING_OPT.DAC_LINEAR : Options.DAC_ENCODING_OPT.DAC_NORMAL;
-            
+            Options.dacConsiderChangedProcOnly = argsList.Remove("dacConsiderChangedProcOnly") ? true : false; 
+
             //taint related
             Options.refinedStmtTaint = argsList.Remove("-refinedStmtTaintAnalysis");
 
@@ -197,6 +200,11 @@ namespace SDiff
                 else if (args[i].Contains("-outvar:") || args[i].Contains("/outvar:"))
                 {
                     Options.OutputVars.Add(args[i].Substring("-outvar:".Length).Trim());
+                }
+                else if (args[i].Contains("-taint:") || args[i].Contains("/taint:"))
+                {
+                    Options.changeListFile = (args[i].Substring("-taint:".Length).Trim());
+
                 }
                 else if (args[i].Contains("-synEq:") || args[i].Contains("/synEq:"))
                 {

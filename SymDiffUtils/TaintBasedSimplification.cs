@@ -36,7 +36,7 @@ namespace SymDiffUtils
             var reqToRem = new List<Requires>();
 
             string f1, f2;
-            if (node == null || !isMSProcedureWithMapping(node.Proc, out f1, out f2))
+            if (node == null || ! SymDiffUtils.Util.IsMSProcedureWithMapping(node.Proc, out f1, out f2))
             {
                 return base.VisitImplementation(node);
             }
@@ -157,19 +157,7 @@ namespace SymDiffUtils
             this.Visit(this.program);
         }
 
-        protected bool isMSProcedureWithMapping(Procedure node, out string f1, out string f2)
-        {
-            f1 = f2 = null;
-            if (node.Attributes == null)
-                return false;
-            if (node.Attributes.Key.Equals("MS_procs"))
-            {
-                f1 = (string)node.Attributes.Params.ElementAt(0);
-                f2 = (string)node.Attributes.Params.ElementAt(1);
-                return true;
-            }
-            return false;
-        }
+
 
         protected void makeFreeRequires(Procedure node, Requires req, List<Requires> reqToAdd, List<Requires> reqToRemove)
         {
@@ -210,4 +198,5 @@ namespace SymDiffUtils
             return varName.Substring(varName.IndexOf('.') + 1);
         }
     }
+
 }

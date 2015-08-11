@@ -82,6 +82,9 @@ namespace SDiff
             Initialize(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg1);
             MutualSummaryStart(mergedProgram);
 
+            if (Options.dacConsiderChangedProcOnly)
+                new HoudiniAnalyzeImplSubset(mergedProgram, SymDiffUtils.Util.FindChangedMSProcs(mergedProgram)).Visit(mergedProgram);
+
             //If inferContracts is specified, then we call Houdini and do Inference and persist output into mergedProgram
             //add the flags for /inferContracts to Boogie
             if (useHoudini && houdiniInferOpt == Options.INFER_OPT.HOUDINI) PerformHoudiniInferece();

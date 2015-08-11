@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Microsoft.Boogie.GraphUtil;
+
 
 namespace SymDiffUtils
 {
@@ -68,6 +70,53 @@ namespace SymDiffUtils
             reqToRem.ForEach(x => node.Requires.Remove(x));
             ensToAdd.ForEach(node.Ensures.Add);
             ensToRem.ForEach(x => node.Ensures.Remove(x));
+            return base.VisitProcedure(node);
+        }
+    }
+
+    /// <summary>
+    /// Drop a subset of implementations and candidates from a program being fed to Houdini inference
+    /// Drop cand_post for dropped impls
+    /// </summary>
+    public class HoudiniAnalyzeImplSubset: FixedVisitor
+    {
+        Program prog;
+        private IEnumerable<Procedure> procsToAnalyze;
+        private Graph<Procedure> callGraph = null;
+        Houdini houdini = null; //need an instance to look for candidates
+        public HoudiniAnalyzeImplSubset(Program prog, IEnumerable<Procedure> procs) 
+        { 
+            this.prog = prog;
+            procsToAnalyze = procs;
+            callGraph = CallGraphHelper.ComputeCallGraph(prog);
+            HoudiniSession.HoudiniStatistics houdiniStats = new HoudiniSession.HoudiniStatistics();
+            houdini = new Houdini(prog, houdiniStats);
+        }
+
+        public override Program VisitProgram(Program node)
+        {
+            node.RemoveTopLevelDeclarations(x => 
+                (x is Implementation && 
+                !procsToAnalyze.Any(y => y.Name == ((Implementation)x).Name)));
+            return base.VisitProgram(node);
+        }
+
+        public override Procedure VisitProcedure(Procedure node)
+        {            
+            if (callGraph.Predecessors(node).Any(x => !procsToAnalyze.Contains(x)))
+            {
+                //has callers outside procsToAnalyze, drop any candidate requires
+                string candidate;
+                var newRequires = node.Requires.Where(ens => !this.houdini.MatchCandidate(ens.Condition, out candidate)).ToList();
+                node.Requires = newRequires;
+            }
+            if (!procsToAnalyze.Contains(node))
+            {
+                //outside procsToAnalyze, drop any candidate ensures
+                string candidate;
+                var newEnsures = node.Ensures.Where(ens => !this.houdini.MatchCandidate(ens.Condition, out candidate)).ToList();
+                node.Ensures = newEnsures;
+            }
             return base.VisitProcedure(node);
         }
     }

@@ -67,7 +67,9 @@ namespace SDiff
         public static bool callCorralOnMergedProgram; //invoke corral to check the candidates in mutual summary procedures (for equivalence checking)
         public static bool checkEquivWithDependencies = false;
         public static bool invokeHoudiniDirectlyOnMergedBpl = false; //an option to test houdini
-        public static DAC_ENCODING_OPT dacEncoding =  DAC_ENCODING_OPT.DAC_NORMAL; 
+        public static DAC_ENCODING_OPT dacEncoding =  DAC_ENCODING_OPT.DAC_NORMAL;
+        public static bool dacConsiderChangedProcOnly = false; 
+
         //taint analysis
         public static bool refinedStmtTaint; //use SymDiff to check for non-tainted statements when inlined (works with nonModularMode + splitEquality)
 
@@ -82,6 +84,7 @@ namespace SDiff
         public static int Timeout = 200; //default timeout for each check
         public static int NumCex = -1; //-1 denotes find all cex
         public static HashSet<string> syntacticEqProcs = new HashSet<string>();
+        public static string changeListFile = null;  //file containing change_list.txt
 
         public static bool StripContracts = true; //we currently have to strip contracts for correctness and (possibly) stability.
         public static bool freeContracts = false; //instead of dropping requires/ensures, makes them free requires/ensures
