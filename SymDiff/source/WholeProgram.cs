@@ -127,7 +127,7 @@ namespace SDiff
             Options.callCorralOnMergedProgram = argsList.Remove("-callCorralOnMergedProgram");
             Options.invokeHoudiniDirectlyOnMergedBpl = argsList.Remove("-invokeHoudiniDirectlyOnMergedBpl");
             Options.dacEncoding = argsList.Remove("-dacEncodingLinear") ? Options.DAC_ENCODING_OPT.DAC_LINEAR : Options.DAC_ENCODING_OPT.DAC_NORMAL;
-            Options.dacConsiderChangedProcOnly = argsList.Remove("dacConsiderChangedProcOnly") ? true : false; 
+            Options.dacConsiderChangedProcOnly = argsList.Remove("-dacConsiderChangedProcOnly") ? true : false; 
 
             //taint related
             Options.refinedStmtTaint = argsList.Remove("-refinedStmtTaintAnalysis");
