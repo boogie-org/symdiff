@@ -26,8 +26,12 @@ namespace SDiff
             }
             foreach (var proc in this.transitivelyFreeProceduresCache.Keys.Where(x => this.transitivelyFreeProceduresCache[x]))
             {
-                Console.WriteLine("Pruning procedure with no contract: " + proc.Name);
-                this.program.RemoveTopLevelDeclaration(Util.getImplByName(this.program, proc.Name));
+                var impl = Util.getImplByName(this.program, proc.Name);
+                if (impl != null)
+                {
+                    Console.WriteLine("Pruning impls with no non-free contract transitively: " + proc.Name);
+                    this.program.RemoveTopLevelDeclaration(impl);
+                }
             }
         }
 

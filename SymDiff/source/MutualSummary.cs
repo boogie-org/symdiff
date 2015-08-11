@@ -82,8 +82,6 @@ namespace SDiff
             Initialize(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg1);
             MutualSummaryStart(mergedProgram);
 
-            if (Options.dacConsiderChangedProcOnly)
-                new HoudiniAnalyzeImplSubset(mergedProgram, SymDiffUtils.Util.FindChangedMSProcs(mergedProgram)).Visit(mergedProgram);
 
             //If inferContracts is specified, then we call Houdini and do Inference and persist output into mergedProgram
             //add the flags for /inferContracts to Boogie
@@ -110,6 +108,9 @@ namespace SDiff
             var program = SDiff.Boogie.Process.ParseProgram(mps);
             Boogie.Process.ResolveAndTypeCheckThrow(program, mps);             
             (new TaintBasedSimplification(program)).StartSimplifications();
+
+            if (Options.dacConsiderChangedProcOnly)
+                new HoudiniAnalyzeImplSubset(program, SymDiffUtils.Util.FindChangedMSProcs(program)).Visit(program);
 
             var mpsPi = "mergedProgSingle_preInferred.bpl";
             SDiff.Boogie.Process.PrintProgram(program, mpsPi);
