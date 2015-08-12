@@ -152,10 +152,10 @@ namespace SDiff
           Console.WriteLine("Usage: Symdiff -tryParse infile");
           return 1;
         }
-        var prog = SDiff.Boogie.Process.ParseProgram(args[1]);
+        var prog = BoogieUtils.ParseProgram(args[1]);
         if (prog == null)
           return 1;
-        if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(prog, args[1]))
+        if (BoogieUtils.ResolveAndTypeCheckThrow(prog, args[1]))
           return 1;
         return 0;
       }
@@ -184,13 +184,13 @@ namespace SDiff
 
     public static int PrintCallGraph(string filename)
     {
-      var program = SDiff.Boogie.Process.ParseProgram(filename);
+        var program = BoogieUtils.ParseProgram(filename);
       if (program == null)
       {
         Console.WriteLine("parse failed");
         return 1;
       }
-      if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(program, filename))
+      if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename))
       if (program == null)
       {
         Console.WriteLine("check failed");
@@ -207,10 +207,10 @@ namespace SDiff
      
     public static int RecursionCheck(string filename)
     {
-      var program = SDiff.Boogie.Process.ParseProgram(filename);
+        var program = BoogieUtils.ParseProgram(filename);
       if (program == null)
         return 1;
-      SDiff.Boogie.Process.ResolveAndTypeCheckThrow(program, filename);
+      BoogieUtils.ResolveAndTypeCheckThrow(program, filename);
 
       var flag = false;
       var mflag = false;
@@ -252,13 +252,13 @@ namespace SDiff
       if (SDiff.Boogie.Process.InitializeBoogie(boogieOptions))
         return 1;
 
-      var program = SDiff.Boogie.Process.ParseProgram(filename);
+      var program = BoogieUtils.ParseProgram(filename);
       if (program == null)
       {
         Log.Out(Log.Error, "Parse failed.");
         return 1;
       }
-      if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(program, filename))
+      if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename))
       {
         Log.Out(Log.Error, "Check failed.");
         return 1;
@@ -287,13 +287,13 @@ namespace SDiff
         if (SDiff.Boogie.Process.InitializeBoogie(boogieOptions))
             return 1;
 
-        var program = SDiff.Boogie.Process.ParseProgram(filename);
+        var program = BoogieUtils.ParseProgram(filename);
         if (program == null)
         {
             Log.Out(Log.Error, "Parse failed.");
             return 1;
         }
-        if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(program, filename))
+        if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename))
         {
             Log.Out(Log.Error, "Check failed.");
             return 1;
@@ -383,20 +383,20 @@ namespace SDiff
           second = args[1];
 
         // First program
-        Program p = SDiff.Boogie.Process.ParseProgram(first);
+        Program p = BoogieUtils.ParseProgram(first);
         if (p == null)
             return 1;
 
-        SDiff.Boogie.Process.ResolveProgram(p, first);
-        SDiff.Boogie.Process.TypecheckProgram(p, first);
+        BoogieUtils.ResolveProgram(p, first);
+        BoogieUtils.TypecheckProgram(p, first);
 
         // Second program
-        Program q = SDiff.Boogie.Process.ParseProgram(second);
+        Program q = BoogieUtils.ParseProgram(second);
         if (q == null)
             return 1;
 
-        SDiff.Boogie.Process.ResolveProgram(q, second);
-        SDiff.Boogie.Process.TypecheckProgram(q, second);
+        BoogieUtils.ResolveProgram(q, second);
+        BoogieUtils.TypecheckProgram(q, second);
 
 
         first = first.Substring(0, first.LastIndexOf('.') + 1);

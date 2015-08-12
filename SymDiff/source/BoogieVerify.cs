@@ -876,14 +876,14 @@ namespace SDiff
             ReplaceInFile(vt.Eq.Name + "_out.bpl", "@", "_");
             if (!wrapper)
             {
-                prog = SDiff.Boogie.Process.ParseProgram("RS" + vt.Eq.Name + "_out.bpl");
+                prog = BoogieUtils.ParseProgram("RS" + vt.Eq.Name + "_out.bpl");
 
                 if (prog == null)
                 {
                     Log.Out(Log.Verifier, "Parse Error!!! in   " + vt.Eq.Name);
                     return 1;
                 }
-                if (SDiff.Boogie.Process.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile))
+                if (BoogieUtils.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile))
                     return 1;
 
                 newEq = vt.Eq;

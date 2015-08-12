@@ -45,8 +45,8 @@ namespace SyntaxDiff
             var v2 = args[1];
             v1v2Config= new SDiff.Config(args[2]);
             Debug.Assert(v1v2Config != null);
-            var v1Prog = SDiff.Boogie.Process.ParseProgram(v1);
-            var v2Prog = SDiff.Boogie.Process.ParseProgram(v2);
+            var v1Prog = BoogieUtils.ParseProgram(v1);
+            var v2Prog = BoogieUtils.ParseProgram(v2);
 
             var v1srcInfo = new SourceInfoManager(v1Prog, Path.GetDirectoryName(v1));
             v1srcInfo.ComputeSourceInfoForImplementations();
