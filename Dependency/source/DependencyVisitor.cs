@@ -218,7 +218,7 @@ namespace Dependency
                         // turn it to dependencies (\forall r \in ReadSet: r <- ReadSet)
                         ProcDependencies[impl.Proc] = new Dependencies();
                         rsv.ProcReadSet[impl.Proc].Iter(r => ProcDependencies[impl.Proc][r] = rsv.ProcReadSet[impl.Proc]);
-                        //ProcDependencies[impl.Proc].FixFormals(impl);
+                        ProcDependencies[impl.Proc].FixFormals(impl);
                     }
                     else
                     {
@@ -256,8 +256,7 @@ namespace Dependency
                 {
                     if (!procEntryTDTaint.ContainsKey(proc))
                         continue;
-                    //var impl = program.Implementations.Single(i => i.Proc == proc);
-                    var impl = nodeToImpl[proc];
+                    var impl = program.Implementations.Single(i => i.Proc == proc);
                     var entry = Utils.GetImplEntry(impl);
                     if (!worklist.stateSpace.ContainsKey(entry))
                         worklist.stateSpace[entry] = new Dependencies();
@@ -271,8 +270,6 @@ namespace Dependency
 
             // the top down taint was removed from ProcDependencies so it won't flow up, so add it back in now
             procExitTDTaint.Iter(pd => ProcDependencies[pd.Key].JoinWith(pd.Value));
-
-
             return node;
         }
 
@@ -282,10 +279,7 @@ namespace Dependency
             Utils.ComputeDominators(program, node, dominatedBy);
 
             worklist.RunFixedPoint(this, node);
-
-            //ProcDependencies[node.Proc].FixFormals(node);
-
-            Console.WriteLine("Analyzed " + node + "( ).");
+            //Console.WriteLine("Analyzed " + node + "( ).");
             RemoveTaintBasedOnDac(node);
 
             return node;
@@ -373,7 +367,7 @@ namespace Dependency
                     dependencies[lhs].RemoveWhere(v => v != Utils.VariableUtils.BottomUpTaintVar && v != Utils.VariableUtils.TopDownTaintVar);
 
                 if (changedProcs.Contains(nodeToImpl[node].Proc) || changedBlocks.Contains(currBlock)) // native taint
-                {
+                {                    
                     if (Analysis.DacMerged == null || IsImpactedSummary(nodeToImpl[node].Proc, lhs))
                     {
                         dependencies[lhs].Add(Utils.VariableUtils.BottomUpTaintVar);
@@ -410,7 +404,6 @@ namespace Dependency
 
         private VarSet InferCalleeOutputDependancy(CallCmd cmd, Variable output, Dependencies state, List<VarSet> inputExpressionsDependency)
         {
-            //return new VarSet();
             if (Analysis.DacMerged != null && !IsImpactedOutput(cmd.Proc, output))
             {
                 return new VarSet();
@@ -472,8 +465,8 @@ namespace Dependency
                 foreach (var input in calleeImpl.InParams)
                 {
                     topDownTaint[input] = new VarSet();
-                    if (Analysis.DacMerged == null || IsImpactedInput(callee, input))
-                    {
+                    if(Analysis.DacMerged == null || IsImpactedInput(callee, input))
+                    {                        
                         topDownTaint[input].Add(Utils.VariableUtils.TopDownTaintVar);
                     }
                 }
@@ -498,7 +491,7 @@ namespace Dependency
                             var input = calleeImpl.InParams[i];
                             topDownTaint[input] = new VarSet();
                             if (Analysis.DacMerged == null || IsImpactedInput(calleeImpl.Proc, input))
-                            {
+                            {                                
                                 topDownTaint[input].Add(Utils.VariableUtils.TopDownTaintVar);
                             }
                         }
@@ -513,7 +506,7 @@ namespace Dependency
                 {   // top down taint from global                    
                     topDownTaint[g] = new VarSet();
                     if (Analysis.DacMerged == null || IsImpactedInput(calleeImpl.Proc, g))
-                    {
+                    {                        
                         topDownTaint[g].Add(Utils.VariableUtils.TopDownTaintVar);
                     }
                 }
@@ -530,8 +523,7 @@ namespace Dependency
             // handle outputs affected by the call
             for (int i = 0; i < callee.OutParams.Count; ++i)
             {
-                var formalOutput = nodeToImpl[callee].OutParams[i];
-                //var formalOutput = callee.OutParams[i];
+                var formalOutput = callee.OutParams[i];
                 if (!calleeDependencies.ContainsKey(formalOutput))
                     continue;
                 var actualOutput = node.Outs[i].Decl;
@@ -586,7 +578,7 @@ namespace Dependency
             if (!ProcDependencies.ContainsKey(proc))
                 ProcDependencies[proc] = new Dependencies();
             ProcDependencies[proc].JoinWith(worklist.stateSpace[node]);
-            //ProcDependencies[proc].FixFormals(nodeToImpl[node]);
+            ProcDependencies[proc].FixFormals(nodeToImpl[node]);
             // top down taint can't flow up
             if (!procExitTDTaint.ContainsKey(proc))
                 procExitTDTaint[proc] = new Dependencies();
@@ -595,9 +587,9 @@ namespace Dependency
                 dep.Value.Remove(Utils.VariableUtils.TopDownTaintVar);
                 procExitTDTaint[proc][dep.Key] = new VarSet();
                 if (Analysis.DacMerged == null || (IsImpactedInput(proc, dep.Key) && IsImpactedOutput(proc, dep.Key)))
-                {
+                {                    
                     procExitTDTaint[proc][dep.Key].Add(Utils.VariableUtils.TopDownTaintVar);
-
+                    
                 }
             });
             // Remove taint based on DAC
@@ -675,8 +667,8 @@ namespace Dependency
             {
                 AddTaintedInputs(node);
                 AddTaintedOutputs(node);
-            }
-
+            }                  
+            
             return base.VisitProcedure(node);
         }
 
