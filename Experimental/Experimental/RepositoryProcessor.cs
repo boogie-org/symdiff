@@ -63,8 +63,7 @@ namespace Experimental
 
         private static bool IsInteresting(GitHubCommit comm)
         {
-            return comm.Stats.Total < 10 && comm.Files.All(file => file.Filename.EndsWith(".c"));
-            //return comm.Commit.Message.ToLower().Contains("refactoring");
+            return (comm.Stats.Total > 19 && comm.Stats.Total < 40 && (comm.Files.All(file => file.Filename.EndsWith(".c") || file.Filename.EndsWith(".h")))) || comm.Commit.Message.ToLower().Contains("refactoring");
         }
     }
 }
