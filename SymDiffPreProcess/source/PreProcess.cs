@@ -4,6 +4,7 @@ using ProgTransformation;
 using System.Diagnostics;
 using System.Linq;
 using System.IO;
+using SymDiffUtils;
 
 
 namespace SymdiffPreprocess
@@ -83,7 +84,7 @@ namespace SymdiffPreprocess
         private static PersistentProgram ParseAndTypeCheckProgram(string programFileName)
         {
             Program program;
-            program = SDiff.Boogie.Process.ParseProgram(programFileName);
+            program = BoogieUtils.ParseProgram(programFileName);
             int errors = program.Resolve();
             if (errors > 0)
                 throw new ArgumentException("Unable to resolve " + programFileName);

@@ -24,10 +24,10 @@ def cToBplByHavoc(v1, v2):
    return  ['run_symdiff_c.cmd', v1, v2, '/nocpp', '/rvt', '/nohtml', '/genBplsOnly', '/analyzeChangedCallersOnly', '/stripAbsolutePathsInBpl']
 
 def runSymdiffBpl(v1,v2):
-    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear ', '/changedLines']
+    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear -dacConsiderChangedProcOnly ', '/changedLines']
 
 def dependency_dac(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle.bpl', '/prune']
+    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl', '/prune']
 
 def dependency(v):
     return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/prune']
@@ -38,6 +38,10 @@ def smackPreprocess(fn ,v):
 
 def smack():
     return 'make -f smackMakefile clean all'
+
+def make():
+    return 'make clean all'
+
 
 class Project:
     smackImportedDirs = set()
@@ -71,7 +75,13 @@ class Project:
             for v in self.versions:
                 with cd(v):
                     with open('smackMakefileLog', 'w') as fout:                
-                        self.runStage(smack(), fout)
+                        retCode, time, out = self.runStage(smack(), fout)
+                    if retCode:
+                        with open('makefileLog', 'w') as fout:                
+                            retCode, time, out = self.runStage(make(), fout)
+                            if not retCode:
+                                print("Builds normally")
+
 
     def process(self):
         print("Processing " + self.projectDir)
@@ -97,14 +107,14 @@ class Project:
                     self.runStage(smackPreprocess(v2 + '_smacked.bpl', v2), outStream)
                     shutil.copy(v2 + '_smacked_unsmacked.bpl', v2 + '.bpl')                
                 else:
-                    timeCToBpl, output = self.runStage(cToBplByHavoc(v1,v2), outStream)
+                    retCode, timeCToBpl, output = self.runStage(cToBplByHavoc(v1,v2), outStream)
             
-                timeRunSymdiffBpl, output = self.runStage(runSymdiffBpl(v1,v2), outStream)
+                retCode, timeRunSymdiffBpl, output = self.runStage(runSymdiffBpl(v1,v2), outStream)
 
-                timeDependencyDac, output = self.runStage(dependency_dac(v2), outStream)
+                retCode, timeDependencyDac, output = self.runStage(dependency_dac(v2), outStream)
                 lines, dacTainted = self.processDependencyOutput(output)
 
-                timeDependencySimple, output = self.runStage(dependency(v2), outStream)
+                retCode, timeDependencySimple, output = self.runStage(dependency(v2), outStream)
                 lines, depTainted = self.processDependencyOutput(output)
             except Exception as ex:
                 print('[Error] Processing versions ' + v1 + ' ' +v2)
@@ -138,7 +148,7 @@ class Project:
             print('[Warning]: Error code returned: ' + str(retCode), file=outStream)
         print(str(timeToRun), file=outStream)
         print(out, file=outStream)
-        return timeToRun, out
+        return retCode, timeToRun, out
 
 
     def importSmackFiles(self, v1):

@@ -248,6 +248,9 @@ namespace Dependency
 
             
             #region Display and Log
+
+            DumpTaintedLinesToCsv(taintLog, string.IsNullOrEmpty(DacMerged) ? "tainted.csv" : "tainted.dac.csv");
+
             Utils.DisplayHtmlHelper displayHtml;
             if(DependencyTaint != null)
             {
@@ -298,6 +301,17 @@ namespace Dependency
             #endregion
             sw.Stop();
             return 0;
+        }
+
+        private static void DumpTaintedLinesToCsv(List<Tuple<string, string, int>> taintLog, string fn)
+        {
+            using (var file = new StreamWriter(fn))
+            {
+                foreach (var tup in taintLog)
+                {
+                    file.WriteLine("{0}, {1}, {2}", tup.Item2, tup.Item3, tup.Item1);
+                }
+            }
         }
 
         public static List<Tuple<string,string, int>> PopulateChangeLog(string changelist, Program program)
@@ -354,7 +368,7 @@ namespace Dependency
         static public void PopulateTaintLog(Implementation node, IEnumerable<Block> taintedBlocks)
         {
             string sourcefile = Utils.AttributeUtils.GetImplSourceFile(node);
-            foreach (var block in taintedBlocks)
+            foreach (var block in taintedBlocks.Where(x => node.Blocks.Contains(x)))
             {
                 //int sourceline = Utils.AttributeUtils.GetSourceLine(block);
                 //if (sourceline >= 0)
@@ -505,8 +519,11 @@ namespace Dependency
             var deps = visitor.ProcDependencies;
 
             if (printTaint && changeLog.Count > 0)
+            {
                 // extract taint from dependencies and print
-                program.Implementations.Iter(impl => PopulateTaintLog(impl, Utils.ExtractTaint(visitor)));
+                var taintedBlocks = Utils.ExtractTaint(visitor);
+                program.Implementations.Iter(impl => PopulateTaintLog(impl, taintedBlocks));
+            }
 
             if (Prune)
                 Utils.DependenciesUtils.PruneProcDependencies(program, deps);

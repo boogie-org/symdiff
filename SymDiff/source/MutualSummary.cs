@@ -105,17 +105,17 @@ namespace SDiff
             var boogieOptions = " /typeEncoding:m /noinfer " + Options.BoogieUserOpts /* + " /trace " */;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
             var mps = Options.MergedProgramOutputFile; 
-            var program = SDiff.Boogie.Process.ParseProgram(mps);
-            Boogie.Process.ResolveAndTypeCheckThrow(program, mps);             
+            var program = BoogieUtils.ParseProgram(mps);
+            BoogieUtils.ResolveAndTypeCheckThrow(program, mps);             
             (new TaintBasedSimplification(program)).StartSimplifications();
 
             if (Options.dacConsiderChangedProcOnly)
                 new HoudiniAnalyzeImplSubset(program, SymDiffUtils.Util.FindChangedMSProcs(program)).Visit(program);
 
             var mpsPi = "mergedProgSingle_preInferred.bpl";
-            SDiff.Boogie.Process.PrintProgram(program, mpsPi);
-            program = SDiff.Boogie.Process.ParseProgram(mpsPi);
-            Boogie.Process.ResolveAndTypeCheckThrow(program, mpsPi); 
+            BoogieUtils.PrintProgram(program, mpsPi);
+            program = BoogieUtils.ParseProgram(mpsPi);
+            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi); 
 
             new FreesPruning(program).Prune();
 
@@ -129,12 +129,12 @@ namespace SDiff
                 houdiniStats.unsatCoreProverTime,
                 houdiniStats.numUnsatCorePrunings);
             //program changes due to Houdini transformations
-            program = SDiff.Boogie.Process.ParseProgram(mpsPi);
-            Boogie.Process.ResolveAndTypeCheckThrow(program, mpsPi); 
+            program = BoogieUtils.ParseProgram(mpsPi);
+            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi); 
             var trueConstants = extractVariableAssigned(true, outcome);
             var falseConstants = extractVariableAssigned(false, outcome);
             persistHoudiniInferredFacts(trueConstants, falseConstants, program, houdini);
-            SDiff.Boogie.Process.PrintProgram(program, "mergedProgSingle_inferred.bpl");
+            BoogieUtils.PrintProgram(program, "mergedProgSingle_inferred.bpl");
             Console.WriteLine("Houdini finished and inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
             Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts",
                     outcome.Verified, outcome.ErrorCount, outcome.Inconclusives, outcome.TimeOuts);
@@ -156,7 +156,7 @@ namespace SDiff
         {
             var ms_file = @".\ms_symdiff_file.bpl";
             if (!System.IO.File.Exists(ms_file)) return;
-            Program ms = SDiff.Boogie.Process.ParseProgram(ms_file);
+            Program ms = BoogieUtils.ParseProgram(ms_file);
             //TODO: Have to merge the new types (including datatypes)
             if (ms == null) throw new Exception("Parsing of ms_symdiff_file.bpl failed");
             mergedProgram.AddTopLevelDeclarations(ms.TopLevelDeclarations);
@@ -231,7 +231,7 @@ namespace SDiff
             if (typeCheckMergedProgram)
             {
                 Log.Out(Log.Normal, "Resolving and typechecking");
-                SDiff.Boogie.Process.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile);
+                BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile);
             }
 
             if (callCorralOnMergedProgram)
