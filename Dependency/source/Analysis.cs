@@ -9,6 +9,7 @@ using Microsoft.Boogie.GraphUtil;
 using System.Collections;
 using System.Diagnostics;
 using SymDiffUtils;
+using Dependency.source;
 
 namespace Dependency
 {
