@@ -11,6 +11,7 @@ using Microsoft.Boogie.VCExprAST;
 using VC;
 using Microsoft.Basetypes;
 using BType = Microsoft.Boogie.Type;
+using SymDiffUtils;
 
 namespace Dependency
 {
@@ -396,7 +397,7 @@ namespace Dependency
             throw new NotImplementedException("This API is deprecated");
 
             //inline all the implementtions
-            Utils.BoogieInlineUtils.Inline(prog);
+            SymDiffUtils.BoogieUtils.BoogieInlineUtils.Inline(prog);
 
             Dictionary<Procedure, Dependencies> result = new Dictionary<Procedure, Dependencies>();
             //create a VC
@@ -615,12 +616,9 @@ namespace Dependency
                 });
             //setup inline attributes for inline upto depth k
             callGraph.AddEdge(refineImpl.Proc, impl.Proc);
-            Utils.BoogieInlineUtils.InlineUptoDepth(prog, refineImpl, stackBound, RefineConsts.recursionDepth, callGraph);
 
             //inline all the implementations before calling Analyze
-            CommandLineOptions.Clo.ProcedureInlining = CommandLineOptions.Inlining.Spec; //inline and then use spec, no unsoundness
-            Utils.BoogieInlineUtils.Inline(prog);
-
+            SymDiffUtils.BoogieUtils.BoogieInlineUtils.InlineUptoDepth(prog, refineImpl, stackBound, RefineConsts.recursionDepth, callGraph, CommandLineOptions.Inlining.Spec);
             Utils.PrintProgram(prog, impl.Name + "_checkdep.bpl");
 
             var newDepImpl = RefineDependencyChecker.Analyze(prog, lowerBoundDependencies[impl.Proc], refineImpl);
