@@ -8,6 +8,16 @@ namespace SymDiffUtils
 {
     public class BoogieUtils
     {
+        public static bool InitializeBoogie(string clo)
+        {
+            CommandLineOptions.Install(new CommandLineOptions());
+            CommandLineOptions.Clo.RunningBoogieFromCommandLine = true;
+
+            var args = "/doModSetAnalysis".Split(' ');
+            CommandLineOptions.Clo.Parse(args);
+
+            return false;
+        }
         //call with null filename to print to console
         public static void PrintProgram(Program p, string filename)
         {
