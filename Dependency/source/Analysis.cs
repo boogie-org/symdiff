@@ -239,6 +239,11 @@ namespace Dependency
                 Program mergedProgram;
                 Utils.ParseProgram(DacMerged, out mergedProgram);
                 Analysis.DacSimplifier = new DacBasedSimplification(program, mergedProgram);
+                if(mergedProgram == null)
+                {
+                    Console.WriteLine("[Error] Merged file not found: {0}", DacMerged);
+                    Environment.Exit(-1);
+                }
                 mergedProgram.Resolve();
                 mergedProgram.Typecheck();
                 DacSimplifier.Start();
