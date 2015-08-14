@@ -207,7 +207,7 @@ namespace Dependency
             //inline before proceeding
             if (InlineDepth > 0)
             {
-                program = new DependencyInliner(program, InlineDepth).InlineImplementations();
+                new DependencyInliner(program, InlineDepth).InlineImplementations();
             }
 
             if (SplitMapsWithAliasAnalysis)

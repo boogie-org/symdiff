@@ -944,64 +944,6 @@ namespace Dependency
         }
 
 
-        /// <summary>
-        /// TODO: Copied from Rootcause, refactor 
-        /// </summary>
-        public class BoogieInlineUtils
-        {
-            public static void Inline(Program program)
-            {
-                //perform inlining on the procedures
-                IEnumerable<Declaration> impls = program.TopLevelDeclarations.Where(x => x is Implementation);
-                foreach (Implementation impl in impls)
-                {
-                    impl.OriginalBlocks = impl.Blocks;
-                    impl.OriginalLocVars = impl.LocVars;
-                }
-
-                foreach (Implementation impl in impls)
-                    Inliner.ProcessImplementation(program, impl);
-
-            }
-            public static bool IsInlinedProc(Procedure procedure)
-            {
-                return procedure != null && QKeyValue.FindIntAttribute(procedure.Attributes, RefineConsts.inlineAttribute, -1) != -1;
-            }
-
-            /// <summary>
-            /// Adds {:inline "recursionDepth"} to all proceudres reachable within "bound" in "callGraph"
-            /// from "impl" in "prog"
-            /// Excludes impl
-            /// InlineAsSpec uses {:inline spec} instead of {:inline bound} which replaces leaves with a call instead of assume false
-            /// </summary>
-            /// <param name="prog"></param>
-            /// <param name="impl"></param>
-            /// <param name="bound"></param>
-            /// <param name="recursionDepth"></param>
-            public static void InlineUptoDepth(Program prog, Implementation impl, int bound, int recursionDepth, Graph<Procedure> callGraph,
-                bool inlineUsingSpec = false)
-            {
-                Dictionary<int, HashSet<Procedure>> reachableProcs = new Dictionary<int, HashSet<Procedure>>();
-                reachableProcs[0] = new HashSet<Procedure>() { impl.Proc };
-
-                for (int i = 1; i < bound; ++i)
-                {
-                    reachableProcs[i] = new HashSet<Procedure>();
-                    reachableProcs[i - 1].Iter
-                        (p => callGraph.Successors(p).Iter(q => reachableProcs[i].Add(q)));
-                }
-                HashSet<Procedure> reachAll = new HashSet<Procedure>();
-                reachableProcs.Values
-                    .Iter(
-                    x => x.Iter(y => reachAll.Add(y))
-                    );
-                reachAll.Remove(impl.Proc);
-                reachAll.Iter
-                    (x => x.AddAttribute("inline", Expr.Literal(recursionDepth)));
-            }
-
-        }
-
         public static Absy GetImplEntry(Implementation node)
         {
             return (node.Blocks[0].Cmds.Count > 0) ?

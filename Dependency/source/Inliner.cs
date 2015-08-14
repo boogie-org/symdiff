@@ -1,4 +1,6 @@
 ﻿using Microsoft.Boogie;
+using Microsoft.Boogie.GraphUtil;
+using SymDiffUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +13,22 @@ namespace Dependency.source
     {
         private Program program;
         private int InlineDepth;
+        private Graph<Procedure> callGraph;
 
         public DependencyInliner(Program program, int InlineDepth)
         {
             this.program = program;
             this.InlineDepth = InlineDepth;
+
+            this.callGraph = CallGraphHelper.ComputeCallGraph(program);
         }
-        internal Program InlineImplementations()
+        internal void InlineImplementations()
         {
-            throw new NotImplementedException();
+            program.TopLevelDeclarations.OfType<Implementation>()
+                .Iter(impl => 
+                    SymDiffUtils.BoogieUtils.BoogieInlineUtils.InlineUptoDepth(program, impl, InlineDepth, 
+                    1, callGraph, CommandLineOptions.Inlining.Spec));
+            return;
         }
     }
 }

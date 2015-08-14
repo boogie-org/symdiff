@@ -345,8 +345,11 @@ namespace Dependency
             // for assignment v1,...,vn = e1,...,en handle each vi = ei separately
             for (int i = 0; i < node.Lhss.Count; ++i)
             {
-                var lhs = Utils.VariableUtils.ExtractVars(node.Lhss[i]).First(); // stuff like: Mem_T.INT4[x] := y; does not affect x
+                //MAJOR BUG FIX M[N[y] + z] := T[4];
+                var lhs = node.Lhss[i].DeepAssignedVariable;
                 var rhsVars = Utils.VariableUtils.ExtractVars(node.Rhss[i]);
+                if (lhs.TypedIdent.Type.IsMap)
+                    Utils.VariableUtils.ExtractVars(node.Lhss[i]).Iter(x => rhsVars.Add(x)); //M[N[x]] := y; Dep(M) = {M, N, x, y}
 
                 dependencies[lhs] = new VarSet();
 
