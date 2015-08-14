@@ -81,6 +81,7 @@
     <Compile Include="source\CallGraphBasedPruning.cs" />
     <Compile Include="source\DacBasedSimplification.cs" />
     <Compile Include="source\DependencyVisitor.cs" />
+    <Compile Include="source\Inliner.cs" />
     <Compile Include="source\ProcessStubs.cs" />
     <Compile Include="source\ReadSetVisitor.cs" />
     <Compile Include="source\RefineDependency.cs" />

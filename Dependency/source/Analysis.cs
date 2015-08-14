@@ -9,6 +9,7 @@ using Microsoft.Boogie.GraphUtil;
 using System.Collections;
 using System.Diagnostics;
 using SymDiffUtils;
+using Dependency.source;
 
 namespace Dependency
 {
@@ -35,6 +36,7 @@ namespace Dependency
             public const string dacMerged = "/dacMerged";
             public const string depTainted = "/depTainted";
             public const string dumpTaint = "/dumpTaint";
+            public const string inlineDepth = "/inlineDepthDependency";
         }
 
         static public bool DataOnly = false;
@@ -56,6 +58,7 @@ namespace Dependency
         static public string DacMerged;
         static public string DependencyTaint;
         static public bool DumpTaint = true;
+        static public int InlineDepth = 0; //depth to which we inline before performing any analysis
 
         static private List<Tuple<string, string, int>> changeLog = new List<Tuple<string, string, int>>();
         static private List<Tuple<string, string, int>> taintLog = new List<Tuple<string, string, int>>();
@@ -124,6 +127,10 @@ namespace Dependency
 
             args.Where(x => x.StartsWith(CmdLineOptsNames.timeout + ":"))
                 .Iter(s => Timeout = int.Parse(s.Split(':')[1]));
+
+            args.Where(x => x.StartsWith(CmdLineOptsNames.inlineDepth + ":"))
+                .Iter(s => InlineDepth = int.Parse(s.Split(':')[1]));
+
 
             SplitMapsWithAliasAnalysis = args.Any(x => x.StartsWith(CmdLineOptsNames.splitMapsWithAliasAnalysis));
 
@@ -196,6 +203,12 @@ namespace Dependency
                 (new Utils.RewriteSingletonMapUdates()).Visit(program);
             }
             #endregion 
+
+            //inline before proceeding
+            if (InlineDepth > 0)
+            {
+                program = new DependencyInliner(program, InlineDepth).InlineImplementations();
+            }
 
             if (SplitMapsWithAliasAnalysis)
             {
