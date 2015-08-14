@@ -369,8 +369,9 @@ my @houdini_examples =
     ##### dacLinear #######
      ["bpl_examples\\dacLinear\\", "v0", "v1"],
     ##### freesPruning #######
-     ["bpl_examples\\freesPruning\\", "v0", "v1"]   
-
+     ["bpl_examples\\freesPruning\\", "v0", "v1"], 
+    ##### dependencymaps #######
+     ["bpl_examples\\dependencymaps\\", "v0", "v1"]   
   );
 
 print "-----------------------\n";

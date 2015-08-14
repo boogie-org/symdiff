@@ -1,0 +1,3 @@
+Tests that the dependency of map updates computed correctly
+
+The number of candidates is 6/10 with the bug fix, and 5/10 without
