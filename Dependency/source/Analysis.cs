@@ -308,7 +308,9 @@ namespace Dependency
         {
             using (var file = new StreamWriter(fn))
             {
-                foreach (var tup in taintLog)
+                // remove duplicates
+                var set = new HashSet<Tuple<string, string, int>>(taintLog);
+                foreach (var tup in set)
                 {
                     file.WriteLine("{0}, {1}, {2}", tup.Item2, tup.Item3, tup.Item1);
                 }
