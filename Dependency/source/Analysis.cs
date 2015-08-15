@@ -208,6 +208,9 @@ namespace Dependency
             if (InlineDepth > 0)
             {
                 new DependencyInliner(program, InlineDepth).InlineImplementations();
+
+                Utils.PrintProgram(program, "__after_inlining.bpl");
+                Utils.ParseProgram("__after_inlining.bpl", out program);
             }
 
             if (SplitMapsWithAliasAnalysis)

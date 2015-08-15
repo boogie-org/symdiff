@@ -28,6 +28,7 @@ namespace Dependency.source
                 .Iter(impl => 
                     SymDiffUtils.BoogieUtils.BoogieInlineUtils.InlineUptoDepth(program, impl, InlineDepth, 
                     1, callGraph, CommandLineOptions.Inlining.Spec));
+            BoogieUtils.ResolveAndTypeCheckThrow(program, null);
             return;
         }
     }
