@@ -11,6 +11,7 @@ using System.Diagnostics;
 using Microsoft.Boogie.VCExprAST;
 using VC;
 using SymDiffUtils;
+using Microsoft.Boogie.GraphUtil;
 
 
 /* Misc code that should be in  */
@@ -792,8 +793,29 @@ namespace SymDiffUtils
             return false;
         }
 
-        public static IEnumerable<Procedure> FindChangedMSProcs(Program mergedProgram)
+        /// <summary>
+        /// Find procedures within distance away from the syntactically changed procedures
+        /// </summary>
+        /// <param name="prog"></param>
+        /// <param name="distance"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> FindChangedProcsWithinDistance(Program prog, int distance)
         {
+            Graph<Procedure> cg = CallGraphHelper.ComputeCallGraph(prog);
+            var origChangedProcs = 
+                prog.TopLevelDeclarations.OfType<Procedure>()
+                .Where(x => x != null && QKeyValue.FindBoolAttribute(x.Attributes, "syntacticChangedProc"));
+
+            var a = BoogieUtils.FindProcsAtDistance(cg, origChangedProcs.Select(x => x.Name));
+            var b = a.Where(x => x.Key <= distance);
+            var c = b.Select(x => x.Value.ToList());
+            if (c.Count() == 0) return new List<string>();
+            return c.Aggregate((x, y) => x.Union(y).ToList());
+        }
+
+        public static IEnumerable<Procedure> FindChangedMSProcs(Program mergedProgram, int distance)
+        {
+            var changedProcs = FindChangedProcsWithinDistance(mergedProgram, distance);
             var changedMSProcs = new List<Procedure>();
             foreach(var p in mergedProgram.TopLevelDeclarations.OfType<Procedure>())
             {
@@ -802,10 +824,7 @@ namespace SymDiffUtils
                 {
                     var pf1 = mergedProgram.TopLevelDeclarations.OfType<Procedure>().Where(x => x.Name == f1).FirstOrDefault();
                     var pf2 = mergedProgram.TopLevelDeclarations.OfType<Procedure>().Where(x => x.Name == f2).FirstOrDefault();
-
-                    //at least one of the component procedure has a changed attribute
-                    if (pf1 != null && QKeyValue.FindBoolAttribute(pf1.Attributes, "syntacticChangedProc") ||
-                        pf2 != null && QKeyValue.FindBoolAttribute(pf2.Attributes, "syntacticChangedProc"))
+                    if (changedProcs.Any(x => x == pf1.Name) || changedProcs.Any(x => x == pf2.Name))
                         changedMSProcs.Add(p);
                 }
             }

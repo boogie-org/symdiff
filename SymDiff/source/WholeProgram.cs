@@ -89,7 +89,7 @@ namespace SDiff
           Console.WriteLine("\t -checkMutualPrecondNonTerminating \n\t\tenable checking of mutual preconditions in the presence of non-terminating programs with -usemutual");
           Console.WriteLine("\t -dontTypeCheckMergedProg           \n\t\tskips typechecking in memory of the mergedProgSingle.bpl (doesn't typecheck due to ms_symdiff_file.bpl)");
           Console.WriteLine("\t -dacEncodingLinear                 \n\t\t(with DAC FSE'13 encoding) only pairs ith callsites of a procedure from two programs when creating merged program (linear in number of callsites)");
-          Console.WriteLine("\t -dacConsiderChangedProcOnly         \n\t\t(with DAC FSE'13 encoding) only considers those MS_f1_f2 procedures for inference where at least f1/f2 is marked syntacticChanged (by dependency)");
+          Console.WriteLine("\t -dacConsiderChangedProcsUptoDistance:k         \n\t\t(with DAC FSE'13 encoding) only considers those MS_f1_f2 procedures for inference where at least f1/f2 is with k levels of syntacticChanged (by dependency)");
 
             
           Console.WriteLine("\n[Options specific to evaluating differential assertion checking (not generally useful)]");
@@ -127,7 +127,7 @@ namespace SDiff
             Options.callCorralOnMergedProgram = argsList.Remove("-callCorralOnMergedProgram");
             Options.invokeHoudiniDirectlyOnMergedBpl = argsList.Remove("-invokeHoudiniDirectlyOnMergedBpl");
             Options.dacEncoding = argsList.Remove("-dacEncodingLinear") ? Options.DAC_ENCODING_OPT.DAC_LINEAR : Options.DAC_ENCODING_OPT.DAC_NORMAL;
-            Options.dacConsiderChangedProcOnly = argsList.Remove("-dacConsiderChangedProcOnly") ? true : false; 
+            //Options.dacConsiderChangedProcsUptoDistance = argsList.Remove("-dacConsiderChangedProcOnly") ? true : false; 
 
             //taint related
             Options.refinedStmtTaint = argsList.Remove("-refinedStmtTaintAnalysis");
@@ -213,12 +213,25 @@ namespace SDiff
                     foreach (var s in Options.syntacticEqProcs)
                         Console.WriteLine("Added " + s + " to syntacticEqProcs");
                 }
+                else if (args[i].Contains("-dacConsiderChangedProcsUptoDistance:") || args[i].Contains("/dacConsiderChangedProcsUptoDistance:"))
+                {
+                    string s = args[i].Substring("-dacConsiderChangedProcsUptoDistance:".Length).Trim();
+                    int t = 0;
+                    if (Int32.TryParse(s, out t))
+                        Options.dacConsiderChangedProcsUptoDistance = t;
+                    if (t < 0)
+                    {
+                        Console.WriteLine("Illegal argument of /dacConsiderChangedProcsUptoDistance:n");
+                        return false;
+                    }
+                }
                 else if (args[i].Contains("-splitOutputEqualities") || args[i].Contains("/splitOutputEqualities"))
                     Options.splitOutputEqualities = true;
                 else
                 {
                     throw new Exception("Unexpected option " + args[i]);
                 }
+
             }
             /////////////////////////////////////
             //consistency checks over the options

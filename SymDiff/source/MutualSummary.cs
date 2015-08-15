@@ -109,9 +109,11 @@ namespace SDiff
             BoogieUtils.ResolveAndTypeCheckThrow(program, mps);             
             (new TaintBasedSimplification(program)).StartSimplifications();
 
-            if (Options.dacConsiderChangedProcOnly)
-                new HoudiniAnalyzeImplSubset(program, SymDiffUtils.Util.FindChangedMSProcs(program)).Visit(program);
-
+            if (Options.dacConsiderChangedProcsUptoDistance >= 0)
+            {
+                var changedProcs = SymDiffUtils.Util.FindChangedMSProcs(program, Options.dacConsiderChangedProcsUptoDistance);
+                new HoudiniAnalyzeImplSubset(program, changedProcs).Visit(program);
+            }
             var mpsPi = "mergedProgSingle_preInferred.bpl";
             BoogieUtils.PrintProgram(program, mpsPi);
             program = BoogieUtils.ParseProgram(mpsPi);

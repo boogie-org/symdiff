@@ -184,7 +184,7 @@ namespace SymDiffUtils
         /// <param name="callGraph"></param>
         /// <param name="changedProcs"></param>
         /// <returns>A map from procedure name to distance from any changed procedure.</returns>
-        public static Dictionary<string, int> ComputePathLengths(Graph<Procedure> callGraph, List<string> changedProcs)
+        public static Dictionary<int, HashSet<string>> FindProcsAtDistance(Graph<Procedure> callGraph, IEnumerable<string> changedProcs)
         {
             Dictionary<string, int> lengths = new Dictionary<string, int>();
             foreach (var proc in callGraph.Nodes)
@@ -196,7 +196,14 @@ namespace SymDiffUtils
             {
                 TraverseDF(callGraph, item, -1, lengths);
             }
-            return lengths;
+            Dictionary<int, HashSet<string>> procsAtDistance = new Dictionary<int, HashSet<string>>();
+            foreach(var item in lengths)
+            {
+                if (!procsAtDistance.ContainsKey(item.Value))
+                    procsAtDistance[item.Value] = new HashSet<string>();
+                procsAtDistance[item.Value].Add(item.Key);
+            }
+            return procsAtDistance;
         }
 
         private static void TraverseDF(Graph<Procedure> callGraph, Procedure item, int cost, Dictionary<string, int> costs)
