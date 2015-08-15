@@ -1,0 +1,31 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 2 verified, 0 errors
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 2 verified, 0 errors
+Parsing config file
+Parsing programs
+Namespacing ASTs
+Resolving and typechecking
+Resolving and typechecking
+ImplMap: _v1.A, _v2.A
+ImplMap: _v1.B, _v2.B
+---> Unable to find OK variables!!
+Resolving and typechecking
+Performing Houdini inference from within Symdiff.exe 
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+---Command arguments
+
+/typeEncoding:m
+/noinfer
+/doModSetAnalysis
+--------------------
+Pruning impls with no non-free contract transitively: _v2.A
+Pruning impls with no non-free contract transitively: _v2.B
+Pruning impls with no non-free contract transitively: _v1.A
+Pruning impls with no non-free contract transitively: _v1.B
+Houdini statistics:: Prover Time 0.0410867 NumProver Queries 7 UnsatProver time 0.0069781 NumUnsat prunings 0
+Houdini finished and inferred 6/10 contracts
+Houdini finished with 2 verified, 0 errors, 0 inconclusives, 0 timeouts
+Generated mergedProgSingle.bpl 
