@@ -176,5 +176,45 @@ namespace SymDiffUtils
             }
             return p;
         }
+
+        /// <summary>
+        /// Computes for all procedures in the callgraph the distance from a list of changed procedures.
+        /// Changed procedures have distance 0,
+        /// </summary>
+        /// <param name="callGraph"></param>
+        /// <param name="changedProcs"></param>
+        /// <returns>A map from procedure name to distance from any changed procedure.</returns>
+        public static Dictionary<string, int> ComputePathLengths(Graph<Procedure> callGraph, List<string> changedProcs)
+        {
+            Dictionary<string, int> lengths = new Dictionary<string, int>();
+            foreach (var proc in callGraph.Nodes)
+            {
+                lengths.Add(proc.Name, int.MaxValue);
+            }
+
+            foreach (var item in callGraph.Nodes.Where(node => changedProcs.Contains(node.Name)))
+            {
+                TraverseDF(callGraph, item, -1, lengths);
+            }
+            return lengths;
+        }
+
+        private static void TraverseDF(Graph<Procedure> callGraph, Procedure item, int cost, Dictionary<string, int> costs)
+        {
+            int currentCost = cost + 1;
+            if (costs[item.Name] <= currentCost)
+            {
+                return;
+            }
+            costs[item.Name] = currentCost;
+            foreach (var succ in callGraph.Successors(item))
+            {
+                TraverseDF(callGraph, succ, currentCost, costs);
+            }
+            foreach (var pred in callGraph.Predecessors(item))
+            {
+                TraverseDF(callGraph, pred, currentCost, costs);
+            }
+        }
     }
 }
