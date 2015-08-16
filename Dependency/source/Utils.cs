@@ -317,21 +317,34 @@ namespace Dependency
                     // Maybe in the future add an attribute to extracted procedures containing the name of the original procedure
                     foreach (var impl in program.Implementations.Where(i => i.Proc.Name.Equals(changesPerProc.Key) || i.Proc.Name.StartsWith(changesPerProc.Key + "_loop_"))) // dealing with loops which are procs with name <orig_proc>_loop_head etc.
                     {
-                        if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) == null)
-                            foreach (var procChange in changesPerProc)
+                        // If we are doing coarse diff, then we are only relying that the diff can find the exact changed procedure
+                        if (Analysis.CoarseDiff)
+                        {
+                            // For coarse diff we're adding all basic blocks from the syntactically changed procedures.
+                            impl.Blocks.Iter(bb => result.Add(bb));
+                        }
+                        else
+                        {
+                            if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) == null)
                             {
-                                // add in the block pertaining to the changed line
-                                //impl.Blocks.Where(b => Utils.AttributeUtils.GetSourceLine(b) == procChange.Item3)
-                                //                    .Iter(b => result.Add(b));
-                                impl.Blocks
-                                    .Where(b => Utils.AttributeUtils.GetSourceLines(b).Contains(procChange.Item3))
-                                    .Iter(b => result.Add(b));
+                                foreach (var procChange in changesPerProc)
+                                {
+                                    // add in the block pertaining to the changed line
+                                    //impl.Blocks.Where(b => Utils.AttributeUtils.GetSourceLine(b) == procChange.Item3)
+                                    //                    .Iter(b => result.Add(b));
+                                    impl.Blocks
+                                        .Where(b => Utils.AttributeUtils.GetSourceLines(b).Contains(procChange.Item3))
+                                        .Iter(b => result.Add(b));
+                                }
                             }
+                        }
                     }
                 }
             }
-
-            CheckResult(result, changeLog);
+            if (!Analysis.CoarseDiff)
+            {
+                CheckResult(result, changeLog);
+            }
             return result;
         }
 
