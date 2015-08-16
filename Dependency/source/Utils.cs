@@ -322,21 +322,33 @@ namespace Dependency
                                 // add in the block pertaining to the changed line
                                 //impl.Blocks.Where(b => Utils.AttributeUtils.GetSourceLine(b) == procChange.Item3)
                                 //                    .Iter(b => result.Add(b));
-                                var blocks = impl.Blocks
-                                    .Where(b => Utils.AttributeUtils.GetSourceLines(b).Contains(procChange.Item3));
-
-                                if (blocks.Count() == 0)
-                                {
-                                    Console.WriteLine("[Error:] Could not map changed line {0} in file {1} in procedure {2} to basic block", procChange.Item3, procChange.Item1, procChange.Item2);
-                                    Environment.Exit(-13);
-                                }
-
-                                    blocks.Iter(b => result.Add(b));
+                                impl.Blocks
+                                    .Where(b => Utils.AttributeUtils.GetSourceLines(b).Contains(procChange.Item3))
+                                    .Iter(b => result.Add(b));
                             }
                     }
                 }
             }
+
+            CheckResult(result, changeLog);
             return result;
+        }
+
+        private static void CheckResult(HashSet<Block> result, List<Tuple<string, string, int>> changeLog)
+        {
+            bool unableToMap = false;
+            foreach (var item in changeLog)
+            {
+                if (!result.Any(b => Utils.AttributeUtils.GetSourceFile(b).Equals(item.Item1) && Utils.AttributeUtils.GetSourceLines(b).Contains(item.Item3)))
+                {
+                    Console.WriteLine("[Error:] Could not map changed line {0} in file {1} in procedure {2} to basic block", item.Item3, item.Item1, item.Item2);
+                    unableToMap = true;
+                }
+            }
+            if (unableToMap)
+            {
+                Environment.Exit(-13);
+            }
         }
 
         public static HashSet<Procedure> ComputeChangedProcs(Program program, List<Tuple<string, string, int>> changeLog)
