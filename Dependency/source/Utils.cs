@@ -315,7 +315,7 @@ namespace Dependency
                 foreach (var changesPerProc in changesPerFile.GroupBy(t => t.Item2))
                 {
                     // Maybe in the future add an attribute to extracted procedures containing the name of the original procedure
-                    foreach (var impl in program.Implementations.Where(i => i.Proc.Name.StartsWith(changesPerProc.Key + "_loop_"))) // dealing with loops which are procs with name <orig_proc>_loop_head etc.
+                    foreach (var impl in program.Implementations.Where(i => i.Proc.Name.Equals(changesPerProc.Key) || i.Proc.Name.StartsWith(changesPerProc.Key + "_loop_"))) // dealing with loops which are procs with name <orig_proc>_loop_head etc.
                     {
                         if (changesPerProc.FirstOrDefault(t => t.Item3 == Utils.AttributeUtils.WholeProcChangeAttributeVal) == null)
                             foreach (var procChange in changesPerProc)
