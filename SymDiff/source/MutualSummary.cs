@@ -121,6 +121,13 @@ namespace SDiff
 
             new FreesPruning(program).Prune();
 
+            //prune existential vars not present in any exprs, otherwise printed the # of inferred annotations
+            //they are removed either by DAC simplification (candidate -> free), or droppring procedures 
+            new SymDiffUtils.HoudiniPruneUnusedExistentialConstants(program).Visit(program);
+
+            Console.WriteLine("Analyzing the list of implementations = [{0}]",
+                string.Join(",", program.TopLevelDeclarations.OfType<Implementation>().Select(x => x.Name)));
+
             HoudiniSession.HoudiniStatistics houdiniStats = new HoudiniSession.HoudiniStatistics();
             Houdini houdini = new Houdini(program, houdiniStats);
             HoudiniOutcome outcome = houdini.PerformHoudiniInference();
