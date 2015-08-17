@@ -40,6 +40,10 @@ namespace SyntaxDiff
 
             if (args.Any(x => x == "-break"))
                 Debugger.Launch();
+            
+            var CoarseDiff = args.Any(x => x.Contains("/coarseDiff"));
+
+            BoogieUtils.InitializeBoogie("");
 
             var v1 = args[0];
             var v2 = args[1];
@@ -59,6 +63,11 @@ namespace SyntaxDiff
 
             //remove those implementations that are syntactically identical
             var diffImpls = FindImplementsWithDifferentBodies(v1Prog, v2Prog);
+            if (CoarseDiff)
+            {
+                diffImpls = diffImpls.Where(pair => !IsEqualStringRepresentation(pair.Item1, pair.Item2));
+            }
+
 
             //perform the diff on the source files in which the implemnation pair is present
             var v1Changes = new List<string>();
@@ -168,7 +177,8 @@ namespace SyntaxDiff
                 if (i1Present && i2Present) //both impls present
                 {
                     //TODO: get the string representation of the implementations 
-                    if (IsEqualStringRepresentation(i1,i2)) continue; //exclude (i1, i2) from consideration safely
+                    // Not doing this when doing standard C based diffm but only when doing coarseDiff
+                    //if (IsEqualStringRepresentation(i1,i2)) continue; //exclude (i1, i2) from consideration safely
                     diffImplPairs.Add(Tuple.Create(i1, i2)); continue;
                 } else if (!i1Present && !i2Present) //both are stubs
                 {
@@ -189,25 +199,15 @@ namespace SyntaxDiff
         /// <param name="i1"></param>
         /// <param name="i2"></param>
         /// <returns></returns>
-        private static bool IsEqualStringRepresentation(Implementation i1, Implementation i2)
+        public static bool IsEqualStringRepresentation(Implementation i1, Implementation i2)
         {
-            return false;
+            var sw1 = new StringWriter();
+            i1.Emit(new TokenTextWriter(sw1), 0);
+            var sw2 = new StringWriter();
+            i2.Emit(new TokenTextWriter(sw2), 0);
+            return sw1.ToString().Equals(sw2.ToString());
         }
-        /// <summary>
-        /// Get a string representation of an implementation
-        /// </summary>
-        /// <param name="i1"></param>
-        /// <returns></returns>
-        private static object GetImplString(Implementation i1)
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// MEF based diffing of strings
-        /// Doesn't work due to CFEditor dependency
-        /// </summary>
-        /// <param name="args"></param>
-
+        
     }
 
     class RemoveSrcInfoStmts : FixedVisitor

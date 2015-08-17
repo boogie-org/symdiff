@@ -69,6 +69,9 @@
     <Reference Include="ProgTransformation">
       <HintPath>..\references\ProgTransformation.dll</HintPath>
     </Reference>
+    <Reference Include="Provers.SMTLib">
+      <HintPath>..\references\Provers.SMTLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
