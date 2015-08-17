@@ -219,7 +219,7 @@ if ($doChangedBasedDep eq 1){
     MyExecAndDieOnFailure("$symdiff_root\\SymDiff\\bin\\x86\\debug\\symdiff.exe -inferConfig $v1.bpl $v2.bpl > $v1$v2.config"); 
     $v1ChangedLines = "/taint:$v1.bpl_changed_lines.txt";
     $v2ChangedLines = "/taint:$v2.bpl_changed_lines.txt";
-    MyExecAndDieOnFailure("$symdiff_root\\SyntaxDiff\\bin\\debug\\SyntaxDiff.exe $v1.bpl $v2.bpl $v1$v2.config") #outputs _v1.bpl_changed_lines.txt and _v2.bpl.changed_lines.txt
+    MyExecAndDieOnFailure("$symdiff_root\\SyntaxDiff\\bin\\debug\\SyntaxDiff.exe $v1.bpl $v2.bpl $v1$v2.config $coarseDiff") #outputs _v1.bpl_changed_lines.txt and _v2.bpl.changed_lines.txt
 }
 
 ## run dependency analysis (TODO: fold it together with abstractTainted)
