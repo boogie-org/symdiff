@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymDiffUtils", "SymDiffUtil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymDiffPreProcess", "SymDiffPreProcess\SymDiffPreProcess.csproj", "{6DBD754A-9537-4835-AD68-12525D41ED20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymDiffPostProcess", "VisualChangeImpact\SymDiffPostProcess.csproj", "{FFE00461-FCCC-48A6-B83C-BDADED554C98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymDiffPostProcess", "SymDiffPostProcess\SymDiffPostProcess.csproj", "{FFE00461-FCCC-48A6-B83C-BDADED554C98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

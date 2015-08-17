@@ -16,6 +16,11 @@ namespace SymDiffPostProcess
         static void Main(string[] args)
         {
 
+            if(args.Count() != 4)
+            {
+                Console.WriteLine("The program is to be run as: SymDiffPostProcess.exe tainted.csv tainted.dac.csv v1.bpl_changed_lines.txt _v2.bpl");
+                return;
+            }
             if (args.ToList().Any(x => x == "-break")) Debugger.Launch();
 
 

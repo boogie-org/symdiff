@@ -24,7 +24,8 @@ def cToBplByHavoc(v1, v2):
    return  ['run_symdiff_c.cmd', v1, v2, '/nocpp', '/rvt', '/nohtml', '/genBplsOnly', '/analyzeChangedCallersOnly', '/stripAbsolutePathsInBpl']
 
 def runSymdiffBpl(v1,v2):
-    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear -dacConsiderChangedProcOnly ', '/changedLines']
+#    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear -dacConsiderChangedProcOnly ', '/changedLines']
+    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear ', '/changedLines']
 
 def dependency_dac(v):
     return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl', '/prune']
@@ -34,6 +35,9 @@ def dependency(v):
 
 def smackPreprocess(fn ,v):
     return ['SymDiffPreProcess.exe', fn, '-relativeSourceDir:' + v + '\\']
+
+def dataPostprocess():
+    return ["SymDiffPostProcess.exe", "tainted.csv", "tainted.dac.csv", "v1.bpl_changed_lines.txt", "_v2.bpl"]
 
 
 def smack():
@@ -116,6 +120,9 @@ class Project:
 
                 retCode, timeDependencySimple, output = self.runStage(dependency(v2), outStream)
                 lines, depTainted = self.processDependencyOutput(output)
+
+                self.runStage(dataPostprocess(), outStream)
+                
             except Exception as ex:
                 print('[Error] Processing versions ' + v1 + ' ' +v2)
                 print('[Error] Processing versions ' + v1 + ' ' +v2, file=outStream)
