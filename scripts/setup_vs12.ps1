@@ -1,15 +1,12 @@
 #Set environment variables for Visual Studio Command Prompt
-#$pathToVS = 'C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC' #VS12 and earlier
-$pathToVS = 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools'
-
+$pathToVS = 'C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC'
 if (!(test-path $pathToVS))
 {
 	write-host "Could not set Visual Studio Command Prompt variables (expected path = " $pathToVS "). Exiting." -ForegroundColor Red
 	exit
 } 
 pushd $pathToVS 
-#cmd /c "vcvarsall.bat&set" | #VS12 and earlier
-cmd /c 'vsvars32.bat&set' |
+cmd /c "vcvarsall.bat&set" |
 foreach {
   if ($_ -match "=") {
     $v = $_.split("="); set-item -force -path "ENV:\$($v[0])"  -value "$($v[1])"

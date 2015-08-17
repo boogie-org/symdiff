@@ -10,7 +10,7 @@ using System.Diagnostics;
 using SymDiffUtils;
 
 namespace Dependency
-{
+{ 
 
     public class RefineDependencyWL
     {
@@ -218,7 +218,7 @@ namespace Dependency
                         // turn it to dependencies (\forall r \in ReadSet: r <- ReadSet)
                         ProcDependencies[impl.Proc] = new Dependencies();
                         rsv.ProcReadSet[impl.Proc].Iter(r => ProcDependencies[impl.Proc][r] = rsv.ProcReadSet[impl.Proc]);
-                        ProcDependencies[impl.Proc].FixFormals(impl);
+                        //ProcDependencies[impl.Proc].FixFormals(impl);
                     }
                     else
                     {
@@ -279,6 +279,8 @@ namespace Dependency
             Utils.ComputeDominators(program, node, dominatedBy);
 
             worklist.RunFixedPoint(this, node);
+
+            ProcDependencies[node.Proc].FixFormals(node);
             //Console.WriteLine("Analyzed " + node + "( ).");
             RemoveTaintBasedOnDac(node);
 
@@ -404,15 +406,27 @@ namespace Dependency
                         }
         }
 
-
+        private Dictionary<Procedure, Dictionary<string, int>> paramNameToIndex = new Dictionary<Procedure, Dictionary<string, int>>(); 
         private VarSet InferCalleeOutputDependancy(CallCmd cmd, Variable output, Dependencies state, List<VarSet> inputExpressionsDependency)
         {
             if (Analysis.DacMerged != null && !IsImpactedOutput(cmd.Proc, output))
             {
                 return new VarSet();
             }
+
+            if (!paramNameToIndex.ContainsKey(cmd.Proc))
+            {
+                paramNameToIndex[cmd.Proc] = new Dictionary<string, int>();
+                for (int i = 0 ; i < cmd.Proc.InParams.Count; ++i)
+                {
+                   var p = cmd.Proc.InParams[i];
+                    paramNameToIndex[cmd.Proc][p.Name] = i;
+                }
+            }
+
             var outputDependency = ProcDependencies[cmd.Proc][output]; // output is dependent on a set of formals and globals
             var inferedOutputDependency = new VarSet();
+
             foreach (var dependentOn in outputDependency) // foreach (formal parameter p\global g) o_i is dependent upon
             {
                 if (dependentOn is GlobalVariable) // global
@@ -422,11 +436,19 @@ namespace Dependency
                         inferedOutputDependency.UnionWith(state[dependentOn]);
                     continue;
                 }
-                var inputIndex = cmd.Proc.InParams.IndexOf(dependentOn);
+
+                var inputIndex = 0;
+                if (inputExpressionsDependency.Count == 0)
+                    continue;
+
+                //inputIndex = cmd.Proc.InParams.FindIndex(p => p.Name == dependentOn.Name);
+                if (paramNameToIndex[cmd.Proc].ContainsKey(dependentOn.Name))
+                    inputIndex = paramNameToIndex[cmd.Proc][dependentOn.Name];
                 if (inputIndex >= 0) // formal parameter
                     // replace the formal with the actual's dependency set
                     inferedOutputDependency.UnionWith(inputExpressionsDependency[inputIndex]);
             }
+
             return inferedOutputDependency;
         }
 
@@ -581,7 +603,7 @@ namespace Dependency
             if (!ProcDependencies.ContainsKey(proc))
                 ProcDependencies[proc] = new Dependencies();
             ProcDependencies[proc].JoinWith(worklist.stateSpace[node]);
-            ProcDependencies[proc].FixFormals(nodeToImpl[node]);
+            //ProcDependencies[proc].FixFormals(nodeToImpl[node]);
             // top down taint can't flow up
             if (!procExitTDTaint.ContainsKey(proc))
                 procExitTDTaint[proc] = new Dependencies();
