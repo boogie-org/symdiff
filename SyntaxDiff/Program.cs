@@ -61,18 +61,29 @@ namespace SyntaxDiff
             new RemoveSrcInfoStmts().Visit(v1Prog);
             new RemoveSrcInfoStmts().Visit(v2Prog);
 
+            var v1Changes = new List<string>();
+            var v2Changes = new List<string>();
+
             //remove those implementations that are syntactically identical
-            var diffImpls = FindImplementsWithDifferentBodies(v1Prog, v2Prog);
+            var diffImpls = GetImplementationPairs(v1Prog, v2Prog);
             if (CoarseDiff)
             {
                 diffImpls = diffImpls.Where(pair => !IsEqualStringRepresentation(pair.Item1, pair.Item2));
+                foreach (var implPair in diffImpls)
+                {
+                    if (implPair.Item1 != null)
+                    {
+                        v1Changes.AddRange(FormatChangedLinesForProcedure(implPair.Item1.Name, new List<int>() { 0 }, v1srcInfo.srcInfoPerImpl[implPair.Item1].Item1));
+                    }
+                    if (implPair.Item2 != null)
+                    {
+                        v1Changes.AddRange(FormatChangedLinesForProcedure(implPair.Item2.Name, new List<int>() { 0 }, v1srcInfo.srcInfoPerImpl[implPair.Item2].Item1));
+                    }
+                }
             }
 
-
-            //perform the diff on the source files in which the implemnation pair is present
-            var v1Changes = new List<string>();
-            var v2Changes = new List<string>();
-            foreach(var i12 in diffImpls)
+            //perform the diff on the source files in which the implemnation pair is present                
+            foreach (var i12 in diffImpls)
             {
                 var d12 = FindDiffSourceLinesInImplementation(i12.Item1, v1srcInfo, i12.Item2, v2srcInfo);
 
@@ -81,6 +92,7 @@ namespace SyntaxDiff
                 if (i12.Item2 != null)
                     v2Changes.AddRange(FormatChangedLinesForProcedure(i12.Item2.Name, d12.Item2, v2srcInfo.srcInfoPerImpl[i12.Item2].Item1));
             }
+
 
             PrintChangedLinesToFile(v1Changes, Path.Combine(Path.GetDirectoryName(v1), v1 + "_changed_lines.txt"));
             PrintChangedLinesToFile(v2Changes, Path.Combine(Path.GetDirectoryName(v2), v2 + "_changed_lines.txt"));
@@ -152,7 +164,7 @@ namespace SyntaxDiff
         /// <param name="v1Prog"></param>
         /// <param name="v2Prog"></param>
         /// <returns></returns>
-        private static IEnumerable<Tuple<Implementation,Implementation>> FindImplementsWithDifferentBodies(Program v1Prog, Program v2Prog)
+        private static IEnumerable<Tuple<Implementation,Implementation>> GetImplementationPairs(Program v1Prog, Program v2Prog)
         {
             var v1Impls = new Dictionary<string, Implementation>();
             var v2Impls = new Dictionary<string, Implementation>();
@@ -201,6 +213,10 @@ namespace SyntaxDiff
         /// <returns></returns>
         public static bool IsEqualStringRepresentation(Implementation i1, Implementation i2)
         {
+            if(i1 == null || i2 == null)
+            {
+                return false;
+            }
             var sw1 = new StringWriter();
             i1.Emit(new TokenTextWriter(sw1), 0);
             var sw2 = new StringWriter();
