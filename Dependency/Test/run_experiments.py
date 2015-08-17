@@ -25,13 +25,13 @@ def cToBplByHavoc(v1, v2):
 
 def runSymdiffBpl(v1,v2):
 #    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear -dacConsiderChangedProcOnly ', '/changedLines']
-    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear ', '/changedLines']
+    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear -dacConsiderChangedProcsUptoDistance:1', '/changedLines', '/coarseDiff']
 
 def dependency_dac(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl', '/prune']
+    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl', '/prune', '/coarseDiff']
 
 def dependency(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/prune']
+    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/prune', '/coarseDiff']
 
 def smackPreprocess(fn ,v):
     return ['SymDiffPreProcess.exe', fn, '-relativeSourceDir:' + v + '\\']
