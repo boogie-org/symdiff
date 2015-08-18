@@ -36,7 +36,7 @@ namespace Dependency
             public const string dacMerged = "/dacMerged";
             public const string depTainted = "/depTainted";
             public const string dumpTaint = "/dumpTaint";
-            public const string inlineDepth = "/inlineDepthDependency";
+            public const string inlineDepthDependency = "/inlineDepthDependency";
             public const string coarseDiff = "/coarseDiff";
         }
 
@@ -130,7 +130,7 @@ namespace Dependency
             args.Where(x => x.StartsWith(CmdLineOptsNames.timeout + ":"))
                 .Iter(s => Timeout = int.Parse(s.Split(':')[1]));
 
-            args.Where(x => x.StartsWith(CmdLineOptsNames.inlineDepth + ":"))
+            args.Where(x => x.StartsWith(CmdLineOptsNames.inlineDepthDependency + ":"))
                 .Iter(s => InlineDepth = int.Parse(s.Split(':')[1]));
 
             CoarseDiff = args.Any(x => x.Contains(CmdLineOptsNames.coarseDiff));

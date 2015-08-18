@@ -56,7 +56,8 @@ sub PrintUsage{
   print "\t  /useConfig:file : use file as the config file (default auto generated)\n";
   print "\t  /opts:\"<option-string>\" : <option-string> is passed to SymDiff.exe -allInOne\n";
   print "\t  /inferContracts:\"<option-string>\" : perform Boogie /contractInfer to infer mutual summaries with <option-string> \n";
-  print "\t  /abstractNonTainted:[changed-file1 changed-file2] : abstract code shown to be not tainted by static analysis (/taint:changed-filei for ith version)\n";
+  print "\t  /inlineDepthDependency:k : inline callees within k level in callgraph before performing analysis \n";
+#  print "\t  /abstractNonTainted:[changed-file1 changed-file2] : abstract code shown to be not tainted by static analysis (/taint:changed-filei for ith version)\n";
   die "\n";
 }
 
@@ -69,6 +70,7 @@ my $configFile = "";
 my $returnOnlyStr = "";
 my $optString = "";
 my $inferContracts = 0;
+my $inlineDepthDependency = 0;
 my $inferContractsOpts = "";
 my $abstractNonTainted = "";
 my $taint1 = "";
@@ -127,6 +129,10 @@ sub ProcessOptions {
       $returnOnlyStr = "-returnAsOnlyOutput -localcheck";
       print "\tOnly considering return value as the output of a procedure, ignoring globals/out parameters modified....\n";
     }
+    if($opt =~ /^\/inlineDepthDependency:([0-9]+)$/){
+      $inlineDepthDependency = $1;
+      print "\tInline depth for Dependency is $1\n";
+    }
     if($opt =~ /^\/abstractNonTainted:\[(.*) (.*)\]$/){
       $abstractNonTainted = "1"; #non-empty
       $taint1 = $1;
@@ -150,6 +156,7 @@ sub AbstractNonTainted{
   my $bpl = shift;
   my $changedLinesFile = shift;
   
+  die "AbstractNonTainted is currently deprecated";
   MyExecAndDieOnFailure("dependency.exe $bpl.bpl /taint:$changedLinesFile /abstractNonTainted "); #outputs to $bpl.abstractNonTainted.bpl
   return $bpl . ".bpl.taintAbstract";
 }
@@ -223,8 +230,8 @@ if ($doChangedBasedDep eq 1){
 }
 
 ## run dependency analysis (TODO: fold it together with abstractTainted)
-    MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl $v1ChangedLines /annotateDependencies /prune $coarseDiff"); #outputs to _v1.bpl_w_deps.bpl
-    MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl $v2ChangedLines /annotateDependencies /prune $coarseDiff"); #outputs to _v2.bpl_w_deps.bpl
+    MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl $v1ChangedLines /annotateDependencies /inlineDepthDependency:$inlineDepthDependency /prune $coarseDiff"); #outputs to _v1.bpl_w_deps.bpl
+    MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl $v2ChangedLines /annotateDependencies /inlineDepthDependency:$inlineDepthDependency /prune $coarseDiff"); #outputs to _v2.bpl_w_deps.bpl
 
 MyExecAndDieOnFailure("copy /Y _v1.bpl_w_dep.bpl  _v1.bpl"); 
 MyExecAndDieOnFailure("copy /Y _v2.bpl_w_dep.bpl  _v2.bpl"); 

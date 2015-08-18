@@ -143,6 +143,15 @@ namespace SymDiffUtils
                 return reachableProcs;
             }
 
+            /// <summary>
+            /// Does not quite work as it recursively inlines everything
+            /// </summary>
+            /// <param name="prog"></param>
+            /// <param name="impl"></param>
+            /// <param name="bound"></param>
+            /// <param name="recursionDepth"></param>
+            /// <param name="callGraph"></param>
+            /// <param name="inlineOpt"></param>
             public static void InlineUptoDepth(Program prog, Implementation impl, int bound, int recursionDepth, Graph<Procedure> callGraph, 
                 CommandLineOptions.Inlining inlineOpt)
             {

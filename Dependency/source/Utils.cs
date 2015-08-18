@@ -315,7 +315,9 @@ namespace Dependency
                 foreach (var changesPerProc in changesPerFile.GroupBy(t => t.Item2))
                 {
                     // Maybe in the future add an attribute to extracted procedures containing the name of the original procedure
-                    foreach (var impl in program.Implementations.Where(i => i.Proc.Name.Equals(changesPerProc.Key) || i.Proc.Name.StartsWith(changesPerProc.Key + "_loop_"))) // dealing with loops which are procs with name <orig_proc>_loop_head etc.
+                    foreach (var impl in program.Implementations
+                        .Where(i => i.Proc.Name.Equals(changesPerProc.Key) || 
+                            i.Proc.Name.StartsWith(changesPerProc.Key + "_loop_"))) // dealing with loops which are procs with name <orig_proc>_loop_head etc.
                     {
                         // If we are doing coarse diff, then we are only relying that the diff can find the exact changed procedure
                         if (Analysis.CoarseDiff)

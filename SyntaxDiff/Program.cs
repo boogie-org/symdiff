@@ -77,7 +77,7 @@ namespace SyntaxDiff
                     }
                     if (implPair.Item2 != null)
                     {
-                        v1Changes.AddRange(FormatChangedLinesForProcedure(implPair.Item2.Name, new List<int>() { 0 }, v2srcInfo.srcInfoPerImpl[implPair.Item2].Item1));
+                        v2Changes.AddRange(FormatChangedLinesForProcedure(implPair.Item2.Name, new List<int>() { 0 }, v2srcInfo.srcInfoPerImpl[implPair.Item2].Item1));
                     }
                 }
             }
