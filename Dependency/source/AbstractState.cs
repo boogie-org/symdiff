@@ -336,7 +336,8 @@ namespace Dependency
             {
                 var v = dependency.Key;
                 // leave only globals and formal outputs
-                if (v is GlobalVariable || proc.OutParams.Contains(v))
+                if (v is GlobalVariable || impl.OutParams.Contains(v) 
+                    /* just to be safe: */|| proc.OutParams.Contains(v))
                     result.Add(v, Utils.VariableUtils.ImplInputsToProcInputs(impl, dependency.Value));
             }
             Clear();

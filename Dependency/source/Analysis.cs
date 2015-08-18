@@ -620,7 +620,8 @@ namespace Dependency
                     var proc = prs.Key; var readSet = prs.Value;
                     var impl = program.Implementations.SingleOrDefault(i => i.Proc.Name == proc.Name);
                     if (impl != null) // conservatively each output\global is dependent on all of the readset
-                        readSet.Where(v => v is GlobalVariable || proc.OutParams.Contains(v)).Iter(v => PopulateStatsLog(Utils.StatisticsHelper.ReadSet, impl, v, readSet));
+                        readSet.Where(v => v is GlobalVariable || impl.OutParams.Contains(v)
+                        /* just to be safe: */|| proc.OutParams.Contains(v)).Iter(v => PopulateStatsLog(Utils.StatisticsHelper.ReadSet, impl, v, readSet));
                 });
 
         }
