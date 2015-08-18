@@ -473,7 +473,8 @@ namespace Dependency
             {
                 if (impl == null) 
                     return;
-                vars.RemoveWhere(v => !(v is GlobalVariable || impl.Proc.InParams.Contains(v) || impl.Proc.OutParams.Contains(v)));
+                vars.RemoveWhere(v => !(v is GlobalVariable || impl.InParams.Contains(v) || impl.OutParams.Contains(v))
+                || impl.Proc.InParams.Contains(v) || impl.Proc.OutParams.Contains(v));
             }
 
             // add in the Procedure's inputs\outputs that adhere to the Implementation inputs\outputs in vars

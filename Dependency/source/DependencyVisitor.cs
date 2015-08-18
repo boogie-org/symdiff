@@ -275,16 +275,31 @@ namespace Dependency
             ProcDependencies.Iter(pd =>
             {
                 var procedure = pd.Key;
+                var impl = node.Implementations.FirstOrDefault(i => i.Proc == procedure);
                 var dependencies = pd.Value;
                 taintedProcScalarOutputs[procedure] = new VarSet();
-                foreach (var r in procedure.OutParams)
+                foreach (var r in impl.OutParams)
                 {
                     if (r.TypedIdent.Type.IsInt &&
                     (dependencies[r].Contains(Utils.VariableUtils.BottomUpTaintVar) || dependencies[r].Contains(Utils.VariableUtils.TopDownTaintVar)))
                         taintedProcScalarOutputs[procedure].Add(r);
                 }
             });
-            taintedProcScalarOutputs.Iter(t => Console.WriteLine(t.Key + " : " + t.Value));
+            taintedProcScalarOutputs.Iter(t => Console.WriteLine("Tainted outputs for " + t.Key + " : " + t.Value));
+
+            procEntryTDTaint.Iter(pd => Console.WriteLine("Tainted inputs/globals for " + pd.Key + " : " + pd.Value));
+
+            // for now, before we finish running, we replace all implementation outputs with procedure outputs
+            // TODO: in the future we should only use implementation inputs\outputs and lose the procedures overall
+            ProcDependencies.Iter(pd =>
+            {
+                var impl = node.Implementations.FirstOrDefault(i => i.Proc == pd.Key);
+                pd.Value.FixFormals(impl);
+                foreach (var o in impl.OutParams)
+                {
+                    pd.Value.Remove(o);
+                }
+            });
 
             return node;
         }
@@ -296,7 +311,7 @@ namespace Dependency
 
             worklist.RunFixedPoint(this, node);
 
-            ProcDependencies[node.Proc].FixFormals(node);
+            //ProcDependencies[node.Proc].FixFormals(node);
             //Console.WriteLine("Analyzed " + node + "( ).");
             RemoveTaintBasedOnDac(node);
 
@@ -564,7 +579,7 @@ namespace Dependency
             // handle outputs affected by the call
             for (int i = 0; i < callee.OutParams.Count; ++i)
             {
-                var formalOutput = callee.OutParams[i];
+                var formalOutput = calleeImpl.OutParams[i]; //callee.OutParams[i];
                 if (!calleeDependencies.ContainsKey(formalOutput))
                     continue;
                 var actualOutput = node.Outs[i].Decl;
