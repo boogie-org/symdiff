@@ -11,7 +11,6 @@ using SymDiffUtils;
 
 namespace Dependency
 { 
-
     public class RefineDependencyWL
     {
         private string filename;
@@ -270,6 +269,23 @@ namespace Dependency
 
             // the top down taint was removed from ProcDependencies so it won't flow up, so add it back in now
             procExitTDTaint.Iter(pd => ProcDependencies[pd.Key].JoinWith(pd.Value));
+
+            // gathering the tainted scalar outputs for each procedure
+            var taintedProcScalarOutputs = new Dictionary<Procedure,VarSet>();
+            ProcDependencies.Iter(pd =>
+            {
+                var procedure = pd.Key;
+                var dependencies = pd.Value;
+                taintedProcScalarOutputs[procedure] = new VarSet();
+                foreach (var r in procedure.OutParams)
+                {
+                    if (r.TypedIdent.Type.IsInt &&
+                    (dependencies[r].Contains(Utils.VariableUtils.BottomUpTaintVar) || dependencies[r].Contains(Utils.VariableUtils.TopDownTaintVar)))
+                        taintedProcScalarOutputs[procedure].Add(r);
+                }
+            });
+            taintedProcScalarOutputs.Iter(t => Console.WriteLine(t.Key + " : " + t.Value));
+
             return node;
         }
 
