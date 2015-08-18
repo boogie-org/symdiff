@@ -15,17 +15,22 @@ def setupArgs():
     parser = argparse.ArgumentParser(description='Harness to run experiments.')
     parser.add_argument('configFile', help='config file with versions. see examples_with_versions.config for an example.')
     parser.add_argument('--bplRepo', '-b', type=str, help='path to root of bpl repository.')
-    parser.add_argument('--timeout', '-t', type=int, default=1200, help='timeout per executed command. default is 20 minutes.')
+    parser.add_argument('--timeout', '-t', type=int, default=1200, help='timeout per executed command in seconds. default is 1200 seconds.')
     parser.add_argument('--smack', '-s', default=False, action='store_true', help='use script to only run smack')
+    parser.add_argument('--changeDistance', '-c', type=int, default=-1, help='Analyze changed procedures and procedures up to given distance.')
     return parser.parse_args()
 
 
 def cToBplByHavoc(v1, v2):
    return  ['run_symdiff_c.cmd', v1, v2, '/nocpp', '/rvt', '/nohtml', '/genBplsOnly', '/analyzeChangedCallersOnly', '/stripAbsolutePathsInBpl']
 
-def runSymdiffBpl(v1,v2):
+def runSymdiffBpl(v1,v2, i):
 #    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear -dacConsiderChangedProcOnly ', '/changedLines']
-    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear -dacConsiderChangedProcsUptoDistance:1', '/changedLines', '/coarseDiff']
+    if i >= 0:
+        addtl = '-dacConsiderChangedProcsUptoDistance:' + str(i)
+    else:
+        addtl = ''
+    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear ' + addtl, '/changedLines', '/coarseDiff']
 
 def dependency_dac(v):
     return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl', '/prune', '/coarseDiff']
@@ -50,20 +55,21 @@ def make():
 class Project:
     smackImportedDirs = set()
     
-    def __init__(self, rootDir, proj, versions, commandLog, resultsSummary, bplRepo, timeout):
+    def __init__(self, rootDir, proj, versions, commandLog, resultsSummary, bplRepo, timeout, changeDistance=0):
         self.rootDir  = rootDir
-        self.projectDir = proj        
+        self.projectDir = proj
+        self.projectDirDest = proj + '_' + str(changeDistance)
         self.versions = versions
         self.commandLog = commandLog
         self.resultsSummary = resultsSummary
         self.bplRepo = bplRepo
         self.timeout = timeout
-        
+        self.changeDistance = changeDistance
         if len(self.versions) < 2:
             print("[ERROR:] Missing versions for " + self.projectDir)
 
     @staticmethod
-    def readConfig(rootDir, configFile, commandLog, resultsSummary, bplRepo, timeout):
+    def readConfig(rootDir, configFile, commandLog, resultsSummary, bplRepo, timeout, upToChangeDistance):
         projects = list()
         with open(configFile) as fin:
             for line in fin:
@@ -71,7 +77,9 @@ class Project:
                     continue
                 components = line.split()
                 if components:
-                    projects.append(Project(rootDir, components[0], components[1:], commandLog, resultsSummary, bplRepo, timeout))
+                    for changeDistance in range(upToChangeDistance):
+                        projects.append(Project(rootDir, components[0], components[1:], commandLog, resultsSummary, bplRepo, timeout, changeDistance))
+                    projects.append(Project(rootDir, components[0], components[1:], commandLog, resultsSummary, bplRepo, timeout, -1))
         return projects
 
     def runSmack(self):
@@ -88,15 +96,15 @@ class Project:
 
 
     def process(self):
-        print("Processing " + self.projectDir)
-        if not os.path.exists(self.projectDir):
-                os.makedirs(self.projectDir)
-        with cd(self.projectDir):
+        print("Processing " + self.projectDirDest)
+        if not os.path.exists(self.projectDirDest):
+                os.makedirs(self.projectDirDest)
+        with cd(self.projectDirDest):
             referenceVersion = self.versions[0]
             for version in self.versions[1:]:
-                self.processVersionPair(referenceVersion, version)
+                self.processVersionPair(referenceVersion, version, self.changeDistance)
 
-    def processVersionPair(self, v1, v2):
+    def processVersionPair(self, v1, v2, i):
         print('\t -' + v1 + '  ' + v2);
         with open('LOG_' + v1 + '_' + v2 + '_outlog', 'w') as outStream:
             try:
@@ -113,7 +121,7 @@ class Project:
                 else:
                     retCode, timeCToBpl, output = self.runStage(cToBplByHavoc(v1,v2), outStream)
             
-                retCode, timeRunSymdiffBpl, output = self.runStage(runSymdiffBpl(v1,v2), outStream)
+                retCode, timeRunSymdiffBpl, output = self.runStage(runSymdiffBpl(v1, v2, i), outStream)
 
                 retCode, timeDependencyDac, output = self.runStage(dependency_dac(v2), outStream)
                 lines, dacTainted = self.processDependencyOutput(output)
@@ -129,7 +137,7 @@ class Project:
                 print('Exception:' + str(ex), file=outStream)
             else:
                 with open(self.resultsSummary, 'a') as summary:
-                    print(','.join(str(x) for x in [self.projectDir, v1, v2, timeCToBpl, timeRunSymdiffBpl, timeDependencySimple, timeDependencyDac, lines, depTainted, dacTainted]), file=summary)
+                    print(','.join(str(x) for x in [self.projectDirDest, v1, v2, timeCToBpl, timeRunSymdiffBpl, timeDependencySimple, timeDependencyDac, lines, depTainted, dacTainted]), file=summary)
 
 
     def processDependencyOutput(self, output):
@@ -228,7 +236,7 @@ def main():
     with open(resultsSummary, 'w') as results:
         print(','.join(['Project', 'v1', 'v2', 'timeCToBpl', 'timeRunSymdiffBpl', 'timeDependencySimple', 'timeDependencyDac', 'lines', 'depTainted', 'dacTainted']), file=results)
 
-    projects = Project.readConfig(os.path.abspath('.'), args.configFile, commandLog, resultsSummary, args.bplRepo, args.timeout)
+    projects = Project.readConfig(os.path.abspath('.'), args.configFile, commandLog, resultsSummary, args.bplRepo, args.timeout, args.changeDistance + 1)
 
     if args.smack:
         for project in projects:
