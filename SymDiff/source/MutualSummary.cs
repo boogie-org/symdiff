@@ -214,8 +214,11 @@ namespace SDiff
         private static void MutualSummaryStart(Program mergedProgram)
         {
             if (!dontUseMSAsAxioms)
-                foreach (Procedure f in mergedProgram.TopLevelDeclarations.Where(x => x is Procedure))
+            {
+                var allProcs = new HashSet<Procedure>(mergedProgram.TopLevelDeclarations.OfType<Procedure>());
+                foreach (Procedure f in allProcs)
                     CreateSummaryRelation(f);
+            }
             foreach (var kv in stubProcMap)
             {
                 Debug.Assert(false, string.Format("Stub encountered {0}...did you not run dependency.exe", kv.Key));
