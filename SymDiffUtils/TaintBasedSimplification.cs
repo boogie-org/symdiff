@@ -40,9 +40,16 @@ namespace SymDiffUtils
             {
                 return base.VisitImplementation(node);
             }
+            HashSet<string> nonTaintedInputs1, nonTaintedOutputs1, nonTaintedSummaries1;
+            this.getTaintInfo(this.procs[f1], out nonTaintedInputs1, out nonTaintedOutputs1, out nonTaintedSummaries1);
+            
+            HashSet<string> nonTaintedInputs2, nonTaintedOutputs2, nonTaintedSummaries2;
+            this.getTaintInfo(this.procs[f2], out nonTaintedInputs2, out nonTaintedOutputs2, out nonTaintedSummaries2);
+
             HashSet<string> nonTaintedInputs, nonTaintedOutputs, nonTaintedSummaries;
-            // getting taint info from f2, since we want to produce impacted statements in version 2, so taint in version 2 is the relevant one.
-            this.getTaintInfo(this.procs[f2], out nonTaintedInputs, out nonTaintedOutputs, out nonTaintedSummaries);
+            nonTaintedInputs = new HashSet<string>(nonTaintedInputs1.Intersect(nonTaintedInputs2));
+            nonTaintedOutputs = new HashSet<string>(nonTaintedOutputs1.Intersect(nonTaintedOutputs2));
+            nonTaintedSummaries = new HashSet<string>(nonTaintedSummaries1.Intersect(nonTaintedSummaries2));
 
             foreach (var ens in node.Proc.Ensures)
             {
