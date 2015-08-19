@@ -302,7 +302,7 @@ namespace Dependency
             if (changeList != null)
             {
                 // print number of tainted lines
-                var taintedLines = taintLog.GroupBy(t => t.Item3);
+                var taintedLines = new HashSet<Tuple<string,int>>(taintLog.Select(x => new Tuple<string,int>(x.Item1, x.Item3)));
                 Console.WriteLine("#Orig lines, #Tainted lines, #Lines after abstractNonTainted: {0}, {1}, {2}",
                     oldSourceLines.Sum(fl => fl.Value.Count),
                     taintedLines.Count(), 
