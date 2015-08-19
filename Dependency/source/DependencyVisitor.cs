@@ -280,7 +280,7 @@ namespace Dependency
                 taintedProcScalarOutputs[procedure] = new VarSet();
                 foreach (var r in impl.OutParams)
                 {
-                    if (r.TypedIdent.Type.IsInt &&
+                    if (r.TypedIdent.Type.IsInt && dependencies.ContainsKey(r) &&
                     (dependencies[r].Contains(Utils.VariableUtils.BottomUpTaintVar) || dependencies[r].Contains(Utils.VariableUtils.TopDownTaintVar)))
                         taintedProcScalarOutputs[procedure].Add(r);
                 }
