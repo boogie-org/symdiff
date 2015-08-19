@@ -193,7 +193,12 @@ namespace Dependency
                 (new Utils.RemoveValueIsAssumes()).Visit(program);
             // create explicit variables for conditionals
             if (changeList != null) //only do this for taint analysis
-                (new Utils.AddExplicitConditionalVars()).Visit(program);
+            {
+                if (!CoarseDiff) //only do this if we're not using coarse diff, since otherwise it does not matter.
+                {
+                    (new Utils.AddExplicitConditionalVars()).Visit(program);
+                }
+            }
             //remove some HAVOC generated methods (should be in preprocess)
             //program.RemoveTopLevelDeclarations(x => (x is Procedure && ((Procedure)x).Name.Contains("HAVOC_memset")));
             //program.RemoveTopLevelDeclarations(x => (x is Implementation && ((Implementation)x).Name.Contains("HAVOC_memset")));
