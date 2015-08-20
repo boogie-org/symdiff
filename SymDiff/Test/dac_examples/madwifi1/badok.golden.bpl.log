@@ -109,7 +109,10 @@ Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 /noinfer
 /doModSetAnalysis
 --------------------
-Houdini statistics:: Prover Time 0.2710697 NumProver Queries 19 UnsatProver time 0.0930127 NumUnsat prunings 0
-Houdini finished and inferred 91/115 contracts
+HoudiniPruneUnusedExistentialConstants: Removing []
+Analyzing the list of implementations in Houdini = [_v2.encode_ie,_v2.giwscan_cb,_v2.main,_v2.encode_ie_loop_label_14_head,_v1.encode_ie,_v1.giwscan_cb,_v1.main,_v1.encode_ie_loop_label_14_head,MS_Check__v1.encode_ie___v2.encode_ie,MS_Check__v1.encode_ie_loop_label_14_head___v2.encode_ie_loop_label_14_head,MS_Check__v1.giwscan_cb___v2.giwscan_cb,MS_Check__v1.main___v2.main]
+Inline depth for Houdini = 0
+Houdini statistics:: Prover Time 0.2899305 NumProver Queries 20 UnsatProver time 0.1000031 NumUnsat prunings 0
+Houdini finished and inferred 105/131 contracts
 Houdini finished with 12 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 

@@ -10,11 +10,7 @@ Namespacing ASTs
 Resolving and typechecking
 Resolving and typechecking
 ImplMap: _v1.Eval, _v2.Eval
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ---> Unable to find OK variables!!
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ImplMap: _v1.Eval_loop_anon3_LoopHead, _v2.Eval_loop_anon3_LoopHead
 Resolving and typechecking
 Performing Houdini inference from within Symdiff.exe 
@@ -25,6 +21,10 @@ Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 /noinfer
 /doModSetAnalysis
 --------------------
-Houdini finished and inferred 14/25 contracts
+HoudiniPruneUnusedExistentialConstants: Removing []
+Analyzing the list of implementations in Houdini = [_v2.Eval,_v2.Eval_loop_anon3_LoopHead,_v1.Eval,_v1.Eval_loop_anon3_LoopHead,MS_Check__v1.Eval___v2.Eval,MS_Check__v1.Eval_loop_anon3_LoopHead___v2.Eval_loop_anon3_LoopHead]
+Inline depth for Houdini = 0
+Houdini statistics:: Prover Time 0.0639003 NumProver Queries 12 UnsatProver time 0.008033 NumUnsat prunings 0
+Houdini finished and inferred 16/29 contracts
 Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 

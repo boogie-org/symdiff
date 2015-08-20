@@ -21,11 +21,10 @@ Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 /noinfer
 /doModSetAnalysis
 --------------------
-Pruning procedure with no contract: _v2.Foo
-Pruning procedure with no contract: _v2.Bar
-Pruning procedure with no contract: _v1.Foo
-Pruning procedure with no contract: _v1.Bar
-Houdini statistics:: Prover Time 0.0269997 NumProver Queries 2 UnsatProver time 0.0060008 NumUnsat prunings 0
-Houdini finished and inferred 6/6 contracts
-Houdini finished with 2 verified, 0 errors, 0 inconclusives, 0 timeouts
+HoudiniPruneUnusedExistentialConstants: Removing []
+Analyzing the list of implementations in Houdini = [_v2.Foo,_v2.Bar,_v1.Foo,_v1.Bar,MS_Check__v1.Foo___v2.Foo,MS_Check__v1.Bar___v2.Bar]
+Inline depth for Houdini = 0
+Houdini statistics:: Prover Time 0.031216 NumProver Queries 6 UnsatProver time 0.015626 NumUnsat prunings 0
+Houdini finished and inferred 8/8 contracts
+Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 

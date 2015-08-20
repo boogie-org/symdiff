@@ -79,5 +79,13 @@ function {:existential true} {:inline} _abshoudini_15_6(i0: bool, i1: bool, i2: 
 {
   i0 && i1 && i2 && i3 && i4 && i5
 }
+function {:existential true} {:inline} _abshoudini_16_1(i0: bool) : bool
+{
+  i0
+}
+function {:existential true} {:inline} _abshoudini_17_1(i0: bool) : bool
+{
+  i0
+}
 
 Boogie program verifier finished with 1 verified, 0 errors

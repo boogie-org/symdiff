@@ -10,10 +10,6 @@ Namespacing ASTs
 Resolving and typechecking
 Resolving and typechecking
 ImplMap: _v1.Eval, _v2.Eval
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ImplMap: _v1.Eval_loop_anon3_LoopHead, _v2.Eval_loop_anon3_LoopHead
 Resolving and typechecking
 Checking _houdini_Eval_control_flag_0 using Corral....
@@ -28,15 +24,15 @@ Program has no bugs
 Reached recursion bound of 4
 
 Boogie verification time: 0.50 s
-Time spent reading-writing programs: 0.15 s
+Time spent reading-writing programs: 0.19 s
 
-Time spent checking a program (2): 0.67 s
-Time spent checking a path (9): 0.22 s
+Time spent checking a program (2): 0.68 s
+Time spent checking a path (9): 0.24 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.3870906 s
-Total User CPU time: 1.375 s
+Total Time: 1.4000217 s
+Total User CPU time: 1.328125 s
 
 Checking _houdini_Eval_result_1 using Corral....
 	END Executing corral.exe  mergedProgSingle_1.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -48,16 +44,16 @@ Turning off Z3 search due to parallel assignments
 Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_flag}
 Program has a potential bug: True bug
 
-Boogie verification time: 0.46 s
-Time spent reading-writing programs: 0.18 s
+Boogie verification time: 0.43 s
+Time spent reading-writing programs: 0.20 s
 
-Time spent checking a program (2): 0.61 s
-Time spent checking a path (10): 0.29 s
+Time spent checking a program (2): 0.62 s
+Time spent checking a path (10): 0.31 s
 
 Number of procedures inlined: 10
 Number of variables tracked: 3
-Total Time: 1.4051294 s
-Total User CPU time: 1.40625 s
+Total Time: 1.4199895 s
+Total User CPU time: 1.375 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_control_flag_2 using Corral....
 	END Executing corral.exe  mergedProgSingle_2.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -70,16 +66,16 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.51 s
-Time spent reading-writing programs: 0.15 s
+Boogie verification time: 0.48 s
+Time spent reading-writing programs: 0.12 s
 
-Time spent checking a program (2): 0.66 s
+Time spent checking a program (2): 0.68 s
 Time spent checking a path (9): 0.24 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.4170929 s
-Total User CPU time: 1.421875 s
+Total Time: 1.4000223 s
+Total User CPU time: 1.4375 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_out_result_3 using Corral....
 	END Executing corral.exe  mergedProgSingle_3.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -91,16 +87,16 @@ Turning off Z3 search due to parallel assignments
 Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_flag}
 Program has a potential bug: True bug
 
-Boogie verification time: 0.52 s
-Time spent reading-writing programs: 0.18 s
+Boogie verification time: 0.46 s
+Time spent reading-writing programs: 0.20 s
 
-Time spent checking a program (2): 0.61 s
-Time spent checking a path (10): 0.35 s
+Time spent checking a program (2): 0.63 s
+Time spent checking a path (10): 0.32 s
 
 Number of procedures inlined: 10
 Number of variables tracked: 3
-Total Time: 1.4640952 s
-Total User CPU time: 1.4375 s
+Total Time: 1.4200217 s
+Total User CPU time: 1.328125 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_out_x_4 using Corral....
 	END Executing corral.exe  mergedProgSingle_4.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -113,16 +109,16 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.48 s
-Time spent reading-writing programs: 0.16 s
+Boogie verification time: 0.50 s
+Time spent reading-writing programs: 0.13 s
 
 Time spent checking a program (2): 0.66 s
-Time spent checking a path (9): 0.22 s
+Time spent checking a path (9): 0.23 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.3801234 s
-Total User CPU time: 1.359375 s
+Total Time: 1.3700214 s
+Total User CPU time: 1.4375 s
 
 Performing Houdini inference from within Symdiff.exe 
 Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
@@ -132,6 +128,10 @@ Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 /noinfer
 /doModSetAnalysis
 --------------------
+HoudiniPruneUnusedExistentialConstants: Removing []
+Analyzing the list of implementations in Houdini = [_v2.Eval,_v2.Eval_loop_anon3_LoopHead,_v1.Eval,_v1.Eval_loop_anon3_LoopHead,MS_Check__v1.Eval___v2.Eval,MS_Check__v1.Eval_loop_anon3_LoopHead___v2.Eval_loop_anon3_LoopHead]
+Inline depth for Houdini = 0
+Houdini statistics:: Prover Time 0.0398932 NumProver Queries 8 UnsatProver time 0 NumUnsat prunings 0
 Houdini finished and inferred 3/5 contracts
 Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 

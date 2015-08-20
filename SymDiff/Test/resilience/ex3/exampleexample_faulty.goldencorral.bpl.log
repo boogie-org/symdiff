@@ -10,10 +10,6 @@ Namespacing ASTs
 Resolving and typechecking
 Resolving and typechecking
 ImplMap: _v1.Eval, _v2.Eval
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
-Warning! Found no bottomup_tainted_vars attributes (forgot /abstractNonTainted?), making all outputs + modifies tainted
 ImplMap: _v1.Eval_loop_anon3_LoopHead, _v2.Eval_loop_anon3_LoopHead
 Resolving and typechecking
 Checking _houdini_Eval_control_flag_0 using Corral....
@@ -27,16 +23,16 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.54 s
-Time spent reading-writing programs: 0.19 s
+Boogie verification time: 0.53 s
+Time spent reading-writing programs: 0.16 s
 
-Time spent checking a program (2): 0.72 s
-Time spent checking a path (9): 0.25 s
+Time spent checking a program (2): 0.73 s
+Time spent checking a path (9): 0.26 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.483097 s
-Total User CPU time: 1.5625 s
+Total Time: 1.4800016 s
+Total User CPU time: 1.5 s
 
 Checking _houdini_Eval_result_1 using Corral....
 	END Executing corral.exe  mergedProgSingle_1.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -49,16 +45,16 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.59 s
-Time spent reading-writing programs: 0.20 s
+Boogie verification time: 0.56 s
+Time spent reading-writing programs: 0.17 s
 
-Time spent checking a program (2): 0.78 s
-Time spent checking a path (9): 0.25 s
+Time spent checking a program (2): 0.74 s
+Time spent checking a path (9): 0.26 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5571015 s
-Total User CPU time: 1.484375 s
+Total Time: 1.5112213 s
+Total User CPU time: 1.59375 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_control_flag_2 using Corral....
 	END Executing corral.exe  mergedProgSingle_2.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -71,15 +67,15 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.59 s
-Time spent reading-writing programs: 0.19 s
+Boogie verification time: 0.55 s
+Time spent reading-writing programs: 0.15 s
 
 Time spent checking a program (2): 0.74 s
-Time spent checking a path (9): 0.27 s
+Time spent checking a path (9): 0.26 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5261 s
+Total Time: 1.4949672 s
 Total User CPU time: 1.46875 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_out_count_3 using Corral....
@@ -93,16 +89,16 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.56 s
-Time spent reading-writing programs: 0.19 s
+Boogie verification time: 0.57 s
+Time spent reading-writing programs: 0.20 s
 
-Time spent checking a program (2): 0.73 s
-Time spent checking a path (9): 0.26 s
+Time spent checking a program (2): 0.76 s
+Time spent checking a path (9): 0.28 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5020982 s
-Total User CPU time: 1.53125 s
+Total Time: 1.5250242 s
+Total User CPU time: 1.484375 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_out_result_4 using Corral....
 	END Executing corral.exe  mergedProgSingle_4.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -115,16 +111,16 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.58 s
-Time spent reading-writing programs: 0.20 s
+Boogie verification time: 0.56 s
+Time spent reading-writing programs: 0.18 s
 
-Time spent checking a program (2): 0.76 s
-Time spent checking a path (9): 0.25 s
+Time spent checking a program (2): 0.75 s
+Time spent checking a path (9): 0.27 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5391003 s
-Total User CPU time: 1.5625 s
+Total Time: 1.5301291 s
+Total User CPU time: 1.515625 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_out_x_5 using Corral....
 	END Executing corral.exe  mergedProgSingle_5.bpl /k:1 /main:MS_Check__v1.Eval___v2.Eval /recursionBound:4 /timeLimit:100 /noTrace 
@@ -137,15 +133,15 @@ Verifying program while tracking: {assertsPassed, _v1.control_flag, _v2.control_
 Program has no bugs
 Reached recursion bound of 4
 
-Boogie verification time: 0.58 s
+Boogie verification time: 0.56 s
 Time spent reading-writing programs: 0.20 s
 
-Time spent checking a program (2): 0.74 s
-Time spent checking a path (9): 0.31 s
+Time spent checking a program (2): 0.75 s
+Time spent checking a path (9): 0.27 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5571014 s
+Total Time: 1.5201209 s
 Total User CPU time: 1.515625 s
 
 Checking _houdini_Eval_loop_anon3_LoopHead_out_y_6 using Corral....
@@ -160,15 +156,15 @@ Program has no bugs
 Reached recursion bound of 4
 
 Boogie verification time: 0.57 s
-Time spent reading-writing programs: 0.19 s
+Time spent reading-writing programs: 0.17 s
 
-Time spent checking a program (2): 0.74 s
+Time spent checking a program (2): 0.78 s
 Time spent checking a path (9): 0.26 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 3
-Total Time: 1.5080986 s
-Total User CPU time: 1.5 s
+Total Time: 1.5354497 s
+Total User CPU time: 1.484375 s
 
 Performing Houdini inference from within Symdiff.exe 
 Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
@@ -178,6 +174,10 @@ Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 /noinfer
 /doModSetAnalysis
 --------------------
+HoudiniPruneUnusedExistentialConstants: Removing []
+Analyzing the list of implementations in Houdini = [_v2.Eval,_v2.Eval_loop_anon3_LoopHead,_v1.Eval,_v1.Eval_loop_anon3_LoopHead,MS_Check__v1.Eval___v2.Eval,MS_Check__v1.Eval_loop_anon3_LoopHead___v2.Eval_loop_anon3_LoopHead]
+Inline depth for Houdini = 0
+Houdini statistics:: Prover Time 0.0350003 NumProver Queries 8 UnsatProver time 0.0099996 NumUnsat prunings 0
 Houdini finished and inferred 0/7 contracts
 Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 

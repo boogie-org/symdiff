@@ -19,16 +19,16 @@ Output of Corral for _houdini_Foo_r_0 = Single threaded program detected
 Verifying program while tracking: {assertsPassed}
 Program has a potential bug: True bug
 
-Boogie verification time: 0.43 s
-Time spent reading-writing programs: 0.09 s
+Boogie verification time: 0.34 s
+Time spent reading-writing programs: 0.10 s
 
-Time spent checking a program (1): 0.76 s
-Time spent checking a path (1): 0.17 s
+Time spent checking a program (1): 0.58 s
+Time spent checking a path (1): 0.08 s
 
 Number of procedures inlined: 26
 Number of variables tracked: 1
-Total Time: 1.4051203 s
-Total User CPU time: 1.34375 s
+Total Time: 1.106025 s
+Total User CPU time: 1.21875 s
 
 Checking _houdini_Bar_r_1 using Corral....
 	END Executing corral.exe  mergedProgSingle_1.bpl /k:1 /main:MS_Check__v1.Foo___v2.Foo /recursionBound:4 /timeLimit:100 /noTrace 
@@ -37,16 +37,16 @@ Output of Corral for _houdini_Bar_r_1 = Single threaded program detected
 Verifying program while tracking: {assertsPassed}
 Program has a potential bug: True bug
 
-Boogie verification time: 0.35 s
-Time spent reading-writing programs: 0.09 s
+Boogie verification time: 0.34 s
+Time spent reading-writing programs: 0.08 s
 
-Time spent checking a program (1): 0.69 s
-Time spent checking a path (1): 0.16 s
+Time spent checking a program (1): 0.59 s
+Time spent checking a path (1): 0.08 s
 
 Number of procedures inlined: 21
 Number of variables tracked: 1
-Total Time: 1.3552636 s
-Total User CPU time: 1.28125 s
+Total Time: 1.1480251 s
+Total User CPU time: 1.203125 s
 
 Performing Houdini inference from within Symdiff.exe 
 Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
@@ -56,11 +56,10 @@ Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
 /noinfer
 /doModSetAnalysis
 --------------------
-Pruning procedure with no contract: _v2.Foo
-Pruning procedure with no contract: _v2.Bar
-Pruning procedure with no contract: _v1.Foo
-Pruning procedure with no contract: _v1.Bar
-Houdini statistics:: Prover Time 0.0390178 NumProver Queries 4 UnsatProver time 0.009001 NumUnsat prunings 0
+HoudiniPruneUnusedExistentialConstants: Removing []
+Analyzing the list of implementations in Houdini = [_v2.Foo,_v2.Bar,_v1.Foo,_v1.Bar,MS_Check__v1.Foo___v2.Foo,MS_Check__v1.Bar___v2.Bar]
+Inline depth for Houdini = 0
+Houdini statistics:: Prover Time 0.041929 NumProver Queries 8 UnsatProver time 0.0070183 NumUnsat prunings 0
 Houdini finished and inferred 0/2 contracts
-Houdini finished with 2 verified, 0 errors, 0 inconclusives, 0 timeouts
+Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
 Generated mergedProgSingle.bpl 
