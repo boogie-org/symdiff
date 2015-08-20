@@ -68,7 +68,8 @@ namespace SDiff
         public static bool checkEquivWithDependencies = false;
         public static bool invokeHoudiniDirectlyOnMergedBpl = false; //an option to test houdini
         public static DAC_ENCODING_OPT dacEncoding =  DAC_ENCODING_OPT.DAC_NORMAL;
-        public static int dacConsiderChangedProcsUptoDistance = -1; 
+        public static int dacConsiderChangedProcsUptoDistance = -1;
+        public static int inlineDepthInferContracts = 0;
 
         //taint analysis
         public static bool refinedStmtTaint; //use SymDiff to check for non-tainted statements when inlined (works with nonModularMode + splitEquality)

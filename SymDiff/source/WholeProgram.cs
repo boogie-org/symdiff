@@ -225,6 +225,18 @@ namespace SDiff
                         return false;
                     }
                 }
+                else if (args[i].Contains("-inlineDepthInferContracts:") || args[i].Contains("/inlineDepthInferContracts:"))
+                {
+                    string s = args[i].Substring("-inlineDepthInferContracts:".Length).Trim();
+                    int t = 0;
+                    if (Int32.TryParse(s, out t))
+                        Options.inlineDepthInferContracts = t;
+                    if (t < 0)
+                    {
+                        Console.WriteLine("Illegal argument of /inlineDepthInferContracts:n");
+                        return false;
+                    }
+                }
                 else if (args[i].Contains("-splitOutputEqualities") || args[i].Contains("/splitOutputEqualities"))
                     Options.splitOutputEqualities = true;
                 else

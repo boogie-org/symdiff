@@ -114,20 +114,29 @@ namespace SDiff
                 var changedProcs = SymDiffUtils.Util.FindChangedMSProcs(program, Options.dacConsiderChangedProcsUptoDistance);
                 new HoudiniAnalyzeImplSubset(program, changedProcs).Visit(program);
             }
-            var mpsPi = "mergedProgSingle_preInferred.bpl";
-            BoogieUtils.PrintProgram(program, mpsPi);
-            program = BoogieUtils.ParseProgram(mpsPi);
-            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi); 
 
-            new FreesPruning(program).Prune();
+            //if (Options.inlineDepthInferContracts == 0)
+            //    new FreesPruning(program).Prune(); //this does not work well when inlining
 
             //prune existential vars not present in any exprs, otherwise printed the # of inferred annotations
             //they are removed either by DAC simplification (candidate -> free), or droppring procedures 
             new SymDiffUtils.HoudiniPruneUnusedExistentialConstants(program).Visit(program);
 
-            Console.WriteLine("Analyzing the list of implementations = [{0}]",
-                string.Join(",", program.TopLevelDeclarations.OfType<Implementation>().Select(x => x.Name)));
 
+            var mpsPi = "mergedProgSingle_preInferred.bpl";
+            BoogieUtils.PrintProgram(program, mpsPi);
+            program = BoogieUtils.ParseProgram(mpsPi);
+            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi); 
+
+
+            Console.WriteLine("Analyzing the list of implementations in Houdini = [{0}]",
+                string.Join(",", program.TopLevelDeclarations.OfType<Implementation>().Select(x => x.Name)));
+            Console.WriteLine("Inline depth for Houdini = {0}", Options.inlineDepthInferContracts);
+
+            var oldInlineDepth = CommandLineOptions.Clo.InlineDepth;
+            var oldTraceOpt = CommandLineOptions.Clo.Trace;
+            CommandLineOptions.Clo.InlineDepth = Options.inlineDepthInferContracts;
+            //CommandLineOptions.Clo.Trace = true; //uncomment to look into Houdini
             HoudiniSession.HoudiniStatistics houdiniStats = new HoudiniSession.HoudiniStatistics();
             Houdini houdini = new Houdini(program, houdiniStats);
             HoudiniOutcome outcome = houdini.PerformHoudiniInference();
@@ -147,6 +156,8 @@ namespace SDiff
             Console.WriteLine("Houdini finished and inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
             Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts",
                     outcome.Verified, outcome.ErrorCount, outcome.Inconclusives, outcome.TimeOuts);
+            CommandLineOptions.Clo.InlineDepth = oldInlineDepth;
+            CommandLineOptions.Clo.Trace = oldTraceOpt;
 
         }
 
