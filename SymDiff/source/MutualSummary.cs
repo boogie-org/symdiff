@@ -1063,6 +1063,7 @@ namespace SDiff
                 if (IsEntryProcedurePair(f1, cg1, f2, cg2))
                 {
                     AddDACCheck(ref requiresSeq, ref ensuresSeq, f1, f2, i1, i2, o1, o2);
+                    AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2, true); //add any other posts
                     return;
                 }
                 if (IsNonStubProcedurePair(f1, cg1, f2, cg2))
