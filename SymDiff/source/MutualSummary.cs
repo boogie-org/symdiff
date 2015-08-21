@@ -1270,6 +1270,7 @@ namespace SDiff
                     if (missing2.Count() != 1)
                     {
                         Util.PrintError(string.Format("WARNING: Expecting exactly 1 match for {0}, found {1}", name, missing2.Count()));
+                        throw new Exception("Getting hacky, aborting!!!!");
                         continue;
                     }
                     dep2.Add(missing2.First());
