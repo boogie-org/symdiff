@@ -453,6 +453,10 @@ namespace SymDiffUtils
         {
             return (Implementation)P.TopLevelDeclarations.FirstOrDefault(x => (x is Implementation && ((Implementation)x).Name == name));
         }
+        public static Function getFunctionByName(Program P, string name)
+        {
+            return (Function)P.TopLevelDeclarations.FirstOrDefault(x => (x is Function && ((Function)x).Name == name));
+        }
         public static Procedure getFuncByName(List<Declaration> list, string name)
         {
             var procs = list.Filter(x => x is Procedure);

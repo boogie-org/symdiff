@@ -248,6 +248,8 @@ namespace SDiff
                 //Create MSCheck procedure
                 var msproc = FindOrCreateMSCheckProcedure(f1, f2);
                 if (IsRootProcedures(f1, cg1) || IsRootProcedures(f2, cg2)) rootMSProcs.Add(msproc);
+                //Create RTCheck procedures
+                var rtproc = FindOrCreateRTCheckProcedure(msproc, f1, f2);
             }
             //this does not verify, and also produces @ symbols in the resulting printed file
             Util.DumpBplAST(mergedProgram, Options.MergedProgramOutputFile);
@@ -539,6 +541,53 @@ namespace SDiff
             return msPreFunc;
         }
 
+        private static Function CreateRTCondition(Procedure f1, Procedure f2)
+        {
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f1), string.Format("Procedure {0} does not belong to the mergedProgram", f1.Name));
+            Debug.Assert(mergedProgram.TopLevelDeclarations.OfType<Procedure>().Contains(f2), string.Format("Procedure {0} does not belong to the mergedProgram", f2.Name));
+
+            var predicates = new List<Expr>();
+            //pull this earlier as we need them irrespective if msFunc is defined in the ms_symdiff_file.bpl
+            var rtCondFuncParams = new List<Variable>();
+            List<TypeVariable> tS;
+            var i1 = GetParamsForSummaryRelation(f1, gSeq_p1, p1Prefix, out tS, false, true, false, true); //inputs for f1
+            var i2 = GetParamsForSummaryRelation(f2, gSeq_p2, p2Prefix, out tS, false, true, false, true); //inputs for f2
+            var a1 = new List<Variable>(); a1.AddRange(i1);
+            var a2 = new List<Variable>(); a2.AddRange(i2);
+            rtCondFuncParams.AddRange(a1);
+            rtCondFuncParams.AddRange(a2);
+
+            var rtCondFuncName = "RT_cond_$" + f1.Name + "$" + f2.Name;
+            Function rtCondFunc = mergedProgram.TopLevelDeclarations.FirstOrDefault(x => (x is Function) && ((Function)x).Name == rtCondFuncName) as Function;
+            if (rtCondFunc != null) //present 
+            {
+                //if (msFuncAxiomsAdded.Contains(msPreFunc)) //already done processing this function
+                return rtCondFunc;
+            }
+            else //create the new function
+            {
+                var pm = cfg.FindProcedure(f1.Name, f2.Name);
+                rtCondFunc = new Function(new Token(), rtCondFuncName,
+                    rtCondFuncParams,
+                    new Formal(new Token(), new TypedIdent(new Token(), "ret", BasicType.Bool), false));
+                //put ms_pre into rt_cond's body
+                var msPreFuncName = "MS_pre_$" + f1.Name + "$" + f2.Name;
+                var msPreFunc = Util.getFunctionByName(mergedProgram, msPreFuncName);
+                var callmsPre = new FunctionCall(msPreFunc);
+                var exprListR = new List<Expr>();
+                exprListR.AddRange(Util.VarSeqToExprSeq(rtCondFuncParams));
+                //rtCondFunc.Body = Expr.True;
+                rtCondFunc.Body = new NAryExpr(new Token(), callmsPre, exprListR);
+                mergedProgram.AddTopLevelDeclaration(rtCondFunc);
+                rtCondFunc.AddAttribute("inline", new Expr[] { Expr.True });
+            }
+
+            //if(!IsEntryProcedurePair(f1, cg1, f2, cg2))
+            //    GenerateMSFuncBodyFromPredicates(msPreFunc, i1, i2, new List<Variable>(), new List<Variable>());
+
+            return rtCondFunc;
+        }
+
         /// <summary>
         /// allPreds = true if only these predicates have to be used for Boolean combination
         /// 
@@ -812,6 +861,102 @@ namespace SDiff
                 TrapCallArgs(mergedProgram, mschkImpl, f1, f2);
             //throw new NotImplementedException();
             return mschkProc;
+        }
+
+        private static Procedure FindOrCreateRTCheckProcedure(Procedure MSCheck, Procedure f1, Procedure f2)
+        {
+            var procName = "RT_Check_" + f1.Name + "__" + f2.Name;
+            var proc = Util.getProcedureByName(mergedProgram, procName);
+            if (proc != null) return proc;
+            // Try shallow copy. Doesn't work.
+            //Procedure rtchkProc = (Procedure)MSCheck.MemberWiseClone();
+            //Procedure rtchkProc = MSCheck.Clone();
+            //rtchkProc.Name = procName;
+            //mergedProgram.AddTopLevelDeclaration(rtchkProc);
+
+            // Detour: try manual copy
+            // get variable list
+            var ivarSeq = new List<Variable>();
+            var tvarSeq = new List<TypeVariable>();
+            List<TypeVariable> t1;
+            var a1 = GetParamsForSummaryRelation(f1, null, p1Prefix, out t1, false, true, false, false);
+            List<TypeVariable> t2;
+            var a2 = GetParamsForSummaryRelation(f2, null, p2Prefix, out t2, false, true, false, false);
+            ivarSeq.AddRange(a1); ivarSeq.AddRange(a2);
+            var b1 = GetParamsForSummaryRelation(f1, null, p1Prefix, out t1, false, false, true, false);
+            var b2 = GetParamsForSummaryRelation(f2, null, p2Prefix, out t2, false, false, true, false);
+            var ovarSeq = new List<Variable>();
+            ovarSeq.AddRange(b1); ovarSeq.AddRange(b2);
+
+            // Add precondition
+            var ensuresSeq = new List<Ensures>();
+            var requiresSeq = new List<Requires>();
+            var rtCond = CreateRTCondition(f1, f2);
+            //var msPreFuncName = "MS_pre_$" + f1.Name + "$" + f2.Name;
+            //var msPreFunc = Util.getFunctionByName(mergedProgram, msPreFuncName);
+            var callRTCond = new FunctionCall(rtCond);
+            var exprListR = new List<Expr>();
+            exprListR.AddRange(Util.VarSeqToExprSeq(a1));
+            exprListR.AddRange(gSeq_p1.Select(x => IdentifierExpr.Ident(x)));
+            exprListR.AddRange(Util.VarSeqToExprSeq(a2));
+            exprListR.AddRange(gSeq_p2.Select(x => IdentifierExpr.Ident(x)));
+            requiresSeq.Add(new Requires(false, new NAryExpr(new Token(), callRTCond, exprListR)));
+
+            //create signature (x1, x2) : (r1, r2)
+            Procedure rtchkProc =
+                new Procedure(Token.NoToken,
+                    procName,
+                    new List<TypeVariable>(),
+                    ivarSeq,
+                    ovarSeq,
+                    requiresSeq,
+                    new List<IdentifierExpr>(),
+                    ensuresSeq);
+            mergedProgram.AddTopLevelDeclaration(rtchkProc);
+            //don't create body if either procedure does not have a body
+            if (IsStubProcedure(f1) || IsStubProcedure(f2))
+            {
+                //remember to add the modset from the declarations as /doModsetAnalysis will keep the modset as {}
+                rtchkProc.Modifies.AddRange(f1.Modifies);
+                rtchkProc.Modifies.AddRange(f2.Modifies);
+                return rtchkProc;
+            }
+            ///////////////// The body of rt_check_f1_f2 ///////////////////
+            //block: r1 := callCmd(f1, x1);
+            //block: r2 := callCmd(f2, x2);
+            var cmds = new List<Cmd>();
+            var c1 = new CallCmd(Token.NoToken, f1.Name, B.U.ExprSeqOfVariableSeq(a1), B.U.IdentifierExprSeqOfVariableSeq(b1));
+            c1.Proc = f1;
+            cmds.Add(c1);
+            var c2 = new CallCmd(Token.NoToken, f2.Name, B.U.ExprSeqOfVariableSeq(a2), B.U.IdentifierExprSeqOfVariableSeq(b2));
+            c2.Proc = f2;
+            cmds.Add(c2);
+            var block = new Block(Token.NoToken, "START", cmds, new ReturnCmd(Token.NoToken));
+            var bbl = new List<Block>();
+            bbl.Add(block);
+            Implementation rtchkImpl =
+                new Implementation(Token.NoToken,
+                    procName,
+                    new List<TypeVariable>(),
+                    ivarSeq,
+                    ovarSeq,
+                    new List<Variable>(),
+                    bbl
+                    );
+            rtchkImpl.Proc = rtchkProc;
+            mergedProgram.AddTopLevelDeclaration(rtchkImpl);
+
+            //inline f1, f2
+            //The inline:spec inlines a procedure with {:inline 1} 1 times and uses the call for deeper calls
+            var boogieOptions = " -inline:spec " + Options.BoogieUserOpts;
+            SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
+            Util.InlineProcsInCaller(mergedProgram, rtchkImpl, new Procedure[] { f1, f2 });
+
+            //add assertions before call
+            var cr = new InsertAssertBeforeCall(rtchkImpl);
+            cr.VisitImplementation(rtchkImpl);
+
+            return rtchkProc;
         }
 
         private static void ParseTaintAndDependenciesForProc(Procedure f, string prefix,
@@ -1307,6 +1452,33 @@ namespace SDiff
 
         }
 
+        // Shaobo: duplicate a call cmd before any call command
+        public class InsertAssertBeforeCall : FixedVisitor
+        {
+            Implementation impl;
+            public InsertAssertBeforeCall(Implementation impl)
+            {
+                this.impl = impl;
+            }
+            public override Block VisitBlock(Block b)
+            {
+                var cmds = new List<Cmd>();
+                foreach (var c in b.Cmds)
+                    if (c is CallCmd)
+                    {
+                        // add assert false; 
+                        var ac = new AssertCmd(Token.NoToken, Expr.False);
+                        cmds.Add(ac);
+                        //cmds.Add(c);
+                        cmds.Add(c);
+                    }
+                    else
+                        cmds.Add(c);
+
+                Block newbl = new Block(Token.NoToken, b.Label, cmds, b.TransferCmd);
+                return base.VisitBlock(newbl);
+            }
+        }
 
         //instrument a call to capture the args for 2->1 program transformation
         public class CallInstrumentforDAC : FixedVisitor
