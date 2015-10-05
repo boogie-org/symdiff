@@ -948,13 +948,17 @@ namespace SDiff
 
             //inline f1, f2
             //The inline:spec inlines a procedure with {:inline 1} 1 times and uses the call for deeper calls
+            //first add assertions to f2
+            var f2Impl = Util.getImplByName(mergedProgram, f2.Name);
+            var ci = new InsertAssertBeforeCall(f2Impl, f1, f2);
+            ci.VisitImplementation(f2Impl);
+            // do inlining
             var boogieOptions = " -inline:spec " + Options.BoogieUserOpts;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
             Util.InlineProcsInCaller(mergedProgram, rtchkImpl, new Procedure[] { f1, f2 });
-
-            //add assertions before call
-            var cr = new InsertAssertBeforeCall(rtchkImpl);
-            cr.VisitImplementation(rtchkImpl);
+            // remove assertions from f2
+            var cr = new DeleteAssertBeforeCall(f2Impl);
+            cr.VisitImplementation(f2Impl);
 
             return rtchkProc;
         }
@@ -1452,13 +1456,64 @@ namespace SDiff
 
         }
 
-        // Shaobo: duplicate a call cmd before any call command
+        public static List<Variable> GetAssertOutputs(Procedure p)
+        {
+                var paramListR = new List<Variable>();
+                foreach (Variable x in p.OutParams)
+                {
+                        paramListR.Add(new Formal(Token.NoToken, new TypedIdent(Token.NoToken, x.Name + "_", x.TypedIdent.Type), false));
+                } 
+                return paramListR;
+        }
+        //assert (exists out_, o_ : R2(in, glob, out_, o_))
+        public static AssertCmd CreateAssertBeforeCall(CallCmd c)
+        {
+                Procedure p = c.Proc;
+                //get glob
+                var globs = p.Name.StartsWith(p1Prefix) ? gSeq_p1 : gSeq_p2;
+                List<TypeVariable> tS;
+                //get in
+                List<Expr> inputExprs = c.Ins;
+		List<Variable> inputs = p.InParams; 
+                //get out_
+                List<Variable> outputs = GetAssertOutputs(p);
+                //get o_
+                List<Variable> modsets = GetParamsForSummaryRelation
+                        (p,
+                         null,
+                         p.Name.StartsWith(p1Prefix) ? p1Prefix : p2Prefix,
+                         out tS,
+                         true, /*include modsets */
+                         false,
+                         false,
+                         false);
+                //create existence expression 
+                //create call R__ 
+                var funcR = Util.getFunctionByName(mergedProgram, "R__" + p.Name); 
+                var callR = new FunctionCall(funcR);
+                var exprListR = new List<Expr>();
+                exprListR.AddRange(inputExprs);
+                exprListR.AddRange(Util.VarSeqToExprSeq(globs));
+                exprListR.AddRange(Util.VarSeqToExprSeq(outputs));
+                exprListR.AddRange(Util.VarSeqToExprSeq(modsets));
+		//create exist expr
+		var paramList = new List<Variable>();
+		paramList.AddRange(outputs);
+		paramList.AddRange(modsets);
+                var existsExpr = new ExistsExpr(new Token(), paramList, new NAryExpr(new Token(), callR, exprListR));
+                return new AssertCmd(Token.NoToken, existsExpr); 
+        }
+        // duplicate a call cmd before any call command
         public class InsertAssertBeforeCall : FixedVisitor
         {
             Implementation impl;
-            public InsertAssertBeforeCall(Implementation impl)
+            Procedure f1;
+            Procedure f2;
+            public InsertAssertBeforeCall(Implementation impl, Procedure f1, Procedure f2)
             {
                 this.impl = impl;
+                this.f1 = f1;
+                this.f2 = f2;
             }
             public override Block VisitBlock(Block b)
             {
@@ -1466,8 +1521,10 @@ namespace SDiff
                 foreach (var c in b.Cmds)
                     if (c is CallCmd)
                     {
+                        var c1 = c as CallCmd;
                         // add assert false; 
-                        var ac = new AssertCmd(Token.NoToken, Expr.False);
+                        //var ac = new AssertCmd(Token.NoToken, Expr.False);
+                        var ac = CreateAssertBeforeCall(c1);
                         cmds.Add(ac);
                         //cmds.Add(c);
                         cmds.Add(c);
@@ -1480,6 +1537,32 @@ namespace SDiff
             }
         }
 
+        public class DeleteAssertBeforeCall : FixedVisitor
+        {
+            Implementation impl;
+            public DeleteAssertBeforeCall(Implementation impl)
+            {
+                this.impl = impl;
+            }
+            public override Block VisitBlock(Block b)
+            {
+                var cmds = new List<Cmd>();
+                Cmd pre = null;
+                foreach (var c in b.Cmds)
+                {
+                    if (c is CallCmd)
+                    {
+                        if (pre is AssertCmd)
+                            // remove assert false; 
+                            cmds.RemoveAt(cmds.LastIndexOf(pre));
+                    }
+                    cmds.Add(c);
+                    pre = c;
+                }
+                Block newbl = new Block(Token.NoToken, b.Label, cmds, b.TransferCmd);
+                return base.VisitBlock(newbl);
+            }
+        }
         //instrument a call to capture the args for 2->1 program transformation
         public class CallInstrumentforDAC : FixedVisitor
         {
