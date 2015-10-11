@@ -71,6 +71,8 @@ namespace SDiff
         public static int dacConsiderChangedProcsUptoDistance = -1;
         public static int inlineDepthInferContracts = 0;
 
+        //rt check
+        public static string useAltMSFile = null;
         //taint analysis
         public static bool refinedStmtTaint; //use SymDiff to check for non-tainted statements when inlined (works with nonModularMode + splitEquality)
 

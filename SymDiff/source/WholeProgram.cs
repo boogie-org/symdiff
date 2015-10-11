@@ -239,6 +239,11 @@ namespace SDiff
                 }
                 else if (args[i].Contains("-splitOutputEqualities") || args[i].Contains("/splitOutputEqualities"))
                     Options.splitOutputEqualities = true;
+                else if (args[i].Contains("-altMSFile:") || args[i].Contains("/altMSFile:"))
+                {
+                    Options.useAltMSFile = args[i].Substring("-altMSFile:".Length).Trim();
+                    //Console.WriteLine("file");
+                }
                 else
                 {
                     throw new Exception("Unexpected option " + args[i]);

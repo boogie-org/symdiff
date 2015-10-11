@@ -43,6 +43,8 @@ namespace SDiff
         static HashSet<Function> msFuncAxiomsAdded; //list of msfuncs for which axioms have been added (to account for user provided msfuncs separately)
         static Dictionary<Implementation, LocalVariable> abortVars; //each implementation has a local variable to abort
         static HashSet<Procedure> rootMSProcs; //set of MS_Check_ procedures not invoked in the module
+        static string altMSFile; //alternate ms_symdiff_file.bpl for RT checking
+        //static bool useAltMSFile;
 
         //TODO: move dependency related stuff to a separate class/file
         //parse dependencies out of input files
@@ -60,7 +62,8 @@ namespace SDiff
             Options.DAC_ENCODING_OPT dacEnc, 
             bool callCorral = false)
         {
-
+            //altMSFile = @".\ms_symdiff_file.new.bpl";
+            altMSFile = Options.useAltMSFile;
             typeCheckMergedProgram = !dontTypeCheckMergedProg;
             ParseAddtionalMSFile(mergedProgram); //look for additional files
             dontUseMSAsAxioms = !useMutualSummariesAsAxioms;
@@ -86,6 +89,8 @@ namespace SDiff
             //If inferContracts is specified, then we call Houdini and do Inference and persist output into mergedProgram
             //add the flags for /inferContracts to Boogie
             if (useHoudini && houdiniInferOpt == Options.INFER_OPT.HOUDINI) PerformHoudiniInferece();
+
+            
         }
 
         /// <summary>
@@ -174,13 +179,13 @@ namespace SDiff
 
         private static void ParseAddtionalMSFile(Program mergedProgram)
         {
-            var ms_file = @".\ms_symdiff_file.bpl";
-            if (!System.IO.File.Exists(ms_file)) return;
+            var ms_file = altMSFile != null? altMSFile : @".\ms_symdiff_file.bpl";
+            if (!System.IO.File.Exists(ms_file)) return;//throw new Exception("ms_symdiff_file does not exist");
             Program ms = BoogieUtils.ParseProgram(ms_file);
             //TODO: Have to merge the new types (including datatypes)
             if (ms == null) throw new Exception("Parsing of ms_symdiff_file.bpl failed");
             mergedProgram.AddTopLevelDeclarations(ms.TopLevelDeclarations);
-            mergedProgram.Resolve();
+            //mergedProgram.Resolve();
         }
         public static void Initialize(Program q1, Program q2, Program mp, string q1Prefix, string q2Prefix, Config cfg1)
         {
@@ -248,8 +253,11 @@ namespace SDiff
                 //Create MSCheck procedure
                 var msproc = FindOrCreateMSCheckProcedure(f1, f2);
                 if (IsRootProcedures(f1, cg1) || IsRootProcedures(f2, cg2)) rootMSProcs.Add(msproc);
-                //Create RTCheck procedures
-                var rtproc = FindOrCreateRTCheckProcedure(msproc, f1, f2);
+                if (!dontUseMSAsAxioms)
+                {
+                    //Create RTCheck procedures
+                    var rtproc = FindOrCreateRTCheckProcedure(msproc, f1, f2);
+                }
             }
             //this does not verify, and also produces @ symbols in the resulting printed file
             Util.DumpBplAST(mergedProgram, Options.MergedProgramOutputFile);
