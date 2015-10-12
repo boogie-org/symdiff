@@ -1,0 +1,8 @@
+_v1.bpl
+_v2.bpl
+*.dot
+*_dep.bpl
+*_temp.bpl
+*.config
+*.output
+__stub_inlined.bpl
