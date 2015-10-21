@@ -132,6 +132,9 @@ namespace SDiff
             //taint related
             Options.refinedStmtTaint = argsList.Remove("-refinedStmtTaintAnalysis");
 
+            //RT check related
+            Options.doRTCheck = argsList.Remove("-doRTCheck");
+
             inlineWhenMissing = argsList.Remove("-inlineWhenMissing");
             deactivateHacks = argsList.Remove("-deactivatehacks");
             Options.OnlyConsiderReturnAsOutput = argsList.Remove("-returnAsOnlyOutput");

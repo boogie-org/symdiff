@@ -28,6 +28,7 @@ namespace SDiff
         static bool typeCheckMergedProgram = true; //avoid type checking the in memory mergedProgSingle as the type symbols in ms_symdiff_file.bpl are not merged
         static bool checkAssertsOnly = false; //if true, we only check OK1 => OK2
         //if false, then we check Dep(o1) == Dep(o2) ==> o1 == o2 (non-roots: all outs, roots: outvars)
+        static bool doRTCheck = false;
 
         //globals
         static bool freeContracts = false;
@@ -37,6 +38,7 @@ namespace SDiff
         static string p1Prefix, p2Prefix;
         static List<Variable> gSeq_p1, gSeq_p2; //refine it with r/w set of each procedure
         static Dictionary<Procedure, Function> summaryFuncs;
+        static Dictionary<Procedure, Function> rtSummaryFuncs;
         static Dictionary<string, string> implProcMap, stubProcMap; //mapping of (impl, impl) and (a, b) where either a/b is stub
         static Config cfg;
         static CallGraph cg1, cg2; //the call graphs
@@ -64,6 +66,7 @@ namespace SDiff
         {
             //altMSFile = @".\ms_symdiff_file.new.bpl";
             altMSFile = Options.useAltMSFile;
+            doRTCheck = Options.doRTCheck;
             typeCheckMergedProgram = !dontTypeCheckMergedProg;
             ParseAddtionalMSFile(mergedProgram); //look for additional files
             dontUseMSAsAxioms = !useMutualSummariesAsAxioms;
@@ -185,7 +188,7 @@ namespace SDiff
             //TODO: Have to merge the new types (including datatypes)
             if (ms == null) throw new Exception("Parsing of ms_symdiff_file.bpl failed");
             mergedProgram.AddTopLevelDeclarations(ms.TopLevelDeclarations);
-            //mergedProgram.Resolve();
+            mergedProgram.Resolve();
         }
         public static void Initialize(Program q1, Program q2, Program mp, string q1Prefix, string q2Prefix, Config cfg1)
         {
@@ -204,6 +207,7 @@ namespace SDiff
                 .ToList<Variable>();               
 
             summaryFuncs = new Dictionary<Procedure, Function>();
+            rtSummaryFuncs = new Dictionary<Procedure, Function>();
             cfg = cfg1;
             rootMSProcs = new HashSet<Procedure>();
             InitializeProcMaps(cfg);
@@ -310,6 +314,16 @@ namespace SDiff
             var exprListR = new List<Expr>();
             exprListR.AddRange(Util.VarSeqToExprSeq(p.InParams));
             exprListR.AddRange(Util.VarSeqToOldExprSeq(globs));
+            if (doRTCheck && p.Name.StartsWith(p2Prefix)) { 
+                //add R2'
+                var paramListR2 = GetParamsForSummaryRelation(p, globs, "", out tS, true, true, false, false);
+                Function funcR2 = new Function(new Token(), "R'__" + p.Name, paramListR2,
+                new Formal(Token.NoToken, new TypedIdent(new Token(), "return", BasicType.Bool), false));
+                mergedProgram.AddTopLevelDeclaration(funcR2);
+                var callR2 = new FunctionCall(funcR2);
+                rtSummaryFuncs[p] = funcR2;
+                p.Ensures.Add(new Ensures(true, new NAryExpr(new Token(), callR2, new List<Expr>(exprListR))));
+            }
             //exprListR.AddRange(Util.VarSeqToExprSeq(glob));
             exprListR.AddRange(p.Modifies);
             exprListR.AddRange(Util.VarSeqToExprSeq(p.OutParams));
@@ -591,30 +605,30 @@ namespace SDiff
                 rtCondFunc.AddAttribute("inline", new Expr[] { Expr.True });
 
 		//create the axiom
-		//RT_cond && R1_ ==> exists R2_
+		//axiom {R1, R2'} RT_cond && R1_ ==> R2'
 		//create RT_cond call
 		var callrtCond = new FunctionCall(rtCondFunc);
 		var callrtCondExpr = new NAryExpr(new Token(), callrtCond, exprListR);
-	        //create R1_ call
+	    //create R1_ call
 		var o1 = GetParamsForSummaryRelation(f1, null, p1Prefix, out tS, true, false, true, false);     
-	        var exprsR1 = new List<Expr>();
-	        exprsR1.AddRange(Util.VarSeqToExprSeq(a1));	
+	    var exprsR1 = new List<Expr>();
+	    exprsR1.AddRange(Util.VarSeqToExprSeq(a1));	
 		exprsR1.AddRange(Util.VarSeqToExprSeq(o1));
 		var callR1 = new FunctionCall(summaryFuncs[f1]);
 		var callR1Expr = new NAryExpr(new Token(), callR1, exprsR1);
 		//create exists R2_ 
-		var callR2 = new FunctionCall(summaryFuncs[f2]);
-                var f2Outputs = GetAssertOutputs(f2);
-	        var f2Modsets = GetParamsForSummaryRelation(f2, null, p2Prefix, out tS, true, false, false, false);	
-		var R2ExistsParams = new List<Variable>();
-		R2ExistsParams.AddRange(f2Outputs);
-		R2ExistsParams.AddRange(f2Modsets);
+		var callR2 = new FunctionCall(rtSummaryFuncs[f2]);
+        //var f2Outputs = GetAssertOutputs(f2);
+	    //var f2Modsets = GetParamsForSummaryRelation(f2, null, p2Prefix, out tS, true, false, false, false);	
+		//var R2ExistsParams = new List<Variable>();
+		//R2ExistsParams.AddRange(f2Outputs);
+		//R2ExistsParams.AddRange(f2Modsets);
 		var exprsR2 = new List<Expr>();
 		exprsR2.AddRange(Util.VarSeqToExprSeq(a2));
-		exprsR2.AddRange(Util.VarSeqToExprSeq(f2Outputs));
-		exprsR2.AddRange(Util.VarSeqToExprSeq(f2Modsets));
+		//exprsR2.AddRange(Util.VarSeqToExprSeq(f2Outputs));
+		//exprsR2.AddRange(Util.VarSeqToExprSeq(f2Modsets));
 		var callR2Expr = new NAryExpr(new Token(), callR2, exprsR2);
-		var R2ExistsExpr = new ExistsExpr(new Token(), R2ExistsParams, new NAryExpr(new Token(), callR2, exprsR2)); 
+		//var R2ExistsExpr = new ExistsExpr(new Token(), R2ExistsParams, new NAryExpr(new Token(), callR2, exprsR2)); 
 		//create axiom
 		var axiomParams = new List<Variable>();
 		axiomParams.AddRange(a1);
@@ -622,10 +636,11 @@ namespace SDiff
 		axiomParams.AddRange(a2);
 		//create triggers
 		var TriggerSeq = new List<Expr>();
-		TriggerSeq.Add(callrtCondExpr);
+		//TriggerSeq.Add(callrtCondExpr);
 		TriggerSeq.Add(callR1Expr);
+        TriggerSeq.Add(callR2Expr);
 
-		Axiom RTAxiom = new Axiom(new Token(), new ForallExpr(new Token(), axiomParams, new Trigger(new Token(), true, TriggerSeq), Expr.Imp(Expr.And(callrtCondExpr, callR1Expr),  R2ExistsExpr)));
+		Axiom RTAxiom = new Axiom(new Token(), new ForallExpr(new Token(), axiomParams, new Trigger(new Token(), true, TriggerSeq), Expr.Imp(Expr.And(callrtCondExpr, callR1Expr),  callR2Expr)));
 		mergedProgram.AddTopLevelDeclaration(RTAxiom);
             }
 
@@ -1519,34 +1534,35 @@ namespace SDiff
                 List<TypeVariable> tS;
                 //get in
                 var inputExprs = new List<Expr>(c.Ins);
-		var inputs = new List<Variable>(p.InParams); 
+		        var inputs = new List<Variable>(p.InParams); 
                 //get out_
-                var outputs = GetAssertOutputs(p);
+                //var outputs = GetAssertOutputs(p);
                 //get o_
-                var modsets = GetParamsForSummaryRelation
-                        (p,
-                         null,
-                         p.Name.StartsWith(p1Prefix) ? p1Prefix : p2Prefix,
-                         out tS,
-                         true, /*include modsets */
-                         false,
-                         false,
-                         false);
+                //var modsets = GetParamsForSummaryRelation
+                //        (p,
+                //         null,
+                //         p.Name.StartsWith(p1Prefix) ? p1Prefix : p2Prefix,
+                //         out tS,
+                //         true, /*include modsets */
+                //         false,
+                //         false,
+                //         false);
                 //create existence expression 
                 //create call R__ 
-                var funcR = Util.getFunctionByName(mergedProgram, "R__" + p.Name); 
+                var funcR = Util.getFunctionByName(mergedProgram, "R'__" + p.Name); 
                 var callR = new FunctionCall(funcR);
                 var exprListR = new List<Expr>();
                 exprListR.AddRange(inputExprs);
                 exprListR.AddRange(Util.VarSeqToExprSeq(globs));
-                exprListR.AddRange(Util.VarSeqToExprSeq(outputs));
-                exprListR.AddRange(Util.VarSeqToExprSeq(modsets));
-		//create exist expr
-		var paramList = new List<Variable>();
-		paramList.AddRange(outputs);
-		paramList.AddRange(modsets);
-                var existsExpr = new ExistsExpr(new Token(), paramList, new NAryExpr(new Token(), callR, exprListR));
-                return new AssertCmd(Token.NoToken, existsExpr); 
+                //exprListR.AddRange(Util.VarSeqToExprSeq(outputs));
+                //exprListR.AddRange(Util.VarSeqToExprSeq(modsets));
+		        //create exist expr
+		        //var paramList = new List<Variable>();
+		        //paramList.AddRange(outputs);
+		        //paramList.AddRange(modsets);
+                //var existsExpr = new ExistsExpr(new Token(), paramList, new NAryExpr(new Token(), callR, exprListR));
+                //return new AssertCmd(Token.NoToken, existsExpr);
+                return new AssertCmd(Token.NoToken, new NAryExpr(new Token(), callR, exprListR));
         }
         // duplicate a call cmd before any call command
         public class InsertAssertBeforeCall : FixedVisitor

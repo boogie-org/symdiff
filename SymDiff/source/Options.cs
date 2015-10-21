@@ -73,6 +73,7 @@ namespace SDiff
 
         //rt check
         public static string useAltMSFile = null;
+        public static bool doRTCheck = false;
         //taint analysis
         public static bool refinedStmtTaint; //use SymDiff to check for non-tainted statements when inlined (works with nonModularMode + splitEquality)
 
