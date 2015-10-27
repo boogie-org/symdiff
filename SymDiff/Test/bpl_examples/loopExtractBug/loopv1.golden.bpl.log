@@ -1,0 +1,30 @@
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 1 verified, 0 errors
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+
+Boogie program verifier finished with 1 verified, 0 errors
+Parsing config file
+Parsing programs
+Namespacing ASTs
+Resolving and typechecking
+Resolving and typechecking
+ImplMap: _v1.Main, _v2.Main
+---> Unable to find OK variables!!
+ImplMap: _v1.Main_loop_anon4_LoopHead, _v2.Main_loop_anon2_LoopHead
+Resolving and typechecking
+Performing Houdini inference from within Symdiff.exe 
+Boogie program verifier version 2.3.0.61016, Copyright (c) 2003-2014, Microsoft.
+---Command arguments
+
+/typeEncoding:m
+/noinfer
+/doModSetAnalysis
+--------------------
+HoudiniPruneUnusedExistentialConstants: Removing []
+Analyzing the list of implementations in Houdini = [_v2.Main,_v2.Main_loop_anon2_LoopHead,_v1.Main,_v1.Main_loop_anon4_LoopHead,MS_Check__v1.Main___v2.Main,MS_Check__v1.Main_loop_anon4_LoopHead___v2.Main_loop_anon2_LoopHead]
+Inline depth for Houdini = 0
+Houdini statistics:: Prover Time 0.0369958 NumProver Queries 8 UnsatProver time 0.0070063 NumUnsat prunings 0
+Houdini finished and inferred 13/18 contracts
+Houdini finished with 6 verified, 0 errors, 0 inconclusives, 0 timeouts
+Generated mergedProgSingle.bpl 

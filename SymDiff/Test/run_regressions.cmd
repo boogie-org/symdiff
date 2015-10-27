@@ -300,7 +300,9 @@ my @loop_examples =
    	##### loopExtractSmackBug #######
      #["bpl_examples\\loopExtractSmackBug\\", "source", "v1"]  # too long
    	##### detLoopExtract #######
-     ["bpl_examples\\detLoopExtract\\", "loop", "v1"] 
+     ["bpl_examples\\detLoopExtract\\", "loop", "v1"], 
+   	##### loopExtractBug #######
+     ["bpl_examples\\loopExtractBug\\", "loop", "v1"] 
    
 );
 
