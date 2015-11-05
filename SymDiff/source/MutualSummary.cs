@@ -316,7 +316,7 @@ namespace SDiff
             exprListR.AddRange(Util.VarSeqToOldExprSeq(globs));
             if (doRTCheck && p.Name.StartsWith(p2Prefix)) { 
                 //add R2'
-                var paramListR2 = GetParamsForSummaryRelation(p, globs, "", out tS, true, true, false, false);
+                var paramListR2 = GetParamsForSummaryRelation(p, globs, "", out tS, false, true, false, true);
                 Function funcR2 = new Function(new Token(), "R'__" + p.Name, paramListR2,
                 new Formal(Token.NoToken, new TypedIdent(new Token(), "return", BasicType.Bool), false));
                 mergedProgram.AddTopLevelDeclaration(funcR2);
