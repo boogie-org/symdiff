@@ -1,15 +1,3 @@
-//while(*p != 0)
-//{
-//  tmp = f(*p);
-//  *p = tmp;
-//  p++;
-//  if (*p == 0)
-//  {
-//    break;
-//  }
-//  *p = tmp;
-//  p++;
-//}
 var a: [int]int;
 procedure f(x: int) returns (r: int)
 {
@@ -38,8 +26,3 @@ modifies a;
     i := i + 1;
   }
 }
-
-//function {:inline true} isString(a: [int]int, e: int) returns(bool)
-//{
-//  (forall i: int :: {a[i]} i < e ==> a[i] != 0)
-//}
