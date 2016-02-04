@@ -166,6 +166,12 @@ namespace SDiff
                     outcome.Verified, outcome.ErrorCount, outcome.Inconclusives, outcome.TimeOuts);
             CommandLineOptions.Clo.InlineDepth = oldInlineDepth;
             CommandLineOptions.Clo.Trace = oldTraceOpt;
+            var InferredRTCondProgram = new GenerateInferredRTConds(program);
+            foreach (var impl in program.Implementations)
+            {
+                InferredRTCondProgram.VisitProcedure(impl.Proc);
+            }
+            BoogieUtils.PrintProgram(InferredRTCondProgram.outputprog, InferredRTCondProgram.outputfile);
 
         }
 
@@ -1852,6 +1858,73 @@ namespace SDiff
             ensToAdd.ForEach(node.Ensures.Add);
             ensToRem.ForEach(x => node.Ensures.Remove(x));
             return base.VisitProcedure(node);
+        }
+    }
+
+    public class GenerateInferredRTConds
+    {
+        public string outputfile = "ms_symdiff_file_new.bpl";
+        public Program outputprog = new Program();
+        private Program mergedProgram;
+
+        public GenerateInferredRTConds(Program mergedProgram) { this.mergedProgram = mergedProgram; }
+        public bool isGlobal(List<Variable> gSeq, IdentifierExpr lhs, IdentifierExpr rhs)
+        {
+            return gSeq.Select(x => x.Name).Contains(lhs.Name);
+        }
+        public QKeyValue FindAttribute(QKeyValue attrs, string name)
+        {
+            if (attrs == null)
+            { return null; }
+            QKeyValue res = null;
+            for (QKeyValue kv = attrs; kv != null; kv = kv.Next)
+            {
+                if (kv.Key == name)
+                {
+                    res = kv;
+                }
+            }
+            return res;
+        }
+        public void VisitProcedure(Procedure node)
+        {
+           // get proc names
+            if (node.FindAttribute("MS_procs") != null) {
+                var procs = node.FindAttribute("MS_procs").Params.Select(x => (string)x).ToList();
+                var f1Name = procs[0];
+                var f2Name = procs[1];
+                var MSPreFunc = Util.getFunctionByName(mergedProgram, "MS_pre_$" + f1Name + "$" + f2Name);
+                var MSPostFunc = Util.getFunctionByName(mergedProgram, "MS$" + f1Name + "$" + f2Name);
+                Console.WriteLine("MS_pre_$" + f1Name + "$" + f2Name);
+                Console.WriteLine("MS_$" + f1Name + "$" + f2Name);
+                var MSPreFuncBody = MSPreFunc.Body;
+                var MSPostFuncBody = MSPostFunc.Body;
+                Console.WriteLine("In the visit");
+                var gSeq = mergedProgram.TopLevelDeclarations.OfType<GlobalVariable>().ToList<Variable>();
+
+                // get inferred preconditions and add it to MS_pre
+                foreach (var req in node.Requires)
+                {
+                    Console.WriteLine("In the visit");
+                    if (FindAttribute(req.Attributes, "inferred_houdini") != null)
+                    {
+                        var ops = FindAttribute(req.Attributes, "DAC_LE").Params.Select(x => (IdentifierExpr)x).ToList();
+                        var pred = req.Condition;
+                        var lhs = ops[0];
+                        var rhs = ops[1];
+                        if (isGlobal(gSeq, lhs, rhs))
+                        {
+                        }
+                        else {
+                            MSPreFuncBody = Expr.And(MSPreFuncBody, pred); 
+                        }
+                    }
+                }
+                var msPreFunc = new Function(new Token(), MSPreFunc.Name, new List<Variable>(MSPreFunc.InParams),
+                   new Formal(new Token(), new TypedIdent(new Token(), "ret", BasicType.Bool), false));
+                msPreFunc.Body = MSPreFuncBody;
+                outputprog.AddTopLevelDeclaration(msPreFunc);
+            }
         }
     }
 
