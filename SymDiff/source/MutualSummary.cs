@@ -1886,6 +1886,10 @@ namespace SDiff
             }
             return res;
         }
+        public static GlobalVariable getglobalByName(Program P, string name)
+        {
+            return (GlobalVariable)P.TopLevelDeclarations.FirstOrDefault(x => (x is GlobalVariable && ((GlobalVariable)x).Name == name));
+        }
         public void VisitProcedure(Procedure node)
         {
            // get proc names
@@ -1895,25 +1899,39 @@ namespace SDiff
                 var f2Name = procs[1];
                 var MSPreFunc = Util.getFunctionByName(mergedProgram, "MS_pre_$" + f1Name + "$" + f2Name);
                 var MSPostFunc = Util.getFunctionByName(mergedProgram, "MS$" + f1Name + "$" + f2Name);
-                Console.WriteLine("MS_pre_$" + f1Name + "$" + f2Name);
-                Console.WriteLine("MS_$" + f1Name + "$" + f2Name);
                 var MSPreFuncBody = MSPreFunc.Body;
                 var MSPostFuncBody = MSPostFunc.Body;
-                Console.WriteLine("In the visit");
                 var gSeq = mergedProgram.TopLevelDeclarations.OfType<GlobalVariable>().ToList<Variable>();
 
                 // get inferred preconditions and add it to MS_pre
                 foreach (var req in node.Requires)
                 {
-                    Console.WriteLine("In the visit");
+                    
                     if (FindAttribute(req.Attributes, "inferred_houdini") != null)
                     {
-                        var ops = FindAttribute(req.Attributes, "DAC_LE").Params.Select(x => (IdentifierExpr)x).ToList();
+                        var opsT = FindAttribute(req.Attributes, "DAC_LE");
+                        if (opsT == null)
+                            opsT = FindAttribute(req.Attributes, "DAC_IMPLIES");
+                        if (opsT == null)
+                            opsT = FindAttribute(req.Attributes, "DAC_EQ");
+                        var ops = opsT.Params.Select(x => (IdentifierExpr)x).ToList();
                         var pred = req.Condition;
                         var lhs = ops[0];
                         var rhs = ops[1];
+                        
                         if (isGlobal(gSeq, lhs, rhs))
                         {
+                            var g1 = getglobalByName(mergedProgram, lhs.Name);
+                            var g2 = getglobalByName(mergedProgram, rhs.Name);
+                            var t = g1.TypedIdent.Type;
+                            var ng1 = new IdentifierExpr(Token.NoToken, new Formal(Token.NoToken, new TypedIdent(Token.NoToken, g1.Name + "_old", g1.TypedIdent.Type), false));
+                            var ng2 = new IdentifierExpr(Token.NoToken, new Formal(Token.NoToken, new TypedIdent(Token.NoToken, g2.Name + "_old", g2.TypedIdent.Type), false));
+                            if (t.Equals(Microsoft.Boogie.Type.Bool))
+                                MSPreFuncBody = Expr.And(MSPreFuncBody, Expr.Imp(ng1, ng2));
+                            else if (t.Equals(Microsoft.Boogie.Type.Int))
+                                MSPreFuncBody = Expr.And(MSPreFuncBody, Expr.Le(ng1, ng2));
+                            else
+                                MSPreFuncBody = Expr.And(MSPreFuncBody, Expr.Eq(ng1, ng2));
                         }
                         else {
                             MSPreFuncBody = Expr.And(MSPreFuncBody, pred); 
