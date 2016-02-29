@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 import time
 import shutil
 
@@ -9,6 +9,16 @@ import argparse
 import subprocess
 import fnmatch
 import ntpath
+import re
+
+def parseNumList(string):
+    m = re.match(r'(\d+)(?:-(\d+))?$', string)
+    # ^ (or use .split('-'). anyway you like.)
+    if not m:
+        raise ArgumentTypeError("'" + string + "' is not a range of number. Expected forms like '0-5' or '2'.")
+    start = m.group(1)
+    end = m.group(2) or start
+    return list(range(int(start,10), int(end,10)+1))
 
 
 def setupArgs():
@@ -17,26 +27,31 @@ def setupArgs():
     parser.add_argument('--bplRepo', '-b', type=str, help='path to root of bpl repository.')
     parser.add_argument('--timeout', '-t', type=int, default=1200, help='timeout per executed command in seconds. default is 1200 seconds.')
     parser.add_argument('--smack', '-s', default=False, action='store_true', help='use script to only run smack')
-    parser.add_argument('--changeDistance', '-c', type=int, default=-1, help='Analyze changed procedures and procedures up to given distance.')
+    parser.add_argument('--changeDistance', '-c', type=parseNumList, default=[], help='Expects a range 2-5 or a single number')
+    parser.add_argument('--infinity', '-i', action='store_true', default=False, help='Set if infinite precision analysis should be run')
+    parser.add_argument('--fineDiff', '-f', action='store_true', default=False, help='Set if fine and unsound diff should be used')
     return parser.parse_args()
 
 
 def cToBplByHavoc(v1, v2):
    return  ['run_symdiff_c.cmd', v1, v2, '/nocpp', '/rvt', '/nohtml', '/genBplsOnly', '/analyzeChangedCallersOnly', '/stripAbsolutePathsInBpl']
 
-def runSymdiffBpl(v1,v2, i):
+def runSymdiffBpl(v1,v2, i, extras):
 #    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear -dacConsiderChangedProcOnly ', '/changedLines']
     if i >= 0:
         addtl = '-dacConsiderChangedProcsUptoDistance:' + str(i)
     else:
         addtl = ''
-    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear ' + addtl, '/changedLines', '/coarseDiff']
+    return ['run_symdiff_bpl.cmd', v1, v2, '/rvt', '/opts: -usemutual -asserts -checkEquivWithDependencies -freeContracts -dacEncodingLinear ' + addtl, '/changedLines', '/annDep'] + extras
 
-def dependency_dac(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl', '/prune', '/coarseDiff']
+def dependency_dac(v, extras):
+    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl', '/prune'] + extras
 
-def dependency(v):
-    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/prune', '/coarseDiff']
+def dependency_dac_sum_only(v, extras):
+    return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl', '/prune', '/useSummariesOnly'] + extras
+
+def dependency(v, extras):
+    return ['Dependency.exe', v + '.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/prune'] + extras
 
 def smackPreprocess(fn ,v):
     return ['SymDiffPreProcess.exe', fn, '-relativeSourceDir:' + v + '\\']
@@ -55,7 +70,7 @@ def make():
 class Project:
     smackImportedDirs = set()
     
-    def __init__(self, rootDir, proj, versions, commandLog, resultsSummary, bplRepo, timeout, changeDistance=0):
+    def __init__(self, rootDir, proj, versions, commandLog, resultsSummary, bplRepo, timeout, changeDistance=0, fineDiff=False):
         self.rootDir  = rootDir
         self.projectDir = proj
         self.projectDirDest = proj + '_' + str(changeDistance)
@@ -65,11 +80,12 @@ class Project:
         self.bplRepo = bplRepo
         self.timeout = timeout
         self.changeDistance = changeDistance
+        self.fineDiff = fineDiff
         if len(self.versions) < 2:
             print("[ERROR:] Missing versions for " + self.projectDir)
 
     @staticmethod
-    def readConfig(rootDir, configFile, commandLog, resultsSummary, bplRepo, timeout, upToChangeDistance):
+    def readConfig(rootDir, configFile, commandLog, resultsSummary, bplRepo, timeout, upToChangeDistance, fineDiff):
         projects = list()
         with open(configFile) as fin:
             for line in fin:
@@ -77,9 +93,8 @@ class Project:
                     continue
                 components = line.split()
                 if components:
-                    for changeDistance in range(upToChangeDistance):
-                        projects.append(Project(rootDir, components[0], components[1:], commandLog, resultsSummary, bplRepo, timeout, changeDistance))
-                    projects.append(Project(rootDir, components[0], components[1:], commandLog, resultsSummary, bplRepo, timeout, -1))
+                    for changeDistance in upToChangeDistance:
+                        projects.append(Project(rootDir, components[0], components[1:], commandLog, resultsSummary, bplRepo, timeout, changeDistance, fineDiff))
         return projects
 
     def runSmack(self):
@@ -120,24 +135,28 @@ class Project:
                     shutil.copy(v2 + '_smacked_unsmacked.bpl', v2 + '.bpl')                
                 else:
                     retCode, timeCToBpl, output = self.runStage(cToBplByHavoc(v1,v2), outStream)
-            
-                retCode, timeRunSymdiffBpl, output = self.runStage(runSymdiffBpl(v1, v2, i), outStream)
+                extras = []
+                if not self.fineDiff:
+                    extras =  ['/coarseDiff']
+                retCode, timeRunSymdiffBpl, output = self.runStage(runSymdiffBpl(v1, v2, i, extras), outStream)
 
-                retCode, timeDependencyDac, output = self.runStage(dependency_dac(v2), outStream)
+                retCode, timeDependencyDac, output = self.runStage(dependency_dac(v2, extras), outStream)
                 lines, dacTainted = self.processDependencyOutput(output)
 
-                retCode, timeDependencySimple, output = self.runStage(dependency(v2), outStream)
+                retCode, timeDependencySimple, output = self.runStage(dependency(v2, extras), outStream)
                 lines, depTainted = self.processDependencyOutput(output)
-
+                dacTainted_sum='n/a'
                 self.runStage(dataPostprocess(), outStream)
                 
             except Exception as ex:
+                print(ex)
                 print('[Error] Processing versions ' + v1 + ' ' +v2)
                 print('[Error] Processing versions ' + v1 + ' ' +v2, file=outStream)
                 print('Exception:' + str(ex), file=outStream)
             else:
                 with open(self.resultsSummary, 'a') as summary:
-                    print(','.join(str(x) for x in [self.projectDirDest, v1, v2, timeCToBpl, timeRunSymdiffBpl, timeDependencySimple, timeDependencyDac, lines, depTainted, dacTainted]), file=summary)
+                    print(','.join(str(x) for x in [self.projectDirDest, v1, v2, timeCToBpl, timeRunSymdiffBpl, timeDependencySimple, 
+                    timeDependencyDac, lines, depTainted, dacTainted, dacTainted_sum]), file=summary)
 
 
     def processDependencyOutput(self, output):
@@ -185,7 +204,6 @@ class Project:
                 if os.path.exists(fdest):
                     print('[WARNING] overwriting files in flattenning: ' + fdest)
                 shutil.copy(f, fdest)
-            #shutil.copytree(v1Loc, v1)
         shutil.copy(os.path.join(v1, 'smacked.bpl'), v1 + '_smacked.bpl')
         Project.smackImportedDirs.add(v1_fp)
 
@@ -234,9 +252,15 @@ def main():
 
     resultsSummary = os.path.join(os.getcwd().rstrip(os.pathsep), 'LOG_results_summary.csv')
     with open(resultsSummary, 'w') as results:
-        print(','.join(['Project', 'v1', 'v2', 'timeCToBpl', 'timeRunSymdiffBpl', 'timeDependencySimple', 'timeDependencyDac', 'lines', 'depTainted', 'dacTainted']), file=results)
+        print(','.join(['Project', 'v1', 'v2', 'timeCToBpl', 'timeRunSymdiffBpl', 'timeDependencySimple', 'timeDependencyDac', 'lines', 'depTainted', 'dacTainted', 'dacTainted_sum_only']), file=results)
 
-    projects = Project.readConfig(os.path.abspath('.'), args.configFile, commandLog, resultsSummary, args.bplRepo, args.timeout, args.changeDistance + 1)
+    changeDist = args.changeDistance
+    if args.infinity:
+        changeDist.append(-1);    
+
+    print(changeDist)
+
+    projects = Project.readConfig(os.path.abspath('.'), args.configFile, commandLog, resultsSummary, args.bplRepo, args.timeout, changeDist, args.fineDiff)
 
     if args.smack:
         for project in projects:
@@ -254,6 +278,8 @@ def main():
     print('##LOGging current run')    
     with open('LOG_run_experiments', 'w') as fout:
         print('\n'.join(commandLog), file=fout)
+
+
 
 if __name__ == "__main__":
     main()
