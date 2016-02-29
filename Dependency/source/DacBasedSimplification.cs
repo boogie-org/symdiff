@@ -42,22 +42,29 @@ namespace Dependency
                 this.nonImpactedOutputs.Add(versionProcedure, new HashSet<Variable>());
                 this.nonImpactedSummaries.Add(versionProcedure, new HashSet<Variable>());
 
-                #region InputEquivalences
-                FindEquivalencesForVariables(msProcedure, versionPrefix, versionImpl.InParams, versionProcedure, IsNotImpactedInput, this.nonImpactedInputs);
-                FindEquivalencesForVariables(msProcedure, versionPrefix, versionProcedure.InParams, versionProcedure, IsNotImpactedInput, this.nonImpactedInputs);
-
-                #endregion
-
-                #region OutputEquivalences
-                FindEquivalencesForVariables(msProcedure, versionPrefix, versionImpl.OutParams, versionProcedure, IsNotImpactedOutput, this.nonImpactedOutputs);
-                FindEquivalencesForVariables(msProcedure, versionPrefix, versionProcedure.OutParams, versionProcedure, IsNotImpactedOutput, this.nonImpactedOutputs);
-
-
-                if (versionProcedure.Modifies != null)
+                if (!Analysis.UseSummariesOnly)
                 {
-                    FindEquivalencesForVariables(msProcedure, versionPrefix, versionProcedure.Modifies.Select(x => x.Decl).ToList(), versionProcedure, IsNotImpactedOutput, this.nonImpactedOutputs);
+                    Console.WriteLine("Using PRE and Posts");
+                    #region InputEquivalences
+
+                    FindEquivalencesForVariables(msProcedure, versionPrefix, versionImpl.InParams, versionProcedure, IsNotImpactedInput, this.nonImpactedInputs);
+                    FindEquivalencesForVariables(msProcedure, versionPrefix, versionProcedure.InParams, versionProcedure, IsNotImpactedInput, this.nonImpactedInputs);
+
+                    #endregion
+
+                    #region OutputEquivalences
+
+                    FindEquivalencesForVariables(msProcedure, versionPrefix, versionImpl.OutParams, versionProcedure, IsNotImpactedOutput, this.nonImpactedOutputs);
+                    FindEquivalencesForVariables(msProcedure, versionPrefix, versionProcedure.OutParams, versionProcedure, IsNotImpactedOutput, this.nonImpactedOutputs);
+
+
+                    if (versionProcedure.Modifies != null)
+                    {
+                        FindEquivalencesForVariables(msProcedure, versionPrefix, versionProcedure.Modifies.Select(x => x.Decl).ToList(), versionProcedure, IsNotImpactedOutput, this.nonImpactedOutputs);
+                    }
+
+                    #endregion
                 }
-                #endregion
 
                 #region SummaryEquivalences
 
