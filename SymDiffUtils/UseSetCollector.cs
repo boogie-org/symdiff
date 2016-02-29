@@ -110,7 +110,7 @@ namespace SymDiffUtils
         public void Propagate()
         {
             this.callGraph = CallGraphHelper.ComputeCallGraph(program);
-            Queue<Procedure> workQueue = new Queue<Procedure>(this.ProcedureToUseSet.Keys);
+            Queue<Procedure> workQueue = new Queue<Procedure>(this.ProcedureToUseSet.Keys.Where(key => this.callGraph.Nodes.Contains(key)));
 
             while (workQueue.Count > 0)
             {
