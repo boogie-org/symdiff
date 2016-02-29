@@ -363,7 +363,7 @@ namespace Dependency
             }
             if (unableToMap)
             {
-                Environment.Exit(-13);
+                //Environment.Exit(-13);
             }
         }
 
