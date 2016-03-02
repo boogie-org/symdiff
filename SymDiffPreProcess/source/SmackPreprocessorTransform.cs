@@ -106,7 +106,7 @@ namespace SymdiffPreprocess
             }
             else
             {
-                return p.Replace('/', '_').Replace('\\', '_');
+                return p.Replace('/', '.').Replace('\\', '.');
             }
         }
     }

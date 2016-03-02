@@ -198,13 +198,15 @@ class Project:
             filesToCopy.extend(getRelevantFilesInDir(os.path.join(self.rootDir, 'smackShare', 'smack')))
             
             #print('\n'.join(filesToCopy))
-            for f in filesToCopy:    
+            for f in filesToCopy:
                 pathIndex = f.find(v1Loc)
-                fdest=f[pathIndex:]
-                fdest=fdest[len(v1Loc):]
-                fdest = fdest.replace('/', '.').replace('\\', '.')
-                fdest = fdest.lstrip('.')
-                print(fdest)
+                if pathIndex > -1:
+                    fdest=f[pathIndex:]
+                    fdest=fdest[len(v1Loc):]
+                    fdest = fdest.replace('/', '.').replace('\\', '.')
+                    fdest = fdest.lstrip('.')
+                else:
+                    fdest = ntpath.basename(f)
                 fdest = os.path.join(v1,fdest)
                 if os.path.exists(fdest):
                     print('[WARNING] overwriting files in flattenning: ' + fdest)
