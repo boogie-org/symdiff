@@ -615,6 +615,10 @@ namespace Dependency
 
         public override Cmd VisitAssumeCmd(AssumeCmd node)
         {
+            if (node.Expr.Equals(Expr.False))
+                // "assume false" has a special return command inserted as the TransferCmd, which is not recognized initially for some reason
+                // this is a hack to force its addition to the nodeToImpl dictionary. A
+                nodeToImpl[worklist.cmdBlocks[node].TransferCmd] = nodeToImpl[node];
             return worklist.SimpleTransform(node) as Cmd;
         }
         public override Cmd VisitAssertCmd(AssertCmd node)
