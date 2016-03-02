@@ -96,11 +96,18 @@ namespace SymdiffPreprocess
 
         private string trimPrefix(string p)
         {
-            int i = p.LastIndexOf('/');
-            p = p.Substring(i<0 ? 0 : i);
-            i = p.LastIndexOf('\\');
-            p = p.Substring(i < 0 ? 0 : i);
-            return p;
+            if (p.Contains("smack"))
+            {
+                int i = p.LastIndexOf('/');
+                p = p.Substring(i < 0 ? 0 : i);
+                i = p.LastIndexOf('\\');
+                p = p.Substring(i < 0 ? 0 : i);
+                return p;
+            }
+            else
+            {
+                return p.Replace('/', '_').Replace('\\', '_');
+            }
         }
     }
 
