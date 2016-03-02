@@ -141,9 +141,6 @@ sub ProcessOptions {
 	PrintUsage();
       }
     }
-    if($opt =~ /^\/annDep$/) {
-      $annotateDependencies = 1;
-	}
 	if($opt =~ /^\/useSummariesOnly$/) {
       $summaries = '/useSummariesOnly';
 	}
@@ -230,16 +227,12 @@ if ($doChangedBasedDep eq 1){
 }
 
 ## run dependency analysis (TODO: fold it together with abstractTainted)
-MyExecAndDieOnFailure("echo annotating?");
-if ($annotateDependencies eq 1) {
-    MyExecAndDieOnFailure("echo YES");
 	MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v1.bpl $v1ChangedLines /annotateDependencies /prune $coarseDiff"); #outputs to _v1.bpl_w_deps.bpl
     MyExecAndDieOnFailure("$symdiff_root\\dependency\\bin\\debug\\dependency.exe _v2.bpl $v2ChangedLines /annotateDependencies /prune $coarseDiff"); #outputs to _v2.bpl_w_deps.bpl
 
     MyExecAndDieOnFailure("copy /Y _v1.bpl_w_dep.bpl  _v1.bpl"); 
     MyExecAndDieOnFailure("copy /Y _v2.bpl_w_dep.bpl  _v2.bpl"); 
 
-}
 ## run abstractNonTainted
 if (!($abstractNonTainted eq "")) {
   my $v1 = AbstractNonTainted("_v1", $taint1);
