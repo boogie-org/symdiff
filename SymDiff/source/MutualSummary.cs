@@ -448,7 +448,116 @@ namespace SDiff
             msFuncAxiomsAdded.Add(msFunc);
             return msFunc;
         }
-
+      
+        private static List<Expr> GenerateArrEqExprs(List<Variable> g1, List<Variable> g2, List<Variable> i1, List<Variable> i2)
+        {
+            var ret = new List<Expr>();
+            var a1a2 = g1.Zip(g2, (a1, a2) => new { arr1 = a1, arr2 = a2 });
+            foreach (var arr in a1a2)
+            {
+                var arr1 = arr.arr1;
+                var arr2 = arr.arr2;
+                if (i1.Count != 0 && i2.Count != 0)
+                {
+                    var l1l2 = i1.Zip(i2, (l1, l2) => new {local1 = l1, local2 = l2});
+                    foreach (var ci in l1l2) {
+                        var ci1 = ci.local1;
+                        var ci2 = ci.local2;
+                        //if ((ci1.Name.Contains("in_i") && ci2.Name.Contains("in_i")) || (ci1.Name.Contains("out_i") && ci2.Name.Contains("out_i")))
+                        if ((ci1.Name.Equals("_v1.i") && ci2.Name.Equals("_v2.i")) || (ci1.Name.Equals("_v1.j") && ci2.Name.Equals("_v2.j"))
+                            || (ci1.Name.Equals("_v1.in_i") && ci2.Name.Equals("_v2.in_i")) || (ci1.Name.Equals("_v1.in_j") && ci2.Name.Equals("_v2.in_j")) ||
+                            (ci1.Name.Equals("_v1.out_i") && ci2.Name.Equals("_v2.out_i")) || (ci1.Name.Equals("_v1.out_j") && ci2.Name.Equals("_v2.out_j")) ||
+                            (ci1.Name.Equals("_v1.c") && ci2.Name.Equals("_v2.c")) || (ci1.Name.Equals("_v1.position") && ci2.Name.Equals("_v2.position")) ||
+                            (ci1.Name.Equals("_v1.in_c") && ci2.Name.Equals("_v2.in_c")) || (ci1.Name.Equals("_v1.in_position") && ci2.Name.Equals("_v2.in_position")) ||
+                            (ci1.Name.Equals("_v1.out_c") && ci2.Name.Equals("_v2.out_c")) || (ci1.Name.Equals("_v1.out_position") && ci2.Name.Equals("_v2.out_position")) ||
+                            (ci1.Name.Equals("_v1.in_d") && ci2.Name.Equals("_v2.in_d")) || (ci1.Name.Equals("_v1.out_d") && ci2.Name.Equals("_v2.out_d")))
+                        {
+                            Console.WriteLine("test:");
+                            Console.WriteLine(ci1.Name);
+                            if (ci1.TypedIdent.Type.Equals(Microsoft.Boogie.Type.Int) && ci2.TypedIdent.Type.Equals(Microsoft.Boogie.Type.Int))
+                            {
+                                // create ArrEqAfter
+                                ret.Add(new NAryExpr(Token.NoToken, new FunctionCall(Util.getFunctionByName(mergedProgram, "_v2.ArrEqAfter")),
+                                    new List<Expr> { Expr.Ident(arr1), Expr.Ident(arr2), Expr.Ident(ci1) }));
+                                // create ArrEqBefore
+                                ret.Add(new NAryExpr(Token.NoToken, new FunctionCall(Util.getFunctionByName(mergedProgram, "_v2.ArrEqBefore")),
+                                    new List<Expr> { Expr.Ident(arr1), Expr.Ident(arr2), Expr.Ident(ci1) }));
+                                // create Equality
+                                //ret.Add(Expr.Eq(Expr.Select(Expr.Ident(arr1), new List<Expr> { Expr.Ident(ci1) }), Expr.Select(Expr.Ident(arr2), new List<Expr> { Expr.Ident(ci2) })));
+                            }
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+        private static List<Expr> GenerateArrEqPredicates(Function msFunc, List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2)
+        {
+            Console.WriteLine("start:" + msFunc.Name);
+            var ret = new List<Expr>();
+            var pre = msFunc.Name.Contains("MS_pre_$");
+            var g1 = new List<Variable>();
+            var g2 = new List<Variable>();
+            var l1 = new List<Variable>();
+            var l2 = new List<Variable>();
+            foreach (var x1 in i1)
+            {
+                if (x1.TypedIdent.Type.IsMap)
+                {
+                    g1.Add(x1);
+                }
+                else
+                {
+                    l1.Add(x1);
+                }
+            }
+            foreach (var x2 in i2)
+            {
+                if (x2.TypedIdent.Type.IsMap)
+                {
+                    g2.Add(x2);
+                }
+                else
+                {
+                    l2.Add(x2);
+                }
+            }
+            if (g1.Count != 0 && g2.Count != 0)
+            {
+                ret.AddRange(GenerateArrEqExprs(g1, g2, l1, l2));
+            }
+            Console.WriteLine("start ms:" + msFunc.Name);
+            if (!pre) {
+                g1.Clear();
+                g2.Clear();
+                foreach (var x1 in o1)
+                {
+                    Console.WriteLine(x1.Name);
+                    if (x1.TypedIdent.Type.IsMap)
+                    {
+                        g1.Add(x1);
+                    }
+                    else
+                    {
+                        l1.Add(x1);
+                    }
+                }
+                foreach (var x2 in o2)
+                {
+                    if (x2.TypedIdent.Type.IsMap)
+                    {
+                        g2.Add(x2);
+                    }
+                    else
+                    {
+                        l2.Add(x2);
+                    }
+                }
+                if (g1.Count != 0 && g2.Count != 0)
+                    ret.AddRange(GenerateArrEqExprs(g1, g2, l1, l2));
+            }
+            return ret;
+        }
         /// <summary>
         /// Generate teh body of MS$_f1_f2/MS_pre_f1_f2 with a candidate ensures based on relational predicates + predicates provided by user
         /// For MS_pre, o1 and o2 should be empty lists
@@ -464,8 +573,11 @@ namespace SDiff
             {
                 bool allPreds, predicateAttrPresent;
                 var userPreds = GetPredicatesFromFunc(msFunc, out allPreds, out predicateAttrPresent)
-                    .Select(x => MkExprWithAttr(x, "", new List<object>() { }));
-
+                    .Select(x => MkExprWithAttr(x, "", new List<object>() { })).ToList();
+                //var arrPreds = GenerateArrEqPredicates(msFunc, i1, i2, o1, o2);
+                //if(arrPreds.Count != 0)
+                //Console.WriteLine("arrpred: "+arrPreds.Count.ToString());
+                //  userPreds.AddRange(arrPreds.Select(x => MkExprWithAttr(x, "", new List<object>() { })));
                 //ensure that the body is 'true' in case a predicate is specified
                 var msBodyExpr = msFunc.Body as LiteralExpr;
                 var trivialBodyPresent = (msBodyExpr != null && msBodyExpr.IsTrue);
@@ -1286,12 +1398,50 @@ namespace SDiff
                 else
                     AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2, false); //trust that outputs are equal
                 AddCandRequires(ref requiresSeq, f1, f2, i1, i2, o1, o2); //we already know that both f1/f2 are non-entry procedures
+                //AddArrEqEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2);
+                //AddArrEqRequires(ref requiresSeq, f1, f2, i1, i2, o1, o2);
                 //add candidates for loop extracted procedures
                 if (f1.Name.Contains("_loop_"))
                     AddLoopEnsures(f1, p1Prefix);
                 if (f2.Name.Contains("_loop_"))
                     AddLoopEnsures(f2, p2Prefix);
                 return;
+            }
+            private static void AddArrEqRequires(ref List<Requires> ensuresSeq, Procedure f1, Procedure f2, List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2)
+            {
+                var alli1 = new List<Variable>();
+                alli1.AddRange(gSeq_p1);
+                alli1.AddRange(i1);
+                var alli2 = new List<Variable>();
+                alli2.AddRange(gSeq_p2);
+                alli2.AddRange(i2);
+                var fakems = new Function(Token.NoToken, "MS_pre_$" + f1.Name, null, null);
+                var exprs = GenerateArrEqPredicates(fakems, alli1, alli2, o1, o2);
+                List<Requires> crequires;
+                crequires = exprs.Select(x => MkExprWithAttr(x, "ArrayEq", new List<object>() { })).ToList().Map(x => new Requires(Token.NoToken, false, MkCandidateExpr(x.Expr), "DAC candidate", x.Attribute));
+                ensuresSeq.AddRange(new List<Requires>(crequires.ToArray()));
+                
+            }
+            private static void AddArrEqEnsures(ref List<Ensures> ensuresSeq, Procedure f1, Procedure f2, List<Variable> i1, List<Variable> i2, List<Variable> o1, List<Variable> o2)
+            {
+                var alli1 = new List<Variable>();
+                //alli1.AddRange(gSeq_p1);
+                alli1.AddRange(i1);
+                var alli2 = new List<Variable>();
+                //alli2.AddRange(gSeq_p2);
+                alli2.AddRange(i2);
+                var allo1 = new List<Variable>();
+                allo1.AddRange(f1.Modifies.Select(x => new Formal(Token.NoToken, new TypedIdent(Token.NoToken, x.Name, x.Type), false)));
+                allo1.AddRange(o1);
+                var allo2 = new List<Variable>();
+                allo2.AddRange(f2.Modifies.Select(x => new Formal(Token.NoToken, new TypedIdent(Token.NoToken, x.Name, x.Type), false)));
+                allo2.AddRange(o2);
+                var fakems = new Function(Token.NoToken, "MS_post" + f1.Name, null, null);
+                var exprs = GenerateArrEqPredicates(fakems, alli1, alli2, allo1, allo2);
+                List<Ensures> censures;
+                censures = exprs.Select(x => MkExprWithAttr(x, "ArrEq", new List<object>() { })).ToList().Map(x => new Ensures(Token.NoToken, false, MkCandidateExpr(x.Expr), "DAC candidate", x.Attribute));
+                ensuresSeq.AddRange(new List<Ensures>(censures.ToArray()));
+               
             }
             private static void AddLoopEnsures(Procedure f, string prefix)
             {
@@ -1914,6 +2064,12 @@ namespace SDiff
                             opsT = FindAttribute(req.Attributes, "DAC_IMPLIES");
                         if (opsT == null)
                             opsT = FindAttribute(req.Attributes, "DAC_EQ");
+                        if (opsT == null)
+                        {
+                            opsT = FindAttribute(req.Attributes, "ArrEq");
+                            MSPreFuncBody = Expr.And(MSPreFuncBody, req.Condition);
+                            continue;
+                        }
                         var ops = opsT.Params.Select(x => (IdentifierExpr)x).ToList();
                         var pred = req.Condition;
                         var lhs = ops[0];
