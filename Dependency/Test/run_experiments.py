@@ -51,7 +51,7 @@ def dependency_dac_sum_only(v, extras):
     return ['Dependency.exe', '_v2.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/dacMerged:mergedProgSingle_inferred.bpl', '/prune', '/useSummariesOnly'] + extras
 
 def dependency(v, extras):
-    return ['Dependency.exe', v + '.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/prune'] + extras
+    return ['Dependency.exe', '_v2' + '.bpl', '/taint:' + v + '.bpl_changed_lines.txt', '/prune'] + extras
 
 def smackPreprocess(fn ,v):
     return ['SymDiffPreProcess.exe', fn, '-relativeSourceDir:' + v + '\\']
@@ -258,7 +258,7 @@ def main():
     commandLog = list()
 
     resultsSummary = os.path.join(os.getcwd().rstrip(os.pathsep), 'LOG_results_summary.csv')
-    with open(resultsSummary, 'w') as results:
+    with open(resultsSummary, 'w+') as results:
         print(','.join(['Project', 'v1', 'v2', 'timeCToBpl', 'timeRunSymdiffBpl', 'timeDependencySimple', 'timeDependencyDac', 'lines', 'depTainted', 'dacTainted', 'dacTainted_sum_only']), file=results)
 
     changeDist = args.changeDistance

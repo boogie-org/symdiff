@@ -4,6 +4,7 @@ using SymDiffUtils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace SymdiffPreprocess
@@ -85,7 +86,23 @@ namespace SymdiffPreprocess
         private AssertCmd makeHavocStyleSourceInfo(IList<object> list)
         {
             var fn = new List<object>();
-            fn.Add(this.relativeDir + trimPrefix((string)list[0]));
+            var newFn = this.relativeDir + unifyPrefix((string)list[0]);
+            if (File.Exists(newFn))
+            {
+                fn.Add(newFn);
+            }
+            else
+            {
+                newFn = this.relativeDir + trimDirectoryPrefix((string)list[0]);
+                if (File.Exists(newFn))
+                {
+                    fn.Add(newFn);
+                }
+                else
+                {
+                    Console.WriteLine("[ERROR] Preprocessing. Cannot Map File to name using curent heuristics.");
+                }
+            }
             var lineno = new List<object>();
             lineno.Add(list[1]);
             var assert = new AssertCmd(Token.NoToken, Expr.True,
@@ -94,20 +111,25 @@ namespace SymdiffPreprocess
             return assert;
         }
 
-        private string trimPrefix(string p)
+        private string unifyPrefix(string p)
         {
             if (p.Contains("smack"))
             {
-                int i = p.LastIndexOf('/');
-                p = p.Substring(i < 0 ? 0 : i);
-                i = p.LastIndexOf('\\');
-                p = p.Substring(i < 0 ? 0 : i);
-                return p;
+                return trimDirectoryPrefix(p);
             }
             else
             {
                 return p.Replace('/', '.').Replace('\\', '.');
             }
+        }
+
+        private static string trimDirectoryPrefix(string p)
+        {
+            int i = p.LastIndexOf('/');
+            p = p.Substring(i < 0 ? 0 : i);
+            i = p.LastIndexOf('\\');
+            p = p.Substring(i < 0 ? 0 : i);
+            return p;
         }
     }
 

@@ -81,16 +81,18 @@ namespace SyntaxDiff
                     }
                 }
             }
-
-            //perform the diff on the source files in which the implemnation pair is present                
-            foreach (var i12 in diffImpls)
+            else
             {
-                var d12 = FindDiffSourceLinesInImplementation(i12.Item1, v1srcInfo, i12.Item2, v2srcInfo);
+                //perform the diff on the source files in which the implemnation pair is present                
+                foreach (var i12 in diffImpls)
+                {
+                    var d12 = FindDiffSourceLinesInImplementation(i12.Item1, v1srcInfo, i12.Item2, v2srcInfo);
 
-                if (i12.Item1 != null)
-                    v1Changes.AddRange(FormatChangedLinesForProcedure(i12.Item1.Name, d12.Item1, v1srcInfo.srcInfoPerImpl[i12.Item1].Item1));
-                if (i12.Item2 != null)
-                    v2Changes.AddRange(FormatChangedLinesForProcedure(i12.Item2.Name, d12.Item2, v2srcInfo.srcInfoPerImpl[i12.Item2].Item1));
+                    if (i12.Item1 != null)
+                        v1Changes.AddRange(FormatChangedLinesForProcedure(i12.Item1.Name, d12.Item1, v1srcInfo.srcInfoPerImpl[i12.Item1].Item1));
+                    if (i12.Item2 != null)
+                        v2Changes.AddRange(FormatChangedLinesForProcedure(i12.Item2.Name, d12.Item2, v2srcInfo.srcInfoPerImpl[i12.Item2].Item1));
+                }
             }
 
 
@@ -99,10 +101,7 @@ namespace SyntaxDiff
 
             return; 
 
-            if (!useVisualStudioMEFDiff)
-                new DiffUsingTFS(args);
-            else
-                new DiffAnalyzerUsingMEFAndVisualStudio().PerformDiffString(args[0], args[1]);
+            
         }
 
         private static void PrintChangedLinesToFile(List<string> v1Changes, string p)
@@ -343,12 +342,12 @@ namespace SyntaxDiff
 
             Console.WriteLine("Difference.DiffFiles - output to console");
             DiffSegment diffs = Microsoft.TeamFoundation.VersionControl.Client.Difference.DiffFiles(
-                file1, FileType.Detect(file1, null), file2, FileType.Detect(file2, null),  diffOptions);
+                file1, FileType.Detect(file1, null), file2, FileType.Detect(file2, null), diffOptions);
 
             var diff = diffs;
             while (diff != null)
             {
-                Console.WriteLine("Diff ==> {0} {1}:{2}:{3} {4}:{5}:{6}", 
+                Console.WriteLine("Diff ==> {0} {1}:{2}:{3} {4}:{5}:{6}",
                     diff.Type, diff.OriginalStart, diff.OriginalLength, diff.OriginalStartOffset, diff.ModifiedStart, diff.ModifiedLength, diff.ModifiedStartOffset);
                 diff = diff.Next;
             }
