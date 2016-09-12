@@ -555,7 +555,7 @@ namespace Dependency
                 }
             }
 
-            foreach (var g in dependencies.Keys.Where(v => v is GlobalVariable && callee.Modifies.Exists(m => Utils.VariableUtils.ExtractVars(m).Contains(v))))
+            foreach (var g in dependencies.Keys.Where(v => v is GlobalVariable && ProcDependencies[callee].Values.Any(d => d.Contains(v))))
             {
                 if (calleeImpl != null && // not a stub
                     Utils.VariableUtils.IsTainted(dependencies[g]))
