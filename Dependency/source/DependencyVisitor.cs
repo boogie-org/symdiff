@@ -378,13 +378,18 @@ namespace Dependency
             // for assignment v1,...,vn = e1,...,en handle each vi = ei separately
             for (int i = 0; i < node.Lhss.Count; ++i)
             {
+                //TODO: M := M[p := v]; -> p is LHS!
+                //if (node.Rhss[i].Type.IsMap)
+                    
                 //MAJOR BUG FIX M[N[y] + z] := T[4];
                 var lhs = node.Lhss[i].DeepAssignedVariable;
                 var rhsVars = Utils.VariableUtils.ExtractVars(node.Rhss[i]);
                 if (lhs.TypedIdent.Type.IsMap)
                     Utils.VariableUtils.ExtractVars(node.Lhss[i]).Iter(x => rhsVars.Add(x)); //M[N[x]] := y; Dep(M) = {M, N, x, y}
 
-                dependencies[lhs] = new VarSet();
+                // dependency is cut only if lhs does not appears in rhs! (cases like M := M[x := y])
+                if (!rhsVars.Contains(lhs) || !dependencies.ContainsKey(lhs))
+                    dependencies[lhs] = new VarSet();
 
                 foreach (var rv in rhsVars)
                 {
