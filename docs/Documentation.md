@@ -28,10 +28,10 @@
 
 [Rootcause](Rootcause.md)
 
-[Change-Impact](Change-Impact.md)
+[Change-Impact](Change_Impact.md)
 
 ## C front end (preliminary)
-[C Front End](C-Front-End.md)
+[C Front End](C_Front_End.md)
 
 
 
