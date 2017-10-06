@@ -1,0 +1,10 @@
+! SymDiff
+
+SymDiff is an infrastructure for leveraging and extending program verification to reason about relationship between two programs (_differential program analysis_). There are several opportunities for differential analysis, including (a) performing incremental analysis, (b) use previous versions as a specification to provide relative correctness, (c) check differential properties (such as equivalence) and (d) exploit structural similarity to use more scalable abstractions. 
+  
+There are various applications for a differential verification tool. It can be applied to different versions of an evolving program to check for regressions. It can be used to verify properties on a program using simple behaviors as a specification. It can be used for checking information flow properties on two executions of a single program. 
+
+The tool is language-independent and works at the level of *Boogie* programming language. The intent is to be able to target various source languages  (C, C++, .NET, x86) using translators to Boogie. Front end for C is available separately from the SymDiff project webpage here [url:http://research.microsoft.com/en-us/projects/symdiff/default.aspx]. 
+
+This is part of the Open Source Software from Microsoft for Academics initiative [url: http://research.microsoft.com/en-us/projects/opensource/].
+
