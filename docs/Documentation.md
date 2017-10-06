@@ -22,7 +22,7 @@
 * Run **run_regressions.cmd -c**
 	* Corral regressions will fail unless Corral is installed
 
-[SymDiff](SymDiff)
+[SymDiff.md](SymDiff)
 
 [Dependency](Dependency)
 
