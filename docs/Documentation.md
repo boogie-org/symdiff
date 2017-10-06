@@ -22,16 +22,16 @@
 * Run **run_regressions.cmd -c**
 	* Corral regressions will fail unless Corral is installed
 
-[SymDiff.md](SymDiff)
+[SymDiff](SymDiff.md)
 
-[Dependency](Dependency)
+[Dependency](Dependency.md)
 
-[Rootcause](Rootcause)
+[Rootcause](Rootcause.md)
 
-[Change-Impact](Change-Impact)
+[Change-Impact](Change-Impact.md)
 
 ## C front end (preliminary)
-[C Front End](C-Front-End)
+[C Front End](C-Front-End.md)
 
 
 
