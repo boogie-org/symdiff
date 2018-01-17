@@ -17,6 +17,18 @@ Here are some common usage scenarios. In all cases, we assume that we have two b
 * Perform **equivalence checking** using DAC ([FSE'13](http://research.microsoft.com/apps/pubs/default.aspx?id=193772)) encoding (**usemutual** flag). This is **sound** for loops and recursion. 
 	* _{"run_symdiff_bpl v1 v2 /rvt /opts:" -usemutual -checkEquivWithDependencies -freeContracts "  "} _
 	* findstr /C:"_houdini" v1v2.log
+	* Interpreting the output
+		* You may see the following, but it does not mean all pairs of procedures are equivalent
+		
+			`Houdini finished and inferred 66/84 contracts`
+			
+			`Houdini finished with 24 verified, 0 errors, 0 inconclusives, 0 timeouts`
+			
+		* SymDiff actually performs a fine-grained equivalence check with respect to each output of a method including the heap. 
+		  Each relational fact is guarded by a _houdini Boolean variable, and looking at the output of `findstr /C:"_houdini" 
+		  v1v2.log"` tells which of the candidates are true facts. 
+		  Better yet, to determine the actual expressions inferred, look at "Houdini-Inferred DAC candidate" inside the 
+		  *mergedProgSingle_inferred.bpl* file.
 
 * Perform **Differential Assertion Checking** using **DAC** and **Houdini** ([FSE'13](http://research.microsoft.com/apps/pubs/default.aspx?id=193772)) encoding (**usemutual** flag). This is **sound** for loops and recursion. 
 	* _{"run_symdiff_bpl v1 v2 /rvt /opts:" -usemutual -asserts -freeContracts " "} _
