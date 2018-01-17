@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Boogie">
+      <HintPath>..\references\Boogie.exe</HintPath>
+    </Reference>
     <Reference Include="Core">
       <HintPath>..\references\Core.dll</HintPath>
     </Reference>

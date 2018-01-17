@@ -113,9 +113,6 @@
     <Reference Include="AbsInt">
       <HintPath>..\references\AbsInt.dll</HintPath>
     </Reference>
-    <Reference Include="AIFramework">
-      <HintPath>..\references\AIFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Basetypes">
       <HintPath>..\references\Basetypes.dll</HintPath>
     </Reference>
