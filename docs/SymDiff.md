@@ -29,6 +29,8 @@ Here are some common usage scenarios. In all cases, we assume that we have two b
 		  v1v2.log"` tells which of the candidates are true facts. 
 		  Better yet, to determine the actual invariants/pre/postconditions inferred, look at "Houdini-Inferred DAC candidate" 
 		  inside the *mergedProgSingle_inferred.bpl* file.
+	  
+		* Please ignore the generated HTML log file `v1v2.html`
 
 * Perform **Differential Assertion Checking** using **DAC** and **Houdini** ([FSE'13](http://research.microsoft.com/apps/pubs/default.aspx?id=193772)) encoding (**usemutual** flag). This is **sound** for loops and recursion. 
 	* _{"run_symdiff_bpl v1 v2 /rvt /opts:" -usemutual -asserts -freeContracts " "} _
