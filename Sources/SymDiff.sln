@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymDiff", "SymDiff\SymDiff.csproj", "{4A428490-CD6F-4FBF-AA15-5F579BE6C4B9}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -14,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RootcauseDriver", "RootcauseDriver\RootcauseDriver.csproj", "{FCE934F6-9527-48AD-80BB-887489229EB9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dependency", "Dependency\Dependency.csproj", "{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxDiff", "SyntaxDiff\SyntaxDiff.csproj", "{54ECDB2C-8C51-44ED-80E0-319D667A6E56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SymDiffUtils", "SymDiffUtils\SymDiffUtils.csproj", "{699F0912-D902-4854-9E1E-9892B46BCDBD}"
 EndProject
@@ -85,16 +83,6 @@ Global
 		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A699DBCF-BDC2-4EB1-B53E-0CEC2C0C8CDB}.Release|x86.ActiveCfg = Release|Any CPU
-		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{54ECDB2C-8C51-44ED-80E0-319D667A6E56}.Release|x86.ActiveCfg = Release|Any CPU
 		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{699F0912-D902-4854-9E1E-9892B46BCDBD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
