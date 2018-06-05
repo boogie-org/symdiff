@@ -2,7 +2,7 @@ REM +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 REM EDIT THE LINE BELOW TO SET SYMDIFF_ROOT to the top-level directory
 REM where SymDiff was unzipped (e.g. c:\symdiff.0.1)
 REM +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-REM set SYMDIFF_ROOT=e:\tvm\projects\symb_diff\
+REM set SYMDIFF_ROOT=e:\temp\projects\symb_diff\
 set HERE=%~dp0
 set SYMDIFF_ROOT=%here%..
 
