@@ -1,11 +1,10 @@
 ## Prerequisites
-* Install Z3 [http://z3.codeplex.com](http://z3.codeplex.com) binaries 
-	* Copy Z3.exe (>= version 4.1) into the references\, bin\x86\debug (symdiff) and {dependency, rootcause}\bin\debug\  //TODO: keep in a centralized area
+* Install [Z3 binary](https://github.com/Z3Prover/z3/releases) and copy Z3.exe (>= version 4.1) into the **SymDiff\bin\x86\debug** and {dependency, rootcause}\bin\debug\  //TODO: keep in a centralized area
 	* Z3 4.1 is currently needed for Rootcause. //TODO: fix prover errors related to 'relax_0' variables
 
 * (Optional) Download and build Corral [http://corral.codeplex.com](http://corral.codeplex.com). Let the top-level directory be <corral-root>
 	* The compatible Corral version is maintained in references\CorralRev.txt
-* (Optional) Run **references\updatecorral.bat <corral-root>** 
+	* Run **references\updatecorral.bat <corral-root>** 
 
 ## Installation
 
