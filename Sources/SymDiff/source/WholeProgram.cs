@@ -240,7 +240,13 @@ namespace SDiff
                 else if (args[i].Contains("-splitOutputEqualities") || args[i].Contains("/splitOutputEqualities"))
                     Options.splitOutputEqualities = true;
                 else if (args[i].Equals("-checkEquivForRoots") || args[i].Equals("/checkEquivForRoots"))
+                {
                     Options.checkEquivForRoots = true;
+                }
+                else if (args[i].StartsWith("-main:") || args[i].StartsWith("/main:"))
+                {
+                    Options.mainProcedure = args[i].Substring("-main:".Length);
+                }
                 else
                 {
                     throw new Exception("Unexpected option " + args[i]);

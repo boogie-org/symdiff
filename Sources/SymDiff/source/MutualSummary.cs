@@ -1197,7 +1197,12 @@ namespace SDiff
                 AddCandEnsuresWithDependency(ref ensuresSeq, f1, f2, i1, i2, o1, o2);
                 if (Options.checkEquivForRoots && (IsRootProcedures(f1, cg1) || IsRootProcedures(f2, cg2)))
                 {
-                    AddCandEnsuresWithDependency(ref ensuresSeq, f1, f2, i1, i2, o1, o2, false);
+                    //if mainprocedure is specified we only add it 
+                    if (Options.mainProcedure == null)
+                        AddCandEnsuresWithDependency(ref ensuresSeq, f1, f2, i1, i2, o1, o2, false);
+                    else if (f1.Name.Contains(Options.mainProcedure)) // only if it matches main
+                        AddCandEnsuresWithDependency(ref ensuresSeq, f1, f2, i1, i2, o1, o2, false);
+
                 }
                 return;
             }
@@ -1259,7 +1264,7 @@ namespace SDiff
                         {
                             //Add a true postcondition only when the static analysis thinks at least one of them is tainted
                             ens1 = new Ensures(false, post);
-                            ens1.Attributes = new QKeyValue(Token.NoToken, "DAC_EQUIV_CHECK", new List<object> { Expr.Ident(o12.Item1), Expr.Ident(o12.Item2) }, null);
+                            ens1.Attributes = new QKeyValue(Token.NoToken, "TOP_LEVEL_EQUIV_CHECK", new List<object> { Expr.Ident(o12.Item1), Expr.Ident(o12.Item2) }, null);
                         }
                     }
                     else

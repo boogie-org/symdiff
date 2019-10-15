@@ -71,6 +71,7 @@ namespace SDiff
         public static int dacConsiderChangedProcsUptoDistance = -1;
         public static int inlineDepthInferContracts = 0;
         public static bool checkEquivForRoots = false;
+        public static string mainProcedure = null; // when non-null, holds the root for which we check equiv
 
         //taint analysis
         public static bool refinedStmtTaint; //use SymDiff to check for non-tainted statements when inlined (works with nonModularMode + splitEquality)
