@@ -1195,6 +1195,10 @@ namespace SDiff
                 //we do this for roots, non-roots (no more stubs as expanded in front end)
                 //AddCandEnsures(ref ensuresSeq, f1, f2, i1, i2, o1, o2); //without dependencies
                 AddCandEnsuresWithDependency(ref ensuresSeq, f1, f2, i1, i2, o1, o2);
+                if (Options.checkEquivForRoots && (IsRootProcedures(f1, cg1) || IsRootProcedures(f2, cg2)))
+                {
+                    AddCandEnsuresWithDependency(ref ensuresSeq, f1, f2, i1, i2, o1, o2, false);
+                }
                 return;
             }
             private static Expr FreshHoudiniVar(string procName, string tag)
@@ -1245,9 +1249,18 @@ namespace SDiff
                     Ensures ens1 = null;
                     if (bottomUpTaintVars[f1].Contains(o12.Item1) || bottomUpTaintVars[f2].Contains(o12.Item2))
                     {
-                        //Add a candidate houdini variable only when the static analysis thinks at least one of them is tainted
-                        ens1 = new Ensures(false, Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(o12.Item1.Name, p1Prefix)), post));
-                        ens1.Attributes = new QKeyValue(Token.NoToken, "DAC_SUMMARY", new List<object> { Expr.Ident(o12.Item1), Expr.Ident(o12.Item2) }, null);
+                        if (isCandidate)
+                        {
+                            //Add a candidate houdini variable only when the static analysis thinks at least one of them is tainted
+                            ens1 = new Ensures(false, Expr.Imp(FreshHoudiniVar(fname, Util.TrimPrefixWithDot(o12.Item1.Name, p1Prefix)), post));
+                            ens1.Attributes = new QKeyValue(Token.NoToken, "DAC_SUMMARY", new List<object> { Expr.Ident(o12.Item1), Expr.Ident(o12.Item2) }, null);
+                        }
+                        else
+                        {
+                            //Add a true postcondition only when the static analysis thinks at least one of them is tainted
+                            ens1 = new Ensures(false, post);
+                            ens1.Attributes = new QKeyValue(Token.NoToken, "DAC_EQUIV_CHECK", new List<object> { Expr.Ident(o12.Item1), Expr.Ident(o12.Item2) }, null);
+                        }
                     }
                     else
                     {

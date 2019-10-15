@@ -70,6 +70,7 @@ namespace SDiff
         public static DAC_ENCODING_OPT dacEncoding =  DAC_ENCODING_OPT.DAC_NORMAL;
         public static int dacConsiderChangedProcsUptoDistance = -1;
         public static int inlineDepthInferContracts = 0;
+        public static bool checkEquivForRoots = false;
 
         //taint analysis
         public static bool refinedStmtTaint; //use SymDiff to check for non-tainted statements when inlined (works with nonModularMode + splitEquality)
