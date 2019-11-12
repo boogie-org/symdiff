@@ -1233,9 +1233,11 @@ namespace SDiff
                 var l12 = FindMatchingPairs(og1, og2, p1Prefix, p2Prefix, out mismatch1, out mismatch2);
                 foreach (var o12 in l12)
                 {
-                    if (!dependency[f1].ContainsKey(o12.Item1) || !dependency[f2].ContainsKey(o12.Item2)) continue;
-                    var dep1 = dependency[f1][o12.Item1];
-                    var dep2 = dependency[f2][o12.Item2];
+                    // Fix: we want to consider the cases when o12 is only assigned on one of the sides
+                    if (!dependency[f1].ContainsKey(o12.Item1) && !dependency[f2].ContainsKey(o12.Item2)) continue;
+                    List<Variable> dep1, dep2;
+                    dependency[f1].TryGetValue(o12.Item1, out dep1); if (dep1 == null) dep1 = new List<Variable>();
+                    dependency[f2].TryGetValue(o12.Item2, out dep2); if (dep2 == null) dep2 = new List<Variable>();
                     //TODO: for named inputs (e.g. result.get_char$23 and result.get_char$24 on two sides, there is no named mapping)
                     MakeDependenciesIdentical(dep1, dep2, i2.Union(gSeq_p2), p1Prefix, p2Prefix); //updates dep2 with dep1\dep2
                     MakeDependenciesIdentical(dep2, dep1, i1.Union(gSeq_p1), p2Prefix, p1Prefix); //updates dep1 with dep2\dep1
