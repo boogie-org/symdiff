@@ -1,6 +1,6 @@
 using Microsoft.Boogie;
 using System;
-using ProgTransformation;
+//using ProgTransformation;
 using System.Diagnostics;
 using System.Linq;
 using System.IO;
@@ -41,11 +41,12 @@ namespace SymdiffPreprocess
             string programFileName = args[0];
             Debug.Assert(programFileName.Contains(".bpl"), string.Format("File name is expected to have the .bpl extension: {0}.", programFileName));
             string outFileName = programFileName.Substring(0, programFileName.LastIndexOf(".bpl")) + "_unsmacked.bpl";
-            PersistentProgram persistentProgram;
+            //PersistentProgram persistentProgram;
+            Program program;
 
             try
             {
-                persistentProgram = ParseAndTypeCheckProgram(programFileName);
+                program = ParseAndTypeCheckProgram(programFileName);
                 File.Copy(programFileName, outFileName, true);
             }
             catch
@@ -67,21 +68,25 @@ namespace SymdiffPreprocess
             }
             finally
             {
-                persistentProgram = ParseAndTypeCheckProgram(outFileName);
+                //persistentProgram = ParseAndTypeCheckProgram(outFileName);
+                program = ParseAndTypeCheckProgram(outFileName);
             }
 
             
             
 
+            /*
             var pass = new SmackPreprocessorTransform(relativeDir);
             SmackPreprocessorTransform.writeAllFiles = true;
             persistentProgram = pass.run(persistentProgram);            
             persistentProgram.writeToFile(outFileName);
+            program.writeToFile(outFileName);
+            */
 
             return 0;
         }
 
-        private static PersistentProgram ParseAndTypeCheckProgram(string programFileName)
+        private static /*Persistent*/Program ParseAndTypeCheckProgram(string programFileName)
         {
             Program program;
             program = BoogieUtils.ParseProgram(programFileName);
@@ -93,8 +98,8 @@ namespace SymdiffPreprocess
             errors = program.Typecheck();
             if (errors > 0)
                 throw new ArgumentException("Unable to typecheck " + programFileName);
-            PersistentProgram persistentProgram = new PersistentProgram(program);
-            return persistentProgram;
+            //PersistentProgram persistentProgram = new PersistentProgram(program);
+            return program; //persistentProgram;
         }
     }
 }

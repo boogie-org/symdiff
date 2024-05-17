@@ -62,9 +62,6 @@
       <Private>False</Private>
       <HintPath>..\packages\VSSDK.Text.12.0.4\lib\net45\Microsoft.VisualStudio.Text.UI.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="ParserHelper">
-      <HintPath>..\references\ParserHelper.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ProgTransformation">

@@ -8,7 +8,7 @@ using System.Diagnostics;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
-using Microsoft.Basetypes;
+using Microsoft.BaseTypes;
 using BType = Microsoft.Boogie.Type;
 
 namespace Rootcause
@@ -469,7 +469,7 @@ namespace Rootcause
                     ((Model.Boolean)g).Value));
             else if (tp.IsInt)
                 n = VC.translator.Translate(new LiteralExpr(Token.NoToken,
-                    Microsoft.Basetypes.BigNum.FromInt((((Model.Integer)g).AsInt()))));
+                    Microsoft.BaseTypes.BigNum.FromInt((((Model.Integer)g).AsInt()))));
             else if (tp.IsBv)
                 throw new Exception("Handling of bit-vector models not supported yet");
             else if (tp.IsReal)

@@ -9,7 +9,7 @@ using System.Diagnostics;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
-using Microsoft.Basetypes;
+using Microsoft.BaseTypes;
 using BType = Microsoft.Boogie.Type;
 
 namespace Rootcause
@@ -29,9 +29,9 @@ namespace Rootcause
         public static void InitializeVCGen(Program prog)
         { 
             //create VC.vcgen/VC.proverInterface
-            VC.vcgen = new VCGen(prog, CommandLineOptions.Clo.SimplifyLogFilePath, 
-                CommandLineOptions.Clo.SimplifyLogFileAppend, new List<Checker>());
-            VC.proverInterface = ProverInterface.CreateProver(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend, CommandLineOptions.Clo.ProverKillTime);
+            VC.vcgen = new VCGen(prog, CommandLineOptions.Clo.ProverLogFilePath, 
+                CommandLineOptions.Clo.ProverLogFileAppend, new List<Checker>());
+            VC.proverInterface = ProverInterface.CreateProver(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, CommandLineOptions.Clo.TimeLimit);
             VC.translator = VC.proverInterface.Context.BoogieExprTranslator;
             VC.exprGen = VC.proverInterface.Context.ExprGen;
             VC.collector = new ConditionGeneration.CounterexampleCollector();
@@ -71,19 +71,20 @@ namespace Rootcause
 
             var exprGen = VC.proverInterface.Context.ExprGen;
             //VCExpr controlFlowVariableExpr = null; 
-            VCExpr controlFlowVariableExpr = CommandLineOptions.Clo.UseLabels ? null : VC.exprGen.Integer(BigNum.ZERO);
+            VCExpr controlFlowVariableExpr = /*CommandLineOptions.Clo.UseLabels ? null :*/ VC.exprGen.Integer(BigNum.ZERO);
 
 
             //Hashtable/*<int, Absy!>*/ label2absy;
             Dictionary<int, Absy> label2absy;
             var vc = VC.vcgen.GenerateVC(impl, controlFlowVariableExpr, out label2absy, VC.proverInterface.Context);
-            if (!CommandLineOptions.Clo.UseLabels)
-            {
+            //if (!CommandLineOptions.Clo.UseLabels)
+            //{
                 VCExpr controlFlowFunctionAppl = VC.exprGen.ControlFlowFunctionApplication(VC.exprGen.Integer(BigNum.ZERO), VC.exprGen.Integer(BigNum.ZERO));
                 VCExpr eqExpr = VC.exprGen.Eq(controlFlowFunctionAppl, VC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
                 vc = VC.exprGen.Implies(eqExpr, vc);
-            }
+            //}
 
+            /*
             if (CommandLineOptions.Clo.vcVariety == CommandLineOptions.VCVariety.Local)
             {
                 VC.handler = new VCGen.ErrorReporterLocal(gotoCmdOrigins, label2absy, impl.Blocks, VC.vcgen.incarnationOriginMap, VC.collector, mvInfo, VC.proverInterface.Context, prog);
@@ -92,6 +93,7 @@ namespace Rootcause
             {
                 VC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, VC.vcgen.incarnationOriginMap, VC.collector, mvInfo, VC.proverInterface.Context, prog);
             }
+            */
             return vc;
         }
         #endregion 

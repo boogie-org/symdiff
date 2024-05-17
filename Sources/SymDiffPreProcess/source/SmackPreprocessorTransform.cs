@@ -1,5 +1,5 @@
 using Microsoft.Boogie;
-using ProgTransformation;
+//using ProgTransformation;
 using SymDiffUtils;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,8 @@ using System.Linq;
 
 namespace SymdiffPreprocess
 {
-    public class SmackPreprocessorTransform  : TransformationPass 
+    /*
+    public class SmackPreprocessorTransform  : TransformationPass
     {
         private string relativeDir;
 
@@ -29,6 +30,7 @@ namespace SymdiffPreprocess
             return inp;
         }
     }
+    */
 
     class BoogieCallsRewriter : FixedVisitor
     {

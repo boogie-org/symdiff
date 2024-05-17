@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Boogie;
-using Microsoft.Basetypes; //For BigNum
+using Microsoft.BaseTypes; //For BigNum
 using SDiff.Boogie;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -201,8 +201,8 @@ namespace SDiff
                 var start = DateTime.Now;
 
                 //outcome = vcgen.VerifyImplementation(impl, prog, out errors);
-                outcome = vcgen.VerifyImplementation(impl, /*prog,*/ out errors, out errorsModel);
-                errModelList = errorsModel;
+                outcome = vcgen.VerifyImplementation(impl, /*prog,*/ out errors, "TODO: requestId"); //out errorsModel);
+                //errModelList = errorsModel;
 
                 var end = DateTime.Now;
 
@@ -298,15 +298,7 @@ namespace SDiff
             VC.ConditionGeneration vcgen = null;
             try
             {
-                if (CommandLineOptions.Clo.vcVariety == CommandLineOptions.VCVariety.Doomed)
-                {
-                    throw new Exception("The doomed option is not supported in SymDiff");
-                    //vcgen = new VC.DCGen(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend);
-                }
-                else
-                {
-                    vcgen = new VC.VCGen(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend, new List<Checker>());
-                }
+                vcgen = new VC.VCGen(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, new List<Checker>());
             }
             catch (ProverException)
             {

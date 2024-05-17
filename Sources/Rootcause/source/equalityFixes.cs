@@ -8,7 +8,7 @@ using System.Diagnostics;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
-using Microsoft.Basetypes;
+using Microsoft.BaseTypes;
 using BType = Microsoft.Boogie.Type;
 
 namespace Rootcause
@@ -3818,7 +3818,7 @@ namespace Rootcause
                     Console.WriteLine("FindFirstMemMismatch: Mismatch got confused due to different sets of updates on two sides");
                     return failing_cex;
                 }
-                var pairs = left.Zip(right).ToList();
+                var pairs = left.Zip(right, (v1, v2) => (v1, v2)).ToList();
                 //var pairs = tmp.Where(x => (x.Item1.TypedIdent.Type == x.Item2.TypedIdent.Type));
                 if (pairs.Count() != left.Count)
                 {
@@ -3953,7 +3953,7 @@ namespace Rootcause
                     lAssign = lastLeftAssign; rAssign = lastRightAssign;
                     return false; //couldn't match
                 }
-                var pairs = left.Zip(right).ToList();
+                var pairs = left.Zip(right, (v1, v2) => (v1, v2)).ToList();
                 //var pairs = tmp.Where(x => (x.Item1.TypedIdent.Type == x.Item2.TypedIdent.Type));
                 if (pairs.Count() != left.Count)
                 {
@@ -4070,7 +4070,7 @@ namespace Rootcause
                 Console.WriteLine("FindMemEqualityAtLine: Mismatch got confused due to different sets of updates on two sides");
                 return false; //couldn't match
             }
-            var pairs = left.Zip(right).ToList();
+            var pairs = left.Zip(right, (v1, v2) => (v1, v2)).ToList();
             //var pairs = tmp.Where(x => (x.Item1.TypedIdent.Type == x.Item2.TypedIdent.Type));
             if (pairs.Count() != left.Count)
             {
@@ -4106,7 +4106,7 @@ namespace Rootcause
                     ((NAryExpr)x).Fun.FunctionName.Contains("CallMem")) return true;
                 return false;
             };
-            var lr = assignCmd.Lhss.Zip(assignCmd.Rhss); //make decision on lhs + rhs
+            var lr = assignCmd.Lhss.Zip(assignCmd.Rhss, (v1, v2) => (v1, v2)); //make decision on lhs + rhs
             return lr.Where(x => (x.Item1.Type.IsMap && RhssOpMatches(x.Item2))).ToList().ConvertAll(x => x.Item1.DeepAssignedVariable);
         }
 
@@ -4119,7 +4119,7 @@ namespace Rootcause
                     ((NAryExpr)x).Fun.FunctionName.Contains("Mem")) return true;
                 return false;
             };
-            var lr = assignCmd.Lhss.Zip(assignCmd.Rhss); //make decision on lhs + rhs
+            var lr = assignCmd.Lhss.Zip(assignCmd.Rhss, (v1, v2) => (v1, v2)); //make decision on lhs + rhs
             return lr.Where(x => (x.Item1.Type.IsMap && RhssOpMatches(x.Item2))).ToList().ConvertAll(x => x.Item1.DeepAssignedVariable);
         }
 

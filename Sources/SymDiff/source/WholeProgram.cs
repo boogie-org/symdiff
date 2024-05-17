@@ -656,6 +656,7 @@ namespace SDiff
         }
         private static void InsertConstantsOK(string filenamePrefix, Program Prog, int n)
         {
+            /*
             CodeCopier codeCopier = new CodeCopier();
             String OKstr = filenamePrefix + ".OK";// +n;
             AddIteAxiom(filenamePrefix, Prog.TopLevelDeclarations.ToList());
@@ -709,7 +710,7 @@ namespace SDiff
                             var newConstDecl = new Constant(new Token(), new TypedIdent(new Token(), "__ctobpl_const_" + cnum, BasicType.Int), true);
                             newConstDecl.AddAttribute("sourceLine", assertCmd.Attributes.Next.Params[0]);
                             newConstDecl.AddAttribute("sourceFile", assertCmd.Attributes.Params[0]);
-                            newConstDecl.AddAttribute("model_const", "OK"/*+n*/);
+                            newConstDecl.AddAttribute("model_const", "OK");
                             decls.Add(newConstDecl);
 
                             cnum++;
@@ -725,7 +726,7 @@ namespace SDiff
                 impl.Blocks = newBlocks;
             }
             Prog.AddTopLevelDeclarations(decls); //Prog.TopLevelDeclarations.InsertRange(1, decls);
-
+            */
         }
         private static string FindOK1var(List<Cmd> cmdSeq, string p1prefix)
         {
@@ -772,6 +773,7 @@ namespace SDiff
         }
         private static void InsertOKProcs(string OKstr, Program p, string filename)
         {
+            /*
             OKstr = filename.Replace(".bpl", "") + "." + OKstr;
             CodeCopier codeCopier = new CodeCopier();
             IEnumerable<Declaration> impls = p.TopLevelDeclarations.Where(x => x is Implementation);
@@ -810,6 +812,7 @@ namespace SDiff
                 }
                 impl.Blocks = newBlocks;
             }
+            */
         }
 
         //Differential inlining

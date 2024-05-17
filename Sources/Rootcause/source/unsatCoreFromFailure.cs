@@ -8,7 +8,7 @@ using System.Diagnostics;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
-using Microsoft.Basetypes;
+using Microsoft.BaseTypes;
 using BType = Microsoft.Boogie.Type;
 
 namespace Rootcause
@@ -816,7 +816,7 @@ namespace Rootcause
                     ((Model.Boolean)g).Value));
             else if (tp.IsInt)
                 n = VC.translator.Translate(new LiteralExpr(Token.NoToken,
-                    Microsoft.Basetypes.BigNum.FromInt((((Model.Integer)g).AsInt()))));
+                    Microsoft.BaseTypes.BigNum.FromInt((((Model.Integer)g).AsInt()))));
             else if (tp.IsBv)
                 throw new Exception("Handling of bit-vector models not supported yet");
             else if (tp.IsReal)
@@ -1089,7 +1089,7 @@ namespace Rootcause
             }
             public override Cmd VisitAssignCmd(AssignCmd node)
             {
-                foreach (var lrhs in node.Lhss.Cast<AssignLhs>().Zip(node.Rhss.Cast<Expr>()).ToList())
+                foreach (var lrhs in node.Lhss.Cast<AssignLhs>().Zip(node.Rhss.Cast<Expr>(), (v1, v2) => (v1, v2)).ToList())
                 {
                     AssignLhs lhs = lrhs.Item1;
                     Expr rhs = lrhs.Item2;

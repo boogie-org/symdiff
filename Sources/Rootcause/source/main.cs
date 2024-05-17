@@ -9,8 +9,9 @@ using System.Diagnostics;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
-using Microsoft.Basetypes;
+using Microsoft.BaseTypes;
 using BType = Microsoft.Boogie.Type;
+using Type = System.Type;
 
 
 namespace Rootcause
@@ -81,7 +82,8 @@ namespace Rootcause
         private static void Go(Implementation impl, string filename)
         {
             if (impl == null) return;
-            if (CommandLineOptions.Clo.ProcsToCheck != null && CommandLineOptions.Clo.ProcsToCheck.Where(x => impl.Name.StartsWith(x)).Count() == 0) return;
+            // TODO: fix proc check
+            //if (CommandLineOptions.Clo.ProcsToCheck != null && CommandLineOptions.Clo.ProcsToCheck.Where(x => impl.Name.StartsWith(x)).Count() == 0) return;
             Console.WriteLine("############# Implementation = {0} #################", impl.Name);
 
 
@@ -360,7 +362,7 @@ namespace Rootcause
                     ((Model.Boolean)g).Value));
             else if (tp.IsInt)
                 n = VC.translator.Translate(new LiteralExpr(Token.NoToken,
-                    Microsoft.Basetypes.BigNum.FromInt((((Model.Integer)g).AsInt()))));
+                    Microsoft.BaseTypes.BigNum.FromInt((((Model.Integer)g).AsInt()))));
             else if (tp.IsBv)
                 throw new Exception("Handling of bit-vector models not supported yet");
             else if (tp.IsReal)
@@ -425,7 +427,8 @@ namespace Rootcause
                 if (c is Model.Integer) 
                 {
                     var x = ((Model.Integer)c).AsInt();
-                    t = VC.exprGen.Eq(VC.translator.LookupVariable(v), VC.translator.Translate(new LiteralExpr(Token.NoToken, Microsoft.Basetypes.BigNum.FromInt(x))));
+                    t = VC.exprGen.Eq(VC.translator.LookupVariable(v),
+                    VC.translator.Translate(new LiteralExpr(Token.NoToken, Microsoft.BaseTypes.BigNum.FromInt(x))));
                     Console.Write("({0}, {1})  ", v.Name, c);              
                 }
                 else if (c is Model.Boolean)
@@ -467,9 +470,9 @@ namespace Rootcause
                         Console.Write("({0}[{1}], {2})  ", v, a.Args[1], a.Result);
                         //construct VC.exprGen.Eq(Select(v.Name, a.Args[1..n]), a.Result)
                         VCExpr[] args = {VC.translator.LookupVariable(v), 
-                        VC.translator.Translate(new LiteralExpr(Token.NoToken, Microsoft.Basetypes.BigNum.FromInt(a.Args[1].AsInt())))};
+                        VC.translator.Translate(new LiteralExpr(Token.NoToken, Microsoft.BaseTypes.BigNum.FromInt(a.Args[1].AsInt())))};
                         var u = VC.exprGen.Eq(VC.exprGen.Select(args), 
-                            VC.translator.Translate(new LiteralExpr(Token.NoToken, Microsoft.Basetypes.BigNum.FromInt(a.Result.AsInt()))));
+                            VC.translator.Translate(new LiteralExpr(Token.NoToken, Microsoft.BaseTypes.BigNum.FromInt(a.Result.AsInt()))));
                         t = VC.exprGen.And(t, u);
                     }
                 }
@@ -489,12 +492,12 @@ namespace Rootcause
                     var argsStr = "";
                     foreach (var b in a.Args)
                     {
-                        args[i++] = VC.translator.Translate(new LiteralExpr(Token.NoToken, Microsoft.Basetypes.BigNum.FromInt(b.AsInt())));
+                        args[i++] = VC.translator.Translate(new LiteralExpr(Token.NoToken, Microsoft.BaseTypes.BigNum.FromInt(b.AsInt())));
                         argsStr +=  (i > 1 ? ", " : "" ) + b.ToString() ;
                     }
                     Console.Write("({0}({1}), {2})  ", f.Name, argsStr, a.Result);
                     var u = VC.exprGen.Eq(VC.exprGen.Function(f, args), 
-                        VC.translator.Translate(new LiteralExpr(Token.NoToken, Microsoft.Basetypes.BigNum.FromInt(a.Result.AsInt()))));
+                        VC.translator.Translate(new LiteralExpr(Token.NoToken, Microsoft.BaseTypes.BigNum.FromInt(a.Result.AsInt()))));
                     t = VC.exprGen.And(t, u);
                 }
                 if (t != null)
@@ -580,14 +583,14 @@ namespace Rootcause
         }
         private static DatatypeConstructor AddConstructor(IToken tok, CtorType typ, string name, IEnumerable<Tuple<string, BType>> args)
         {
-            DatatypeConstructor cons = new DatatypeConstructor(
-                new Function(tok, name, new List<TypeVariable>(), new List<Variable>(
+            var ctor = new Function(tok, name, new List<TypeVariable>(), new List<Variable>(
                         args.Select(x => (Variable)new Formal(tok, new TypedIdent(tok, x.Item1, x.Item2), true)).ToArray()),
                     new Formal(tok, new TypedIdent(tok, "", typ), false),
-                    null, new QKeyValue(tok, "constructor", new List<object>(), null)));
-            DatatypeMembership membership = new DatatypeMembership(cons);
+                    null, new QKeyValue(tok, "constructor", new List<object>(), null));
+            DatatypeConstructor cons = new DatatypeConstructor((DatatypeTypeCtorDecl)typ.Decl, ctor);
+            DatatypeMembership membership = DatatypeMembership.NewDatatypeMembership(cons);
             cons.membership = membership;
-            var selectors = args.Select((x, i) => new DatatypeSelector(cons, i)).ToList();
+            var selectors = args.Select((x, i) => DatatypeSelector.NewDatatypeSelector(cons, i)).ToList();
             selectors.ForEach(cons.selectors.Add);
             prog.AddTopLevelDeclaration(cons);
             prog.AddTopLevelDeclaration(membership);
@@ -795,7 +798,7 @@ namespace Rootcause
             }
             public override Cmd VisitAssignCmd(AssignCmd node)
             {
-                foreach (var lrhs in node.Lhss.Cast<AssignLhs>().Zip(node.Rhss.Cast<Expr>()).ToList())
+                foreach (var lrhs in node.Lhss.Cast<AssignLhs>().Zip(node.Rhss.Cast<Expr>(), (v1, v2) => (v1, v2)).ToList())
                 {
                     AssignLhs lhs = lrhs.Item1;
                     Expr rhs = lrhs.Item2;

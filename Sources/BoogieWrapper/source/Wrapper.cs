@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Boogie;
-using Microsoft.Basetypes; //For BigNum
+using Microsoft.BaseTypes; //For BigNum
 using SDiff.Boogie;
 using System.IO;
 using System.Text.RegularExpressions;
