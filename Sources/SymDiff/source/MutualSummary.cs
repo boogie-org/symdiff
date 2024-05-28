@@ -8,6 +8,7 @@ using B = SDiff.Boogie;
 using Microsoft.Boogie.Houdini;
 using SymDiffUtils;
 using SymDiff;
+using Util = SymDiffUtils.Util;
 
 namespace SDiff
 {

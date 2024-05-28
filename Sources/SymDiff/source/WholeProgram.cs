@@ -7,6 +7,7 @@ using Microsoft.Boogie;
 using B = SDiff.Boogie;
 
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 //there is massive duplication here in case it turns out that the allinone approach (even with dumping at every verify) is not useful
 

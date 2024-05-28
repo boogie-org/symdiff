@@ -8,6 +8,7 @@ using SDiff.Boogie;
 using System.IO;
 using System.Text.RegularExpressions;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 namespace SDiff
 {

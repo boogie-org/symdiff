@@ -9,6 +9,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using SDiff;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 namespace BoogieWrapper
 {

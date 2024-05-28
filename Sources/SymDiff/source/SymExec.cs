@@ -9,6 +9,7 @@ using Bpl = Microsoft.Boogie;
 using B = SDiff.Boogie;
 using SDiff.Boogie;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 namespace SDiff.SymEx
 {

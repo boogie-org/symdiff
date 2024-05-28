@@ -1149,7 +1149,7 @@ namespace Rootcause
             var freeVars = fvc.FreeTermVars;
             //make a clone of the VC
             substDict = new Dictionary<VCExprVar, VCExpr>();
-            foreach (VCExprVar v in freeVars.Keys)
+            foreach (VCExprVar v in freeVars)
             {
                 if (!DontCloneVar(v))
                 {

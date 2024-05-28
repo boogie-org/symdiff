@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Boogie;
 using SDiff;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 
 namespace RVT

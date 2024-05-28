@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Util = SymDiffUtils.Util;
 
 namespace SymdiffPreprocess
 {
