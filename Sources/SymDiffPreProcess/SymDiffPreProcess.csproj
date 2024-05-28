@@ -10,6 +10,8 @@
   <ItemGroup>
     <ProjectReference Include="..\SymDiffUtils\SymDiffUtils.csproj" />
     <ProjectReference Include="..\SymDiff\SymDiff.csproj" />
+    <ProjectReference Include="..\Corral\source\ProgTransformation\ProgTransformation.csproj" />
+    <ProjectReference Include="..\Corral\source\Util\CorralUtil.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
