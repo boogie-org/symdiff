@@ -1,6 +1,3 @@
-[submodule "Sources/BoogieSubmodule"]
-	path = Sources/BoogieSubmodule
-	url = https://github.com/boogie-org/boogie.git
 [submodule "Sources/Corral"]
 	path = Sources/Corral
 	url = https://github.com/boogie-org/corral
