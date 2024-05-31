@@ -583,7 +583,7 @@ namespace SDiff
 
             CallGraph cg = CallGraph.Make(p);
 
-            var boogieOptions = "-z3multipleErrors -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0" + " -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
+            var boogieOptions = " -proverOpt:MULTI_TRACES -monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0" + " -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
             Boogie.Process.InitializeBoogie(boogieOptions);
 
             var vcgen = BoogieVerify.InitializeVC(p);

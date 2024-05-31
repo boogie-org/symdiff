@@ -45,7 +45,7 @@ namespace Rootcause
         public static int newAssertRightLine = -1;
         public static int maxsatLimit = int.MaxValue;
         public static int callAlignWindow = -1;
-        public static bool useMultipleGoodRuns = false; //sets z3multipleErrors
+        public static bool useMultipleGoodRuns = false; //sets -proverOpt:MULTI_TRACES
         public static bool findEarliestAssertionByMapMismatch = false;
         public static bool findEarliestAssertionByLine = false;
         public static bool pruneAfterMapMismatch = false;
@@ -91,9 +91,9 @@ namespace Rootcause
         public static bool ParseCommandLine(string clo)
         {
              //without the next line, it fails to find the right prover!!
-             var boogieOptions = "/typeEncoding:m -timeLimit:" + boogieTimeout + " -removeEmptyBlocks:0 /printModel:1 /printInstrumented " + clo;
+             var boogieOptions = "-monomorphize -timeLimit:" + boogieTimeout + " -removeEmptyBlocks:0 /printModel:1 /printInstrumented " + clo;
              if (Options.useMultipleGoodRuns)
-                 boogieOptions += " /z3multipleErrors /errorLimit:20 "; //make the errorLimit an option
+                 boogieOptions += " /proverOpt:MULTI_TRACES /errorLimit:20 "; //make the errorLimit an option
              else
                  boogieOptions += " /errorLimit:1 ";
              //var boogieOptions = "/typeEncoding:m -timeLimit:900  -removeEmptyBlocks:0 /errorLimit:1 /printInstrumented " + clo;

@@ -19,9 +19,6 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
@@ -43,7 +40,7 @@
     <ProjectReference Include="..\SymDiffUtils\SymDiffUtils.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Boogie.Core" Version="2.9.1" />
     <PackageReference Include="Boogie.Houdini" Version="2.9.1" />
     <PackageReference Include="Boogie.Graph" Version="2.9.1" />
