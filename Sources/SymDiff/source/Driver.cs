@@ -400,8 +400,8 @@ namespace SDiff
         BoogieUtils.TypecheckProgram(q, second);
 
 
-        first = first.Substring(0, first.LastIndexOf('.') + 1);
-        second = second.Substring(0, second.LastIndexOf('.') + 1);
+        first = Path.GetFileNameWithoutExtension(first) + '.';
+        second = Path.GetFileNameWithoutExtension(second) + '.';
 
         Config config = new Config();
 
