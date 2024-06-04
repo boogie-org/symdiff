@@ -165,7 +165,7 @@ namespace SDiff
             vcgen.Close();
             return outcome;
         }
-        public static VerificationResult VerifyImplementation(VC.ConditionGeneration vcgen, Implementation impl, Program prog, out SDiffCounterexamples cex, out List<Model> errModelList)
+        public static VerificationResult VerifyImplementation(VC.ConditionGeneration vcgen, Implementation impl, Program prog, out SDiffCounterexamples cex)
         {
 
             VerifyImplCleanup vic;
@@ -174,7 +174,6 @@ namespace SDiff
 
 
             cex = null;
-            errModelList = null;
 
             if (impl == null)
             {
@@ -185,7 +184,6 @@ namespace SDiff
             //Log.Out(Log.Verifier, "Verifying implementation " + impl.Name);
 
             List<Counterexample> errors;
-            List<Model> errorsModel;
             VerificationResult sdoutcome = VerificationResult.Unknown;
             VC.VCGen.Outcome outcome;
 
@@ -203,8 +201,6 @@ namespace SDiff
 
                 //outcome = vcgen.VerifyImplementation(impl, prog, out errors);
                 outcome = vcgen.VerifyImplementation(impl, /*prog,*/ out errors, "TODO: requestId"); //out errorsModel);
-                //errModelList = errorsModel;
-
                 var end = DateTime.Now;
 
                 TimeSpan elapsed = end - start;
@@ -843,7 +839,6 @@ namespace SDiff
             Inliner.ProcessImplementation(prog, vt.Eq);
 
             SDiffCounterexamples SErrors = null;
-            List<Model> errModelList = null;
             Implementation newEq = null;
             Program newProg = null;
             Dictionary<string, Declaration> newDict = null;
@@ -889,7 +884,7 @@ namespace SDiff
                 //RS: Uncomment this
                 newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
 
-                vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors, out errModelList);
+                vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors);
 
 
 
@@ -950,9 +945,7 @@ namespace SDiff
                     globals.Add(ie.Decl);
 
 
-                if (SErrors != null &&
-                    SErrors.Count > 0 &&
-                    errModelList.Count == SErrors.Count) //change as now SErrors can be nonnull, yet Count == 0. Sometimes model.Count < SErrror!!
+                if (SErrors != null && SErrors.Count > 0) //change as now SErrors can be nonnull, yet Count == 0. Sometimes model.Count < SErrror!!
                 {
                     //somewhat misnamed...
                     if (Options.DumpBeforeVerifying)
@@ -968,7 +961,7 @@ namespace SDiff
                         if (Options.PreciseDifferentialInline)
                         {
                             List<Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant).ToList();
-                            ProcessCounterexamplesWOSymbolicOut(SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, errModelList);
+                            ProcessCounterexamplesWOSymbolicOut(SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, [SErrors[0].fst.Model]);
                         }
                         else
                         {

@@ -33,7 +33,7 @@ namespace BoogieWrapper
             string funcName = args[1];
 
             //TODO: Make it aware of the other Boogie options
-            var boogieOptions = " -doModSetAnalysis -printInstrumented -proverOpt:MULTI_TRACES -monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
+            var boogieOptions = " -doModSetAnalysis -printInstrumented -monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
 
             Program prog = BoogieUtils.ParseProgram(args[0]);
@@ -68,7 +68,7 @@ namespace BoogieWrapper
             SDiffCounterexamples SErrors;
             List<Model> errModelList;
 
-            var Result = BoogieVerify.VerifyImplementation(vcgen, newEq, newProg, out SErrors, out errModelList);
+            var Result = BoogieVerify.VerifyImplementation(vcgen, newEq, newProg, out SErrors);
 
             switch (Result)
             {
@@ -120,9 +120,9 @@ namespace BoogieWrapper
                     {
                         IEnumerable <Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant);
                         if (args.Length < 6)
-                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts.ToList(), errModelList);
+                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts.ToList(), [SErrors[0].fst.Model]);
                         else
-                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts.ToList(), errModelList, args[4], args[5]);
+                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts.ToList(), [SErrors[0].fst.Model], args[4], args[5]);
                     }
                     else
                     {

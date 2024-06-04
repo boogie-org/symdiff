@@ -102,7 +102,6 @@ namespace SDiff
             string boogieOptions = "";
             if (!Options.splitOutputEqualities)
             {
-                boogieOptions += " -proverOpt:MULTI_TRACES ";
                 if (Options.NumCex != -1)
                     boogieOptions += " -errorLimit:" + Options.NumCex + " ";
             }
