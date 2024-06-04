@@ -388,18 +388,6 @@ namespace SymDiffUtils
         }
 
         //string stuff
-        public static string strip_path(string f)
-        {
-            if (f.Contains("/"))
-                return f.Substring(f.LastIndexOf("/"));
-            else if (f.Contains("\\"))
-                return f.Substring(f.LastIndexOf("\\"));
-            return f;
-        }
-        public static string strip_suffix(string f)
-        {
-            return f.Remove(f.LastIndexOf("."));
-        }
         public static string TrimStart(string s, string prefix)
         {
             return s.Substring(prefix.Length);

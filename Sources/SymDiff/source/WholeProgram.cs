@@ -281,8 +281,8 @@ namespace SDiff
             if (args.Length < 3) { AllInOneUsage(); return 1; }
             v1name = args[0];
             v2name = args[1];
-            p1Prefix = v1name.Replace(".bpl", "");
-            p2Prefix = v2name.Replace(".bpl", "");
+            p1Prefix = Path.GetFileNameWithoutExtension(v1name);;
+            p2Prefix = Path.GetFileNameWithoutExtension(v2name);
             if (!v1name.EndsWith(".bpl"))
             {
                 Log.Out(Log.Error, "Expecting inputs files with .bpl, got " + v1name);
@@ -293,7 +293,7 @@ namespace SDiff
                 Log.Out(Log.Error, "Expecting inputs files with .bpl, got " + v2name);
                 return 1;
             }
-            if (v1name.Equals(v2name))
+            if (v1name.Equals(v2name) || p1Prefix.Equals(p2Prefix))
             {
                 Log.Out(Log.Error, "Programs must have different filenames");
                 return 1;
@@ -457,7 +457,7 @@ namespace SDiff
         public static void RenameSymbolsByVersion(ref Program p, List<Declaration> gs, List<Declaration> cs, List<Declaration> fs, string vname)
         {
             //strip_path(...) is string v1.foo.bpl --> foo.bpl  
-            var namespacer1 = new PrefixRenamer(Util.strip_suffix(Util.strip_path(vname)), gs.Append(cs), fs);
+            var namespacer1 = new PrefixRenamer(Path.GetFileNameWithoutExtension(vname), gs.Append(cs), fs);
             p = namespacer1.VisitProgram(p);
             //This is needed to tell Boogie to print the instrumented program (inlined version)
             Boogie.Process.InitializeBoogie("/printInstrumented");
