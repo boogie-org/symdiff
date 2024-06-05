@@ -74,20 +74,28 @@ namespace DECOMPOSE_CS
 
         public static int Run(string Command)
         {
-            {
-                int ExitCode;
-                ProcessStartInfo ProcessInfo;
-                Process Process;
+            int ExitCode;
+            ProcessStartInfo ProcessInfo;
+            Process Process;
 
-                ProcessInfo = new ProcessStartInfo("cmd.exe", "/C " + Command);
-                ProcessInfo.CreateNoWindow = true;
-                ProcessInfo.UseShellExecute = false;
-                Process = Process.Start(ProcessInfo);
-                Process.WaitForExit();
-                ExitCode = Process.ExitCode;
-                Process.Close();
-                return ExitCode;
-            }
+            // Split the command into the executable and arguments
+            string[] parts = Command.Split(' ');
+            string executable = parts[0];
+            string arguments = string.Join(" ", parts.Skip(1));
+
+            ProcessInfo = new ProcessStartInfo();
+            ProcessInfo.FileName = executable;
+            ProcessInfo.Arguments = arguments;
+            ProcessInfo.RedirectStandardOutput = true;
+            ProcessInfo.RedirectStandardError = true;
+            ProcessInfo.UseShellExecute = false;
+
+            Process = Process.Start(ProcessInfo);
+            Process.WaitForExit();
+            ExitCode = Process.ExitCode;
+            Process.Close();
+
+            return ExitCode;
         }
     }
 
