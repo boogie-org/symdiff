@@ -6,6 +6,7 @@ using Microsoft.Boogie;
 using Microsoft.BaseTypes; //For BigNum
 using SDiff.Boogie;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using SDiff;
 using SymDiffUtils;
@@ -21,7 +22,8 @@ namespace BoogieWrapper
             int argc = args.Length;
             if (argc < 4)
             {
-                System.Console.WriteLine("Boogiewrapper.exe a.bpl EQ LEFT RIGHT [v1name] [v2name] [bvdfriendly]");
+                var boogieWrapper = "BoogieWrapper" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""); 
+                System.Console.WriteLine(boogieWrapper + " a.bpl EQ LEFT RIGHT [v1name] [v2name] [bvdfriendly]");
                 System.Console.WriteLine("\t   EQ: name of the combined procedure to be verified");
                 System.Console.WriteLine("\t   RIGHT: name of the right procedure");
                 System.Console.WriteLine("\t   RIGHT: name of the right procedure");

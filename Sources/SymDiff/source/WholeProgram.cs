@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Microsoft.Boogie;
 using B = SDiff.Boogie;
 
@@ -1280,7 +1281,8 @@ namespace SDiff
             ProcessStartInfo procInfo = new ProcessStartInfo();
             //System.Diagnostics.Process proc = new System.Diagnostics.Process();
             procInfo.UseShellExecute = false;
-            procInfo.FileName = @"BoogieWrapper.exe";
+            procInfo.FileName = "BoogieWrapper" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""); 
+
 
             procInfo.Arguments = "RS" + vt.Eq.Name + "_out.bpl" + " " + vt.Eq.Name + " " + vt.Left.Name + " " + vt.Right.Name;
             procInfo.WindowStyle = ProcessWindowStyle.Hidden;
