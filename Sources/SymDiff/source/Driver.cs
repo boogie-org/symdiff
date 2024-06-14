@@ -125,6 +125,7 @@ namespace SDiff
               return AllInOneDriver.AllInOneMain(nargs.ToArray());
           } catch (Exception e) {
               Console.WriteLine("Fatal error: SymDiff failed with exception " + e.Message);
+              Console.WriteLine(e.StackTrace);
               return 1;
           }
       }

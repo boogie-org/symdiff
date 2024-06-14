@@ -198,7 +198,7 @@ namespace SDiff
 
     public List<CallGraphNode> GetPostOrder()
     {
-      var roots = SimpleGraph.FindRoots(GetNodes().Cast<ISimpleGraphNode>()).Cast<CallGraphNode>();
+      var roots = SimpleGraph.FindRoots(GetNodes()).Cast<CallGraphNode>();
       var post = new SDiff.PostOrder();
       foreach (var root in roots)
         post.Visit(root);
@@ -248,6 +248,24 @@ namespace SDiff
       var emit = new CallGraphEmitter();
       foreach (var node in Roots)
         emit.Visit(node);
+    }
+    
+    public void DumpDotGraph(string fileName)
+    {
+      var dotGraph = new StringBuilder();
+      dotGraph.AppendLine("digraph G {");
+      dotGraph.AppendLine("  node [shape=box, style=filled, color=lightblue];");
+      foreach (var node in GetNodes())
+      {
+        dotGraph.AppendLine($"  \"{node.Name}\";");
+
+        foreach (var child in node.Callees)
+        {
+          dotGraph.AppendLine($"  \"{node.Name}\" -> \"{child.Name}\";");
+        }
+      }
+      dotGraph.AppendLine("}");
+      File.WriteAllText(fileName + ".gv", dotGraph.ToString());
     }
   }
 
