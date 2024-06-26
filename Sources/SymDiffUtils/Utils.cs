@@ -1049,23 +1049,11 @@ namespace SymDiffUtils
 
             Dictionary<int, Absy> label2absy;
             var vc = SymDiffVC.vcgen.GenerateVC(impl, controlFlowVariableExpr, out label2absy, SymDiffVC.proverInterface.Context);
-            //if (!CommandLineOptions.Clo.UseLabels)
-            //{
-                VCExpr controlFlowFunctionAppl = SymDiffVC.exprGen.ControlFlowFunctionApplication(SymDiffVC.exprGen.Integer(BigNum.ZERO), SymDiffVC.exprGen.Integer(BigNum.ZERO));
-                VCExpr eqExpr = SymDiffVC.exprGen.Eq(controlFlowFunctionAppl, SymDiffVC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
-                vc = SymDiffVC.exprGen.Implies(eqExpr, vc);
-            //}
+            VCExpr controlFlowFunctionAppl = SymDiffVC.exprGen.ControlFlowFunctionApplication(SymDiffVC.exprGen.Integer(BigNum.ZERO), SymDiffVC.exprGen.Integer(BigNum.ZERO));
+            VCExpr eqExpr = SymDiffVC.exprGen.Eq(controlFlowFunctionAppl, SymDiffVC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
+            vc = SymDiffVC.exprGen.Implies(eqExpr, vc);
 
-            /*
-            if (CommandLineOptions.Clo.vcVariety == CommandLineOptions.VCVariety.Local)
-            {
-                SymDiffVC.handler = new VCGen.ErrorReporterLocal(gotoCmdOrigins, label2absy, impl.Blocks, SymDiffVC.vcgen.incarnationOriginMap, SymDiffVC.collector, mvInfo, SymDiffVC.proverInterface.Context, prog);
-            }
-            else
-            {
-                SymDiffVC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, SymDiffVC.vcgen.incarnationOriginMap, SymDiffVC.collector, mvInfo, SymDiffVC.proverInterface.Context, prog);
-            }
-            */
+            SymDiffVC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, new Dictionary<Cmd, List<object>>(), SymDiffVC.collector, mvInfo, SymDiffVC.proverInterface.Context, prog);
             return vc;
         }
         #endregion

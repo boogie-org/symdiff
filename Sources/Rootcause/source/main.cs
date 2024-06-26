@@ -82,7 +82,7 @@ namespace Rootcause
         private static void Go(Implementation impl, string filename)
         {
             if (impl == null) return;
-            // TODO: fix proc check
+            // TODO: re-enable proc check
             //if (CommandLineOptions.Clo.ProcsToCheck != null && CommandLineOptions.Clo.ProcsToCheck.Where(x => impl.Name.StartsWith(x)).Count() == 0) return;
             Console.WriteLine("############# Implementation = {0} #################", impl.Name);
 

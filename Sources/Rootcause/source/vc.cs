@@ -77,23 +77,11 @@ namespace Rootcause
             //Hashtable/*<int, Absy!>*/ label2absy;
             Dictionary<int, Absy> label2absy;
             var vc = VC.vcgen.GenerateVC(impl, controlFlowVariableExpr, out label2absy, VC.proverInterface.Context);
-            //if (!CommandLineOptions.Clo.UseLabels)
-            //{
-                VCExpr controlFlowFunctionAppl = VC.exprGen.ControlFlowFunctionApplication(VC.exprGen.Integer(BigNum.ZERO), VC.exprGen.Integer(BigNum.ZERO));
-                VCExpr eqExpr = VC.exprGen.Eq(controlFlowFunctionAppl, VC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
-                vc = VC.exprGen.Implies(eqExpr, vc);
-            //}
+            VCExpr controlFlowFunctionAppl = VC.exprGen.ControlFlowFunctionApplication(VC.exprGen.Integer(BigNum.ZERO), VC.exprGen.Integer(BigNum.ZERO));
+            VCExpr eqExpr = VC.exprGen.Eq(controlFlowFunctionAppl, VC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
+            vc = VC.exprGen.Implies(eqExpr, vc);
 
-            /*
-            if (CommandLineOptions.Clo.vcVariety == CommandLineOptions.VCVariety.Local)
-            {
-                VC.handler = new VCGen.ErrorReporterLocal(gotoCmdOrigins, label2absy, impl.Blocks, VC.vcgen.incarnationOriginMap, VC.collector, mvInfo, VC.proverInterface.Context, prog);
-            }
-            else
-            {
-                VC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, VC.vcgen.incarnationOriginMap, VC.collector, mvInfo, VC.proverInterface.Context, prog);
-            }
-            */
+            VC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, new Dictionary<Cmd, List<object>>(), VC.collector, mvInfo, VC.proverInterface.Context, prog);
             return vc;
         }
         #endregion 
