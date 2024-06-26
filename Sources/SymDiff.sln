@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SymDiffPreProcess", "SymDif
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SymDiffPostProcess", "SymDiffPostProcess\SymDiffPostProcess.csproj", "{FFE00461-FCCC-48A6-B83C-BDADED554C98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxDiff", "SyntaxDiff\SyntaxDiff.csproj", "{055D220D-FA90-48B9-955F-96F429962512}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SyntaxDiff", "SyntaxDiff\SyntaxDiff.csproj", "{055D220D-FA90-48B9-955F-96F429962512}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

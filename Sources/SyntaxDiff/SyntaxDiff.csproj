@@ -7,21 +7,12 @@
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Boogie">
-      <HintPath>..\references\Boogie.exe</HintPath>
-    </Reference>
-    <Reference Include="Core">
-      <HintPath>..\references\Core.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.TeamFoundation.VersionControl.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.TeamFoundation.VersionControl.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.TeamFoundation.VersionControl.Controls, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="ProgTransformation">
-      <HintPath>..\references\ProgTransformation.dll</HintPath>
-    </Reference>
-    <Reference Include="Provers.SMTLib">
-      <HintPath>..\references\Provers.SMTLib.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Corral\source\ProgTransformation\ProgTransformation.csproj" />
+    <PackageReference Include="Boogie.Provers.SMTLib" Version="2.9.1" />
+    <PackageReference Include="Boogie.Core" Version="2.9.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SymDiffUtils\SymDiffUtils.csproj" />
@@ -32,7 +23,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Text.Data" Version="17.10.191" />
     <PackageReference Include="VSSDK.IDE.12" Version="12.0.4" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="9.0.0-preview.5.24306.7" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0-preview.5.24306.7" />
   </ItemGroup>
 </Project>
