@@ -8,6 +8,7 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.Boogie.VCExprAST;
 using VC;
 using SymDiffUtils;
@@ -1004,7 +1005,8 @@ namespace SymDiffUtils
         public static void InitializeVCGen(Program prog)
         {
             //create VC.vcgen/VC.proverInterface
-            SymDiffVC.vcgen = new VCGen(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, null);
+            var checkerPool = new CheckerPool(CommandLineOptions.Clo);
+            SymDiffVC.vcgen = new VCGen(prog, checkerPool);
             SymDiffVC.proverInterface = ProverInterface.CreateProver(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, CommandLineOptions.Clo.TimeLimit);
             SymDiffVC.translator = SymDiffVC.proverInterface.Context.BoogieExprTranslator;
             SymDiffVC.exprGen = SymDiffVC.proverInterface.Context.ExprGen;
@@ -1017,7 +1019,7 @@ namespace SymDiffUtils
             ProverInterface.Outcome proverOutcome;
             //proverOutcome = MyBeginCheck(descriptiveName, vc, VC.handler); //Crashes now
             SymDiffVC.proverInterface.BeginCheck(descriptiveName, vc, SymDiffVC.handler);
-            proverOutcome = SymDiffVC.proverInterface.CheckOutcome(SymDiffVC.handler);
+            proverOutcome = SymDiffVC.proverInterface.CheckOutcome(SymDiffVC.handler, CommandLineOptions.Clo.ErrorLimit, CancellationToken.None).Result;
             cex = SymDiffVC.collector.examples;
             return proverOutcome;
         }
@@ -1032,7 +1034,7 @@ namespace SymDiffUtils
             SymDiffVC.proverInterface.Push();
             SymDiffVC.proverInterface.Assert(vc, true);
             SymDiffVC.proverInterface.Check();
-            var outcome = SymDiffVC.proverInterface.CheckOutcomeCore(SymDiffVC.handler);
+            var outcome = SymDiffVC.proverInterface.CheckOutcomeCore(SymDiffVC.handler, CancellationToken.None).Result;
             SymDiffVC.proverInterface.Pop();
             return outcome;
         }
@@ -1047,13 +1049,13 @@ namespace SymDiffUtils
             VCExpr controlFlowVariableExpr = /*CommandLineOptions.Clo.UseLabels ? null :*/ SymDiffVC.exprGen.Integer(BigNum.ZERO);
 
 
-            Dictionary<int, Absy> label2absy;
-            var vc = SymDiffVC.vcgen.GenerateVC(impl, controlFlowVariableExpr, out label2absy, SymDiffVC.proverInterface.Context);
+            var absyIds = new ControlFlowIdMap<Absy>();
+            var vc = SymDiffVC.vcgen.GenerateVC(impl, controlFlowVariableExpr, absyIds, SymDiffVC.proverInterface.Context);
             VCExpr controlFlowFunctionAppl = SymDiffVC.exprGen.ControlFlowFunctionApplication(SymDiffVC.exprGen.Integer(BigNum.ZERO), SymDiffVC.exprGen.Integer(BigNum.ZERO));
             VCExpr eqExpr = SymDiffVC.exprGen.Eq(controlFlowFunctionAppl, SymDiffVC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
             vc = SymDiffVC.exprGen.Implies(eqExpr, vc);
 
-            SymDiffVC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, new Dictionary<Cmd, List<object>>(), SymDiffVC.collector, mvInfo, SymDiffVC.proverInterface.Context, prog);
+            SymDiffVC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, absyIds, impl.Blocks, new Dictionary<Cmd, List<object>>(), SymDiffVC.collector, mvInfo, SymDiffVC.proverInterface.Context, prog);
             return vc;
         }
         #endregion

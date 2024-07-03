@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Microsoft.Boogie;
 using B = SDiff.Boogie;
 
@@ -357,7 +358,7 @@ namespace SDiff
             ref Program mergedProgram)
         {
             mergedProgram.TopLevelDeclarations =
-                p2.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl || x is TypeSynonymDecl));
+                p2.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl || x is TypeSynonymDecl)) as IReadOnlyList<Declaration>;
             mergedProgram.AddTopLevelDeclarations(
               p1.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl || x is TypeSynonymDecl)));
             mergedProgram.AddTopLevelDeclarations(t2s); //[SKL]: why are we adding t2s
@@ -603,7 +604,7 @@ namespace SDiff
                 try
                 {
                     List<Counterexample> errors;
-                    outcome = vcgen.VerifyImplementation(n, /*p,*/ out errors);
+                    outcome = vcgen.VerifyImplementation(n, out errors, "TODO:requestId", CancellationToken.None);
                 }
                 catch (Exception e)
                 {
@@ -1418,7 +1419,7 @@ namespace SDiff
             //collect type decls
             IEnumerable<Declaration>
               t2s = p2.TopLevelDeclarations.Where(x => x is TypeCtorDecl || x is TypeSynonymDecl);
-            p1.TopLevelDeclarations = p1.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl) && !(x is TypeSynonymDecl));
+            p1.TopLevelDeclarations = p1.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl) && !(x is TypeSynonymDecl)) as IReadOnlyList<Declaration>;
             p1.AddTopLevelDeclarations(t2s);
             //the types of the two programs are unified even before Resolve
             //collect globals, constants, functions, and axioms

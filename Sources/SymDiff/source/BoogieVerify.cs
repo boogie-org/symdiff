@@ -7,7 +7,9 @@ using Microsoft.BaseTypes; //For BigNum
 using SDiff.Boogie;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using SymDiffUtils;
+using VC;
 using Util = SymDiffUtils.Util;
 
 namespace SDiff
@@ -160,8 +162,7 @@ namespace SDiff
         public static VC.ConditionGeneration.Outcome MyVerifyImplementation(Implementation impl, Program prog)
         {
             VC.ConditionGeneration vcgen = BoogieVerify.InitializeVC(prog);
-            List<Counterexample> errs;
-            var outcome = vcgen.VerifyImplementation(impl, out errs) ;
+            var outcome = vcgen.VerifyImplementation(impl, out var errs, "TODO:requestId", CancellationToken.None) ;
             vcgen.Close();
             return outcome;
         }
@@ -183,7 +184,7 @@ namespace SDiff
 
             //Log.Out(Log.Verifier, "Verifying implementation " + impl.Name);
 
-            List<Counterexample> errors;
+            List<Counterexample> errors = new List<Counterexample>();
             VerificationResult sdoutcome = VerificationResult.Unknown;
             VC.VCGen.Outcome outcome;
 
@@ -200,7 +201,7 @@ namespace SDiff
                 var start = DateTime.Now;
 
                 //outcome = vcgen.VerifyImplementation(impl, prog, out errors);
-                outcome = vcgen.VerifyImplementation(impl, /*prog,*/ out errors, "TODO: requestId"); //out errorsModel);
+                outcome = vcgen.VerifyImplementation(impl, out errors, "TODO:requestId", CancellationToken.None);
                 var end = DateTime.Now;
 
                 TimeSpan elapsed = end - start;
@@ -292,10 +293,10 @@ namespace SDiff
 
         public static VC.ConditionGeneration InitializeVC(Program prog)
         {
+            var checkerPool = new CheckerPool(CommandLineOptions.Clo);
             VC.ConditionGeneration vcgen = null;
-            try
-            {
-                vcgen = new VC.VCGen(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, new List<Checker>());
+            try {
+                vcgen = new VC.VCGen(prog, checkerPool);
             }
             catch (ProverException)
             {

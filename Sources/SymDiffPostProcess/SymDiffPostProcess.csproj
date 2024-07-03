@@ -12,8 +12,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="Boogie.Core" Version="2.9.1" />
-    <PackageReference Include="Boogie.Graph" Version="2.9.1" />
-    <PackageReference Include="Boogie.Provers.SMTLib" Version="2.9.1" />
+    <PackageReference Include="Boogie.Core" Version="2.11.5" />
+    <PackageReference Include="Boogie.Graph" Version="2.11.5" />
+    <PackageReference Include="Boogie.Provers.SMTLib" Version="2.11.5" />
   </ItemGroup>
 </Project>

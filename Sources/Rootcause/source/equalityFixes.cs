@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
@@ -1298,11 +1299,8 @@ namespace Rootcause
         //Check for satisfiability.
         private static ProverInterface.Outcome CheckSatisfiability(List<VCExpr> Hard)
         {
-            List<int> unsatClauseIdentifiers = new List<int>();
-
-            ProverInterface.Outcome outcome = ProverInterface.Outcome.Undetermined;
             Utils.CheckRootcauseTimeout(sw);
-            outcome = VC.proverInterface.CheckAssumptions(Hard, new List<VCExpr>(), out unsatClauseIdentifiers, VC.handler);
+            var (outcome, _) = VC.proverInterface.CheckAssumptions(Hard, VC.handler, CancellationToken.None).Result;
             return outcome;
         }
 
@@ -1312,10 +1310,8 @@ namespace Rootcause
             List<VCExpr> HardVCExprs = Hard;
             List<VCExpr> SoftVCExprs = Soft.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x));
 
-            List<int> unsatClauseIdentifiers = new List<int>();
-            ProverInterface.Outcome outcome = ProverInterface.Outcome.Undetermined;
             Utils.CheckRootcauseTimeout(sw);
-            outcome = VC.proverInterface.CheckAssumptions(HardVCExprs, SoftVCExprs, out unsatClauseIdentifiers, VC.handler);
+            var (outcome, unsatClauseIdentifiers) = VC.proverInterface.CheckAssumptions(HardVCExprs, VC.handler, CancellationToken.None).Result;
 
             //if outcome == Timeout, Z3 retunns UNSAT for later calls, best to exit
             if (outcome == ProverInterface.Outcome.TimeOut || outcome == ProverInterface.Outcome.OutOfMemory)

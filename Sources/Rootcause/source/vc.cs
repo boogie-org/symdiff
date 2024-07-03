@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
@@ -29,8 +30,8 @@ namespace Rootcause
         public static void InitializeVCGen(Program prog)
         { 
             //create VC.vcgen/VC.proverInterface
-            VC.vcgen = new VCGen(prog, CommandLineOptions.Clo.ProverLogFilePath, 
-                CommandLineOptions.Clo.ProverLogFileAppend, new List<Checker>());
+            var checkerPool = new CheckerPool(CommandLineOptions.Clo);
+            VC.vcgen = new VCGen(prog, checkerPool);
             VC.proverInterface = ProverInterface.CreateProver(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, CommandLineOptions.Clo.TimeLimit);
             VC.translator = VC.proverInterface.Context.BoogieExprTranslator;
             VC.exprGen = VC.proverInterface.Context.ExprGen;
@@ -43,7 +44,8 @@ namespace Rootcause
             ProverInterface.Outcome proverOutcome;
             //proverOutcome = MyBeginCheck(descriptiveName, vc, VC.handler); //Crashes now
             VC.proverInterface.BeginCheck(descriptiveName, vc, VC.handler);
-            proverOutcome = VC.proverInterface.CheckOutcome(VC.handler);
+            proverOutcome =
+                VC.proverInterface.CheckOutcome(VC.handler, CommandLineOptions.Clo.ErrorLimit, CancellationToken.None).Result;
             cex = VC.collector.examples;
             return proverOutcome;
         }
@@ -58,7 +60,7 @@ namespace Rootcause
             VC.proverInterface.Push();
             VC.proverInterface.Assert(vc, true);
             VC.proverInterface.Check();
-            var outcome = VC.proverInterface.CheckOutcomeCore(VC.handler);
+            var outcome = VC.proverInterface.CheckOutcomeCore(VC.handler, CancellationToken.None).Result;
             VC.proverInterface.Pop();
             return outcome;
         }
@@ -75,13 +77,13 @@ namespace Rootcause
 
 
             //Hashtable/*<int, Absy!>*/ label2absy;
-            Dictionary<int, Absy> label2absy;
-            var vc = VC.vcgen.GenerateVC(impl, controlFlowVariableExpr, out label2absy, VC.proverInterface.Context);
+            var absyIds = new ControlFlowIdMap<Absy>();
+            var vc = VC.vcgen.GenerateVC(impl, controlFlowVariableExpr, absyIds, VC.proverInterface.Context);
             VCExpr controlFlowFunctionAppl = VC.exprGen.ControlFlowFunctionApplication(VC.exprGen.Integer(BigNum.ZERO), VC.exprGen.Integer(BigNum.ZERO));
             VCExpr eqExpr = VC.exprGen.Eq(controlFlowFunctionAppl, VC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
             vc = VC.exprGen.Implies(eqExpr, vc);
 
-            VC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, new Dictionary<Cmd, List<object>>(), VC.collector, mvInfo, VC.proverInterface.Context, prog);
+            VC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, absyIds, impl.Blocks, new Dictionary<Cmd, List<object>>(), VC.collector, mvInfo, VC.proverInterface.Context, prog);
             return vc;
         }
         #endregion 

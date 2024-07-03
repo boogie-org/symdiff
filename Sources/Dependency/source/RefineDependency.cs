@@ -7,6 +7,7 @@ using Microsoft.Boogie;
 using Microsoft.Boogie.GraphUtil;
 using System.Collections;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.Boogie.VCExprAST;
 using VC;
 using Microsoft.BaseTypes;
@@ -493,7 +494,6 @@ namespace Dependency
                 return;
             }
 
-            List<int> unsatClauseIdentifiers = new List<int>();
             var assumptions = new List<VCExpr>();
             assumptions.Add(VC.exprGen.Not(newVC));
 
@@ -502,7 +502,8 @@ namespace Dependency
 
             //VERY IMPORTANT: TO USE UNSAT CORE, SET ContractInfer to true in CommandLineOptions.Clo.
             outcome = ProverInterface.Outcome.Undetermined;
-            outcome = VC.proverInterface.CheckAssumptions(assumptions, out unsatClauseIdentifiers, VC.handler);
+            var (newoutcome, unsatClauseIdentifiers) = VC.proverInterface.CheckAssumptions(assumptions, VC.handler, CancellationToken.None).Result;
+            outcome = newoutcome;
             Console.Write("+");
             if (outcome == ProverInterface.Outcome.Invalid && unsatClauseIdentifiers.Count() == 0)
             {

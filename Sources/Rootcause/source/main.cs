@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
@@ -182,9 +183,10 @@ namespace Rootcause
             int i = 0;
             if (Options.verbose > 0) cex.Clear();
             Utils.PrintQueryToMAXSAT(prog,hard, soft, impl);
-            ProverInterface.Outcome t = ProverInterface.Outcome.Undetermined;
-            while ((t = VC.proverInterface.CheckAssumptions(hard, soft, out unsat, VC.handler)) == ProverInterface.Outcome.Invalid)
+            ProverInterface.Outcome t = ProverInterface.Outcome.Invalid;
+            while (t == ProverInterface.Outcome.Invalid)
             {
+                (t, unsat) = VC.proverInterface.CheckAssumptions(hard, VC.handler, CancellationToken.None).Result;
                 Console.WriteLine("---------- Cause {0} ----------", ++i);
                 unsat.ForEach(x => Console.WriteLine("\t Stmt => {0}", preds2Stmt[soft[x].ToString()].ToString())); //don't index into soft and remove from it
                 if (Options.verbose == 2)

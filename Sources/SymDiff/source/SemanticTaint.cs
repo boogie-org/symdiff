@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using SDiff;
@@ -153,7 +154,7 @@ namespace SymDiff
         {
           //VERY IMPORTANT: TO USE UNSAT CORE, SET ContractInfer to true in CommandLineOptions.Clo.
           outcome = ProverInterface.Outcome.Undetermined;
-          outcome = SymDiffVC.proverInterface.CheckAssumptions(assumptions, out unsatClauseIdentifiers, SymDiffVC.handler);
+          (outcome, unsatClauseIdentifiers) = SymDiffVC.proverInterface.CheckAssumptions(assumptions, SymDiffVC.handler, CancellationToken.None).Result;
           Debug.Assert(outcome == ProverInterface.Outcome.Valid);
           Console.Write("+");
           Debug.Assert(unsatClauseIdentifiers.Count() > 0, "Something went wrong! Unsat core with 0 elements");

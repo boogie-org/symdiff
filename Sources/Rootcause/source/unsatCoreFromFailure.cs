@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
@@ -93,7 +94,7 @@ namespace Rootcause
             cex.Clear();
 
             ProverInterface.Outcome t = ProverInterface.Outcome.Undetermined;
-            t = VC.proverInterface.CheckAssumptions(hard, out unsat, VC.handler);
+            (t, unsat) = VC.proverInterface.CheckAssumptions(hard, VC.handler, CancellationToken.None).Result;
             if (t == ProverInterface.Outcome.Valid)
             {
                 foreach (int x in unsat)
@@ -155,7 +156,7 @@ namespace Rootcause
             if (Options.verbose > 0) cex.Clear();
             Utils.PrintQueryToMAXSAT(prog, hard, soft, impl);
             ProverInterface.Outcome t = ProverInterface.Outcome.Undetermined;
-            t = VC.proverInterface.CheckAssumptions(hard, out unsat, VC.handler);
+            (t, unsat) = VC.proverInterface.CheckAssumptions(hard, VC.handler, CancellationToken.None).Result;
             if (t == ProverInterface.Outcome.Valid)
             {
                 foreach (int x in unsat)
@@ -237,9 +238,8 @@ namespace Rootcause
             var hardConstraints = new List<VCExpr>();
             hardConstraints.Add(VC.exprGen.And(modelExpr, VC.exprGen.And(trueAssertions, progVC)));
             hardConstraints.AddRange(predConsts.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)));
-            var unsat = new List<int>();
-            ProverInterface.Outcome t = ProverInterface.Outcome.Undetermined;
-            if ((t = VC.proverInterface.CheckAssumptions(hardConstraints, out unsat, VC.handler)) == ProverInterface.Outcome.Valid)
+            var (t, unsat) = VC.proverInterface.CheckAssumptions(hardConstraints, VC.handler, CancellationToken.None).Result;                
+            if (t == ProverInterface.Outcome.Valid)
             {
 
                 Console.WriteLine("Finished phase 2a");
