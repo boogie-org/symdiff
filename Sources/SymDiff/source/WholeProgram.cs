@@ -658,8 +658,6 @@ namespace SDiff
         }
         private static void InsertConstantsOK(string filenamePrefix, Program Prog, int n)
         {
-            /*
-            CodeCopier codeCopier = new CodeCopier();
             String OKstr = filenamePrefix + ".OK";// +n;
             AddIteAxiom(filenamePrefix, Prog.TopLevelDeclarations.ToList());
 
@@ -684,13 +682,11 @@ namespace SDiff
                     {
                         AssertCmd assertCmd = cmd as AssertCmd;
                         AssumeCmd assumeCmd = cmd as AssumeCmd;
-                        if (assertCmd == null || assertCmd.Attributes == null)
-                        {
-                            newCmds.Add(codeCopier.CopyCmd(cmd));
+                        if (assertCmd == null || assertCmd.Attributes == null) {
+                            newCmds.Add((Cmd) cmd.Clone());
                         }
-                        else
-                        {
-                            newCmds.Add(codeCopier.CopyCmd(cmd));
+                        else {
+                            newCmds.Add((Cmd) cmd.Clone());
                             if (!assertCmd.Attributes.Key.Contains("sourcefile"))
                                 continue;
                             if (!assertCmd.Attributes.Next.Key.Contains("sourceline"))
@@ -720,7 +716,7 @@ namespace SDiff
 
                     }
                     if (newAssumeCmd != null)
-                        newCmds.Add(codeCopier.CopyCmd(newAssumeCmd));
+                        newCmds.Add(newAssumeCmd);
 
                     newBlock = new Block(block.tok, block.Label, newCmds, block.TransferCmd);
                     newBlocks.Add(newBlock);
@@ -728,7 +724,6 @@ namespace SDiff
                 impl.Blocks = newBlocks;
             }
             Prog.AddTopLevelDeclarations(decls); //Prog.TopLevelDeclarations.InsertRange(1, decls);
-            */
         }
         private static string FindOK1var(List<Cmd> cmdSeq, string p1prefix)
         {
@@ -775,9 +770,7 @@ namespace SDiff
         }
         private static void InsertOKProcs(string OKstr, Program p, string filename)
         {
-            /*
             OKstr = filename.Replace(".bpl", "") + "." + OKstr;
-            CodeCopier codeCopier = new CodeCopier();
             IEnumerable<Declaration> impls = p.TopLevelDeclarations.Where(x => x is Implementation);
             foreach (Implementation impl in impls)
             {
@@ -793,7 +786,7 @@ namespace SDiff
                         AssertCmd assertCmd = cmd as AssertCmd;
                         if (assertCmd == null)
                         {
-                            newCmds.Add(codeCopier.CopyCmd(cmd));
+                            newCmds.Add((Cmd)cmd.Clone());
                         }
                         else
                         {
@@ -805,8 +798,8 @@ namespace SDiff
                             token.filename = filename;
                             Expr pred = Expr.And(Expr.Ident(OKstr, new BasicType(SimpleType.Bool)), assertCmd.Expr);
                             AssignCmd assignToOK = Cmd.SimpleAssign(token, new IdentifierExpr(new Token(), OKstr, new BasicType(SimpleType.Bool)), pred);
-                            newCmds.Add(codeCopier.CopyCmd(assignToOK));
-                            newCmds.Add(codeCopier.CopyCmd(cmd));
+                            newCmds.Add(assignToOK);
+                            newCmds.Add((Cmd)cmd.Clone());
                         }
                     }
                     newBlock = new Block(block.tok, block.Label, newCmds, block.TransferCmd);
@@ -814,7 +807,6 @@ namespace SDiff
                 }
                 impl.Blocks = newBlocks;
             }
-            */
         }
 
         //Differential inlining
