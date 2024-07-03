@@ -7,6 +7,7 @@ using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using SDiff;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 //This file contains various routines for performing taint related analysis
 namespace SymDiff

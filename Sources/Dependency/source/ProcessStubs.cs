@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Boogie;
 using System.Diagnostics;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 namespace Dependency.source
 {

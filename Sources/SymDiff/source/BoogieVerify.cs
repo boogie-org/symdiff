@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Boogie;
-using Microsoft.Basetypes; //For BigNum
+using Microsoft.BaseTypes; //For BigNum
 using SDiff.Boogie;
 using System.IO;
 using System.Text.RegularExpressions;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 namespace SDiff
 {
@@ -164,7 +165,7 @@ namespace SDiff
             vcgen.Close();
             return outcome;
         }
-        public static VerificationResult VerifyImplementation(VC.ConditionGeneration vcgen, Implementation impl, Program prog, out SDiffCounterexamples cex, out List<Model> errModelList)
+        public static VerificationResult VerifyImplementation(VC.ConditionGeneration vcgen, Implementation impl, Program prog, out SDiffCounterexamples cex)
         {
 
             VerifyImplCleanup vic;
@@ -173,7 +174,6 @@ namespace SDiff
 
 
             cex = null;
-            errModelList = null;
 
             if (impl == null)
             {
@@ -184,7 +184,6 @@ namespace SDiff
             //Log.Out(Log.Verifier, "Verifying implementation " + impl.Name);
 
             List<Counterexample> errors;
-            List<Model> errorsModel;
             VerificationResult sdoutcome = VerificationResult.Unknown;
             VC.VCGen.Outcome outcome;
 
@@ -201,9 +200,7 @@ namespace SDiff
                 var start = DateTime.Now;
 
                 //outcome = vcgen.VerifyImplementation(impl, prog, out errors);
-                outcome = vcgen.VerifyImplementation(impl, /*prog,*/ out errors, out errorsModel);
-                errModelList = errorsModel;
-
+                outcome = vcgen.VerifyImplementation(impl, /*prog,*/ out errors, "TODO: requestId"); //out errorsModel);
                 var end = DateTime.Now;
 
                 TimeSpan elapsed = end - start;
@@ -298,15 +295,7 @@ namespace SDiff
             VC.ConditionGeneration vcgen = null;
             try
             {
-                if (CommandLineOptions.Clo.vcVariety == CommandLineOptions.VCVariety.Doomed)
-                {
-                    throw new Exception("The doomed option is not supported in SymDiff");
-                    //vcgen = new VC.DCGen(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend);
-                }
-                else
-                {
-                    vcgen = new VC.VCGen(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend, new List<Checker>());
-                }
+                vcgen = new VC.VCGen(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, new List<Checker>());
             }
             catch (ProverException)
             {
@@ -850,7 +839,6 @@ namespace SDiff
             Inliner.ProcessImplementation(prog, vt.Eq);
 
             SDiffCounterexamples SErrors = null;
-            List<Model> errModelList = null;
             Implementation newEq = null;
             Program newProg = null;
             Dictionary<string, Declaration> newDict = null;
@@ -896,7 +884,7 @@ namespace SDiff
                 //RS: Uncomment this
                 newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
 
-                vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors, out errModelList);
+                vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors);
 
 
 
@@ -957,9 +945,7 @@ namespace SDiff
                     globals.Add(ie.Decl);
 
 
-                if (SErrors != null &&
-                    SErrors.Count > 0 &&
-                    errModelList.Count == SErrors.Count) //change as now SErrors can be nonnull, yet Count == 0. Sometimes model.Count < SErrror!!
+                if (SErrors != null && SErrors.Count > 0) //change as now SErrors can be nonnull, yet Count == 0. Sometimes model.Count < SErrror!!
                 {
                     //somewhat misnamed...
                     if (Options.DumpBeforeVerifying)
@@ -975,7 +961,7 @@ namespace SDiff
                         if (Options.PreciseDifferentialInline)
                         {
                             List<Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant).ToList();
-                            ProcessCounterexamplesWOSymbolicOut(SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, errModelList);
+                            ProcessCounterexamplesWOSymbolicOut(SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, [SErrors[0].fst.Model]);
                         }
                         else
                         {

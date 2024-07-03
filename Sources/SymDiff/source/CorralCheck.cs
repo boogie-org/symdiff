@@ -6,6 +6,7 @@ using System.Diagnostics;
 using Microsoft.Boogie;
 using SymDiff;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 namespace SDiff
 {

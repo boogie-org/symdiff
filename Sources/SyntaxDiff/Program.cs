@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Differencing;
 using Microsoft.VisualStudio.Utilities;
 using SourceAnalyzer;
@@ -10,13 +9,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using Microsoft.TeamFoundation.VersionControl.Common;
 using Microsoft.Boogie;
-using SymDiffUtils; 
-
+using SymDiffUtils;
+using Difference = Microsoft.TeamFoundation.VersionControl.Client.Difference;
+using Util = SymDiffUtils.Util;
 
 
 namespace SyntaxDiff
@@ -361,7 +359,7 @@ namespace SyntaxDiff
         /// <returns></returns>
         public Tuple<List<int>, List<int>> DiffStrings(List<string> s, List<string> t)
         {
-            if (s.Count == t.Count && s.Zip(t).Where(x => x.Item1 != x.Item2).Count() == 0)
+            if (s.Count == t.Count && s.Zip(t, (a, b) => new Tuple<string, string>(a, b)).All(x => x.Item1 == x.Item2))
             {
                 Console.WriteLine("No diffs");
                 return Tuple.Create(new List<int>(), new List<int>());
@@ -380,9 +378,9 @@ namespace SyntaxDiff
             diffOptions.OutputType = DiffOutputType.Unified;
 
             // Wherever we want to send our text-based diff output 
-            diffOptions.StreamWriter = new System.IO.StreamWriter(Console.OpenStandardOutput());
+            diffOptions.StreamWriter = new StreamWriter(Console.OpenStandardOutput());
 
-            DiffSegment diffs = Microsoft.TeamFoundation.VersionControl.Client.Difference.DiffFiles(
+            DiffSegment diffs = Difference.DiffFiles(
                 sFileName, FileType.Detect(sFileName, null), tFileName, FileType.Detect(tFileName, null), diffOptions);
 
             var diff = diffs;

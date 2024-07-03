@@ -8,6 +8,7 @@ using B = SDiff.Boogie;
 using Microsoft.Boogie.Houdini;
 using SymDiffUtils;
 using SymDiff;
+using Util = SymDiffUtils.Util;
 
 namespace SDiff
 {
@@ -102,7 +103,7 @@ namespace SDiff
             CommandLineOptions.Clo.ContractInfer = true;
 
             //TODO: need to pass inferContracts options that run_symdiff_bpl passed to Boogie.exe
-            var boogieOptions = " /typeEncoding:m /noinfer " + Options.BoogieUserOpts /* + " /trace " */;
+            var boogieOptions = " /monomorphize /noinfer " + Options.BoogieUserOpts /* + " /trace " */;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
             var mps = Options.MergedProgramOutputFile; 
             var program = BoogieUtils.ParseProgram(mps);

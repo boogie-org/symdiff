@@ -1,19 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <TargetFramework>net8.0</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{053B9089-ECF9-4B67-9858-4F2C78502BBF}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rootcause</RootNamespace>
-    <AssemblyName>Rootcause</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,72 +18,19 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>../bin/</OutputPath>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="AbsInt">
-      <HintPath>..\references\AbsInt.dll</HintPath>
-    </Reference>
-    <Reference Include="Basetypes">
-      <HintPath>..\references\Basetypes.dll</HintPath>
-    </Reference>
-    <Reference Include="Core">
-      <HintPath>..\references\Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Model">
-      <HintPath>..\references\Model.dll</HintPath>
-    </Reference>
-    <Reference Include="ParserHelper">
-      <HintPath>..\references\ParserHelper.dll</HintPath>
-    </Reference>
-    <Reference Include="Provers.SMTLib">
-      <HintPath>..\references\Provers.SMTLib.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="VCExpr">
-      <HintPath>..\references\VCExpr.dll</HintPath>
-    </Reference>
-    <Reference Include="VCGeneration">
-      <HintPath>..\references\VCGeneration.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\assemblyInfo.cs" />
-    <Compile Include="source\datatypes.cs" />
-    <Compile Include="source\equalityFixes.cs" />
-    <Compile Include="source\main.cs" />
-    <Compile Include="source\options.cs" />
-    <Compile Include="source\unsatCoreFromFailure.cs" />
-    <Compile Include="source\utils.cs" />
-    <Compile Include="source\vc.cs" />
-  </ItemGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>../bin/</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
       <Visible>False</Visible>
@@ -118,14 +54,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Boogie.AbsInt" Version="2.9.1" />
+    <PackageReference Include="Boogie.BaseTypes" Version="2.9.1" />
+    <PackageReference Include="Boogie.Core" Version="2.9.1" />
+    <PackageReference Include="Boogie.Model" Version="2.9.1" />
+    <PackageReference Include="Boogie.Provers.SMTLib" Version="2.9.1" />
+    <PackageReference Include="Boogie.VCExpr" Version="2.9.1" />
+    <PackageReference Include="Boogie.VCGeneration" Version="2.9.1" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <Compile Remove="source\options_old.cs" />
+  </ItemGroup>
 </Project>

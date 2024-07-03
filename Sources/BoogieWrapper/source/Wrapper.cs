@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Boogie;
-using Microsoft.Basetypes; //For BigNum
+using Microsoft.BaseTypes; //For BigNum
 using SDiff.Boogie;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using SDiff;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 namespace BoogieWrapper
 {
@@ -20,7 +22,8 @@ namespace BoogieWrapper
             int argc = args.Length;
             if (argc < 4)
             {
-                System.Console.WriteLine("Boogiewrapper.exe a.bpl EQ LEFT RIGHT [v1name] [v2name] [bvdfriendly]");
+                var boogieWrapper = "BoogieWrapper" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""); 
+                System.Console.WriteLine(boogieWrapper + " a.bpl EQ LEFT RIGHT [v1name] [v2name] [bvdfriendly]");
                 System.Console.WriteLine("\t   EQ: name of the combined procedure to be verified");
                 System.Console.WriteLine("\t   RIGHT: name of the right procedure");
                 System.Console.WriteLine("\t   RIGHT: name of the right procedure");
@@ -32,7 +35,7 @@ namespace BoogieWrapper
             string funcName = args[1];
 
             //TODO: Make it aware of the other Boogie options
-            var boogieOptions = " -doModSetAnalysis -printInstrumented -z3multipleErrors -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
+            var boogieOptions = " -doModSetAnalysis -printInstrumented -monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
 
             Program prog = BoogieUtils.ParseProgram(args[0]);
@@ -67,7 +70,7 @@ namespace BoogieWrapper
             SDiffCounterexamples SErrors;
             List<Model> errModelList;
 
-            var Result = BoogieVerify.VerifyImplementation(vcgen, newEq, newProg, out SErrors, out errModelList);
+            var Result = BoogieVerify.VerifyImplementation(vcgen, newEq, newProg, out SErrors);
 
             switch (Result)
             {
@@ -119,9 +122,9 @@ namespace BoogieWrapper
                     {
                         IEnumerable <Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant);
                         if (args.Length < 6)
-                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts.ToList(), errModelList);
+                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts.ToList(), [SErrors[0].fst.Model]);
                         else
-                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts.ToList(), errModelList, args[4], args[5]);
+                            BoogieVerify.ProcessCounterexamplesWOSymbolicOut(SErrors, globals, newEq.LocVars, null, null, consts.ToList(), [SErrors[0].fst.Model], args[4], args[5]);
                     }
                     else
                     {

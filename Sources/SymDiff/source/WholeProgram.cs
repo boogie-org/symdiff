@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Microsoft.Boogie;
 using B = SDiff.Boogie;
 
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 //there is massive duplication here in case it turns out that the allinone approach (even with dumping at every verify) is not useful
 
@@ -280,8 +282,8 @@ namespace SDiff
             if (args.Length < 3) { AllInOneUsage(); return 1; }
             v1name = args[0];
             v2name = args[1];
-            p1Prefix = v1name.Replace(".bpl", "");
-            p2Prefix = v2name.Replace(".bpl", "");
+            p1Prefix = Path.GetFileNameWithoutExtension(v1name);;
+            p2Prefix = Path.GetFileNameWithoutExtension(v2name);
             if (!v1name.EndsWith(".bpl"))
             {
                 Log.Out(Log.Error, "Expecting inputs files with .bpl, got " + v1name);
@@ -292,7 +294,7 @@ namespace SDiff
                 Log.Out(Log.Error, "Expecting inputs files with .bpl, got " + v2name);
                 return 1;
             }
-            if (v1name.Equals(v2name))
+            if (v1name.Equals(v2name) || p1Prefix.Equals(p2Prefix))
             {
                 Log.Out(Log.Error, "Programs must have different filenames");
                 return 1;
@@ -456,7 +458,7 @@ namespace SDiff
         public static void RenameSymbolsByVersion(ref Program p, List<Declaration> gs, List<Declaration> cs, List<Declaration> fs, string vname)
         {
             //strip_path(...) is string v1.foo.bpl --> foo.bpl  
-            var namespacer1 = new PrefixRenamer(Util.strip_suffix(Util.strip_path(vname)), gs.Append(cs), fs);
+            var namespacer1 = new PrefixRenamer(Path.GetFileNameWithoutExtension(vname), gs.Append(cs), fs);
             p = namespacer1.VisitProgram(p);
             //This is needed to tell Boogie to print the instrumented program (inlined version)
             Boogie.Process.InitializeBoogie("/printInstrumented");
@@ -582,7 +584,7 @@ namespace SDiff
 
             CallGraph cg = CallGraph.Make(p);
 
-            var boogieOptions = "-z3multipleErrors -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0" + " -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
+            var boogieOptions = " -monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0" + " -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
             Boogie.Process.InitializeBoogie(boogieOptions);
 
             var vcgen = BoogieVerify.InitializeVC(p);
@@ -656,7 +658,6 @@ namespace SDiff
         }
         private static void InsertConstantsOK(string filenamePrefix, Program Prog, int n)
         {
-            CodeCopier codeCopier = new CodeCopier();
             String OKstr = filenamePrefix + ".OK";// +n;
             AddIteAxiom(filenamePrefix, Prog.TopLevelDeclarations.ToList());
 
@@ -681,13 +682,11 @@ namespace SDiff
                     {
                         AssertCmd assertCmd = cmd as AssertCmd;
                         AssumeCmd assumeCmd = cmd as AssumeCmd;
-                        if (assertCmd == null || assertCmd.Attributes == null)
-                        {
-                            newCmds.Add(codeCopier.CopyCmd(cmd));
+                        if (assertCmd == null || assertCmd.Attributes == null) {
+                            newCmds.Add((Cmd) cmd.Clone());
                         }
-                        else
-                        {
-                            newCmds.Add(codeCopier.CopyCmd(cmd));
+                        else {
+                            newCmds.Add((Cmd) cmd.Clone());
                             if (!assertCmd.Attributes.Key.Contains("sourcefile"))
                                 continue;
                             if (!assertCmd.Attributes.Next.Key.Contains("sourceline"))
@@ -709,7 +708,7 @@ namespace SDiff
                             var newConstDecl = new Constant(new Token(), new TypedIdent(new Token(), "__ctobpl_const_" + cnum, BasicType.Int), true);
                             newConstDecl.AddAttribute("sourceLine", assertCmd.Attributes.Next.Params[0]);
                             newConstDecl.AddAttribute("sourceFile", assertCmd.Attributes.Params[0]);
-                            newConstDecl.AddAttribute("model_const", "OK"/*+n*/);
+                            newConstDecl.AddAttribute("model_const", "OK");
                             decls.Add(newConstDecl);
 
                             cnum++;
@@ -717,7 +716,7 @@ namespace SDiff
 
                     }
                     if (newAssumeCmd != null)
-                        newCmds.Add(codeCopier.CopyCmd(newAssumeCmd));
+                        newCmds.Add(newAssumeCmd);
 
                     newBlock = new Block(block.tok, block.Label, newCmds, block.TransferCmd);
                     newBlocks.Add(newBlock);
@@ -725,7 +724,6 @@ namespace SDiff
                 impl.Blocks = newBlocks;
             }
             Prog.AddTopLevelDeclarations(decls); //Prog.TopLevelDeclarations.InsertRange(1, decls);
-
         }
         private static string FindOK1var(List<Cmd> cmdSeq, string p1prefix)
         {
@@ -773,7 +771,6 @@ namespace SDiff
         private static void InsertOKProcs(string OKstr, Program p, string filename)
         {
             OKstr = filename.Replace(".bpl", "") + "." + OKstr;
-            CodeCopier codeCopier = new CodeCopier();
             IEnumerable<Declaration> impls = p.TopLevelDeclarations.Where(x => x is Implementation);
             foreach (Implementation impl in impls)
             {
@@ -789,7 +786,7 @@ namespace SDiff
                         AssertCmd assertCmd = cmd as AssertCmd;
                         if (assertCmd == null)
                         {
-                            newCmds.Add(codeCopier.CopyCmd(cmd));
+                            newCmds.Add((Cmd)cmd.Clone());
                         }
                         else
                         {
@@ -801,8 +798,8 @@ namespace SDiff
                             token.filename = filename;
                             Expr pred = Expr.And(Expr.Ident(OKstr, new BasicType(SimpleType.Bool)), assertCmd.Expr);
                             AssignCmd assignToOK = Cmd.SimpleAssign(token, new IdentifierExpr(new Token(), OKstr, new BasicType(SimpleType.Bool)), pred);
-                            newCmds.Add(codeCopier.CopyCmd(assignToOK));
-                            newCmds.Add(codeCopier.CopyCmd(cmd));
+                            newCmds.Add(assignToOK);
+                            newCmds.Add((Cmd)cmd.Clone());
                         }
                     }
                     newBlock = new Block(block.tok, block.Label, newCmds, block.TransferCmd);
@@ -1276,7 +1273,8 @@ namespace SDiff
             ProcessStartInfo procInfo = new ProcessStartInfo();
             //System.Diagnostics.Process proc = new System.Diagnostics.Process();
             procInfo.UseShellExecute = false;
-            procInfo.FileName = @"BoogieWrapper.exe";
+            procInfo.FileName = "BoogieWrapper" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""); 
+
 
             procInfo.Arguments = "RS" + vt.Eq.Name + "_out.bpl" + " " + vt.Eq.Name + " " + vt.Left.Name + " " + vt.Right.Name;
             procInfo.WindowStyle = ProcessWindowStyle.Hidden;

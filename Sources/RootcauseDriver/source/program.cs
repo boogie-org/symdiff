@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,7 +27,8 @@ namespace RootcauseDriver
         private void Usage()
         {
             Console.WriteLine("Usage:\n");
-            Console.WriteLine("RootcauseDriver.exe [options]");
+            var cmd = "RootcauseDriver" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""); 
+            Console.WriteLine(cmd + " [options]");
         }
         static void Main(string[] args)
         {
@@ -77,7 +79,8 @@ namespace RootcauseDriver
             var args = " " + WrapPath(dirInfo.Item2) + @" /htmlInput:" + WrapPath(dirInfo.Item3) + " " + options.Item1 + @" /htmlTag:" + options.Item2;
             args += @" /outputPath:" + dirInfo.Item1 + " ";
             args += @" /rootcauseTimeout:" + Options.timeoutPerProcess + " ";
-            Tuple<string,string,string,string> o = ExecuteBinary(rootcauseBinaryPath + @"Rootcause.exe", args);
+            var cmd = "Rootcause" + (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ".exe" : ""); 
+            Tuple<string,string,string,string> o = ExecuteBinary(rootcauseBinaryPath + cmd, args);
             var newOpt = Tuple.Create<string, string>(args, options.Item2); //we want to get the raw args here
             outputs[i] = Tuple.Create(dirInfo, newOpt, htmlOutFile, o.Item1, o.Item2, o.Item3, o.Item4);
 

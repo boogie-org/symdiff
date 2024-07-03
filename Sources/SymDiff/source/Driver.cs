@@ -8,6 +8,7 @@ using Bpl = Microsoft.Boogie;
 using B = SDiff.Boogie;
 using SDiff.Boogie;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 
 // This is the main procedure
@@ -124,6 +125,7 @@ namespace SDiff
               return AllInOneDriver.AllInOneMain(nargs.ToArray());
           } catch (Exception e) {
               Console.WriteLine("Fatal error: SymDiff failed with exception " + e.Message);
+              Console.WriteLine(e.StackTrace);
               return 1;
           }
       }
@@ -399,8 +401,8 @@ namespace SDiff
         BoogieUtils.TypecheckProgram(q, second);
 
 
-        first = first.Substring(0, first.LastIndexOf('.') + 1);
-        second = second.Substring(0, second.LastIndexOf('.') + 1);
+        first = Path.GetFileNameWithoutExtension(first) + '.';
+        second = Path.GetFileNameWithoutExtension(second) + '.';
 
         Config config = new Config();
 

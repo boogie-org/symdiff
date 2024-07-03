@@ -9,7 +9,7 @@ using System.Collections;
 using System.Diagnostics;
 using Microsoft.Boogie.VCExprAST;
 using VC;
-using Microsoft.Basetypes;
+using Microsoft.BaseTypes;
 using BType = Microsoft.Boogie.Type;
 using SymDiffUtils;
 

@@ -6,6 +6,7 @@ using SDiff.Boogie;
 using SDiff;
 using System.Diagnostics;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 /* Classes for crawling the Boogie AST */
 

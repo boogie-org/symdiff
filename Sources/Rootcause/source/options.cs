@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
-using Microsoft.Basetypes;
+using Microsoft.BaseTypes;
 using BType = Microsoft.Boogie.Type;
 
 
@@ -45,7 +45,6 @@ namespace Rootcause
         public static int newAssertRightLine = -1;
         public static int maxsatLimit = int.MaxValue;
         public static int callAlignWindow = -1;
-        public static bool useMultipleGoodRuns = false; //sets z3multipleErrors
         public static bool findEarliestAssertionByMapMismatch = false;
         public static bool findEarliestAssertionByLine = false;
         public static bool pruneAfterMapMismatch = false;
@@ -91,11 +90,8 @@ namespace Rootcause
         public static bool ParseCommandLine(string clo)
         {
              //without the next line, it fails to find the right prover!!
-             var boogieOptions = "/typeEncoding:m -timeLimit:" + boogieTimeout + " -removeEmptyBlocks:0 /printModel:1 /printInstrumented " + clo;
-             if (Options.useMultipleGoodRuns)
-                 boogieOptions += " /z3multipleErrors /errorLimit:20 "; //make the errorLimit an option
-             else
-                 boogieOptions += " /errorLimit:1 ";
+             var boogieOptions = "-monomorphize -timeLimit:" + boogieTimeout + " -removeEmptyBlocks:0 /printModel:1 /printInstrumented " + clo;
+             boogieOptions += " /errorLimit:1 ";
              //var boogieOptions = "/typeEncoding:m -timeLimit:900  -removeEmptyBlocks:0 /errorLimit:1 /printInstrumented " + clo;
              var oldArgs = boogieOptions.Split(' ');
              string[] args;
@@ -233,7 +229,6 @@ namespace Rootcause
                      || CheckBooleanFlag(a, "checkConsistency", ref checkConsistency)
                      || CheckBooleanFlag(a, "applyLeftFilter", ref applyLeftFilter)
                      || CheckBooleanFlag(a, "applyRightFilter", ref applyRightFilter)
-                     || CheckBooleanFlag(a, "useMultipleGoodRuns", ref useMultipleGoodRuns)
                      || CheckBooleanFlag(a, "demonizeUninterpreted", ref demonizeUninterpreted)
                      || CheckBooleanFlag(a, "binarySearch", ref binarySearch)
                      || CheckBooleanFlag(a, "runningCompiler", ref runningCompiler)
@@ -292,7 +287,6 @@ namespace Rootcause
                  Console.WriteLine("  /predicateAssumes: \n\tAllow assume statements to be considered causes (default {0})", predicateAssumes);
                  Console.WriteLine("  /penalizeAssumes: \n\tDiscourages causes that change paths (default {0})", penalizeAssumes);
                  Console.WriteLine("  \n\n");
-                 Console.WriteLine("  /useMultipleGoodRuns: \n\tUses multiple good runs (default {0})", useMultipleGoodRuns);
                  Console.WriteLine("  /findEarliestAssertionByMapMismatch: \n\tFinds the pair of assignments where a maptype update differs (default {0})", findEarliestAssertionByMapMismatch);
                  Console.WriteLine("  /findEarliestAssertionByLine: \n\tFind earlier assertion (default {0})", findEarliestAssertionByLine);
                  Console.WriteLine("  /htmlInput:<file>: \n\tInput html file that contains the source trace over which the rootcause will be displayed (default {0})", htmlInput);

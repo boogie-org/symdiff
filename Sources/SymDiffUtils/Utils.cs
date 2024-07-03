@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 //using PureCollections;
 using Microsoft.Boogie;
-using Microsoft.Basetypes; //for BigNums
+using Microsoft.BaseTypes; //for BigNums
 using BType = Microsoft.Boogie.Type;
 using System.IO;
 using System.Text;
@@ -388,18 +388,6 @@ namespace SymDiffUtils
         }
 
         //string stuff
-        public static string strip_path(string f)
-        {
-            if (f.Contains("/"))
-                return f.Substring(f.LastIndexOf("/"));
-            else if (f.Contains("\\"))
-                return f.Substring(f.LastIndexOf("\\"));
-            return f;
-        }
-        public static string strip_suffix(string f)
-        {
-            return f.Remove(f.LastIndexOf("."));
-        }
         public static string TrimStart(string s, string prefix)
         {
             return s.Substring(prefix.Length);
@@ -1016,8 +1004,8 @@ namespace SymDiffUtils
         public static void InitializeVCGen(Program prog)
         {
             //create VC.vcgen/VC.proverInterface
-            SymDiffVC.vcgen = new VCGen(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend, null);
-            SymDiffVC.proverInterface = ProverInterface.CreateProver(prog, CommandLineOptions.Clo.SimplifyLogFilePath, CommandLineOptions.Clo.SimplifyLogFileAppend, CommandLineOptions.Clo.ProverKillTime);
+            SymDiffVC.vcgen = new VCGen(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, null);
+            SymDiffVC.proverInterface = ProverInterface.CreateProver(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, CommandLineOptions.Clo.TimeLimit);
             SymDiffVC.translator = SymDiffVC.proverInterface.Context.BoogieExprTranslator;
             SymDiffVC.exprGen = SymDiffVC.proverInterface.Context.ExprGen;
             SymDiffVC.collector = new ConditionGeneration.CounterexampleCollector();
@@ -1056,26 +1044,16 @@ namespace SymDiffUtils
 
             var exprGen = SymDiffVC.proverInterface.Context.ExprGen;
             //VCExpr controlFlowVariableExpr = null; 
-            VCExpr controlFlowVariableExpr = CommandLineOptions.Clo.UseLabels ? null : SymDiffVC.exprGen.Integer(BigNum.ZERO);
+            VCExpr controlFlowVariableExpr = /*CommandLineOptions.Clo.UseLabels ? null :*/ SymDiffVC.exprGen.Integer(BigNum.ZERO);
 
 
             Dictionary<int, Absy> label2absy;
             var vc = SymDiffVC.vcgen.GenerateVC(impl, controlFlowVariableExpr, out label2absy, SymDiffVC.proverInterface.Context);
-            if (!CommandLineOptions.Clo.UseLabels)
-            {
-                VCExpr controlFlowFunctionAppl = SymDiffVC.exprGen.ControlFlowFunctionApplication(SymDiffVC.exprGen.Integer(BigNum.ZERO), SymDiffVC.exprGen.Integer(BigNum.ZERO));
-                VCExpr eqExpr = SymDiffVC.exprGen.Eq(controlFlowFunctionAppl, SymDiffVC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
-                vc = SymDiffVC.exprGen.Implies(eqExpr, vc);
-            }
+            VCExpr controlFlowFunctionAppl = SymDiffVC.exprGen.ControlFlowFunctionApplication(SymDiffVC.exprGen.Integer(BigNum.ZERO), SymDiffVC.exprGen.Integer(BigNum.ZERO));
+            VCExpr eqExpr = SymDiffVC.exprGen.Eq(controlFlowFunctionAppl, SymDiffVC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
+            vc = SymDiffVC.exprGen.Implies(eqExpr, vc);
 
-            if (CommandLineOptions.Clo.vcVariety == CommandLineOptions.VCVariety.Local)
-            {
-                SymDiffVC.handler = new VCGen.ErrorReporterLocal(gotoCmdOrigins, label2absy, impl.Blocks, SymDiffVC.vcgen.incarnationOriginMap, SymDiffVC.collector, mvInfo, SymDiffVC.proverInterface.Context, prog);
-            }
-            else
-            {
-                SymDiffVC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, SymDiffVC.vcgen.incarnationOriginMap, SymDiffVC.collector, mvInfo, SymDiffVC.proverInterface.Context, prog);
-            }
+            SymDiffVC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, new Dictionary<Cmd, List<object>>(), SymDiffVC.collector, mvInfo, SymDiffVC.proverInterface.Context, prog);
             return vc;
         }
         #endregion

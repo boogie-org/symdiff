@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Boogie;
 using SDiff;
 using SymDiffUtils;
+using Util = SymDiffUtils.Util;
 
 
 namespace RVT
@@ -364,7 +365,7 @@ namespace RVT
 
 
             //The inline:spec inlines a procedure with {:inline 1} 1 times and then uses the spec for deeper calls
-            var boogieOptions = "-z3multipleErrors /typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -inline:spec " + Options.BoogieUserOpts;
+            var boogieOptions = "-monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -inline:spec " + Options.BoogieUserOpts;
 
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
             //VC.ConditionGeneration vcgen = BoogieVerify.InitializeVC(mergedProgram);
@@ -492,7 +493,7 @@ namespace RVT
 
 
 
-            vt.Result = BoogieVerify.VerifyImplementation(vcgen, newEq, newProg, out SErrors, out errModelList);
+            vt.Result = BoogieVerify.VerifyImplementation(vcgen, newEq, newProg, out SErrors);
 
             switch (vt.Result)
             {
