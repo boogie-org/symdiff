@@ -110,7 +110,7 @@ namespace SDiff
                 boogieOptions += " -errorLimit:100 "; //a large number as we count how many outs are disequal
             }
 
-            boogieOptions += " -monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0  " + Options.BoogieUserOpts;
+            boogieOptions += " -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0  " + Options.BoogieUserOpts;
             if (Options.DoSymEx)
                 boogieOptions += " -printModel:1 /printModelToFile:model.dmp "; // don't penalize enumerate all paths wiht printing z3 models
             return boogieOptions;

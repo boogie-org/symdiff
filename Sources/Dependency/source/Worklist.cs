@@ -163,10 +163,10 @@ namespace Dependency
             }
             //HashSet<Dependencies> deps = new HashSet<Dependencies>();
             //int redundant = 0, overall = 0;
-            //stateSpace.Values.Iter(d => { var dd = d as Dependencies; if (!deps.Add(dd)) redundant++; });
+            //stateSpace.Values.ForEach(d => { var dd = d as Dependencies; if (!deps.Add(dd)) redundant++; });
             //Console.WriteLine("{0} redundant dependiences in {1} locations", redundant, stateSpace.Keys.Count);
             //HashSet<VarSet> sets = new HashSet<VarSet>();
-            //stateSpace.Values.Iter(d => (d as Dependencies).Values.Iter(s => { overall++; if (sets.Any(ss => ss.SetEquals(s))) redundant++; sets.Add(s); }));
+            //stateSpace.Values.ForEach(d => (d as Dependencies).Values.ForEach(s => { overall++; if (sets.Any(ss => ss.SetEquals(s))) redundant++; sets.Add(s); }));
             //Console.WriteLine("{0} redundant var sets out of {1}, size of allsets = {2}", redundant, overall, VarSet.allSets.Count);
         }
     }

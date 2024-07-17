@@ -8,6 +8,7 @@ using SDiff.Boogie;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Microsoft.Boogie.VCExprAST;
 using SymDiffUtils;
 using VC;
 using Util = SymDiffUtils.Util;
@@ -159,13 +160,13 @@ namespace SDiff
 
         public enum ReturnStatus { OK, NOK };
 
-        public static VC.ConditionGeneration.Outcome MyVerifyImplementation(Implementation impl, Program prog)
-        {
-            VC.ConditionGeneration vcgen = BoogieVerify.InitializeVC(prog);
-            var outcome = vcgen.VerifyImplementation(impl, out var errs, "TODO:requestId", CancellationToken.None) ;
-            vcgen.Close();
-            return outcome;
-        }
+        // public static VcOutcome MyVerifyImplementation(Implementation impl, Program prog)
+        // {
+        //     VC.ConditionGeneration vcgen = BoogieVerify.InitializeVC(prog);
+        //     var outcome = vcgen.VerifyImplementation(impl, out var errs, "TODO:requestId", CancellationToken.None) ;
+        //     vcgen.Close();
+        //     return outcome;
+        // }
         public static VerificationResult VerifyImplementation(VC.ConditionGeneration vcgen, Implementation impl, Program prog, out SDiffCounterexamples cex)
         {
 
@@ -184,9 +185,10 @@ namespace SDiff
 
             //Log.Out(Log.Verifier, "Verifying implementation " + impl.Name);
 
-            List<Counterexample> errors = new List<Counterexample>();
+            List<Counterexample> errors;
             VerificationResult sdoutcome = VerificationResult.Unknown;
-            VC.VCGen.Outcome outcome;
+            List<VerificationRunResult> vcResults;
+            VcOutcome outcome;
 
             //Log.Out(Log.Verifier, "Saving implementation before Boogie preprocessing");
             var duper = new Duplicator();
@@ -199,9 +201,8 @@ namespace SDiff
             try
             {
                 var start = DateTime.Now;
-
-                //outcome = vcgen.VerifyImplementation(impl, prog, out errors);
-                outcome = vcgen.VerifyImplementation(impl, out errors, "TODO:requestId", CancellationToken.None);
+                (outcome, errors, vcResults) =
+                    vcgen.VerifyImplementation2(new ImplementationRun(impl, Console.Out), CancellationToken.None).Result;
                 var end = DateTime.Now;
 
                 TimeSpan elapsed = end - start;
@@ -211,14 +212,14 @@ namespace SDiff
             {
                 Log.Out(Log.Error, "Error BP5010: {0}  Encountered in implementation {1}: " + e.Message);
                 errors = null;
-                outcome = VC.VCGen.Outcome.Inconclusive;
+                outcome = VcOutcome.Inconclusive;
             }
             catch (UnexpectedProverOutputException upo)
             {
 
                 Log.Out(Log.Error, "Advisory: {0} SKIPPED because of internal error: unexpected prover output: {1}" + upo.Message);
                 errors = null;
-                outcome = VC.VCGen.Outcome.Inconclusive;
+                outcome = VcOutcome.Inconclusive;
             }
             catch (Exception e)
             {
@@ -229,19 +230,19 @@ namespace SDiff
 
             switch (outcome)
             {
-                case VC.VCGen.Outcome.Correct:
+                case VcOutcome.Correct:
                     sdoutcome = VerificationResult.Verified;
                     break;
-                case VC.VCGen.Outcome.Errors:
+                case VcOutcome.Errors:
                     sdoutcome = VerificationResult.Error;
                     break;
-                case VC.VCGen.Outcome.Inconclusive:
+                case VcOutcome.Inconclusive:
                     sdoutcome = VerificationResult.Inconclusive;
                     break;
-                case VC.VCGen.Outcome.OutOfMemory:
+                case VcOutcome.OutOfMemory:
                     sdoutcome = VerificationResult.OutOfMemory;
                     break;
-                case VC.VCGen.Outcome.TimedOut:
+                case VcOutcome.TimedOut:
                     sdoutcome = VerificationResult.TimeOut;
                     break;
             }
@@ -293,10 +294,11 @@ namespace SDiff
 
         public static VC.ConditionGeneration InitializeVC(Program prog)
         {
-            var checkerPool = new CheckerPool(CommandLineOptions.Clo);
+            var checkerPool = new CheckerPool(CommandLineOptions.FromArguments(Console.Out));
             VC.ConditionGeneration vcgen = null;
-            try {
-                vcgen = new VC.VCGen(prog, checkerPool);
+            try
+            {
+                vcgen = new VerificationConditionGenerator(prog, checkerPool);
             }
             catch (ProverException)
             {
@@ -319,7 +321,7 @@ namespace SDiff
                 {
                     Log.Out(Log.TraceValidator, "Could not find block " + b.Label);
                     if (Log.Gate(Log.TraceValidator))
-                        b.Emit(ConsoleOut.sdout, 0);
+                        b.Emit(new TokenTextWriter(Console.Out, true, BoogieUtils.BoogieOptions), 0);
                 }
                 else
                     newBlocks.Add(ib);
@@ -349,7 +351,8 @@ namespace SDiff
                     if (cTrace.Trim() != "")
                     {
                         var fname = impl.Name + "_cex_" + (i + 1) + "_out.c";
-                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c", true);
+                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c",
+                            TextWriter.Null, true, true, PrintOptions.Default);
                         cexOut.WriteLine(cTrace);
                         cexOut.Close();
                         Log.Out(Log.CTrace, "n:" + (i + 1) + ":" + fname);
@@ -537,7 +540,7 @@ namespace SDiff
 
                         //note that the index for cex on the output shows 1,2,..., instead of 0,1,2....
                         var fname = impl.Name + "_cex_" + (i + 1) + "_out.c";
-                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c",true);
+                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c", true, BoogieUtils.BoogieOptions);
                         cexOut.WriteLine(cTrace);
                         cexOut.Close();
                         Log.Out(Log.CTrace, "n:" + (i + 1) + ":" + fname);
@@ -837,7 +840,8 @@ namespace SDiff
 
             // prog = EQ program
             // vt.Eq = EQ_f_f' procedure with f, f' having {inline} tags
-            Inliner.ProcessImplementation(prog, vt.Eq);
+            var options = new CommandLineOptions(Console.Out, new ConsolePrinter());
+            Inliner.ProcessImplementation(options, prog, vt.Eq);
 
             SDiffCounterexamples SErrors = null;
             Implementation newEq = null;

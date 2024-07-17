@@ -148,7 +148,7 @@ namespace SymDiffUtils
             VariableCollector vc = new VariableCollector();
             vc.Visit(node);
             var existConsts = vc.usedVars.Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "existential"));
-            existConsts.Iter(x => usedExistentialConstants.Add(x));
+            existConsts.ForEach(x => usedExistentialConstants.Add(x));
             return base.VisitIdentifierExpr(node);
         }
     }

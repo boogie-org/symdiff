@@ -38,8 +38,8 @@ namespace SymDiffPostProcess
 
             BoogieUtils.InitializeBoogie("");
             Program program = BoogieUtils.ParseProgram(bplFile);
-            program.Resolve();
-            program.Typecheck();
+            program.Resolve(BoogieUtils.BoogieOptions);
+            program.Typecheck(BoogieUtils.BoogieOptions);
             var callGraph = CallGraphHelper.ComputeCallGraph(program);
 
             var lengths = BoogieUtils.FindProcsAtDistance(callGraph, procToChange.Keys.ToList());

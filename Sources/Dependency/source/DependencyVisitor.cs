@@ -35,7 +35,7 @@ namespace Dependency
             this.callGraph = CallGraphHelper.ComputeCallGraph(program);
             currDependencies = null;
 
-            program.TopLevelDeclarations.OfType<Procedure>().Iter(proc =>
+            program.TopLevelDeclarations.OfType<Procedure>().ForEach(proc =>
                 {
                     if (upperBoundProcDependencies.ContainsKey(proc)) //some unreachable procs such as havoc_Assert are not present in the tables
                     {
@@ -56,7 +56,7 @@ namespace Dependency
             Graph<Procedure> callGraph = CallGraphHelper.ComputeCallGraph(program);   //constant
             //HACK: lets try with self-recursion (includes loops) removed
             Graph<Procedure> selfLessCg = new Graph<Procedure>();
-            callGraph.Edges.Where(e => e.Item1 != e.Item2).Iter(e => selfLessCg.AddEdge(e.Item1, e.Item2));
+            callGraph.Edges.Where(e => e.Item1 != e.Item2).ForEach(e => selfLessCg.AddEdge(e.Item1, e.Item2));
             selfLessCg.TarjanTopSort(out acyclic, out topSortedProcedures, true);
             if (acyclic)
                 worklist.AddRange(topSortedProcedures);
@@ -72,10 +72,10 @@ namespace Dependency
             currDependencies = new Dictionary<Procedure, Dependencies>(lowerBoundProcDependencies);
 
             //important note about *
-            currDependencies.Iter(kv =>
+            currDependencies.ForEach(kv =>
                   {
                       Debug.Assert(!IsStub(kv.Key), string.Format("Stubs not {0} expected...did you run dependency.exe?", kv.Key));
-                      currDependencies[kv.Key].Iter
+                      currDependencies[kv.Key].ForEach
                           (v => currDependencies[kv.Key][v.Key].Remove(Utils.VariableUtils.NonDetVar));
                   }
                 );
@@ -216,7 +216,7 @@ namespace Dependency
 
                         // turn it to dependencies (\forall r \in ReadSet: r <- ReadSet)
                         ProcDependencies[impl.Proc] = new Dependencies();
-                        rsv.ProcReadSet[impl.Proc].Iter(r => ProcDependencies[impl.Proc][r] = rsv.ProcReadSet[impl.Proc]);
+                        rsv.ProcReadSet[impl.Proc].ForEach(r => ProcDependencies[impl.Proc][r] = rsv.ProcReadSet[impl.Proc]);
                         //ProcDependencies[impl.Proc].FixFormals(impl);
                     }
                     else
@@ -225,7 +225,7 @@ namespace Dependency
                         // maintain the readSet (for cases where the analysis is too long and we revert to readset)
                         rsv.ProcReadSet[impl.Proc] = new VarSet();
                         rsv.ProcReadSet[impl.Proc].UnionWith(ProcDependencies[impl.Proc].Keys);
-                        ProcDependencies[impl.Proc].Values.Iter(vs => rsv.ProcReadSet[impl.Proc].UnionWith(vs));
+                        ProcDependencies[impl.Proc].Values.ForEach(vs => rsv.ProcReadSet[impl.Proc].UnionWith(vs));
                     }
                 }
                 foreach (var proc in scc)
@@ -242,9 +242,9 @@ namespace Dependency
             }
 
             // Removed. Printing directly to screen can be too huge.
-            //ProcDependencies.Iter(pd => Console.Out.WriteLine(pd.Key + " : " + pd.Value));
+            //ProcDependencies.ForEach(pd => Console.Out.WriteLine(pd.Key + " : " + pd.Value));
 
-            //node.Implementations.Iter(impl => Visit(impl));
+            //node.Implementations.ForEach(impl => Visit(impl));
 
             // compute top down taint
             orderedSCCs.Reverse();
@@ -268,11 +268,11 @@ namespace Dependency
             }
 
             // the top down taint was removed from ProcDependencies so it won't flow up, so add it back in now
-            procExitTDTaint.Iter(pd => ProcDependencies[pd.Key].JoinWith(pd.Value));
+            procExitTDTaint.ForEach(pd => ProcDependencies[pd.Key].JoinWith(pd.Value));
 
             // gathering the tainted scalar outputs for each procedure
             var taintedProcScalarOutputs = new Dictionary<Procedure,VarSet>();
-            ProcDependencies.Iter(pd =>
+            ProcDependencies.ForEach(pd =>
             {
                 var procedure = pd.Key;
                 var impl = node.Implementations.FirstOrDefault(i => i.Proc == procedure);
@@ -285,13 +285,13 @@ namespace Dependency
                         taintedProcScalarOutputs[procedure].Add(r);
                 }
             });
-            taintedProcScalarOutputs.Iter(t => Console.WriteLine("Tainted outputs for " + t.Key + " : " + t.Value));
+            taintedProcScalarOutputs.ForEach(t => Console.WriteLine("Tainted outputs for " + t.Key + " : " + t.Value));
 
-            procEntryTDTaint.Iter(pd => Console.WriteLine("Tainted inputs/globals for " + pd.Key + " : " + pd.Value));
+            procEntryTDTaint.ForEach(pd => Console.WriteLine("Tainted inputs/globals for " + pd.Key + " : " + pd.Value));
 
             // for now, before we finish running, we replace all implementation outputs with procedure outputs
             // TODO: in the future we should only use implementation inputs\outputs and lose the procedures overall
-            ProcDependencies.Iter(pd =>
+            ProcDependencies.ForEach(pd =>
             {
                 var impl = node.Implementations.FirstOrDefault(i => i.Proc == pd.Key);
                 pd.Value.FixFormals(impl);
@@ -385,7 +385,7 @@ namespace Dependency
                 var lhs = node.Lhss[i].DeepAssignedVariable;
                 var rhsVars = Utils.VariableUtils.ExtractVars(node.Rhss[i]);
                 if (lhs.TypedIdent.Type.IsMap)
-                    Utils.VariableUtils.ExtractVars(node.Lhss[i]).Iter(x => rhsVars.Add(x)); //M[N[x]] := y; Dep(M) = {M, N, x, y}
+                    Utils.VariableUtils.ExtractVars(node.Lhss[i]).ForEach(x => rhsVars.Add(x)); //M[N[x]] := y; Dep(M) = {M, N, x, y}
 
                 // dependency is cut only if lhs does not appears in rhs! (cases like M := M[x := y])
                 if (!rhsVars.Contains(lhs) || !dependencies.ContainsKey(lhs))
@@ -647,7 +647,7 @@ namespace Dependency
             // top down taint can't flow up
             if (!procExitTDTaint.ContainsKey(proc))
                 procExitTDTaint[proc] = new Dependencies();
-            ProcDependencies[proc].Where(d => d.Value.Contains(Utils.VariableUtils.TopDownTaintVar)).Iter(dep =>
+            ProcDependencies[proc].Where(d => d.Value.Contains(Utils.VariableUtils.TopDownTaintVar)).ForEach(dep =>
             {
                 dep.Value.Remove(Utils.VariableUtils.TopDownTaintVar);
                 procExitTDTaint[proc][dep.Key] = new VarSet();
@@ -804,7 +804,7 @@ namespace Dependency
                 var outvar = kv.Key;
                 Debug.Assert(outvar is GlobalVariable || node.OutParams.Contains(outvar), "Dependency should only contain globals/outputs as key");
                 var invars = kv.Value.ToList(); //some order
-                invars.Iter(i => Debug.Assert(i is GlobalVariable || node.InParams.Contains(i), "Dependency should only globals/inputs as values"));
+                invars.ForEach(i => Debug.Assert(i is GlobalVariable || node.InParams.Contains(i), "Dependency should only globals/inputs as values"));
                 var varL = new List<string>() { outvar.Name };
                 //don't add variables such as * and ~
                 invars.RemoveAll(x => x.Name == Utils.VariableUtils.NonDetVar.Name

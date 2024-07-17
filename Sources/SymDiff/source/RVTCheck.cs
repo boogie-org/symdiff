@@ -350,22 +350,22 @@ namespace RVT
             }
 
             // if any visible output
-            VerificationTask vt;
+            SDiff.VerificationTask vt;
             if (eqp != null)
             {
-                vt = new VerificationTask(eqp.snd, n1.Impl, n2.Impl, outputVars);
+                vt = new SDiff.VerificationTask(eqp.snd, n1.Impl, n2.Impl, outputVars);
             }
             //it may be that these functions have no comparable effect. if so, don't generate a verification task
             else //we'll split their uninterpreted functions, but otherwise don't generate a verification task
             {
-                vt = new VerificationTask(null, n1.Impl, n2.Impl);
+                vt = new SDiff.VerificationTask(null, n1.Impl, n2.Impl);
                 vt.Result = SDiff.VerificationResult.Error;
                 SDiff.Boogie.Process.RewriteUninterpretedOnDiseq(vt, SDiff.Boogie.Process.BuildProgramDictionary(mergedProgram.TopLevelDeclarations.ToList()));
             }
 
 
             //The inline:spec inlines a procedure with {:inline 1} 1 times and then uses the spec for deeper calls
-            var boogieOptions = "-monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -inline:spec " + Options.BoogieUserOpts;
+            var boogieOptions = "-typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -inline:spec " + Options.BoogieUserOpts;
 
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
             //VC.ConditionGeneration vcgen = BoogieVerify.InitializeVC(mergedProgram);
@@ -459,7 +459,7 @@ namespace RVT
             //RUN INLINER OVER EQ FUNCTION
             // prog = EQ program
             // vt.Eq = EQ_f_f' procedure with f, f' having {inline} tags
-            Inliner.ProcessImplementation(prog, vt.Eq);
+            Inliner.ProcessImplementation(BoogieUtils.BoogieOptions, prog, vt.Eq);
 
             if (Options.TraceVerify)
             {

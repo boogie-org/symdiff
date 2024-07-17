@@ -79,7 +79,7 @@ namespace Dependency
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("{ ");
-            this.Iter(v => sb.Append(v + ", "));
+            this.ForEach(v => sb.Append(v + ", "));
             sb.Append(" }");
             return sb.ToString();
         }
@@ -194,7 +194,7 @@ namespace Dependency
         public Dependencies(Dependencies d)
             : base(d)
         {
-            d.Keys.Iter(v => this[v] = new VarSet(d[v]));
+            d.Keys.ForEach(v => this[v] = new VarSet(d[v]));
         }
 
         public void SetTop(Implementation impl)
@@ -202,7 +202,7 @@ namespace Dependency
             if (isTop)
                 return;
             isTop = true;
-            //impl.LocVars.Iter(v => { if (this.ContainsKey(v)) this[v] = new VarSet(impl.LocVars); else this[v].UnionWith(impl.LocVars); });
+            //impl.LocVars.ForEach(v => { if (this.ContainsKey(v)) this[v] = new VarSet(impl.LocVars); else this[v].UnionWith(impl.LocVars); });
         }
 
         public IAbstractState Clone()
@@ -213,7 +213,7 @@ namespace Dependency
         public List<Variable> ReadSet()
         {
             HashSet<Variable> result = new HashSet<Variable>();
-            Values.Iter(d => result.UnionWith(d));
+            Values.ForEach(d => result.UnionWith(d));
             return new List<Variable>(result);
         }
 

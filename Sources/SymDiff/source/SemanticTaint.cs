@@ -46,7 +46,7 @@ namespace SymDiff
         });
         InlineImpl(leftImpl);
         InlineImpl(rightImpl);
-        Inliner.ProcessImplementation(mergedProg, eqImpl);
+        Inliner.ProcessImplementation(BoogieUtils.BoogieOptions, mergedProg, eqImpl);
         Util.DumpBplAST(mergedProg, "mergedProg.bpl");
       }
 
@@ -56,7 +56,7 @@ namespace SymDiff
         mergedProg.TopLevelDeclarations
             .OfType<Constant>()
             .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "stmtTaintConst"))
-            .Iter(x => taintGuardConsts.Add(x));
+            .ForEach(x => taintGuardConsts.Add(x));
       }
       private HashSet<Tuple<string,string>> GatherProcedureBlocksInConstants(IEnumerable<Constant> consts)
       {
@@ -67,8 +67,7 @@ namespace SymDiff
           return new Tuple<string,string>(p,b);
         });
         var retHashSet = new HashSet<Tuple<string,string>>();
-        consts
-          .Iter(c => retHashSet.Add(GetProcedureBlock(c)));
+        consts.ForEach(c => retHashSet.Add(GetProcedureBlock(c)));
         return retHashSet;
       }
       private void AnalyzeStmtTaint()
@@ -99,7 +98,7 @@ namespace SymDiff
         List<Counterexample> cexs;
 
         var outcome = SymDiffVC.VerifyVC("RefinedStmtTaint", programVC, out cexs);
-        if (outcome == ProverInterface.Outcome.Valid)
+        if (outcome == SolverOutcome.Valid)
         {
           Console.WriteLine("Program is already equivalent!!");
           return false;
@@ -107,7 +106,7 @@ namespace SymDiff
 
         //mapping of VCExpr
         Dictionary<VCExpr, Constant> vcexprsToConsts = new Dictionary<VCExpr, Constant>();
-        taintGuardConsts.Iter(c => { vcexprsToConsts[SymDiffVC.translator.LookupVariable(c)] = c; });
+        taintGuardConsts.ForEach(c => { vcexprsToConsts[SymDiffVC.translator.LookupVariable(c)] = c; });
 
         var preInp = taintGuardConsts
             .Aggregate(VCExpressionGenerator.True, (x, y) => SymDiffVC.exprGen.And(x, SymDiffVC.translator.LookupVariable(y)));
@@ -117,14 +116,14 @@ namespace SymDiff
         //Should call VerifyVC before invoking CheckAssumptions
         outcome = SymDiffVC.VerifyVC("RefinedStmtTaint", newVC, out cexs);
         Console.Write("-");
-        if (outcome == ProverInterface.Outcome.Invalid)
+        if (outcome == SolverOutcome.Invalid)
         {
           Console.WriteLine("\t VC not valid even when all assigns are off, returning");
           return false;
         }
-        if (outcome == ProverInterface.Outcome.OutOfMemory ||
-            outcome == ProverInterface.Outcome.TimeOut ||
-            outcome == ProverInterface.Outcome.Undetermined)
+        if (outcome == SolverOutcome.OutOfMemory ||
+            outcome == SolverOutcome.TimeOut ||
+            outcome == SolverOutcome.Undetermined)
         {
           Console.WriteLine("\t VC inconclusive, returning");
           return false;
@@ -133,7 +132,7 @@ namespace SymDiff
         var assumptions = new List<VCExpr>();
         assumptions.Add(SymDiffVC.exprGen.Not(programVC));
         //Add the list of all input constants
-        taintGuardConsts.Iter(x => assumptions.Add(SymDiffVC.translator.LookupVariable(x)));
+        taintGuardConsts.ForEach(x => assumptions.Add(SymDiffVC.translator.LookupVariable(x)));
 
         var core = AnalyzeUsingUnsatCoreHelper(programVC, ref cexs, ref outcome, ref preInp, assumptions);
         Console.WriteLine("\nNumber of possibly tainted stmts / number of stmts = {0}/{1}", core.Count, taintGuardConsts.Count() / 2 /* one version */);
@@ -146,16 +145,16 @@ namespace SymDiff
       }
       private static List<VCExpr> AnalyzeUsingUnsatCoreHelper(VCExpr programVC, 
         ref List<Counterexample> cexs, 
-        ref ProverInterface.Outcome outcome, 
+        ref SolverOutcome outcome, 
         ref VCExpr preInp, List<VCExpr> assumptions)
       {
         List<int> unsatClauseIdentifiers = new List<int>();
         if (true) //in case we have to turn off the unsat core related logic
         {
-          //VERY IMPORTANT: TO USE UNSAT CORE, SET ContractInfer to true in CommandLineOptions.Clo.
-          outcome = ProverInterface.Outcome.Undetermined;
+          //VERY IMPORTANT: TO USE UNSAT CORE, SET ContractInfer to true in BoogieUtils.BoogieOptions.
+          outcome = SolverOutcome.Undetermined;
           (outcome, unsatClauseIdentifiers) = SymDiffVC.proverInterface.CheckAssumptions(assumptions, SymDiffVC.handler, CancellationToken.None).Result;
-          Debug.Assert(outcome == ProverInterface.Outcome.Valid);
+          Debug.Assert(outcome == SolverOutcome.Valid);
           Console.Write("+");
           Debug.Assert(unsatClauseIdentifiers.Count() > 0, "Something went wrong! Unsat core with 0 elements");
           //newVC should be always at 0, since it has to participate in inconsistency
@@ -179,7 +178,7 @@ namespace SymDiff
             preInp = SymDiffVC.exprGen.And(preInp, SymDiffVC.exprGen.Not(b)); //consider the actual output
             Console.Write(".");
             outcome = SymDiffVC.VerifyVC("RefinedStmtTaint", SymDiffVC.exprGen.Implies(preInp, programVC), out cexs);
-            if (outcome == ProverInterface.Outcome.Valid)
+            if (outcome == SolverOutcome.Valid)
             {
               Console.Write("*");
               core.Remove(b);

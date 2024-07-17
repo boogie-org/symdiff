@@ -65,8 +65,6 @@ namespace SDiff
   {
     public static int Main(string[] args)
     {
-        CommandLineOptions.Install(new CommandLineOptions());
-
       if (args.Length == 0)
       {
         Console.WriteLine("Options:");
@@ -269,7 +267,7 @@ namespace SDiff
       program.UnrollLoops(iterationsToUnroll, false); //setting it to true breaks ex7
 
         
-      var outchan = new TokenTextWriter(outfilename, true);
+      var outchan = new TokenTextWriter(outfilename, true, BoogieUtils.BoogieOptions);
       program.Emit(outchan);
       outchan.Close();
       return 0;
@@ -301,7 +299,8 @@ namespace SDiff
             return 1;
         }
 
-        Dictionary<string, Dictionary<string, Block>> tmp = program.ExtractLoops();
+        (Dictionary<string, Dictionary<string, Block>> loops, _) =
+          LoopExtractor.ExtractLoops(BoogieUtils.BoogieOptions, program);
 
         // the hacks below should be history now with the deterministic Loop extract in Boogie 
 
@@ -352,7 +351,7 @@ namespace SDiff
             
 
 
-        var outchan = new TokenTextWriter(outfilename,true);
+        var outchan = new TokenTextWriter(outfilename, true, BoogieUtils.BoogieOptions);
         program.Emit(outchan);
         outchan.Close();
         return 0;

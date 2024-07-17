@@ -9,6 +9,7 @@ using Microsoft.Boogie;
 using B = SDiff.Boogie;
 
 using SymDiffUtils;
+using VC;
 using Util = SymDiffUtils.Util;
 
 //there is massive duplication here in case it turns out that the allinone approach (even with dumping at every verify) is not useful
@@ -358,11 +359,12 @@ namespace SDiff
             ref Program mergedProgram)
         {
             mergedProgram.TopLevelDeclarations =
-                p2.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl || x is TypeSynonymDecl)) as IReadOnlyList<Declaration>;
+                p2.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl || x is TypeSynonymDecl)).ToList();
             mergedProgram.AddTopLevelDeclarations(
               p1.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl || x is TypeSynonymDecl)));
             mergedProgram.AddTopLevelDeclarations(t2s); //[SKL]: why are we adding t2s
-            mergedProgram.TopLevelDeclarations = Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
+            mergedProgram.TopLevelDeclarations =
+                Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
             //RemoveDuplicateDatatypeFunctions(ref mergedProgram.TopLevelDeclarations.ToList()); //new: since we are not renaming datatypes
             //Program mergedProgram = new Program();
             //mergedProgram.TopLevelDeclarations = p2.TopLevelDeclarations.Append(p1.TopLevelDeclarations.ToList());
@@ -409,7 +411,8 @@ namespace SDiff
             mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
             var mergedGlobals = mergedProgram.TopLevelDeclarations.Where(x => x is GlobalVariable);
             //moved this out of DifferntialInline
-            RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Where(x => x is Implementation && x.ToString().StartsWith(p1Prefix)).ToList(), 
+            RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Where(x =>
+                    x is Implementation && x.ToString().StartsWith(p1Prefix)).ToList(),
                 mergedProgram.TopLevelDeclarations.Where(x => x is Constant).ToList(), p1Prefix, p2Prefix);
             //--------------- renaming ends ----------------------------------
 
@@ -585,7 +588,7 @@ namespace SDiff
 
             CallGraph cg = CallGraph.Make(p);
 
-            var boogieOptions = " -monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0" + " -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
+            var boogieOptions = " -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0" + " -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
             Boogie.Process.InitializeBoogie(boogieOptions);
 
             var vcgen = BoogieVerify.InitializeVC(p);
@@ -599,28 +602,30 @@ namespace SDiff
 
                 //  check the procedure using Boogie
                 //  find if there is an error
-                VC.VCGen.Outcome outcome;
+                VcOutcome outcome;
 
                 try
                 {
                     List<Counterexample> errors;
-                    outcome = vcgen.VerifyImplementation(n, out errors, "TODO:requestId", CancellationToken.None);
+                    List<VerificationRunResult> vcResults;
+                    (outcome, errors, vcResults) =
+                        vcgen.VerifyImplementation2(new ImplementationRun(n, Console.Out), CancellationToken.None).Result;
                 }
                 catch (Exception e)
                 {
                     Log.Out(Log.Error, "Unknown error somewhere in verification: ");
                     Log.Out(Log.Error, e.ToString());
-                    outcome = VC.VCGen.Outcome.Inconclusive;
+                    outcome = VcOutcome.Inconclusive;
                 }
 
                 bool removeOKEnsures = false;
 
                 switch (outcome)
                 {
-                    case VC.VCGen.Outcome.Errors:
-                    case VC.VCGen.Outcome.Inconclusive:
-                    case VC.VCGen.Outcome.OutOfMemory:
-                    case VC.VCGen.Outcome.TimedOut:
+                    case VcOutcome.Errors:
+                    case VcOutcome.Inconclusive:
+                    case VcOutcome.OutOfMemory:
+                    case VcOutcome.TimedOut:
                         removeOKEnsures = true; //TODO: make sure its the OK ensures
                         break;
                 }
@@ -829,7 +834,10 @@ namespace SDiff
                     Implementation procImpl = (Implementation) Util.getDeclarationByName(proc.Name, procImplPIter);
                     if (procImpl != null)
                     {
-                        var newProc = new Procedure(proc.tok, proc.Name + "_Diff_Inline", proc.TypeParameters, proc.InParams, proc.OutParams, proc.Requires, proc.Modifies, proc.Ensures);
+                        var newProc = new Procedure(
+                            proc.tok, proc.Name + "_Diff_Inline", proc.TypeParameters, proc.InParams, proc.OutParams,
+                            isPure:false, // TODO: double check
+                            proc.Requires, proc.Modifies, proc.Ensures);
                         newProc.Modifies = proc.Modifies;
                         procDeclsPlusDiffInlineProcs.Add(newProc); //HT[proc] := newProc;
                         CallCmd ccmdThen = null;
@@ -1419,7 +1427,7 @@ namespace SDiff
             //collect type decls
             IEnumerable<Declaration>
               t2s = p2.TopLevelDeclarations.Where(x => x is TypeCtorDecl || x is TypeSynonymDecl);
-            p1.TopLevelDeclarations = p1.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl) && !(x is TypeSynonymDecl)) as IReadOnlyList<Declaration>;
+            p1.TopLevelDeclarations = p1.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl) && !(x is TypeSynonymDecl)).ToList();
             p1.AddTopLevelDeclarations(t2s);
             //the types of the two programs are unified even before Resolve
             //collect globals, constants, functions, and axioms
@@ -1450,8 +1458,8 @@ namespace SDiff
             //function arguments have a bothersome habit of being unnamed, so we give them arbitrary names
             //note that configuration inference has to give them the same names (arg_0 ... arg_n, out_ret)
             // modifies each f \in f1s, f2s by giving names to unnamed args
-            f1s.Iter(x => B.U.NameFunctionArgs((Function)x));
-            f2s.Iter(x => B.U.NameFunctionArgs((Function)x));
+            f1s.ForEach(x => B.U.NameFunctionArgs((Function)x));
+            f2s.ForEach(x => B.U.NameFunctionArgs((Function)x));
 
             //resolve the programs: creating a well-formed AST of the program     
             //Major side effects:

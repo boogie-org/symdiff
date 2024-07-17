@@ -18,7 +18,7 @@ namespace BoogieWrapper
     {
         static int Main(string[] args)
         {
-            CommandLineOptions.Install(new CommandLineOptions());
+            BoogieUtils.InitializeBoogie("");
             int argc = args.Length;
             if (argc < 4)
             {
@@ -35,7 +35,7 @@ namespace BoogieWrapper
             string funcName = args[1];
 
             //TODO: Make it aware of the other Boogie options
-            var boogieOptions = " -doModSetAnalysis -printInstrumented -monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
+            var boogieOptions = " -doModSetAnalysis -printInstrumented -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
 
             Program prog = BoogieUtils.ParseProgram(args[0]);

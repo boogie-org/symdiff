@@ -28,16 +28,16 @@ namespace Dependency.source
             var stubs = procs.Where(p => impls.Where(i => i.Name == p.Name).Count() == 0);
             var stubImpls = new List<Implementation>(stubs.Select(p => MkStubImpl(p))); //need to have new List(){..}
             Console.WriteLine("Stubimpls = {0}", string.Join(",", stubImpls.Select(x => x.Name))); 
-            stubImpls.Iter(i => Debug.Assert(prog.TopLevelDeclarations.Contains(i)));
+            stubImpls.ForEach(i => Debug.Assert(prog.TopLevelDeclarations.Contains(i)));
 
             //inline all the stubs
             Console.WriteLine("Inlining all stubs");
             Expr one = Expr.Literal(1);
-            stubImpls.Iter(i => { i.AddAttribute("inline", one); i.Proc.AddAttribute("inline", one); });
+            stubImpls.ForEach(i => { i.AddAttribute("inline", one); i.Proc.AddAttribute("inline", one); });
             Util.InlineProg(prog);
-            prog.Resolve();
-            stubImpls.Iter(i => { prog.RemoveTopLevelDeclaration(i); prog.RemoveTopLevelDeclaration(i.Proc); });
-            prog.Resolve();
+            prog.Resolve(BoogieUtils.BoogieOptions);
+            stubImpls.ForEach(i => { prog.RemoveTopLevelDeclaration(i); prog.RemoveTopLevelDeclaration(i.Proc); });
+            prog.Resolve(BoogieUtils.BoogieOptions);
             //some weird issue with dependency.exe (no return encountered in dac_examples\madwifi 7/13/15). persisting and reading back
             var sibpl = "__stub_inlined.bpl";
             Utils.PrintProgram(prog, sibpl);
@@ -54,7 +54,7 @@ namespace Dependency.source
             var ctr = new GlobalVariable(Token.NoToken,
                 new TypedIdent(Token.NoToken, p.Name + "__det_ctr", Microsoft.Boogie.Type.Int));
             prog.AddTopLevelDeclaration(ctr);
-            prog.Resolve();
+            prog.Resolve(BoogieUtils.BoogieOptions);
 
             var inParams = new List<Variable>(p.InParams);
             var outParams = new List<Variable>(p.OutParams);
@@ -75,7 +75,7 @@ namespace Dependency.source
                     "_stub_upd_" + p.Name + "_" + v.Name, //func name
                     ins.Select((e,i) => ithVar(e, i)).ToList(), 
                     new Formal(Token.NoToken, new TypedIdent(Token.NoToken, "ret", v.TypedIdent.Type), false));
-                prog.AddTopLevelDeclaration(f); prog.Resolve();
+                prog.AddTopLevelDeclaration(f); prog.Resolve(BoogieUtils.BoogieOptions);
                 var r =
                     new NAryExpr(Token.NoToken,
                         new FunctionCall(f),
@@ -101,7 +101,7 @@ namespace Dependency.source
                 new List<Block>(){blk});
             impl.Proc = p;
             prog.AddTopLevelDeclaration(impl);
-            prog.Resolve();
+            prog.Resolve(BoogieUtils.BoogieOptions);
             return impl;
         }
     }

@@ -20,7 +20,7 @@ namespace Dependency
             var callGraph = CallGraphHelper.ComputeCallGraph(program);
 
             var worklist = new List<Procedure>();
-            program.TopLevelDeclarations.Iter(d => { if (d is Procedure) worklist.Add(d as Procedure); });
+            program.TopLevelDeclarations.ForEach(d => { if (d is Procedure) worklist.Add(d as Procedure); });
 
             int numVisited = 0;
             while (worklist.Count > 0)
@@ -39,7 +39,7 @@ namespace Dependency
                     ProcReadSet[currentProc].Add(Utils.VariableUtils.NonDetVar);
                     ProcReadSet[currentProc].UnionWith(currentProc.InParams);
                     ProcReadSet[currentProc].UnionWith(currentProc.OutParams);
-                    currentProc.Modifies.Iter(m => ProcReadSet[currentProc].UnionWith(Utils.VariableUtils.ExtractVars(m)));
+                    currentProc.Modifies.ForEach(m => ProcReadSet[currentProc].UnionWith(Utils.VariableUtils.ExtractVars(m)));
                 }
                 else
                 {// a procedure with a body
@@ -53,7 +53,8 @@ namespace Dependency
                 }
                 //GC.Collect();
             }
-            ProcReadSet.Iter(prs => Utils.VariableUtils.FixFormals(program.Implementations.SingleOrDefault(i => i.Name == prs.Key.Name), prs.Value));
+            ProcReadSet.ForEach(prs =>
+                Utils.VariableUtils.FixFormals(program.Implementations.SingleOrDefault(i => i.Name == prs.Key.Name), prs.Value));
 
             return program;
         }

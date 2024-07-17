@@ -165,12 +165,12 @@ namespace SyntaxDiff
         {
             var v1Impls = new Dictionary<string, Implementation>();
             var v2Impls = new Dictionary<string, Implementation>();
-            v1Prog.Implementations.Iter(i => v1Impls[i.Name] = i);
-            v2Prog.Implementations.Iter(i => v2Impls[i.Name] = i);
+            v1Prog.Implementations.ForEach(i => v1Impls[i.Name] = i);
+            v2Prog.Implementations.ForEach(i => v2Impls[i.Name] = i);
 
             var implMap = new Dictionary<string, string>(); //(foo,foo)
-            v1Impls.Keys.Iter(x => implMap[x] = x);
-            v2Impls.Keys.Iter(x => implMap[x] = x); //add any additional procedures from v2
+            v1Impls.Keys.ForEach(x => implMap[x] = x);
+            v2Impls.Keys.ForEach(x => implMap[x] = x); //add any additional procedures from v2
 
             //TODO: ignoring the config file now since v1v2Config.GetProcedureDictionary()
             //TODO: need to strip off the prefix from each of the entity (v1.Foo, v2.Foo)
@@ -215,9 +215,9 @@ namespace SyntaxDiff
                 return false;
             }
             var sw1 = new StringWriter();
-            i1.Emit(new TokenTextWriter(sw1), 0);
+            i1.Emit(new TokenTextWriter(sw1, BoogieUtils.BoogieOptions), 0);
             var sw2 = new StringWriter();
-            i2.Emit(new TokenTextWriter(sw2), 0);
+            i2.Emit(new TokenTextWriter(sw2, BoogieUtils.BoogieOptions), 0);
             return sw1.ToString().Equals(sw2.ToString());
         }
         
@@ -263,10 +263,10 @@ namespace SyntaxDiff
                 string srcFile = null;
                 List<int> lines = new List<int>();
                 impl.Blocks
-                    .Iter(b =>
+                    .ForEach(b =>
                     {
                         b.Cmds.Where(c => Util.IsSourceInfoAssertCmd(c))
-                            .Iter(ac =>
+                            .ForEach(ac =>
                             {
                                 int srcLine;
                                 Util.IsSourceInfoAssertCmd(ac, out srcFile, out srcLine);
@@ -370,8 +370,8 @@ namespace SyntaxDiff
             var tFileName = "___tmp_diff_str_2";
             var sFile = new StreamWriter(sFileName);
             var tFile = new StreamWriter(tFileName);
-            s.Iter(l => sFile.WriteLine(l)); sFile.Close();
-            t.Iter(l => tFile.WriteLine(l)); tFile.Close();
+            s.ForEach(l => sFile.WriteLine(l)); sFile.Close();
+            t.ForEach(l => tFile.WriteLine(l)); tFile.Close();
 
             DiffOptions diffOptions = new DiffOptions();
             diffOptions.UseThirdPartyTool = false;

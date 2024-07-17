@@ -77,13 +77,13 @@ namespace Dependency
 
         //    //Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count()];
         //    //prog.TopLevelDeclarations.CopyTo(decls);
-        //    //decls.Where(i => i is Implementation).Iter(i => CreateCheckDependencyImpl(procDependencies, null, i as Implementation, prog));
+        //    //decls.Where(i => i is Implementation).ForEach(i => CreateCheckDependencyImpl(procDependencies, null, i as Implementation, prog));
 
         //    //ModSetCollector c = new ModSetCollector();
         //    //c.DoModSetAnalysis(prog);
 
-        //    //prog.Resolve();
-        //    //prog.Typecheck();
+        //    //prog.Resolve(BoogieUtils.BoogieOptions);
+        //    //prog.Typecheck(BoogieUtils.BoogieOptions);
 
         //    //var tuo = new TokenTextWriter("tmp.bpl", true);
         //    //prog.Emit(tuo);
@@ -270,7 +270,7 @@ namespace Dependency
         private static void CreateChecks(List<Variable> modSet, List<Variable> equivOutParams, List<Variable> recordedModSet1, List<Variable> recordedModSet2, Block bodyBlock)
         {
             List<AssignLhs> equivOutsLhss = new List<AssignLhs>();
-            equivOutParams.Iter(o => equivOutsLhss.Add(new SimpleAssignLhs(Token.NoToken, Expr.Ident(o))));
+            equivOutParams.ForEach(o => equivOutsLhss.Add(new SimpleAssignLhs(Token.NoToken, Expr.Ident(o))));
             List<Expr> equivOutputExprs = new List<Expr>();
             for (int i = 0; i < modSet.Count; i++)
                 equivOutputExprs.Add(Expr.Eq(Expr.Ident(recordedModSet1[i]), Expr.Ident(recordedModSet2[i])));
@@ -319,6 +319,7 @@ namespace Dependency
             var refineProc = new Procedure(new Token(), RefineConsts.refinedProcNamePrefix + procName, new List<TypeVariable>(),
                 new List<Variable>(),
                 equivOutParams,
+                isPure:false, // TODO: double check
                 new List<Requires>(),
                 new List<IdentifierExpr>(),
                 equivEnsures);
@@ -356,16 +357,16 @@ namespace Dependency
         private static HavocCmd CreateHavocCmd(IEnumerable<Variable> vars)
         {
             List<IdentifierExpr> exprs = new List<IdentifierExpr>();
-            vars.Iter(i => exprs.Add(Expr.Ident(i)));
+            vars.ForEach(i => exprs.Add(Expr.Ident(i)));
             return new HavocCmd(new Token(), exprs);
         }
 
         private static AssignCmd CreateAssignCmd(IEnumerable<Variable> lhs, IEnumerable<Variable> rhs)
         {
             List<AssignLhs> assignLhss = new List<AssignLhs>();
-            lhs.Iter(i => assignLhss.Add(new SimpleAssignLhs(Token.NoToken, Expr.Ident(i))));
+            lhs.ForEach(i => assignLhss.Add(new SimpleAssignLhs(Token.NoToken, Expr.Ident(i))));
             List<Expr> rhsExprs = new List<Expr>();
-            rhs.Iter(i => rhsExprs.Add(Expr.Ident(i)));
+            rhs.ForEach(i => rhsExprs.Add(Expr.Ident(i)));
             return new AssignCmd(new Token(), assignLhss, rhsExprs);
         }
 
@@ -373,9 +374,9 @@ namespace Dependency
         {
             // call with actual inputs and record actual outputs
             List<Expr> inputExprs = new List<Expr>();
-            inputs.Iter(i => inputExprs.Add(Expr.Ident(i)));
+            inputs.ForEach(i => inputExprs.Add(Expr.Ident(i)));
             List<IdentifierExpr> outputExprs = new List<IdentifierExpr>();
-            outputs.Iter(i => outputExprs.Add(Expr.Ident(i)));
+            outputs.ForEach(i => outputExprs.Add(Expr.Ident(i)));
             
             var result = new CallCmd(new Token(), proc.Name, inputExprs, outputExprs);
             result.Proc = proc;
@@ -404,13 +405,13 @@ namespace Dependency
             //create a VC
             prog.TopLevelDeclarations.OfType<Implementation>()
                 .Where(x => QKeyValue.FindStringAttribute(x.Attributes, RefineConsts.checkDepAttribute) != null)
-                .Iter(x => result[x.Proc] = Analyze(prog, null, x));
+                .ForEach(x => result[x.Proc] = Analyze(prog, null, x));
 
             return result;
         }
         public static Dependencies Analyze(Program prog, Dependencies deps, Implementation impl)
         {
-            string origProcName = impl.FindStringAttribute(RefineConsts.checkDepAttribute);
+            string origProcName = QKeyValue.FindStringAttribute(impl.Attributes, RefineConsts.checkDepAttribute);
             //get the procedure's guard constants
             var inputGuardConsts = prog.TopLevelDeclarations.OfType<Constant>()
                 .Where(x => Utils.AttributeUtils.GetAttributeVals(x.Attributes, RefineConsts.readSetGuradAttribute).Exists(p => (p as string) == origProcName))
@@ -422,8 +423,8 @@ namespace Dependency
             //---- generate VC starts ---------
             //following unsatcoreFromFailures.cs/PerformRootcauseWorks or EqualityFixes.cs/PerformRootCause in Rootcause project
             //typecheck the instrumented program
-            prog.Resolve();
-            prog.Typecheck();
+            prog.Resolve(BoogieUtils.BoogieOptions);
+            prog.Typecheck(BoogieUtils.BoogieOptions);
 
             //Generate VC
             VC.InitializeVCGen(prog);
@@ -433,7 +434,7 @@ namespace Dependency
             //Analyze using UNSAT cores for each output
             //Dependencies deps = new Dependencies();
             Console.WriteLine("RefinedDependency[{0}] = [", origProcName);
-            outputGuardConsts.Iter(x => AnalyzeDependencyWithUnsatCore(programVC, x, deps, origProcName, inputGuardConsts, outputGuardConsts));
+            outputGuardConsts.ForEach(x => AnalyzeDependencyWithUnsatCore(programVC, x, deps, origProcName, inputGuardConsts, outputGuardConsts));
             Console.WriteLine("]");
             VC.FinalizeVCGen(prog);
 
@@ -477,16 +478,16 @@ namespace Dependency
             //check for validity (presence of all input eq implies output is equal)
             var outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
             Console.Write("-");
-            if (outcome == ProverInterface.Outcome.Invalid)
+            if (outcome == SolverOutcome.Invalid)
             {
                 Console.WriteLine("\t VC not valid, returning");
                 result[v].Add(Utils.VariableUtils.NonDetVar);
                 Console.WriteLine("\t Dependency of {0} =  <{1}>", v, string.Join(",", result[v]));
                 return;
             }
-            if (outcome == ProverInterface.Outcome.OutOfMemory || 
-                outcome == ProverInterface.Outcome.TimeOut ||
-                outcome == ProverInterface.Outcome.Undetermined)
+            if (outcome == SolverOutcome.OutOfMemory || 
+                outcome == SolverOutcome.TimeOut ||
+                outcome == SolverOutcome.Undetermined)
             {
                 Console.WriteLine("\t VC inconclusive, returning");
                 result[v].Add(Utils.VariableUtils.NonDetVar);
@@ -500,12 +501,12 @@ namespace Dependency
             //Add the list of all input constants
             inputGuardConsts.ForEach(x => assumptions.Add(VC.translator.LookupVariable(x)));
 
-            //VERY IMPORTANT: TO USE UNSAT CORE, SET ContractInfer to true in CommandLineOptions.Clo.
-            outcome = ProverInterface.Outcome.Undetermined;
+            //VERY IMPORTANT: TO USE UNSAT CORE, SET ContractInfer to true in BoogieUtils.BoogieOptions.
+            outcome = SolverOutcome.Undetermined;
             var (newoutcome, unsatClauseIdentifiers) = VC.proverInterface.CheckAssumptions(assumptions, VC.handler, CancellationToken.None).Result;
             outcome = newoutcome;
             Console.Write("+");
-            if (outcome == ProverInterface.Outcome.Invalid && unsatClauseIdentifiers.Count() == 0)
+            if (outcome == SolverOutcome.Invalid && unsatClauseIdentifiers.Count() == 0)
             {
                 Console.WriteLine("Something went wrong! Unsat core with 0 elements for {0}", outConstant);
                 return;
@@ -522,13 +523,13 @@ namespace Dependency
             if (!Analysis.noMinUnsatCore)
             {
                 core0
-                    .Iter(b =>
+                    .ForEach(b =>
                     {
                         core.Remove(b);
                         preInp = core.Aggregate(VCExpressionGenerator.True, (x, y) => VC.exprGen.And(x, y));
                         outcome = VC.VerifyVC("RefineDependency", VC.exprGen.Implies(preInp, newVC), out cexs);
                         Console.Write(".");
-                        if (outcome != ProverInterface.Outcome.Valid)
+                        if (outcome != SolverOutcome.Valid)
                         {
                             core.Add(b);
                             return;
@@ -604,13 +605,13 @@ namespace Dependency
             if (potential == 0) return lowerBoundDependencies;
 
             var refineImpl = RefineDependencyProgramCreator.CreateCheckDependencyImpl(upperBoundDependencies, lowerBoundDependencies, impl, prog);
-            ModSetCollector c = new ModSetCollector();
+            ModSetCollector c = new ModSetCollector(BoogieUtils.BoogieOptions);
             c.DoModSetAnalysis(prog);
 
             //add callee ensures to procedure
             Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count()];
             prog.TopLevelDeclarations.ToList().CopyTo(decls); // a copy is needed since AddCalleeDependencySpecs changes prog.TopLevelDeclarations
-            decls.OfType<Procedure>().Iter(p =>
+            decls.OfType<Procedure>().ForEach(p =>
                 { 
                     if (lowerBoundDependencies.ContainsKey(p)) //the CheckDependency does not have currDependencies
                         AddCalleeDependencySpecs(p, lowerBoundDependencies[p]); 
@@ -619,7 +620,8 @@ namespace Dependency
             callGraph.AddEdge(refineImpl.Proc, impl.Proc);
 
             //inline all the implementations before calling Analyze
-            SymDiffUtils.BoogieUtils.BoogieInlineUtils.InlineUptoDepth(prog, refineImpl, stackBound, RefineConsts.recursionDepth, callGraph, CommandLineOptions.Inlining.Spec);
+            SymDiffUtils.BoogieUtils.BoogieInlineUtils.InlineUptoDepth(
+                prog, refineImpl, stackBound, RefineConsts.recursionDepth, callGraph, CoreOptions.Inlining.Spec);
             Utils.PrintProgram(prog, impl.Name + "_checkdep.bpl");
 
             var newDepImpl = RefineDependencyChecker.Analyze(prog, lowerBoundDependencies[impl.Proc], refineImpl);

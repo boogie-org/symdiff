@@ -32,10 +32,10 @@ namespace SymdiffPreprocess
 
             if (args.ToList().Any(x => x == "-break")) Debugger.Launch();
             args.Where(x => x.StartsWith("-relativeSourceDir:"))
-                .Iter(s => relativeDir = s.Split(':')[1]);
-           
+                .ForEach(s => relativeDir = s.Split(':')[1]);
 
-            CommandLineOptions.Install(new CommandLineOptions());
+
+            BoogieUtils.InitializeBoogie("");
 
 
             string programFileName = args[0];
@@ -85,12 +85,12 @@ namespace SymdiffPreprocess
         {
             Program program;
             program = BoogieUtils.ParseProgram(programFileName);
-            int errors = program.Resolve();
+            int errors = program.Resolve(BoogieUtils.BoogieOptions);
             if (errors > 0)
                 throw new ArgumentException("Unable to resolve " + programFileName);
-            ModSetCollector c = new ModSetCollector();
+            ModSetCollector c = new ModSetCollector(BoogieUtils.BoogieOptions);
             c.DoModSetAnalysis(program);
-            errors = program.Typecheck();
+            errors = program.Typecheck(BoogieUtils.BoogieOptions);
             if (errors > 0)
                 throw new ArgumentException("Unable to typecheck " + programFileName);
             PersistentProgram persistentProgram = new PersistentProgram(program);
