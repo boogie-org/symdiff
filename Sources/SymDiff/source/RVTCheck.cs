@@ -283,7 +283,7 @@ namespace RVT
 
 
             //Log.Out(Log.Normal, "Resolving and Typechecking again..");
-            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
+            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
             {
                 Log.LogEmit(Log.Normal, mergedProgram.Emit);
                 return false;
@@ -472,7 +472,7 @@ namespace RVT
             Util.DumpBplAST(prog, vt.Eq.Name + "_out.bpl");
             // prog = SDiff.Boogie.Process.ParseProgram(vt.Eq.Name + "_out.bpl");
 
-            if (BoogieUtils.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile))
+            if (BoogieUtils.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                 return 1;
 
             Implementation newEq = vt.Eq;

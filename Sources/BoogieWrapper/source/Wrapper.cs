@@ -45,7 +45,7 @@ namespace BoogieWrapper
                 Log.Out(Log.Verifier, "Parse Error!!! in   " + args[1]);
                 return -1;
             }
-            if (BoogieUtils.ResolveAndTypeCheckThrow(prog, args[0]))
+            if (BoogieUtils.ResolveAndTypeCheckThrow(prog, args[0], BoogieUtils.BoogieOptions))
                 return -1;
             //code duplication
 
@@ -55,7 +55,7 @@ namespace BoogieWrapper
                 //System.Diagnostics.Debugger.Break();
                 var bvdI = new BvdInstrument();
                 Program prog1 = bvdI.VisitProgram(prog);
-                if (BoogieUtils.ResolveAndTypeCheckThrow(prog, fileName)) return -1;
+                if (BoogieUtils.ResolveAndTypeCheckThrow(prog, fileName, BoogieUtils.BoogieOptions)) return -1;
                 Util.DumpBplAST(prog, "merged_bvd.bpl");
                 return -1;
             }

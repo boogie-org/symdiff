@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-//using PureCollections;
 using Microsoft.Boogie;
 using SDiff;
 using SymDiffUtils;

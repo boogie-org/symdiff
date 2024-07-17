@@ -155,7 +155,7 @@ namespace SDiff
         var prog = BoogieUtils.ParseProgram(args[1]);
         if (prog == null)
           return 1;
-        if (BoogieUtils.ResolveAndTypeCheckThrow(prog, args[1]))
+        if (BoogieUtils.ResolveAndTypeCheckThrow(prog, args[1], BoogieUtils.BoogieOptions))
           return 1;
         return 0;
       }
@@ -190,7 +190,7 @@ namespace SDiff
         Console.WriteLine("parse failed");
         return 1;
       }
-      if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename))
+      if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename, BoogieUtils.BoogieOptions))
       if (program == null)
       {
         Console.WriteLine("check failed");
@@ -210,7 +210,7 @@ namespace SDiff
         var program = BoogieUtils.ParseProgram(filename);
       if (program == null)
         return 1;
-      BoogieUtils.ResolveAndTypeCheckThrow(program, filename);
+      BoogieUtils.ResolveAndTypeCheckThrow(program, filename, BoogieUtils.BoogieOptions);
 
       var flag = false;
       var mflag = false;
@@ -258,7 +258,7 @@ namespace SDiff
         Log.Out(Log.Error, "Parse failed.");
         return 1;
       }
-      if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename))
+      if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename, BoogieUtils.BoogieOptions))
       {
         Log.Out(Log.Error, "Check failed.");
         return 1;
@@ -293,7 +293,7 @@ namespace SDiff
             Log.Out(Log.Error, "Parse failed.");
             return 1;
         }
-        if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename))
+        if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename, BoogieUtils.BoogieOptions))
         {
             Log.Out(Log.Error, "Check failed.");
             return 1;
@@ -388,16 +388,16 @@ namespace SDiff
         if (p == null)
             return 1;
 
-        BoogieUtils.ResolveProgram(p, first);
-        BoogieUtils.TypecheckProgram(p, first);
+        BoogieUtils.ResolveProgram(p, first, BoogieUtils.BoogieOptions);
+        BoogieUtils.TypecheckProgram(p, first, BoogieUtils.BoogieOptions);
 
         // Second program
         Program q = BoogieUtils.ParseProgram(second);
         if (q == null)
             return 1;
 
-        BoogieUtils.ResolveProgram(q, second);
-        BoogieUtils.TypecheckProgram(q, second);
+        BoogieUtils.ResolveProgram(q, second, BoogieUtils.BoogieOptions);
+        BoogieUtils.TypecheckProgram(q, second, BoogieUtils.BoogieOptions);
 
 
         first = Path.GetFileNameWithoutExtension(first) + '.';

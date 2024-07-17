@@ -216,7 +216,6 @@ namespace SDiff
             }
             catch (UnexpectedProverOutputException upo)
             {
-
                 Log.Out(Log.Error, "Advisory: {0} SKIPPED because of internal error: unexpected prover output: {1}" + upo.Message);
                 errors = null;
                 outcome = VcOutcome.Inconclusive;
@@ -295,7 +294,7 @@ namespace SDiff
         public static VC.ConditionGeneration InitializeVC(Program prog)
         {
             var checkerPool = new CheckerPool(CommandLineOptions.FromArguments(Console.Out));
-            VC.ConditionGeneration vcgen = null;
+            VC.ConditionGeneration vcgen;
             try
             {
                 vcgen = new VerificationConditionGenerator(prog, checkerPool);
@@ -786,12 +785,11 @@ namespace SDiff
             reader.Close();
             writer.Close();
         }
-        public static int RunVerificationTask(VerificationTask vt, VC.ConditionGeneration vcgen, Program prog, out bool crashed, bool wrapper = true)
+        public static int RunVerificationTask(VerificationTask vt, Program prog, out bool crashed, bool wrapper = true)
         {
             crashed = false;
 
-            var attList = new List<Object>(1);
-            attList.Add(Expr.Literal(1));
+            var attList = new List<Object>(1) { Expr.Literal(1) };
 
             //save attributes
             var sqkLeft = vt.Left.Attributes;
@@ -876,13 +874,13 @@ namespace SDiff
                     Log.Out(Log.Verifier, "Parse Error!!! in   " + vt.Eq.Name);
                     return 1;
                 }
-                if (BoogieUtils.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile))
+                if (BoogieUtils.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                     return 1;
 
                 newEq = vt.Eq;
                 newProg = prog;
 
-                vcgen = InitializeVC(newProg);
+                var vcgen = InitializeVC(newProg);
                 //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
                 newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
 
@@ -890,10 +888,6 @@ namespace SDiff
                 newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
 
                 vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors);
-
-
-
-
 
                 switch (vt.Result)
                 {

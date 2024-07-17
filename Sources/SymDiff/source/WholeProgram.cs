@@ -369,7 +369,8 @@ namespace SDiff
             //Program mergedProgram = new Program();
             //mergedProgram.TopLevelDeclarations = p2.TopLevelDeclarations.Append(p1.TopLevelDeclarations.ToList());
             Log.Out(Log.Normal, "Resolving and typechecking");
-            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
+            Boogie.Process.InitializeBoogie("/doModSetAnalysis");
+            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                 return 1;
 
             //--------------- renaming starts ----------------------------------
@@ -420,7 +421,7 @@ namespace SDiff
             mergedProgram = BoogieUtils.ParseProgram(p1Prefix + p2Prefix + "_temp.bpl");
             Log.Out(Log.Normal, "Resolving and typechecking");
             //we now have a single AST that contains all of the elements of each of the individual ASTs
-            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
+            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                 return 1;
             return 0;
         }
@@ -503,7 +504,7 @@ namespace SDiff
             Log.Out(Log.Normal, "Writing writesets as modifies clauses");
             SDiff.Boogie.Process.SetModifies(mergedProgram.TopLevelDeclarations.ToList(), cg);
             Log.Out(Log.Normal, "Resolving and Typechecking again..");
-            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
+            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                 return 1;
             if (Options.TraceVerify)
             {
@@ -524,7 +525,7 @@ namespace SDiff
             g1s.Add(new GlobalVariable(new Token(), new TypedIdent(new Token(), p1Prefix + ".OK", BasicType.Bool)));
             g2s.Add(new GlobalVariable(new Token(), new TypedIdent(new Token(), p2Prefix + ".OK", BasicType.Bool)));
             //just making sure
-            if (BoogieUtils.ResolveProgram(p1, v1name) || BoogieUtils.ResolveProgram(p2, v2name))
+            if (BoogieUtils.ResolveProgram(p1, v1name, BoogieUtils.BoogieOptions) || BoogieUtils.ResolveProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
             return 0; //this denotes success
         }
@@ -1139,7 +1140,7 @@ namespace SDiff
                     mergedProgram.AddTopLevelDeclarations(canonicalConst);
 
                     Log.Out(Log.Normal, "Resolving and Typechecking again..");
-                    if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
+                    if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                     {
                         Log.LogEmit(Log.Normal, mergedProgram.Emit);
                         return 1;
@@ -1201,7 +1202,7 @@ namespace SDiff
                         }
 
                         //RS: this is only file processing (if wrapper is true)
-                        curCex = BoogieVerify.RunVerificationTask(vt, null, mergedProgram, /*failedProcs,*/ out crashed, wrapper);
+                        curCex = BoogieVerify.RunVerificationTask(vt, mergedProgram, /*failedProcs,*/ out crashed, wrapper);
                         if (wrapper)
                             ExecuteWithWrapper(ref curCex, ref numCrashed, vt);
                         if (Options.PropagateEquivs)
@@ -1413,7 +1414,7 @@ namespace SDiff
             Program p1, p2;
             if ((p1 = BoogieUtils.ParseProgram(v1name)) == null) return 1;
             if ((p2 = BoogieUtils.ParseProgram(v2name)) == null) return 1;
-            // Reorganizing the topleveldeclarations of the two versions of bpl programs - hemr
+            // Reorganizing the electrotransformations of the two versions of bpl programs - hemr
             p1 = RestructureProgram(p1);
             p2 = RestructureProgram(p2);
 
@@ -1432,9 +1433,9 @@ namespace SDiff
             //the types of the two programs are unified even before Resolve
             //collect globals, constants, functions, and axioms
             //Filter : 'a list -> ('a -> bool) -> 'a list
-            BoogieUtils.ResolveAndTypeCheckThrow(p1, v1name);
-            BoogieUtils.ResolveAndTypeCheckThrow(p2, v2name);
-
+            BoogieUtils.ResolveAndTypeCheckThrow(p1, v1name, BoogieUtils.BoogieOptions);
+            BoogieUtils.ResolveAndTypeCheckThrow(p2, v2name, BoogieUtils.BoogieOptions);
+            
             //new: remove unused global upfront (exception later)
             //var g1Uses = GetUsedVariables(p1).GetUseSetForProgram();
             //var g2Uses = GetUsedVariables(p2).GetUseSetForProgram();
@@ -1465,11 +1466,13 @@ namespace SDiff
             //Major side effects:
             //   resolves the strings representation into objects 
             //   types, variables, procedure calls, procedure symbols in expr, 
-            if (BoogieUtils.ResolveProgram(p1, v1name) || BoogieUtils.ResolveProgram(p2, v2name))
+            if (BoogieUtils.ResolveProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
+                BoogieUtils.ResolveProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
             //typecheck the programs
             //Main side effect: would inline calls with {inline} attribute
-            if (BoogieUtils.TypecheckProgram(p1, v1name) || BoogieUtils.TypecheckProgram(p2, v2name))
+            if (BoogieUtils.TypecheckProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
+                BoogieUtils.TypecheckProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
             /////////////////////////////////////////////////////////////////////////////////////
             // Some modification of p1, p2 ends
@@ -1515,9 +1518,11 @@ namespace SDiff
                 Util.InlineMissingImplementations(p2, p1, pdict2, pdict1);
             }
             //RS: resolve and typecheck
-            if (BoogieUtils.ResolveProgram(p1, v1name) || BoogieUtils.ResolveProgram(p2, v2name))
+            if (BoogieUtils.ResolveProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
+                BoogieUtils.ResolveProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
-            if (BoogieUtils.TypecheckProgram(p1, v1name) || BoogieUtils.TypecheckProgram(p2, v2name))
+            if (BoogieUtils.TypecheckProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
+                BoogieUtils.TypecheckProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
             /////////////////////////////////////////////////////////
             //// Inlining logic ends
@@ -1545,7 +1550,8 @@ namespace SDiff
             Util.MakeContractsFree(p1);
             Util.MakeContractsFree(p2);
             //just making sure
-            if (BoogieUtils.ResolveProgram(p1, v1name) || BoogieUtils.ResolveProgram(p2, v2name))
+            if (BoogieUtils.ResolveProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
+                BoogieUtils.ResolveProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
             //////////////////////////////////////////////////////////
             // Strip/Free contracts ends

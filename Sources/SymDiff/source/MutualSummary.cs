@@ -103,11 +103,11 @@ namespace SDiff
             BoogieUtils.BoogieOptions.ContractInfer = true;
 
             //TODO: need to pass inferContracts options that run_symdiff_bpl passed to Boogie.exe
-            var boogieOptions = " /monomorphize /noinfer " + Options.BoogieUserOpts /* + " /trace " */;
+            var boogieOptions = " /typeEncoding:m /noinfer " + Options.BoogieUserOpts /* + " /trace " */;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
             var mps = Options.MergedProgramOutputFile; 
             var program = BoogieUtils.ParseProgram(mps);
-            BoogieUtils.ResolveAndTypeCheckThrow(program, mps);             
+            BoogieUtils.ResolveAndTypeCheckThrow(program, mps, BoogieUtils.BoogieOptions);             
             (new TaintBasedSimplification(program)).StartSimplifications();
 
             if (Options.dacConsiderChangedProcsUptoDistance >= 0)
@@ -127,7 +127,7 @@ namespace SDiff
             var mpsPi = "mergedProgSingle_preInferred.bpl";
             BoogieUtils.PrintProgram(program, mpsPi);
             program = BoogieUtils.ParseProgram(mpsPi);
-            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi); 
+            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi, BoogieUtils.BoogieOptions); 
 
 
             Console.WriteLine("Analyzing the list of implementations in Houdini = [{0}]",
@@ -148,7 +148,7 @@ namespace SDiff
                 houdiniStats.numUnsatCorePrunings);
             //program changes due to Houdini transformations
             program = BoogieUtils.ParseProgram(mpsPi);
-            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi); 
+            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi, BoogieUtils.BoogieOptions); 
             var trueConstants = extractVariableAssigned(true, outcome);
             var falseConstants = extractVariableAssigned(false, outcome);
             persistHoudiniInferredFacts(trueConstants, falseConstants, program, houdini);
@@ -252,7 +252,7 @@ namespace SDiff
             if (typeCheckMergedProgram)
             {
                 Log.Out(Log.Normal, "Resolving and typechecking");
-                BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile);
+                BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions);
             }
 
             if (callCorralOnMergedProgram)

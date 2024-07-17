@@ -2,8 +2,8 @@
 using Microsoft.Boogie.GraphUtil;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace SymDiffUtils
 {
@@ -15,7 +15,7 @@ namespace SymDiffUtils
             BoogieOptions = new CommandLineOptions(Console.Out, new ConsolePrinter());
             BoogieOptions.RunningBoogieFromCommandLine = true;
 
-            var args = "/doModSetAnalysis".Split(' ');
+            var args = clo.Split(' ');
             BoogieOptions.Parse(args);
 
             return false;
@@ -32,32 +32,32 @@ namespace SymDiffUtils
             outFile.Close();
         }
 
-        public static bool ResolveProgram(Program p, string filename)
+        public static bool ResolveProgram(Program p, string filename, CommandLineOptions boogieOptions)
         {
             //After p.Resolve, the AST is in p.topLevelDeclarations  
-            int errorCount = p.Resolve(BoogieOptions);
+            int errorCount = p.Resolve(boogieOptions);
             if (errorCount != 0)
                 Console.WriteLine(errorCount + " name resolution errors in " + filename);
             return errorCount != 0;
         }
 
-        public static bool TypecheckProgram(Program p, string filename)
+        public static bool TypecheckProgram(Program p, string filename, CommandLineOptions boogieOptions)
         {
             //One of the sideeffect of p.Typecheck, it inlines 
-            int errorCount = p.Typecheck(BoogieOptions);
+            int errorCount = p.Typecheck(boogieOptions);
             if (errorCount != 0)
                 Console.WriteLine(errorCount + " type checking errors in " + filename);
             return errorCount != 0;
         }
 
-        private static bool ResolveAndTypeCheck(Program p, string filename)
+        private static bool ResolveAndTypeCheck(Program p, string filename, CommandLineOptions boogieOptions)
         {
-            if (ResolveProgram(p, ""))
+            if (ResolveProgram(p, filename, boogieOptions))
             {
                 Log.Out(Log.Error, "Failed to resolve  program");
                 return true;
             }
-            if (TypecheckProgram(p, ""))
+            if (TypecheckProgram(p, filename, boogieOptions))
             {
                 Log.Out(Log.Error, "Failed to typecheck program");
                 //Log.LogEmit(Log.Normal, p.Emit);
@@ -67,9 +67,9 @@ namespace SymDiffUtils
             return false;
         }
 
-        public static bool ResolveAndTypeCheckThrow(Program p, string filename)
+        public static bool ResolveAndTypeCheckThrow(Program p, string filename, CommandLineOptions boogieOptions)
         {
-            if (ResolveAndTypeCheck(p, filename))
+            if (ResolveAndTypeCheck(p, filename, boogieOptions))
                 throw new Exception("Program " + filename + " does not resolve/typecheck");
             return false;
         }
