@@ -590,14 +590,13 @@ namespace Rootcause
                         args.Select(x => (Variable)new Formal(tok, new TypedIdent(tok, x.Item1, x.Item2), true)).ToArray()),
                     new Formal(tok, new TypedIdent(tok, "", typ), false),
                     null, new QKeyValue(tok, "constructor", new List<object>(), null));
-            DatatypeConstructor cons = new DatatypeConstructor((DatatypeTypeCtorDecl)typ.Decl, ctor);
-            DatatypeMembership membership = DatatypeMembership.NewDatatypeMembership(cons);
-            cons.membership = membership;
-            var selectors = args.Select((x, i) => DatatypeSelector.NewDatatypeSelector(cons, i)).ToList();
-            selectors.ForEach(sel => cons.selectors.Add);
+            DatatypeTypeCtorDecl datatypeTypeCtorDecl = (DatatypeTypeCtorDecl)typ.Decl;
+            DatatypeConstructor cons = new DatatypeConstructor(ctor);
+            datatypeTypeCtorDecl.AddConstructor(cons);
             prog.AddTopLevelDeclaration(cons);
-            prog.AddTopLevelDeclaration(membership);
-            selectors.ForEach(sel => prog.AddTopLevelDeclaration(sel));
+            // TODO: Not sure if the following is needed.
+            // var selectors = args.Select((x, i) => DatatypeSelector.NewDatatypeSelector(cons, i)).ToList();
+            // selectors.ForEach(sel => prog.AddTopLevelDeclaration(sel));
             return cons;
         }
 

@@ -398,7 +398,7 @@ namespace SymDiffUtils
         public static void DumpBplAST(Program p, string filename)
         {
             var executionEngine = ExecutionEngine.CreateWithoutSharedCache(BoogieUtils.BoogieOptions);
-            executionEngine.PrintBplFile(filename, p, true, true, true);
+            executionEngine.PrintBplFile(filename, p, true);
             executionEngine.Dispose();
         }
         public static void PrintError(string fname)

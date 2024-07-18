@@ -288,7 +288,8 @@ namespace SDiff.Boogie
     {
       BoogieUtils.BoogieOptions = new CommandLineOptions(Console.Out, new ConsolePrinter()) 
       {
-        RunningBoogieFromCommandLine = true
+        RunningBoogieFromCommandLine = true,
+        PrintErrorModel = 1
       };
 
       if (Options.refinedStmtTaint)

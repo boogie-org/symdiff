@@ -1201,6 +1201,12 @@ namespace SDiff
                             return stmtTaint.PerformTaintAnalysis();
                         }
 
+                        if (!MonomorphismChecker.IsMonomorphic(mergedProgram))
+                        {
+                            Log.Out(Log.Warning, "Warning: Polymorphism detected in input.");
+                            BoogieUtils.BoogieOptions.TypeEncodingMethod = CoreOptions.TypeEncoding.Arguments;
+                        }
+
                         //RS: this is only file processing (if wrapper is true)
                         curCex = BoogieVerify.RunVerificationTask(vt, mergedProgram, /*failedProcs,*/ out crashed, wrapper);
                         if (wrapper)

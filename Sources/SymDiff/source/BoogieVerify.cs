@@ -11,6 +11,7 @@ using System.Threading;
 using Microsoft.Boogie.VCExprAST;
 using SymDiffUtils;
 using VC;
+using VCGeneration;
 using Util = SymDiffUtils.Util;
 
 namespace SDiff
@@ -198,6 +199,17 @@ namespace SDiff
                 if (!imperativeBlocks.ContainsKey(b.Label))
                     imperativeBlocks.Add(b.Label, duper.VisitBlock(b));
 
+            var engine = new ExecutionEngine(BoogieUtils.BoogieOptions, new VerificationResultCache(),
+                CustomStackSizePoolTaskScheduler.Create(16 * 1024 * 1024, 1));
+            engine.EliminateDeadVariables(prog);
+            engine.CoalesceBlocks(prog);
+            engine.Inline(prog);
+            engine.Dispose();
+
+            var assumeFlags = new QKeyValue(Token.NoToken, "captureState", new List<object>{ "final_state" }, null);
+            AssumeCmd ac = new AssumeCmd(Token.NoToken, new LiteralExpr(Token.NoToken, true), assumeFlags);
+            impl.Blocks.Last().Cmds.Add(ac);
+
             try
             {
                 var start = DateTime.Now;
@@ -293,7 +305,14 @@ namespace SDiff
 
         public static VC.ConditionGeneration InitializeVC(Program prog)
         {
-            var checkerPool = new CheckerPool(CommandLineOptions.FromArguments(Console.Out));
+            var opts = CommandLineOptions.FromArguments(Console.Out);
+            opts.PrintErrorModel = 1;
+            if (!MonomorphismChecker.IsMonomorphic(prog))
+            {
+                Log.Out(Log.Warning, "Warning: Polymorphism detected in input.");
+                opts.TypeEncodingMethod = CoreOptions.TypeEncoding.Arguments;
+            }
+            var checkerPool = new CheckerPool(opts);
             VC.ConditionGeneration vcgen;
             try
             {
@@ -838,8 +857,6 @@ namespace SDiff
 
             // prog = EQ program
             // vt.Eq = EQ_f_f' procedure with f, f' having {inline} tags
-            var options = new CommandLineOptions(Console.Out, new ConsolePrinter());
-            Inliner.ProcessImplementation(options, prog, vt.Eq);
 
             SDiffCounterexamples SErrors = null;
             Implementation newEq = null;
@@ -960,7 +977,8 @@ namespace SDiff
                         if (Options.PreciseDifferentialInline)
                         {
                             List<Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant).ToList();
-                            ProcessCounterexamplesWOSymbolicOut(SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, [SErrors[0].fst.Model]);
+                            ProcessCounterexamplesWOSymbolicOut(
+                                SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, [SErrors[0].Cex.Model]);
                         }
                         else
                         {
