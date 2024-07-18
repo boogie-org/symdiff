@@ -319,7 +319,7 @@ namespace Dependency
             var refineProc = new Procedure(new Token(), RefineConsts.refinedProcNamePrefix + procName, new List<TypeVariable>(),
                 new List<Variable>(),
                 equivOutParams,
-                isPure:false, // TODO: double check
+                isPure:false,
                 new List<Requires>(),
                 new List<IdentifierExpr>(),
                 equivEnsures);

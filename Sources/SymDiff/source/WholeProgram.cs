@@ -837,7 +837,7 @@ namespace SDiff
                     {
                         var newProc = new Procedure(
                             proc.tok, proc.Name + "_Diff_Inline", proc.TypeParameters, proc.InParams, proc.OutParams,
-                            isPure:false, // TODO: double check
+                            isPure:false,
                             proc.Requires, proc.Modifies, proc.Ensures);
                         newProc.Modifies = proc.Modifies;
                         procDeclsPlusDiffInlineProcs.Add(newProc); //HT[proc] := newProc;

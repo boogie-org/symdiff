@@ -761,7 +761,7 @@ namespace SDiff
                     new List<TypeVariable>(),
                     ivarSeq,
                     ovarSeq,
-                    isPure:false, // TODO: double check
+                    isPure:false,
                     requiresSeq,
                     new List<IdentifierExpr>(),
                     ensuresSeq);

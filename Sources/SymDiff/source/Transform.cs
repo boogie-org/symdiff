@@ -286,7 +286,7 @@ namespace SDiff
 
       Procedure eqProc =
         new Procedure(Token.NoToken, procName, B.C.empTypeVariableSeq, unionIns,
-          new List<Variable>(outputEqualityState.Decls), isPure:false, // TODO: double check
+          new List<Variable>(outputEqualityState.Decls), isPure:false,
           B.C.empRequiresSeq, eqModifies, new List<Ensures>(outputPostConditions));
 
       BigBlock bl =

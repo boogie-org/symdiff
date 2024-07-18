@@ -11,7 +11,6 @@ using System.Threading;
 using Microsoft.Boogie.VCExprAST;
 using SymDiffUtils;
 using VC;
-using VCGeneration;
 using Util = SymDiffUtils.Util;
 
 namespace SDiff
