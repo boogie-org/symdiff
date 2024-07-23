@@ -57,15 +57,17 @@ namespace Rootcause
             VC.collector = null;
         }
 
-        // public static SolverOutcome MyBeginCheck(string descriptiveName, VCExpr vc, ProverInterface.ErrorHandler handler)
-        // {
-        //     VC.proverInterface.Push();
-        //     VC.proverInterface.Assert(vc, true);
-        //     VC.proverInterface.Check();
-        //     var outcome = VC.proverInterface.CheckOutcomeCore(VC.handler, CancellationToken.None).Result;
-        //     VC.proverInterface.Pop();
-        //     return outcome;
-        // }
+        public static SolverOutcome MyBeginCheck(string descriptiveName, VCExpr vc, ProverInterface.ErrorHandler handler)
+        {
+            VC.proverInterface.Push();
+            VC.proverInterface.Assert(vc, true);
+            VC.proverInterface.Check();
+            var outcome = VC.proverInterface.Check(descriptiveName, vc, VC.handler,
+                BoogieUtils.BoogieOptions.ErrorLimit, CancellationToken.None).Result;
+            VC.proverInterface.Pop();
+            return outcome;
+        }
+
         public static VCExpr GenerateVC(Program prog, Implementation impl)
         {
             VC.VerificationConditionGenerator.ConvertCFG2DAG(new ImplementationRun(impl, Console.Out));

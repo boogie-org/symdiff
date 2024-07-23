@@ -1028,15 +1028,17 @@ namespace SymDiffUtils
             collector = null;
         }
 
-        // public static SolverOutcome MyBeginCheck(string descriptiveName, VCExpr vc, ProverInterface.ErrorHandler handler)
-        // {
-        //     SymDiffVC.proverInterface.Push();
-        //     SymDiffVC.proverInterface.Assert(vc, true);
-        //     SymDiffVC.proverInterface.Check();
-        //     var outcome = SymDiffVC.proverInterface.CheckOutcomeCore(SymDiffVC.handler, CancellationToken.None).Result;
-        //     SymDiffVC.proverInterface.Pop();
-        //     return outcome;
-        // }
+        public static SolverOutcome MyBeginCheck(string descriptiveName, VCExpr vc, ProverInterface.ErrorHandler handler)
+        {
+            SymDiffVC.proverInterface.Push();
+            SymDiffVC.proverInterface.Assert(vc, true);
+            SymDiffVC.proverInterface.Check();
+            var outcome = SymDiffVC.proverInterface.Check(descriptiveName, vc, SymDiffVC.handler,
+                BoogieUtils.BoogieOptions.ErrorLimit, CancellationToken.None).Result;
+            SymDiffVC.proverInterface.Pop();
+            return outcome;
+        }
+
         public static VCExpr GenerateVC(Program prog, Implementation impl)
         {
             SymDiffVC.vcgen.ConvertCFG2DAG(new ImplementationRun(impl, Console.Out));
@@ -1055,24 +1057,6 @@ namespace SymDiffUtils
             VCExpr eqExpr = SymDiffVC.exprGen.Eq(controlFlowFunctionAppl, SymDiffVC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
             vc = SymDiffVC.exprGen.Implies(eqExpr, vc);
         
-            // new SplitAndVerifyWorker(BoogieUtils.BoogieOptions, vcgen,
-            //     new ImplementationRun(impl, Console.Out),
-            //     gotoCmdOrigins, callback:null,
-            //     mvInfo, vcOutcome:)
-            
-            // SymDiffVC.handler =
-            //     new VerificationConditionGenerator.ErrorReporter(
-            //         options : BoogieUtils.BoogieOptions,
-            //         gotoCmdOrigins : gotoCmdOrigins,
-            //         absyIds : absyIds,
-            //         blocks : impl.Blocks, 
-            //         debugInfos : new Dictionary<Cmd, List<object>>(), 
-            //         callback : null,
-            //         mvInfo : mvInfo,
-            //         // SymDiffVC.collector, 
-            //         context : SymDiffVC.proverInterface.Context,
-            //         program : prog,
-            //         split : ManualSplit.DoSplit());
             return vc;
         }
         #endregion
