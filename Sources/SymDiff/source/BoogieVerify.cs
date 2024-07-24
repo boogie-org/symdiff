@@ -7,7 +7,10 @@ using Microsoft.BaseTypes; //For BigNum
 using SDiff.Boogie;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
+using Microsoft.Boogie.VCExprAST;
 using SymDiffUtils;
+using VC;
 using Util = SymDiffUtils.Util;
 
 namespace SDiff
@@ -157,14 +160,13 @@ namespace SDiff
 
         public enum ReturnStatus { OK, NOK };
 
-        public static VC.ConditionGeneration.Outcome MyVerifyImplementation(Implementation impl, Program prog)
-        {
-            VC.ConditionGeneration vcgen = BoogieVerify.InitializeVC(prog);
-            List<Counterexample> errs;
-            var outcome = vcgen.VerifyImplementation(impl, out errs) ;
-            vcgen.Close();
-            return outcome;
-        }
+        // public static VcOutcome MyVerifyImplementation(Implementation impl, Program prog)
+        // {
+        //     VC.ConditionGeneration vcgen = BoogieVerify.InitializeVC(prog);
+        //     var outcome = vcgen.VerifyImplementation(impl, out var errs, "TODO:requestId", CancellationToken.None) ;
+        //     vcgen.Close();
+        //     return outcome;
+        // }
         public static VerificationResult VerifyImplementation(VC.ConditionGeneration vcgen, Implementation impl, Program prog, out SDiffCounterexamples cex)
         {
 
@@ -185,7 +187,8 @@ namespace SDiff
 
             List<Counterexample> errors;
             VerificationResult sdoutcome = VerificationResult.Unknown;
-            VC.VCGen.Outcome outcome;
+            List<VerificationRunResult> vcResults;
+            VcOutcome outcome;
 
             //Log.Out(Log.Verifier, "Saving implementation before Boogie preprocessing");
             var duper = new Duplicator();
@@ -195,12 +198,22 @@ namespace SDiff
                 if (!imperativeBlocks.ContainsKey(b.Label))
                     imperativeBlocks.Add(b.Label, duper.VisitBlock(b));
 
+            var engine = new ExecutionEngine(BoogieUtils.BoogieOptions, new VerificationResultCache(),
+                CustomStackSizePoolTaskScheduler.Create(16 * 1024 * 1024, 1));
+            engine.EliminateDeadVariables(prog);
+            engine.CoalesceBlocks(prog);
+            engine.Inline(prog);
+            engine.Dispose();
+
+            var assumeFlags = new QKeyValue(Token.NoToken, "captureState", new List<object>{ "final_state" }, null);
+            AssumeCmd ac = new AssumeCmd(Token.NoToken, new LiteralExpr(Token.NoToken, true), assumeFlags);
+            impl.Blocks.Last().Cmds.Add(ac);
+
             try
             {
                 var start = DateTime.Now;
-
-                //outcome = vcgen.VerifyImplementation(impl, prog, out errors);
-                outcome = vcgen.VerifyImplementation(impl, /*prog,*/ out errors, "TODO: requestId"); //out errorsModel);
+                (outcome, errors, vcResults) =
+                    vcgen.VerifyImplementation2(new ImplementationRun(impl, Console.Out), CancellationToken.None).Result;
                 var end = DateTime.Now;
 
                 TimeSpan elapsed = end - start;
@@ -210,14 +223,13 @@ namespace SDiff
             {
                 Log.Out(Log.Error, "Error BP5010: {0}  Encountered in implementation {1}: " + e.Message);
                 errors = null;
-                outcome = VC.VCGen.Outcome.Inconclusive;
+                outcome = VcOutcome.Inconclusive;
             }
             catch (UnexpectedProverOutputException upo)
             {
-
                 Log.Out(Log.Error, "Advisory: {0} SKIPPED because of internal error: unexpected prover output: {1}" + upo.Message);
                 errors = null;
-                outcome = VC.VCGen.Outcome.Inconclusive;
+                outcome = VcOutcome.Inconclusive;
             }
             catch (Exception e)
             {
@@ -228,19 +240,19 @@ namespace SDiff
 
             switch (outcome)
             {
-                case VC.VCGen.Outcome.Correct:
+                case VcOutcome.Correct:
                     sdoutcome = VerificationResult.Verified;
                     break;
-                case VC.VCGen.Outcome.Errors:
+                case VcOutcome.Errors:
                     sdoutcome = VerificationResult.Error;
                     break;
-                case VC.VCGen.Outcome.Inconclusive:
+                case VcOutcome.Inconclusive:
                     sdoutcome = VerificationResult.Inconclusive;
                     break;
-                case VC.VCGen.Outcome.OutOfMemory:
+                case VcOutcome.OutOfMemory:
                     sdoutcome = VerificationResult.OutOfMemory;
                     break;
-                case VC.VCGen.Outcome.TimedOut:
+                case VcOutcome.TimedOut:
                     sdoutcome = VerificationResult.TimeOut;
                     break;
             }
@@ -292,10 +304,18 @@ namespace SDiff
 
         public static VC.ConditionGeneration InitializeVC(Program prog)
         {
-            VC.ConditionGeneration vcgen = null;
+            var opts = CommandLineOptions.FromArguments(Console.Out);
+            opts.PrintErrorModel = 1;
+            if (!MonomorphismChecker.IsMonomorphic(prog))
+            {
+                Log.Out(Log.Warning, "Warning: Polymorphism detected in input.");
+                opts.TypeEncodingMethod = CoreOptions.TypeEncoding.Arguments;
+            }
+            var checkerPool = new CheckerPool(opts);
+            VC.ConditionGeneration vcgen;
             try
             {
-                vcgen = new VC.VCGen(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, new List<Checker>());
+                vcgen = new VerificationConditionGenerator(prog, checkerPool);
             }
             catch (ProverException)
             {
@@ -318,7 +338,7 @@ namespace SDiff
                 {
                     Log.Out(Log.TraceValidator, "Could not find block " + b.Label);
                     if (Log.Gate(Log.TraceValidator))
-                        b.Emit(ConsoleOut.sdout, 0);
+                        b.Emit(new TokenTextWriter(Console.Out, true, BoogieUtils.BoogieOptions), 0);
                 }
                 else
                     newBlocks.Add(ib);
@@ -348,7 +368,8 @@ namespace SDiff
                     if (cTrace.Trim() != "")
                     {
                         var fname = impl.Name + "_cex_" + (i + 1) + "_out.c";
-                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c", true);
+                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c",
+                            TextWriter.Null, true, true, PrintOptions.Default);
                         cexOut.WriteLine(cTrace);
                         cexOut.Close();
                         Log.Out(Log.CTrace, "n:" + (i + 1) + ":" + fname);
@@ -536,7 +557,7 @@ namespace SDiff
 
                         //note that the index for cex on the output shows 1,2,..., instead of 0,1,2....
                         var fname = impl.Name + "_cex_" + (i + 1) + "_out.c";
-                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c",true);
+                        var cexOut = new TokenTextWriter(impl.Name + "_cex_" + (i + 1) + "_out.c", true, BoogieUtils.BoogieOptions);
                         cexOut.WriteLine(cTrace);
                         cexOut.Close();
                         Log.Out(Log.CTrace, "n:" + (i + 1) + ":" + fname);
@@ -782,12 +803,11 @@ namespace SDiff
             reader.Close();
             writer.Close();
         }
-        public static int RunVerificationTask(VerificationTask vt, VC.ConditionGeneration vcgen, Program prog, out bool crashed, bool wrapper = true)
+        public static int RunVerificationTask(VerificationTask vt, Program prog, out bool crashed, bool wrapper = true)
         {
             crashed = false;
 
-            var attList = new List<Object>(1);
-            attList.Add(Expr.Literal(1));
+            var attList = new List<Object>(1) { Expr.Literal(1) };
 
             //save attributes
             var sqkLeft = vt.Left.Attributes;
@@ -836,7 +856,6 @@ namespace SDiff
 
             // prog = EQ program
             // vt.Eq = EQ_f_f' procedure with f, f' having {inline} tags
-            Inliner.ProcessImplementation(prog, vt.Eq);
 
             SDiffCounterexamples SErrors = null;
             Implementation newEq = null;
@@ -871,13 +890,13 @@ namespace SDiff
                     Log.Out(Log.Verifier, "Parse Error!!! in   " + vt.Eq.Name);
                     return 1;
                 }
-                if (BoogieUtils.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile))
+                if (BoogieUtils.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                     return 1;
 
                 newEq = vt.Eq;
                 newProg = prog;
 
-                vcgen = InitializeVC(newProg);
+                var vcgen = InitializeVC(newProg);
                 //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
                 newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
 
@@ -885,10 +904,6 @@ namespace SDiff
                 newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
 
                 vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors);
-
-
-
-
 
                 switch (vt.Result)
                 {
@@ -961,7 +976,8 @@ namespace SDiff
                         if (Options.PreciseDifferentialInline)
                         {
                             List<Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant).ToList();
-                            ProcessCounterexamplesWOSymbolicOut(SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, [SErrors[0].fst.Model]);
+                            ProcessCounterexamplesWOSymbolicOut(
+                                SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, [SErrors[0].Cex.Model]);
                         }
                         else
                         {

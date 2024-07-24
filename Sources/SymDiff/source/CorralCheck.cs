@@ -37,7 +37,7 @@ namespace SDiff
         public void CheckCandidateAsserts()
         {
             FindCandidateAsserts();
-            houdiniConsts.Iter(x => CheckCandidateAssert(x));
+            houdiniConsts.ForEach(x => CheckCandidateAssert(x));
         }
         private void CheckCandidateAssert(Constant c)
         {

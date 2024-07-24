@@ -96,7 +96,7 @@ namespace Dependency
             {
                 prog.TopLevelDeclarations.OfType<Procedure>()
                     .Where(x => x.Name.Contains(SplitConsts.mallocString))
-                    .Iter(x => x.AddAttribute(SplitConsts.allocatorAttr));
+                    .ForEach(x => x.AddAttribute(SplitConsts.allocatorAttr));
             }
         }
 
@@ -122,13 +122,13 @@ namespace Dependency
                 var b = base.VisitBlock(node); //recurse down to find the lookups for all cmds
                 var newCmds = new List<Cmd>();
                 node.Cmds
-                    .Iter(x =>
+                    .ForEach(x =>
                     {
                         if (lookupExprsPerCmd.ContainsKey(x))
                         {
                             var lookupExprs = lookupExprsPerCmd[x];
                             lookupExprs
-                                .Iter(y =>
+                                .ForEach(y =>
                                 {
                                     var fnName = SplitConsts.allocSiteFnName + "_" + aliasFnCount++;
                                     Function aliasingFunc =
@@ -460,7 +460,7 @@ namespace Dependency
                 Debug.Assert(btype != null);
                 var iteArgs = new List<Tuple<IdentifierExpr, Expr>>(); //list of (mv', ite(cond,trueExpr,falseExpr)) tuples
                 aSites
-                    .Iter(x =>
+                    .ForEach(x =>
                     {
                         var cond = Utils.DeclUtils.MkFuncApp(allocSiteFunc, new List<Expr>() { index, x }); //AS(index,AS1)
                         var splitMapVar = GetOrCreateSplitMap(mv.Decl, x.ToString());      //m@AS1
@@ -516,7 +516,7 @@ namespace Dependency
 
                 var iteArgs = new List<Tuple<Expr, Expr>>(); //list of (cond,expr) pair
                 aSites
-                    .Iter(x =>
+                    .ForEach(x =>
                     {
                         var cond = Utils.DeclUtils.MkFuncApp(allocSiteFunc, new List<Expr>() { index, x });
                         var splitMapVar = GetOrCreateSplitMap(mv.Decl, x.ToString());

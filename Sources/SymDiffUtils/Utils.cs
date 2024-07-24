@@ -8,10 +8,12 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.Boogie.VCExprAST;
 using VC;
 using SymDiffUtils;
 using Microsoft.Boogie.GraphUtil;
+using VCGeneration;
 
 
 /* Misc code that should be in  */
@@ -23,11 +25,6 @@ namespace SymDiffUtils
     public interface IEmittable
     {
         void Emit(TokenTextWriter t);
-    }
-
-    public static class ConsoleOut
-    {
-        public static TokenTextWriter sdout = new TokenTextWriter(Console.Out, true);
     }
 
     public static class UniqueNumber
@@ -299,7 +296,7 @@ namespace SymDiffUtils
         {
             var sb = new System.Text.StringBuilder();
             var tw = new System.IO.StringWriter(sb);
-            var tt = new TokenTextWriter(tw, true);
+            var tt = new TokenTextWriter(tw, true, BoogieUtils.BoogieOptions);
             emitter(tt);
             tt.Close();
             return sb.ToString();
@@ -400,9 +397,9 @@ namespace SymDiffUtils
         //printing stuff
         public static void DumpBplAST(Program p, string filename)
         {
-            var tuo = new TokenTextWriter(filename, true);
-            p.Emit(tuo);
-            tuo.Close();
+            var executionEngine = ExecutionEngine.CreateWithoutSharedCache(BoogieUtils.BoogieOptions);
+            executionEngine.PrintBplFile(filename, p, true);
+            executionEngine.Dispose();
         }
         public static void PrintError(string fname)
         {
@@ -611,7 +608,7 @@ namespace SymDiffUtils
                 i.OriginalLocVars = i.LocVars;
                 inlinedImpls.Add(i);
             }
-            Inliner.ProcessImplementation(prog, caller);
+            Inliner.ProcessImplementation(BoogieUtils.BoogieOptions, prog, caller);
             //remove the inline attributes
             foreach (var j in inlinedImpls)
                 j.Attributes = j.Attributes.Next; //removes teh head attribute
@@ -628,7 +625,7 @@ namespace SymDiffUtils
                 }
 
             foreach (Implementation impl in impls)
-                Inliner.ProcessImplementation(program, impl);
+                Inliner.ProcessImplementation(BoogieUtils.BoogieOptions, program, impl);
 
         }
         public static void InlineEverything(Program program, int inlineAllRecursionDepth)
@@ -646,7 +643,7 @@ namespace SymDiffUtils
             }
 
             foreach (Implementation impl in impls)
-                Inliner.ProcessImplementation(program, impl);
+                Inliner.ProcessImplementation(BoogieUtils.BoogieOptions, program, impl);
 
         }
 
@@ -666,7 +663,7 @@ namespace SymDiffUtils
                 }
             }
             foreach (Implementation impl in impls)
-                Inliner.ProcessImplementation(p1, impl);
+                Inliner.ProcessImplementation(BoogieUtils.BoogieOptions, p1, impl);
 
         }
 
@@ -993,67 +990,73 @@ namespace SymDiffUtils
     public static class SymDiffVC
     {
         /* vcgen related state */
-        static public VCGen vcgen;
-        static public ProverInterface proverInterface;
-        static public ProverInterface.ErrorHandler handler;
-        static public ConditionGeneration.CounterexampleCollector collector;
-        static public Boogie2VCExprTranslator translator;
-        static public VCExpressionGenerator exprGen;
+        public static VerificationConditionGenerator vcgen;
+        public static ProverInterface proverInterface;
+        public static ProverInterface.ErrorHandler handler;
+        public static VerificationResultCollector collector;
+        public static Boogie2VCExprTranslator translator;
+        public static VCExpressionGenerator exprGen;
 
         #region Utilities for calling the verifier
         public static void InitializeVCGen(Program prog)
         {
             //create VC.vcgen/VC.proverInterface
-            SymDiffVC.vcgen = new VCGen(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, null);
-            SymDiffVC.proverInterface = ProverInterface.CreateProver(prog, CommandLineOptions.Clo.ProverLogFilePath, CommandLineOptions.Clo.ProverLogFileAppend, CommandLineOptions.Clo.TimeLimit);
-            SymDiffVC.translator = SymDiffVC.proverInterface.Context.BoogieExprTranslator;
-            SymDiffVC.exprGen = SymDiffVC.proverInterface.Context.ExprGen;
-            SymDiffVC.collector = new ConditionGeneration.CounterexampleCollector();
+            var checkerPool = new CheckerPool(BoogieUtils.BoogieOptions);
+            vcgen = new VerificationConditionGenerator(prog, checkerPool);
+            proverInterface = ProverInterface.CreateProver(
+                BoogieUtils.BoogieOptions, prog, BoogieUtils.BoogieOptions.ProverLogFilePath,
+                BoogieUtils.BoogieOptions.ProverLogFileAppend, BoogieUtils.BoogieOptions.TimeLimit);
+            translator = proverInterface.Context.BoogieExprTranslator;
+            exprGen = proverInterface.Context.ExprGen;
+            collector = new VerificationResultCollector(BoogieUtils.BoogieOptions);
         }
-        public static ProverInterface.Outcome VerifyVC(string descriptiveName, VCExpr vc, out List<Counterexample> cex)
+        public static SolverOutcome VerifyVC(string descriptiveName, VCExpr vc, out List<Counterexample> cex)
         {
-            SymDiffVC.collector.examples.Clear(); //reset the cexs
+            collector.examples.Clear(); //reset the cexs
             //Use MyBeginCheck instead of BeginCheck as it is inconsistent with CheckAssumptions's Push/Pop of declarations
-            ProverInterface.Outcome proverOutcome;
+            SolverOutcome proverOutcome;
             //proverOutcome = MyBeginCheck(descriptiveName, vc, VC.handler); //Crashes now
-            SymDiffVC.proverInterface.BeginCheck(descriptiveName, vc, SymDiffVC.handler);
-            proverOutcome = SymDiffVC.proverInterface.CheckOutcome(SymDiffVC.handler);
-            cex = SymDiffVC.collector.examples;
+            //proverInterface.BeginCheck(descriptiveName, vc, handler);
+            proverOutcome = proverInterface.Check(descriptiveName, vc, handler,
+                BoogieUtils.BoogieOptions.ErrorLimit, CancellationToken.None).Result;
+            cex = collector.examples.ToList();
             return proverOutcome;
         }
 
         public static void FinalizeVCGen(Program prog)
         {
-            SymDiffVC.collector = null;
+            collector = null;
         }
 
-        public static ProverInterface.Outcome MyBeginCheck(string descriptiveName, VCExpr vc, ProverInterface.ErrorHandler handler)
+        public static SolverOutcome MyBeginCheck(string descriptiveName, VCExpr vc, ProverInterface.ErrorHandler handler)
         {
             SymDiffVC.proverInterface.Push();
             SymDiffVC.proverInterface.Assert(vc, true);
             SymDiffVC.proverInterface.Check();
-            var outcome = SymDiffVC.proverInterface.CheckOutcomeCore(SymDiffVC.handler);
+            var outcome = SymDiffVC.proverInterface.Check(descriptiveName, vc, SymDiffVC.handler,
+                BoogieUtils.BoogieOptions.ErrorLimit, CancellationToken.None).Result;
             SymDiffVC.proverInterface.Pop();
             return outcome;
         }
+
         public static VCExpr GenerateVC(Program prog, Implementation impl)
         {
-            SymDiffVC.vcgen.ConvertCFG2DAG(impl);
+            SymDiffVC.vcgen.ConvertCFG2DAG(new ImplementationRun(impl, Console.Out));
             ModelViewInfo mvInfo;
-            var /*TransferCmd->ReturnCmd*/ gotoCmdOrigins = SymDiffVC.vcgen.PassifyImpl(impl, out mvInfo);
-
+            var /*TransferCmd->ReturnCmd*/ gotoCmdOrigins =
+                SymDiffVC.vcgen.PassifyImpl(new ImplementationRun(impl, Console.Out), out mvInfo);
+        
             var exprGen = SymDiffVC.proverInterface.Context.ExprGen;
             //VCExpr controlFlowVariableExpr = null; 
-            VCExpr controlFlowVariableExpr = /*CommandLineOptions.Clo.UseLabels ? null :*/ SymDiffVC.exprGen.Integer(BigNum.ZERO);
-
-
-            Dictionary<int, Absy> label2absy;
-            var vc = SymDiffVC.vcgen.GenerateVC(impl, controlFlowVariableExpr, out label2absy, SymDiffVC.proverInterface.Context);
+            VCExpr controlFlowVariableExpr = /*BoogieUtils.BoogieOptions.UseLabels ? null :*/ SymDiffVC.exprGen.Integer(BigNum.ZERO);
+        
+        
+            var absyIds = new ControlFlowIdMap<Absy>();
+            var vc = SymDiffVC.vcgen.GenerateVC(impl, controlFlowVariableExpr, absyIds, SymDiffVC.proverInterface.Context);
             VCExpr controlFlowFunctionAppl = SymDiffVC.exprGen.ControlFlowFunctionApplication(SymDiffVC.exprGen.Integer(BigNum.ZERO), SymDiffVC.exprGen.Integer(BigNum.ZERO));
             VCExpr eqExpr = SymDiffVC.exprGen.Eq(controlFlowFunctionAppl, SymDiffVC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
             vc = SymDiffVC.exprGen.Implies(eqExpr, vc);
-
-            SymDiffVC.handler = new VCGen.ErrorReporter(gotoCmdOrigins, label2absy, impl.Blocks, new Dictionary<Cmd, List<object>>(), SymDiffVC.collector, mvInfo, SymDiffVC.proverInterface.Context, prog);
+        
             return vc;
         }
         #endregion

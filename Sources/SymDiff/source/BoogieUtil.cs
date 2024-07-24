@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-//using PureCollections;
 using Microsoft.Boogie;
 using SDiff;
 using SymDiffUtils;
@@ -287,28 +286,32 @@ namespace SDiff.Boogie
 
     public static bool InitializeBoogie(string clo)
     {
-      CommandLineOptions.Clo.RunningBoogieFromCommandLine = true;
+      BoogieUtils.BoogieOptions = new CommandLineOptions(Console.Out, new ConsolePrinter()) 
+      {
+        RunningBoogieFromCommandLine = true,
+        PrintErrorModel = 1
+      };
 
       if (Options.refinedStmtTaint)
       {
           //IMPORTANT: need these two to make use of UNSAT cores!!
-          CommandLineOptions.Clo.UseUnsatCoreForContractInfer = true; //ROHIT
-          CommandLineOptions.Clo.ContractInfer = true; //ROHIT
-          CommandLineOptions.Clo.ExplainHoudini = true; 
+          BoogieUtils.BoogieOptions.UseUnsatCoreForContractInfer = true; //ROHIT
+          BoogieUtils.BoogieOptions.ContractInfer = true; //ROHIT
+          BoogieUtils.BoogieOptions.ExplainHoudini = true; 
       }
 
       var args = clo.Split(' ');
 
       if (Options.VerboseBoogieEnvironment) 
       {
-        Log.Out(Log.Normal, CommandLineOptions.Clo.Version);
+        Log.Out(Log.Normal, BoogieUtils.BoogieOptions.Version);
         Log.Out(Log.Normal, "---Command arguments");
         foreach (string arg in args)
           Log.Out(Log.Normal, arg);
         Log.Out(Log.Normal, "--------------------");
       }
 
-      CommandLineOptions.Clo.Parse(args);
+      BoogieUtils.BoogieOptions.Parse(args);
     
       return false;
     }

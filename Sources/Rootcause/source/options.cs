@@ -6,6 +6,7 @@ using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
 using Microsoft.BaseTypes;
+using SymDiffUtils;
 using BType = Microsoft.Boogie.Type;
 
 
@@ -90,20 +91,20 @@ namespace Rootcause
         public static bool ParseCommandLine(string clo)
         {
              //without the next line, it fails to find the right prover!!
-             var boogieOptions = "-monomorphize -timeLimit:" + boogieTimeout + " -removeEmptyBlocks:0 /printModel:1 /printInstrumented " + clo;
+             var boogieOptions = "-typeEncoding:m -timeLimit:" + boogieTimeout + " -removeEmptyBlocks:0 /printModel:1 /printInstrumented " + clo;
              boogieOptions += " /errorLimit:1 ";
              //var boogieOptions = "/typeEncoding:m -timeLimit:900  -removeEmptyBlocks:0 /errorLimit:1 /printInstrumented " + clo;
              var oldArgs = boogieOptions.Split(' ');
              string[] args;
              //Custom parser to look and remove RootCause specific options
              var help = ParseAndRemoveNonBoogieOptions(oldArgs, out args);
-             CommandLineOptions.Install(new CommandLineOptions());
-             CommandLineOptions.Clo.RunningBoogieFromCommandLine = true;
+             BoogieUtils.InitializeBoogie("");
+             BoogieUtils.BoogieOptions.RunningBoogieFromCommandLine = true;
              //Options.htmlTag, Options.outputPath gets parsed only after ParseAndRemove...
              var modelArgs = " /printModelToFile:" + Options.outputPath + @"\rootcause_model" + Options.htmlTag + @".dmp";
              var dumpVC = " /proverLog:" + Options.outputPath + @"\rootcause_vc" + Options.htmlTag + @".z3"; 
-             args = (args.ToList()).Concat(new List<string> () {modelArgs, dumpVC}).ToArray();
-             CommandLineOptions.Clo.Parse(args);
+             args = (Enumerable.ToList(args)).Concat(new List<string> () {modelArgs, dumpVC}).ToArray();
+             BoogieUtils.BoogieOptions.Parse(args);
              return !help;
         }
         

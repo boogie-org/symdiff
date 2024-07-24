@@ -24,7 +24,7 @@ namespace SymDiffUtils
                         graph.AddEdge(impl.Proc, c.Proc);
             }
 
-            //program.Implementations.Iter(impl => { if (graph.Nodes.Contains(impl.Proc) && graph.Predecessors(impl.Proc).Count() == 0) graph.AddSource(impl.Proc); });
+            //program.Implementations.ForEach(impl => { if (graph.Nodes.Contains(impl.Proc) && graph.Predecessors(impl.Proc).Count() == 0) graph.AddSource(impl.Proc); });
             return graph;
         }
 
@@ -36,7 +36,7 @@ namespace SymDiffUtils
 
             var sccs = new StronglyConnectedComponents<Procedure>(graph.Nodes, next, prev);
             sccs.Compute();
-            //sccs.Iter(s => { s.Iter(p => Console.Write(p + ", ")); Console.WriteLine(); });
+            //sccs.ForEach(s => { s.ForEach(p => Console.Write(p + ", ")); Console.WriteLine(); });
 
             var order = sccs.ToList();
             for (int i = 0; i < order.Count; i++)

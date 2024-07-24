@@ -6,10 +6,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
 using Microsoft.BaseTypes;
+using SymDiffUtils;
 using BType = Microsoft.Boogie.Type;
 using Type = System.Type;
 
@@ -54,7 +56,7 @@ namespace Rootcause
             /* Command line parsing */
             if (!Options.ParseCommandLine(String.Join(" ", args))) return;
 
-            foreach (var f in CommandLineOptions.Clo.Files.Where(x => x != ""))
+            foreach (var f in BoogieUtils.BoogieOptions.Files.Where(x => x != ""))
             {
                 Console.WriteLine("Processing file {0}", f);
                 if (!Utils.ParseProgram(f, out prog)) return;
@@ -83,7 +85,7 @@ namespace Rootcause
         {
             if (impl == null) return;
             // TODO: re-enable proc check
-            //if (CommandLineOptions.Clo.ProcsToCheck != null && CommandLineOptions.Clo.ProcsToCheck.Where(x => impl.Name.StartsWith(x)).Count() == 0) return;
+            //if (BoogieUtils.BoogieOptions.ProcsToCheck != null && BoogieUtils.BoogieOptions.ProcsToCheck.Where(x => impl.Name.StartsWith(x)).Count() == 0) return;
             Console.WriteLine("############# Implementation = {0} #################", impl.Name);
 
 
@@ -107,8 +109,8 @@ namespace Rootcause
             }
             else if (Options.useUnsatCoresFromFailures)
             {
-                CommandLineOptions.Clo.UseUnsatCoreForContractInfer = true;
-                CommandLineOptions.Clo.ContractInfer = true;
+                BoogieUtils.BoogieOptions.UseUnsatCoreForContractInfer = true;
+                BoogieUtils.BoogieOptions.ContractInfer = true;
                 UnsatCoreFromFailure.PerformRootcauseTrial(prog, impl);
             }
             else
@@ -165,7 +167,7 @@ namespace Rootcause
             var constr1 = predConsts.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)).Aggregate<VCExpr, VCExpr>(
                 VCExpressionGenerator.True, (VCExpr a, VCExpr b) => VC.exprGen.And(a, b));
             var outcome = VC.VerifyVC(impl.Name, VC.exprGen.Implies(VC.exprGen.And(VC.exprGen.And(constr1, modelExpr), flipAssertConstraint), progVC), out cex);
-            if (outcome != ProverInterface.Outcome.Valid)
+            if (outcome != SolverOutcome.Valid)
             {
                 Console.WriteLine("Unable to prove that the model makes the assertion UNSAT (possible reasons non-det goto, or theorem prover incompleteness), no rootcause found");
                 return;
@@ -182,9 +184,10 @@ namespace Rootcause
             int i = 0;
             if (Options.verbose > 0) cex.Clear();
             Utils.PrintQueryToMAXSAT(prog,hard, soft, impl);
-            ProverInterface.Outcome t = ProverInterface.Outcome.Undetermined;
-            while ((t = VC.proverInterface.CheckAssumptions(hard, soft, out unsat, VC.handler)) == ProverInterface.Outcome.Invalid)
+            SolverOutcome t = SolverOutcome.Invalid;
+            while (t == SolverOutcome.Invalid)
             {
+                (t, unsat) = VC.proverInterface.CheckAssumptions(hard, VC.handler, CancellationToken.None).Result;
                 Console.WriteLine("---------- Cause {0} ----------", ++i);
                 unsat.ForEach(x => Console.WriteLine("\t Stmt => {0}", preds2Stmt[soft[x].ToString()].ToString())); //don't index into soft and remove from it
                 if (Options.verbose == 2)
@@ -536,7 +539,7 @@ namespace Rootcause
 
             //List<Counterexample> cex;
             var outcome = VC.VerifyVC(impl.Name, VC.exprGen.Implies(VC.exprGen.And(constr1, constr2), progVC), out cex);
-            if (outcome == ProverInterface.Outcome.Valid)
+            if (outcome == SolverOutcome.Valid)
             {
                 Console.WriteLine("Program verified, no work for Rootcause");
                 return null;
@@ -587,14 +590,13 @@ namespace Rootcause
                         args.Select(x => (Variable)new Formal(tok, new TypedIdent(tok, x.Item1, x.Item2), true)).ToArray()),
                     new Formal(tok, new TypedIdent(tok, "", typ), false),
                     null, new QKeyValue(tok, "constructor", new List<object>(), null));
-            DatatypeConstructor cons = new DatatypeConstructor((DatatypeTypeCtorDecl)typ.Decl, ctor);
-            DatatypeMembership membership = DatatypeMembership.NewDatatypeMembership(cons);
-            cons.membership = membership;
-            var selectors = args.Select((x, i) => DatatypeSelector.NewDatatypeSelector(cons, i)).ToList();
-            selectors.ForEach(cons.selectors.Add);
+            DatatypeTypeCtorDecl datatypeTypeCtorDecl = (DatatypeTypeCtorDecl)typ.Decl;
+            DatatypeConstructor cons = new DatatypeConstructor(ctor);
+            datatypeTypeCtorDecl.AddConstructor(cons);
             prog.AddTopLevelDeclaration(cons);
-            prog.AddTopLevelDeclaration(membership);
-            selectors.ForEach(prog.AddTopLevelDeclaration);
+            // TODO: Not sure if the following is needed.
+            // var selectors = args.Select((x, i) => DatatypeSelector.NewDatatypeSelector(cons, i)).ToList();
+            // selectors.ForEach(sel => prog.AddTopLevelDeclaration(sel));
             return cons;
         }
 

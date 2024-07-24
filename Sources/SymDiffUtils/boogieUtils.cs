@@ -2,20 +2,21 @@
 using Microsoft.Boogie.GraphUtil;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace SymDiffUtils
 {
     public class BoogieUtils
     {
+        public static CommandLineOptions BoogieOptions;
         public static bool InitializeBoogie(string clo)
         {
-            CommandLineOptions.Install(new CommandLineOptions());
-            CommandLineOptions.Clo.RunningBoogieFromCommandLine = true;
+            BoogieOptions = new CommandLineOptions(Console.Out, new ConsolePrinter());
+            BoogieOptions.RunningBoogieFromCommandLine = true;
 
-            var args = "/doModSetAnalysis".Split(' ');
-            CommandLineOptions.Clo.Parse(args);
+            var args = clo.Split(' ');
+            BoogieOptions.Parse(args);
 
             return false;
         }
@@ -24,39 +25,39 @@ namespace SymDiffUtils
         {
             TokenTextWriter outFile;
             if (filename != null)
-                outFile = new TokenTextWriter(filename, true);
+                outFile = new TokenTextWriter(filename, true, BoogieOptions);
             else
-                outFile = new TokenTextWriter(Console.Out, true);
+                outFile = new TokenTextWriter(Console.Out, true, BoogieOptions);
             p.Emit(outFile);
             outFile.Close();
         }
 
-        public static bool ResolveProgram(Program p, string filename)
+        public static bool ResolveProgram(Program p, string filename, CommandLineOptions boogieOptions)
         {
             //After p.Resolve, the AST is in p.topLevelDeclarations  
-            int errorCount = p.Resolve();
+            int errorCount = p.Resolve(boogieOptions);
             if (errorCount != 0)
                 Console.WriteLine(errorCount + " name resolution errors in " + filename);
             return errorCount != 0;
         }
 
-        public static bool TypecheckProgram(Program p, string filename)
+        public static bool TypecheckProgram(Program p, string filename, CommandLineOptions boogieOptions)
         {
             //One of the sideeffect of p.Typecheck, it inlines 
-            int errorCount = p.Typecheck();
+            int errorCount = p.Typecheck(boogieOptions);
             if (errorCount != 0)
                 Console.WriteLine(errorCount + " type checking errors in " + filename);
             return errorCount != 0;
         }
 
-        private static bool ResolveAndTypeCheck(Program p, string filename)
+        private static bool ResolveAndTypeCheck(Program p, string filename, CommandLineOptions boogieOptions)
         {
-            if (ResolveProgram(p, ""))
+            if (ResolveProgram(p, filename, boogieOptions))
             {
                 Log.Out(Log.Error, "Failed to resolve  program");
                 return true;
             }
-            if (TypecheckProgram(p, ""))
+            if (TypecheckProgram(p, filename, boogieOptions))
             {
                 Log.Out(Log.Error, "Failed to typecheck program");
                 //Log.LogEmit(Log.Normal, p.Emit);
@@ -66,9 +67,9 @@ namespace SymDiffUtils
             return false;
         }
 
-        public static bool ResolveAndTypeCheckThrow(Program p, string filename)
+        public static bool ResolveAndTypeCheckThrow(Program p, string filename, CommandLineOptions boogieOptions)
         {
-            if (ResolveAndTypeCheck(p, filename))
+            if (ResolveAndTypeCheck(p, filename, boogieOptions))
                 throw new Exception("Program " + filename + " does not resolve/typecheck");
             return false;
         }
@@ -90,7 +91,7 @@ namespace SymDiffUtils
                 }
 
                 foreach (Implementation impl in impls)
-                    Inliner.ProcessImplementation(program, impl);
+                    Inliner.ProcessImplementation(BoogieOptions, program, impl);
 
             }
             public static bool IsInlinedProc(Procedure procedure)
@@ -112,13 +113,9 @@ namespace SymDiffUtils
             {
                 Dictionary<int, HashSet<Procedure>> reachableProcs = ReachableImplsWithinBound(impl, bound, callGraph);
                 HashSet<Procedure> reachAll = new HashSet<Procedure>();
-                reachableProcs.Values
-                    .Iter(
-                    x => x.Iter(y => reachAll.Add(y))
-                    );
+                reachableProcs.Values.ForEach(x => x.ForEach(y => reachAll.Add(y)));
                 reachAll.Remove(impl.Proc);
-                reachAll.Iter
-                    (x => x.AddAttribute("inline", Expr.Literal(recursionDepth)));
+                reachAll.ForEach(x => x.AddAttribute("inline", Expr.Literal(recursionDepth)));
                 return reachAll;
             }
             /// <summary>
@@ -137,8 +134,9 @@ namespace SymDiffUtils
                 for (int i = 1; i < bound; ++i)
                 {
                     reachableProcs[i] = new HashSet<Procedure>();
-                    reachableProcs[i - 1].Iter
-                        (p => callGraph.Successors(p).Iter(q => reachableProcs[i].Add(q)));
+                    reachableProcs[i - 1]
+                        .ForEach(p => callGraph.Successors(p)
+                            .ForEach(q => reachableProcs[i].Add(q)));
                 }
                 return reachableProcs;
             }
@@ -153,12 +151,12 @@ namespace SymDiffUtils
             /// <param name="callGraph"></param>
             /// <param name="inlineOpt"></param>
             public static void InlineUptoDepth(Program prog, Implementation impl, int bound, int recursionDepth, Graph<Procedure> callGraph, 
-                CommandLineOptions.Inlining inlineOpt)
+                CoreOptions.Inlining inlineOpt)
             {
-                CommandLineOptions.Clo.ProcedureInlining = inlineOpt; //inline and then use spec, no unsoundness
+                BoogieOptions.ProcedureInlining = inlineOpt; //inline and then use spec, no unsoundness
                 var inlineProcs = AddInlineAttributesUptoDepth(prog, impl, bound, recursionDepth, callGraph);
                 Inline(prog);
-                inlineProcs.Iter(x => { x.Attributes = x.Attributes.Next; }); //remove any inline attributes
+                inlineProcs.ForEach(x => { x.Attributes = x.Attributes.Next; }); //remove any inline attributes
             }
 
         }

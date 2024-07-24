@@ -241,7 +241,7 @@ namespace SDiff
       if (Options.refinedStmtTaint)
       {
           Options.OutputVars.Clear();
-          globals.Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "stmtTaintCollectorGlobalVar")).Iter(x => Options.OutputVars.Add(x.ToString()));
+          globals.Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "stmtTaintCollectorGlobalVar")).ForEach(x => Options.OutputVars.Add(x.ToString()));
       }
 
       List<Ensures> outputPostConditions = new List<Ensures>();
@@ -286,7 +286,7 @@ namespace SDiff
 
       Procedure eqProc =
         new Procedure(Token.NoToken, procName, B.C.empTypeVariableSeq, unionIns,
-          new List<Variable>(outputEqualityState.Decls),
+          new List<Variable>(outputEqualityState.Decls), isPure:false,
           B.C.empRequiresSeq, eqModifies, new List<Ensures>(outputPostConditions));
 
       BigBlock bl =

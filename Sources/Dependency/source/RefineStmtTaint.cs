@@ -44,7 +44,7 @@ namespace Dependency
         public void Instrument()
         {
             var impls = new HashSet<Implementation>(prog.TopLevelDeclarations.OfType<Implementation>());
-            impls.Iter(impl =>
+            impls.ForEach(impl =>
             {
                 //TODO: refine the map for changed procedures as well
                 if (syntacticModifiedImpls.Contains(impl)) return;
@@ -82,7 +82,7 @@ namespace Dependency
             var InstrumentBlockCmds = new Func<List<Cmd>, Block, List<Cmd>>((cmds, b)=>
             {
                 var newCmds = new List<Cmd>();
-                cmds.Iter(c => 
+                cmds.ForEach(c => 
                 { 
                     newCmds.Add(c);  
                     var d = InstrumentCmd(c,b);
@@ -91,7 +91,7 @@ namespace Dependency
                 return newCmds;
             });
 
-            impl.Blocks.Iter(b => { b.Cmds = InstrumentBlockCmds(b.Cmds, b); });
+            impl.Blocks.ForEach(b => { b.Cmds = InstrumentBlockCmds(b.Cmds, b); });
             currImpl = null;
         }
 

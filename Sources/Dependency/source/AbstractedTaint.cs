@@ -40,7 +40,7 @@ namespace Dependency
                 //different modsets later given the implementation for one and stub for another
                 new HashSet<Implementation>(impls.Where(x => !taintedImpls.Contains(x))); //make a copy since topleveldecl changes
                 nonTaintedImpls
-                    .Iter(x =>
+                    .ForEach(x =>
                     {
                         var modset = new VarSet(allDeps[x.Proc].ModSet());
                         Utils.VariableUtils.PruneLocals(x, modset);
@@ -56,12 +56,13 @@ namespace Dependency
             //get the number of tainted outputs (outputs whose summaries are potentially changed)
             var outvars = new List<Variable>();
             var botTaintOutVars = new List<Variable>();
-            program.TopLevelDeclarations.OfType<Procedure>().Iter(x =>
+            program.TopLevelDeclarations.OfType<Procedure>().ForEach(x =>
             {
                 if (!allDeps.ContainsKey(x)) return;
-                allDeps[x].Keys.Iter(y => outvars.Add(y));
+                allDeps[x].Keys.ForEach(y => outvars.Add(y));
                 var procBottomUpTaintVars = new List<Variable>();
-                allDeps[x].Keys.Where(k => allDeps[x][k].Contains(Utils.VariableUtils.BottomUpTaintVar)).Iter(y => procBottomUpTaintVars.Add(y));
+                allDeps[x].Keys.Where(k => allDeps[x][k].Contains(Utils.VariableUtils.BottomUpTaintVar))
+                    .ForEach(y => procBottomUpTaintVars.Add(y));
                 botTaintOutVars.AddRange(procBottomUpTaintVars);
                 //new: add an annotation to indicate that none of the variables are bottom up tainted
                 var ens = new Ensures(true, (Expr)Expr.True);

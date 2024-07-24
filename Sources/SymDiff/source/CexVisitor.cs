@@ -23,12 +23,12 @@ namespace SDiff.SymEx
     public static void PrintTrace(List<Block> e)
     {
       foreach (Block b in e)
-        b.Emit(new TokenTextWriter(Console.Out,true), 0);
+        b.Emit(new TokenTextWriter(Console.Out, true, BoogieUtils.BoogieOptions), 0);
     }
 
     public static void PrintCindyTrace(List<Block> e, string filename)
     {
-      var ttt = new TokenTextWriter(filename,true);
+      var ttt = new TokenTextWriter(filename, true, BoogieUtils.BoogieOptions);
 
       foreach (Block b in e)
         b.Emit(ttt, 0);
@@ -38,7 +38,7 @@ namespace SDiff.SymEx
     public static void PrintSymbolicTrace(SymbolicTrace st)
     {
       foreach (SymbolicBlock b in st)
-        b.Emit(new TokenTextWriter(Console.Out,true));
+        b.Emit(new TokenTextWriter(Console.Out, true, BoogieUtils.BoogieOptions));
     }
   }
 
@@ -119,7 +119,7 @@ namespace SDiff.SymEx
     
     public List<Cmd> DesugarCallCmd(CallCmd c)
     {
-      var retCmds = new List<Cmd>(((StateCmd)c.Desugaring).Cmds);
+      var retCmds = new List<Cmd>(((StateCmd)c.GetDesugaring(BoogieUtils.BoogieOptions)).Cmds);
       for (int i = 0; i < retCmds.Count; i++)
       {
         if (retCmds[i] is HavocCmd)

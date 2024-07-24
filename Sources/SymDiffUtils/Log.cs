@@ -98,7 +98,7 @@ namespace SymDiffUtils{
      
 
 
-    public static TokenTextWriter LogWriter = new TokenTextWriter(Console.Out,true);
+    public static TokenTextWriter LogWriter = new TokenTextWriter(Console.Out, true, BoogieUtils.BoogieOptions);
   }
 
 }

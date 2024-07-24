@@ -65,8 +65,6 @@ namespace SDiff
   {
     public static int Main(string[] args)
     {
-        CommandLineOptions.Install(new CommandLineOptions());
-
       if (args.Length == 0)
       {
         Console.WriteLine("Options:");
@@ -157,7 +155,7 @@ namespace SDiff
         var prog = BoogieUtils.ParseProgram(args[1]);
         if (prog == null)
           return 1;
-        if (BoogieUtils.ResolveAndTypeCheckThrow(prog, args[1]))
+        if (BoogieUtils.ResolveAndTypeCheckThrow(prog, args[1], BoogieUtils.BoogieOptions))
           return 1;
         return 0;
       }
@@ -192,7 +190,7 @@ namespace SDiff
         Console.WriteLine("parse failed");
         return 1;
       }
-      if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename))
+      if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename, BoogieUtils.BoogieOptions))
       if (program == null)
       {
         Console.WriteLine("check failed");
@@ -212,7 +210,7 @@ namespace SDiff
         var program = BoogieUtils.ParseProgram(filename);
       if (program == null)
         return 1;
-      BoogieUtils.ResolveAndTypeCheckThrow(program, filename);
+      BoogieUtils.ResolveAndTypeCheckThrow(program, filename, BoogieUtils.BoogieOptions);
 
       var flag = false;
       var mflag = false;
@@ -260,7 +258,7 @@ namespace SDiff
         Log.Out(Log.Error, "Parse failed.");
         return 1;
       }
-      if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename))
+      if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename, BoogieUtils.BoogieOptions))
       {
         Log.Out(Log.Error, "Check failed.");
         return 1;
@@ -269,7 +267,7 @@ namespace SDiff
       program.UnrollLoops(iterationsToUnroll, false); //setting it to true breaks ex7
 
         
-      var outchan = new TokenTextWriter(outfilename, true);
+      var outchan = new TokenTextWriter(outfilename, true, BoogieUtils.BoogieOptions);
       program.Emit(outchan);
       outchan.Close();
       return 0;
@@ -295,13 +293,14 @@ namespace SDiff
             Log.Out(Log.Error, "Parse failed.");
             return 1;
         }
-        if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename))
+        if (BoogieUtils.ResolveAndTypeCheckThrow(program, filename, BoogieUtils.BoogieOptions))
         {
             Log.Out(Log.Error, "Check failed.");
             return 1;
         }
 
-        Dictionary<string, Dictionary<string, Block>> tmp = program.ExtractLoops();
+        (Dictionary<string, Dictionary<string, Block>> loops, _) =
+          LoopExtractor.ExtractLoops(BoogieUtils.BoogieOptions, program);
 
         // the hacks below should be history now with the deterministic Loop extract in Boogie 
 
@@ -352,7 +351,7 @@ namespace SDiff
             
 
 
-        var outchan = new TokenTextWriter(outfilename,true);
+        var outchan = new TokenTextWriter(outfilename, true, BoogieUtils.BoogieOptions);
         program.Emit(outchan);
         outchan.Close();
         return 0;
@@ -389,16 +388,16 @@ namespace SDiff
         if (p == null)
             return 1;
 
-        BoogieUtils.ResolveProgram(p, first);
-        BoogieUtils.TypecheckProgram(p, first);
+        BoogieUtils.ResolveProgram(p, first, BoogieUtils.BoogieOptions);
+        BoogieUtils.TypecheckProgram(p, first, BoogieUtils.BoogieOptions);
 
         // Second program
         Program q = BoogieUtils.ParseProgram(second);
         if (q == null)
             return 1;
 
-        BoogieUtils.ResolveProgram(q, second);
-        BoogieUtils.TypecheckProgram(q, second);
+        BoogieUtils.ResolveProgram(q, second, BoogieUtils.BoogieOptions);
+        BoogieUtils.TypecheckProgram(q, second, BoogieUtils.BoogieOptions);
 
 
         first = Path.GetFileNameWithoutExtension(first) + '.';

@@ -5,10 +5,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
 using Microsoft.BaseTypes;
+using SymDiffUtils;
 using BType = Microsoft.Boogie.Type;
 
 namespace Rootcause
@@ -179,8 +181,8 @@ namespace Rootcause
 
 
             //typecheck the instrumented program
-            program.Resolve();
-            program.Typecheck();
+            program.Resolve(BoogieUtils.BoogieOptions);
+            program.Typecheck(BoogieUtils.BoogieOptions);
 
             //Generate VC
             VC.InitializeVCGen(program);
@@ -492,8 +494,8 @@ namespace Rootcause
             writer.Close();
 
             //typecheck the instrumented program
-            program.Resolve();
-            program.Typecheck();
+            program.Resolve(BoogieUtils.BoogieOptions);
+            program.Typecheck(BoogieUtils.BoogieOptions);
 
             //Generate VC
             VC.InitializeVCGen(program);
@@ -1009,12 +1011,12 @@ namespace Rootcause
                     Aggregate<VCExpr, VCExpr>(VCExpressionGenerator.True, (VCExpr currentExpr, VCExpr nextConst) => VC.exprGen.And(currentExpr, nextConst));
 
                 //call to see if the assert is provable
-                ProverInterface.Outcome outcome = CheckSatisfiability(
+                SolverOutcome outcome = CheckSatisfiability(
                     Hard.Union(new List<VCExpr>(new VCExpr[] { Soft_Expr })).ToList());
 
                 if (loopCounter == 0)
                 {
-                    if (outcome == ProverInterface.Outcome.Invalid) //SAT
+                    if (outcome == SolverOutcome.Invalid) //SAT
                     {
                         //Console.WriteLine("SAT");
                         return new List<Constant>(); //no rootcauses
@@ -1022,13 +1024,13 @@ namespace Rootcause
                 }
                 else
                 {
-                    if (outcome == ProverInterface.Outcome.Invalid) //SAT
+                    if (outcome == SolverOutcome.Invalid) //SAT
                     {
                         //Console.WriteLine("SAT");
                         //Console.WriteLine("low: {0}, up: {1}, curr: {2}", low, up, curr);
                         low = curr;
                     }
-                    else if (outcome == ProverInterface.Outcome.Valid) //UNSAT
+                    else if (outcome == SolverOutcome.Valid) //UNSAT
                     {
                         //Console.WriteLine("UNSAT");
                         //Console.WriteLine("low: {0}, up: {1}, curr: {2}", low, up, curr);
@@ -1227,10 +1229,10 @@ namespace Rootcause
                         Aggregate<VCExpr, VCExpr>(VCExpressionGenerator.True, (VCExpr currentExpr, VCExpr nextConst) => VC.exprGen.And(currentExpr, nextConst));
 
                     //if (MAXSAT(not(VC), Hard, {a}) == {})
-                    ProverInterface.Outcome outcome1 = CheckSatisfiability(
+                    SolverOutcome outcome1 = CheckSatisfiability(
                         Hard.Union(new List<VCExpr>(new VCExpr[] { VC.translator.LookupVariable(a), predConstsForThisAssignment_False, otherPredConsts_True })).ToList());
 
-                    if (outcome1 == ProverInterface.Outcome.Valid)
+                    if (outcome1 == SolverOutcome.Valid)
                     {
                         if (Utils.verbosityLevel(2))
                         {
@@ -1282,7 +1284,7 @@ namespace Rootcause
             List<Counterexample> cexs;
             Utils.CheckRootcauseTimeout(sw);
             var outcome = VC.VerifyVC("Rootcause", vc, out cexs);
-            if (cexs.Count == 0 || outcome == ProverInterface.Outcome.Valid) { return null; }
+            if (cexs.Count == 0 || outcome == SolverOutcome.Valid) { return null; }
             else { return cexs[0]; }
         }
 
@@ -1291,18 +1293,15 @@ namespace Rootcause
             List<Counterexample> cexs;
             Utils.CheckRootcauseTimeout(sw);
             var outcome = VC.VerifyVC("Rootcause", vc, out cexs);
-            if (cexs.Count == 0 || outcome == ProverInterface.Outcome.Valid) { return null; }
+            if (cexs.Count == 0 || outcome == SolverOutcome.Valid) { return null; }
             else { return cexs; }
         }
 
         //Check for satisfiability.
-        private static ProverInterface.Outcome CheckSatisfiability(List<VCExpr> Hard)
+        private static SolverOutcome CheckSatisfiability(List<VCExpr> Hard)
         {
-            List<int> unsatClauseIdentifiers = new List<int>();
-
-            ProverInterface.Outcome outcome = ProverInterface.Outcome.Undetermined;
             Utils.CheckRootcauseTimeout(sw);
-            outcome = VC.proverInterface.CheckAssumptions(Hard, new List<VCExpr>(), out unsatClauseIdentifiers, VC.handler);
+            var (outcome, _) = VC.proverInterface.CheckAssumptions(Hard, VC.handler, CancellationToken.None).Result;
             return outcome;
         }
 
@@ -1312,18 +1311,16 @@ namespace Rootcause
             List<VCExpr> HardVCExprs = Hard;
             List<VCExpr> SoftVCExprs = Soft.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x));
 
-            List<int> unsatClauseIdentifiers = new List<int>();
-            ProverInterface.Outcome outcome = ProverInterface.Outcome.Undetermined;
             Utils.CheckRootcauseTimeout(sw);
-            outcome = VC.proverInterface.CheckAssumptions(HardVCExprs, SoftVCExprs, out unsatClauseIdentifiers, VC.handler);
+            var (outcome, unsatClauseIdentifiers) = VC.proverInterface.CheckAssumptions(HardVCExprs, VC.handler, CancellationToken.None).Result;
 
             //if outcome == Timeout, Z3 retunns UNSAT for later calls, best to exit
-            if (outcome == ProverInterface.Outcome.TimeOut || outcome == ProverInterface.Outcome.OutOfMemory)
+            if (outcome == SolverOutcome.TimeOut || outcome == SolverOutcome.OutOfMemory)
             {
                 throw new Exception("ABORT! Z3 times out during MAXSAT, any future calls to Z3 returns bogus results");
             }
 
-            if (outcome == ProverInterface.Outcome.Invalid)
+            if (outcome == SolverOutcome.Invalid)
             {
                 List<Constant> usefulCandidates = unsatClauseIdentifiers.ConvertAll<Constant>(x => Soft[x]);
                 List<Constant> uselessCandidates = Soft.Where(c => !usefulCandidates.Contains(c)).ToList<Constant>();
@@ -2593,7 +2590,7 @@ namespace Rootcause
                                 assignLhssMatched.Add(lhss[i]);
                             }
 
-                            parAssumeExpr.Typecheck(new TypecheckingContext(null));
+                            parAssumeExpr.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
                             assignCandAssumes = Expr.And(assignCandAssumes, parAssumeExpr);
 
                             recordCandidate(rightAssignment, candidate, leftAssignment, lhss, match.ConvertAll<Variable>(c => (Variable)c));
@@ -2650,7 +2647,7 @@ namespace Rootcause
                                                 new LiteralExpr(Token.NoToken, BigNum.FromInt(matchCount))),
                                         Expr.Eq(new IdentifierExpr(Token.NoToken, lhs),
                                                 new IdentifierExpr(Token.NoToken, match)));
-                                lhsAxiom.Typecheck(new TypecheckingContext(null));
+                                lhsAxiom.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
 
                                 assignCandAssumes = Expr.And(assignCandAssumes, lhsAxiom);
                                 assignLhssMatched.Add(lhs);
@@ -2704,7 +2701,7 @@ namespace Rootcause
 
 
                     Expr assumeExpr = new NAryExpr(Token.NoToken, new FunctionCall(P), actualArgs);
-                    assumeExpr.Typecheck(new TypecheckingContext(null));
+                    assumeExpr.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
 
                     List<Expr> axiomBoundVars = new List<Expr>();
                     foreach (Variable boundVar in allBoundVars)
@@ -2723,7 +2720,7 @@ namespace Rootcause
                     {
                         forall_x_P_of_x_eq_body = P_of_x_eq_body;
                     }
-                    forall_x_P_of_x_eq_body.Typecheck(new TypecheckingContext(null));
+                    forall_x_P_of_x_eq_body.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
 
                     recordAxiom(rightAssignment, forall_x_P_of_x_eq_body);
                 }
@@ -2994,7 +2991,7 @@ namespace Rootcause
 
                                 assignLhssMatched.Add(lhss[i]);
                             }
-                            parAssumeExpr.Typecheck(new TypecheckingContext(null));
+                            parAssumeExpr.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
                             assignCandAssumes = Expr.And(assignCandAssumes, parAssumeExpr);
 
                             recordCandidate(rightAssignment, candidate, leftAssignment, lhss, match.ConvertAll<Variable>(c => (Variable)c));
@@ -3025,7 +3022,7 @@ namespace Rootcause
                                 Expr lhsAxiom =
                                     Expr.Imp(new IdentifierExpr(Token.NoToken, candidate),
                                     Expr.Eq(new IdentifierExpr(Token.NoToken, bound_lhs), new IdentifierExpr(Token.NoToken, match)));
-                                lhsAxiom.Typecheck(new TypecheckingContext(null));
+                                lhsAxiom.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
 
                                 assignCandAssumes = Expr.And(assignCandAssumes, lhsAxiom);
                                 assignLhssMatched.Add(lhs);
@@ -3059,7 +3056,7 @@ namespace Rootcause
 
 
                     Expr assumeExpr = new NAryExpr(Token.NoToken, new FunctionCall(P), actualArgs);
-                    assumeExpr.Typecheck(new TypecheckingContext(null));
+                    assumeExpr.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
                     newCmdSeq.Add(new AssumeCmd(Token.NoToken, assumeExpr));
 
                     List<Expr> axiomBoundVars = new List<Expr>();
@@ -3079,7 +3076,7 @@ namespace Rootcause
                     {
                         forall_x_P_of_x_eq_body = P_of_x_eq_body;
                     }
-                    forall_x_P_of_x_eq_body.Typecheck(new TypecheckingContext(null));
+                    forall_x_P_of_x_eq_body.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
 
                     recordAxiom(rightAssignment, forall_x_P_of_x_eq_body);
                 }

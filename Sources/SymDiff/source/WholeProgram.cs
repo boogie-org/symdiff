@@ -4,10 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Microsoft.Boogie;
 using B = SDiff.Boogie;
 
 using SymDiffUtils;
+using VC;
 using Util = SymDiffUtils.Util;
 
 //there is massive duplication here in case it turns out that the allinone approach (even with dumping at every verify) is not useful
@@ -357,16 +359,18 @@ namespace SDiff
             ref Program mergedProgram)
         {
             mergedProgram.TopLevelDeclarations =
-                p2.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl || x is TypeSynonymDecl));
+                p2.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl || x is TypeSynonymDecl)).ToList();
             mergedProgram.AddTopLevelDeclarations(
               p1.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl || x is TypeSynonymDecl)));
             mergedProgram.AddTopLevelDeclarations(t2s); //[SKL]: why are we adding t2s
-            mergedProgram.TopLevelDeclarations = Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
+            mergedProgram.TopLevelDeclarations =
+                Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
             //RemoveDuplicateDatatypeFunctions(ref mergedProgram.TopLevelDeclarations.ToList()); //new: since we are not renaming datatypes
             //Program mergedProgram = new Program();
             //mergedProgram.TopLevelDeclarations = p2.TopLevelDeclarations.Append(p1.TopLevelDeclarations.ToList());
             Log.Out(Log.Normal, "Resolving and typechecking");
-            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
+            Boogie.Process.InitializeBoogie("/doModSetAnalysis");
+            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                 return 1;
 
             //--------------- renaming starts ----------------------------------
@@ -408,7 +412,8 @@ namespace SDiff
             mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
             var mergedGlobals = mergedProgram.TopLevelDeclarations.Where(x => x is GlobalVariable);
             //moved this out of DifferntialInline
-            RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Where(x => x is Implementation && x.ToString().StartsWith(p1Prefix)).ToList(), 
+            RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Where(x =>
+                    x is Implementation && x.ToString().StartsWith(p1Prefix)).ToList(),
                 mergedProgram.TopLevelDeclarations.Where(x => x is Constant).ToList(), p1Prefix, p2Prefix);
             //--------------- renaming ends ----------------------------------
 
@@ -416,7 +421,7 @@ namespace SDiff
             mergedProgram = BoogieUtils.ParseProgram(p1Prefix + p2Prefix + "_temp.bpl");
             Log.Out(Log.Normal, "Resolving and typechecking");
             //we now have a single AST that contains all of the elements of each of the individual ASTs
-            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
+            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                 return 1;
             return 0;
         }
@@ -499,7 +504,7 @@ namespace SDiff
             Log.Out(Log.Normal, "Writing writesets as modifies clauses");
             SDiff.Boogie.Process.SetModifies(mergedProgram.TopLevelDeclarations.ToList(), cg);
             Log.Out(Log.Normal, "Resolving and Typechecking again..");
-            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
+            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                 return 1;
             if (Options.TraceVerify)
             {
@@ -520,7 +525,7 @@ namespace SDiff
             g1s.Add(new GlobalVariable(new Token(), new TypedIdent(new Token(), p1Prefix + ".OK", BasicType.Bool)));
             g2s.Add(new GlobalVariable(new Token(), new TypedIdent(new Token(), p2Prefix + ".OK", BasicType.Bool)));
             //just making sure
-            if (BoogieUtils.ResolveProgram(p1, v1name) || BoogieUtils.ResolveProgram(p2, v2name))
+            if (BoogieUtils.ResolveProgram(p1, v1name, BoogieUtils.BoogieOptions) || BoogieUtils.ResolveProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
             return 0; //this denotes success
         }
@@ -584,7 +589,7 @@ namespace SDiff
 
             CallGraph cg = CallGraph.Make(p);
 
-            var boogieOptions = " -monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0" + " -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
+            var boogieOptions = " -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0" + " -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
             Boogie.Process.InitializeBoogie(boogieOptions);
 
             var vcgen = BoogieVerify.InitializeVC(p);
@@ -598,28 +603,30 @@ namespace SDiff
 
                 //  check the procedure using Boogie
                 //  find if there is an error
-                VC.VCGen.Outcome outcome;
+                VcOutcome outcome;
 
                 try
                 {
                     List<Counterexample> errors;
-                    outcome = vcgen.VerifyImplementation(n, /*p,*/ out errors);
+                    List<VerificationRunResult> vcResults;
+                    (outcome, errors, vcResults) =
+                        vcgen.VerifyImplementation2(new ImplementationRun(n, Console.Out), CancellationToken.None).Result;
                 }
                 catch (Exception e)
                 {
                     Log.Out(Log.Error, "Unknown error somewhere in verification: ");
                     Log.Out(Log.Error, e.ToString());
-                    outcome = VC.VCGen.Outcome.Inconclusive;
+                    outcome = VcOutcome.Inconclusive;
                 }
 
                 bool removeOKEnsures = false;
 
                 switch (outcome)
                 {
-                    case VC.VCGen.Outcome.Errors:
-                    case VC.VCGen.Outcome.Inconclusive:
-                    case VC.VCGen.Outcome.OutOfMemory:
-                    case VC.VCGen.Outcome.TimedOut:
+                    case VcOutcome.Errors:
+                    case VcOutcome.Inconclusive:
+                    case VcOutcome.OutOfMemory:
+                    case VcOutcome.TimedOut:
                         removeOKEnsures = true; //TODO: make sure its the OK ensures
                         break;
                 }
@@ -828,7 +835,10 @@ namespace SDiff
                     Implementation procImpl = (Implementation) Util.getDeclarationByName(proc.Name, procImplPIter);
                     if (procImpl != null)
                     {
-                        var newProc = new Procedure(proc.tok, proc.Name + "_Diff_Inline", proc.TypeParameters, proc.InParams, proc.OutParams, proc.Requires, proc.Modifies, proc.Ensures);
+                        var newProc = new Procedure(
+                            proc.tok, proc.Name + "_Diff_Inline", proc.TypeParameters, proc.InParams, proc.OutParams,
+                            isPure:false,
+                            proc.Requires, proc.Modifies, proc.Ensures);
                         newProc.Modifies = proc.Modifies;
                         procDeclsPlusDiffInlineProcs.Add(newProc); //HT[proc] := newProc;
                         CallCmd ccmdThen = null;
@@ -1130,7 +1140,7 @@ namespace SDiff
                     mergedProgram.AddTopLevelDeclarations(canonicalConst);
 
                     Log.Out(Log.Normal, "Resolving and Typechecking again..");
-                    if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile))
+                    if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                     {
                         Log.LogEmit(Log.Normal, mergedProgram.Emit);
                         return 1;
@@ -1191,8 +1201,14 @@ namespace SDiff
                             return stmtTaint.PerformTaintAnalysis();
                         }
 
+                        if (!MonomorphismChecker.IsMonomorphic(mergedProgram))
+                        {
+                            Log.Out(Log.Warning, "Warning: Polymorphism detected in input.");
+                            BoogieUtils.BoogieOptions.TypeEncodingMethod = CoreOptions.TypeEncoding.Arguments;
+                        }
+
                         //RS: this is only file processing (if wrapper is true)
-                        curCex = BoogieVerify.RunVerificationTask(vt, null, mergedProgram, /*failedProcs,*/ out crashed, wrapper);
+                        curCex = BoogieVerify.RunVerificationTask(vt, mergedProgram, /*failedProcs,*/ out crashed, wrapper);
                         if (wrapper)
                             ExecuteWithWrapper(ref curCex, ref numCrashed, vt);
                         if (Options.PropagateEquivs)
@@ -1404,7 +1420,7 @@ namespace SDiff
             Program p1, p2;
             if ((p1 = BoogieUtils.ParseProgram(v1name)) == null) return 1;
             if ((p2 = BoogieUtils.ParseProgram(v2name)) == null) return 1;
-            // Reorganizing the topleveldeclarations of the two versions of bpl programs - hemr
+            // Reorganizing the electrotransformations of the two versions of bpl programs - hemr
             p1 = RestructureProgram(p1);
             p2 = RestructureProgram(p2);
 
@@ -1418,14 +1434,14 @@ namespace SDiff
             //collect type decls
             IEnumerable<Declaration>
               t2s = p2.TopLevelDeclarations.Where(x => x is TypeCtorDecl || x is TypeSynonymDecl);
-            p1.TopLevelDeclarations = p1.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl) && !(x is TypeSynonymDecl));
+            p1.TopLevelDeclarations = p1.TopLevelDeclarations.Where(x => !(x is TypeCtorDecl) && !(x is TypeSynonymDecl)).ToList();
             p1.AddTopLevelDeclarations(t2s);
             //the types of the two programs are unified even before Resolve
             //collect globals, constants, functions, and axioms
             //Filter : 'a list -> ('a -> bool) -> 'a list
-            BoogieUtils.ResolveAndTypeCheckThrow(p1, v1name);
-            BoogieUtils.ResolveAndTypeCheckThrow(p2, v2name);
-
+            BoogieUtils.ResolveAndTypeCheckThrow(p1, v1name, BoogieUtils.BoogieOptions);
+            BoogieUtils.ResolveAndTypeCheckThrow(p2, v2name, BoogieUtils.BoogieOptions);
+            
             //new: remove unused global upfront (exception later)
             //var g1Uses = GetUsedVariables(p1).GetUseSetForProgram();
             //var g2Uses = GetUsedVariables(p2).GetUseSetForProgram();
@@ -1449,18 +1465,20 @@ namespace SDiff
             //function arguments have a bothersome habit of being unnamed, so we give them arbitrary names
             //note that configuration inference has to give them the same names (arg_0 ... arg_n, out_ret)
             // modifies each f \in f1s, f2s by giving names to unnamed args
-            f1s.Iter(x => B.U.NameFunctionArgs((Function)x));
-            f2s.Iter(x => B.U.NameFunctionArgs((Function)x));
+            f1s.ForEach(x => B.U.NameFunctionArgs((Function)x));
+            f2s.ForEach(x => B.U.NameFunctionArgs((Function)x));
 
             //resolve the programs: creating a well-formed AST of the program     
             //Major side effects:
             //   resolves the strings representation into objects 
             //   types, variables, procedure calls, procedure symbols in expr, 
-            if (BoogieUtils.ResolveProgram(p1, v1name) || BoogieUtils.ResolveProgram(p2, v2name))
+            if (BoogieUtils.ResolveProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
+                BoogieUtils.ResolveProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
             //typecheck the programs
             //Main side effect: would inline calls with {inline} attribute
-            if (BoogieUtils.TypecheckProgram(p1, v1name) || BoogieUtils.TypecheckProgram(p2, v2name))
+            if (BoogieUtils.TypecheckProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
+                BoogieUtils.TypecheckProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
             /////////////////////////////////////////////////////////////////////////////////////
             // Some modification of p1, p2 ends
@@ -1506,9 +1524,11 @@ namespace SDiff
                 Util.InlineMissingImplementations(p2, p1, pdict2, pdict1);
             }
             //RS: resolve and typecheck
-            if (BoogieUtils.ResolveProgram(p1, v1name) || BoogieUtils.ResolveProgram(p2, v2name))
+            if (BoogieUtils.ResolveProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
+                BoogieUtils.ResolveProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
-            if (BoogieUtils.TypecheckProgram(p1, v1name) || BoogieUtils.TypecheckProgram(p2, v2name))
+            if (BoogieUtils.TypecheckProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
+                BoogieUtils.TypecheckProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
             /////////////////////////////////////////////////////////
             //// Inlining logic ends
@@ -1536,7 +1556,8 @@ namespace SDiff
             Util.MakeContractsFree(p1);
             Util.MakeContractsFree(p2);
             //just making sure
-            if (BoogieUtils.ResolveProgram(p1, v1name) || BoogieUtils.ResolveProgram(p2, v2name))
+            if (BoogieUtils.ResolveProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
+                BoogieUtils.ResolveProgram(p2, v2name, BoogieUtils.BoogieOptions))
                 return 1;
             //////////////////////////////////////////////////////////
             // Strip/Free contracts ends

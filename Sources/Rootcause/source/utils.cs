@@ -9,6 +9,7 @@ using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
 using Microsoft.BaseTypes;
+using SymDiffUtils;
 using BType = Microsoft.Boogie.Type;
 
 namespace Rootcause
@@ -39,7 +40,7 @@ namespace Rootcause
         {
             //ROHIT: always print
             var filename = Options.outputPath + @"\tmp" + Options.htmlTag + ".bpl";
-            var tuo = new TokenTextWriter(filename);
+            var tuo = new TokenTextWriter(filename, BoogieUtils.BoogieOptions);
             try
             {
                 p.Emit(tuo);
@@ -74,13 +75,13 @@ namespace Rootcause
                 Parser.Parse(Datatypes.prelude + (Options.useSetAxioms ? Datatypes.preludeSetAxioms : Datatypes.preludeSetAxiomsMin), "prelude", out preludeProg);
                 prog.AddTopLevelDeclarations(preludeProg.TopLevelDeclarations);
             }
-            errCount = prog.Resolve();
+            errCount = prog.Resolve(BoogieUtils.BoogieOptions);
             if (errCount > 0)
             {
                 Console.WriteLine("WARNING: {0} name resolution errors in {1}", errCount, fname);
                 return false;
             }
-            errCount = prog.Typecheck();
+            errCount = prog.Typecheck(BoogieUtils.BoogieOptions);
             if (errCount > 0)
             {
                 Console.WriteLine("WARNING: {0} type checking errors in {1}", errCount, fname);
@@ -107,7 +108,7 @@ namespace Rootcause
             }
 
             foreach (Implementation impl in impls)
-                Inliner.ProcessImplementation(program, impl);
+                Inliner.ProcessImplementation(BoogieUtils.BoogieOptions, program, impl);
 
         }
         public static bool IsInlinedProc(Procedure procedure)
@@ -517,7 +518,7 @@ namespace Rootcause
         public static VCExpr GetModelExprForVC(Program prog, Implementation impl, VCExpr vc, out List<Counterexample> cex)
         {
             var outcome = VC.VerifyVC(impl.Name, vc, out cex);
-            if (outcome == ProverInterface.Outcome.Valid)
+            if (outcome == SolverOutcome.Valid)
             {
                 return null;
             }
@@ -991,15 +992,15 @@ namespace Rootcause
 
                     if (inParams.Count() > 0)
                     {
-                        axiomExpr.Typecheck(new TypecheckingContext(null));
+                        axiomExpr.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
                         Expr f_of_x1 = new NAryExpr(Token.NoToken, new FunctionCall(f), axiomBoundVars1);
-                        f_of_x1.Typecheck(new TypecheckingContext(null));
+                        f_of_x1.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
                         Expr f_of_x2 = new NAryExpr(Token.NoToken, new FunctionCall(f), axiomBoundVars2);
-                        f_of_x2.Typecheck(new TypecheckingContext(null));
+                        f_of_x2.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
                         Expr f_of_x1_eq_f_of_x2 = Expr.Eq(f_of_x1, f_of_x2);
-                        f_of_x1_eq_f_of_x2.Typecheck(new TypecheckingContext(null));
+                        f_of_x1_eq_f_of_x2.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
                         Expr body = Expr.Imp(f_of_x1_eq_f_of_x2, axiomExpr);
-                        body.Typecheck(new TypecheckingContext(null));
+                        body.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
 
                         var TriggerSeq = new List<Expr>();
                         TriggerSeq.Add(f_of_x1);
@@ -1009,7 +1010,7 @@ namespace Rootcause
                         Expr forall_x_P_of_x_eq_body = new ForallExpr(Token.NoToken,
                             new List<Variable>(boundedVars1.Concat(boundedVars2).ToArray()),
                             new Trigger(new Token(), true, TriggerSeq), body);
-                        forall_x_P_of_x_eq_body.Typecheck(new TypecheckingContext(null));
+                        forall_x_P_of_x_eq_body.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
                         axioms.Add(forall_x_P_of_x_eq_body);
                     }
 
@@ -1051,11 +1052,11 @@ namespace Rootcause
                                 axiomBoundVars2.Add(new IdentifierExpr(Token.NoToken, bvar2));
                             }
                             Expr f_of_x = new NAryExpr(Token.NoToken, new FunctionCall(f), axiomBoundVars1);
-                            f_of_x.Typecheck(new TypecheckingContext(null));
+                            f_of_x.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
                             Expr other_f_of_y = new NAryExpr(Token.NoToken, new FunctionCall(other_f), axiomBoundVars2);
-                            other_f_of_y.Typecheck(new TypecheckingContext(null));
+                            other_f_of_y.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
                             Expr body = Expr.Not(Expr.Eq(f_of_x, other_f_of_y));
-                            body.Typecheck(new TypecheckingContext(null));
+                            body.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
 
                             if (inParams.Count() > 0 || other_f.InParams.Count > 0)
                             {
@@ -1067,7 +1068,7 @@ namespace Rootcause
                                 Expr forallexpr = new ForallExpr(Token.NoToken,
                                     new List<Variable>(boundedVars1.Concat(boundedVars2).ToArray()),
                                     new Trigger(new Token(), true, TriggerSeq), body);
-                                forallexpr.Typecheck(new TypecheckingContext(null));
+                                forallexpr.Typecheck(new TypecheckingContext(null, BoogieUtils.BoogieOptions));
                                 axioms.Add(forallexpr);
                             }
                             else

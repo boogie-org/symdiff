@@ -21,14 +21,14 @@ namespace Dependency.source
             this.program = program;
             this.InlineDepth = InlineDepth;
 
-            this.callGraph = Program.BuildCallGraph(program);
+            this.callGraph = Program.BuildCallGraph(BoogieUtils.BoogieOptions, program);
         }
         internal void InlineImplementations()
         {
-            var oldInlineDepth = CommandLineOptions.Clo.InlineDepth;
-            CommandLineOptions.Clo.InlineDepth = InlineDepth;
+            var oldInlineDepth = BoogieUtils.BoogieOptions.InlineDepth;
+            BoogieUtils.BoogieOptions.InlineDepth = InlineDepth;
             Inline();
-            CommandLineOptions.Clo.InlineDepth = oldInlineDepth;
+            BoogieUtils.BoogieOptions.InlineDepth = oldInlineDepth;
             return;
         }
 
@@ -36,7 +36,7 @@ namespace Dependency.source
         {
             //Copied from Boogie\Houdini.cs
 
-            if (CommandLineOptions.Clo.InlineDepth <= 0)
+            if (BoogieUtils.BoogieOptions.InlineDepth <= 0)
                 return;
 
             //foreach (Implementation impl in callGraph.Nodes)
@@ -52,10 +52,10 @@ namespace Dependency.source
             }
             foreach (Implementation impl in callGraph.Nodes)
             {
-                CommandLineOptions.Inlining savedOption = CommandLineOptions.Clo.ProcedureInlining;
-                CommandLineOptions.Clo.ProcedureInlining = CommandLineOptions.Inlining.Spec;
-                Inliner.ProcessImplementationForHoudini(program, impl);
-                CommandLineOptions.Clo.ProcedureInlining = savedOption;
+                var savedOption = BoogieUtils.BoogieOptions.ProcedureInlining;
+                BoogieUtils.BoogieOptions.ProcedureInlining = CoreOptions.Inlining.Spec;
+                Inliner.ProcessImplementationForHoudini(BoogieUtils.BoogieOptions, program, impl);
+                BoogieUtils.BoogieOptions.ProcedureInlining = savedOption;
             }
             foreach (Implementation impl in callGraph.Nodes)
             {
@@ -73,7 +73,7 @@ namespace Dependency.source
             {
                 callGraph.AddEdge(edge.Item1, edge.Item2);
             }
-            int count = CommandLineOptions.Clo.InlineDepth;
+            int count = BoogieUtils.BoogieOptions.InlineDepth;
             while (count > 0)
             {
                 foreach (Implementation impl in oldCallGraph.Nodes)

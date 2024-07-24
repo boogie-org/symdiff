@@ -5,10 +5,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.Boogie;
 using Microsoft.Boogie.VCExprAST;
 using VC;
 using Microsoft.BaseTypes;
+using SymDiffUtils;
 using BType = Microsoft.Boogie.Type;
 
 namespace Rootcause
@@ -36,8 +38,8 @@ namespace Rootcause
             GuardAndAddTrueAssertions(impl); //updates assertConsts (has to come after AddDummyAssertsAtReturn to see the new asserts)
             Utils.PrintProg(prog);
 
-            prog.Resolve();
-            prog.Typecheck();
+            prog.Resolve(BoogieUtils.BoogieOptions);
+            prog.Typecheck(BoogieUtils.BoogieOptions);
 
             VC.InitializeVCGen(prog);
 
@@ -63,7 +65,7 @@ namespace Rootcause
                 VCExpressionGenerator.True, (VCExpr a, VCExpr b) => VC.exprGen.And(a, b));
             var outcome = VC.VerifyVC(impl.Name, VC.exprGen.Implies(VC.exprGen.And(VC.exprGen.And(constr1, modelExpr), flipAssertConstraint), progVC), out cex);
             //This is doing (b1 & ... & bn & (VC) & cex & Not(assert)), which is Valid.
-            if (outcome != ProverInterface.Outcome.Valid)
+            if (outcome != SolverOutcome.Valid)
             {
                 Console.WriteLine("Unable to prove that the model makes the assertion UNSAT (possible reasons non-det goto, or theorem prover incompleteness), no rootcause found");
                 return;
@@ -92,9 +94,9 @@ namespace Rootcause
 
             cex.Clear();
 
-            ProverInterface.Outcome t = ProverInterface.Outcome.Undetermined;
-            t = VC.proverInterface.CheckAssumptions(hard, out unsat, VC.handler);
-            if (t == ProverInterface.Outcome.Valid)
+            SolverOutcome t = SolverOutcome.Undetermined;
+            (t, unsat) = VC.proverInterface.CheckAssumptions(hard, VC.handler, CancellationToken.None).Result;
+            if (t == SolverOutcome.Valid)
             {
                 foreach (int x in unsat)
                 {
@@ -119,8 +121,8 @@ namespace Rootcause
             GuardAndAddTrueAssertions(impl); //updates assertConsts (has to come after AddDummyAssertsAtReturn to see the new asserts)
             Utils.PrintProg(prog);
 
-            prog.Resolve();
-            prog.Typecheck();
+            prog.Resolve(BoogieUtils.BoogieOptions);
+            prog.Typecheck(BoogieUtils.BoogieOptions);
 
             VC.InitializeVCGen(prog);
 
@@ -139,7 +141,7 @@ namespace Rootcause
             var constr1 = predConsts.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)).Aggregate<VCExpr, VCExpr>(
                 VCExpressionGenerator.True, (VCExpr a, VCExpr b) => VC.exprGen.And(a, b));
             var outcome = VC.VerifyVC(impl.Name, VC.exprGen.Implies(VC.exprGen.And(VC.exprGen.And(constr1, modelExpr), flipAssertConstraint), progVC), out cex);
-            if (outcome != ProverInterface.Outcome.Valid)
+            if (outcome != SolverOutcome.Valid)
             {
                 Console.WriteLine("Unable to prove that the model makes the assertion UNSAT (possible reasons non-det goto, or theorem prover incompleteness), no rootcause found");
                 return;
@@ -154,9 +156,9 @@ namespace Rootcause
 
             if (Options.verbose > 0) cex.Clear();
             Utils.PrintQueryToMAXSAT(prog, hard, soft, impl);
-            ProverInterface.Outcome t = ProverInterface.Outcome.Undetermined;
-            t = VC.proverInterface.CheckAssumptions(hard, out unsat, VC.handler);
-            if (t == ProverInterface.Outcome.Valid)
+            SolverOutcome t = SolverOutcome.Undetermined;
+            (t, unsat) = VC.proverInterface.CheckAssumptions(hard, VC.handler, CancellationToken.None).Result;
+            if (t == SolverOutcome.Valid)
             {
                 foreach (int x in unsat)
                 {
@@ -181,8 +183,8 @@ namespace Rootcause
             Utils.PrintProg(prog);
 
             //Resolve and typecheck before performing any VC gen
-            prog.Resolve();
-            prog.Typecheck();
+            prog.Resolve(BoogieUtils.BoogieOptions);
+            prog.Typecheck(BoogieUtils.BoogieOptions);
 
             VC.InitializeVCGen(prog);
 
@@ -203,7 +205,7 @@ namespace Rootcause
             List<Counterexample> cexs;
             //Try proving
             var outcome = VC.VerifyVC(impl.Name, proofQuery, out cexs);
-            if (outcome == ProverInterface.Outcome.Valid)
+            if (outcome == SolverOutcome.Valid)
             {
                 Console.WriteLine("Program verified, no work for Rootcause");
                 return;
@@ -223,7 +225,7 @@ namespace Rootcause
             proofQuery = VC.exprGen.And(modelExpr, VC.exprGen.And(forcedConditionals, VC.exprGen.And(trueAssertions, progVC)));
             cexs.Clear();
             outcome = VC.VerifyVC(impl.Name, proofQuery, out cexs);
-            if (outcome != ProverInterface.Outcome.Valid)
+            if (outcome != SolverOutcome.Valid)
             {
                 Console.WriteLine("Warning, this should be unsat. Exiting...");
                 return;
@@ -237,9 +239,8 @@ namespace Rootcause
             var hardConstraints = new List<VCExpr>();
             hardConstraints.Add(VC.exprGen.And(modelExpr, VC.exprGen.And(trueAssertions, progVC)));
             hardConstraints.AddRange(predConsts.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)));
-            var unsat = new List<int>();
-            ProverInterface.Outcome t = ProverInterface.Outcome.Undetermined;
-            if ((t = VC.proverInterface.CheckAssumptions(hardConstraints, out unsat, VC.handler)) == ProverInterface.Outcome.Valid)
+            var (t, unsat) = VC.proverInterface.CheckAssumptions(hardConstraints, VC.handler, CancellationToken.None).Result;                
+            if (t == SolverOutcome.Valid)
             {
 
                 Console.WriteLine("Finished phase 2a");
@@ -878,7 +879,7 @@ namespace Rootcause
 
             //List<Counterexample> cex;
             var outcome = VC.VerifyVC(impl.Name, VC.exprGen.Implies(VC.exprGen.And(constr1, constr2), progVC), out cex);
-            if (outcome == ProverInterface.Outcome.Valid)
+            if (outcome == SolverOutcome.Valid)
             {
                 Console.WriteLine("Program verified, no work for Rootcause");
                 return null;

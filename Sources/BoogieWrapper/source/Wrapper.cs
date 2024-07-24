@@ -18,7 +18,7 @@ namespace BoogieWrapper
     {
         static int Main(string[] args)
         {
-            CommandLineOptions.Install(new CommandLineOptions());
+            BoogieUtils.InitializeBoogie("");
             int argc = args.Length;
             if (argc < 4)
             {
@@ -35,7 +35,7 @@ namespace BoogieWrapper
             string funcName = args[1];
 
             //TODO: Make it aware of the other Boogie options
-            var boogieOptions = " -doModSetAnalysis -printInstrumented -monomorphize -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
+            var boogieOptions = " -doModSetAnalysis -printInstrumented -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
 
             Program prog = BoogieUtils.ParseProgram(args[0]);
@@ -45,7 +45,7 @@ namespace BoogieWrapper
                 Log.Out(Log.Verifier, "Parse Error!!! in   " + args[1]);
                 return -1;
             }
-            if (BoogieUtils.ResolveAndTypeCheckThrow(prog, args[0]))
+            if (BoogieUtils.ResolveAndTypeCheckThrow(prog, args[0], BoogieUtils.BoogieOptions))
                 return -1;
             //code duplication
 
@@ -55,7 +55,7 @@ namespace BoogieWrapper
                 //System.Diagnostics.Debugger.Break();
                 var bvdI = new BvdInstrument();
                 Program prog1 = bvdI.VisitProgram(prog);
-                if (BoogieUtils.ResolveAndTypeCheckThrow(prog, fileName)) return -1;
+                if (BoogieUtils.ResolveAndTypeCheckThrow(prog, fileName, BoogieUtils.BoogieOptions)) return -1;
                 Util.DumpBplAST(prog, "merged_bvd.bpl");
                 return -1;
             }

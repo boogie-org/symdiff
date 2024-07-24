@@ -75,7 +75,7 @@ namespace SDiff
             //lets drop the modifies of all procedures (e.g. default generated alloc/detchoicent by havoc
             if (!freeContractsIn)
                 Util.DropAllModifies(mergedProgram);
-            ModSetCollector c = new ModSetCollector();
+            ModSetCollector c = new ModSetCollector(BoogieUtils.BoogieOptions);
             c.DoModSetAnalysis(mergedProgram); //important that we do it on the merged program
             //get the call graphs
             cg1 = CallGraph.Make(p1);
@@ -97,17 +97,17 @@ namespace SDiff
             Console.WriteLine("Performing Houdini inference from within Symdiff.exe ");
 
             Options.VerboseBoogieEnvironment = true; //just to debug
-            CommandLineOptions.Clo.UseUnsatCoreForContractInfer = true; //ROHIT
-            CommandLineOptions.Clo.PrintInstrumented = true;
-            CommandLineOptions.Clo.UseSubsumption = CommandLineOptions.SubsumptionOption.Never;
-            CommandLineOptions.Clo.ContractInfer = true;
+            BoogieUtils.BoogieOptions.UseUnsatCoreForContractInfer = true; //ROHIT
+            BoogieUtils.BoogieOptions.PrintInstrumented = true;
+            BoogieUtils.BoogieOptions.UseSubsumption = CoreOptions.SubsumptionOption.Never;
+            BoogieUtils.BoogieOptions.ContractInfer = true;
 
             //TODO: need to pass inferContracts options that run_symdiff_bpl passed to Boogie.exe
-            var boogieOptions = " /monomorphize /noinfer " + Options.BoogieUserOpts /* + " /trace " */;
+            var boogieOptions = " /typeEncoding:m /noinfer " + Options.BoogieUserOpts /* + " /trace " */;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
             var mps = Options.MergedProgramOutputFile; 
             var program = BoogieUtils.ParseProgram(mps);
-            BoogieUtils.ResolveAndTypeCheckThrow(program, mps);             
+            BoogieUtils.ResolveAndTypeCheckThrow(program, mps, BoogieUtils.BoogieOptions);             
             (new TaintBasedSimplification(program)).StartSimplifications();
 
             if (Options.dacConsiderChangedProcsUptoDistance >= 0)
@@ -127,20 +127,19 @@ namespace SDiff
             var mpsPi = "mergedProgSingle_preInferred.bpl";
             BoogieUtils.PrintProgram(program, mpsPi);
             program = BoogieUtils.ParseProgram(mpsPi);
-            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi); 
+            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi, BoogieUtils.BoogieOptions); 
 
 
             Console.WriteLine("Analyzing the list of implementations in Houdini = [{0}]",
                 string.Join(",", program.TopLevelDeclarations.OfType<Implementation>().Select(x => x.Name)));
             Console.WriteLine("Inline depth for Houdini = {0}", Options.inlineDepthInferContracts);
 
-            var oldInlineDepth = CommandLineOptions.Clo.InlineDepth;
-            var oldTraceOpt = CommandLineOptions.Clo.Trace;
-            CommandLineOptions.Clo.InlineDepth = Options.inlineDepthInferContracts;
-            //CommandLineOptions.Clo.Trace = true; //uncomment to look into Houdini
+            var oldInlineDepth = BoogieUtils.BoogieOptions.InlineDepth;
+            BoogieUtils.BoogieOptions.InlineDepth = Options.inlineDepthInferContracts;
+            //BoogieUtils.BoogieOptions.Trace = true; //uncomment to look into Houdini
             HoudiniSession.HoudiniStatistics houdiniStats = new HoudiniSession.HoudiniStatistics();
-            Houdini houdini = new Houdini(program, houdiniStats);
-            HoudiniOutcome outcome = houdini.PerformHoudiniInference();
+            Houdini houdini = new Houdini(Console.Out, BoogieUtils.BoogieOptions, program, houdiniStats);
+            HoudiniOutcome outcome = houdini.PerformHoudiniInference().Result;
             houdini.Close();
             Console.WriteLine("Houdini statistics:: Prover Time {0} NumProver Queries {1} UnsatProver time {2} NumUnsat prunings {3}", 
                 houdiniStats.proverTime,
@@ -149,7 +148,7 @@ namespace SDiff
                 houdiniStats.numUnsatCorePrunings);
             //program changes due to Houdini transformations
             program = BoogieUtils.ParseProgram(mpsPi);
-            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi); 
+            BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi, BoogieUtils.BoogieOptions); 
             var trueConstants = extractVariableAssigned(true, outcome);
             var falseConstants = extractVariableAssigned(false, outcome);
             persistHoudiniInferredFacts(trueConstants, falseConstants, program, houdini);
@@ -157,9 +156,7 @@ namespace SDiff
             Console.WriteLine("Houdini finished and inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
             Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts",
                     outcome.Verified, outcome.ErrorCount, outcome.Inconclusives, outcome.TimeOuts);
-            CommandLineOptions.Clo.InlineDepth = oldInlineDepth;
-            CommandLineOptions.Clo.Trace = oldTraceOpt;
-
+            BoogieUtils.BoogieOptions.InlineDepth = oldInlineDepth;
         }
 
         private static void persistHoudiniInferredFacts(HashSet<string> trueConstants, HashSet<string> falseConstants, Program program, Houdini houdini)
@@ -169,7 +166,7 @@ namespace SDiff
         private static HashSet<string> extractVariableAssigned(bool b, HoudiniOutcome outcome)
         {
             var trueConstants = new HashSet<string>();
-            outcome.assignment.Iter(kvp => { if (kvp.Value == b) trueConstants.Add(kvp.Key); });
+            outcome.assignment.ForEach(kvp => { if (kvp.Value == b) trueConstants.Add(kvp.Key); });
             return trueConstants;
         }
 
@@ -181,7 +178,7 @@ namespace SDiff
             //TODO: Have to merge the new types (including datatypes)
             if (ms == null) throw new Exception("Parsing of ms_symdiff_file.bpl failed");
             mergedProgram.AddTopLevelDeclarations(ms.TopLevelDeclarations);
-            mergedProgram.Resolve();
+            mergedProgram.Resolve(BoogieUtils.BoogieOptions);
         }
         public static void Initialize(Program q1, Program q2, Program mp, string q1Prefix, string q2Prefix, Config cfg1)
         {
@@ -255,7 +252,7 @@ namespace SDiff
             if (typeCheckMergedProgram)
             {
                 Log.Out(Log.Normal, "Resolving and typechecking");
-                BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile);
+                BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions);
             }
 
             if (callCorralOnMergedProgram)
@@ -764,6 +761,7 @@ namespace SDiff
                     new List<TypeVariable>(),
                     ivarSeq,
                     ovarSeq,
+                    isPure:false,
                     requiresSeq,
                     new List<IdentifierExpr>(),
                     ensuresSeq);
@@ -835,7 +833,7 @@ namespace SDiff
             }
             //Sometimes (in hte presence of non-terminating recursion foo(x) { foo(x+1); }, the dependency set can be empty
             outs.Union(f.Modifies.Select(x => x.Decl))
-                .Iter(v =>
+                .ForEach(v =>
                     {
                         if (!dependency[f].ContainsKey(v)) dependency[f][v] = new List<Variable>();
                     });
@@ -1086,12 +1084,12 @@ namespace SDiff
                 //name starts with _v1.in_/_v2.in
                 //get {x | in_x in i, out_x in o}
                 var inouts = new HashSet<Tuple<Variable, Variable>>(); //(in,out)
-                i.Iter(x => o.Iter(y => inouts.Add(Tuple.Create(x, y))));
+                i.ForEach(x => o.ForEach(y => inouts.Add(Tuple.Create(x, y))));
                 var res = inouts
                     .Where(x => ((Variable)x.Item1).Name.Replace("in_", "")
                                             == ((Variable)x.Item2).Name.Replace("out_", ""));
                 var comparisons = new HashSet<ExprWithAttributes>(); //comparisons
-                res.Iter(x => CreateVariableComparisons(x.Item1, x.Item2).Iter(y => comparisons.Add(y)));
+                res.ForEach(x => CreateVariableComparisons(x.Item1, x.Item2).ForEach(y => comparisons.Add(y)));
                 var censures = comparisons.Select(x => new Ensures(false, MkCandidateExpr(x.Expr)));
                 f.Ensures.AddRange(censures);
             }
