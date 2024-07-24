@@ -11,8 +11,8 @@
     <Reference Include="Microsoft.TeamFoundation.VersionControl.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.TeamFoundation.VersionControl.Controls, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <ProjectReference Include="..\Corral\source\ProgTransformation\ProgTransformation.csproj" />
-    <PackageReference Include="Boogie.Provers.SMTLib" Version="3.2.0" />
-    <PackageReference Include="Boogie.Core" Version="3.2.0" />
+    <PackageReference Include="Boogie.Provers.SMTLib" Version="3.1.3" />
+    <PackageReference Include="Boogie.Core" Version="3.1.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SymDiffUtils\SymDiffUtils.csproj" />
