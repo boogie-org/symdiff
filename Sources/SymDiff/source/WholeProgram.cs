@@ -1103,9 +1103,9 @@ namespace SDiff
                 }
 
                 // Creates EQ_f_f' function
-                List<Variable> outputVars;
                 var eqp =
-                  Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores, out outputVars);
+                  Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores,
+                      out var outputVars, out var eqProcParamInfo);
 
                 //RS: adding OK1=true, OK2=true, and OK1=>OK2
                 if (Options.checkAssertsOnly)
@@ -1237,7 +1237,7 @@ namespace SDiff
                             numCex += numCexOfVt;
                             failedImpls.Add(vt.Left.Name);
                         }
-                        equivalenceResults.Add(new EquivalenceResult(n1.Name, n2.Name, vt.Result, vt.Counterexamples));
+                        equivalenceResults.Add(new EquivalenceResult(n1.Name, n2.Name, vt.Result, vt.Counterexamples, eqProcParamInfo));
                     }
 
                     //totClock.Stop();
@@ -1700,16 +1700,36 @@ namespace SDiff
     public class EquivalenceResult(string procedure1,
                                    string procedure2,
                                    VerificationResult verificationResult,
-                                   SDiffCounterexamples counterexamples)
+                                   SDiffCounterexamples counterexamples,
+                                   EqualityProcedureParameterInfo parameterInfo)
     {
         public string Procedure1 { get; } = procedure1;
         public string Procedure2 { get; } = procedure2;
         public VerificationResult VerificationRunResult { get; } = verificationResult;
         public SDiffCounterexamples Counterexamples { get; } = counterexamples;
+        public EqualityProcedureParameterInfo ParameterInfo { get; } = parameterInfo;
         public override string ToString()
         {
             return $"{Procedure1} == {Procedure2}: {VerificationRunResult}";
         }
+    }
+
+    public class EqualityProcedureParameterInfo(
+        List<string> proc1InParams,
+        List<string> proc1OutParams,
+        List<string> proc2InParams,
+        List<string> proc2OutParams,
+        List<string> globals,
+        List<string> globalsAtEntry,
+        List<string> globalsAfterProc1Return)
+    {
+        public List<string> Proc1InParams { get; } = proc1InParams;
+        public List<string> Proc1OutParams { get; } = proc1OutParams;
+        public List<string> Proc2InParams { get; } = proc2InParams;
+        public List<string> Proc2OutParams { get; } = proc2OutParams;
+        public List<string> Globals { get; } = globals;
+        public List<string> GlobalsAtEntry { get; } = globalsAtEntry;
+        public List<string> GlobalsAfterProc1Return { get; } = globalsAfterProc1Return;
     }
 
     public class VerificationException(string message) : Exception(message);
