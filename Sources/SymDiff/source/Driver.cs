@@ -432,10 +432,6 @@ namespace SDiff
             var proc = d as Procedure;
             if (proc != null)
             {
-
-                if (Util.IsInlinedProc(proc))
-                    continue;
-
                 var pmap = new ParamMap();
                 foreach (Variable v in proc.InParams)
                     pmap.Add(new HDuple<string>(v.Name, v.Name));
