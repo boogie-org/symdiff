@@ -47,6 +47,7 @@ namespace SDiff
     public class VerificationTask : Triple<Implementation, Implementation, Implementation>, IEmittable
     {
         public VerificationResult Result;
+        public SDiffCounterexamples Counterexamples;
         public List<Variable> DesiredOutputVars;
         public VerificationTask(Implementation eq, Implementation left, Implementation right)
             : base(eq, left, right)
@@ -904,6 +905,7 @@ namespace SDiff
                 newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
 
                 vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors);
+                vt.Counterexamples = SErrors;
 
                 switch (vt.Result)
                 {

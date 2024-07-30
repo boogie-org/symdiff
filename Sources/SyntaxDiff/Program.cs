@@ -227,7 +227,7 @@ namespace SyntaxDiff
     {
         public override Cmd VisitAssertCmd(AssertCmd node)
         {
-            if (Util.IsSourceInfoAssertCmd(node))
+            if (Util.IsSourceInfoAssertOrAssumeCmd(node))
             {
                 node.Attributes = null; 
             }
@@ -265,11 +265,11 @@ namespace SyntaxDiff
                 impl.Blocks
                     .ForEach(b =>
                     {
-                        b.Cmds.Where(c => Util.IsSourceInfoAssertCmd(c))
+                        b.Cmds.Where(c => Util.IsSourceInfoAssertOrAssumeCmd(c))
                             .ForEach(ac =>
                             {
                                 int srcLine;
-                                Util.IsSourceInfoAssertCmd(ac, out srcFile, out srcLine);
+                                Util.IsSourceInfoAssertOrAssumeCmd(ac, out srcFile, out srcLine);
                                 srcFiles.Add(srcFile);
                                 lines.Add(srcLine);
                             });
@@ -286,7 +286,7 @@ namespace SyntaxDiff
             foreach(var src in srcFiles)
             {
                 var contentSrc = new List<string>();
-                using (var srcStream = new StreamReader(Path.Combine(bplPath, src)))
+                using (var srcStream = new StreamReader(src))
                 {
                     while (srcStream.Peek() >= 0) { contentSrc.Add(srcStream.ReadLine().Trim()); }
                 }

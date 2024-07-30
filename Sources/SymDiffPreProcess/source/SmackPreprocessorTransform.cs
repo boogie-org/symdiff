@@ -168,7 +168,7 @@ namespace SymdiffPreprocess
             bool firstSourceInfoAssert = false; 
             foreach(var cmd in cmds)
             {
-                if (!Util.IsSourceInfoAssertCmd(cmd))
+                if (!Util.IsSourceInfoAssertOrAssumeCmd(cmd))
                 {
                     currBlock.Cmds.Add(cmd);
                     continue;

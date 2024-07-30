@@ -25,7 +25,7 @@ namespace SDiff
         public const bool PrintZ3Model = false;
         public const bool DumpBeforeVerifying = false;
         public static bool PropagateEquivs = true; //Changed to non constant to allow bogus modular checking
-        public const bool UnsoundRecursion = true;
+        public const bool UnsoundRecursion = false;
         public const bool DumpSymTrace = false;
         public static bool DoSymEx = true;
         public const bool CheckOutputsForMaps = false;
