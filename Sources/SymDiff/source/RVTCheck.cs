@@ -138,7 +138,7 @@ namespace RVT
                 //Add the same uninterpreted function by default
                 Procedure leftP = cg.NodeOfName(fnPair.Key).Proc;
                 Procedure rightP = cg.NodeOfName(fnPair.Value).Proc;
-                InjectUIFsOnBothProcs(leftP, rightP);               
+                InjectUIFsOnBothProcs(leftP, rightP, cg.NodeOfName(fnPair.Key).Impl != null);               
                 if (RVTCreateEQProcs(left, ref synEq, ref empty1, ref empty2))
                 {
                     //add the mapping if the eq generation succeeded
@@ -179,13 +179,13 @@ namespace RVT
 
         }
 
-        private static void InjectUIFsOnBothProcs(Procedure leftP, Procedure rightP)
+        private static void InjectUIFsOnBothProcs(Procedure leftP, Procedure rightP, bool hasImplementation)
         {
             ////create uifs, grabs the readset from callgraph
             ////same uif for both versions   
             ////injects them as postcondition
             var newDecls = new List<Declaration>();
-            if (SDiff.Boogie.Process.InjectUninterpreted(leftP, rightP, cfg, cg, newDecls))
+            if (SDiff.Boogie.Process.InjectUninterpreted(leftP, rightP, cfg, cg, newDecls, hasImplementation))
                 Log.Out(Log.Error, "Failed to add postconditions to " + leftP.Name + " and " + rightP.Name);
             mergedProgram.AddTopLevelDeclarations(newDecls);
         }

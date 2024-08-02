@@ -504,8 +504,17 @@ namespace SDiff
             Log.Out(Log.Normal, "Writing writesets as modifies clauses");
             SDiff.Boogie.Process.SetModifies(mergedProgram.TopLevelDeclarations.ToList(), cg);
             Log.Out(Log.Normal, "Resolving and Typechecking again..");
-            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
-                return 1;
+            try
+            {
+                BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile,
+                    BoogieUtils.BoogieOptions);
+            }
+            catch (Exception)
+            {
+                Util.DumpBplAST(mergedProgram, Options.MergedProgramOutputFile);
+                throw;
+            }
+
             if (Options.TraceVerify)
             {
                 Log.Out(Log.Normal, "Merged program w/o Eqs:");
@@ -1020,7 +1029,8 @@ namespace SDiff
                 //create uifs, grabs the readset from callgraph
                 //same uif for both versions   
                 //injects them as postcondition
-                if (SDiff.Boogie.Process.InjectUninterpreted(n1.Proc, n2.Proc, cfg, cg, newDecls, Options.checkAssertsOnly))
+                if (SDiff.Boogie.Process.InjectUninterpreted(
+                        n1.Proc, n2.Proc, cfg, cg, newDecls, hasImplementation: n1.Impl != null, Options.checkAssertsOnly))
                     Log.Out(Log.Error, "Failed to add postconditions to " + n1.Name + " and " + n2.Name);
                 mergedProgram.AddTopLevelDeclarations(newDecls);
                 newDecls = new List<Declaration>(); //do not add duplicate declarations
@@ -1029,7 +1039,7 @@ namespace SDiff
                     Log.Out(Log.Normal, "skipping nondet_choice");
                     continue;
                 }
-                if (Options.UnsoundRecursion && n1.IsSinglyRecursive())
+                if (!Options.UnsoundRecursion && n1.IsSinglyRecursive())
                 {
                     Log.Out(Log.Normal, n1.Name + " is recursive. skipping..");
                     continue;
@@ -1142,10 +1152,15 @@ namespace SDiff
                     mergedProgram.AddTopLevelDeclarations(canonicalConst);
 
                     Log.Out(Log.Normal, "Resolving and Typechecking again..");
-                    if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
+                    try
                     {
-                        Log.LogEmit(Log.Normal, mergedProgram.Emit);
-                        throw new VerificationException("Merged program could not be resolved/type-checked.");
+                        BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile,
+                            BoogieUtils.BoogieOptions);
+                    }
+                    catch (Exception e)
+                    {
+                        Util.DumpBplAST(mergedProgram, Options.MergedProgramOutputFile);
+                        throw new VerificationException(e.Message);
                     }
 
                     if (Options.TraceVerify)
@@ -1599,6 +1614,33 @@ namespace SDiff
             // Renaming logic ends
             //////////////////////////////////////////////////////////            
 
+            //////////////////////////////////////////////////////////
+            // Assume all globals with 'heap' in its name as modified.
+            //////////////////////////////////////////////////////////      
+            var globalsToAssumeModifiedP1 = p1.GlobalVariables
+                .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
+                .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
+            
+            var globalsToAssumeModifiedP2 = p1.GlobalVariables
+                .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
+                .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
+            
+            foreach (var proc in p1.Procedures)
+            {
+                var impl = p1.Implementations.FirstOrDefault(impl => impl.Name.Equals(proc.Name));
+                if (impl == null && !proc.ModifiedVars.Any())
+                {
+                    globalsToAssumeModifiedP1.ForEach(proc.Modifies.Add);
+                }
+            }
+            foreach (var proc in p2.Procedures)
+            {
+                var impl = p2.Implementations.FirstOrDefault(impl => impl.Name.Equals(proc.Name));
+                if (impl == null && !proc.ModifiedVars.Any())
+                {
+                    globalsToAssumeModifiedP2.ForEach(proc.Modifies.Add);
+                }
+            }
 
             //////////////////////////////////////////////////////////
             // Creation of the merged program starts

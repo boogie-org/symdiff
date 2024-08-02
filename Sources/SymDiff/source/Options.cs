@@ -25,7 +25,7 @@ namespace SDiff
         public const bool PrintZ3Model = false;
         public const bool DumpBeforeVerifying = false;
         public static bool PropagateEquivs = true; //Changed to non constant to allow bogus modular checking
-        public const bool UnsoundRecursion = false;
+        public const bool UnsoundRecursion = true;
         public const bool DumpSymTrace = false;
         public static bool DoSymEx = true;
         public const bool CheckOutputsForMaps = false;
@@ -38,6 +38,11 @@ namespace SDiff
         public static bool EnumerateAllPaths = false; //setting to true means we check assert(F) in EQ
         public static bool RVTOption = false; //RVT option
         public static string LoopStringIdentifier = "_loop_"; // if a function name contains this string we assume it was a loop converted into a recursive function.
+
+        // global variables with these strings in their name will be assumed to be modified in procedures with no
+        // implementations and no modifies clauses
+        public static List<string> HeapStringIdentifiers = ["heap", "Heap"];
+
         //mode where a procedure is inlined when not equal (non-recursive only) [For evaluation of diff inlining]
         public const bool InlineWhenFail = false; //make sure DifferentialInline is turned off
         #endregion

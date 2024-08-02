@@ -199,12 +199,18 @@ namespace SDiff
                 if (!imperativeBlocks.ContainsKey(b.Label))
                     imperativeBlocks.Add(b.Label, duper.VisitBlock(b));
 
+            var inlineOptPrev = BoogieUtils.BoogieOptions.ProcedureInlining;
+            if (Options.UnsoundRecursion)
+            {
+                BoogieUtils.BoogieOptions.ProcedureInlining = CoreOptions.Inlining.Spec;
+            }
             var engine = new ExecutionEngine(BoogieUtils.BoogieOptions, new VerificationResultCache(),
                 CustomStackSizePoolTaskScheduler.Create(16 * 1024 * 1024, 1));
             engine.EliminateDeadVariables(prog);
             engine.CoalesceBlocks(prog);
             engine.Inline(prog);
             engine.Dispose();
+            BoogieUtils.BoogieOptions.ProcedureInlining = inlineOptPrev;
 
             var assumeFlags = new QKeyValue(Token.NoToken, "captureState", new List<object>{ "final_state" }, null);
             AssumeCmd ac = new AssumeCmd(Token.NoToken, new LiteralExpr(Token.NoToken, true), assumeFlags);

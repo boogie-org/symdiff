@@ -357,10 +357,22 @@ namespace SDiff.Boogie
       return name.StartsWith("_uf_");
     }
 
-    public static bool InjectUninterpreted(Procedure left, Procedure right, Config cfg, CallGraph cg, List<Declaration> ufDeclarations,bool asserts=false)
+    public static bool InjectUninterpreted(Procedure left,
+                                           Procedure right,
+                                           Config cfg,
+                                           CallGraph cg,
+                                           List<Declaration> ufDeclarations,
+                                           bool hasImplementation,
+                                           bool asserts=false)
     {
       if (left == null || right == null | ufDeclarations == null)
         return true;
+
+      if (!hasImplementation && left.Modifies.Count == 0)
+      {
+        Log.Out(Log.Urgent,
+          $"Compared procs {left}, {right} do not have bodies and any modifies clauses.");
+      }
 
       int i, j;
 
