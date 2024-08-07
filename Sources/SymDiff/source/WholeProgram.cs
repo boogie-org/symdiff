@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.Boogie;
 using B = SDiff.Boogie;
+using SymDiff.source;
 
 using SymDiffUtils;
 using VC;
@@ -68,6 +69,7 @@ namespace SDiff
           Console.WriteLine("\t -nonmodular     inline callees");
           Console.WriteLine("\t -recursionDepth:k     inline procedures upto k depth");
           Console.WriteLine("\t -localcheck     only checks the syntactically changed procedures");
+          Console.WriteLine("\t -noSyn     do not check for syntactic equvalence (except those specified with -synEq)");
           Console.WriteLine("\t -rvt            Godlin & Strichman's method for dealing with recursion (not tested well)");
           Console.WriteLine("\t -returnAsOnlyOutput     only considers retuns as the output of a procedure (input is all globals read + params)");
           Console.WriteLine("\t -outvar:\"<name>\"  only compares output variables with substring <name> (needs -splitOutputEqualities). Can specify multiple -outvar:\"x\" -outvar:\"y\"");
@@ -112,6 +114,7 @@ namespace SDiff
             Options.nonModularMode = argsList.Remove("-nonmodular");
             Options.localcheck = argsList.Remove("-localcheck");
             Options.oneproc = argsList.Remove("-oneproc");
+            Options.noSyntacticCheck = argsList.Remove("-noSyn");
 
             //DAC related
             Options.checkAssertsOnly = argsList.Remove("-asserts");
@@ -1077,9 +1080,13 @@ namespace SDiff
                     continue;
                 }
                 //skip if the procedure belongs to the syntactically equal list
-                if (Options.syntacticEqProcs.Contains(n1.Impl.Name.Replace(p1Prefix + ".", "")))
+                if (Options.syntacticEqProcs.Contains(n1.Impl.Name.Replace(p1Prefix + ".", "")) ||
+                    !Options.noSyntacticCheck &&
+                      n1.Impl.EqualsStructural(n2.Impl, out var procedureMapping, out var globalsMapping))
                 {
                     Log.Out(Log.Normal, "Syntactically equivalent:: Skipping procedure " + n1.Impl.Name.Replace(p1Prefix + ".", "") + "...");
+                    equivalenceResults.Add(new EquivalenceResult(
+                        n1.Name, n2.Name, VerificationResult.VerifiedSyntactic, [], null));
                     continue;
                 }
                 //[SKL]: What is going on here?
@@ -1615,7 +1622,8 @@ namespace SDiff
             //////////////////////////////////////////////////////////            
 
             //////////////////////////////////////////////////////////
-            // Assume all globals with 'heap' in its name as modified.
+            // Assume all globals that contain any heap identifiers
+            // in their names as modified.
             //////////////////////////////////////////////////////////      
             var globalsToAssumeModifiedP1 = p1.GlobalVariables
                 .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
@@ -1747,12 +1755,19 @@ namespace SDiff
     {
         public string Procedure1 { get; } = procedure1;
         public string Procedure2 { get; } = procedure2;
-        public VerificationResult VerificationRunResult { get; } = verificationResult;
+        public VerificationResult VerificationResult { get; } = verificationResult;
         public SDiffCounterexamples Counterexamples { get; } = counterexamples;
         public EqualityProcedureParameterInfo ParameterInfo { get; } = parameterInfo;
         public override string ToString()
         {
-            return $"{Procedure1} == {Procedure2}: {VerificationRunResult}";
+            var resultString = VerificationResult switch
+            {
+                VerificationResult.VerifiedSyntactic => "Verified (syntactic)",
+                VerificationResult.TimeOut => "T/O",
+                VerificationResult.OutOfMemory => "Out of memory",
+                _ => VerificationResult.ToString()
+            };
+            return $"{Procedure1} == {Procedure2}: {resultString}";
         }
     }
 
