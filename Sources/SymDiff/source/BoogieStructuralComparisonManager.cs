@@ -7,7 +7,7 @@ using SymDiffUtils;
 
 namespace SymDiff.source;
 
-public static class BoogieStructuralDiffManager
+public static class BoogieStructuralComparisonManager
 {
     /// <summary>
     /// Structurally compares two implementations with procedure call / variable
@@ -43,31 +43,10 @@ public class ImplementationComparer
                           || implA.InParams.Count != implB.InParams.Count
                           || implA.OutParams.Count != implB.OutParams.Count
                           || implA.Blocks.Count != implB.Blocks.Count)
-        {
             return false;
-        }
 
-        // TODO: this could be improved. Instead of zipping and hoping for the
-        // best, can start with the initial block and follow transfer commands,
-        // building up a map (assuming loops are dealt with).
         foreach (var (blk1, blk2) in implA.Blocks.Zip(implB.Blocks))
-        {
-            if (!Compare(blk1, blk2))
-            {
-                // TODO: remove this check after applying above improvement
-                foreach (var (bb1, bb2) in implA.Blocks.Zip(implB.Blocks))
-                {
-                    if (blockMapping.TryGetValue(bb1, out var mappedBlk) && mappedBlk != bb2)
-                    {
-                        Log.Out(Log.Warning,
-                            $"The structural equality check for {implA.Name} and {implB.Name} " +
-                            $"failed due to the simplistic block comparison!");
-                        break;
-                    }
-                }
-                return false;
-            }
-        }
+            if (!Compare(blk1, blk2)) return false;
 
         return true;
     }
@@ -84,13 +63,9 @@ public class ImplementationComparer
             foreach (var (blkTarget1, blkTarget2) in t1.labelTargets.Zip(t2.labelTargets))
             {
                 if (!blockMapping.ContainsKey(blkTarget1))
-                {
                     blockMapping.Add(blkTarget1, blkTarget2);
-                }
                 else if (blockMapping[blkTarget1] != blkTarget2)
-                {
                     return false;
-                }
             }
         }
 
@@ -141,7 +116,7 @@ public class ImplementationComparer
             switch (v1)
             {
                 case GlobalVariable:
-                case Constant: // TODO: review
+                case Constant:
                     GlobalVarMapping.TryAdd(v1, v2);
                     break;
                 default:
@@ -215,6 +190,11 @@ public class ImplementationComparer
     }
 }
 
+/// <summary>
+/// Structurally compares two expressions, ignoring variable renaming.
+/// It will build up a variable mapping in the process. Any pairs in the
+/// input mapping will be used during the comparison, but are not needed.
+/// </summary>
 public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableMapping)
 {
     private readonly Dictionary<Variable, Variable> mapping = new(variableMapping);
@@ -228,24 +208,18 @@ public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableM
         if (exprA.GetType() != exprB.GetType())
             return false;
 
-        switch (exprA)
+        return (exprA, exprB) switch
         {
-            case LiteralExpr or BvExtractExpr:
-                return exprA.Equals(exprB); // Expr.Equals works for these two
-            case IdentifierExpr identifierA:
-                return CompareIdentifierExpr(identifierA, (exprB as IdentifierExpr)!);
-            case OldExpr oldA:
-                return CompareOldExpr(oldA, (exprB as OldExpr)!);
-            case BvConcatExpr bvConcatA:
-                return CompareBvConcatExpr(bvConcatA, (exprB as BvConcatExpr)!);
-            case NAryExpr nAryA:
-                return CompareNAryExpr(nAryA, (exprB as NAryExpr)!);
-            case BinderExpr binderA:
-                return CompareBinderExpr(binderA, (exprB as BinderExpr)!);
-            default:
-                throw new NotSupportedException($"Expression type {exprA.GetType().Name}" +
-                                                $" is not supported for syntactic equivalence check.");
-        }
+            (LiteralExpr    e1, LiteralExpr    e2) => e1.Equals(e2), // no variables, Expr.Equals is fine
+            (BvExtractExpr  e1, BvExtractExpr  e2) => e1.Equals(e2), // no variables, Expr.Equals is fine
+            (OldExpr        e1, OldExpr        e2) => Compare(e1.Expr, e2.Expr),
+            (BvConcatExpr   e1, BvConcatExpr   e2) => Compare(e1.E0, e2.E0) && Compare(e1.E1, e2.E1),
+            (NAryExpr       e1, NAryExpr       e2) => CompareNAryExpr(e1, e2),
+            (BinderExpr     e1, BinderExpr     e2) => CompareBinderExpr(e1, e2),
+            (IdentifierExpr e1, IdentifierExpr e2) => CompareIdentifierExpr(e1, e2),
+            _ => throw new NotSupportedException($"Expression type {exprA.GetType().Name}" +
+                                                 $" is not supported for structural equivalence check.")
+        };
     }
 
     private bool CompareIdentifierExpr(IdentifierExpr a, IdentifierExpr b)
@@ -257,16 +231,6 @@ public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableM
 
         mapping.Add(a.Decl, b.Decl);
         return true;
-    }
-
-    private bool CompareOldExpr(OldExpr a, OldExpr b)
-    {
-        return Compare(a.Expr, b.Expr);
-    }
-
-    private bool CompareBvConcatExpr(BvConcatExpr a, BvConcatExpr b)
-    {
-        return Compare(a.E0, b.E0) && Compare(a.E1, b.E1);
     }
 
     private bool CompareNAryExpr(NAryExpr a, NAryExpr b)
@@ -293,13 +257,13 @@ public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableM
         // comparison, we eliminate dummies but preserve any non-dummy variables
         // in the new mapping.
         Dictionary<Variable, Variable> mappingWithDummies = new(mapping);
-        a.Dummies.Zip(b.Dummies)
-            .ForEach(p => mappingWithDummies.Add(p.First, p.Second));
+        a.Dummies.Zip(b.Dummies).ForEach(p => mappingWithDummies.Add(p.First, p.Second));
         var comp = new ExprComparatorWithRenaming(mappingWithDummies);
-        var res = comp.Compare(a.Body, b.Body);
+        if (!comp.Compare(a.Body, b.Body))
+            return false;
         var newMappingWithDummies = comp.GetUpdatedVariableMapping;
         var newKeysWithoutDummies = newMappingWithDummies.Keys.Except(mappingWithDummies.Keys);
         newKeysWithoutDummies.ForEach(k => mapping.Add(k, newMappingWithDummies[k]));
-        return res;
+        return true;
     }
 }
