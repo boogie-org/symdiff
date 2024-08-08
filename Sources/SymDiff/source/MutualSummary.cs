@@ -125,7 +125,7 @@ namespace SDiff
 
 
             var mpsPi = "mergedProgSingle_preInferred.bpl";
-            BoogieUtils.PrintProgram(program, mpsPi);
+            Util.DumpBplAST(program, mpsPi);
             program = BoogieUtils.ParseProgram(mpsPi);
             BoogieUtils.ResolveAndTypeCheckThrow(program, mpsPi, BoogieUtils.BoogieOptions); 
 
@@ -152,7 +152,7 @@ namespace SDiff
             var trueConstants = extractVariableAssigned(true, outcome);
             var falseConstants = extractVariableAssigned(false, outcome);
             persistHoudiniInferredFacts(trueConstants, falseConstants, program, houdini);
-            BoogieUtils.PrintProgram(program, "mergedProgSingle_inferred.bpl");
+            Util.DumpBplAST(program, "mergedProgSingle_inferred.bpl");
             Console.WriteLine("Houdini finished and inferred {0}/{1} contracts", trueConstants.Count, outcome.assignment.Count());
             Console.WriteLine("Houdini finished with {0} verified, {1} errors, {2} inconclusives, {3} timeouts",
                     outcome.Verified, outcome.ErrorCount, outcome.Inconclusives, outcome.TimeOuts);

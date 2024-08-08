@@ -504,8 +504,17 @@ namespace SDiff
             Log.Out(Log.Normal, "Writing writesets as modifies clauses");
             SDiff.Boogie.Process.SetModifies(mergedProgram.TopLevelDeclarations.ToList(), cg);
             Log.Out(Log.Normal, "Resolving and Typechecking again..");
-            if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
-                return 1;
+            try
+            {
+                BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile,
+                    BoogieUtils.BoogieOptions);
+            }
+            catch (Exception)
+            {
+                Util.DumpBplAST(mergedProgram, Options.MergedProgramOutputFile);
+                throw;
+            }
+
             if (Options.TraceVerify)
             {
                 Log.Out(Log.Normal, "Merged program w/o Eqs:");
@@ -979,7 +988,7 @@ namespace SDiff
         }
         //TODO: refactor this method
         //The roots_cgi are passed because under /nonmodular, the impls are already inlined
-        private static int CreateAndVerifyEqProcs(CallGraph cg1, CallGraph cg2, CallGraph cg,
+        private static List<EquivalenceResult> CreateAndVerifyEqProcs(CallGraph cg1, CallGraph cg2, CallGraph cg,
             IEnumerable<CallGraphNode> roots_cg1, IEnumerable<CallGraphNode> roots_cg2,
             Dictionary<string, string> funs,
             Program mergedProgram,
@@ -992,6 +1001,8 @@ namespace SDiff
             var newDecls = new List<Declaration>();
             var mergedProgramNewDecl = new Program();
             //mergedProgramNewDecl.TopLevelDeclarations = mergedProgram.TopLevelDeclarations;
+
+            var equivalenceResults = new List<EquivalenceResult>();
 
             foreach (var n in cg1.GetPostOrder())
             { //the order is topological for non-recursive programs            
@@ -1018,7 +1029,8 @@ namespace SDiff
                 //create uifs, grabs the readset from callgraph
                 //same uif for both versions   
                 //injects them as postcondition
-                if (SDiff.Boogie.Process.InjectUninterpreted(n1.Proc, n2.Proc, cfg, cg, newDecls, Options.checkAssertsOnly))
+                if (SDiff.Boogie.Process.InjectUninterpreted(
+                        n1.Proc, n2.Proc, cfg, cg, newDecls, hasImplementation: n1.Impl != null, Options.checkAssertsOnly))
                     Log.Out(Log.Error, "Failed to add postconditions to " + n1.Name + " and " + n2.Name);
                 mergedProgram.AddTopLevelDeclarations(newDecls);
                 newDecls = new List<Declaration>(); //do not add duplicate declarations
@@ -1027,7 +1039,7 @@ namespace SDiff
                     Log.Out(Log.Normal, "skipping nondet_choice");
                     continue;
                 }
-                if (Options.UnsoundRecursion && n1.IsSinglyRecursive())
+                if (!Options.UnsoundRecursion && n1.IsSinglyRecursive())
                 {
                     Log.Out(Log.Normal, n1.Name + " is recursive. skipping..");
                     continue;
@@ -1101,9 +1113,9 @@ namespace SDiff
                 }
 
                 // Creates EQ_f_f' function
-                List<Variable> outputVars;
                 var eqp =
-                  Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores, out outputVars);
+                  Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores,
+                      out var outputVars, out var eqProcParamInfo);
 
                 //RS: adding OK1=true, OK2=true, and OK1=>OK2
                 if (Options.checkAssertsOnly)
@@ -1132,7 +1144,7 @@ namespace SDiff
                     if (verificationTasks.Count > 1)
                     {
                         Log.Out(Log.Error, "RS: something went wrong in restoring");
-                        return 1;
+                        throw new VerificationException("Something went wrong in restoring");
                     }
                     //declare the uninterpreted funcs/canonical set of constants  in merged program
 
@@ -1140,10 +1152,15 @@ namespace SDiff
                     mergedProgram.AddTopLevelDeclarations(canonicalConst);
 
                     Log.Out(Log.Normal, "Resolving and Typechecking again..");
-                    if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
+                    try
                     {
-                        Log.LogEmit(Log.Normal, mergedProgram.Emit);
-                        return 1;
+                        BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile,
+                            BoogieUtils.BoogieOptions);
+                    }
+                    catch (Exception e)
+                    {
+                        Util.DumpBplAST(mergedProgram, Options.MergedProgramOutputFile);
+                        throw new VerificationException(e.Message);
                     }
 
                     if (Options.TraceVerify)
@@ -1171,7 +1188,8 @@ namespace SDiff
 
                     long maxElapsed = 0;
                     int numCex = 0;
-                    int curCex = 0;
+                    int numCexOfVt = 0;
+                    VerificationRunResult curVerificationRunResult;
                     int numFailed = 0;
                     int numCrashed = 0;
                     HashSet<string> failedProcs = new HashSet<string>();
@@ -1198,7 +1216,11 @@ namespace SDiff
                             Debug.Assert(implRoots_cg1.Count() == 1 && implRoots_cg2.Count() == 1, "RefinedStmtTaint is currently enabled with only a single root");
                             //just take control and return 
                             var stmtTaint = new SymDiff.SemanticTaint.RefinedStmtTaint(mergedProgram, vt.Eq, vt.Left, vt.Right);
-                            return stmtTaint.PerformTaintAnalysis();
+                            if (stmtTaint.PerformTaintAnalysis() == 0)
+                            {
+                                return [];
+                            }
+                            throw new VerificationException("Something went wrong in performing taint analysis.");
                         }
 
                         if (!MonomorphismChecker.IsMonomorphic(mergedProgram))
@@ -1208,9 +1230,9 @@ namespace SDiff
                         }
 
                         //RS: this is only file processing (if wrapper is true)
-                        curCex = BoogieVerify.RunVerificationTask(vt, mergedProgram, /*failedProcs,*/ out crashed, wrapper);
+                        numCexOfVt = BoogieVerify.RunVerificationTask(vt, mergedProgram, /*failedProcs,*/ out crashed, wrapper);
                         if (wrapper)
-                            ExecuteWithWrapper(ref curCex, ref numCrashed, vt);
+                            ExecuteWithWrapper(ref numCexOfVt, ref numCrashed, vt);
                         if (Options.PropagateEquivs)
                         {
                             SDiff.Boogie.Process.RewriteUninterpretedOnDiseq(vt, progDict, InequalProc);
@@ -1224,12 +1246,13 @@ namespace SDiff
                         if (maxElapsed < time.ElapsedMilliseconds)
                             maxElapsed = time.ElapsedMilliseconds;
                         Log.Out(Log.Time, time.ElapsedMilliseconds + "ms");
-                        if (curCex > 0)
+                        if (numCexOfVt > 0)
                         {
                             numFailed++;
-                            numCex += curCex;
+                            numCex += numCexOfVt;
                             failedImpls.Add(vt.Left.Name);
                         }
+                        equivalenceResults.Add(new EquivalenceResult(n1.Name, n2.Name, vt.Result, vt.Counterexamples, eqProcParamInfo));
                     }
 
                     //totClock.Stop();
@@ -1280,7 +1303,7 @@ namespace SDiff
 
             if (dumpEq)
                 dumpfile.Close();
-            return 0;
+            return equivalenceResults;
         }
 
 
@@ -1405,6 +1428,20 @@ namespace SDiff
 
         public static int AllInOneMain(string[] args)
         {
+            try
+            {
+                AllInOneMainWithResult(args);
+                return 0;
+            }
+            catch (VerificationException ex)
+            {
+                Console.WriteLine(ex);
+                return 1;
+            }
+        }
+
+        public static List<EquivalenceResult> AllInOneMainWithResult(string[] args)
+        {
             totClock = Stopwatch.StartNew();
             ///////////////////////////////////////////////////
             // Command line parsing
@@ -1418,8 +1455,10 @@ namespace SDiff
             Boogie.Process.InitializeBoogie(Options.BoogieUserOpts); //Why do we initialize before parsing?
             Log.Out(Log.Normal, "Parsing programs");
             Program p1, p2;
-            if ((p1 = BoogieUtils.ParseProgram(v1name)) == null) return 1;
-            if ((p2 = BoogieUtils.ParseProgram(v2name)) == null) return 1;
+            if ((p1 = BoogieUtils.ParseProgram(v1name)) == null)
+                throw new VerificationException($"Could not parse {v1name}");
+            if ((p2 = BoogieUtils.ParseProgram(v2name)) == null)
+                throw new VerificationException($"Could not parse {v2name}");
             // Reorganizing the electrotransformations of the two versions of bpl programs - hemr
             p1 = RestructureProgram(p1);
             p2 = RestructureProgram(p2);
@@ -1474,12 +1513,12 @@ namespace SDiff
             //   types, variables, procedure calls, procedure symbols in expr, 
             if (BoogieUtils.ResolveProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
                 BoogieUtils.ResolveProgram(p2, v2name, BoogieUtils.BoogieOptions))
-                return 1;
+                throw new VerificationException("Inputs could not be resolved by Boogie.");
             //typecheck the programs
             //Main side effect: would inline calls with {inline} attribute
             if (BoogieUtils.TypecheckProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
                 BoogieUtils.TypecheckProgram(p2, v2name, BoogieUtils.BoogieOptions))
-                return 1;
+                throw new VerificationException("Inputs could not be type-checked by Boogie.");
             /////////////////////////////////////////////////////////////////////////////////////
             // Some modification of p1, p2 ends
             /////////////////////////////////////////////////////////////////////////////////////
@@ -1488,7 +1527,7 @@ namespace SDiff
             if (Options.invokeHoudiniDirectlyOnMergedBpl)
             {
                 MutualSummary.PerformHoudiniInferece(); //invokes houdini in previously generated mergedProgSingle.bpl
-                return 0;
+                return [];
             }
 
             /////////////////////////////////////////////////////////
@@ -1526,10 +1565,10 @@ namespace SDiff
             //RS: resolve and typecheck
             if (BoogieUtils.ResolveProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
                 BoogieUtils.ResolveProgram(p2, v2name, BoogieUtils.BoogieOptions))
-                return 1;
+                throw new VerificationException("Inputs could not be resolved by Boogie.");
             if (BoogieUtils.TypecheckProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
                 BoogieUtils.TypecheckProgram(p2, v2name, BoogieUtils.BoogieOptions))
-                return 1;
+                throw new VerificationException("Inputs could not be type-checked by Boogie.");
             /////////////////////////////////////////////////////////
             //// Inlining logic ends
             ////////////////////////////////////////////////////////
@@ -1541,7 +1580,7 @@ namespace SDiff
             if (Options.checkAssertsOnly)
             {
                 if (TurnAssertsIntoOK(args, p1, p2, g1s.ToList(), g2s.ToList()) == 1)
-                    return 1;
+                    throw new VerificationException("Could not turn asserts into OK.");
             }
             ////////////////////////////////////////////////////////
             // Turn asserts into OK ends
@@ -1558,7 +1597,7 @@ namespace SDiff
             //just making sure
             if (BoogieUtils.ResolveProgram(p1, v1name, BoogieUtils.BoogieOptions) ||
                 BoogieUtils.ResolveProgram(p2, v2name, BoogieUtils.BoogieOptions))
-                return 1;
+                throw new VerificationException("Inputs could not be resolved by Boogie.");
             //////////////////////////////////////////////////////////
             // Strip/Free contracts ends
             //////////////////////////////////////////////////////////
@@ -1575,6 +1614,33 @@ namespace SDiff
             // Renaming logic ends
             //////////////////////////////////////////////////////////            
 
+            //////////////////////////////////////////////////////////
+            // Assume all globals with 'heap' in its name as modified.
+            //////////////////////////////////////////////////////////      
+            var globalsToAssumeModifiedP1 = p1.GlobalVariables
+                .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
+                .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
+            
+            var globalsToAssumeModifiedP2 = p1.GlobalVariables
+                .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
+                .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
+            
+            foreach (var proc in p1.Procedures)
+            {
+                var impl = p1.Implementations.FirstOrDefault(impl => impl.Name.Equals(proc.Name));
+                if (impl == null && !proc.ModifiedVars.Any())
+                {
+                    globalsToAssumeModifiedP1.ForEach(proc.Modifies.Add);
+                }
+            }
+            foreach (var proc in p2.Procedures)
+            {
+                var impl = p2.Implementations.FirstOrDefault(impl => impl.Name.Equals(proc.Name));
+                if (impl == null && !proc.ModifiedVars.Any())
+                {
+                    globalsToAssumeModifiedP2.ForEach(proc.Modifies.Add);
+                }
+            }
 
             //////////////////////////////////////////////////////////
             // Creation of the merged program starts
@@ -1584,7 +1650,7 @@ namespace SDiff
             var mergeGlobals = !Options.mutualSummaryMode; //when using mutual summary, keep globals separate 
             //has the side effect of dumping->reading from the disk (TODO: remove)
             if (CreateMergedProgram(p1, p2, t2s.ToList(), g2s.ToList(), c2s.ToList(), f1s.ToList(), f2s.ToList(), mergeGlobals, ref mergedProgram) == 1)
-                return 1;
+                throw new VerificationException("Something went wrong while creating merged program.");;
 
             if (Options.DifferentialInline)
             { //Add the diff_inline procedures
@@ -1617,7 +1683,7 @@ namespace SDiff
                     Options.freeContracts, Options.dontTypeCheckMergedProg,
                     Options.dacEncoding,
                     Options.callCorralOnMergedProgram);
-                return 0;
+                return [];
             }
             ///////////////////////////////////////////////////////////
             //mutual summaries mode ends
@@ -1628,7 +1694,7 @@ namespace SDiff
             //////////////////////////////////////////////////////////                        
             CallGraph cg, cg1, cg2;
             if (CreateModSets(p1, p2, mergedProgram, out cg1, out cg2, out cg) == 1)
-                return 1;
+                throw new VerificationException("Could not create mod sets.");;
             //////////////////////////////////////////////////////////
             // Creation of the mod set ends
             //////////////////////////////////////////////////////////  
@@ -1640,7 +1706,7 @@ namespace SDiff
             { //check for the RVT option
                 mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
                 RVT.RVTCheck.RVTMain(cg1, cg2, cg, cfg, mergedProgram, cfg.GetProcedureDictionary());
-                return 0;
+                return [];
             }
             //////////////////////////////////////////////////////////
             // RVT Option ends
@@ -1652,7 +1718,8 @@ namespace SDiff
             Log.Out(Log.Normal, "Adding instrumented equality functions to program and generating verification tasks");
             //assume callgraphs are isomorphic and cfg contains one such isomorphism
             StreamWriter dumpfile = dumpEq ? new StreamWriter(".\\dump_" + p1Prefix + "_" + p2Prefix + ".txt") : null;
-            return CreateAndVerifyEqProcs(cg1, cg2, cg, roots_cg1, roots_cg2, cfg.GetProcedureDictionary(), mergedProgram, dumpfile, InequalProc);
+            return CreateAndVerifyEqProcs(cg1, cg2, cg, roots_cg1, roots_cg2, cfg.GetProcedureDictionary(),
+                mergedProgram, dumpfile, InequalProc);
             ////////////////////////////////////////////////////////////
             // Normal SymDiff Flow: Create the mutual procedures for equalities and verify
             ////////////////////////////////////////////////////////////
@@ -1672,7 +1739,42 @@ namespace SDiff
 
     }
 
+    public class EquivalenceResult(string procedure1,
+                                   string procedure2,
+                                   VerificationResult verificationResult,
+                                   SDiffCounterexamples counterexamples,
+                                   EqualityProcedureParameterInfo parameterInfo)
+    {
+        public string Procedure1 { get; } = procedure1;
+        public string Procedure2 { get; } = procedure2;
+        public VerificationResult VerificationRunResult { get; } = verificationResult;
+        public SDiffCounterexamples Counterexamples { get; } = counterexamples;
+        public EqualityProcedureParameterInfo ParameterInfo { get; } = parameterInfo;
+        public override string ToString()
+        {
+            return $"{Procedure1} == {Procedure2}: {VerificationRunResult}";
+        }
+    }
 
+    public class EqualityProcedureParameterInfo(
+        List<string> proc1InParams,
+        List<string> proc1OutParams,
+        List<string> proc2InParams,
+        List<string> proc2OutParams,
+        List<string> globals,
+        List<string> globalsAtEntry,
+        List<string> globalsAfterProc1Return)
+    {
+        public List<string> Proc1InParams { get; } = proc1InParams;
+        public List<string> Proc1OutParams { get; } = proc1OutParams;
+        public List<string> Proc2InParams { get; } = proc2InParams;
+        public List<string> Proc2OutParams { get; } = proc2OutParams;
+        public List<string> Globals { get; } = globals;
+        public List<string> GlobalsAtEntry { get; } = globalsAtEntry;
+        public List<string> GlobalsAfterProc1Return { get; } = globalsAfterProc1Return;
+    }
+
+    public class VerificationException(string message) : Exception(message);
 }
         
 

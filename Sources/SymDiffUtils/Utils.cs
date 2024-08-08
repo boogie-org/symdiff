@@ -738,11 +738,11 @@ namespace SymDiffUtils
         }
 
 
-        public static bool IsSourceInfoAssertCmd(Cmd cmd)
+        public static bool IsSourceInfoAssertOrAssumeCmd(Cmd cmd)
         {
             string srcFile = null;
             int srcLine = -1;
-            return IsSourceInfoAssertCmd(cmd, out srcFile, out srcLine);
+            return IsSourceInfoAssertOrAssumeCmd(cmd, out srcFile, out srcLine);
         }
         /// <summary>
         /// Returns the srcFile and srcLine when the return is true
@@ -751,16 +751,30 @@ namespace SymDiffUtils
         /// <param name="srcFile"></param>
         /// <param name="srcLine"></param>
         /// <returns></returns>
-        public static bool IsSourceInfoAssertCmd(Cmd cmd, out string srcFile, out int srcLine)
+        public static bool IsSourceInfoAssertOrAssumeCmd(Cmd cmd, out string srcFile, out int srcLine)
         {
             srcFile = null;
             srcLine = -1;
-            AssertCmd acmd = cmd as AssertCmd;
-            if (acmd == null) return false;
-            srcLine = QKeyValue.FindIntAttribute(acmd.Attributes, "sourceLine", -1);
-            if (srcLine == -1) srcLine = QKeyValue.FindIntAttribute(acmd.Attributes, "sourceline", -1);
-            srcFile = QKeyValue.FindStringAttribute(acmd.Attributes, "sourceFile");
-            if (srcFile == null) srcFile = QKeyValue.FindStringAttribute(acmd.Attributes, "sourcefile");
+            QKeyValue attrs = null;
+            if (cmd is AssertCmd assertCmd)
+            {
+                attrs = assertCmd.Attributes;
+            }
+            else if (cmd is AssumeCmd assumeCmd)
+            {
+                attrs = assumeCmd.Attributes;
+            }
+            if (attrs == null) return false;
+            var attr = QKeyValue.FindAttribute(attrs, attr => attr.Key.Equals("sourceloc"));
+            if (attr != null &&
+                attr.Params.Count > 2 &&
+                attr.Params[0] is string file &&
+                attr.Params[1] is LiteralExpr lineExp &&
+                lineExp.isBigNum && lineExp.asBigNum.ToInt != 0)
+            {
+                srcLine = lineExp.asBigNum.ToInt;
+                srcFile = file;
+            }
             return srcFile != null;
         }
 

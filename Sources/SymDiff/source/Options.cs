@@ -38,6 +38,11 @@ namespace SDiff
         public static bool EnumerateAllPaths = false; //setting to true means we check assert(F) in EQ
         public static bool RVTOption = false; //RVT option
         public static string LoopStringIdentifier = "_loop_"; // if a function name contains this string we assume it was a loop converted into a recursive function.
+
+        // global variables with these strings in their name will be assumed to be modified in procedures with no
+        // implementations and no modifies clauses
+        public static List<string> HeapStringIdentifiers = ["heap", "Heap"];
+
         //mode where a procedure is inlined when not equal (non-recursive only) [For evaluation of diff inlining]
         public const bool InlineWhenFail = false; //make sure DifferentialInline is turned off
         #endregion

@@ -20,17 +20,6 @@ namespace SymDiffUtils
 
             return false;
         }
-        //call with null filename to print to console
-        public static void PrintProgram(Program p, string filename)
-        {
-            TokenTextWriter outFile;
-            if (filename != null)
-                outFile = new TokenTextWriter(filename, true, BoogieOptions);
-            else
-                outFile = new TokenTextWriter(Console.Out, true, BoogieOptions);
-            p.Emit(outFile);
-            outFile.Close();
-        }
 
         public static bool ResolveProgram(Program p, string filename, CommandLineOptions boogieOptions)
         {

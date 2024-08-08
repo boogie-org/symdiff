@@ -61,7 +61,12 @@ namespace SDiff
           inter.Add(v);
     }
 
-    public static Duple<Procedure, Implementation> EqualityReduction(Implementation i1, Implementation i2, ParamMap argMap, HashSet<Variable> ignoreSet, out List<Variable> outputVarsForVFTask)
+    public static Duple<Procedure, Implementation> EqualityReduction(Implementation i1,
+                                                                     Implementation i2,
+                                                                     ParamMap argMap,
+                                                                     HashSet<Variable> ignoreSet,
+                                                                     out List<Variable> outputVarsForVFTask,
+                                                                     out EqualityProcedureParameterInfo eqParamInfo)
     {
       //map ins1
       //map outs1
@@ -130,6 +135,8 @@ namespace SDiff
       SaveBlock savedInitialGlobals = new SaveBlock(globals.Count);
       SaveBlock savedc1Globals = new SaveBlock(globals.Count);
       SaveBlock savedOutputs = new SaveBlock(interOuts.Count);
+      SaveBlock savedIns1 = new SaveBlock(ins1.Count);
+      SaveBlock savedIns2 = new SaveBlock(ins2.Count);
 
       var globalsArr = B.U.VariablesOfVariableSeq(globals);
 
@@ -137,7 +144,10 @@ namespace SDiff
         prec1Copy = savedInitialGlobals.EmitSave(globalsArr),
         postc1Copy = savedc1Globals.EmitSave(globalsArr),
         postc1Restore = savedInitialGlobals.EmitRestore(globalsArr),
-        prec2Copy = savedOutputs.EmitSave(B.U.VariablesOfVariableSeq(interOuts));
+        prec2Copy = savedOutputs.EmitSave(B.U.VariablesOfVariableSeq(interOuts)),
+        ins1Copy = savedIns1.EmitSave(ins1.ToArray()),
+        ins2Copy = savedIns2.EmitSave(ins2.ToArray());
+        
 
 
       /***** Emit function calls *****/
@@ -160,6 +170,7 @@ namespace SDiff
       {
         Log.Out(Log.Verifier, "No outputs: skipping (" + d1n + ", " + d2n +")");
         outputVarsForVFTask = null;
+        eqParamInfo = null;
         return null;
       }
 
@@ -189,9 +200,18 @@ namespace SDiff
         comparisonOutIds = B.U.IdentifierExprSeqOfVariableSeq(outs2),
         comparisonGlobals = B.U.IdentifierExprSeqOfVariableSeq(globals);
 
+      eqParamInfo = new EqualityProcedureParameterInfo(
+        savedIns1.Idents.Select(v => v.Name).ToList(),
+        savedOutputs.Idents.Select(v => v.Name).ToList(),
+        savedIns2.Idents.Select(v => v.Name).ToList(),
+        outs2.Select(v => v.Name).ToList(),
+        globals.Select(v => v.Name).ToList(),
+        savedInitialGlobals.Idents.Select(v => v.Name).ToList(),
+        savedc1Globals.Idents.Select(v => v.Name).ToList());
+
       for (int i = 0; i < savedOutputs.Count; i++)
-      {
-          outputEqualityExprs[i] = Tuple.Create(EmitEq(comparisonPrec2Vars[i], comparisonOutIds[i], ignoreSet), comparisonOutIds[i].Decl);
+      { 
+        outputEqualityExprs[i] = Tuple.Create(EmitEq(comparisonPrec2Vars[i], comparisonOutIds[i], ignoreSet), comparisonOutIds[i].Decl);
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d1.Name + "_" + outs1[i].Name, savedOutputs.Decls[i]));
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d2.Name + "_" + outs2[i].Name, outs2[i]));
       }
@@ -221,19 +241,15 @@ namespace SDiff
 
       /***** Compile procedure body ****/
 
-      List<Cmd> body = new List<Cmd>();
-      foreach (Cmd c in prec1Copy)
-        body.Add(c);
+      var body = Enumerable.ToList(ins1Copy);
+      body.AddRange(ins2Copy);
+      body.AddRange(prec1Copy);
       body.Add(c1);
-      foreach (Cmd c in postc1Copy)
-        body.Add(c);
-      foreach (Cmd c in postc1Restore)
-        body.Add(c);
-      foreach (Cmd c in prec2Copy)
-        body.Add(c);
+      body.AddRange(postc1Copy);
+      body.AddRange(postc1Restore);
+      body.AddRange(prec2Copy);
       body.Add(c2);
-      foreach (Cmd c in saveOutputsIntoGlobals)
-        body.Add(c);
+      body.AddRange(saveOutputsIntoGlobals);
       body.Add(hcmd);
       body.Add(assgnCmd);
 
@@ -284,31 +300,28 @@ namespace SDiff
       //var procName = "EQ_" + d1.Name + "__xx__" + d2.Name;
       var procName = mkEqProcName(d1.Name, d2.Name);
 
-      Procedure eqProc =
+      var eqProc =
         new Procedure(Token.NoToken, procName, B.C.empTypeVariableSeq, unionIns,
           new List<Variable>(outputEqualityState.Decls), isPure:false,
           B.C.empRequiresSeq, eqModifies, new List<Ensures>(outputPostConditions));
 
-      BigBlock bl =
+      var bl =
         new BigBlock(Token.NoToken, "AA_INSTR_EQ_BODY", body, null, B.C.dmyTransferCmd);
-      List<BigBlock> bll = new List<BigBlock>();
-      bll.Add(bl);
+      var bll = new List<BigBlock> { bl };
 
-      List<Variable> locals = new List<Variable>();
-      foreach (Variable v in savedOutputs.Decls)
-        locals.Add(v);
-      foreach (Variable v in savedc1Globals.Decls)
-        locals.Add(v);
-      foreach (Variable v in savedInitialGlobals.Decls)
-        locals.Add(v);
+      var locals = Enumerable.ToList(savedOutputs.Decls);
+      locals.AddRange(savedIns1.Decls);
+      locals.AddRange(savedIns2.Decls);
+      locals.AddRange(savedc1Globals.Decls);
+      locals.AddRange(savedInitialGlobals.Decls);
       locals.AddRange(unionOuts);
 
-      Implementation eqImp =
+      var eqImp =
         new Implementation(Token.NoToken, procName, B.C.empTypeVariableSeq, unionIns,
           new List<Variable>(outputEqualityState.Decls),
           locals, new StmtList(bll, Token.NoToken));
 
-      List<Declaration> l = new List<Declaration>();
+      var l = new List<Declaration>();
 
       return new Duple<Procedure, Implementation>(eqProc, eqImp);
     }
