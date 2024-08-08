@@ -61,6 +61,7 @@ namespace SDiff
         public static bool localcheck;
         public static bool nonModularMode;
         public static bool checkAssertsOnly;
+        public static bool noSyntacticCheck;
 
         //mutual summaries
         public static bool mutualSummaryMode;

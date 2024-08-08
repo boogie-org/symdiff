@@ -42,7 +42,10 @@ namespace SDiff
     {
     }
 
-    public enum VerificationResult { Error, Verified, Inconclusive, TimeOut, OutOfMemory, TBA, Unknown };
+    public enum VerificationResult
+    {
+        Error, Verified, Inconclusive, TimeOut, OutOfMemory, TBA, Unknown, VerifiedSyntactic
+    }
 
     public class VerificationTask : Triple<Implementation, Implementation, Implementation>, IEmittable
     {
