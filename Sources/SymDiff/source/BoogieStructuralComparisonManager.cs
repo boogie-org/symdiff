@@ -139,7 +139,7 @@ public class ImplementationComparer
             (AssignCmd a, AssignCmd b) => EqualsStructuralAssign(a, b),
             (CallCmd   a, CallCmd   b) => EqualsStructuralCall(a, b),
             (HavocCmd  a, HavocCmd  b) => EqualsStructuralHavoc(a, b),
-            _ => throw new Exception(
+            _ => throw new NotSupportedException(
                 $"Do not know how to compare commands {cmdA} and {cmdB}")
         };
     }
@@ -218,7 +218,8 @@ public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableM
             (BinderExpr     e1, BinderExpr     e2) => CompareBinderExpr(e1, e2),
             (IdentifierExpr e1, IdentifierExpr e2) => CompareIdentifierExpr(e1, e2),
             _ => throw new NotSupportedException($"Expression type {exprA.GetType().Name}" +
-                                                 $" is not supported for structural equivalence check.")
+                                                 $" is not supported for structural equivalence check." +
+                                                 $"Tried to compare {exprA} and {exprB}.")
         };
     }
 
