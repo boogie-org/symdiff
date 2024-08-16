@@ -1,9 +1,9 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Boogie;
-using SymDiffUtils;
 
 namespace SymDiff.source;
 
@@ -17,10 +17,11 @@ public static class BoogieStructuralComparisonManager
     /// </summary>
     public static bool EqualsStructural(this Implementation? thisImpl,
                                         Implementation? otherImpl,
+                                        ReadOnlyDictionary<string, string> functionMapping,
                                         out Dictionary<Procedure, Procedure> procedureMapping,
                                         out Dictionary<Variable, Variable> globalsMapping)
     {
-        var implComparer = new ImplementationComparer();
+        var implComparer = new ImplementationComparer(functionMapping);
         var res = implComparer.Compare(thisImpl, otherImpl);
 
         procedureMapping = implComparer.ProcedureMapping;
@@ -29,10 +30,10 @@ public static class BoogieStructuralComparisonManager
     }
 }
 
-public class ImplementationComparer
+public class ImplementationComparer(ReadOnlyDictionary<string, string> functionMapping)
 {
-    private Dictionary<Variable, Variable> localVarMapping = new();
-    private Dictionary<Block, Block> blockMapping = new();
+    public Dictionary<Variable, Variable> localVarMapping = new();
+    public Dictionary<Block, Block> blockMapping = new();
     public Dictionary<Variable, Variable> GlobalVarMapping = new();
     public Dictionary<Procedure, Procedure> ProcedureMapping = new();
 
@@ -45,13 +46,15 @@ public class ImplementationComparer
                           || implA.Blocks.Count != implB.Blocks.Count)
             return false;
 
-        foreach (var (blk1, blk2) in implA.Blocks.Zip(implB.Blocks))
+        // TODO: try to match the blocks in a better way, e.g., compute a graph isomorphism
+        foreach (var (blk1, blk2) in implA.Blocks.OrderBy(b => b.Label)
+                                .Zip(implB.Blocks.OrderBy(b => b.Label)))
             if (!Compare(blk1, blk2)) return false;
 
         return true;
     }
     
-    private bool Compare(Block blockA, Block blockB)
+    public bool Compare(Block blockA, Block blockB)
     {
         if (blockA.TransferCmd == null || blockB.TransferCmd == null ||
             blockA.TransferCmd.GetType() != blockB.TransferCmd.GetType())
@@ -83,6 +86,25 @@ public class ImplementationComparer
                 j++;
                 continue;
             }
+            if (blockA.Cmds[i] is AssumeCmd && blockB.Cmds[j] is AssumeCmd)
+            {
+                // Deal with blocks of relevant assume commands at once
+                // to reduce brittleness to changes in their order.
+                var assumesA = blockA.Cmds.Skip(i).TakeWhile(c => c is AssumeCmd)
+                    .Select(c => c as AssumeCmd)
+                    .OrderBy(c => c!.Expr.ToString()).ToList();
+                var assumesB = blockB.Cmds.Skip(j).TakeWhile(c => c is AssumeCmd)
+                    .Select(c => c as AssumeCmd)
+                    .OrderBy(c => c!.Expr.ToString()).ToList();
+                if (assumesA.Count != assumesB.Count)
+                    return false;
+                foreach (var (assm1, assm2) in assumesA.Zip(assumesB))
+                    if (!Compare(assm1, assm2))
+                        return false;
+                i += assumesA.Count;
+                j += assumesB.Count;
+                continue;
+            }
             if (!Compare(blockA.Cmds[i], blockB.Cmds[j]))
                 return false;
             i++;
@@ -106,8 +128,9 @@ public class ImplementationComparer
     private bool EqualsStructuralExpr(Expr exprA, Expr exprB)
     {
         var combinedMapping = localVarMapping.Concat(GlobalVarMapping).ToDictionary();
-        var exprComparator = new ExprComparatorWithRenaming(combinedMapping);
+        var exprComparator = new ExprComparatorWithRenaming(combinedMapping, functionMapping);
         var res = exprComparator.Compare(exprA, exprB);
+        if (!res) return false;
         var updatedMapping = exprComparator.GetUpdatedVariableMapping;
 
         // update the mappings
@@ -125,7 +148,7 @@ public class ImplementationComparer
             };
         }
 
-        return res;
+        return true;
     }
     
     private bool Compare(Cmd? cmdA, Cmd? cmdB)
@@ -194,8 +217,11 @@ public class ImplementationComparer
 /// Structurally compares two expressions, ignoring variable renaming.
 /// It will build up a variable mapping in the process. Any pairs in the
 /// input mapping will be used during the comparison, but are not needed.
+/// If a function mapping is not passed, the assumption is that the functions
+/// must have the same name (no mapping is created).
 /// </summary>
-public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableMapping)
+public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableMapping,
+                                        ReadOnlyDictionary<string, string> functionMapping)
 {
     private readonly Dictionary<Variable, Variable> mapping = new(variableMapping);
     public Dictionary<Variable, Variable> GetUpdatedVariableMapping => mapping;
@@ -236,8 +262,32 @@ public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableM
 
     private bool CompareNAryExpr(NAryExpr a, NAryExpr b)
     {
-        if (!Equals(a.Fun, b.Fun) || a.Args.Count != b.Args.Count)
+        if (a.Args.Count != b.Args.Count)
             return false;
+
+        switch (a.Fun)
+        {
+            case ArithmeticCoercion or BinaryOperator or FieldAccess or
+                FieldUpdate or IfThenElse or IsConstructor or MapSelect or
+                MapStore or TypeCoercion or UnaryOperator:
+            {
+                if (!a.Fun.FunctionName.Equals(b.Fun.FunctionName))
+                    return false;
+                break;
+            }
+            case FunctionCall _:
+            {
+                if (functionMapping.TryGetValue(a.Fun.FunctionName, out var bFunctionName) &&
+                    !b.Fun.FunctionName.Equals(bFunctionName))
+                    return false;
+                else if (!a.Fun.FunctionName.Equals(b.Fun.FunctionName))
+                    return false;
+                break;
+            }
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
         for (var i = 0; i < a.Args.Count; i++)
         {
             if (!Compare(a.Args[i], b.Args[i]))
@@ -259,7 +309,7 @@ public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableM
         // in the new mapping.
         Dictionary<Variable, Variable> mappingWithDummies = new(mapping);
         a.Dummies.Zip(b.Dummies).ForEach(p => mappingWithDummies.Add(p.First, p.Second));
-        var comp = new ExprComparatorWithRenaming(mappingWithDummies);
+        var comp = new ExprComparatorWithRenaming(mappingWithDummies, functionMapping);
         if (!comp.Compare(a.Body, b.Body))
             return false;
         var newMappingWithDummies = comp.GetUpdatedVariableMapping;

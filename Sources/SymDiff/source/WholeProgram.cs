@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Diagnostics;
@@ -11,6 +12,7 @@ using SymDiff.source;
 
 using SymDiffUtils;
 using VC;
+using LoopExtractor = Microsoft.Boogie.LoopExtractor;
 using Util = SymDiffUtils.Util;
 
 //there is massive duplication here in case it turns out that the allinone approach (even with dumping at every verify) is not useful
@@ -35,7 +37,7 @@ namespace SDiff
         static bool onlyAnalyzeRootsOfCallGraphsForInlineAll = true; //default true
 
         //Parsing routines
-        public static HashSet<string> ParseProcedureListFromFile(string fname)
+        public static Dictionary<string, string> ParseProcedureListFromFile(string fname)
         {
             StreamReader in_s;
             try
@@ -46,22 +48,22 @@ namespace SDiff
             {
                 Log.Out(Log.Error, "Unknown error during loading file: " + fname);
                 Log.Out(Log.Error, e.ToString());
-                return new HashSet<string>();
+                return new Dictionary<string, string>();
             }
 
             string l;
-            HashSet<string> funcs = new HashSet<string>();
+            var pairs = new Dictionary<string, string>();
             while (!in_s.EndOfStream)
             {
                 l = in_s.ReadLine().Trim();
                 if (l.StartsWith("#")) //comment
                     continue;
-                funcs.Add(l);
+                pairs.Add(l, l);
             }
-            return funcs;
+            return pairs;
         }
         private static void AllInOneUsage(){
-          Console.WriteLine("Usage: SymDiff -allInOne a.bpl b.bpl ab.cfg [options]");
+          Console.WriteLine("Usage: SymDiff -allInOne a.bpl b.bpl [ab.cfg] [options]");
           Console.WriteLine("\t ab.cfg          output of \"SymDiff -inferConfig a.bpl b.bpl\"");
           Console.WriteLine("\t -break          break into the debugger\"");
           //          Console.WriteLine("\t -di             enable differential inlining");
@@ -115,6 +117,7 @@ namespace SDiff
             Options.localcheck = argsList.Remove("-localcheck");
             Options.oneproc = argsList.Remove("-oneproc");
             Options.noSyntacticCheck = argsList.Remove("-noSyn");
+            Options.noLoopExtract = argsList.Remove("-noLoopExtract");
 
             //DAC related
             Options.checkAssertsOnly = argsList.Remove("-asserts");
@@ -284,7 +287,7 @@ namespace SDiff
         }
         private static int ParseCmdLine(string[] args)
         {
-            if (args.Length < 3) { AllInOneUsage(); return 1; }
+            if (args.Length < 2) { AllInOneUsage(); return 1; }
             v1name = args[0];
             v2name = args[1];
             p1Prefix = Path.GetFileNameWithoutExtension(v1name);;
@@ -315,19 +318,22 @@ namespace SDiff
                 return 1;
             }
             if (!ParseArgs(args)) return 1;
-            Log.Out(Log.Normal, "Parsing config file");
-            try
+            if (args.Length > 2 && cfg == null)
             {
-                cfg = new Config(args[2]);
-            }
-            catch
-            {
-                Console.WriteLine("Failed to parse config file");
-                return 1;
+                Log.Out(Log.Normal, "Parsing config file");
+                try
+                {
+                    cfg = new Config(args[2]);
+                }
+                catch
+                {
+                    Console.WriteLine("Failed to parse config file");
+                    return 1;
+                }
             }
             return 0;
         }
-        
+
         //Preprocessing, renaming and restructuring two programs
         private static Program RestructureProgram(Program p) {
             // Type declarations
@@ -1080,9 +1086,7 @@ namespace SDiff
                     continue;
                 }
                 //skip if the procedure belongs to the syntactically equal list
-                if (Options.syntacticEqProcs.Contains(n1.Impl.Name.Replace(p1Prefix + ".", "")) ||
-                    !Options.noSyntacticCheck &&
-                      n1.Impl.EqualsStructural(n2.Impl, out var procedureMapping, out var globalsMapping))
+                if (Options.syntacticEqProcs.ContainsKey(n1.Impl.Name))
                 {
                     Log.Out(Log.Normal, "Syntactically equivalent:: Skipping procedure " + n1.Impl.Name.Replace(p1Prefix + ".", "") + "...");
                     equivalenceResults.Add(new EquivalenceResult(
@@ -1437,7 +1441,13 @@ namespace SDiff
         {
             try
             {
-                AllInOneMainWithResult(args);
+                Config cfg = null;
+                if (args.Length == 2)
+                {
+                    Log.Out(Log.Normal, "No config passed, trying to infer one automatically.");
+                    cfg = Driver.GuessConfig(args[0], args[1]);
+                }
+                AllInOneMainWithResult(args, cfg);
                 return 0;
             }
             catch (VerificationException ex)
@@ -1447,12 +1457,14 @@ namespace SDiff
             }
         }
 
-        public static List<EquivalenceResult> AllInOneMainWithResult(string[] args)
+        public static List<EquivalenceResult> AllInOneMainWithResult(string[] args, Config config = null)
         {
             totClock = Stopwatch.StartNew();
             ///////////////////////////////////////////////////
             // Command line parsing
             ///////////////////////////////////////////////////
+            cfg = config;
+            SDiff.Options.syntacticEqProcs.Clear();
             if (ParseCmdLine(args) == 1) throw new Exception("Parsing failed");
             List<string> InequalProc = GetInequalProcsFromDumpEqFiles(); //RS
             //////////////////////////////
@@ -1469,6 +1481,109 @@ namespace SDiff
             // Reorganizing the electrotransformations of the two versions of bpl programs - hemr
             p1 = RestructureProgram(p1);
             p2 = RestructureProgram(p2);
+
+            ////////////////////////////////////////////////////////////////////
+            // Structural checks
+            ////////////////////////////////////////////////////////////////////
+            var extractedLoopImplPairs = new Dictionary<string, string>();
+            var p1ImplsToNotExtractLoopsFrom = new HashSet<string>();
+            var p2ImplsToNotExtractLoopsFrom = new HashSet<string>();
+
+            BoogieUtils.ResolveAndTypeCheckThrow(p1, v1name, BoogieUtils.BoogieOptions);
+            BoogieUtils.ResolveAndTypeCheckThrow(p2, v2name, BoogieUtils.BoogieOptions);
+            var p1ImplsWithLoops = p1.Implementations
+                .Where(impl => impl.HasLoops(p1, BoogieUtils.BoogieOptions))
+                .Select(impl => impl.Name)
+                .ToHashSet();
+            
+            if (!Options.noSyntacticCheck)
+            {
+                var (outlinedImpls, structurallyEquivalentImpls) =
+                    StructuralCheckAndOutline(p1, p2,
+                        p1.Implementations.ToHashSet(),
+                        p1.Implementations.Where(impl => p1ImplsWithLoops.Contains(impl.Name)).ToHashSet());
+                structurallyEquivalentImpls.ForEach(p => Options.syntacticEqProcs.Add(
+                    $"{p1Prefix}.{p.Key.Name}", $"{p2Prefix}.{p.Value.Name}"));
+                foreach (var (p1Impl, p2Impl) in structurallyEquivalentImpls)
+                {
+                    p1ImplsToNotExtractLoopsFrom.Add(p1Impl.Name);
+                    p2ImplsToNotExtractLoopsFrom.Add(p2Impl.Name);
+                }
+                ExtendConfiguration(outlinedImpls);
+            }
+
+            // TODO: fix this: outlining seems to break the AST, dump and reparse.
+            // Still need to resolve before loop extraction for it to work.
+            Util.DumpBplAST(p1, v1name.Replace(".bpl", "_temp.bpl"));
+            p1 = BoogieUtils.ParseProgram(v1name.Replace(".bpl", "_temp.bpl"));
+            Util.DumpBplAST(p2, v2name.Replace(".bpl", "_temp.bpl"));
+            p2 = BoogieUtils.ParseProgram(v2name.Replace(".bpl", "_temp.bpl"));
+            BoogieUtils.ResolveAndTypeCheckThrow(p1, v1name, BoogieUtils.BoogieOptions);
+            BoogieUtils.ResolveAndTypeCheckThrow(p2, v2name, BoogieUtils.BoogieOptions);
+
+            /////////////////////////////////////////////////////////////////////////////////////
+            // Loop extraction
+            /////////////////////////////////////////////////////////////////////////////////////
+
+            if (!Options.noLoopExtract)
+            {
+                var loopExtractionOptions = new CommandLineOptions(Console.Out, new ConsolePrinter())
+                {
+                    Verify = false,
+                    DeterministicExtractLoops =
+                        true, // otherwise extracted procedures are nondeterministic, i.e., never equivalent
+                    CoalesceBlocks = false,
+                    RemoveEmptyBlocks = false,
+                    ExtractLoops = true
+                };
+
+                var (_, _, p1ImplToLoopImpls) =
+                    SymDiff.source.LoopExtractor.ExtractLoops(
+                        loopExtractionOptions, p1, p1.Implementations.Where(impl =>
+                            p1ImplsToNotExtractLoopsFrom.Contains(impl.Name)).ToHashSet());
+                var (_, _, p2ImplToLoopImpls) =
+                    SymDiff.source.LoopExtractor.ExtractLoops(
+                        loopExtractionOptions, p2, p2.Implementations.Where(impl =>
+                            p2ImplsToNotExtractLoopsFrom.Contains(impl.Name)).ToHashSet());
+
+                var procMap = cfg.GetProcedureDictionary();
+                foreach (var (p1Impl, p1LoopImpls) in p1ImplToLoopImpls)
+                {
+                    var p1ImplNamePrefixed = $"{p1Prefix}.{p1Impl.Name}";
+                    if (!procMap.TryGetValue(p1ImplNamePrefixed, out var p2ImplNamePrefixed)) continue;
+                    var p2Name = p2ImplNamePrefixed.Replace(p2Prefix + ".", "");
+                    var p2Impl = p2.Implementations.First(impl => impl.Name.Equals(p2Name));
+
+                    if (!p2ImplToLoopImpls.TryGetValue(p2Impl, out var p2LoopImpls) ||
+                        p1LoopImpls.Count != p2LoopImpls.Count ||
+                        !p1LoopImpls.Zip(p2LoopImpls).ToList().TrueForAll(p =>
+                            p.First.InParams.Count == p.Second.InParams.Count &&
+                            p.First.OutParams.Count == p.Second.OutParams.Count))
+                    {
+                        Log.Out(Log.Error, $"Could not align the extracted loops in procedures " +
+                                           $"{p1ImplNamePrefixed} and {p2ImplNamePrefixed}");
+                    }
+                    else
+                    {
+                        var pairs = p1LoopImpls.Zip(p2LoopImpls).ToDictionary();
+                        ExtendConfiguration(pairs);
+                        pairs.ForEach(p => extractedLoopImplPairs.Add(p.Key.Name, p.Value.Name));
+                    }
+                }
+
+                // Repeat structural checks if any loops were extracted
+                if (!Options.noSyntacticCheck)
+                {
+                    HashSet<string> p1ImplsToCheck =
+                        extractedLoopImplPairs.Keys.Concat(p1ImplsWithLoops).ToHashSet();
+                    var (outlinedImpls, structurallyEquivalentImpls) =
+                        StructuralCheckAndOutline(p1, p2,
+                            p1.Implementations.Where(impl => p1ImplsToCheck.Contains(impl.Name)).ToHashSet(), []);
+                    ExtendConfiguration(outlinedImpls);
+                    structurallyEquivalentImpls.ForEach(p => Options.syntacticEqProcs.TryAdd(
+                        $"{p1Prefix}.{p.Key.Name}", $"{p2Prefix}.{p.Value.Name}"));
+                }
+            }
 
             /////////////////////////////////////////////////////////////////////////////////////
             // Some modification of p1, p2
@@ -1731,6 +1846,99 @@ namespace SDiff
             ////////////////////////////////////////////////////////////
             // Normal SymDiff Flow: Create the mutual procedures for equalities and verify
             ////////////////////////////////////////////////////////////
+        }
+
+        private static void ExtendConfiguration(Dictionary<Implementation, Implementation> newImplPairs)
+        {
+            foreach (var (p1Impl, p2Impl) in newImplPairs)
+            {
+                var params1 = p1Impl.InParams.Concat(p1Impl.OutParams);
+                var params2 = p2Impl.InParams.Concat(p2Impl.OutParams);
+                
+                var paramMapping = params1.Zip(params2).Select(p =>
+                    new HDuple<string>(p.First.ToString(), p.Second.ToString())).ToList();
+                
+                var blockImpl1Name = $"{p1Prefix}.{p1Impl.Name}";
+                var blockImpl2Name = $"{p2Prefix}.{p2Impl.Name}";
+                cfg.AddProcedure(new Duple<HDuple<string>, ParamMap>(
+                    new HDuple<string>(blockImpl1Name, blockImpl2Name),
+                    new ParamMap(paramMapping)));
+            }
+        }
+
+        private static 
+            (Dictionary<Implementation, Implementation> outlinedBlockImplPairs,
+            Dictionary<Implementation, Implementation> structurallyEquivalentImpls)
+            StructuralCheckAndOutline(Program p1, Program p2,
+                                      HashSet<Implementation> p1ImplsToCheck,
+                                      HashSet<Implementation> outlineableP1Impls)
+        {
+            BoogieUtils.ResolveAndTypeCheckThrow(p1, v1name, BoogieUtils.BoogieOptions);
+            BoogieUtils.ResolveAndTypeCheckThrow(p2, v2name, BoogieUtils.BoogieOptions);
+            var outlinedBlockImplPairs = new Dictionary<Implementation, Implementation>();
+            var structurallyEquivalentImpls = new Dictionary<Implementation, Implementation>();
+            var procMap = cfg.GetProcedureDictionary();
+            foreach (var p1Impl in p1ImplsToCheck)
+            {
+                var p1ImplNamePrefixed = $"{p1Prefix}.{p1Impl.Name}";
+                if (!procMap.TryGetValue(p1ImplNamePrefixed, out var p2NamePrefixed)) continue;
+                var p2Name = p2NamePrefixed.Replace(p2Prefix + ".", "");
+                var p2Impl = p2.Implementations.First(impl => impl.Name.Equals(p2Name));
+                var functionMapping = new ReadOnlyDictionary<string, string>(
+                    cfg.FunctionMap.Select(p => (p.fst.fst, p.fst.snd)).ToDictionary());
+                // TODO: pass globalMapping and procedureMapping too.
+                if (p1Impl.EqualsStructural(p2Impl, functionMapping, out _, out _))
+                {
+                    structurallyEquivalentImpls.Add(p1Impl, p2Impl);
+                }
+                else if (outlineableP1Impls.Contains(p1Impl) &&
+                         p1Impl.CanComputeDiff(p2Impl, out var blockMapping))
+                {
+                    var differingBlocks = p1Impl.GetBlocksThatDiffer(p2Impl, blockMapping, functionMapping);
+                    Log.Out(Log.Normal, $"{p1Impl.Name} and {p2Impl.Name} are similar, outlining differing blocks: " +
+                                        string.Join(",",differingBlocks));
+            
+                    var blockImpls1 = new List<Implementation>();
+                    var blockImpls2 = new List<Implementation>();
+                        
+                    foreach (var (block1, block2) in differingBlocks)
+                    {
+                        if (!block1.IsSoundForOutlining() || !block2.IsSoundForOutlining())
+                        {
+                            Log.Out(Log.Normal, $"Not outlining ({block1}, {block2}) as doing that might be unsound (contains assume statements over variables).");
+                            continue;
+                        }
+
+                        var blockImpl1 = BlockOutliner.OutlineBlock(BoogieUtils.BoogieOptions, p1, p1Impl, block1);
+                        var blockImpl2 = BlockOutliner.OutlineBlock(BoogieUtils.BoogieOptions, p2, p2Impl, block2);
+                        blockImpls1.Add(blockImpl1);
+                        blockImpls2.Add(blockImpl2);
+                    }
+
+                    var allDifferingBlocksOutlined = true; 
+                    foreach (var (blockImpl1, blockImpl2) in blockImpls1.Zip(blockImpls2))
+                    {
+                        if (blockImpl1.InParams.Count != blockImpl2.InParams.Count ||
+                            blockImpl1.OutParams.Count != blockImpl2.OutParams.Count)
+                        {
+                            Log.Out(Log.Error, $"Could not align outlined block procedures " +
+                                               $"{blockImpl1.Name} and {blockImpl2.Name}");
+                            allDifferingBlocksOutlined = false;
+                            // The outlined procedures will not be added to the config as a pair,
+                            // failing the equivalence check at call sites.
+                            // TODO: do not outline when this happens
+                        }
+                        else
+                        {
+                            outlinedBlockImplPairs.Add(blockImpl1, blockImpl2);
+                        }
+                    }
+                    // After outlining, the original implementations are now structurally equivalent.
+                    if (allDifferingBlocksOutlined)
+                        structurallyEquivalentImpls.Add(p1Impl, p2Impl);
+                }
+            }
+            return (outlinedBlockImplPairs, structurallyEquivalentImpls);
         }
 
         private static void StripContracts(Program p1, Program p2)

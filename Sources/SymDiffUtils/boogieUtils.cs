@@ -3,6 +3,7 @@ using Microsoft.Boogie.GraphUtil;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace SymDiffUtils
@@ -58,8 +59,23 @@ namespace SymDiffUtils
 
         public static bool ResolveAndTypeCheckThrow(Program p, string filename, CommandLineOptions boogieOptions)
         {
-            if (ResolveAndTypeCheck(p, filename, boogieOptions))
-                throw new Exception("Program " + filename + " does not resolve/typecheck");
+            bool failed;
+            try
+            {
+                failed = ResolveAndTypeCheck(p, filename, boogieOptions);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                failed = true;
+            }
+
+            if (failed) {
+                var dumpFileName = filename.Replace(".bpl", "_dumped.bpl");
+                Util.DumpBplAST(p, dumpFileName);
+                throw new Exception("Program " + filename + " does not resolve/typecheck\n" +
+                                    "Output dumped to " + dumpFileName + "\n");
+            }
             return false;
         }
 
