@@ -1,15 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using Microsoft.Boogie;
-using Bpl = Microsoft.Boogie;
-using B = SDiff.Boogie;
-using SDiff.Boogie;
 using SymDiffUtils;
-using Util = SymDiffUtils.Util;
-
 
 // This is the main procedure
 
@@ -373,20 +366,36 @@ namespace SDiff
 
     public static int GuessConfig(string[] args)
     {
+        string
+            first = args[0],
+            second = args[1];
+
+        Config config;
+        try
+        {
+            config = GuessConfig(first, second);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return 1;
+        }
+
+        Console.WriteLine(config.ToString());
+        return 0;
+    }
+    
+    public static Config GuessConfig(string first, string second)
+    {
         string boogieOptions = Options.BoogieUserOpts;
         //Log.Out(Log.Normal, "Initializing Boogie");
         if (SDiff.Boogie.Process.InitializeBoogie(boogieOptions))
-            return 1;
-
-
-        string
-          first = args[0],
-          second = args[1];
+            throw new Exception("Could not initialize Boogie during config generation.");
 
         // First program
         Program p = BoogieUtils.ParseProgram(first);
         if (p == null)
-            return 1;
+            throw new Exception("Could not parse the first program during config generation.");
 
         BoogieUtils.ResolveProgram(p, first, BoogieUtils.BoogieOptions);
         BoogieUtils.TypecheckProgram(p, first, BoogieUtils.BoogieOptions);
@@ -394,7 +403,7 @@ namespace SDiff
         // Second program
         Program q = BoogieUtils.ParseProgram(second);
         if (q == null)
-            return 1;
+            throw new Exception("Could not parse the second program during config generation.");
 
         BoogieUtils.ResolveProgram(q, second, BoogieUtils.BoogieOptions);
         BoogieUtils.TypecheckProgram(q, second, BoogieUtils.BoogieOptions);
@@ -500,8 +509,7 @@ namespace SDiff
                 config.AddType(new HDuple<string>(first + typesyn.Name, second + typesyn.Name));
         }
 
-        Console.WriteLine(config.ToString());
-        return 0;
+        return config;
     }
 
     public static BigBlock BlockToBigBlock(Block b)

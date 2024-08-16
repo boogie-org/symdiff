@@ -326,10 +326,18 @@ namespace SDiff
       return new Duple<Procedure, Implementation>(eqProc, eqImp);
     }
 
+    private static string sanitize(string s)
+    { 
+      return s.Replace("$", "");
+    }
     public static string mkEqProcName(string p1, string p2)
     {
-        return "EQ_" + p1 + "__xx__" + p2;
-
+      var p1WithoutPrefix = p1.Split(".").Last();
+      var p2WithoutPrefix = p2.Split(".").Last();
+      if (p1WithoutPrefix.Equals(p2WithoutPrefix))
+        return "EQ_" + sanitize(p1WithoutPrefix);
+      else
+        return "EQ_" + sanitize(p1) + "__xx__" + sanitize(p2);
     }
 
     public static void NormalizeProcedures(Procedure d1, Implementation i1, List<Variable> g1,

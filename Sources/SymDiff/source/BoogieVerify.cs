@@ -505,13 +505,22 @@ namespace SDiff
         {
             //inlining Cex (trace) within the Diff_inline body
             var impName = errors[0].Impl.Name.Replace("EQ_", "");
-            var index = impName.IndexOf("__xx__"); //avoid aliasing with funcs with x___y names
-            var v1Name = impName.Substring(0, index);
-            var v2Name = impName.Substring(index + 6);
-            var indexPointV1Name = v1Name.IndexOf(".");
-            var indexPointV2Name = v2Name.IndexOf(".");
-            v1Name = v1Name.Substring(0, indexPointV1Name);
-            v2Name = v2Name.Substring(0, indexPointV2Name);
+            string v1Name, v2Name;
+            if (impName.Contains("__xx__"))
+            {
+                var index = impName.IndexOf("__xx__"); //avoid aliasing with funcs with x___y names
+                v1Name = impName.Substring(0, index);
+                v2Name = impName.Substring(index + 6);
+                var indexPointV1Name = v1Name.IndexOf(".");
+                var indexPointV2Name = v2Name.IndexOf(".");
+                v1Name = v1Name.Substring(0, indexPointV1Name);
+                v2Name = v2Name.Substring(0, indexPointV2Name);
+            }
+            else
+            {
+                v1Name = impName;
+                v2Name = impName;
+            }
 
             ProcessCounterexamplesWOSymbolicOut(errors, globals, eqLocVars, vtLeftProcImpl, vtRightProcImpl, consts, errModelList, v1Name, v2Name);
         }
