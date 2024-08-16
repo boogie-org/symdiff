@@ -29,8 +29,6 @@ public static class BlockOutliner
     /// <summary>
     /// Outlines the passed Block, i.e., extracts it as a procedure.
     /// The passed Implementation and Program are updated in-place.
-    /// blockNameToUseInExtractedImpl: optionally specify a custom block name
-    ///     to be used in the extracted implementation's name. This is useful
     /// </summary>
     public static Implementation OutlineBlock(CoreOptions options,
                                               Program program, 
@@ -112,10 +110,11 @@ public static class BlockOutliner
             containingImpl.InParams, containingImpl.OutParams,
             containingImpl.LocVars, unrolledBlocks);
         new SymDiff.source.LiveVariableAnalysis(options).ComputeLiveVariables(unrolledImpl, globals);
-        var unrollingsOfBlock = containingImpl.Blocks.ToDictionary(b1 => b1,
-            b1 => unrolledBlocks.Where(b2 => b2.Label.Equals(b1.Label + "#0") ||
-                                             b2.Label.Equals(b1.Label + "#1") ||
-                                             b2.Label.Equals(b1.Label + "#2")));
+        var unrollingsOfBlock = containingImpl.Blocks.ToDictionary(
+            b1 => b1,
+            b1 => unrolledBlocks.Where(b2 => Enumerable.Range(0, 3) // i.e., (0, 2]
+                .Any(i => b2.Label.Equals(b1.Label + $"#{i}")))
+        );
 
         var liveVarsBefore = new HashSet<Variable>();
         var liveVarsAfter = new HashSet<Variable>();

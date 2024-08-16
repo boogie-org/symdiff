@@ -235,7 +235,7 @@ namespace SDiff
     public void AddProcedure(Duple<HDuple<string>, ParamMap> mapping)
     {
       if (procMap.Exists(p => p.fst.fst.Equals(mapping.fst.fst)))
-        throw new Exception($"{mapping.fst.fst} already exists in config.");
+        throw new ArgumentException($"{mapping.fst.fst} already exists in config.");
       procMap.Add(mapping);
     }
 
