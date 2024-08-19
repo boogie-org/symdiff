@@ -47,10 +47,8 @@ public static class BoogieStructuralDiffManager
 
     return true;
   }
-  
-  public static Dictionary<Block, Block> GetBlocksThatDiffer(this Implementation implA,
-                                                             Implementation implB,
-                                                             Dictionary<Block, Block> blockMapping,
+
+  public static Dictionary<Block, Block> GetBlocksThatDiffer(Dictionary<Block, Block> blockMapping,
                                                              ReadOnlyDictionary<string, string> functionMapping)
   {
     Dictionary<Block, Block> blocksThatDiffer = new();
@@ -62,11 +60,42 @@ public static class BoogieStructuralDiffManager
         blocksThatDiffer.Add(blkA, blkB);
       }
     }
-    
-    foreach (var (blkA, blkB) in comparer.blockMapping)
+    foreach (var (blkA, blkB) in comparer.BlockMapping)
       if (blockMapping[blkA] != blkB)
         throw new Exception("Inconsistent block mapping!");
 
     return blocksThatDiffer;
+  }
+
+  /// <summary>
+  /// Given two implementations, groups their blocks by the number of commands they have,
+  /// and structurally compares every pair with the same number of commands. If a pair
+  /// is structurally equivalent, the mappings that made the structural equivalence
+  /// possible will be in the returned ImplementationComparer.
+  /// </summary>
+  public static ImplementationComparer
+    GuessMappings(Implementation implA,
+                  Implementation implB,
+                  ReadOnlyDictionary<string, string> functionMapping)
+  {
+    var comparer = new ImplementationComparer(functionMapping);
+      
+    var cmdCountToBlocksA = implA.Blocks.GroupBy(blk => blk.Cmds.Count)
+      .Where(p => p.Key > 0) // we need at least one command
+      .OrderBy(p => -p.Key); // decreasing order
+    var cmdCountToBlocksB = implB.Blocks.GroupBy(blk => blk.Cmds.Count)
+      .ToDictionary(p => p.Key, p => p.ToList());
+
+    foreach (var groupA in cmdCountToBlocksA)
+    {
+      var (cmdCount, blocksA) = (groupA.Key, groupA.ToList());
+      if (!cmdCountToBlocksB.ContainsKey(cmdCount)) continue;
+      var blocksB = cmdCountToBlocksB[cmdCount];
+      foreach (var blkA in blocksA)
+        foreach (var blkB in blocksB)
+          if(comparer.Compare(blkA, blkB)) // the mappings are only updated on equivalence
+            break; // move on to next blkA if there is a match
+    }
+    return comparer;
   }
 }

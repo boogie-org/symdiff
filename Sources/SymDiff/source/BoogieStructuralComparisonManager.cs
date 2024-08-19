@@ -19,21 +19,23 @@ public static class BoogieStructuralComparisonManager
                                         Implementation? otherImpl,
                                         ReadOnlyDictionary<string, string> functionMapping,
                                         out Dictionary<Procedure, Procedure> procedureMapping,
-                                        out Dictionary<Variable, Variable> globalsMapping)
+                                        out Dictionary<Variable, Variable> globalsMapping,
+                                        out Dictionary<Variable, Variable> localsMapping)
     {
         var implComparer = new ImplementationComparer(functionMapping);
         var res = implComparer.Compare(thisImpl, otherImpl);
 
         procedureMapping = implComparer.ProcedureMapping;
         globalsMapping = implComparer.GlobalVarMapping;
+        localsMapping = implComparer.LocalVarMapping;
         return res;
     }
 }
 
 public class ImplementationComparer(ReadOnlyDictionary<string, string> functionMapping)
 {
-    public Dictionary<Variable, Variable> localVarMapping = new();
-    public Dictionary<Block, Block> blockMapping = new();
+    public Dictionary<Variable, Variable> LocalVarMapping = new();
+    public Dictionary<Block, Block> BlockMapping = new();
     public Dictionary<Variable, Variable> GlobalVarMapping = new();
     public Dictionary<Procedure, Procedure> ProcedureMapping = new();
 
@@ -60,17 +62,19 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
             blockA.TransferCmd.GetType() != blockB.TransferCmd.GetType())
             return false;
 
+        var localBlockMapping = new Dictionary<Block, Block>();
         if (blockA.TransferCmd is GotoCmd t1 &&
             blockB.TransferCmd is GotoCmd t2)
-        {
             foreach (var (blkTarget1, blkTarget2) in t1.labelTargets.Zip(t2.labelTargets))
             {
-                if (!blockMapping.ContainsKey(blkTarget1))
-                    blockMapping.Add(blkTarget1, blkTarget2);
-                else if (blockMapping[blkTarget1] != blkTarget2)
-                    return false;
+                if (BlockMapping.TryGetValue(blkTarget1, out var mappedBlkTarget2))
+                {
+                    if (mappedBlkTarget2 != blkTarget2)
+                        return false;
+                    else
+                        localBlockMapping.Add(blkTarget1, blkTarget2);
+                }
             }
-        }
 
         var i = 0;
         var j = 0;
@@ -122,12 +126,19 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
                 return false;
         }
 
+        // Update the mapping if there were no conflicts. The pair might already
+        // exist, so we use TryAdd. This is safe because we know from the earlier
+        // check that any existing value will not have a conflict.
+        foreach (var pair in localBlockMapping)
+            BlockMapping.TryAdd(pair.Key, pair.Value);
+        BlockMapping.TryAdd(blockA, blockB);
+
         return true;
     }
 
     private bool EqualsStructuralExpr(Expr exprA, Expr exprB)
     {
-        var combinedMapping = localVarMapping.Concat(GlobalVarMapping).ToDictionary();
+        var combinedMapping = LocalVarMapping.Concat(GlobalVarMapping).ToDictionary();
         var exprComparator = new ExprComparatorWithRenaming(combinedMapping, functionMapping);
         var res = exprComparator.Compare(exprA, exprB);
         if (!res) return false;
@@ -143,7 +154,7 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
                     GlobalVarMapping.TryAdd(v1, v2);
                     break;
                 default:
-                    localVarMapping.TryAdd(v1, v2);
+                    LocalVarMapping.TryAdd(v1, v2);
                     break;
             };
         }
@@ -255,6 +266,10 @@ public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableM
         {
             return b.Name.Equals(bVar.Name);
         }
+
+        // Also check for a conflict in the other direction
+        if (mapping.ContainsValue(b.Decl))
+            return false;
 
         mapping.Add(a.Decl, b.Decl);
         return true;

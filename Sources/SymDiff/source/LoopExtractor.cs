@@ -16,7 +16,9 @@ public static class LoopExtractor {
   public static (Dictionary<string, Dictionary<string, Block>> loops,
                  HashSet<Implementation> procsWithIrreducibleLoops,
                  Dictionary<Implementation, List<Implementation>> implToLoopImpls)
-    ExtractLoops(CoreOptions options, Program program, HashSet<Implementation> implsToIgnore = null)
+    ExtractLoops(CoreOptions options, Program program,
+                 Dictionary<Implementation, List<Variable>> implToOrderedLocalVars = null,
+                 HashSet<Implementation> implsToIgnore = null)
   {
     var hasIrreducibleLoops = new HashSet<Implementation>();
     List<Implementation /*!*/> /*!*/ loopImpls = new List<Implementation /*!*/>();
@@ -30,7 +32,18 @@ public static class LoopExtractor {
         try
         {
           Graph<Block> g = program.ProcessLoops(options, impl);
-          var loopImplsForImpl = CreateProceduresForLoops(options, impl, g, loopImpls, fullMap, globals);
+          List<Variable> orderedLocVars;
+          if (implToOrderedLocalVars.ContainsKey(impl))
+          {
+            Contract.Assert(impl.LocVars.Count == implToOrderedLocalVars[impl].Count);
+            orderedLocVars = implToOrderedLocalVars[impl];
+          }
+          else
+          {
+            orderedLocVars = impl.LocVars;
+          }
+
+          var loopImplsForImpl = CreateProceduresForLoops(options, impl, g, loopImpls, fullMap, globals, orderedLocVars);
           if (loopImplsForImpl.Count > 0)
             implToLoopImpls.Add(impl, loopImplsForImpl);
           impl.StructuredStmts = null; // TODO: A dirty fix as the structured statements are no longer up-to-date.
@@ -92,7 +105,8 @@ public static class LoopExtractor {
   static List<Implementation> CreateProceduresForLoops(CoreOptions options, Implementation impl, Graph<Block /*!*/> /*!*/ g,
     List<Implementation /*!*/> /*!*/ loopImpls,
     Dictionary<string, Dictionary<string, Block>> fullMap,
-    HashSet<GlobalVariable> globals)
+    HashSet<GlobalVariable> globals,
+    List<Variable> orderedLocalVars)
   {
     Contract.Requires(impl != null);
     Contract.Requires(cce.NonNullElements(loopImpls));
@@ -260,7 +274,7 @@ public static class LoopExtractor {
         }
       }
 
-      foreach (Variable v in impl.LocVars.OrderBy(variable => variable.Name))
+      foreach (Variable v in orderedLocalVars)
       {
         Contract.Assert(v != null);
         if (!footprint.Contains(v))
