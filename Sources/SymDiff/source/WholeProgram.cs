@@ -1536,7 +1536,7 @@ namespace SDiff
                 var p1Impl = p1.Implementations.First(impl => impl.Name.Equals(p1ImplName));
                 var p2ImplName = p2ImplNamePrefixed.Replace(p2Prefix + ".", "");
                 var p2Impl = p2.Implementations.First(impl => impl.Name.Equals(p2ImplName));
-                var functionMapping = new ReadOnlyDictionary<string, string>(
+                var functionMapping = new BiDictionary<string, string>(
                     cfg.FunctionMap.Select(p => (p.fst.fst, p.fst.snd)).ToDictionary());
                 var comparer = BoogieStructuralDiffManager.GuessMappings(p1Impl, p2Impl, functionMapping);
                 var orderedLocalVars1 = new List<Variable>();
@@ -1976,7 +1976,7 @@ namespace SDiff
                 {
                     throw new VerificationException($"Incorrect configuration: could not find {p2Name} in {v2name}");
                 }
-                var functionMapping = new ReadOnlyDictionary<string, string>(
+                var functionMapping = new BiDictionary<string, string>(
                     cfg.FunctionMap.Select(p => (p.fst.fst, p.fst.snd)).ToDictionary());
                 // TODO: pass globalMapping and procedureMapping too.
                 if (p1Impl.EqualsStructural(p2Impl, functionMapping,

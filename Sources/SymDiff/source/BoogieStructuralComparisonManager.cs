@@ -17,7 +17,7 @@ public static class BoogieStructuralComparisonManager
     /// </summary>
     public static bool EqualsStructural(this Implementation? thisImpl,
                                         Implementation? otherImpl,
-                                        ReadOnlyDictionary<string, string> functionMapping,
+                                        BiDictionary<string, string> functionMapping,
                                         out Dictionary<Procedure, Procedure> procedureMapping,
                                         out Dictionary<Variable, Variable> globalsMapping,
                                         out Dictionary<Variable, Variable> localsMapping)
@@ -25,19 +25,20 @@ public static class BoogieStructuralComparisonManager
         var implComparer = new ImplementationComparer(functionMapping);
         var res = implComparer.Compare(thisImpl, otherImpl);
 
-        procedureMapping = implComparer.ProcedureMapping;
-        globalsMapping = implComparer.GlobalVarMapping;
-        localsMapping = implComparer.LocalVarMapping;
+        procedureMapping = implComparer.ProcedureMapping.ToDictionary();
+        globalsMapping = implComparer.GlobalVarMapping.ToDictionary();
+        localsMapping = implComparer.LocalVarMapping.ToDictionary();
         return res;
     }
 }
 
-public class ImplementationComparer(ReadOnlyDictionary<string, string> functionMapping)
+public class ImplementationComparer(BiDictionary<string, string> functionMapping)
 {
-    public Dictionary<Variable, Variable> LocalVarMapping = new();
-    public Dictionary<Block, Block> BlockMapping = new();
-    public Dictionary<Variable, Variable> GlobalVarMapping = new();
-    public Dictionary<Procedure, Procedure> ProcedureMapping = new();
+    public BiDictionary<Variable, Variable> LocalVarMapping = new();
+    public BiDictionary<Block, Block> BlockMapping = new();
+    public BiDictionary<Variable, Variable> GlobalVarMapping = new();
+    public BiDictionary<Procedure, Procedure> ProcedureMapping = new();
+    private HashSet<Absy> alreadyMappedValues = new();
 
     public bool Compare(Implementation? implA, Implementation? implB)
     {
@@ -46,12 +47,19 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
                           || implA.InParams.Count != implB.InParams.Count
                           || implA.OutParams.Count != implB.OutParams.Count
                           || implA.Blocks.Count != implB.Blocks.Count)
+        {
             return false;
+        }
 
         // TODO: try to match the blocks in a better way, e.g., compute a graph isomorphism
         foreach (var (blk1, blk2) in implA.Blocks.OrderBy(b => b.Label)
-                                .Zip(implB.Blocks.OrderBy(b => b.Label)))
-            if (!Compare(blk1, blk2)) return false;
+                     .Zip(implB.Blocks.OrderBy(b => b.Label)))
+        {
+            if (!Compare(blk1, blk2))
+            {
+                return false;
+            }
+        }
 
         return true;
     }
@@ -60,25 +68,28 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
     {
         if (blockA.TransferCmd == null || blockB.TransferCmd == null ||
             blockA.TransferCmd.GetType() != blockB.TransferCmd.GetType())
+        {
             return false;
+        }
 
-        var localBlockMapping = new Dictionary<Block, Block>();
+        var localBlockMapping = new BiDictionary<Block, Block>(BlockMapping);
+
         if (blockA.TransferCmd is GotoCmd t1 &&
             blockB.TransferCmd is GotoCmd t2)
+        {
             foreach (var (blkTarget1, blkTarget2) in t1.labelTargets.Zip(t2.labelTargets))
             {
-                if (BlockMapping.TryGetValue(blkTarget1, out var mappedBlkTarget2))
+                if (!localBlockMapping.TryAddIfNoConflict(blkTarget1, blkTarget2))
                 {
-                    if (mappedBlkTarget2 != blkTarget2)
-                        return false;
-                    else
-                        localBlockMapping.Add(blkTarget1, blkTarget2);
+                    return false;
                 }
             }
+        }
 
         var i = 0;
         var j = 0;
-        while (i < blockA.Cmds.Count && j < blockB.Cmds.Count)
+        while (i < blockA.Cmds.Count &&
+               j < blockB.Cmds.Count)
         {
             if (IsIrrelevantCommand(blockA.Cmds[i]))
             {
@@ -101,16 +112,28 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
                     .Select(c => c as AssumeCmd)
                     .OrderBy(c => c!.Expr.ToString()).ToList();
                 if (assumesA.Count != assumesB.Count)
+                {
                     return false;
+                }
+
                 foreach (var (assm1, assm2) in assumesA.Zip(assumesB))
+                {
                     if (!Compare(assm1, assm2))
+                    {
                         return false;
+                    }
+                }
+
                 i += assumesA.Count;
                 j += assumesB.Count;
                 continue;
             }
+
             if (!Compare(blockA.Cmds[i], blockB.Cmds[j]))
+            {
                 return false;
+            }
+
             i++;
             j++;
         }
@@ -118,19 +141,25 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
         for (; i < blockA.Cmds.Count; ++i)
         {
             if (!IsIrrelevantCommand(blockA.Cmds[i]))
+            {
                 return false;
+            }
         }
         for (; j < blockB.Cmds.Count; ++j)
         {
             if (!IsIrrelevantCommand(blockB.Cmds[j]))
+            {
                 return false;
+            }
         }
 
-        // Update the mapping if there were no conflicts. The pair might already
-        // exist, so we use TryAdd. This is safe because we know from the earlier
-        // check that any existing value will not have a conflict.
+        // Update the mapping if there were no conflicts. Using TryAdd here is safe here
+        // because if the pair already exists it cannot be different due to the earlier check.
         foreach (var pair in localBlockMapping)
+        {
             BlockMapping.TryAdd(pair.Key, pair.Value);
+        }
+
         BlockMapping.TryAdd(blockA, blockB);
 
         return true;
@@ -138,7 +167,8 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
 
     private bool EqualsStructuralExpr(Expr exprA, Expr exprB)
     {
-        var combinedMapping = LocalVarMapping.Concat(GlobalVarMapping).ToDictionary();
+        var combinedMapping = new BiDictionary<Variable, Variable>(
+            LocalVarMapping.Concat(GlobalVarMapping).ToDictionary());
         var exprComparator = new ExprComparatorWithRenaming(combinedMapping, functionMapping);
         var res = exprComparator.Compare(exprA, exprB);
         if (!res) return false;
@@ -164,8 +194,16 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
     
     private bool Compare(Cmd? cmdA, Cmd? cmdB)
     {
-        if (cmdA == null || cmdB == null) return cmdA == cmdB;
-        if (cmdA.GetType() != cmdB.GetType()) return false;
+        if (cmdA == null || cmdB == null)
+        {
+            return cmdA == cmdB;
+        }
+
+        if (cmdA.GetType() != cmdB.GetType())
+        {
+            return false;
+        }
+
         return (cmdA, cmdB) switch
         {
             (AssertCmd a, AssertCmd b) => EqualsStructuralExpr(a.Expr, b.Expr),
@@ -180,20 +218,23 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
 
     private bool EqualsStructuralCall(CallCmd cmdA, CallCmd cmdB)
     {
-        var procA = cmdA.Proc;
-        if (ProcedureMapping.TryGetValue(procA, out var procB) && cmdB.Proc != procB)
+        if (ProcedureMapping.HasConflict(cmdA.Proc, cmdB.Proc))
+        {
             return false;
+        }
 
-        procB = cmdB.Proc;
-
-        if (procA.InParams.Count != procB.InParams.Count)
+        if (cmdA.Proc.InParams.Count != cmdB.Proc.InParams.Count)
+        {
             return false;
+        }
 
-        if (cmdA.Ins .Zip(cmdB.Ins) .Any(p => !EqualsStructuralExpr(p.First, p.Second)) ||
+        if (cmdA.Ins.Zip(cmdB.Ins).Any(p => !EqualsStructuralExpr(p.First, p.Second)) ||
             cmdA.Outs.Zip(cmdB.Outs).Any(p => !EqualsStructuralExpr(p.First, p.Second)))
+        {
             return false;
+        }
 
-        ProcedureMapping.TryAdd(procA, procB);
+        ProcedureMapping.TryAdd(cmdA.Proc, cmdB.Proc);
         return true;
     }
 
@@ -201,11 +242,15 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
     {
         if (cmdA.Lhss.Count != cmdB.Lhss.Count ||
             cmdA.Rhss.Count != cmdB.Rhss.Count)
+        {
             return false;
-        
+        }
+
         if (cmdA.Lhss.Zip(cmdB.Lhss).Any(p => !EqualsStructuralExpr(p.First.AsExpr, p.Second.AsExpr)) ||
             cmdA.Rhss.Zip(cmdB.Rhss).Any(p => !EqualsStructuralExpr(p.First, p.Second)))
+        {
             return false;
+        }
 
         return true;
     }
@@ -231,19 +276,22 @@ public class ImplementationComparer(ReadOnlyDictionary<string, string> functionM
 /// If a function mapping is not passed, the assumption is that the functions
 /// must have the same name (no mapping is created).
 /// </summary>
-public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableMapping,
-                                        ReadOnlyDictionary<string, string> functionMapping)
+public class ExprComparatorWithRenaming(BiDictionary<Variable, Variable> variableMapping,
+                                        BiDictionary<string, string> functionMapping)
 {
-    private readonly Dictionary<Variable, Variable> mapping = new(variableMapping);
-    public Dictionary<Variable, Variable> GetUpdatedVariableMapping => mapping;
+    public BiDictionary<Variable, Variable> GetUpdatedVariableMapping { get; } = new(variableMapping);
 
     public bool Compare(Expr? exprA, Expr? exprB)
     {
         if (exprA == null || exprB == null)
+        {
             return exprA == exprB;
-        
+        }
+
         if (exprA.GetType() != exprB.GetType())
+        {
             return false;
+        }
 
         return (exprA, exprB) switch
         {
@@ -262,23 +310,15 @@ public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableM
 
     private bool CompareIdentifierExpr(IdentifierExpr a, IdentifierExpr b)
     {
-        if (mapping.TryGetValue(a.Decl, out var bVar))
-        {
-            return b.Name.Equals(bVar.Name);
-        }
-
-        // Also check for a conflict in the other direction
-        if (mapping.ContainsValue(b.Decl))
-            return false;
-
-        mapping.Add(a.Decl, b.Decl);
-        return true;
+        return GetUpdatedVariableMapping.TryAddIfNoConflict(a.Decl, b.Decl);
     }
 
     private bool CompareNAryExpr(NAryExpr a, NAryExpr b)
     {
         if (a.Args.Count != b.Args.Count)
+        {
             return false;
+        }
 
         switch (a.Fun)
         {
@@ -287,16 +327,17 @@ public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableM
                 MapStore or TypeCoercion or UnaryOperator:
             {
                 if (!a.Fun.FunctionName.Equals(b.Fun.FunctionName))
+                {
                     return false;
+                }
                 break;
             }
             case FunctionCall _:
             {
-                if (functionMapping.TryGetValue(a.Fun.FunctionName, out var bFunctionName) &&
-                    !b.Fun.FunctionName.Equals(bFunctionName))
+                if (!functionMapping.TryAddIfNoConflict(a.Fun.FunctionName, b.Fun.FunctionName))
+                {
                     return false;
-                else if (!a.Fun.FunctionName.Equals(b.Fun.FunctionName))
-                    return false;
+                }
                 break;
             }
             default:
@@ -306,7 +347,9 @@ public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableM
         for (var i = 0; i < a.Args.Count; i++)
         {
             if (!Compare(a.Args[i], b.Args[i]))
+            {
                 return false;
+            }
         }
         return true;
     }
@@ -316,20 +359,26 @@ public class ExprComparatorWithRenaming(Dictionary<Variable, Variable> variableM
         if (a.Kind != b.Kind
             || !a.TypeParameters.SequenceEqual(b.TypeParameters)
             || a.Dummies.Count != b.Dummies.Count)
+        {
             return false;
+        }
 
         // To handle dummies, we create a new ExprComparator only for this expr,
         // which contains the dummy mapping in the two expressions. After
         // comparison, we eliminate dummies but preserve any non-dummy variables
         // in the new mapping.
-        Dictionary<Variable, Variable> mappingWithDummies = new(mapping);
+        BiDictionary<Variable, Variable> mappingWithDummies = new(GetUpdatedVariableMapping);
         a.Dummies.Zip(b.Dummies).ForEach(p => mappingWithDummies.Add(p.First, p.Second));
         var comp = new ExprComparatorWithRenaming(mappingWithDummies, functionMapping);
         if (!comp.Compare(a.Body, b.Body))
+        {
             return false;
+        }
+
         var newMappingWithDummies = comp.GetUpdatedVariableMapping;
         var newKeysWithoutDummies = newMappingWithDummies.Keys.Except(mappingWithDummies.Keys);
-        newKeysWithoutDummies.ForEach(k => mapping.Add(k, newMappingWithDummies[k]));
+        newKeysWithoutDummies.ForEach(k =>
+            GetUpdatedVariableMapping.Add(k, newMappingWithDummies.GetValueByKey(k)));
         return true;
     }
 }
