@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Boogie;
 using SymDiffUtils;
 
@@ -74,6 +75,18 @@ namespace SDiff
       foreach (var d in this)
         dict.Add(d.fst.fst, d.fst.snd);
       return dict;
+    }
+
+    public Dictionary<string, string> ToProcedureDictionaryWithoutPrefix(string keyPrefix, string valuePrefix)
+    {
+        var dict = new Dictionary<string, string>();
+        foreach (var d in this)
+        {
+            var key = d.fst.fst.StartsWith(keyPrefix) ? d.fst.fst.Substring(keyPrefix.Length) : d.fst.fst;
+            var value = d.fst.snd.StartsWith(valuePrefix) ? d.fst.snd.Substring(valuePrefix.Length) : d.fst.snd;
+            dict.Add(key, value);
+        }
+        return dict;
     }
 
     public ParamMap FindPair(string s1, string s2)

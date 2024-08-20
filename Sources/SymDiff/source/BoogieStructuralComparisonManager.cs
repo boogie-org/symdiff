@@ -38,7 +38,6 @@ public class ImplementationComparer(BiDictionary<string, string> functionMapping
     public BiDictionary<Block, Block> BlockMapping = new();
     public BiDictionary<Variable, Variable> GlobalVarMapping = new();
     public BiDictionary<Procedure, Procedure> ProcedureMapping = new();
-    private HashSet<Absy> alreadyMappedValues = new();
 
     public bool Compare(Implementation? implA, Implementation? implB)
     {
@@ -273,8 +272,6 @@ public class ImplementationComparer(BiDictionary<string, string> functionMapping
 /// Structurally compares two expressions, ignoring variable renaming.
 /// It will build up a variable mapping in the process. Any pairs in the
 /// input mapping will be used during the comparison, but are not needed.
-/// If a function mapping is not passed, the assumption is that the functions
-/// must have the same name (no mapping is created).
 /// </summary>
 public class ExprComparatorWithRenaming(BiDictionary<Variable, Variable> variableMapping,
                                         BiDictionary<string, string> functionMapping)
