@@ -184,30 +184,18 @@ namespace SDiff
 
   public class Config
   {
-    private ProcedureMap procMap;
-    private ProcedureMap functionMap;
-    public ProcedureMap FunctionMap
-    {
-      get { return functionMap; }
-    }
+    public ProcedureMap ProcedureMap { get; }
+
+    public ProcedureMap FunctionMap { get; }
 
     private ParamMap globalMap;
-    public ParamMap GlobalMap
-    {
-      get { return new ParamMap(globalMap); }
-    }
+    public ParamMap GlobalMap => new(globalMap);
 
     private ParamMap typeMap;
-    public ParamMap TypeMap
-    {
-      get { return new ParamMap(typeMap); }
-    }
+    public ParamMap TypeMap => new(typeMap);
 
     private ParamMap constMap;
-    public ParamMap ConstMap
-    {
-      get { return new ParamMap(constMap); }
-    }
+    public ParamMap ConstMap => new(constMap);
 
     public Config(string filename) : this()
     {
@@ -238,8 +226,8 @@ namespace SDiff
 
     public Config()
     {
-      procMap = new ProcedureMap("procedure");
-      functionMap = new ProcedureMap("function");
+      ProcedureMap = new ProcedureMap("procedure");
+      FunctionMap = new ProcedureMap("function");
       globalMap = new ParamMap();
       typeMap = new ParamMap();
       constMap = new ParamMap();
@@ -247,14 +235,14 @@ namespace SDiff
 
     public void AddProcedure(Duple<HDuple<string>, ParamMap> mapping)
     {
-      if (procMap.Exists(p => p.fst.fst.Equals(mapping.fst.fst)))
+      if (ProcedureMap.Exists(p => p.fst.fst.Equals(mapping.fst.fst)))
         throw new ArgumentException($"{mapping.fst.fst} already exists in config.");
-      procMap.Add(mapping);
+      ProcedureMap.Add(mapping);
     }
 
     public void AddFunction(Duple<HDuple<string>, ParamMap> mapping)
     {
-      functionMap.Add(mapping);
+      FunctionMap.Add(mapping);
     }
 
     public void AddGlobal(HDuple<string> mapping)
@@ -316,39 +304,39 @@ namespace SDiff
 
     private bool ParseProcedure(string l)
     {
-      ParseIntoProcedureMap(l, procMap);
+      ParseIntoProcedureMap(l, ProcedureMap);
       return false;
     }
 
     private bool ParseFunction(string l)
     {
-      ParseIntoProcedureMap(l, functionMap);
+      ParseIntoProcedureMap(l, FunctionMap);
       return false;
     }
 
     public ParamMap FindProcedure(string f1, string f2)
     {
-      return procMap.FindPair(f1, f2);
+      return ProcedureMap.FindPair(f1, f2);
     }
 
     public ParamMap FindFunction(string f1, string f2)
     {
-      return functionMap.FindPair(f1, f2);
+      return FunctionMap.FindPair(f1, f2);
     }
 
     public List<HDuple<string>> GetProcedureAssocList()
     {
-      return procMap.ToProcedureAssocList();
+      return ProcedureMap.ToProcedureAssocList();
     }
 
     public Dictionary<string, string> GetProcedureDictionary()
     {
-      return procMap.ToProcedureDictionary();
+      return ProcedureMap.ToProcedureDictionary();
     }
 
     public string LookupFunction(string f)
     {
-      foreach (var d in procMap)
+      foreach (var d in ProcedureMap)
         if (d.fst.fst == f)
           return d.fst.snd;
       return null;
@@ -363,10 +351,10 @@ namespace SDiff
         s += "#types\ntypes: " + typeMap + "\n";
       if (constMap.Count != 0)
         s += "#constants\nconstants: " + constMap + "\n";
-      if (functionMap.Count != 0)
-        s += "#functions\n" + functionMap + "\n";
-      if (procMap.Count != 0)
-        s += "#procedures\n" + procMap + "\n";
+      if (FunctionMap.Count != 0)
+        s += "#functions\n" + FunctionMap + "\n";
+      if (ProcedureMap.Count != 0)
+        s += "#procedures\n" + ProcedureMap + "\n";
       return s;
     }
   }

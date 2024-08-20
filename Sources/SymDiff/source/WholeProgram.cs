@@ -1524,24 +1524,24 @@ namespace SDiff
             /////////////////////////////////////////////////////////////////////////////////////
             // Try to establish mappings using structural equivalence
             /////////////////////////////////////////////////////////////////////////////////////
-            var procMap = cfg.GetProcedureDictionary();
+            // This is not the merged program yet, so use names without prefixes.
+            var procMap = cfg.ProcedureMap.ToProcedureDictionaryWithoutPrefix(p1Prefix, p2Prefix);
             var impl1ToOrderedLocalVars = new Dictionary<Implementation, List<Variable>>();
             var impl2ToOrderedLocalVars = new Dictionary<Implementation, List<Variable>>();
             var guessedProcedureMapping = new Dictionary<Procedure, Procedure>();
             var guessedGlobalsMapping   = new Dictionary<Variable, Variable>();
             foreach (var p1ImplName in p1ImplsWithLoops)
             {
-                var p1ImplNamePrefixed = $"{p1Prefix}.{p1ImplName}";
-                if (!procMap.TryGetValue(p1ImplNamePrefixed, out var p2ImplNamePrefixed)) continue;
+                if (!procMap.TryGetValue(p1ImplName, out var p2ImplName)) continue;
                 var p1Impl = p1.Implementations.First(impl => impl.Name.Equals(p1ImplName));
-                var p2ImplName = p2ImplNamePrefixed.Replace(p2Prefix + ".", "");
                 var p2Impl = p2.Implementations.First(impl => impl.Name.Equals(p2ImplName));
                 var functionMapping = new BiDictionary<string, string>(
                     cfg.FunctionMap.ToProcedureDictionaryWithoutPrefix(p1Prefix + ".", p2Prefix + ".")); 
                 var comparer = BoogieStructuralDiffManager.GuessMappings(p1Impl, p2Impl, functionMapping);
                 var orderedLocalVars1 = new List<Variable>();
                 var orderedLocalVars2 = new List<Variable>();
-                // Try to order variables using the mapping
+                // Try to order local variables using the mapping. This order will be passed to loop extractor
+                // to improve alignment of extracted procedure arguments.
                 foreach (var (v1, v2) in comparer.LocalVarMapping.OrderBy(p => p.Key.Name))
                 {
                     if (v1 is not LocalVariable || v2 is not LocalVariable) continue; // LocalVarMapping might actually contain formals too
