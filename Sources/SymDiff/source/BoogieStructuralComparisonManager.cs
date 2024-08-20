@@ -256,8 +256,11 @@ public class ImplementationComparer(BiDictionary<string, string> functionMapping
 
     private bool EqualsStructuralHavoc(HavocCmd cmdA, HavocCmd cmdB)
     {
+        // TODO: This can be improved, for instance by looking at the
+        //       existing maps to try and align the variables.
         return cmdA.Vars.Count == cmdB.Vars.Count &&
-               cmdA.Vars.Zip(cmdB.Vars).All(p => EqualsStructuralExpr(p.First, p.Second));
+               cmdA.Vars.OrderBy(v => v.Name).Zip(cmdB.Vars.OrderBy(v => v.Name))
+                   .All(p => EqualsStructuralExpr(p.First, p.Second));
     }
 
     private bool IsIrrelevantCommand(Cmd cmd)
