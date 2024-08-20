@@ -61,13 +61,134 @@ namespace SDiff
           inter.Add(v);
     }
 
+    public static Variable CustomClone(Variable v) {
+      return new LocalVariable(v.tok, 
+        new TypedIdent(v.TypedIdent.tok, v.TypedIdent.Name.Clone() as string, v.TypedIdent.Type.Clone() as Microsoft.Boogie.Type));
+    }
+
+    public static Duple<Procedure, Implementation> CustomEqualityReduction(Implementation i1,
+                                                                           Implementation i2,
+                                                                           ParamMap argMap,
+                                                                           HashSet<Variable> ignoreSet,
+                                                                           Program mergedProgram,
+                                                                           out List<Variable> outputVarsForVFTask,
+                                                                           out EqualityProcedureParameterInfo eqParamInfo)
+    {
+      Procedure
+        d1 = i1.Proc,
+        d2 = i2.Proc;
+
+      var globals = new List<Variable>();
+      foreach (IdentifierExpr ie in d1.Modifies)
+        globals.Add(ie.Decl);
+      foreach (IdentifierExpr ie in d2.Modifies)
+        if(!globals.Contains(ie.Decl))
+          globals.Add(ie.Decl);
+
+      string
+        d1n = d1.Name,
+        d2n = d2.Name;
+
+      List<Variable> d1OutClones = d1.OutParams.Select(x => CustomClone(x)).ToList();
+      List<Variable> d2OutClones = d2.OutParams.Select(x => CustomClone(x)).ToList();
+
+      // Discern the names of the two output sets to be compared
+      foreach (var x in d1OutClones) {
+        x.TypedIdent.Name = x.TypedIdent.Name + "1";
+      }
+      foreach (var x in d2OutClones) {
+        x.TypedIdent.Name = x.TypedIdent.Name + "2";
+      }
+
+      List<Variable>
+        outs1 = FreshVariables(d1OutClones, B.Factory.MakeLocal),
+        outs2 = FreshVariables(d2OutClones, B.Factory.MakeLocal),
+        ins1 = FreshVariables(d1.InParams, (x, y) => B.Factory.MakeFormal(x, y, true)),
+        ins2 = FreshVariables(d2.InParams, (x, y) => B.Factory.MakeFormal(x, y, true));
+
+      var locals = new List<Variable>();
+      locals.AddRange(outs1);
+      locals.AddRange(outs2);
+
+      // Change this soon to support non-identical alignments
+      List<Variable> unionIns = new List<Variable>();
+      unionIns.AddRange(ins1);
+
+      /***** Emit function calls *****/
+
+      var c1Ins = B.U.ExprSeqOfVariableSeq(ins1);
+      var c1Outs = B.U.IdentifierExprSeqOfVariableSeq(outs1);
+      var c2Ins = B.U.ExprSeqOfVariableSeq(ins2);
+      var c2Outs = B.U.IdentifierExprSeqOfVariableSeq(outs2);
+
+      CallCmd
+        c1 = new CallCmd(Token.NoToken, d1n, c1Ins, c1Outs),
+        c2 = new CallCmd(Token.NoToken, d2n, c2Ins, c2Outs);
+
+      /***** Emit comparison, outputVars *****/
+      var outputVars = new List<Duple<string, Variable>>();
+
+      eqParamInfo = new EqualityProcedureParameterInfo(new List<string>(), new List<string>(), 
+        new List<string>(), new List<string>(), new List<string>(), new List<string>(), new List<string>());
+
+      outputVarsForVFTask = new List<Variable>();
+
+      /***** Compile procedure body ****/
+
+      var body = new List<Cmd>();
+      body.Add(c1);
+      body.Add(c2);
+      
+      List<Ensures> outputPostConditions = new List<Ensures>();
+
+      var eqModifies = new List<IdentifierExpr>(d1.Modifies);
+      eqModifies.AddRange(d2.Modifies);
+
+      var procName = mkEqProcName(d1.Name, d2.Name);
+
+      var eqProc =
+        new Procedure(Token.NoToken, procName, B.C.empTypeVariableSeq, unionIns,
+        new List<Variable>(), isPure:false,
+        B.C.empRequiresSeq, eqModifies, new List<Ensures>(outputPostConditions));
+
+      var bl =
+        new BigBlock(Token.NoToken, "AA_INSTR_EQ_BODY", body, null, B.C.dmyTransferCmd);
+      var bll = new List<BigBlock> { bl };
+
+      
+      /***** CUSTOM HEAP COMPARISON PREDICATES *****/
+
+      List<Formal> globalsToPropagate = globals.Select(x => new Formal(x.tok, x.TypedIdent, true)).ToList();
+
+      if (Options.CustomHeapComparison) {
+        Options.GenerateComparisons(globalsToPropagate, c1Outs, c2Outs, mergedProgram, mergedProgram, bl, locals);
+      }
+
+      /***** END CUSTOM HEAP COMPARISON PREDICATES *****/
+
+      var eqImp =
+        new Implementation(Token.NoToken, procName, B.C.empTypeVariableSeq, unionIns,
+        new List<Variable>(),
+        locals, new StmtList(bll, Token.NoToken));
+
+      var l = new List<Declaration>();
+
+      return new Duple<Procedure, Implementation>(eqProc, eqImp);
+    }
+
     public static Duple<Procedure, Implementation> EqualityReduction(Implementation i1,
                                                                      Implementation i2,
                                                                      ParamMap argMap,
                                                                      HashSet<Variable> ignoreSet,
+                                                                     Program mergedProgram,
                                                                      out List<Variable> outputVarsForVFTask,
                                                                      out EqualityProcedureParameterInfo eqParamInfo)
     {
+      // If using custom heap comparison predicates, do this
+      if (Options.CustomHeapComparison) {
+        return CustomEqualityReduction(i1, i2, argMap, ignoreSet, mergedProgram, out outputVarsForVFTask, out eqParamInfo);
+      }
+
       //map ins1
       //map outs1
       //save globals (1)

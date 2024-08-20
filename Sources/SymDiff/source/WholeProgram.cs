@@ -380,7 +380,10 @@ namespace SDiff
 
             //merge/rename the global variables and constants
             VariableRenamer vRenamer = null;
-            if (mergeGlobals) //the default behavior where only copy of globals (v2.G) is retained in the merged program
+            if (Options.CustomHeapComparison)
+                // Do not merge globals when comparing heaps using custom predicates
+                vRenamer = new VariableRenamer(cfg.ConstMap, c2s.Map(x => x as Variable));
+            else if (mergeGlobals) //the default behavior where only copy of globals (v2.G) is retained in the merged program
                 vRenamer = new VariableRenamer(cfg.GlobalMap.Append(cfg.ConstMap), g2s.Append(c2s).Map(x => x as Variable));
             else //both v1.G and v2.G are present 
                 vRenamer = new VariableRenamer(cfg.ConstMap, c2s.Map(x => x as Variable));
@@ -407,14 +410,21 @@ namespace SDiff
             }
             mergedProgram.AddTopLevelDeclarations(newFuncs);
             List<Declaration> newFunctionList = mergedProgram.TopLevelDeclarations.Where(x => x is Function).ToList();
-            var fRenamer = new FunctionRenamer(cfg.FunctionMap, origFunList);
-            mergedProgram = fRenamer.VisitProgram(mergedProgram);
+
+            // Prevent custom heap accessor functions from getting renamed and removed as duplicates
+            if (!Options.CustomHeapComparison) {
+                var fRenamer = new FunctionRenamer(cfg.FunctionMap, origFunList);
+                mergedProgram = fRenamer.VisitProgram(mergedProgram);
+            }
+
             mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
             var mergedGlobals = mergedProgram.TopLevelDeclarations.Where(x => x is GlobalVariable);
             //moved this out of DifferntialInline
-            RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Where(x =>
+            if (!Options.CustomHeapComparison) {
+                RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Where(x =>
                     x is Implementation && x.ToString().StartsWith(p1Prefix)).ToList(),
                 mergedProgram.TopLevelDeclarations.Where(x => x is Constant).ToList(), p1Prefix, p2Prefix);
+            }
             //--------------- renaming ends ----------------------------------
 
             Util.DumpBplAST(mergedProgram, p1Prefix + p2Prefix + "_temp.bpl");
@@ -1114,7 +1124,7 @@ namespace SDiff
 
                 // Creates EQ_f_f' function
                 var eqp =
-                  Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores,
+                  Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores, mergedProgram,
                       out var outputVars, out var eqProcParamInfo);
 
                 //RS: adding OK1=true, OK2=true, and OK1=>OK2
@@ -1621,10 +1631,17 @@ namespace SDiff
                 .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
                 .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
             
-            var globalsToAssumeModifiedP2 = p1.GlobalVariables
-                .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
-                .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
-            
+            var globalsToAssumeModifiedP2 = new List<IdentifierExpr>();
+            if (Options.CustomHeapComparison) {
+                globalsToAssumeModifiedP2 = p2.GlobalVariables
+                    .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
+                    .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
+            } else {
+                globalsToAssumeModifiedP2 = p1.GlobalVariables
+                    .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
+                    .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
+            }
+
             foreach (var proc in p1.Procedures)
             {
                 var impl = p1.Implementations.FirstOrDefault(impl => impl.Name.Equals(proc.Name));
