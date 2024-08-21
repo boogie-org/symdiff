@@ -1962,16 +1962,14 @@ namespace SDiff
             BoogieUtils.ResolveAndTypeCheckThrow(p2, v2name, BoogieUtils.BoogieOptions);
             var outlinedBlockImplPairs = new Dictionary<Implementation, Implementation>();
             var structurallyEquivalentImpls = new Dictionary<Implementation, Implementation>();
-            var procMap = cfg.GetProcedureDictionary();
+            var procMap = cfg.ProcedureMap.ToProcedureDictionaryWithoutPrefix(p1Prefix + ".", p2Prefix + ".");
             foreach (var p1Impl in p1ImplsToCheck)
             {
-                var p1ImplNamePrefixed = $"{p1Prefix}.{p1Impl.Name}";
-                if (!procMap.TryGetValue(p1ImplNamePrefixed, out var p2NamePrefixed)) continue;
-                var p2Name = p2NamePrefixed.Replace(p2Prefix + ".", "");
-                var p2Impl = p2.Implementations.FirstOrDefault(impl => impl.Name.Equals(p2Name));
+                if (!procMap.TryGetValue(p1Impl.Name, out var p2ImplName)) continue;
+                var p2Impl = p2.Implementations.FirstOrDefault(impl => impl.Name.Equals(p2ImplName));
                 if (p2Impl == null)
                 {
-                    throw new VerificationException($"Incorrect configuration: could not find {p2Name} in {v2name}");
+                    throw new VerificationException($"Incorrect configuration: could not find {p2ImplName} in {v2name}");
                 }
                 var functionMapping = new BiDictionary<string, string>(
                     cfg.FunctionMap.ToProcedureDictionaryWithoutPrefix(p1Prefix + ".", p2Prefix + "."));
