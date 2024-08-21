@@ -12,7 +12,6 @@ using SymDiff.source;
 
 using SymDiffUtils;
 using VC;
-using LoopExtractor = Microsoft.Boogie.LoopExtractor;
 using Util = SymDiffUtils.Util;
 
 //there is massive duplication here in case it turns out that the allinone approach (even with dumping at every verify) is not useful
@@ -290,7 +289,7 @@ namespace SDiff
             if (args.Length < 2) { AllInOneUsage(); return 1; }
             v1name = args[0];
             v2name = args[1];
-            p1Prefix = Path.GetFileNameWithoutExtension(v1name);;
+            p1Prefix = Path.GetFileNameWithoutExtension(v1name);
             p2Prefix = Path.GetFileNameWithoutExtension(v2name);
             if (!v1name.EndsWith(".bpl"))
             {
@@ -1525,7 +1524,7 @@ namespace SDiff
             // Try to establish mappings using structural equivalence
             /////////////////////////////////////////////////////////////////////////////////////
             // This is not the merged program yet, so use names without prefixes.
-            var procMap = cfg.ProcedureMap.ToProcedureDictionaryWithoutPrefix(p1Prefix, p2Prefix);
+            var procMap = cfg.ProcedureMap.ToProcedureDictionaryWithoutPrefix(p1Prefix + ".", p2Prefix + ".");
             var impl1ToOrderedLocalVars = new Dictionary<Implementation, List<Variable>>();
             var impl2ToOrderedLocalVars = new Dictionary<Implementation, List<Variable>>();
             var guessedProcedureMapping = new Dictionary<Procedure, Procedure>();
@@ -1637,10 +1636,8 @@ namespace SDiff
 
                 foreach (var (p1Impl, p1LoopImpls) in p1ImplToLoopImpls)
                 {
-                    var p1ImplNamePrefixed = $"{p1Prefix}.{p1Impl.Name}";
-                    if (!procMap.TryGetValue(p1ImplNamePrefixed, out var p2ImplNamePrefixed)) continue;
-                    var p2Name = p2ImplNamePrefixed.Replace(p2Prefix + ".", "");
-                    var p2Impl = p2.Implementations.First(impl => impl.Name.Equals(p2Name));
+                    if (!procMap.TryGetValue(p1Impl.Name, out var p2ImplName)) continue;
+                    var p2Impl = p2.Implementations.First(impl => impl.Name.Equals(p2ImplName));
 
                     if (!p2ImplToLoopImpls.TryGetValue(p2Impl, out var p2LoopImpls) ||
                         p1LoopImpls.Count != p2LoopImpls.Count ||
@@ -1649,7 +1646,7 @@ namespace SDiff
                             p.First.OutParams.Count == p.Second.OutParams.Count))
                     {
                         Log.Out(Log.Error, $"Could not align the extracted loops in procedures " +
-                                           $"{p1ImplNamePrefixed} and {p2ImplNamePrefixed}");
+                                           $"{p1Impl.Name} and {p2ImplName}");
                     }
                     else
                     {
