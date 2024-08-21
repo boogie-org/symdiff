@@ -58,13 +58,13 @@ public class BiDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>
         if (keyToValue.ContainsKey(key))
         {
             throw new ArgumentException($"The key already exists: ({key}, {keyToValue[key]})." +
-                                        $"Tried to add ({key}, {value})");
+                                        $" Tried to add ({key}, {value})");
         }
 
         if (valueToKey.ContainsKey(value))
         {
             throw new ArgumentException($"The value already exists: ({valueToKey[value]}, {value})." +
-                                        $"Tried to add ({key}, {value})");
+                                        $" Tried to add ({key}, {value})");
         }
 
         keyToValue[key] = value;
