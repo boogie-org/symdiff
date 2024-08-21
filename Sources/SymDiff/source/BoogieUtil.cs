@@ -371,7 +371,7 @@ namespace SDiff.Boogie
       if (!hasImplementation && left.Modifies.Count == 0)
       {
         Log.Out(Log.Urgent,
-          $"Compared procs {left}, {right} do not have bodies and any modifies clauses.");
+          $"Compared procedures {left}, {right} do not have bodies and do not have any modifies clauses.");
       }
 
       int i, j;

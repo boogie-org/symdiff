@@ -61,6 +61,8 @@ namespace SDiff
         public static bool localcheck;
         public static bool nonModularMode;
         public static bool checkAssertsOnly;
+        public static bool noSyntacticCheck;
+        public static bool noLoopExtract;
 
         //mutual summaries
         public static bool mutualSummaryMode;
@@ -91,7 +93,7 @@ namespace SDiff
         public static int inlineAllRecursionDepth = 1;
         public static int Timeout = 200; //default timeout for each check
         public static int NumCex = -1; //-1 denotes find all cex
-        public static HashSet<string> syntacticEqProcs = new HashSet<string>();
+        public static Dictionary<string, string> syntacticEqProcs = new();
         public static string changeListFile = null;  //file containing change_list.txt
 
         public static bool StripContracts = true; //we currently have to strip contracts for correctness and (possibly) stability.
