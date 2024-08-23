@@ -440,7 +440,24 @@ namespace SDiff
         {
             if (d is Procedure p1Procedure)
             {
-                if (prog2Procedures.TryGetValue(p1Procedure.Name, out var p2Procedure))
+                Procedure p2Procedure = null;
+                if (prog2Procedures.ContainsKey(p1Procedure.Name))
+                {
+                    p2Procedure = prog2Procedures[p1Procedure.Name];
+                }
+                else if (p1Procedure.Name.Contains("_loop_"))
+                {
+                    //match loops (A BIG HACK that pretends that the enclosing procedure has only one loop and the mappings are same)
+                    var loopProc = p1Procedure.Name.Split("_loop_")[0];
+    
+                    // Check if there's exactly one corresponding procedure in p2
+                    if (p2Loops.TryGetValue(loopProc, out var loopProcs) && loopProcs.Count == 1)
+                    {
+                        p2Procedure = p2.Procedures.First(p => p.Name.Equals(loopProcs.First()));
+                    }
+                }
+
+                if (p2Procedure != null)
                 {
                     if (p1Procedure.InParams.Count != p2Procedure.InParams.Count ||
                         p1Procedure.OutParams.Count != p2Procedure.OutParams.Count)
@@ -449,6 +466,7 @@ namespace SDiff
                                              $" {p1Procedure.EmitSignature()} and {p2Procedure.EmitSignature()}." +
                                              $" Trying to align existing arguments in order.");
                     }
+
                     var pmap = new ParamMap();
                     foreach (var (v1, v2) in p1Procedure.InParams.ZipShortest(p2Procedure.InParams))
                         pmap.Add(new HDuple<string>(v1.Name, v2.Name));
@@ -456,42 +474,6 @@ namespace SDiff
                         pmap.Add(new HDuple<string>(v1.Name, v2.Name));
                     config.AddProcedure(new Duple<HDuple<string>, ParamMap>(
                         new HDuple<string>(first + p1Procedure.Name, second + p1Procedure.Name), pmap));
-                }
-                else //match loops (A BIG HACK that pretends that the enclosing procedure has only one loop and the mappings are same)
-                {
-                    if (p1Procedure.Name.Contains("_loop_"))
-                    {
-                        int indx = p1Procedure.Name.IndexOf("_loop_");
-                        string loopProc = p1Procedure.Name.Substring(0, indx);
-                        if (p2Loops.ContainsKey(loopProc) &&
-                            p2Loops[loopProc].Count == 1)
-                        {
-                            HashSet<string> matchQProcs = p2Loops[loopProc];
-                            string p2ProcName = "";
-                            foreach (string s in matchQProcs) //ugly way to get the singleton string
-                                p2ProcName = s;
-
-                            // TODO: The logic here can be merged with the first branch. Although it might also make sense
-                            // to simply eliminate this hack now that loop extraction can be done in SymDiff. Keeping
-                            // to preserve old functionality.
-                            p2Procedure = p2.Procedures.First(p => p.Name.Equals(loopProc));
-
-                            if (p1Procedure.InParams.Count != p2Procedure.InParams.Count ||
-                                p1Procedure.OutParams.Count != p2Procedure.OutParams.Count)
-                            {
-                                Log.Out(Log.Warning, $"Could not align input arguments for" +
-                                                     $" {p1Procedure.EmitSignature()} and {p2Procedure.EmitSignature()}." +
-                                                     $" Trying to align existing arguments in order.");
-                            }
-
-                            var pmap = new ParamMap();
-                            foreach (var (v1, v2) in p1Procedure.InParams.ZipShortest(p2Procedure.InParams))
-                                pmap.Add(new HDuple<string>(v1.Name, v2.Name));
-                            foreach (var (v1, v2) in p1Procedure.OutParams.ZipShortest(p2Procedure.OutParams))
-                                pmap.Add(new HDuple<string>(v1.Name, v2.Name));
-                            config.AddProcedure(new Duple<HDuple<string>, ParamMap>(new HDuple<string>(first + p1Procedure.Name, second + p2ProcName), pmap));
-                        }
-                    }
                 }
             }
 
