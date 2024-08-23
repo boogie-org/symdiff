@@ -195,6 +195,18 @@ namespace SymDiffUtils
                 nl.Add(v);
             return nl;
         }
+        
+        /// <summary>
+        /// Zips the two lists, but the list with the fewer items decides the
+        /// length of the new list (like the `zip` in Python).
+        /// </summary>
+        public static List<(T1, T2)> ZipShortest<T1, T2>(this List<T1> list1, List<T2> list2)
+        {
+            var minLength = Math.Min(list1.Count, list2.Count);
+            return Enumerable.Range(0, minLength)
+                .Select(i => (list1[i], list2[i]))
+                .ToList();
+        }
     }
 
     public class Triple<T1, T2, T3> : Duple<T1, T2>
