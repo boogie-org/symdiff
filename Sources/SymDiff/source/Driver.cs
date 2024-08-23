@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Boogie;
 using SymDiffUtils;
 
@@ -393,20 +394,20 @@ namespace SDiff
             throw new Exception("Could not initialize Boogie during config generation.");
 
         // First program
-        Program p = BoogieUtils.ParseProgram(first);
-        if (p == null)
+        Program p1 = BoogieUtils.ParseProgram(first);
+        if (p1 == null)
             throw new Exception("Could not parse the first program during config generation.");
 
-        BoogieUtils.ResolveProgram(p, first, BoogieUtils.BoogieOptions);
-        BoogieUtils.TypecheckProgram(p, first, BoogieUtils.BoogieOptions);
+        BoogieUtils.ResolveProgram(p1, first, BoogieUtils.BoogieOptions);
+        BoogieUtils.TypecheckProgram(p1, first, BoogieUtils.BoogieOptions);
 
         // Second program
-        Program q = BoogieUtils.ParseProgram(second);
-        if (q == null)
+        Program p2 = BoogieUtils.ParseProgram(second);
+        if (p2 == null)
             throw new Exception("Could not parse the second program during config generation.");
 
-        BoogieUtils.ResolveProgram(q, second, BoogieUtils.BoogieOptions);
-        BoogieUtils.TypecheckProgram(q, second, BoogieUtils.BoogieOptions);
+        BoogieUtils.ResolveProgram(p2, second, BoogieUtils.BoogieOptions);
+        BoogieUtils.TypecheckProgram(p2, second, BoogieUtils.BoogieOptions);
 
 
         first = Path.GetFileNameWithoutExtension(first) + '.';
@@ -415,62 +416,64 @@ namespace SDiff
         Config config = new Config();
 
         //store the procs of q by name
-        Dictionary<string, Declaration> qProcs = new Dictionary<string, Declaration>();
-        Dictionary<string, HashSet<string>> qLoops = new Dictionary<string, HashSet<string>>();
+        Dictionary<string, Procedure> prog2Procedures = new Dictionary<string, Procedure>();
+        Dictionary<string, HashSet<string>> p2Loops = new Dictionary<string, HashSet<string>>();
 
-        foreach (Declaration d in q.TopLevelDeclarations)
+        foreach (var d in p2.TopLevelDeclarations)
         {
-            var proc = d as Procedure;
-            if (proc != null)
+            if (d is Procedure procedure)
             {
-                qProcs.Add(proc.Name, proc);
-                if (proc.Name.Contains("_loop_"))
+                prog2Procedures.Add(procedure.Name, procedure);
+                if (procedure.Name.Contains("_loop_"))
                 {
-                    int indx = proc.Name.IndexOf("_loop_");
-                    string loopProc = proc.Name.Substring(0, indx);
-                    if (!qLoops.ContainsKey(loopProc))
-                        qLoops.Add(loopProc, new HashSet<string>());
-                    qLoops[loopProc].Add(proc.Name);
+                    int indx = procedure.Name.IndexOf("_loop_");
+                    string loopProcedure = procedure.Name.Substring(0, indx);
+                    if (!p2Loops.ContainsKey(loopProcedure))
+                        p2Loops.Add(loopProcedure, new HashSet<string>());
+                    p2Loops[loopProcedure].Add(procedure.Name);
 
                 }
             }
         }
 
-        foreach (Declaration d in p.TopLevelDeclarations)
+        foreach (Declaration d in p1.TopLevelDeclarations)
         {
-            var proc = d as Procedure;
-            if (proc != null)
+            if (d is Procedure p1Procedure)
             {
-                var pmap = new ParamMap();
-                foreach (Variable v in proc.InParams)
-                    pmap.Add(new HDuple<string>(v.Name, v.Name));
-                foreach (Variable v in proc.OutParams)
-                    pmap.Add(new HDuple<string>(v.Name, v.Name));
-
-                //config.AddProcedure(new Duple<HDuple<string>, ParamMap>(new HDuple<string>(first + proc.Name, second + proc.Name), pmap));
-
-                if (qProcs.ContainsKey(proc.Name))
-                    config.AddProcedure(new Duple<HDuple<string>, ParamMap>(new HDuple<string>(first + proc.Name, second + proc.Name), pmap));
-                else //match loops (A BIG HACK that pretends that the enclosing procedure has only one loop and the mappings are same)
+                Procedure p2Procedure = null;
+                if (prog2Procedures.ContainsKey(p1Procedure.Name))
                 {
-                    if (proc.Name.Contains("_loop_"))
+                    p2Procedure = prog2Procedures[p1Procedure.Name];
+                }
+                else if (p1Procedure.Name.Contains("_loop_"))
+                {
+                    //match loops (A BIG HACK that pretends that the enclosing procedure has only one loop and the mappings are same)
+                    var loopProc = p1Procedure.Name.Split("_loop_")[0];
+    
+                    // Check if there's exactly one corresponding procedure in p2
+                    if (p2Loops.TryGetValue(loopProc, out var loopProcs) && loopProcs.Count == 1)
                     {
-                        int indx = proc.Name.IndexOf("_loop_");
-                        string loopProc = proc.Name.Substring(0, indx);
-                        if (qLoops.ContainsKey(loopProc) &&
-                            qLoops[loopProc].Count == 1)
-                        {
-                            HashSet<string> matchQProcs = qLoops[loopProc];
-                            string qProcName = "";
-                            foreach (string s in matchQProcs) //ugly way to get the singleton string
-                                qProcName = s;
-
-                            config.AddProcedure(new Duple<HDuple<string>, ParamMap>(new HDuple<string>(first + proc.Name, second + qProcName), pmap));
-
-                        }
-
-
+                        p2Procedure = p2.Procedures.First(p => p.Name.Equals(loopProcs.First()));
                     }
+                }
+
+                if (p2Procedure != null)
+                {
+                    if (p1Procedure.InParams.Count != p2Procedure.InParams.Count ||
+                        p1Procedure.OutParams.Count != p2Procedure.OutParams.Count)
+                    {
+                        Log.Out(Log.Warning, $"Could not align input arguments for" +
+                                             $" {p1Procedure.EmitSignature()} and {p2Procedure.EmitSignature()}." +
+                                             $" Trying to align existing arguments in order.");
+                    }
+
+                    var pmap = new ParamMap();
+                    foreach (var (v1, v2) in p1Procedure.InParams.ZipShortest(p2Procedure.InParams))
+                        pmap.Add(new HDuple<string>(v1.Name, v2.Name));
+                    foreach (var (v1, v2) in p1Procedure.OutParams.ZipShortest(p2Procedure.OutParams))
+                        pmap.Add(new HDuple<string>(v1.Name, v2.Name));
+                    config.AddProcedure(new Duple<HDuple<string>, ParamMap>(
+                        new HDuple<string>(first + p1Procedure.Name, second + p1Procedure.Name), pmap));
                 }
             }
 
