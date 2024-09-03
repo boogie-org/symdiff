@@ -390,8 +390,8 @@ namespace SDiff
             //merge/rename the global variables and constants
             VariableRenamer vRenamer = null;
             if (Options.CustomHeapComparison)
-                // Do not merge globals when comparing heaps using custom predicates
-                vRenamer = new VariableRenamer(cfg.ConstMap, c2s.Map(x => x as Variable));
+                // Do not merge globals or constants when comparing heaps using custom predicates
+                vRenamer = new VariableRenamer(cfg.ConstMap, new List<Variable>());// c2s.Map(x => x as Variable));
             else if (mergeGlobals) //the default behavior where only copy of globals (v2.G) is retained in the merged program
                 vRenamer = new VariableRenamer(cfg.GlobalMap.Append(cfg.ConstMap), g2s.Append(c2s).Map(x => x as Variable));
             else //both v1.G and v2.G are present 
@@ -1045,6 +1045,23 @@ namespace SDiff
                     Log.Out(Log.Normal, "Missing procedure for " + n1.Name + " or " + n2.Name + ": skipping...");
                     continue;
                 }
+                
+                if (Options.CustomHeapComparison) {
+                    bool marked = false;
+                    foreach (var x in Options.ProceduresToCustomCompare) {
+                        // Currently, loop_blocks are not compared during custom heap comparison
+                        if (n1.Name.Contains(x.Replace('.', '$')) && !n1.Name.Contains("loop_block")) {
+                            marked = true;
+                        }
+                    }
+
+                    // If using custom heap comparison predicates, procedure must be marked for comparison in config
+                    if (!marked) {
+                        Log.Out(Log.Normal, "Procedures " + n1.Name + " and " + n2.Name + " have not been marked for comparison: skipping...");
+                        continue;
+                    }
+                }
+
                 //create uifs, grabs the readset from callgraph
                 //same uif for both versions   
                 //injects them as postcondition
@@ -1722,7 +1739,10 @@ namespace SDiff
             // Strip/Free contracts
             //////////////////////////////////////////////////////////
             // only "assume" are left, assert p --> assert true, others are removed
-             StripContracts(p1, p2); 
+            // Inlining attributes should be left in for custom heap comparison predicates 
+            if (!Options.CustomHeapComparison) {
+                StripContracts(p1, p2); 
+            }
             //RS: Make sure that every requires and ensures is free (does not touch assert)
             Util.MakeContractsFree(p1);
             Util.MakeContractsFree(p2);

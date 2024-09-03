@@ -89,10 +89,10 @@ namespace SDiff
         d1n = d1.Name,
         d2n = d2.Name;
 
+      // Discern the names of the two output sets to be compared
       List<Variable> d1OutClones = d1.OutParams.Select(x => CustomClone(x)).ToList();
       List<Variable> d2OutClones = d2.OutParams.Select(x => CustomClone(x)).ToList();
 
-      // Discern the names of the two output sets to be compared
       foreach (var x in d1OutClones) {
         x.TypedIdent.Name = x.TypedIdent.Name + "1";
       }
@@ -100,19 +100,33 @@ namespace SDiff
         x.TypedIdent.Name = x.TypedIdent.Name + "2";
       }
 
+      // Discern the names of the two input sets to be compared
+
+      List<Variable> d1InClones = d1.InParams.Select(x => CustomClone(x)).ToList();
+      List<Variable> d2InClones = d2.InParams.Select(x => CustomClone(x)).ToList();
+
+      foreach (var x in d1InClones) {
+        x.TypedIdent.Name = x.TypedIdent.Name + "1";
+      }
+      foreach (var x in d2InClones) {
+        x.TypedIdent.Name = x.TypedIdent.Name + "2";
+      }
+
+
       List<Variable>
         outs1 = FreshVariables(d1OutClones, B.Factory.MakeLocal),
         outs2 = FreshVariables(d2OutClones, B.Factory.MakeLocal),
-        ins1 = FreshVariables(d1.InParams, (x, y) => B.Factory.MakeFormal(x, y, true)),
-        ins2 = FreshVariables(d2.InParams, (x, y) => B.Factory.MakeFormal(x, y, true));
+        ins1 = FreshVariables(d1InClones, (x, y) => B.Factory.MakeFormal(x, y, true)),
+        ins2 = FreshVariables(d2InClones, (x, y) => B.Factory.MakeFormal(x, y, true));
 
       var locals = new List<Variable>();
       locals.AddRange(outs1);
       locals.AddRange(outs2);
 
-      // Change this soon to support non-identical alignments
+      // Both sets of vars included to support input heap comparisons from two different heaps
       List<Variable> unionIns = new List<Variable>();
       unionIns.AddRange(ins1);
+      unionIns.AddRange(ins2);
 
       /***** Emit function calls *****/
 
@@ -136,8 +150,6 @@ namespace SDiff
       /***** Compile procedure body ****/
 
       var body = new List<Cmd>();
-      body.Add(c1);
-      body.Add(c2);
       
       List<Ensures> outputPostConditions = new List<Ensures>();
 
@@ -158,11 +170,29 @@ namespace SDiff
       
       /***** CUSTOM HEAP COMPARISON PREDICATES *****/
 
+      var heapVarsForSize = mergedProgram.TopLevelDeclarations.OfType<GlobalVariable>().Where(
+        d => ((d.TypedIdent.Name.Contains("arrSizeHeap")) || (d.TypedIdent.Type is CtorType))
+              && !(d.TypedIdent.Name.Contains("type") || d.TypedIdent.Name.Contains("Type"))
+      );
+
+      foreach (var x in heapVarsForSize) {
+        if (!globals.Contains(x)) {
+          globals.Add(x);
+        }
+      }
+
       List<Formal> globalsToPropagate = globals.Select(x => new Formal(x.tok, x.TypedIdent, true)).ToList();
 
-      if (Options.CustomHeapComparison) {
-        Options.GenerateComparisons(globalsToPropagate, c1Outs, c2Outs, mergedProgram, mergedProgram, bl, locals);
-      }
+      // Add the pre-call assumptions about the inputs
+      Options.GenerateComparisons(globalsToPropagate, B.U.IdentifierExprSeqOfVariableSeq(ins1), B.U.IdentifierExprSeqOfVariableSeq(ins2), 
+        mergedProgram, mergedProgram, bl, locals, true);
+
+      // Add the procedure calls
+      body.Add(c1);
+      body.Add(c2);
+
+      // Add the post-call assertions about return values
+      Options.GenerateComparisons(globalsToPropagate, c1Outs, c2Outs, mergedProgram, mergedProgram, bl, locals, false);
 
       /***** END CUSTOM HEAP COMPARISON PREDICATES *****/
 
@@ -184,7 +214,7 @@ namespace SDiff
                                                                      out List<Variable> outputVarsForVFTask,
                                                                      out EqualityProcedureParameterInfo eqParamInfo)
     {
-      // If using custom heap comparison predicates, do this
+      // If using custom heap comparison predicates for this comparison, do this
       if (Options.CustomHeapComparison) {
         return CustomEqualityReduction(i1, i2, argMap, ignoreSet, mergedProgram, out outputVarsForVFTask, out eqParamInfo);
       }

@@ -992,12 +992,20 @@ namespace SDiff
                         if (Options.PreciseDifferentialInline)
                         {
                             List<Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant).ToList();
-                            ProcessCounterexamplesWOSymbolicOut(
-                                SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, [SErrors[0].Cex.Model]);
+                            try {
+                                ProcessCounterexamplesWOSymbolicOut(
+                                    SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, [SErrors[0].Cex.Model]);
+                            } catch (Exception e) {
+                                Log.Out(Log.Normal, "Error producing a counterexample.");
+                            }
                         }
                         else
                         {
-                            ProcessCounterexamples(SErrors, globals, outputVars, newProg, vtLeftProcImpl, vtRightProcImpl);
+                            try {
+                                ProcessCounterexamples(SErrors, globals, outputVars, newProg, vtLeftProcImpl, vtRightProcImpl);
+                            } catch (Exception e) {
+                                Log.Out(Log.Normal, "Error producing a counterexample.");
+                            }
                         }
                     }
                 }

@@ -105,10 +105,10 @@ namespace SDiff
 
         // Is a custom heap comparison method specified?
         public static bool CustomHeapComparison = false;
-        public static Object CustomConfig;
+        public static List<string> ProceduresToCustomCompare;
 
         // Custom comparison delegate
-        public static Func<List<Formal>, List<IdentifierExpr>, List<IdentifierExpr>, Program, Program, BigBlock, List<Variable>, bool> GenerateComparisons;
+        public static Func<List<Formal>, List<IdentifierExpr>, List<IdentifierExpr>, Program, Program, BigBlock, List<Variable>, bool, bool> GenerateComparisons;
 
         #endregion
 
