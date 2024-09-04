@@ -12,7 +12,6 @@ using SymDiff.source;
 
 using SymDiffUtils;
 using VC;
-using LoopExtractor = Microsoft.Boogie.LoopExtractor;
 using Util = SymDiffUtils.Util;
 
 //there is massive duplication here in case it turns out that the allinone approach (even with dumping at every verify) is not useful
@@ -290,7 +289,7 @@ namespace SDiff
             if (args.Length < 2) { AllInOneUsage(); return 1; }
             v1name = args[0];
             v2name = args[1];
-            p1Prefix = Path.GetFileNameWithoutExtension(v1name);;
+            p1Prefix = Path.GetFileNameWithoutExtension(v1name);
             p2Prefix = Path.GetFileNameWithoutExtension(v2name);
             if (!v1name.EndsWith(".bpl"))
             {
@@ -1549,6 +1548,91 @@ namespace SDiff
             BoogieUtils.ResolveAndTypeCheckThrow(p2, v2name, BoogieUtils.BoogieOptions);
 
             /////////////////////////////////////////////////////////////////////////////////////
+            // Try to establish mappings using structural equivalence
+            /////////////////////////////////////////////////////////////////////////////////////
+            // This is not the merged program yet, so use names without prefixes.
+            var procMap = cfg.ProcedureMap.ToProcedureDictionaryWithoutPrefix(p1Prefix + ".", p2Prefix + ".");
+            var impl1ToOrderedLocalVars = new Dictionary<Implementation, List<Variable>>();
+            var impl2ToOrderedLocalVars = new Dictionary<Implementation, List<Variable>>();
+            var guessedProcedureMapping = new Dictionary<Procedure, Procedure>();
+            var guessedGlobalsMapping   = new Dictionary<Variable, Variable>();
+            foreach (var p1ImplName in p1ImplsWithLoops)
+            {
+                if (!procMap.TryGetValue(p1ImplName, out var p2ImplName)) continue;
+                var p1Impl = p1.Implementations.First(impl => impl.Name.Equals(p1ImplName));
+                var p2Impl = p2.Implementations.First(impl => impl.Name.Equals(p2ImplName));
+                var functionMapping = new BiDictionary<string, string>(
+                    cfg.FunctionMap.ToProcedureDictionaryWithoutPrefix(p1Prefix + ".", p2Prefix + ".")); 
+                var comparer = BoogieStructuralDiffManager.GuessMappings(p1Impl, p2Impl, functionMapping);
+                var orderedLocalVars1 = new List<Variable>();
+                var orderedLocalVars2 = new List<Variable>();
+                // Try to order local variables using the mapping. This order will be passed to loop extractor
+                // to improve alignment of extracted procedure arguments.
+                foreach (var (v1, v2) in comparer.LocalVarMapping.OrderBy(p => p.Key.Name))
+                {
+                    if (v1 is not LocalVariable || v2 is not LocalVariable) continue; // LocalVarMapping might actually contain formals too
+                    orderedLocalVars1.Add(v1);
+                    orderedLocalVars2.Add(v2);
+                }
+                // There might be unmapped variables, try ordering them by name
+                p1Impl.LocVars.Except(orderedLocalVars1).OrderBy(v => v.Name).ForEach(orderedLocalVars1.Add);
+                p2Impl.LocVars.Except(orderedLocalVars2).OrderBy(v => v.Name).ForEach(orderedLocalVars2.Add);
+                impl1ToOrderedLocalVars.Add(p1Impl, orderedLocalVars1);
+                impl2ToOrderedLocalVars.Add(p2Impl, orderedLocalVars2);
+                
+                // Add procedures and globals to the global mapping
+                foreach (var (proc1, proc2) in comparer.ProcedureMapping)
+                {
+                    if (guessedProcedureMapping.TryGetValue(proc1, out var mappedProc2))
+                    {
+                        if (!mappedProc2.Name.Equals(proc2.Name))
+                        {
+                            Log.Out(Log.Warning, $"Structural comparison mapped {proc1.Name} to both\n" +
+                                                 $"    {mappedProc2.Name}\n" +
+                                                 $"  and\n" +
+                                                 $"    {proc2.Name}\n" +
+                                                 $"Please specify in the configuration the correct mapping.");
+                            // TODO: ignore equivalence results when this happens?
+                        }
+                    }
+                    else
+                    {
+                        guessedProcedureMapping.Add(proc1, proc2);
+                    }
+                }
+                foreach (var (v1, v2) in comparer.GlobalVarMapping)
+                {
+                    if (guessedGlobalsMapping.TryGetValue(v1, out var mappedV2))
+                    {
+                        if (!mappedV2.Name.Equals(v2.Name))
+                        {
+                            Log.Out(Log.Warning, $"Structural comparison mapped {v1.Name} to both\n" +
+                                                 $"    {v2.Name}\n" +
+                                                 $"  and\n" +
+                                                 $"    {v2.Name}\n" +
+                                                 $"Please specify in the configuration the correct mapping.");
+                            // TODO: ignore equivalence results when this happens?
+                        }
+                    }
+                    else
+                    {
+                        guessedGlobalsMapping.Add(v1, v2);
+                    }
+                }
+            }
+
+            var possibleMismatchedProcs = guessedProcedureMapping.Where(p => !p.Key.Name.Equals(p.Value.Name)).ToList();
+            if (possibleMismatchedProcs.Any())
+            {
+                Log.Out(Log.Warning,
+                    "Structural equivalence thinks the following procedures are the same, however they" +
+                    "do not have the same names. SymDiff's automatic configuration generation does not" +
+                    "currently support this.\n" +
+                    string.Join("\n", possibleMismatchedProcs.Select(p => "(" + p.Key.Name + ", " + p.Value.Name + ")")));
+                // TODO: this should be easy to fix in the configuration when detected, but it might be good to redo above analysis
+            }
+
+            /////////////////////////////////////////////////////////////////////////////////////
             // Loop extraction
             /////////////////////////////////////////////////////////////////////////////////////
 
@@ -1566,20 +1650,21 @@ namespace SDiff
 
                 var (_, _, p1ImplToLoopImpls) =
                     SymDiff.source.LoopExtractor.ExtractLoops(
-                        loopExtractionOptions, p1, p1.Implementations.Where(impl =>
+                        loopExtractionOptions, p1,
+                        impl1ToOrderedLocalVars,
+                        p1.Implementations.Where(impl =>
                             p1ImplsToNotExtractLoopsFrom.Contains(impl.Name)).ToHashSet());
                 var (_, _, p2ImplToLoopImpls) =
                     SymDiff.source.LoopExtractor.ExtractLoops(
-                        loopExtractionOptions, p2, p2.Implementations.Where(impl =>
+                        loopExtractionOptions, p2,
+                        impl2ToOrderedLocalVars,
+                        p2.Implementations.Where(impl =>
                             p2ImplsToNotExtractLoopsFrom.Contains(impl.Name)).ToHashSet());
 
-                var procMap = cfg.GetProcedureDictionary();
                 foreach (var (p1Impl, p1LoopImpls) in p1ImplToLoopImpls)
                 {
-                    var p1ImplNamePrefixed = $"{p1Prefix}.{p1Impl.Name}";
-                    if (!procMap.TryGetValue(p1ImplNamePrefixed, out var p2ImplNamePrefixed)) continue;
-                    var p2Name = p2ImplNamePrefixed.Replace(p2Prefix + ".", "");
-                    var p2Impl = p2.Implementations.First(impl => impl.Name.Equals(p2Name));
+                    if (!procMap.TryGetValue(p1Impl.Name, out var p2ImplName)) continue;
+                    var p2Impl = p2.Implementations.First(impl => impl.Name.Equals(p2ImplName));
 
                     if (!p2ImplToLoopImpls.TryGetValue(p2Impl, out var p2LoopImpls) ||
                         p1LoopImpls.Count != p2LoopImpls.Count ||
@@ -1588,7 +1673,7 @@ namespace SDiff
                             p.First.OutParams.Count == p.Second.OutParams.Count))
                     {
                         Log.Out(Log.Error, $"Could not align the extracted loops in procedures " +
-                                           $"{p1ImplNamePrefixed} and {p2ImplNamePrefixed}");
+                                           $"{p1Impl.Name} and {p2ImplName}");
                     }
                     else
                     {
@@ -1914,24 +1999,27 @@ namespace SDiff
             BoogieUtils.ResolveAndTypeCheckThrow(p2, v2name, BoogieUtils.BoogieOptions);
             var outlinedBlockImplPairs = new Dictionary<Implementation, Implementation>();
             var structurallyEquivalentImpls = new Dictionary<Implementation, Implementation>();
-            var procMap = cfg.GetProcedureDictionary();
+            var procMap = cfg.ProcedureMap.ToProcedureDictionaryWithoutPrefix(p1Prefix + ".", p2Prefix + ".");
             foreach (var p1Impl in p1ImplsToCheck)
             {
-                var p1ImplNamePrefixed = $"{p1Prefix}.{p1Impl.Name}";
-                if (!procMap.TryGetValue(p1ImplNamePrefixed, out var p2NamePrefixed)) continue;
-                var p2Name = p2NamePrefixed.Replace(p2Prefix + ".", "");
-                var p2Impl = p2.Implementations.First(impl => impl.Name.Equals(p2Name));
-                var functionMapping = new ReadOnlyDictionary<string, string>(
-                    cfg.FunctionMap.Select(p => (p.fst.fst, p.fst.snd)).ToDictionary());
+                if (!procMap.TryGetValue(p1Impl.Name, out var p2ImplName)) continue;
+                var p2Impl = p2.Implementations.FirstOrDefault(impl => impl.Name.Equals(p2ImplName));
+                if (p2Impl == null)
+                {
+                    throw new VerificationException($"Incorrect configuration: could not find {p2ImplName} in {v2name}");
+                }
+                var functionMapping = new BiDictionary<string, string>(
+                    cfg.FunctionMap.ToProcedureDictionaryWithoutPrefix(p1Prefix + ".", p2Prefix + "."));
                 // TODO: pass globalMapping and procedureMapping too.
-                if (p1Impl.EqualsStructural(p2Impl, functionMapping, out _, out _))
+                if (p1Impl.EqualsStructural(p2Impl, functionMapping,
+                        out var procMapping, out var globalsMapping, out var localsMapping))
                 {
                     structurallyEquivalentImpls.Add(p1Impl, p2Impl);
                 }
                 else if (outlineableP1Impls.Contains(p1Impl) &&
                          p1Impl.CanComputeDiff(p2Impl, out var blockMapping))
                 {
-                    var differingBlocks = p1Impl.GetBlocksThatDiffer(p2Impl, blockMapping, functionMapping);
+                    var differingBlocks = BoogieStructuralDiffManager.GetBlocksThatDiffer(blockMapping, functionMapping);
                     Log.Out(Log.Normal, $"{p1Impl.Name} and {p2Impl.Name} are similar, outlining differing blocks: " +
                                         string.Join(",",differingBlocks));
             

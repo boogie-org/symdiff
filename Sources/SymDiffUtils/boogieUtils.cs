@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace SymDiffUtils
 {
-    public class BoogieUtils
+    public static class BoogieUtils
     {
         public static CommandLineOptions BoogieOptions;
         public static bool InitializeBoogie(string clo)
@@ -79,6 +79,10 @@ namespace SymDiffUtils
             return false;
         }
 
+        public static string EmitSignature(this Procedure p)
+        {
+            return p.Name + "(" + string.Join(",", p.InParams) + "):(" + string.Join(",", p.OutParams) + ")";
+        }
 
         /// <summary>
         /// TODO: Copied from Rootcause, refactor 

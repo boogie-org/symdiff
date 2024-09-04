@@ -147,6 +147,7 @@ namespace SDiff
         private ProcedureMap funMap;
         private Dictionary<string, Function> decls;
         private Dictionary<string, string> subs;
+        private HashSet<GlobalVariable> globalsSeen;
         private Dictionary<string, string> Subs
         {
             get
@@ -162,10 +163,21 @@ namespace SDiff
             subs = null;
             this.funMap = funMap;
             decls = new Dictionary<string, Function>();
+            globalsSeen = new HashSet<GlobalVariable>();
             foreach (var fun in funs)
                 decls.Add(fun.Name, fun);
         }
 
+        public override GlobalVariable VisitGlobalVariable(GlobalVariable var)
+        {
+            if (globalsSeen.Add(var)) {
+                if (var.TypedIdent.WhereExpr != null) {
+                    var.TypedIdent.WhereExpr = VisitExpr(var.TypedIdent.WhereExpr);
+                }
+            }
+
+            return base.VisitGlobalVariable(var);
+        }
         public override Function VisitFunction(Function node)
         {
             var sub = Subs.Get(node.Name);
@@ -471,6 +483,9 @@ namespace SDiff
             {
                 Visited.Add(node);
                 node.Rename(AppendPrefix(node.Name));
+                if (node.TypedIdent.WhereExpr != null) {
+                    node.TypedIdent.WhereExpr = VisitExpr(node.TypedIdent.WhereExpr);
+                }
             }
             return base.VisitGlobalVariable(node);
         }
@@ -624,11 +639,6 @@ public class FixedVisitor : StandardVisitor
 
     public override TypedIdent VisitTypedIdent(TypedIdent node)
     {
-        // dropping the where clauses for now - hemr
-        if (node.WhereExpr != null)
-        {
-            node.WhereExpr = null;
-        }
         node.Type = VisitType(node.Type);
         return node;
     }
