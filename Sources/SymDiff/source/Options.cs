@@ -101,6 +101,17 @@ namespace SDiff
 
         #endregion 
 
+        #region Supporting custom heap comparison predicates
+
+        // Is a custom heap comparison method specified?
+        public static bool CustomHeapComparison = false;
+        public static List<string> ProceduresToCustomCompare;
+
+        // Custom comparison delegate
+        public static Func<List<Formal>, List<IdentifierExpr>, List<IdentifierExpr>, Program, Program, BigBlock, List<Variable>, bool, bool> GenerateComparisons;
+
+        #endregion
+
         //flag and settings for generating C traces
         public const bool GenerateCTrace = true;
 

@@ -388,7 +388,10 @@ namespace SDiff
 
             //merge/rename the global variables and constants
             VariableRenamer vRenamer = null;
-            if (mergeGlobals) //the default behavior where only copy of globals (v2.G) is retained in the merged program
+            if (Options.CustomHeapComparison)
+                // Do not merge globals or constants when comparing heaps using custom predicates
+                vRenamer = new VariableRenamer(cfg.ConstMap, new List<Variable>());// c2s.Map(x => x as Variable));
+            else if (mergeGlobals) //the default behavior where only copy of globals (v2.G) is retained in the merged program
                 vRenamer = new VariableRenamer(cfg.GlobalMap.Append(cfg.ConstMap), g2s.Append(c2s).Map(x => x as Variable));
             else //both v1.G and v2.G are present 
                 vRenamer = new VariableRenamer(cfg.ConstMap, c2s.Map(x => x as Variable));
@@ -415,14 +418,21 @@ namespace SDiff
             }
             mergedProgram.AddTopLevelDeclarations(newFuncs);
             List<Declaration> newFunctionList = mergedProgram.TopLevelDeclarations.Where(x => x is Function).ToList();
-            var fRenamer = new FunctionRenamer(cfg.FunctionMap, origFunList);
-            mergedProgram = fRenamer.VisitProgram(mergedProgram);
+
+            // Prevent custom heap accessor functions from getting renamed and removed as duplicates
+            if (!Options.CustomHeapComparison) {
+                var fRenamer = new FunctionRenamer(cfg.FunctionMap, origFunList);
+                mergedProgram = fRenamer.VisitProgram(mergedProgram);
+            }
+
             mergedProgram.TopLevelDeclarations = SDiff.Boogie.Process.RemoveDuplicateDeclarations(mergedProgram.TopLevelDeclarations.ToList());
             var mergedGlobals = mergedProgram.TopLevelDeclarations.Where(x => x is GlobalVariable);
             //moved this out of DifferntialInline
-            RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Where(x =>
+            if (!Options.CustomHeapComparison) {
+                RenameModelConstsInProcImpl(mergedProgram.TopLevelDeclarations.Where(x =>
                     x is Implementation && x.ToString().StartsWith(p1Prefix)).ToList(),
                 mergedProgram.TopLevelDeclarations.Where(x => x is Constant).ToList(), p1Prefix, p2Prefix);
+            }
             //--------------- renaming ends ----------------------------------
 
             Util.DumpBplAST(mergedProgram, p1Prefix + p2Prefix + "_temp.bpl");
@@ -1034,6 +1044,23 @@ namespace SDiff
                     Log.Out(Log.Normal, "Missing procedure for " + n1.Name + " or " + n2.Name + ": skipping...");
                     continue;
                 }
+                
+                if (Options.CustomHeapComparison) {
+                    bool marked = false;
+                    foreach (var x in Options.ProceduresToCustomCompare) {
+                        // Currently, blocks are not compared during custom heap comparison
+                        if (n1.Name.Contains(x.Replace('.', '$')) && !n1.Name.Contains("loop_block") && !n1.Name.Contains("outlined_block")) {
+                            marked = true;
+                        }
+                    }
+
+                    // If using custom heap comparison predicates, procedure must be marked for comparison in config
+                    if (!marked) {
+                        Log.Out(Log.Normal, "Procedures " + n1.Name + " and " + n2.Name + " have not been marked for comparison: skipping...");
+                        continue;
+                    }
+                }
+
                 //create uifs, grabs the readset from callgraph
                 //same uif for both versions   
                 //injects them as postcondition
@@ -1124,7 +1151,7 @@ namespace SDiff
 
                 // Creates EQ_f_f' function
                 var eqp =
-                  Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores,
+                  Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores, mergedProgram,
                       out var outputVars, out var eqProcParamInfo);
 
                 //RS: adding OK1=true, OK2=true, and OK1=>OK2
@@ -1797,7 +1824,12 @@ namespace SDiff
             // Strip/Free contracts
             //////////////////////////////////////////////////////////
             // only "assume" are left, assert p --> assert true, others are removed
-             StripContracts(p1, p2); 
+            // Inlining attributes should be left in for custom heap comparison predicates 
+            if (!Options.CustomHeapComparison) {
+                StripContracts(p1, p2, false); 
+            } else {
+                StripContracts(p1, p2, true); 
+            }
             //RS: Make sure that every requires and ensures is free (does not touch assert)
             Util.MakeContractsFree(p1);
             Util.MakeContractsFree(p2);
@@ -1829,10 +1861,17 @@ namespace SDiff
                 .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
                 .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
             
-            var globalsToAssumeModifiedP2 = p1.GlobalVariables
-                .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
-                .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
-            
+            var globalsToAssumeModifiedP2 = new List<IdentifierExpr>();
+            if (Options.CustomHeapComparison) {
+                globalsToAssumeModifiedP2 = p2.GlobalVariables
+                    .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
+                    .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
+            } else {
+                globalsToAssumeModifiedP2 = p1.GlobalVariables
+                    .Where(v => Options.HeapStringIdentifiers.Any(id => v.Name.Contains(id)))
+                    .Select(v => new IdentifierExpr(Token.NoToken, v)).ToList();
+            }
+
             foreach (var proc in p1.Procedures)
             {
                 var impl = p1.Implementations.FirstOrDefault(impl => impl.Name.Equals(proc.Name));
@@ -2029,12 +2068,12 @@ namespace SDiff
             return (outlinedBlockImplPairs, structurallyEquivalentImpls);
         }
 
-        private static void StripContracts(Program p1, Program p2)
+        private static void StripContracts(Program p1, Program p2, bool stripAttributes = true)
         {
             if (Options.StripContracts)
             {
                 //TODO: asserts from inlined body are not visited in the Visitor (so they still stay in /nonmodular)
-                var contractStripper = new StripContractsAndAttributes(Options.freeContracts);
+                var contractStripper = new StripContractsAndAttributes(Options.freeContracts, stripAttributes);
                 contractStripper.asserts = Options.checkAssertsOnly;
                 contractStripper.VisitProgram(p1);
                 contractStripper.VisitProgram(p2);
