@@ -46,9 +46,15 @@ namespace SDiff
     {
         public bool asserts = false;
         bool makeContractsFree = false; 
+        public bool stripAttributes = true;
         public StripContractsAndAttributes(bool freeContractsFlag)
         {
             makeContractsFree =  freeContractsFlag;
+        }
+        public StripContractsAndAttributes(bool freeContractsFlag, bool attributes)
+        {
+            makeContractsFree =  freeContractsFlag;
+            stripAttributes = attributes;
         }
         public override Procedure VisitProcedure(Procedure node)
         {
@@ -69,7 +75,9 @@ namespace SDiff
                     TempRequireSeq.Add(new Requires(true, e.Condition));
                 }
                 node.Requires = TempRequireSeq;
-                node.Attributes = null;
+                if (stripAttributes) {
+                    node.Attributes = null;
+                }
                 return base.VisitProcedure(node);
             }
                 //changing this //shuvendu
@@ -104,7 +112,9 @@ namespace SDiff
                 {
                     node.Requires = new List<Requires>();
                     node.Ensures = new List<Ensures>();
-                    node.Attributes = null;
+                    if (stripAttributes) {
+                        node.Attributes = null;
+                    }
                 }
                 return base.VisitProcedure(node);
             

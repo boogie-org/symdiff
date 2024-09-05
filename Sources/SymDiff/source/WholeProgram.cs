@@ -1048,8 +1048,8 @@ namespace SDiff
                 if (Options.CustomHeapComparison) {
                     bool marked = false;
                     foreach (var x in Options.ProceduresToCustomCompare) {
-                        // Currently, loop_blocks are not compared during custom heap comparison
-                        if (n1.Name.Contains(x.Replace('.', '$')) && !n1.Name.Contains("loop_block")) {
+                        // Currently, blocks are not compared during custom heap comparison
+                        if (n1.Name.Contains(x.Replace('.', '$')) && !n1.Name.Contains("loop_block") && !n1.Name.Contains("outlined_block")) {
                             marked = true;
                         }
                     }
@@ -1826,7 +1826,9 @@ namespace SDiff
             // only "assume" are left, assert p --> assert true, others are removed
             // Inlining attributes should be left in for custom heap comparison predicates 
             if (!Options.CustomHeapComparison) {
-                StripContracts(p1, p2); 
+                StripContracts(p1, p2, false); 
+            } else {
+                StripContracts(p1, p2, true); 
             }
             //RS: Make sure that every requires and ensures is free (does not touch assert)
             Util.MakeContractsFree(p1);
@@ -2066,12 +2068,12 @@ namespace SDiff
             return (outlinedBlockImplPairs, structurallyEquivalentImpls);
         }
 
-        private static void StripContracts(Program p1, Program p2)
+        private static void StripContracts(Program p1, Program p2, bool stripAttributes = true)
         {
             if (Options.StripContracts)
             {
                 //TODO: asserts from inlined body are not visited in the Visitor (so they still stay in /nonmodular)
-                var contractStripper = new StripContractsAndAttributes(Options.freeContracts);
+                var contractStripper = new StripContractsAndAttributes(Options.freeContracts, stripAttributes);
                 contractStripper.asserts = Options.checkAssertsOnly;
                 contractStripper.VisitProgram(p1);
                 contractStripper.VisitProgram(p2);

@@ -996,7 +996,7 @@ namespace SDiff
                                 ProcessCounterexamplesWOSymbolicOut(
                                     SErrors, globals, vt.Eq.LocVars, vtLeftProcImpl, vtRightProcImpl, consts, [SErrors[0].Cex.Model]);
                             } catch (Exception e) {
-                                Log.Out(Log.Normal, "Error producing a counterexample.");
+                                Log.Out(Log.Error, "Error producing a counterexample.");
                             }
                         }
                         else
@@ -1004,7 +1004,7 @@ namespace SDiff
                             try {
                                 ProcessCounterexamples(SErrors, globals, outputVars, newProg, vtLeftProcImpl, vtRightProcImpl);
                             } catch (Exception e) {
-                                Log.Out(Log.Normal, "Error producing a counterexample.");
+                                Log.Out(Log.Error, "Error producing a counterexample.");
                             }
                         }
                     }
