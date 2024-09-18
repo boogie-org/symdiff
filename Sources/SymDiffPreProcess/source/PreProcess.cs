@@ -63,19 +63,19 @@ namespace SymdiffPreprocess
                     }
                 }
 
-                
+
             }
             finally
             {
                 persistentProgram = ParseAndTypeCheckProgram(outFileName);
             }
 
-            
-            
+
+
 
             var pass = new SmackPreprocessorTransform(relativeDir);
             SmackPreprocessorTransform.writeAllFiles = true;
-            persistentProgram = pass.run(persistentProgram);            
+            persistentProgram = pass.run(persistentProgram);
             persistentProgram.writeToFile(outFileName);
 
             return 0;
