@@ -256,15 +256,15 @@ public static class BlockOutliner
             block.Label,Substituter.Apply(subst, block.Cmds),
             new GotoCmd(Token.NoToken, [finalBlock]));
 
-        var initBlock = new Block
+        var entryBlock = new Block
         (Token.NoToken,
-         $"{containingImpl.Name}_block_{block}_init",
+         $"{containingImpl.Name}_block_{block}_entry",
          initAssigns,
          new GotoCmd(Token.NoToken, [newBlock]));
 
         var blockImpl = new Implementation(Token.NoToken, blockProc.Name, [],
             newImplIns, newImplOuts, newImplLocals.OrderBy(v => v.Name).ToList(),
-            [ initBlock, newBlock, finalBlock ])
+            [ entryBlock, newBlock, finalBlock ])
         {
             Proc = blockProc
         };
