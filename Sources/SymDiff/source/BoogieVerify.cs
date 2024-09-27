@@ -1,18 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Boogie;
-using Microsoft.BaseTypes; //For BigNum
 using SDiff.Boogie;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Microsoft.Boogie.VCExprAST;
 using SymDiffUtils;
 using VC;
 using Util = SymDiffUtils.Util;
-using System.Security.AccessControl;
 
 namespace SDiff
 {
