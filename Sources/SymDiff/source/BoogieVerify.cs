@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Boogie;
-using Microsoft.BaseTypes; //For BigNum
 using SDiff.Boogie;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Microsoft.Boogie.VCExprAST;
 using SymDiffUtils;
 using VC;
 using Util = SymDiffUtils.Util;
@@ -179,6 +176,21 @@ namespace SDiff
             vic.Visit(prog);
 
 
+            // JATIN_NOTE: This code is a hack to fix a boogie AST bug. The code dumps the program to a file,
+            // and reparses the program. This is a temporary fix until the bug is fixed in Boogie.
+            // The bug is introduced in the method call BuildProgramDictionary(newProg.TopLevelDeclarations.ToList())
+            // by RunVerificationTask (the preceding method).
+            // I suspectBuildProgramDictionary changes the TopLevelDeclarations, even though it only reads them!
+            // There is a weird boogie behavior where reading TopLevelDeclarations changes the AST.
+            // This is a hack to undo those changes.
+            var engine = new ExecutionEngine(BoogieUtils.BoogieOptions, new VerificationResultCache(),
+                    CustomStackSizePoolTaskScheduler.Create(16 * 1024 * 1024, 1));
+            var tmpFileName = "bug_resolver.bpl";
+            Util.DumpBplAST(prog, tmpFileName);
+            prog = BoogieUtils.ParseProgram(tmpFileName);
+            Microsoft.Boogie.CivlTypeChecker typeChecker;
+            engine.ResolveAndTypecheck(prog, tmpFileName, out typeChecker);
+
             cex = null;
 
             if (impl == null)
@@ -207,8 +219,7 @@ namespace SDiff
             {
                 BoogieUtils.BoogieOptions.ProcedureInlining = CoreOptions.Inlining.Spec;
             }
-            var engine = new ExecutionEngine(BoogieUtils.BoogieOptions, new VerificationResultCache(),
-                CustomStackSizePoolTaskScheduler.Create(16 * 1024 * 1024, 1));
+
             engine.EliminateDeadVariables(prog);
             engine.CoalesceBlocks(prog);
             engine.Inline(prog);
@@ -374,7 +385,7 @@ namespace SDiff
                     extractor.VisitTrace(trace);
                     //Log.Out(Log.CTrace, CTrace.Make(extractor.metaTrace));
                     var cTrace = CTrace.Make(extractor.metaTrace, null, null, "", "");
-                    //var cTrace = "";    
+                    //var cTrace = "";
                     if (cTrace.Trim() != "")
                     {
                         var fname = impl.Name + "_cex_" + (i + 1) + "_out.c";
@@ -409,7 +420,7 @@ namespace SDiff
                     SDiff.SymEx.CexDumper.PrintSymbolicTrace(sTrace);
 
                 //printing the symbolic stores at exit
-                //still in SSA form  
+                //still in SSA form
                 Log.Out(Log.Normal, "Grabbing final execution values");
                 var lastStore = sTrace.LastSCmd().Gammas.Last();
                 var firstCons = sTrace.FirstSCmd().Cons;
@@ -520,7 +531,7 @@ namespace SDiff
 
             ProcessCounterexamplesWOSymbolicOut(errors, globals, eqLocVars, vtLeftProcImpl, vtRightProcImpl, consts, errModelList, v1Name, v2Name);
         }
-        public static void ProcessCounterexamplesWOSymbolicOut(SDiffCounterexamples errors, List<Variable> globals, List<Variable> eqLocVars, 
+        public static void ProcessCounterexamplesWOSymbolicOut(SDiffCounterexamples errors, List<Variable> globals, List<Variable> eqLocVars,
             Implementation vtLeftProcImpl, Implementation vtRightProcImpl, List<Declaration> consts, List<Model> errModelList,
             string v1Name, string v2Name)
         {
@@ -653,7 +664,7 @@ namespace SDiff
                 //var keys = currentModel.identifierToPartition.Keys;
                 var keys = currentModel.Functions.Where(f => f.Arity == 0).Select(f => f.GetConstant());
 
-        
+
             }
 
             Expr disjunctionDiffCond = Expr.False;
@@ -885,7 +896,7 @@ namespace SDiff
                 Log.LogEmit(Log.Normal, prog.Emit);
             }
 
-            // To print the EQ files in 
+            // To print the EQ files in
             Util.DumpBplAST(prog, vt.Eq.Name + "_out.bpl");
             //RS: Uncomment this
 
