@@ -54,7 +54,7 @@ public static class LoopExtractor {
           fullMap[impl.Name] = null;
           hasIrreducibleLoops.Add(impl);
 
-          if (options.LoopUnrollCount == -1)
+          if (options.ExtractLoopsUnrollIrreducible)
           {
             // statically unroll loops in this procedure
 
@@ -67,7 +67,7 @@ public static class LoopExtractor {
 
             // unroll
             Block start = impl.Blocks[0];
-            impl.Blocks = LoopUnroll.UnrollLoops(start, options.LoopUnrollCount, false);
+            impl.Blocks = LoopUnroll.UnrollLoops(start, options.RecursionBound, false);
 
             // Now construct the "map back" information
             // Resulting block label -> original block
@@ -147,14 +147,14 @@ public static class LoopExtractor {
     Dictionary<Block, AssignCmd> loopHeaderToAssignCmd = new Dictionary<Block, AssignCmd>();
     Dictionary<Block, List<Variable>> loopHeaderToLoopProcLocalVars = new Dictionary<Block, List<Variable>>();
     List<Implementation> loopImplsForThisImpl = new List<Implementation>();
-
+    
     // Create a 1-unrolled implementation and apply live-variable analysis.
     // Unrolling is needed for ComputeLiveVariables to work.
     var unrolledBlocks = LoopUnroll.UnrollLoops(impl.Blocks[0], 1, false);
     var unrolledImpl = new Implementation(Token.NoToken, impl.Name + "unrolled", impl.TypeParameters,
       impl.InParams, impl.OutParams, impl.LocVars, unrolledBlocks);
     new LiveVariableAnalysis(options).ComputeLiveVariables(unrolledImpl, globals);
-
+    
     foreach (Block /*!*/ header in g.Headers)
     {
       Contract.Assert(header != null);
@@ -235,7 +235,7 @@ public static class LoopExtractor {
       // Pass only live variables as argument to the extracted procedure.
       var liveVarsBeforeHeader =
         unrolledBlocks.FirstOrDefault(blk => blk.Label.Equals(header.Label + "#1"))?.liveVarsBefore.ToList() ?? footprint.ToList();
-
+      
       foreach (Variable v in impl.OutParams.OrderBy(variable => variable.Name))
       {
         Contract.Assert(v != null);
@@ -364,7 +364,7 @@ public static class LoopExtractor {
             continue;
           }
 
-          Block newBlock = new Block(Token.NoToken);
+          Block newBlock = new Block();
           newBlock.Label = block.Label;
           if (headRecursion && block == header)
           {
@@ -383,7 +383,7 @@ public static class LoopExtractor {
           blockMap[block] = newBlock;
           if (newBlocksCreated.ContainsKey(block))
           {
-            Block newBlock2 = new Block(Token.NoToken);
+            Block newBlock2 = new Block();
             newBlock2.Label = newBlocksCreated[block].Label;
             newBlock2.Cmds = Substituter.Apply(subst, newBlocksCreated[block].Cmds);
             blockMap[newBlocksCreated[block]] = newBlock2;
@@ -402,7 +402,7 @@ public static class LoopExtractor {
               if (g.Nodes.Contains(bl) && //newly created blocks are not present in NaturalLoop(header, xx, g)
                   !loopNodes.Contains(bl))
               {
-                Block auxNewBlock = new Block(Token.NoToken);
+                Block auxNewBlock = new Block();
                 auxNewBlock.Label = bl.Label;
                 //these blocks may have read/write locals that are not present in naturalLoops
                 //we need to capture these variables

@@ -191,6 +191,7 @@ namespace SDiff
 
             List<Counterexample> errors;
             VerificationResult sdoutcome = VerificationResult.Unknown;
+            List<VerificationRunResult> vcResults;
             VcOutcome outcome;
 
             //Log.Out(Log.Verifier, "Saving implementation before Boogie preprocessing");
@@ -221,9 +222,8 @@ namespace SDiff
             try
             {
                 var start = DateTime.Now;
-                var collector = new VerificationResultCollector(BoogieUtils.BoogieOptions);
-                outcome = vcgen.VerifyImplementation(new ImplementationRun(impl, Console.Out), collector, CancellationToken.None).Result;
-                errors = collector.examples.ToList();
+                (outcome, errors, vcResults) =
+                    vcgen.VerifyImplementation2(new ImplementationRun(impl, Console.Out), CancellationToken.None).Result;
                 var end = DateTime.Now;
 
                 TimeSpan elapsed = end - start;

@@ -29,7 +29,7 @@ namespace Rootcause
 
         #region Utilities for calling the verifier
         public static void InitializeVCGen(Program prog)
-        {
+        { 
             //create VC.VerificationConditionGenerator/VC.proverInterface
             var checkerPool = new CheckerPool(BoogieUtils.BoogieOptions);
             VC.VerificationConditionGenerator = new VerificationConditionGenerator(prog, checkerPool);
@@ -77,7 +77,7 @@ namespace Rootcause
             //Hashtable/*TransferCmd->ReturnCmd*/ gotoCmdOrigins = VC.VerificationConditionGenerator.PassifyImpl(impl, out mvInfo);
 
             var exprGen = VC.proverInterface.Context.ExprGen;
-            //VCExpr controlFlowVariableExpr = null;
+            //VCExpr controlFlowVariableExpr = null; 
             VCExpr controlFlowVariableExpr = /*BoogieUtils.BoogieOptions.UseLabels ? null :*/ VC.exprGen.Integer(BigNum.ZERO);
 
 
@@ -88,14 +88,14 @@ namespace Rootcause
             VCExpr eqExpr = VC.exprGen.Eq(controlFlowFunctionAppl, VC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
             vc = VC.exprGen.Implies(eqExpr, vc);
 
-            var split = new ManualSplit(BoogieUtils.BoogieOptions, () => impl.Blocks, gotoCmdOrigins,
+            var split = new ManualSplit(BoogieUtils.BoogieOptions, impl.Blocks, gotoCmdOrigins,
                 VC.VerificationConditionGenerator, new ImplementationRun(impl, Console.Out), Token.NoToken);
             VC.handler = new VerificationConditionGenerator.ErrorReporter(
                 BoogieUtils.BoogieOptions, gotoCmdOrigins, absyIds, impl.Blocks, new Dictionary<Cmd, List<object>>(),
                 VC.collector, mvInfo, VC.proverInterface.Context, prog, split);
             return vc;
         }
-        #endregion
+        #endregion 
 
     }
 }

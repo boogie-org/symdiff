@@ -15,7 +15,7 @@ namespace SymdiffPreprocess
         private string relativeDir;
 
         public SmackPreprocessorTransform(string relativeDir)
-        {
+        {            
             this.relativeDir = relativeDir;
         }
         protected override Program runPass(Program inp)
@@ -53,7 +53,7 @@ namespace SymdiffPreprocess
             cmdSeq.AddRange(newSeq);
             return base.VisitCmdSeq(cmdSeq);
         }
-    }
+    }    
 
     class SourceInfoRewriter : FixedVisitor
     {
@@ -83,7 +83,7 @@ namespace SymdiffPreprocess
             cmdSeq.AddRange(newSeq);
             return base.VisitCmdSeq(cmdSeq);
         }
-
+        
         private AssertCmd makeHavocStyleSourceInfo(IList<object> list)
         {
             var fn = new List<object>();
@@ -139,7 +139,7 @@ namespace SymdiffPreprocess
         public override Implementation VisitImplementation(Implementation node)
         {
             var blocks = node.Blocks;
-            var newBlocks = new List<Block>();
+            var newBlocks = new List<Block>(); 
 
             foreach(var b in blocks)
             {
@@ -165,7 +165,7 @@ namespace SymdiffPreprocess
             var splitBlocks = new List<Block>();
             splitBlocks.Add(b); //b is the first block in this set
 
-            bool firstSourceInfoAssert = false;
+            bool firstSourceInfoAssert = false; 
             foreach(var cmd in cmds)
             {
                 if (!Util.IsSourceInfoAssertOrAssumeCmd(cmd))
@@ -174,14 +174,14 @@ namespace SymdiffPreprocess
                     continue;
                 }
                 //dont split the block before the first sourceline assert cmd
-                if (!firstSourceInfoAssert)
+                if (!firstSourceInfoAssert) 
                 {
                     currBlock.Cmds.Add(cmd);
                     firstSourceInfoAssert = true;
                     continue;
                 }
                 //start a new block when you see an Assert Cmd with sourceline
-                nxtBlock = new Block(Token.NoToken);
+                nxtBlock = new Block();
                 nxtBlock.Cmds = new List<Cmd>() { cmd };
                 nxtBlock.Label = b.Label + "_splitSourceLine_" + splitBlocks.Count;
                 currBlock.TransferCmd = new GotoCmd(Token.NoToken, new List<Block>() { nxtBlock });
@@ -204,7 +204,7 @@ namespace SymdiffPreprocess
             foreach (Cmd cmd in node.cmds)
             {
                 if (cmd is AssignCmd)
-                {
+                {                    
                     var assign = cmd as AssignCmd;
                     List<AssignLhs> newLhs = new List<AssignLhs>();
                     List<Expr> newRhs = new List<Expr>();
@@ -228,12 +228,12 @@ namespace SymdiffPreprocess
                             newLhs.Add(assign.Lhss[i]);
                             newRhs.Add(assign.Rhss[i]);
                         }
-
+                        
                     }
                     assign.Rhss = newRhs;
                     assign.Lhss = newLhs;
                 }
-
+                
             }
             return base.VisitBlock(node);
         }
@@ -263,7 +263,7 @@ namespace SymdiffPreprocess
     }
 
     /// <summary>
-    /// Removing quantified specs of certain procedures that lead to variable capture while
+    /// Removing quantified specs of certain procedures that lead to variable capture while 
     /// inlining (e.g. alloc has a spec with (b ==> foral a. ...), where a can conflict wiht a local/parameter
     /// </summary>
     class PruneQuantifiedSpecsOfSelectProcedures : FixedVisitor
@@ -279,4 +279,4 @@ namespace SymdiffPreprocess
 
     }
 
-}
+}  
