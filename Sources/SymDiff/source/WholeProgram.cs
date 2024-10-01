@@ -636,9 +636,8 @@ namespace SDiff
                 {
                     List<Counterexample> errors;
                     List<VerificationRunResult> vcResults;
-                    var collector = new VerificationResultCollector(BoogieUtils.BoogieOptions);
-                    outcome =
-                        vcgen.VerifyImplementation(new ImplementationRun(n, Console.Out), collector,CancellationToken.None).Result;
+                    (outcome, errors, vcResults) =
+                        vcgen.VerifyImplementation2(new ImplementationRun(n, Console.Out), CancellationToken.None).Result;
                 }
                 catch (Exception e)
                 {

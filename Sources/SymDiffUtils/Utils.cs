@@ -195,7 +195,7 @@ namespace SymDiffUtils
                 nl.Add(v);
             return nl;
         }
-
+        
         /// <summary>
         /// Zips the two lists, but the list with the fewer items decides the
         /// length of the new list (like the `zip` in Python).
@@ -813,7 +813,7 @@ namespace SymDiffUtils
         public static IEnumerable<string> FindChangedProcsWithinDistance(Program prog, int distance)
         {
             Graph<Procedure> cg = CallGraphHelper.ComputeCallGraph(prog);
-            var origChangedProcs =
+            var origChangedProcs = 
                 prog.TopLevelDeclarations.OfType<Procedure>()
                 .Where(x => x != null && QKeyValue.FindBoolAttribute(x.Attributes, "syntacticChangedProc"));
 
@@ -914,7 +914,7 @@ namespace SymDiffUtils
                 else
                     prefix = v2Name;
 
-                //RS: weird behaviour due to $$ in filename
+                //RS: weird behaviour due to $$ in filename 
                 string hack = "";
                 if (file.Contains("$$"))
                     hack = file.Replace("$$", ":\\");
@@ -956,7 +956,7 @@ namespace SymDiffUtils
                                 if ((Util.IsModelConst(currConst)
                                     ) && (currConst.Name.StartsWith(prefix + ".")))
                                 {
-                                    if (Int16.Parse(Util.GetSourceLineAttr(currConst)) == i) //fixme: will crash if the sourceLine attribute does not have a legal line
+                                    if (Int16.Parse(Util.GetSourceLineAttr(currConst)) == i) //fixme: will crash if the sourceLine attribute does not have a legal line 
                                     {
                                         Model.Func valueIsFunction = null;
                                         if (errModel.HasFunc(v2Name + ".value_is"))
@@ -974,7 +974,7 @@ namespace SymDiffUtils
                                             partValue = ll.Args[1];
                                         String realVar = Util.GetModelConstExprAttr(currConst);  //currConst.Attributes.Params[0].ToString();
                                         if (!visitedExprs.Contains(realVar))
-                                        { //avoid printing the same
+                                        { //avoid printing the same 
                                             if (k > 0) cTraceModelBuilder.Append(", ");
                                             if (k == 0) cTraceModelBuilder.Append("[");
                                             cTraceModelBuilder.Append(realVar + " = " + partValue.ToString());
@@ -1071,18 +1071,18 @@ namespace SymDiffUtils
             ModelViewInfo mvInfo;
             var /*TransferCmd->ReturnCmd*/ gotoCmdOrigins =
                 SymDiffVC.vcgen.PassifyImpl(new ImplementationRun(impl, Console.Out), out mvInfo);
-
+        
             var exprGen = SymDiffVC.proverInterface.Context.ExprGen;
-            //VCExpr controlFlowVariableExpr = null;
+            //VCExpr controlFlowVariableExpr = null; 
             VCExpr controlFlowVariableExpr = /*BoogieUtils.BoogieOptions.UseLabels ? null :*/ SymDiffVC.exprGen.Integer(BigNum.ZERO);
-
-
+        
+        
             var absyIds = new ControlFlowIdMap<Absy>();
             var vc = SymDiffVC.vcgen.GenerateVC(impl, controlFlowVariableExpr, absyIds, SymDiffVC.proverInterface.Context);
             VCExpr controlFlowFunctionAppl = SymDiffVC.exprGen.ControlFlowFunctionApplication(SymDiffVC.exprGen.Integer(BigNum.ZERO), SymDiffVC.exprGen.Integer(BigNum.ZERO));
             VCExpr eqExpr = SymDiffVC.exprGen.Eq(controlFlowFunctionAppl, SymDiffVC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
             vc = SymDiffVC.exprGen.Implies(eqExpr, vc);
-
+        
             return vc;
         }
         #endregion

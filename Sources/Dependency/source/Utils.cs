@@ -189,7 +189,7 @@ namespace Dependency
                         }
                     }
                 }
-
+                
                 if (file == "unknown") return null;
                 return file;
             }
@@ -318,7 +318,7 @@ namespace Dependency
                 {
                     // Maybe in the future add an attribute to extracted procedures containing the name of the original procedure
                     foreach (var impl in program.Implementations
-                        .Where(i => i.Proc.Name.Equals(changesPerProc.Key) ||
+                        .Where(i => i.Proc.Name.Equals(changesPerProc.Key) || 
                             i.Proc.Name.StartsWith(changesPerProc.Key + "_loop_"))) // dealing with loops which are procs with name <orig_proc>_loop_head etc.
                     {
                         // If we are doing coarse diff, then we are only relying that the diff can find the exact changed procedure
@@ -394,7 +394,7 @@ namespace Dependency
         public static void ComputeDominators(Program program, Implementation impl, Dictionary<Block, HashSet<Block>> dominatedBy)
         {
             // reverse the control dependence mapping (easier for the algorithm)
-            foreach (var cd in program.ProcessLoops(BoogieUtils.BoogieOptions, impl).ControlDependence(new Block(program.tok)))
+            foreach (var cd in program.ProcessLoops(BoogieUtils.BoogieOptions, impl).ControlDependence())
             {
                 foreach (var controlled in cd.Value)
                 {
@@ -416,7 +416,7 @@ namespace Dependency
                     var newDominators = new HashSet<Block>();
                     newDominators.UnionWith(dominators);
                     foreach (var block in dominators)
-                    {   // each block is also dominated by the the dominators of its dominators
+                    {   // each block is also dominated by the the dominators of its dominators   
                         if (dominatedBy.Keys.Contains(block))
                             newDominators.UnionWith(dominatedBy[block]);
                     }
@@ -465,7 +465,7 @@ namespace Dependency
                 }
             }
             private static VariableExtractor varExtractor = new VariableExtractor();
-
+            
             public static HashSet<Variable> ExtractVars(Absy node)
             {
                 varExtractor.Vars = new VarSet();
@@ -475,7 +475,7 @@ namespace Dependency
 
             public static void PruneLocals(Implementation impl, VarSet vars)
             {
-                if (impl == null)
+                if (impl == null) 
                     return;
                 vars.RemoveWhere(v => !(v is GlobalVariable || impl.InParams.Contains(v) || impl.OutParams.Contains(v))
                 || impl.Proc.InParams.Contains(v) || impl.Proc.OutParams.Contains(v));
@@ -562,7 +562,7 @@ namespace Dependency
                         output.WriteLine("{0},{1},{2},{3},{4},{5}", ft.Key, pt.Key, vals[ReadSet], vals[DataAndControl], vals[Refined], vals[DataOnly]);
                     }
                 }
-
+                
                 output.Close();
             }
 
@@ -658,7 +658,7 @@ namespace Dependency
 
             public DisplayHtmlHelper(List<Tuple<string, string, int>> changedLines, List<Tuple<string, string, int>> taintedLines, List<Tuple<string, string, int, string, Dependencies>> dependenciesLines, List<Tuple<string, string, int, string>> taintedModSetLines)
                 :this(changedLines, taintedLines, dependenciesLines, taintedModSetLines, new List<Tuple<string, string, int>>())
-            {
+            {                
             }
 
             public void GenerateHtmlOutput()
@@ -672,7 +672,7 @@ namespace Dependency
                 //  for each sourceline l in f
                 //     if changed(l) then change-marker l
                 //     elseif tainted(l) then tainted-marker l
-                //     elseif l is last line then l proc-deps
+                //     elseif l is last line then l proc-deps 
                 foreach (var srcFile in srcFiles)
                 {
                     StreamReader sr = null;
@@ -688,7 +688,7 @@ namespace Dependency
                         Console.WriteLine("Could not generate HTML for file " + (srcFile == null ? "null" : srcFile) + ". (file not found)");
                         continue;
                     }
-
+                    
                     string outFileName = srcFile + (Analysis.DacMerged!=null?".DAC":"") + ".html";
 
                     Console.WriteLine("Generating " + outFileName);
@@ -738,14 +738,14 @@ namespace Dependency
                             //line = string.Format("<b> <u> {0} </u> </b>", line);
                             line = string.Format("<b> <font color=\"green\"> {0} </font> </b>", line);
                         }
-
+                        
                         /*else */if (taintedModSetLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum))
                         {
                             string taintedModset = null;
                             taintedModSetLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).ForEach(t => taintedModset = string.Format("</br> <b> Outputs: </b> {0} ", t.Item4.Replace(TaintMarkerPre,"<b> <font color=\"blue\">").Replace(TaintMarkerPost,"</font> </b>")));
                             line += taintedModset;
                         }
-                        else if (dependenciesLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum))
+                        else if (dependenciesLines.Exists(l => l.Item1 == srcFile && l.Item3 == lineNum)) 
                         {// dependencies: can be obtained when not using /taint:change.txt
                             string deps = null;
                             dependenciesLines.Where(l => l.Item1 == srcFile && l.Item3 == lineNum).ForEach(dep => deps = string.Format("<pre> {0} {1} </pre>", dep.Item4, dep.Item5.ToString()));
@@ -852,10 +852,10 @@ namespace Dependency
                 cmdSeq.ForEach
                     (x =>
                     {
-                        if (!((x is AssumeCmd) &&
+                        if (!((x is AssumeCmd) && 
                              ((AssumeCmd)x).Expr.ToString().Contains("value_is")))
                             newCmdSeq.Add(x);
-                    }
+                    }    
                     );
                 return base.VisitCmdSeq(newCmdSeq);
             }
@@ -873,8 +873,8 @@ namespace Dependency
                 List<Expr> nRhss = new List<Expr>(node.Rhss);
                 for (i = 0; i < node.Lhss.Count; ++i)
                 {
-                    var lhs = node.Lhss[i];
-                    var rhs = node.Rhss[i];
+                    var lhs = node.Lhss[i]; 
+                    var rhs = node.Rhss[i]; 
                     if (lhs.DeepAssignedVariable.TypedIdent.Type.IsMap && lhs.Type.IsMap)
                     {
                         var x = rhs as NAryExpr;
@@ -926,7 +926,7 @@ namespace Dependency
                     throw new Exception(string.Format("Unable to resolve impl {0} in prog2", proc2.Name));
                 var lv = impl2.LocVars.Where(x => x.Name == v.Name && x.TypedIdent.Type.ToString() == v.TypedIdent.Type.ToString()).FirstOrDefault();
                 if (lv == null)
-                    throw new Exception(string.Format("Unable to resolve local variable {0} of type {1} in impl {2} in prog2",
+                    throw new Exception(string.Format("Unable to resolve local variable {0} of type {1} in impl {2} in prog2", 
                         v.ToString(), v.GetType(), proc2.Name));
                 return lv;
             }
@@ -1031,7 +1031,7 @@ namespace Dependency
             //Use MyBeginCheck instead of BeginCheck as it is inconsistent with CheckAssumptions's Push/Pop of declarations
             SolverOutcome proverOutcome;
             //proverOutcome = MyBeginCheck(descriptiveName, vc, VC.handler); //Crashes now
-
+            
             proverOutcome = proverInterface.Check(descriptiveName, vc, handler,
                 BoogieUtils.BoogieOptions.ErrorLimit, CancellationToken.None).Result;
             cex = collector.examples.ToList();
@@ -1062,7 +1062,7 @@ namespace Dependency
             var /*TransferCmd->ReturnCmd*/ gotoCmdOrigins = VC.vcgen.PassifyImpl(new ImplementationRun(impl, Console.Out), out mvInfo);
 
             var exprGen = VC.proverInterface.Context.ExprGen;
-            //VCExpr controlFlowVariableExpr = null;
+            //VCExpr controlFlowVariableExpr = null; 
             VCExpr controlFlowVariableExpr = /*BoogieUtils.BoogieOptions.UseLabels ? null :*/ VC.exprGen.Integer(BigNum.ZERO);
 
 

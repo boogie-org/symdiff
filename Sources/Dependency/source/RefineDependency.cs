@@ -36,7 +36,7 @@ namespace Dependency
         public const string modSetNamePrefix = "m";
         public const string refinedProcBodyName = "body";
         public const string refineProgramNamePostfix = ".CD.bpl";
-
+        
     }
 
     public static class RefineDependencyProgramCreator
@@ -50,7 +50,7 @@ namespace Dependency
         //{
         //    throw new NotImplementedException("This API is deprecated");
 
-        //    #region deprecated
+        //    #region deprecated 
         //    //prog = Utils.CrossProgramUtils.ReplicateProgram(prog, filename);
 
         //    //// TODO: once Utils.CrossProgramUtils.ResolveDependenciesAcrossPrograms works, depVisitor & dataDepVisitor become a parameter!
@@ -99,7 +99,7 @@ namespace Dependency
         /// <param name="upperBoundDependencies"></param>
         /// <param name="newDecls"></param>
         /// <param name="impl"></param>
-        public static Implementation CreateCheckDependencyImpl(Dictionary<Procedure, Dependencies> upperBoundDependencies,
+        public static Implementation CreateCheckDependencyImpl(Dictionary<Procedure, Dependencies> upperBoundDependencies, 
             Dictionary<Procedure, Dependencies>  lowerBoundDependencies,
             Implementation impl, Program program)
         {
@@ -108,7 +108,7 @@ namespace Dependency
                 Given P, R (=ReadSet), M (=ModSet)
                 R = R \ {*}
                 M = M \ {m | lowerBnd(m) has * || upperBnd[m] == lowerBnd[m]}
-
+             
                 CheckDependecy_P() return (EQ) Ensures BM => EQ {
                   Havoc R
                   R1 := R
@@ -199,7 +199,7 @@ namespace Dependency
 
             // create body
             List<Block> body = new List<Block>();
-            Block bodyBlock = new Block(Token.NoToken);
+            Block bodyBlock = new Block();
             body.Add(bodyBlock);
             bodyBlock.Label = RefineConsts.refinedProcBodyName;
 
@@ -212,7 +212,7 @@ namespace Dependency
             for (int i = 0; i < readSet.Count; i++)
                 bodyBlock.Cmds.Add(new AssumeCmd(new Token(), Expr.Imp(Expr.Ident(inputGuards[i]), Expr.Eq(Expr.Ident(recordedReadSet1[i]), Expr.Ident(recordedReadSet2[i]))))); // ensures bi_k => i_k_1 == i_k_2
 
-            // create checks
+            // create checks     
             CreateChecks(modSet, equivOutParams, recordedModSet1, recordedModSet2, bodyBlock);
 
             // create return
@@ -251,7 +251,7 @@ namespace Dependency
             if (rhs.Count > 0)
                 body.Cmds.Add(CreateAssignCmd(recordedReadSet, rhs));
 
-            // call
+            // call 
             body.Cmds.Add(CreateCallCmd(proc, actualInputs, actualOutputs));
 
             // record mod set
@@ -377,7 +377,7 @@ namespace Dependency
             inputs.ForEach(i => inputExprs.Add(Expr.Ident(i)));
             List<IdentifierExpr> outputExprs = new List<IdentifierExpr>();
             outputs.ForEach(i => outputExprs.Add(Expr.Ident(i)));
-
+            
             var result = new CallCmd(new Token(), proc.Name, inputExprs, outputExprs);
             result.Proc = proc;
             return result;
@@ -444,15 +444,15 @@ namespace Dependency
 
         private static void AnalyzeDependencyWithUnsatCore(VCExpr programVC, Constant outConstant, Dependencies result, string procName, List<Constant> inputGuardConsts, List<Constant> outputGuardConsts)
         {
-            #region Description of UNSAT core logic implemented below
+            #region Description of UNSAT core logic implemented below 
             /*
                 Given VC, I, O, o
-                - preInp = (\wedge_{i \in I} i)
+                - preInp = (\wedge_{i \in I} i) 
                 - preOut = (\wedge_{o' \in O} !o') \wedge o
                 - VC' = (preOut => VC)
                 - checkValid preInp => VC'
                 - if invalid return
-                - A += !VC'
+                - A += !VC' 
                 - A += I
                 - if (CheckAssumption(A, out core) != valid) ABORT
              */
@@ -485,7 +485,7 @@ namespace Dependency
                 Console.WriteLine("\t Dependency of {0} =  <{1}>", v, string.Join(",", result[v]));
                 return;
             }
-            if (outcome == SolverOutcome.OutOfMemory ||
+            if (outcome == SolverOutcome.OutOfMemory || 
                 outcome == SolverOutcome.TimeOut ||
                 outcome == SolverOutcome.Undetermined)
             {
@@ -551,7 +551,7 @@ namespace Dependency
                 v,
                 string.Join(",", result[v]));
 
-
+            
         }
     }
 
@@ -612,9 +612,9 @@ namespace Dependency
             Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count()];
             prog.TopLevelDeclarations.ToList().CopyTo(decls); // a copy is needed since AddCalleeDependencySpecs changes prog.TopLevelDeclarations
             decls.OfType<Procedure>().ForEach(p =>
-                {
+                { 
                     if (lowerBoundDependencies.ContainsKey(p)) //the CheckDependency does not have currDependencies
-                        AddCalleeDependencySpecs(p, lowerBoundDependencies[p]);
+                        AddCalleeDependencySpecs(p, lowerBoundDependencies[p]); 
                 });
             //setup inline attributes for inline upto depth k
             callGraph.AddEdge(refineImpl.Proc, impl.Proc);
@@ -629,7 +629,7 @@ namespace Dependency
             lowerBoundDependencies[impl.Proc] = newDepImpl; //update the dependecy for impl only
             return lowerBoundDependencies;
         }
-
+        
         private void AddCalleeDependencySpecs(Procedure p, Dependencies dep)
         {
             //return;
@@ -641,7 +641,7 @@ namespace Dependency
                 var fnName = "FunctionOf__" + p.Name + "_" + o.Name;
                 Function oFunc = Utils.DeclUtils.MkOrGetFunc(prog, fnName, o.TypedIdent.Type, dep[o].Select(x => x.TypedIdent.Type).ToList());
                 var fExpr = Utils.DeclUtils.MkFuncApp(oFunc, dep[o].Select(x => (Expr) Expr.Ident(x)).ToList());
-                var ens = Expr.Eq(Expr.Ident(o),
+                var ens = Expr.Eq(Expr.Ident(o), 
                     new OldExpr(Token.NoToken, fExpr));
                 p.Ensures.Add(new Ensures(true, ens));
             }
@@ -650,8 +650,8 @@ namespace Dependency
 
     }
 
-
-
+    
+  
 
 
 }
