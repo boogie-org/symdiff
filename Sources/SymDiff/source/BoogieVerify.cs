@@ -924,7 +924,7 @@ namespace SDiff
                 var resultCache = new VerificationResultCache();
                 var engine = new ExecutionEngine(options, resultCache);
                 if (engine == null) {
-                    Log.Out (Log.Verifier, "BIG ERRROR ENGINE");
+                    Log.Out (Log.Verifier, "Failed to create execution engine!");
                 }
                 prog = BoogieUtils.ParseProgram(rs_filename);
                 var stringWriter = new StringWriter();
