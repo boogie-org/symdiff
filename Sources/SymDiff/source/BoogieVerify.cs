@@ -9,6 +9,7 @@ using System.Threading;
 using SymDiffUtils;
 using VC;
 using Util = SymDiffUtils.Util;
+using System.Diagnostics;
 
 namespace SDiff
 {
@@ -128,10 +129,15 @@ namespace SDiff
         }
     }
 
+    public class SymDiffConsolePrinter : ConsolePrinter {
+        public Dictionary<string, Implementation> impls { get; } = new();
+        public Dictionary<string, ImplementationRunResult> implResults { get; } = new();
 
-
-
-
+        public override void ReportEndVerifyImplementation(Implementation implementation, ImplementationRunResult result) {
+            implResults.Add(implementation.Name, result);
+            impls.Add(implementation.Name, implementation);
+        }
+    }
 
     public static class BoogieVerify
     {
@@ -185,11 +191,11 @@ namespace SDiff
             // This is a hack to undo those changes.
             var engine = new ExecutionEngine(BoogieUtils.BoogieOptions, new VerificationResultCache(),
                     CustomStackSizePoolTaskScheduler.Create(16 * 1024 * 1024, 1));
-            var tmpFileName = "bug_resolver.bpl";
-            Util.DumpBplAST(prog, tmpFileName);
-            prog = BoogieUtils.ParseProgram(tmpFileName);
-            Microsoft.Boogie.CivlTypeChecker typeChecker;
-            engine.ResolveAndTypecheck(prog, tmpFileName, out typeChecker);
+            // var tmpFileName = "bug_resolver.bpl";
+            // Util.DumpBplAST(prog, tmpFileName);
+            // prog = BoogieUtils.ParseProgram(tmpFileName);
+            // Microsoft.Boogie.CivlTypeChecker typeChecker;
+            // engine.ResolveAndTypecheck(prog, tmpFileName, out typeChecker);
 
             cex = null;
 
@@ -909,28 +915,55 @@ namespace SDiff
             ReplaceInFile(vt.Eq.Name + "_out.bpl", "@", "_");
             if (!wrapper)
             {
-                prog = BoogieUtils.ParseProgram("RS" + vt.Eq.Name + "_out.bpl");
+                var implName = vt.Eq.Name;
+                var rs_filename = "RS" + implName + "_out.bpl";
 
-                if (prog == null)
+                // JATIN_NOTE: This code is a hack to fix all boogie AST bugs. It dumps the program to a file,
+                // and calls boogie on the file, as if from the command line. This change counters unsound behavior
+                // introduced by manipulating boogie programs without maintaining their invariants, which is hard to do.
+                // A note in VerifyImplemenation describe the unsound behavior in more detail.
+
+                var outPrinter = new SymDiffConsolePrinter();
+                var options = new CommandLineOptions(TextWriter.Null, outPrinter)
                 {
-                    Log.Out(Log.Verifier, "Parse Error!!! in   " + vt.Eq.Name);
-                    return 1;
+                    RunningBoogieFromCommandLine = true
+                };
+                options.Parse(["/soundLoopUnrolling", "/inline:assume", "/printModel:1", "/removeEmptyBlocks:0", "/printModelToFile:model.dmp"]);
+                var resultCache = new VerificationResultCache();
+                var engine = new ExecutionEngine(options, resultCache);
+                if (engine == null) {
+                    Log.Out (Log.Verifier, "Failed to create execution engine!");
                 }
-                if (BoogieUtils.ResolveAndTypeCheckThrow(prog, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
-                    return 1;
+                prog = BoogieUtils.ParseProgram(rs_filename);
+                var stringWriter = new StringWriter();
+                var success = false;
+                try {
+                    success = engine.ProcessProgram(stringWriter, prog, rs_filename).Result;
+                } catch (Exception e) {
+                    Log.Out(Log.Error, "Error  Encountered : " + e.Message + " when verifying implementation " + implName);
+                    success = false;
+                }
 
-                newEq = vt.Eq;
-                newProg = prog;
+                var verified = outPrinter.implResults.Get(implName).Errors.Count == 0;
+                if (success && verified) {
+                    vt.Result = VerificationResult.Verified;
+                } else if (success) {
+                    vt.Result= VerificationResult.Error;
+                } else {
+                    vt.Result = VerificationResult.Unknown;
+                }
+                // newEq = vt.Eq;
+                // newProg = prog;
 
-                var vcgen = InitializeVC(newProg);
-                //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
-                newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
+                // var vcgen = InitializeVC(newProg);
+                // //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
+                // newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
 
-                //RS: Uncomment this
-                newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
+                // //RS: Uncomment this
+                // newEq = (Implementation)newDict.Get(implName + "$IMPL");
 
-                vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors);
-                vt.Counterexamples = SErrors;
+                // vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors);
+                // vt.Counterexamples = SErrors;
 
                 switch (vt.Result)
                 {
@@ -951,7 +984,7 @@ namespace SDiff
                         crashed = true;
                         break;
                 }
-                vcgen.Close();
+                // vcgen.Close();
             }
             //restore postconditions IN THE OLD IN-MEMORY PROGRAM
             vt.Left.Proc.Ensures = leftPosts;
@@ -962,6 +995,8 @@ namespace SDiff
             vt.Left.Proc.Attributes = sqkpLeft;
             vt.Right.Attributes = sqkRight;
             vt.Right.Proc.Attributes = sqkpRight;
+            vt.Counterexamples = null;
+            return vt.Result== VerificationResult.Verified ? 0 : 1;
 
             //remove the inline annotation in the Diff_Inline Procedures
             foreach (Implementation currentProcImpl in procImplPIter)
