@@ -129,10 +129,15 @@ namespace SDiff
         }
     }
 
+    public class SymDiffConsolePrinter : ConsolePrinter {
+        public Dictionary<string, Implementation> impls { get; } = new();
+        public Dictionary<string, ImplementationRunResult> implResults { get; } = new();
 
-
-
-
+        public override void ReportEndVerifyImplementation(Implementation implementation, ImplementationRunResult result) {
+            implResults.Add(implementation.Name, result);
+            impls.Add(implementation.Name, implementation);
+        }
+    }
 
     public static class BoogieVerify
     {
@@ -910,17 +915,20 @@ namespace SDiff
             ReplaceInFile(vt.Eq.Name + "_out.bpl", "@", "_");
             if (!wrapper)
             {
-                var rs_filename = "RS" + vt.Eq.Name + "_out.bpl";
+                var implName = vt.Eq.Name;
+                var rs_filename = "RS" + implName + "_out.bpl";
 
                 // JATIN_NOTE: This code is a hack to fix all boogie AST bugs. It dumps the program to a file,
                 // and calls boogie on the file, as if from the command line. This change counters unsound behavior
                 // introduced by manipulating boogie programs without maintaining their invariants, which is hard to do.
                 // A note in VerifyImplemenation describe the unsound behavior in more detail.
-                var options = new CommandLineOptions(TextWriter.Null, new ConsolePrinter())
+
+                var outPrinter = new SymDiffConsolePrinter();
+                var options = new CommandLineOptions(TextWriter.Null, outPrinter)
                 {
                     RunningBoogieFromCommandLine = true
                 };
-                options.Parse(["/soundLoopUnrolling", "/inline:assume"]);
+                options.Parse(["/soundLoopUnrolling", "/inline:assume", "/printModel:1", "/removeEmptyBlocks:0", "/printModelToFile:model.dmp"]);
                 var resultCache = new VerificationResultCache();
                 var engine = new ExecutionEngine(options, resultCache);
                 if (engine == null) {
@@ -928,9 +936,15 @@ namespace SDiff
                 }
                 prog = BoogieUtils.ParseProgram(rs_filename);
                 var stringWriter = new StringWriter();
-                var success = engine.ProcessProgram(stringWriter, prog, rs_filename).Result;
-                string output = stringWriter.ToString();
-                var verified = output.Contains("0 errors");
+                var success = false;
+                try {
+                    success = engine.ProcessProgram(stringWriter, prog, rs_filename).Result;
+                } catch (Exception e) {
+                    Log.Out(Log.Error, "Error  Encountered : " + e.Message + " when verifying implementation " + implName);
+                    success = false;
+                }
+
+                var verified = outPrinter.implResults.Get(implName).Errors.Count == 0;
                 if (success && verified) {
                     vt.Result = VerificationResult.Verified;
                 } else if (success) {
@@ -938,7 +952,6 @@ namespace SDiff
                 } else {
                     vt.Result = VerificationResult.Unknown;
                 }
-                Log.Out(Log.Verifier, "DONE");
                 // newEq = vt.Eq;
                 // newProg = prog;
 
@@ -947,7 +960,7 @@ namespace SDiff
                 // newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
 
                 // //RS: Uncomment this
-                // newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
+                // newEq = (Implementation)newDict.Get(implName + "$IMPL");
 
                 // vt.Result = VerifyImplementation(vcgen, newEq, newProg, out SErrors);
                 // vt.Counterexamples = SErrors;
