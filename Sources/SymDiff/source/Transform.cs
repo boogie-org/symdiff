@@ -482,28 +482,11 @@ namespace SDiff
       return s.Replace("$", "");
     }
 
-    private static (string, string) RemoveCommonPrefix(string s1, string s2)
-    {
-      int i = 0;
-      while (i < Math.Min(s1.Length, s2.Length) && s1[i] == s2[i]) {
-        ++i;
-      }
-      return (s1.Substring(i), s2.Substring(i));
-
-    }
-
     public static string mkEqProcName(string p1, string p2)
     {
-      var p1Parts = p1.Split(".");
-      var p2Parts = p2.Split(".");
-      var p1WithoutPrefix = p1Parts.Last();
-      var p2WithoutPrefix = p2Parts.Last();
-      var (p1Different, p2Different) = RemoveCommonPrefix(p1WithoutPrefix, p2WithoutPrefix);
-      if (p1Different.Length == 0 && p2Different.Length == 0) {
-        return "EQ_" + sanitize(p1WithoutPrefix);
-      } else {
-        return "EQ_" + sanitize(p1Different) + "__xx__" + sanitize(p2Different);
-      }
+      // Currently this ignores `p2`, but it may make sense to include it
+      // again at some point, so let's leave it in as an argument.
+      return "EQ_" + sanitize(p1.Substring(p1.IndexOf(".") + 1));
     }
 
     public static void NormalizeProcedures(Procedure d1, Implementation i1, List<Variable> g1,
