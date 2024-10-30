@@ -43,10 +43,13 @@ namespace SDiff
   {
     public readonly string prefix;
 
+    public Dictionary <string, string> equivalentProcs;
+
     public ProcedureMap(string prefix)
       : base()
     {
       this.prefix = prefix;
+      this.equivalentProcs = new Dictionary<string, string>();
     }
 
     public bool AddFromArray(string[] fs, string[] ps)
@@ -95,6 +98,12 @@ namespace SDiff
         if (p != null && p.fst.fst == s1 && p.fst.snd == s2)
           return p.snd;
       return null;
+    }
+
+    public bool PairEquivalent (string s1, string s2)
+    {
+      return equivalentProcs.ContainsKey(s1) && equivalentProcs[s1] == s2 ||
+      (equivalentProcs.ContainsKey(s2) && equivalentProcs[s2] == s1);
     }
 
     public override string ToString()
@@ -235,9 +244,13 @@ namespace SDiff
 
     public void AddProcedure(Duple<HDuple<string>, ParamMap> mapping)
     {
-      if (ProcedureMap.Exists(p => p.fst.fst.Equals(mapping.fst.fst)))
+      var p = ProcedureMap.FirstOrDefault(p => p.fst.fst.Equals(mapping.fst.fst));
+      if (p == null) {
+        ProcedureMap.Add(mapping);
+      } else if (mapping.ToString() != p.ToString()) {
+        Console.WriteLine ("mapping exists but doesn't match, " + mapping.ToString() + " != " + p.ToString());
         throw new ArgumentException($"{mapping.fst.fst} already exists in config.");
-      ProcedureMap.Add(mapping);
+      }
     }
 
     public void AddFunction(Duple<HDuple<string>, ParamMap> mapping)
@@ -358,8 +371,4 @@ namespace SDiff
       return s;
     }
   }
-
-
-
-
 }
