@@ -2033,11 +2033,13 @@ namespace SDiff
                     var blockImpls1 = new List<Implementation>();
                     var blockImpls2 = new List<Implementation>();
 
+                    var allDifferingBlocksOutlined = true;
                     foreach (var (block1, block2) in differingBlocks)
                     {
                         if (!block1.IsSoundForOutlining() || !block2.IsSoundForOutlining())
                         {
                             Log.Out(Log.Normal, $"Not outlining ({block1}, {block2}) as doing that might be unsound (contains assume statements over variables).");
+                            allDifferingBlocksOutlined = false;
                             continue;
                         }
 
@@ -2047,7 +2049,6 @@ namespace SDiff
                         blockImpls2.Add(blockImpl2);
                     }
 
-                    var allDifferingBlocksOutlined = true;
                     foreach (var (blockImpl1, blockImpl2) in blockImpls1.Zip(blockImpls2))
                     {
                         if (blockImpl1.InParams.Count != blockImpl2.InParams.Count ||
