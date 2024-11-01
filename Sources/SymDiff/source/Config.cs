@@ -105,6 +105,11 @@ namespace SDiff
       return equivalentProcs.ContainsKey(s1) && equivalentProcs[s1] == s2 ||
       (equivalentProcs.ContainsKey(s2) && equivalentProcs[s2] == s1);
     }
+    
+    public void StoreEquivalent (string s1, string s2)
+    {
+      equivalentProcs[s1] = s2;
+    }
 
     public override string ToString()
     {
