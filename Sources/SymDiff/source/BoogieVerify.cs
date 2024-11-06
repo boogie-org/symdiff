@@ -928,7 +928,7 @@ namespace SDiff
                 {
                     RunningBoogieFromCommandLine = true
                 };
-                options.Parse(["/soundLoopUnrolling", "/inline:assume", "/printModel:1", "/removeEmptyBlocks:0", "/printModelToFile:model.dmp"]);
+                options.Parse(["/soundLoopUnrolling", "/inline:spec", "/printModel:1", "/removeEmptyBlocks:0", "/printModelToFile:model.dmp"]);
                 var resultCache = new VerificationResultCache();
                 var engine = new ExecutionEngine(options, resultCache);
                 if (engine == null) {
