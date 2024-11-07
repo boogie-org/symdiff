@@ -172,7 +172,7 @@ namespace SDiff
 
         private static void ParseAddtionalMSFile(Program mergedProgram)
         {
-            var ms_file = @".\ms_symdiff_file.bpl";
+            var ms_file = "ms_symdiff_file.bpl";
             if (!System.IO.File.Exists(ms_file)) return;
             Program ms = BoogieUtils.ParseProgram(ms_file);
             //TODO: Have to merge the new types (including datatypes)
@@ -737,6 +737,9 @@ namespace SDiff
             exprListR.AddRange(Util.VarSeqToExprSeq(a2));
             exprListR.AddRange(gSeq_p2.Select(x => IdentifierExpr.Ident(x)));
             requiresSeq.Add(new Requires(false, new NAryExpr(new Token(), callMSPre, exprListR)));
+            var modifiesSeq = new List<IdentifierExpr>();
+            modifiesSeq.AddRange(f1.Modifies);
+            modifiesSeq.AddRange(f2.Modifies);
 
             if (Options.checkEquivWithDependencies)
             {
@@ -763,7 +766,7 @@ namespace SDiff
                     ovarSeq,
                     isPure:false,
                     requiresSeq,
-                    new List<IdentifierExpr>(),
+                    modifiesSeq,
                     ensuresSeq);
             mschkProc.AddAttribute("MS_procs", f1.Name, f2.Name);
             mergedProgram.AddTopLevelDeclaration(mschkProc);
