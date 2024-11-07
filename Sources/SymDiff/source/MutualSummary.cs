@@ -172,7 +172,7 @@ namespace SDiff
 
         private static void ParseAddtionalMSFile(Program mergedProgram)
         {
-            var ms_file = @".\ms_symdiff_file.bpl";
+            var ms_file = "ms_symdiff_file.bpl";
             if (!System.IO.File.Exists(ms_file)) return;
             Program ms = BoogieUtils.ParseProgram(ms_file);
             //TODO: Have to merge the new types (including datatypes)
