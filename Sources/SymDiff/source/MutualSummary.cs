@@ -59,6 +59,7 @@ namespace SDiff
             bool checkPreconditions, bool freeContractsIn,
             bool dontTypeCheckMergedProg,
             Options.DAC_ENCODING_OPT dacEnc, 
+            bool dumpMS = false,
             bool callCorral = false)
         {
 
@@ -81,18 +82,22 @@ namespace SDiff
             cg1 = CallGraph.Make(p1);
             cg2 = CallGraph.Make(p2);
             Initialize(p1, p2, mergedProgram, p1Prefix, p2Prefix, cfg1);
+
+            // Emit default mutual summaries
+            if (dumpMS) { dumpDefaultMutualSummaries(); }
+
             MutualSummaryStart(mergedProgram);
 
 
             //If inferContracts is specified, then we call Houdini and do Inference and persist output into mergedProgram
             //add the flags for /inferContracts to Boogie
-            if (useHoudini && houdiniInferOpt == Options.INFER_OPT.HOUDINI) PerformHoudiniInferece();
+            if (useHoudini && houdiniInferOpt == Options.INFER_OPT.HOUDINI) PerformHoudiniInference();
         }
 
         /// <summary>
         /// Reads mergedProgSingle directly
         /// </summary>
-        public static void PerformHoudiniInferece()
+        public static void PerformHoudiniInference()
         {
             Console.WriteLine("Performing Houdini inference from within Symdiff.exe ");
 
@@ -230,13 +235,17 @@ namespace SDiff
             }
             foreach (var kv in stubProcMap)
             {
-                Debug.Assert(false, string.Format("Stub encountered {0}...did you not run dependency.exe", kv.Key));
+                // RN: Removing assert(false), creating default mutual summaries for stub procedures.
+                //Debug.Assert(false, string.Format("Stub encountered {0}...did you not run dependency.exe", kv.Key));
                 //Console.WriteLine("StubMap: {0}, {1}", kv.Key, kv.Value);
-                //var f1 = Util.getProcedureByName(mergedProgram, kv.Key);
-                //var f2 = Util.getProcedureByName(mergedProgram, kv.Value);
+                var f1 = Util.getProcedureByName(mergedProgram, kv.Key);
+                var f2 = Util.getProcedureByName(mergedProgram, kv.Value);
                 ////Create MSCheck procedure
                 //AddDefaultStubSpec(f1, p1Prefix);
                 //AddDefaultStubSpec(f2, p2Prefix);
+
+                // Side effect: adds func to mergedProgram.
+                var _ = CreateMutualSummaryRelation(f1,f2);
             }
             foreach (var kv in implProcMap)
             {
@@ -280,6 +289,43 @@ namespace SDiff
                 var ens = Expr.Eq(Expr.Ident(o), new OldExpr(Token.NoToken, fExpr));
                 f.Ensures.Add(new Ensures(true, ens));
             }
+        }
+
+        /// <summary>
+        /// Emit default mutual summaries to ms_symdiff_file.bpl.
+        /// As a side effect, adds these mutual summaries to mergedProgram.
+        /// </summary>
+        private static void dumpDefaultMutualSummaries()
+        {
+            var msFile = "ms_symdiff_file.bpl";
+            if (!System.IO.File.Exists(msFile)) { using (System.IO.File.Create(msFile)) {}; }
+
+            Program ms = BoogieUtils.ParseProgram(msFile);
+            if (ms == null) { throw new Exception("Unable to parse " + msFile); }
+
+            var relatedProcs = new Dictionary<string,string>(implProcMap).Union(stubProcMap);
+
+            // Temporarily set axiom flag to false.
+            var notMSAxioms = dontUseMSAsAxioms;
+            dontUseMSAsAxioms = true;
+
+            foreach (var kv in relatedProcs)
+            {
+                var f1 = Util.getProcedureByName(mergedProgram, kv.Key);
+                var f2 = Util.getProcedureByName(mergedProgram, kv.Value);
+                var msFuncName = "MS$" + f1.Name + "$" + f2.Name;
+
+                if (Util.getFunctionByName(ms, msFuncName) == null)
+                {
+                    // Side effect
+                    // Summary relation added to mergedProgram by CreateMutualSummaryRelation
+                    ms.AddTopLevelDeclaration(CreateMutualSummaryRelation(f1, f2));
+                }
+            }
+            dontUseMSAsAxioms = notMSAxioms;
+
+            Util.DumpBplAST(ms, msFile);
+            return;
         }
 
         //Creates R_f(in, old_g, g, out) and adds a free postcondtion to f
