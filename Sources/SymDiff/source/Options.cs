@@ -69,6 +69,7 @@ namespace SDiff
         public static bool useMutualSummariesAsAxioms;
         public static bool dontUseHoudiniForMS;
         public static bool useAbstractHoudiniInference;
+        public static bool dumpDefaultMutualSummaries = false; //dump default mutual summaries to aux Boogie file
         public static bool checkMutualPrecondNonTerminating; //use dependencies and Houdini to check for equivalence
         public static bool dontTypeCheckMergedProg;
         public static bool callCorralOnMergedProgram; //invoke corral to check the candidates in mutual summary procedures (for equivalence checking)

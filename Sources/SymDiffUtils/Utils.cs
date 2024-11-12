@@ -458,6 +458,12 @@ namespace SymDiffUtils
                     return d;
             return null;
         }
+
+        public static Function getFunctionByName(Program p, string name)
+        {
+            return (Function)p.TopLevelDeclarations.FirstOrDefault(x => x is Function && ((Function)x).Name == name);
+        }
+
         public static Declaration getDeclarationByName(string declarationName, IEnumerable<Declaration> prodDeclOrImplList)
         {
             Declaration decl = null;
