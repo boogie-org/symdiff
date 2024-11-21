@@ -268,6 +268,18 @@ namespace SDiff
       globalMap.Add(mapping);
     }
 
+
+    // TODO: Have this integrate with the config provided in the config file
+    // Could split on base types, which are compared directly and others,
+    // that need to come from the config.
+    public bool TypeEq (Microsoft.Boogie.Type a, Microsoft.Boogie.Type b) {
+      if (a != null && b != null) {
+          return a.ToString() == b.ToString();
+      } else {
+          return a == b;
+      }
+    }
+
     public void AddType(HDuple<string> mapping)
     {
       typeMap.Add(mapping);

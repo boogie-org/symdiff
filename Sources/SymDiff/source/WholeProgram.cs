@@ -1532,7 +1532,7 @@ namespace SDiff
             if (!Options.noSyntacticCheck)
             {
                 var (outlinedImpls, structurallyEquivalentImpls) =
-                    StructuralCheckAndOutline(p1, p2,
+                    StructuralCheckAndOutline(cfg, p1, p2,
                         p1.Implementations.ToHashSet(),
                         p1.Implementations.Where(impl => p1ImplsWithLoops.Contains(impl.Name)).ToHashSet());
                 structurallyEquivalentImpls.ForEach(p => Options.syntacticEqProcs.Add(
@@ -1696,7 +1696,7 @@ namespace SDiff
                     HashSet<string> p1ImplsToCheck =
                         extractedLoopImplPairs.Keys.Concat(p1ImplsWithLoops).ToHashSet();
                     var (outlinedImpls, structurallyEquivalentImpls) =
-                        StructuralCheckAndOutline(p1, p2,
+                        StructuralCheckAndOutline(cfg, p1, p2,
                             p1.Implementations.Where(impl => p1ImplsToCheck.Contains(impl.Name)).ToHashSet(), []);
                     ExtendConfiguration(outlinedImpls);
                     structurallyEquivalentImpls.ForEach(p => Options.syntacticEqProcs.TryAdd(
@@ -2001,7 +2001,7 @@ namespace SDiff
         private static
             (Dictionary<Implementation, Implementation> outlinedBlockImplPairs,
             Dictionary<Implementation, Implementation> structurallyEquivalentImpls)
-            StructuralCheckAndOutline(Program p1, Program p2,
+            StructuralCheckAndOutline(Config cfg, Program p1, Program p2,
                                       HashSet<Implementation> p1ImplsToCheck,
                                       HashSet<Implementation> outlineableP1Impls)
         {
@@ -2052,10 +2052,16 @@ namespace SDiff
                         blockImpls2.Add(blockImpl2);
                     }
 
+                    bool MatchTypes(List<Variable> v1, List<Variable> v2)
+                    {
+                        if (v1.Count != v2.Count) return false;
+                        return v1.Zip(v2).All(tup => cfg.TypeEq(tup.First.TypedIdent.Type, tup.Second.TypedIdent.Type));
+                    }
+
                     foreach (var (blockImpl1, blockImpl2) in blockImpls1.Zip(blockImpls2))
                     {
-                        if (blockImpl1.InParams.Count != blockImpl2.InParams.Count ||
-                            blockImpl1.OutParams.Count != blockImpl2.OutParams.Count)
+                        if (!MatchTypes(blockImpl1.InParams, blockImpl2.InParams) ||
+                            !MatchTypes(blockImpl1.OutParams, blockImpl2.OutParams))
                         {
                             Log.Out(Log.Error, $"Could not align outlined block procedures " +
                                                $"{blockImpl1.Name} and {blockImpl2.Name}");
