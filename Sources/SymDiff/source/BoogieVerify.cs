@@ -132,6 +132,10 @@ namespace SDiff
         public Dictionary<string, Implementation> impls { get; } = new();
         public Dictionary<string, ImplementationRunResult> implResults { get; } = new();
 
+    public class SymDiffConsolePrinter : ConsolePrinter {
+        public Dictionary<string, Implementation> impls { get; } = new();
+        public Dictionary<string, ImplementationRunResult> implResults { get; } = new();
+
         public override void ReportEndVerifyImplementation(Implementation implementation, ImplementationRunResult result) {
             implResults.Add(implementation.Name, result);
             impls.Add(implementation.Name, implementation);
@@ -957,22 +961,52 @@ namespace SDiff
             ReplaceInFile(vt.Eq.Name + "_out.bpl", "@", "_");
             if (!wrapper)
             {
-                var rs_filename = "RS" + vt.Eq.Name + "_out.bpl";
-                prog = BoogieUtils.ParseProgram(rs_filename);
-                vt.Result = VerifyImplementationSafe(prog, rs_filename, vt.Eq.Name, out SErrors);
-                vt.Counterexamples = SErrors;
+                var implName = vt.Eq.Name;
+                var rs_filename = "RS" + implName + "_out.bpl";
 
-                // Log.Out(Log.Verifier, "numerrors = " + resultCache.Lookup(newEq, false, out var n).Errors.Count);
-                newProg = prog;
-                newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
-                newEq = (Implementation) newDict.Get(vt.Eq.Name + "$IMPL");
+                // JATIN_NOTE: This code is a hack to fix all boogie AST bugs. It dumps the program to a file,
+                // and calls boogie on the file, as if from the command line. This change counters unsound behavior
+                // introduced by manipulating boogie programs without maintaining their invariants, which is hard to do.
+                // A note in VerifyImplemenation describe the unsound behavior in more detail.
+
+                var outPrinter = new SymDiffConsolePrinter();
+                var options = new CommandLineOptions(TextWriter.Null, outPrinter)
+                {
+                    RunningBoogieFromCommandLine = true
+                };
+                options.Parse(["/soundLoopUnrolling", "/inline:spec", "/printModel:1", "/removeEmptyBlocks:0", "/printModelToFile:model.dmp"]);
+                var resultCache = new VerificationResultCache();
+                var engine = new ExecutionEngine(options, resultCache);
+                if (engine == null) {
+                    Log.Out (Log.Verifier, "Failed to create execution engine!");
+                }
+                prog = BoogieUtils.ParseProgram(rs_filename);
+                var stringWriter = new StringWriter();
+                var success = false;
+                try {
+                    success = engine.ProcessProgram(stringWriter, prog, rs_filename).Result;
+                } catch (Exception e) {
+                    Log.Out(Log.Error, "Error  Encountered : " + e.Message + " when verifying implementation " + implName);
+                    success = false;
+                }
+
+                var verified = outPrinter.implResults.Get(implName).Errors.Count == 0;
+                if (success && verified) {
+                    vt.Result = VerificationResult.Verified;
+                } else if (success) {
+                    vt.Result= VerificationResult.Error;
+                } else {
+                    vt.Result = VerificationResult.Unknown;
+                }
+                // newEq = vt.Eq;
+                // newProg = prog;
 
                 // var vcgen = InitializeVC(newProg);
                 // //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
                 // newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
 
                 // //RS: Uncomment this
-                // newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
+                // newEq = (Implementation)newDict.Get(implName + "$IMPL");
 
 
                 switch (vt.Result)

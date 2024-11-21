@@ -481,14 +481,12 @@ namespace SDiff
     { 
       return s.Replace("$", "");
     }
+
     public static string mkEqProcName(string p1, string p2)
     {
-      var p1WithoutPrefix = p1.Split(".").Last();
-      var p2WithoutPrefix = p2.Split(".").Last();
-      if (p1WithoutPrefix.Equals(p2WithoutPrefix))
-        return "EQ_" + sanitize(p1WithoutPrefix);
-      else
-        return "EQ_" + sanitize(p1) + "__xx__" + sanitize(p2);
+      // Currently this ignores `p2`, but it may make sense to include it
+      // again at some point, so let's leave it in as an argument.
+      return "EQ_" + sanitize(p1.Substring(p1.IndexOf(".") + 1));
     }
 
     public static void NormalizeProcedures(Procedure d1, Implementation i1, List<Variable> g1,
