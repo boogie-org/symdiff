@@ -128,9 +128,6 @@ namespace SDiff
             }
         }
     }
-    public class SymDiffConsolePrinter : ConsolePrinter {
-        public Dictionary<string, Implementation> impls { get; } = new();
-        public Dictionary<string, ImplementationRunResult> implResults { get; } = new();
 
     public class SymDiffConsolePrinter : ConsolePrinter {
         public Dictionary<string, Implementation> impls { get; } = new();
@@ -191,11 +188,12 @@ namespace SDiff
             {
                 RunningBoogieFromCommandLine = true
             };
-            options.Parse(["/soundLoopUnrolling", "/inline:assume", "/printModel:1", "/removeEmptyBlocks:0", "/printModelToFile:model.dmp"]);
+            options.Parse(["/soundLoopUnrolling", "/inline:spec", "/printModel:1", "/removeEmptyBlocks:0", "/printModelToFile:model.dmp"]);
             var engine = new ExecutionEngine(options, new VerificationResultCache());
             if (engine == null) {
-                Log.Out (Log.Verifier, "BIG ERRROR ENGINE");
+                Log.Out (Log.Verifier, "Could not initialize Boogie verification engine");
             }
+
             var stringWriter = new StringWriter();
             try {
                 var success = engine.ProcessProgram(stringWriter, prog, fileName).Result;
@@ -203,107 +201,45 @@ namespace SDiff
             catch (Exception e) {
                 Log.Out(Log.Error, "Error BP5010: {0}  Encountered in implementation {1}: " + e.Message);
                 Log.Out(Log.Error, "Encounted when verifying " + implName);
-                errors = null;
-                outcome = VcOutcome.Inconclusive;
                 return VerificationResult.Error;
             }
 
-            Log.Out (Log.Error, "coming here? ");
             string output = stringWriter.ToString();
-
-
-            var verified = output.Contains("0 errors");
-            Log.Out (Log.Error, "verified? " + verified.ToString());
-            // if (success && verified) {
-            //     outcome = VerificationResult.Verified;
-            // } else if (success) {
-            //     outcome= VerificationResult.Error;
-            // } else {
-            //     outcome = VerificationResult.Inconclusive;
-            // }
-
+            var results = outPrinter.implResults.Get(implName).Errors;
+            var verified = results.Count == 0;
             var implResult = outPrinter.implResults.Get(implName);
-
             if (implResult == null)
             {
                 Log.Out(Log.Urgent, "VerifyImplementation saw null implementation");
+                return VerificationResult.Error;
+            }
+
+            List<Counterexample> errors = implResult.Errors;
+            VcOutcome outcome = implResult.VcOutcome;
+            List<VerificationRunResult> vcResults = implResult.RunResults;
+
+            VerificationResult GetVR (VcOutcome oc) {
+                switch (outcome)
+                {
+                    case VcOutcome.Correct:
+                        return VerificationResult.Verified;
+                    case VcOutcome.Errors:
+                        return VerificationResult.Error;
+                    case VcOutcome.Inconclusive:
+                        return VerificationResult.Inconclusive;
+                    case VcOutcome.OutOfMemory:
+                        return VerificationResult.OutOfMemory;
+                    case VcOutcome.TimedOut:
+                        return VerificationResult.TimeOut;
+                }
                 return VerificationResult.Unknown;
             }
-            outcome = implResult.VcOutcome;
-            errors = implResult.Errors;
-            vcResults = implResult.RunResults;
 
-
-            //Log.Out(Log.Verifier, "Verifying implementation " + impl.Name);
-
-            // //Log.Out(Log.Verifier, "Saving implementation before Boogie preprocessing");
-            // var duper = new Duplicator();
-
-
-            // var assumeFlags = new QKeyValue(Token.NoToken, "captureState", new List<object>{ "final_state" }, null);
-            // AssumeCmd ac = new AssumeCmd(Token.NoToken, new LiteralExpr(Token.NoToken, true), assumeFlags);
-            // impl.Blocks.Last().Cmds.Add(ac);
-
-            // try
-            // {
-            //     var start = DateTime.Now;
-            //     (outcome, errors, vcResults) =
-            //         vcgen.VerifyImplementation2(new ImplementationRun(impl, Console.Out), CancellationToken.None).Result;
-            //     var end = DateTime.Now;
-
-            //     TimeSpan elapsed = end - start;
-            //     Console.WriteLine(string.Format("  [{0} s]  ", elapsed.TotalSeconds));
-            // }
-            // catch (VC.VCGenException e)
-            // {
-            //     Log.Out(Log.Error, "Error BP5010: {0}  Encountered in implementation {1}: " + e.Message);
-            //     errors = null;
-            //     outcome = VcOutcome.Inconclusive;
-            // }
-            // catch (UnexpectedProverOutputException upo)
-            // {
-            //     Log.Out(Log.Error, "Advisory: {0} SKIPPED because of internal error: unexpected prover output: {1}" + upo.Message);
-            //     errors = null;
-            //     outcome = VcOutcome.Inconclusive;
-            // }
-            // catch (Exception e)
-            // {
-            //     Log.Out(Log.Error, "Unknown error somewhere in verification: ");
-            //     Log.Out(Log.Error, e.ToString());
-            //     return VerificationResult.Unknown;
-            // }
-
-            switch (outcome)
-            {
-                case VcOutcome.Correct:
-                    sdoutcome = VerificationResult.Verified;
-                    break;
-                case VcOutcome.Errors:
-                    sdoutcome = VerificationResult.Error;
-                    break;
-                case VcOutcome.Inconclusive:
-                    sdoutcome = VerificationResult.Inconclusive;
-                    break;
-                case VcOutcome.OutOfMemory:
-                    sdoutcome = VerificationResult.OutOfMemory;
-                    break;
-                case VcOutcome.TimedOut:
-                    sdoutcome = VerificationResult.TimeOut;
-                    break;
-            }
-
-            Log.Out(Log.Normal, outcome.ToString());
-
-            var eqVarName = "";
-            if (errors != null && errors.Count() == 1)
-            {
-                //eqVarName = errors[0];
-            }
-
-            Log.Out(Log.Verifier, (errors == null ? 0 : errors.Count) + " counterexamples...");
-
+            var sdoutcome = GetVR (outcome);
             if (errors != null)
             {
+                // JATIN_NOTE: This is all unsafe code, but its okay, because it does not influence the result.
+                // The result has been computed already. All this is just to get counter-examples.
                 var impl = outPrinter.impls.Get(implName);
                 var imperativeBlocks = new Dictionary<string, Block>();
                 var duper = new Duplicator();
@@ -312,6 +248,7 @@ namespace SDiff
                     if (!imperativeBlocks.ContainsKey(b.Label))
                         imperativeBlocks.Add(b.Label, duper.VisitBlock(b));
                 }
+
                 cex = new SDiffCounterexamples();
                 for (int i = 0; i < errors.Count; i++)
                 {
@@ -324,7 +261,8 @@ namespace SDiff
 
                     //reconstruct trace in terms of imperative blocks
                     var trace = ReconstructImperativeTrace(errors[i].Trace, imperativeBlocks);
-                    if (SymEx.TraceValidator.Validate(trace) || true)
+                    var traceInvalid = SymEx.TraceValidator.Validate(trace);
+                    if (traceInvalid)
                     {
                         Log.Out(Log.Cex, "Trace " + "[" + i + "]:");
                         Log.Out(Log.Cex, "Validating...");
@@ -334,7 +272,6 @@ namespace SDiff
                     }
                     else
                     {
-                        //Log.Out(Log.Cex, "Trace OK");
                         if (Options.DumpValidTraces)
                             SDiff.SymEx.CexDumper.PrintTrace(trace);
                     }
@@ -963,51 +900,14 @@ namespace SDiff
             {
                 var implName = vt.Eq.Name;
                 var rs_filename = "RS" + implName + "_out.bpl";
-
-                // JATIN_NOTE: This code is a hack to fix all boogie AST bugs. It dumps the program to a file,
-                // and calls boogie on the file, as if from the command line. This change counters unsound behavior
-                // introduced by manipulating boogie programs without maintaining their invariants, which is hard to do.
-                // A note in VerifyImplemenation describe the unsound behavior in more detail.
-
-                var outPrinter = new SymDiffConsolePrinter();
-                var options = new CommandLineOptions(TextWriter.Null, outPrinter)
-                {
-                    RunningBoogieFromCommandLine = true
-                };
-                options.Parse(["/soundLoopUnrolling", "/inline:spec", "/printModel:1", "/removeEmptyBlocks:0", "/printModelToFile:model.dmp"]);
-                var resultCache = new VerificationResultCache();
-                var engine = new ExecutionEngine(options, resultCache);
-                if (engine == null) {
-                    Log.Out (Log.Verifier, "Failed to create execution engine!");
-                }
                 prog = BoogieUtils.ParseProgram(rs_filename);
-                var stringWriter = new StringWriter();
-                var success = false;
                 try {
-                    success = engine.ProcessProgram(stringWriter, prog, rs_filename).Result;
+                    vt.Result = VerifyImplementationSafe(prog, rs_filename, implName, out SErrors);
+                    vt.Counterexamples = SErrors;
                 } catch (Exception e) {
                     Log.Out(Log.Error, "Error  Encountered : " + e.Message + " when verifying implementation " + implName);
-                    success = false;
-                }
-
-                var verified = outPrinter.implResults.Get(implName).Errors.Count == 0;
-                if (success && verified) {
-                    vt.Result = VerificationResult.Verified;
-                } else if (success) {
-                    vt.Result= VerificationResult.Error;
-                } else {
                     vt.Result = VerificationResult.Unknown;
                 }
-                // newEq = vt.Eq;
-                // newProg = prog;
-
-                // var vcgen = InitializeVC(newProg);
-                // //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
-                // newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
-
-                // //RS: Uncomment this
-                // newEq = (Implementation)newDict.Get(implName + "$IMPL");
-
 
                 switch (vt.Result)
                 {
@@ -1028,8 +928,11 @@ namespace SDiff
                         crashed = true;
                         break;
                 }
-                // vcgen.Close();
+
+                newDict = SDiff.Boogie.Process.BuildProgramDictionary(prog.TopLevelDeclarations.ToList());
+                newEq = (Implementation)newDict.Get(implName + "$IMPL");
             }
+
             //restore postconditions IN THE OLD IN-MEMORY PROGRAM
             vt.Left.Proc.Ensures = leftPosts;
             vt.Right.Proc.Ensures = rightPosts;
@@ -1052,7 +955,6 @@ namespace SDiff
             }
             if (!wrapper)
             {
-
                 if (vt.Result != VerificationResult.Error) return 0; //even timeouts/unhandled, as we see timeouts with 1 error, 0 model
 
                 //process counterexamples OVER THE NEW IN-MEMORY PROGRAM

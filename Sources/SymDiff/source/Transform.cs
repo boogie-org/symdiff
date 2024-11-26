@@ -62,7 +62,7 @@ namespace SDiff
     }
 
     public static Variable CustomClone(Variable v) {
-      return new LocalVariable(v.tok, 
+      return new LocalVariable(v.tok,
         new TypedIdent(v.TypedIdent.tok, v.TypedIdent.Name.Clone() as string, v.TypedIdent.Type.Clone() as Microsoft.Boogie.Type));
     }
 
@@ -142,7 +142,7 @@ namespace SDiff
       /***** Emit comparison, outputVars *****/
       var outputVars = new List<Duple<string, Variable>>();
 
-      eqParamInfo = new EqualityProcedureParameterInfo(new List<string>(), new List<string>(), 
+      eqParamInfo = new EqualityProcedureParameterInfo(new List<string>(), new List<string>(),
         new List<string>(), new List<string>(), new List<string>(), new List<string>(), new List<string>());
 
       outputVarsForVFTask = new List<Variable>();
@@ -150,7 +150,7 @@ namespace SDiff
       /***** Compile procedure body ****/
 
       var body = new List<Cmd>();
-      
+
       List<Ensures> outputPostConditions = new List<Ensures>();
 
       var eqModifies = new List<IdentifierExpr>(d1.Modifies);
@@ -167,7 +167,7 @@ namespace SDiff
         new BigBlock(Token.NoToken, "AA_INSTR_EQ_BODY", body, null, B.C.dmyTransferCmd);
       var bll = new List<BigBlock> { bl };
 
-      
+
       /***** CUSTOM HEAP COMPARISON PREDICATES *****/
 
       var heapVarsForSize = mergedProgram.TopLevelDeclarations.OfType<GlobalVariable>().Where(
@@ -184,7 +184,7 @@ namespace SDiff
       List<Formal> globalsToPropagate = globals.Select(x => new Formal(x.tok, x.TypedIdent, true)).ToList();
 
       // Add the pre-call assumptions about the inputs
-      Options.GenerateComparisons(globalsToPropagate, B.U.IdentifierExprSeqOfVariableSeq(ins1), B.U.IdentifierExprSeqOfVariableSeq(ins2), 
+      Options.GenerateComparisons(globalsToPropagate, B.U.IdentifierExprSeqOfVariableSeq(ins1), B.U.IdentifierExprSeqOfVariableSeq(ins2),
         mergedProgram, mergedProgram, bl, locals, true);
 
       // Add the procedure calls
@@ -298,7 +298,7 @@ namespace SDiff
         prec2Copy = savedOutputs.EmitSave(B.U.VariablesOfVariableSeq(interOuts)),
         ins1Copy = savedIns1.EmitSave(ins1.ToArray()),
         ins2Copy = savedIns2.EmitSave(ins2.ToArray());
-        
+
 
 
       /***** Emit function calls *****/
@@ -361,7 +361,7 @@ namespace SDiff
         savedc1Globals.Idents.Select(v => v.Name).ToList());
 
       for (int i = 0; i < savedOutputs.Count; i++)
-      { 
+      {
         outputEqualityExprs[i] = Tuple.Create(EmitEq(comparisonPrec2Vars[i], comparisonOutIds[i], ignoreSet), comparisonOutIds[i].Decl);
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d1.Name + "_" + outs1[i].Name, savedOutputs.Decls[i]));
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d2.Name + "_" + outs2[i].Name, outs2[i]));
@@ -377,7 +377,7 @@ namespace SDiff
       HavocCmd hcmd = new HavocCmd(Token.NoToken, outputEqualityState.Idents.ToList());
       List<Expr> rhs = new List<Expr>(outputEqualityExprs.Map(i => i.Item1));
       for (int i = 0; i < rhs.Count; ++i)
-          rhs[i] = Expr.Or(outputEqualityState.Idents[i], rhs[i]); 
+          rhs[i] = Expr.Or(outputEqualityState.Idents[i], rhs[i]);
       List<AssignLhs> lhs =
         new List<AssignLhs>(outputEqualityState.Idents.Map(x => new SimpleAssignLhs(Token.NoToken, x)));
       Cmd assgnCmd = new AssignCmd(Token.NoToken, lhs, rhs);
@@ -430,12 +430,12 @@ namespace SDiff
           outputPostConditions.Add(new Ensures(false, B.U.BigAnd(outputEqualityState.Idents)));
       else //assert(false) causes all the paths to be enumerated
           outputPostConditions.Add(new Ensures(false, Expr.False)); //to get exhaustive paths
-      
+
       var eqModifiesDupe = new List<IdentifierExpr>(d1.Modifies);
       eqModifiesDupe.AddRange(d2.Modifies);
       foreach (var v in leftRightOutputs.Decls)
         eqModifiesDupe.Add(Expr.Ident(v));
-      
+
       //uniqueify eqModifies
       var eqModifiesUn = new List<IdentifierExpr>();
       var eqModifiesVars = new HashSet<Variable>();
@@ -446,7 +446,7 @@ namespace SDiff
           eqModifies.Add(ie);
         eqModifiesVars.Add(ie.Decl);
       }
-      
+
 
       //var procName = "EQ_" + d1.Name + "__xx__" + d2.Name;
       var procName = mkEqProcName(d1.Name, d2.Name);
@@ -472,13 +472,17 @@ namespace SDiff
           new List<Variable>(outputEqualityState.Decls),
           locals, new StmtList(bll, Token.NoToken));
 
+      var assumeFlags = new QKeyValue(Token.NoToken, "captureState", new List<object>{ "final_state" }, null);
+      AssumeCmd ac = new AssumeCmd(Token.NoToken, new LiteralExpr(Token.NoToken, true), assumeFlags);
+      eqImp.Blocks.Last().Cmds.Add(ac);
+
       var l = new List<Declaration>();
 
       return new Duple<Procedure, Implementation>(eqProc, eqImp);
     }
 
     private static string sanitize(string s)
-    { 
+    {
       return s.Replace("$", "");
     }
 
@@ -516,7 +520,7 @@ namespace SDiff
     public static Expr EmitEq(IdentifierExpr leftVar, IdentifierExpr rightVar, HashSet<Variable> ignoreSet)
     {
 
-                   
+
        // just blocking poly map for now - hemr
        if (!(leftVar.Decl.TypedIdent.Type is MapType || leftVar.Decl.TypedIdent.Type is TypeSynonymAnnotation))
         return Expr.Eq(leftVar, rightVar);
@@ -548,11 +552,11 @@ namespace SDiff
           bvs[i] = x;
           i++;
       }
-        
+
       //var bound = new List<Variable>();
       //var x = new BoundVariable(Token.NoToken, new TypedIdent(Token.NoToken, "_x", leftVar.Decl.TypedIdent.Type.AsMap.Arguments[0]));
       //bound.Add(x);
-     
+
       //var lhs = SelectExpr(leftVar, Expr.Ident(x).);
       //var rhs = SelectExpr(rightVar, Expr.Ident(x));
       IdentifierExpr[] idenExprs = new IdentifierExpr[bvs.Length];
