@@ -480,20 +480,18 @@ namespace RVT
 
             vcgen = BoogieVerify.InitializeVC(newProg);
             //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
-            var newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
             //newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
-
+            var newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
 
 
             SDiffCounterexamples SErrors;
             List<Model> errModelList;
 
-
-            //Clear up the state since it might call the same procedure twice
-
-
-
-            vt.Result = SDiff.VerificationResult.Verified;
+            // JATIN_NOTE: I am not sure this call to verifyImplementation is safe for the following reasons:
+            // (i) It reads and manipulates prog after reading it from the file, which is strong discouraged when using Boogie
+            // (ii) The filename passed here does not correspond to the file name of the program, unsure about the behavior.
+            // When running/developing this part of SymDiff, please address these two issues.
+            vt.Result = BoogieVerify.VerifyImplementation(prog, vt.Eq.Name + "_out.bpl", vt.Eq.Name, out SErrors);
 
             switch (vt.Result)
             {

@@ -174,7 +174,7 @@ namespace SDiff
         //     vcgen.Close();
         //     return outcome;
         // }
-        public static VerificationResult VerifyImplementationSafe(Program prog, string fileName, string implName, out SDiffCounterexamples cex)
+        public static VerificationResult VerifyImplementation(Program prog, string fileName, string implName, out SDiffCounterexamples cex)
         {
             cex = null;
             var outPrinter = new SymDiffConsolePrinter();
@@ -896,7 +896,7 @@ namespace SDiff
                 var rs_filename = "RS" + implName + "_out.bpl";
                 prog = BoogieUtils.ParseProgram(rs_filename);
                 try {
-                    vt.Result = VerifyImplementationSafe(prog, rs_filename, implName, out SErrors);
+                    vt.Result = VerifyImplementation(prog, rs_filename, implName, out SErrors);
                     vt.Counterexamples = SErrors;
                 } catch (Exception e) {
                     Log.Out(Log.Error, "Error  Encountered : " + e.Message + " when verifying implementation " + implName);
