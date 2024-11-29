@@ -254,6 +254,10 @@ namespace SDiff
                 {
                     Options.checkEquivForRoots = true;
                 }
+                else if (args[i].StartsWith("-msFile:") || args[i].StartsWith("/msFile:"))
+                {
+                    Options.mutualSummariesFile = args[i].Substring("-msFile:".Length);
+                }
                 else if (args[i].StartsWith("-main:") || args[i].StartsWith("/main:"))
                 {
                     Options.mainProcedure = args[i].Substring("-main:".Length);
@@ -326,9 +330,9 @@ namespace SDiff
                 {
                     cfg = new Config(args[2]);
                 }
-                catch
+                catch (Exception e)
                 {
-                    Console.WriteLine("Failed to parse config file");
+                    Console.WriteLine("Failed to parse config file: " + e.Message);
                     return 1;
                 }
             }
