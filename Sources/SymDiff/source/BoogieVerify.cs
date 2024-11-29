@@ -176,13 +176,7 @@ namespace SDiff
         // }
         public static VerificationResult VerifyImplementationSafe(Program prog, string fileName, string implName, out SDiffCounterexamples cex)
         {
-
-            List<Counterexample> errors;
-            VerificationResult sdoutcome = VerificationResult.Unknown;
-            List<VerificationRunResult> vcResults;
-            VcOutcome outcome;
             cex = null;
-
             var outPrinter = new SymDiffConsolePrinter();
             var options = new CommandLineOptions (TextWriter.Null, outPrinter)
             {
