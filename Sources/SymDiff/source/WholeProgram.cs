@@ -89,6 +89,7 @@ namespace SDiff
           Console.WriteLine("\n[Options for mutual summaryies and DAC]");
           Console.WriteLine("\t -usemutual      \n\t\tuse the CADE'13/FSE'13 mutual summaries (paired with -useMutualSummmariesAsAxioms) with an additional file \"ms_symdiff_file.bpl\"");
           Console.WriteLine("\t -dumpMS         \n\t\tdump default mutual summaries for matched procedures to ms_symdiff_file.bpl");
+          Console.WriteLine("\t -msFile:file    \n\t\tfile to search for mutual summaries (default: ms_symdiff_file.bpl)");
           Console.WriteLine("\t -asserts        \n\t\tperforms differential assertion checking (wrt assertions present)");
           Console.WriteLine("\t -useMutualSummmariesAsAxioms \n\t\tuse the mutual summaries (CADE'13) when -usemutual is specified (default FSE'13 encoding even without -asserts)");
           Console.WriteLine("\t -checkEquivWithDependencies \n\t\tuse the FSE'13 encoding for checking equivalence with candidates given by dependency analysis");
@@ -130,6 +131,11 @@ namespace SDiff
             Options.dumpDefaultMutualSummaries = argsList.Remove("-dumpMS");
             Options.useMutualSummariesAsAxioms = argsList.Remove("-useMutualSummariesAsAxioms");
             Options.dontUseHoudiniForMS = argsList.Remove("-dontUseHoudiniForMS");
+            if (argsList.Exists(x => x.StartsWith("-msFile:") || x.StartsWith("/msFile:")))
+            {
+                var msFileOpt = argsList.FirstOrDefault(x => x.StartsWith("-msFile:") || x.StartsWith("/msFile:"));
+                Options.mutualSummariesFile = msFileOpt.Substring("-msFile:".Length);
+            }
             Options.useAbstractHoudiniInference = argsList.Remove("-useAbstractHoudiniInference");
             Options.checkMutualPrecondNonTerminating = argsList.Remove("-checkMutualPrecondNonTerminating");
             Options.freeContracts = argsList.Remove("-freeContracts");
@@ -253,10 +259,6 @@ namespace SDiff
                 else if (args[i].Equals("-checkEquivForRoots") || args[i].Equals("/checkEquivForRoots"))
                 {
                     Options.checkEquivForRoots = true;
-                }
-                else if (args[i].StartsWith("-msFile:") || args[i].StartsWith("/msFile:"))
-                {
-                    Options.mutualSummariesFile = args[i].Substring("-msFile:".Length);
                 }
                 else if (args[i].StartsWith("-main:") || args[i].StartsWith("/main:"))
                 {
