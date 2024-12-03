@@ -13,8 +13,8 @@ namespace RVT
     class RVTCheck
     {
 
-        //Each function irrespective of the side will have a unique index. 
-        //Each function should alreayd have a unique name because of the prefix. 
+        //Each function irrespective of the side will have a unique index.
+        //Each function should alreayd have a unique name because of the prefix.
         public static Dictionary<string, int> fnNameToIndex1, fnNameToIndex2;
         public static Dictionary<int, string> fnIndexToName1, fnIndexToName2;
 
@@ -51,7 +51,7 @@ namespace RVT
             funs = new Dictionary<string, string>(fnMap);
             eqProcsCreated = new Dictionary<string, Duple<Duple<Procedure, Implementation>, List<Variable>>>();
 
-            //compute the cg sizes 
+            //compute the cg sizes
             int cg1size, cg2size;
 
             var cg1Nodes = cg1.GetNodes();
@@ -121,7 +121,7 @@ namespace RVT
                     edgeList2.Add(edge);
                 }
             }
-            
+
 
             //call the Decomposer
             List<int> synEq = new List<int>();
@@ -138,7 +138,7 @@ namespace RVT
                 //Add the same uninterpreted function by default
                 Procedure leftP = cg.NodeOfName(fnPair.Key).Proc;
                 Procedure rightP = cg.NodeOfName(fnPair.Value).Proc;
-                InjectUIFsOnBothProcs(leftP, rightP, cg.NodeOfName(fnPair.Key).Impl != null);               
+                InjectUIFsOnBothProcs(leftP, rightP, cg.NodeOfName(fnPair.Key).Impl != null);
                 if (RVTCreateEQProcs(left, ref synEq, ref empty1, ref empty2))
                 {
                     //add the mapping if the eq generation succeeded
@@ -153,13 +153,13 @@ namespace RVT
             List<int> loop_functions_1, loop_functions_2;
             loop_functions_1 = new List<int>();
             loop_functions_2 = new List<int>();
-            
+
             foreach (var cgNode in cg1Nodes)
             {
                 string src = cgNode.Proc.Name;
                 if (src.Contains(Options.LoopStringIdentifier)) loop_functions_1.Add(fnNameToIndex1[src]);
             }
-            
+
             foreach (var cgNode in cg2Nodes)
             {
                 string src = cgNode.Proc.Name;
@@ -182,7 +182,7 @@ namespace RVT
         private static void InjectUIFsOnBothProcs(Procedure leftP, Procedure rightP, bool hasImplementation)
         {
             ////create uifs, grabs the readset from callgraph
-            ////same uif for both versions   
+            ////same uif for both versions
             ////injects them as postcondition
             var newDecls = new List<Declaration>();
             if (SDiff.Boogie.Process.InjectUninterpreted(leftP, rightP, cfg, cg, newDecls, hasImplementation))
@@ -295,7 +295,7 @@ namespace RVT
                 Log.LogEmit(Log.Normal, mergedProgram.Emit);
             }
 
-            // callgraph has changed because EQ programs are added 
+            // callgraph has changed because EQ programs are added
             Log.Out(Log.Normal, "Building callgraphs and computing read and write sets");
             cg = CallGraph.Make(mergedProgram);
             ReadWriteSetDecorator.DoDecorate(cg); //start from scratch to fill in the read/write sets
@@ -305,8 +305,8 @@ namespace RVT
 
             Duple<Duple<Procedure, Implementation>, List<Variable>> tmp = new Duple<Duple<Procedure, Implementation>, List<Variable>>(eqp, outputVars);
             eqProcsCreated.Add(eqpName, tmp);
-            
-            
+
+
             return true;
 
         }
@@ -319,7 +319,7 @@ namespace RVT
         /// <param name="inlinedFns1"></param> list of fns in side1 to inline
         /// <param name="inlinedFns2"></param> list of fns in side2 to inline
         ///  <param name="is_recursive"></param> whether f is recursive (or part of mutual recursion). Should be used for determining whether we can do differential inlining.
-        /// <returns></returns> 
+        /// <returns></returns>
         public static bool RVTCheckEq(int f, HashSet<int> inlinedFns1, HashSet<int> inlinedFns2, bool is_recursive)
         {
             //name of the function
@@ -377,9 +377,9 @@ namespace RVT
             // Call RVTRunVerification Task
             bool crashed;
             var result = 1;
-            
+
             if (eqp!=null) result = RVTRunVerificationTask(vt, null, mergedProgram, inlinedFns1, inlinedFns2, out crashed);
-            
+
             return (result == 1);
         }
 
@@ -405,7 +405,7 @@ namespace RVT
             var leftPosts = vt.Left.Proc.Ensures;
             var rightPosts = vt.Right.Proc.Ensures;
 
-            //Keep the postconditions correpsonding to the 
+            //Keep the postconditions correpsonding to the
             //free ensures (out == uf_Foo(inp))
             //vt.Left.Proc.Ensures = new List<Ensures>();
             //vt.Right.Proc.Ensures = new List<Ensures>();
@@ -443,7 +443,7 @@ namespace RVT
                     indx = fnNameToIndex2[currentProcImpl.Proc.Name];
                 }
 
-                //Inline if present in 
+                //Inline if present in
                 if (match && (inlinedFns1.Contains(indx) || inlinedFns2.Contains(indx)))
                 {
                     inlinedImpls.Add(currentProcImpl);
@@ -467,7 +467,7 @@ namespace RVT
                 Log.LogEmit(Log.Normal, prog.Emit);
             }
 
-            // To print the EQ files in 
+            // To print the EQ files in
 
             Util.DumpBplAST(prog, vt.Eq.Name + "_out.bpl");
             // prog = SDiff.Boogie.Process.ParseProgram(vt.Eq.Name + "_out.bpl");
@@ -480,20 +480,18 @@ namespace RVT
 
             vcgen = BoogieVerify.InitializeVC(newProg);
             //SDiff.Boogie.Process.ResolveAndTypeCheck(newProg, "");
-            var newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
             //newEq = (Implementation)newDict.Get(vt.Eq.Name + "$IMPL");
-
+            var newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
 
 
             SDiffCounterexamples SErrors;
             List<Model> errModelList;
 
-
-            //Clear up the state since it might call the same procedure twice
-
-
-
-            vt.Result = BoogieVerify.VerifyImplementation(vcgen, newEq, newProg, out SErrors);
+            // JATIN_NOTE: I am not sure this call to verifyImplementation is safe for the following reasons:
+            // (i) It reads and manipulates prog after reading it from the file, which is strong discouraged when using Boogie
+            // (ii) The filename passed here does not correspond to the file name of the program, unsure about the behavior.
+            // When running/developing this part of SymDiff, please address these two issues.
+            vt.Result = BoogieVerify.VerifyImplementation(prog, vt.Eq.Name + "_out.bpl", vt.Eq.Name, out SErrors);
 
             switch (vt.Result)
             {
