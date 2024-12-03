@@ -784,34 +784,6 @@ namespace SDiff
             writer.Close();
         }
 
-        public static string RunBoogieCommand(string fileName){
-            try {
-                var processInfo = new ProcessStartInfo
-                {
-                    FileName = "boogie",
-                    Arguments = fileName,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
-                };
-
-                using (var process = System.Diagnostics.Process.Start(processInfo))
-                {
-                    if (process != null)
-                    {
-                        string output = process.StandardOutput.ReadToEnd();
-                        Log.Out(Log.Verifier, output);
-                        process.WaitForExit();
-                        return output;
-                    }
-                }
-            }
-            catch (Exception ex) {
-                Console.WriteLine($"Error running boogie command: {ex.Message}");
-            }
-            return "error";
-        }
-
         public static int RunVerificationTask(VerificationTask vt, Program prog, out bool crashed, bool wrapper = true)
         {
             crashed = false;
