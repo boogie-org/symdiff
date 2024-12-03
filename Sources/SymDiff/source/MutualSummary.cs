@@ -177,11 +177,11 @@ namespace SDiff
 
         private static void ParseAddtionalMSFile(Program mergedProgram)
         {
-            var ms_file = "ms_symdiff_file.bpl";
+            var ms_file = Options.mutualSummariesFile;
             if (!System.IO.File.Exists(ms_file)) return;
             Program ms = BoogieUtils.ParseProgram(ms_file);
             //TODO: Have to merge the new types (including datatypes)
-            if (ms == null) throw new Exception("Parsing of ms_symdiff_file.bpl failed");
+            if (ms == null) throw new Exception($"Parsing of {Options.mutualSummariesFile} failed");
             mergedProgram.AddTopLevelDeclarations(ms.TopLevelDeclarations);
             mergedProgram.Resolve(BoogieUtils.BoogieOptions);
         }
@@ -297,7 +297,7 @@ namespace SDiff
         /// </summary>
         private static void dumpDefaultMutualSummaries()
         {
-            var msFile = "ms_symdiff_file.bpl";
+            var msFile = Options.mutualSummariesFile;
             if (!System.IO.File.Exists(msFile)) { using (System.IO.File.Create(msFile)) {}; }
 
             Program ms = BoogieUtils.ParseProgram(msFile);
@@ -639,8 +639,9 @@ namespace SDiff
         {
             if (useHoudini) return Expr.True; //we will have cpre/cpost instead
 
-            Expr pre = CreateVariableEqualities(i1, i2);
-            Expr post = CreateVariableEqualities(o1, o2);
+
+            Expr pre = CreateVariableEqualities(i1, i2, pm);
+            Expr post = CreateVariableEqualities(o1, o2, pm);
             return Expr.Imp(pre, post);
         }
 
@@ -711,6 +712,26 @@ namespace SDiff
                 ret.Add(MkExprWithAttr(Expr.Eq(ue, ve), "DAC_EQ", new List<object>() { ue, ve }));
             return ret;
         }
+
+        private static Expr CreateVariableEqualities(List<Variable> i1, List<Variable> i2, ParamMap pm)
+        {
+            Expr pre = Expr.True;
+            foreach (Variable u in i1)
+            {
+                var ut = Util.TrimPrefixWithDot(u.Name, p1Prefix);
+                foreach (Variable v in i2)
+                {
+                    var vt = Util.TrimPrefixWithDot(v.Name, p2Prefix);
+                    if (pm.Contains(new HDuple<string>(ut, vt)))
+                    {
+                        pre = Expr.And(pre, Expr.Eq(Expr.Ident(u), Expr.Ident(v)));
+                        break;
+                    }
+                }
+            }
+            return pre;
+        }
+
         private static Expr CreateVariableEqualities(List<Variable> i1, List<Variable> i2)
         {
             Expr pre = Expr.True;
