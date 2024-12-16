@@ -61,16 +61,12 @@ namespace BoogieWrapper
             }
 
             var newProg = prog;
-
-            VC.ConditionGeneration vcgen = BoogieVerify.InitializeVC(newProg);
-            var newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
-
-            //RS: Uncomment this
-            var newEq = (Implementation)newDict.Get(funcName + "$IMPL");
             SDiffCounterexamples SErrors;
             List<Model> errModelList;
-
-            var Result = BoogieVerify.VerifyImplementation(vcgen, newEq, newProg, out SErrors);
+            var Result = BoogieVerify.VerifyImplementation(newProg, fileName, funcName, out SErrors);
+            var newDict = SDiff.Boogie.Process.BuildProgramDictionary(newProg.TopLevelDeclarations.ToList());
+            //RS: Uncomment this
+            var newEq = (Implementation)newDict.Get(funcName + "$IMPL");
 
             switch (Result)
             {
@@ -117,7 +113,7 @@ namespace BoogieWrapper
                 }
                 if (Options.DoSymEx)
                 {
- 
+
                     if (Options.PreciseDifferentialInline)
                     {
                         IEnumerable <Declaration> consts = prog.TopLevelDeclarations.Where(x => x is Constant);
@@ -132,14 +128,14 @@ namespace BoogieWrapper
                     }
                 }
             }
-            
+
             return (SErrors == null ? 0 : SErrors.Count);
 
         }
         private static void GetImplementations(Dictionary<string, Declaration> newDict, string funcName, out Implementation n1, out Implementation n2,string n1name, string n2name)
         {
             n1 = (Implementation)newDict.Get(n1name + "$IMPL");
-            n2 = (Implementation)newDict.Get(n1name + "$IMPL");        
+            n2 = (Implementation)newDict.Get(n1name + "$IMPL");
         }
 
         public class BvdInstrument : FixedVisitor
@@ -151,7 +147,7 @@ namespace BoogieWrapper
                 foreach (Cmd c in b.Cmds)
                 {
                     cmds.Add(c);
-                    if ((c is CallCmd) || (c is AssignCmd) || (c is HavocCmd) || 
+                    if ((c is CallCmd) || (c is AssignCmd) || (c is HavocCmd) ||
                         (c is AssumeCmd && ((AssumeCmd)c).Attributes == null) ||
                         (c is AssertCmd && ((AssertCmd)c).Attributes == null))
                     {   //some asserts/assumes have string attributes
