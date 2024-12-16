@@ -85,13 +85,13 @@ namespace SymDiffUtils
         private Graph<Procedure> callGraph = null;
         List<string> candidateConsts = null;
 
-        public HoudiniAnalyzeImplSubset(Program prog, IEnumerable<Procedure> procs) 
-        { 
+        public HoudiniAnalyzeImplSubset(Program prog, IEnumerable<Procedure> procs)
+        {
             this.prog = prog;
             procsToAnalyze = procs;
             callGraph = CallGraphHelper.ComputeCallGraph(prog);
-            this.candidateConsts = this.prog.Variables.Where(Item => 
-                QKeyValue.FindBoolAttribute(Item.Attributes, "existential")).Select(Item => Item.Name).ToList();
+            this.candidateConsts = this.prog.Variables.Where(Item =>
+                Item.Attributes.FindBoolAttribute("existential")).Select(Item => Item.Name).ToList();
         }
 
         public override Program VisitProgram(Program node)
@@ -104,7 +104,7 @@ namespace SymDiffUtils
         }
 
         public override Procedure VisitProcedure(Procedure node)
-        {            
+        {
             if (callGraph.Predecessors(node).Any(x => !procsToAnalyze.Contains(x)))
             {
                 //has callers outside procsToAnalyze, drop any candidate requires
@@ -128,7 +128,7 @@ namespace SymDiffUtils
         Program prog;
         HashSet<Variable> usedExistentialConstants;
         public HoudiniPruneUnusedExistentialConstants(Program prog)
-        { 
+        {
             this.prog = prog;
             usedExistentialConstants = new HashSet<Variable>();
         }
@@ -136,18 +136,18 @@ namespace SymDiffUtils
         {
             var tmp = base.VisitProgram(node);
             var unused = node.TopLevelDeclarations.OfType<Variable>()
-                .Where(x => (QKeyValue.FindBoolAttribute(x.Attributes, "existential") &&
+                .Where(x => (x.Attributes.FindBoolAttribute("existential") &&
                     !usedExistentialConstants.Contains(x)));
             Console.WriteLine("HoudiniPruneUnusedExistentialConstants: Removing [{0}]",
                 string.Join(",", unused.Select(x => x.Name)));
-            node.RemoveTopLevelDeclarations(x => unused.Contains(x)); 
+            node.RemoveTopLevelDeclarations(x => unused.Contains(x));
             return node;
         }
         public override Expr VisitIdentifierExpr(IdentifierExpr node)
         {
             VariableCollector vc = new VariableCollector();
             vc.Visit(node);
-            var existConsts = vc.usedVars.Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "existential"));
+            var existConsts = vc.usedVars.Where(x => x.Attributes.FindBoolAttribute("existential"));
             existConsts.ForEach(x => usedExistentialConstants.Add(x));
             return base.VisitIdentifierExpr(node);
         }
