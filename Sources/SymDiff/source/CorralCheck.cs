@@ -23,7 +23,7 @@ namespace SDiff
         private const int corralTimeLimit = 100;
         private int corralCount;
 
-        public CorralChecker(Program mergedProg, HashSet<Procedure> entryPoints) { 
+        public CorralChecker(Program mergedProg, HashSet<Procedure> entryPoints) {
             this.mergedProg = mergedProg; this.entryPoints = entryPoints;
             corralCount = 0;
         }
@@ -32,7 +32,7 @@ namespace SDiff
             houdiniConsts = new HashSet<Constant>
             (mergedProg.TopLevelDeclarations
                 .OfType<Constant>()
-                .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "existential")));
+                .Where(x => x.Attributes.FindBoolAttribute("existential")));
         }
         public void CheckCandidateAsserts()
         {
