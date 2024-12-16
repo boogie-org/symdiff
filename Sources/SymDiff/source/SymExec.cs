@@ -346,22 +346,22 @@ namespace SDiff.SymEx
       for(int i = 0; i < trace.Count; i++)
       {
         var tx = trace[i].TransferCmd;
-        
+
         var jmp = tx as GotoCmd;
         if (jmp != null)
         {
           if (i + 1 < trace.Count)
-            if (!jmp.labelTargets.HasByLabel(trace[i + 1]))
+            if (!jmp.LabelTargets.HasByLabel(trace[i + 1]))
             {
               //boogie creates some "header" blocks that we can safely ignore. the condition for this is that
               // the actual next block is a suffix of the block it creates.
-              if (jmp.labelTargets.HasByLabelSuffix(trace[i + 1]))
+              if (jmp.LabelTargets.HasByLabelSuffix(trace[i + 1]))
                 continue;
-              Log.Out(Log.Error, "Missing block in trace: jumps to " + jmp.labelTargets.ToString() + " but next block is " + trace[i + 1].Label);
+              Log.Out(Log.Error, "Missing block in trace: jumps to " + jmp.LabelTargets.ToString() + " but next block is " + trace[i + 1].Label);
               return true;
             }
-          //if (jmp.labelTargets.Length != 1)
-          //  Log.Out(Log.Warning, "Block ends in non-det goto. Labels: " + jmp.labelTargets.ToString());
+          //if (jmp.LabelTargets.Length != 1)
+          //  Log.Out(Log.Warning, "Block ends in non-det goto. Labels: " + jmp.LabelTargets.ToString());
         }
 
         var ret = tx as ReturnCmd;
