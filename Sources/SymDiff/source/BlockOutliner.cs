@@ -25,13 +25,13 @@ public static class BlockOutliner
 
         return true;
     }
-    
+
     /// <summary>
     /// Outlines the passed Block, i.e., extracts it as a procedure.
     /// The passed Implementation and Program are updated in-place.
     /// </summary>
     public static Implementation OutlineBlock(CoreOptions options,
-                                              Program program, 
+                                              Program program,
                                               Implementation containingImpl,
                                               Block block)
     {
@@ -55,15 +55,15 @@ public static class BlockOutliner
          *       goto block_next;
          *
          * is outlined as
-         * 
+         *
          *   block:
          *       call outs := block_body_impl(ins);
          *       goto block_next;
          *   [...]
-         * 
+         *
          *   procedure block_body_impl(proc_ins) returns (proc_outs)
          *       modifies [subset of globals that are in block_body]
-         * 
+         *
          *   implementation block_body_impl(proc_ins) returns (proc_outs)
          *   {
          *       var locals; // declare locals that only appear in this block
@@ -74,8 +74,8 @@ public static class BlockOutliner
          *       block:
          *           [block_body] with subst(v, proc_v)
          *           return;
-         *   }   
-         * 
+         *   }
+         *
          *  ins  : Non-global variables where
          *             1) the variable is live before the block
          *             2) the variable is in the footprint of the block
@@ -95,8 +95,8 @@ public static class BlockOutliner
         // Collect used and assigned variables within the block
         foreach (var cmd in block.Cmds)
         {
-            cmd.AddAssignedVariables(modifiedVars);
-
+            // JATIN_NOTE: CHECK THIS PLEASE
+            cmd.AddAssignedIdentifiers(modifiedVars.Select(t => new IdentifierExpr(Token.NoToken, t)).ToList());
             var c = new VariableCollector();
             c.Visit(cmd);
             footprint.UnionWith(c.usedVars);
@@ -123,16 +123,16 @@ public static class BlockOutliner
         {
             foreach (var blk in unrollings)
             {
-                blk.liveVarsBefore.ForEach(v => liveVarsBefore.Add(v));
+                blk.LiveVarsBefore.ForEach(v => liveVarsBefore.Add(v));
                 if (blk.TransferCmd is not GotoCmd cmd) continue;
-                foreach (var blkTarget in cmd.labelTargets)
+                foreach (var blkTarget in cmd.LabelTargets)
                 {
                     var targetUnrollings = unrollingsOfBlock.Where(b =>
                             blkTarget.Label.Equals(b.Key.Label + "#0") ||
                             blkTarget.Label.Equals(b.Key.Label + "#1") ||
                             blkTarget.Label.Equals(b.Key.Label + "#2")).SelectMany(p => p.Value).ToList();
                     if (targetUnrollings.Count == 0) continue;
-                    targetUnrollings.ForEach(b => b.liveVarsBefore.ForEach(v => liveVarsAfter.Add(v)));
+                    targetUnrollings.ForEach(b => b.LiveVarsBefore.ForEach(v => liveVarsAfter.Add(v)));
                     // {
                     //     if (liveVarsBefore.Count == 0) liveVarsBefore = footprint;
                     //     if (liveVarsAfter.Count == 0) liveVarsAfter = globals.Select(v => v as Variable).ToHashSet();
@@ -200,7 +200,7 @@ public static class BlockOutliner
             var f = new Formal(Token.NoToken,
                 new TypedIdent(Token.NoToken, "out_" + newImplOuts.Count, v.TypedIdent.Type), false);
             var fExpr = new IdentifierExpr(Token.NoToken, f);
-            
+
             // If this variable also appears in the input, it will already be in
             // the subst map. This means we don't need a substitution in the body,
             // but must assign to the new out variable before return.
@@ -243,31 +243,20 @@ public static class BlockOutliner
             substMap.Add(v, new IdentifierExpr(newV.tok, newV.Name));
         }
 
-        var newImplLocals = newLocals.Concat(localsForIns).ToList(); 
+        var newImplLocals = newLocals.Concat(localsForIns).ToList();
 
         var subst = Substituter.SubstitutionFromDictionary(
             substMap.ToDictionary(p => p.Key, p => p.Value as Expr));
 
-        var finalBlock = new Block
-        {
-            Label = $"{containingImpl.Name}_block_{block}_exit",
-            Cmds = finalAssigns,
-            TransferCmd = new ReturnCmd(Token.NoToken)
-        };
+        var finalBlock = new Block (Token.NoToken, $"{containingImpl.Name}_block_{block}_exit", finalAssigns, new ReturnCmd(Token.NoToken));
 
-        var newBlock = new Block
-        {
-            Label = block.Label,
-            Cmds = Substituter.Apply(subst, block.Cmds),
-            TransferCmd = new GotoCmd(Token.NoToken, [finalBlock])
-        };
+        var newBlock = new Block (Token.NoToken, block.Label,Substituter.Apply(subst, block.Cmds),
+            new GotoCmd(Token.NoToken, [finalBlock]));
 
-        var initBlock = new Block
-        {
-            Label = $"{containingImpl.Name}_block_{block}_entry",
-            Cmds = initAssigns,
-            TransferCmd = new GotoCmd(Token.NoToken, [newBlock])
-        };
+        var initBlock = new Block (Token.NoToken,
+            $"{containingImpl.Name}_block_{block}_entry",
+            initAssigns,
+            new GotoCmd(Token.NoToken, [newBlock]));
 
         var blockImpl = new Implementation(Token.NoToken, blockProc.Name, [],
             newImplIns, newImplOuts, newImplLocals.OrderBy(v => v.Name).ToList(),
