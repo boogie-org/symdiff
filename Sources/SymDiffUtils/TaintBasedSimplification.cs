@@ -8,17 +8,17 @@ using System.Text;
 
 namespace SymDiffUtils
 {
-    public class TaintBasedSimplification : SimplificationVisitor 
+    public class TaintBasedSimplification : SimplificationVisitor
     {
         public static string TaintInferredAttribute = "inferred_taint";
         public static string TaintInferredComment = "Taint-Inferred DAC Candidate";
         public TaintBasedSimplification(Program p)
             : base(p, TaintInferredComment, TaintInferredAttribute)
-        {            
+        {
             this.program = p;
             this.candidateConsts = this.program.Variables.Where(Item =>
-                QKeyValue.FindBoolAttribute(Item.Attributes, "existential")).Select(Item => Item.Name).ToList();
-            this.procs = this.program.Procedures.Select(proc => new { proc.Name, x = proc }).ToDictionary(x => x.Name, x => x.x);            
+                Item.Attributes.FindBoolAttribute("existential")).Select(Item => Item.Name).ToList();
+            this.procs = this.program.Procedures.Select(proc => new { proc.Name, x = proc }).ToDictionary(x => x.Name, x => x.x);
         }
 
         public override Implementation VisitImplementation(Implementation node)
@@ -42,7 +42,7 @@ namespace SymDiffUtils
             }
             HashSet<string> nonTaintedInputs1, nonTaintedOutputs1, nonTaintedSummaries1;
             this.getTaintInfo(this.procs[f1], out nonTaintedInputs1, out nonTaintedOutputs1, out nonTaintedSummaries1);
-            
+
             HashSet<string> nonTaintedInputs2, nonTaintedOutputs2, nonTaintedSummaries2;
             this.getTaintInfo(this.procs[f2], out nonTaintedInputs2, out nonTaintedOutputs2, out nonTaintedSummaries2);
 
@@ -65,7 +65,7 @@ namespace SymDiffUtils
                     // If this is a summary ensures
                     if (ens.Attributes.Key.Equals("DAC_SUMMARY"))
                     {
-                        //get the varaible, map it, check if correspoinding summary is not tainted, if so make this free.                        
+                        //get the varaible, map it, check if correspoinding summary is not tainted, if so make this free.
                         if (nonTaintedSummaries.Contains(vn))
                         {
                             this.makeFreeEnsures(node.Proc, ens, ensToAdd, ensToRem);
@@ -154,7 +154,7 @@ namespace SymDiffUtils
         {
             this.program = p;
             this.candidateConsts = this.program.Variables.Where(Item =>
-                QKeyValue.FindBoolAttribute(Item.Attributes, "existential")).Select(Item => Item.Name).ToList();
+                Item.Attributes.FindBoolAttribute("existential")).Select(Item => Item.Name).ToList();
             this.procs = this.program.Procedures.Select(proc => new { proc.Name, x = proc }).ToDictionary(x => x.Name, x => x.x);
             this.SIMPLIFICATION_COMMENT = comment;
             this.FILTERING_REASON = filteringReason;
@@ -173,9 +173,9 @@ namespace SymDiffUtils
             {
                 return;
             }
-            var attribute = new QKeyValue(Token.NoToken, req.Attributes.Key, new List<object>(req.Attributes.Params), 
+            var attribute = new QKeyValue(Token.NoToken, req.Attributes.Key, new List<object>(req.Attributes.Params),
                             new QKeyValue(Token.NoToken, this.FILTERING_REASON, new List<object>(), null));
-            var newReq = new Requires(Token.NoToken, true, removeExistentialImplication(req.Condition), SIMPLIFICATION_COMMENT, attribute );            
+            var newReq = new Requires(Token.NoToken, true, removeExistentialImplication(req.Condition), SIMPLIFICATION_COMMENT, attribute );
             reqToRemove.Add(req);
             reqToAdd.Add(newReq);
         }

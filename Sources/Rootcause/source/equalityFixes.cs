@@ -144,7 +144,7 @@ namespace Rootcause
 
             //make program predicated
             Dictionary<AssignCmd, Dictionary<Variable, Constant>> predConsts = new Dictionary<AssignCmd, Dictionary<Variable, Constant>>();
-            //x := if (g) e else havoc_x; 
+            //x := if (g) e else havoc_x;
             guardAssignmentsOnRight(program, implementation, L, R, predConsts);
             Utils.PrintProg(program);
 
@@ -302,11 +302,11 @@ namespace Rootcause
 
             (new Utils.ExtractCalleeConstVisitor()).Visit(program);
             (new Utils.MiscStatementPruner()).Visit(program);
-            
+
             List<Variable> ctobpl_consts = program.TopLevelDeclarations.Where(x => x is Constant).Cast<Variable>().
                 Where(x => x.Name.Contains("ctobpl")).ToList<Variable>();
             program.RemoveTopLevelDeclarations(x => ctobpl_consts.Contains(x));
-            
+
             if (Options.liftConditionals) { Utils.liftConditionalsInCFG(program, implementation); }
 
             if (Utils.verbosityLevel(2))
@@ -344,7 +344,7 @@ namespace Rootcause
             }
 
             Utils.PrintProg(program);
-            
+
             Tuple<List<Block>, List<Block>> LR = Utils.GetLeftRightBlocks(implementation);
             List<Block> L = LR.Item1;
             List<Block> R = LR.Item2;
@@ -435,7 +435,7 @@ namespace Rootcause
 
             //make program predicated
             Dictionary<AssignCmd, Dictionary<Variable, Constant>> predConsts = new Dictionary<AssignCmd, Dictionary<Variable, Constant>>();
-            //x := e --> x := if (!b_pred) then havoc_x else e; 
+            //x := e --> x := if (!b_pred) then havoc_x else e;
             guardAssignmentsOnRight(program, implementation, L, R, predConsts);
             Utils.PrintProg(program);
 
@@ -747,7 +747,7 @@ namespace Rootcause
                     VC.translator.LookupVariable(assignAssertConstants[rAssign]));
 
                 //turn off the final assign
-                ensureAssert = VC.exprGen.And(someAssignAssertGuardsDisabled, 
+                ensureAssert = VC.exprGen.And(someAssignAssertGuardsDisabled,
                     VC.exprGen.And(VC.translator.LookupVariable(phi_guard),
                     VC.exprGen.Not(VC.translator.LookupVariable(neg_phi_guard))));
 
@@ -756,7 +756,7 @@ namespace Rootcause
             else
             {
                 //use the original
-                ensureAssert = VC.exprGen.And(assignAssertGuardsDisabled, 
+                ensureAssert = VC.exprGen.And(assignAssertGuardsDisabled,
                     VC.exprGen.And(VC.translator.LookupVariable(phi_guard),
                     VC.exprGen.Not(VC.translator.LookupVariable(neg_phi_guard))));
             }
@@ -1150,7 +1150,7 @@ namespace Rootcause
             int stats_usefulCandidates = 0, stats_uselessCandidates = 0, stats_maxsatAssignments = 0;
             foreach (AssignCmd assignCmd in assignsToExplore)
             {
-                //if (Utils.CheckTimeout(sw.Elapsed.TotalSeconds)) {  } 
+                //if (Utils.CheckTimeout(sw.Elapsed.TotalSeconds)) {  }
                 if ((!rightAxioms.ContainsKey(assignCmd)) || (!rightCandidates.ContainsKey(assignCmd))) { continue; }
                 stats_maxsatAssignments++;
 
@@ -2211,7 +2211,7 @@ namespace Rootcause
             }
             public bool trivialFilterFunction(AssignCmd l, AssignCmd r)
             {
-                //new: Adding filters for "HavocVal" instructions 
+                //new: Adding filters for "HavocVal" instructions
                 AssignCmd a = side == Side.RightProgram ? r : l;
                 if (a.Rhss.All(expr => expr is IdentifierExpr)) return true;
                 if (a.Rhss.All(expr => FunctionNameContains(expr, "HavocVal"))) return true;
@@ -2255,7 +2255,7 @@ namespace Rootcause
                 return true;
             }
 
-            //true if assignment contains 
+            //true if assignment contains
             public bool immediateFilterFunction(AssignCmd l, AssignCmd r)
             {
                 AssignCmd a = side == Side.RightProgram ? r : l;
@@ -2781,7 +2781,7 @@ namespace Rootcause
                 {
                     Constant kv = leftConst.Item2;
                     if (lhs.TypedIdent.Type.ToString() != kv.TypedIdent.Type.ToString()) continue;
-                    //use other heuristics such as fuzzy matching of names 
+                    //use other heuristics such as fuzzy matching of names
                     if (!FuzzyMatchOfNames(lhs.Name, kv.Name)) continue;
                     //use heuristics based on the line numbers (don't compare variables 100 lines apart on two sides)
                     matches.Add(kv);
@@ -3137,7 +3137,7 @@ namespace Rootcause
                 {
                     Constant kv = leftConst.Item2;
                     if (lhs.TypedIdent.Type.ToString() != kv.TypedIdent.Type.ToString()) continue;
-                    //use other heuristics such as fuzzy matching of names 
+                    //use other heuristics such as fuzzy matching of names
                     if (!FuzzyMatchOfNames(lhs.Name, kv.Name)) continue;
                     //use heuristics based on the line numbers (don't compare variables 100 lines apart on two sides)
                     matches.Add(kv);
@@ -3478,7 +3478,7 @@ namespace Rootcause
             {
 
                 GotoCmd gotoCmd = (current.TransferCmd as GotoCmd); if (gotoCmd == null) continue;
-                List<Block> successors = gotoCmd.labelTargets;
+                List<Block> successors = gotoCmd.LabelTargets;
                 foreach (Block successor in successors)
                 {
                     CDFG[current].Item2.Add(successor);
@@ -3553,7 +3553,7 @@ namespace Rootcause
                 AssignCmd lastNode = lastAssign[b];
 
                 GotoCmd gotoCmd = (b.TransferCmd as GotoCmd); if (gotoCmd == null) continue;
-                List<Block> successorBlocks = gotoCmd.labelTargets;
+                List<Block> successorBlocks = gotoCmd.LabelTargets;
                 foreach (Block successorBlock in successorBlocks)
                 {
                     //find firstNode of successorBlock
@@ -3849,7 +3849,7 @@ namespace Rootcause
                         if (cex != null) { return cex; }
                     }
                 }
-                
+
             }
         }
 
@@ -4060,7 +4060,7 @@ namespace Rootcause
             //Console.WriteLine("lastRightCmd: {0}, lastRightCmdLine: {1}", lastRightCmd, lastRightCmdLine);
             //Console.WriteLine("lastLeftCmd: {0}, lastLeftCmdLine: {1}", lastLeftCmd, lastLeftCmdLine);
 
-            if (lastLeftCmd == null || lastRightCmd == null) return false; //either/both sides ran out 
+            if (lastLeftCmd == null || lastRightCmd == null) return false; //either/both sides ran out
             //We currently match, if the vector of assignment has same size, and there is a 1-1 mapping
             if (left.Count != right.Count)
             {

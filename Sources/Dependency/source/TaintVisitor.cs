@@ -58,8 +58,8 @@ namespace Dependency
                     else foreach (var procChange in changesPerProc)
 	                {
                         // add in the block pertaining to the changed line
-                        impl.Blocks.Where(b => b.Cmds.Count > 0 && 
-                                          b.Cmds[0] is AssertCmd && 
+                        impl.Blocks.Where(b => b.Cmds.Count > 0 &&
+                                          b.Cmds[0] is AssertCmd &&
                                           Utils.AttributeUtils.GetSourceLine(b.Cmds[0] as AssertCmd) == procChange.Item3)
                                             .Iter(b => changedBlocks.Add(b));
 	                }
@@ -95,7 +95,7 @@ namespace Dependency
                 foreach (var dominator in dominatedBy[block])
                     if (branchCondVars.ContainsKey(dominator))
                     {
-                        // assignment under a branch is tainted if any the variables in the 
+                        // assignment under a branch is tainted if any the variables in the
                         // branch conditional are tainted, *at the point of branching*
                         var domTaint = worklist.stateSpace[dominator.TransferCmd];
                         if (branchCondVars[dominator].Intersect(domTaint).Count() > 0)
@@ -225,7 +225,7 @@ namespace Dependency
             Block currBlock = worklist.cmdBlocks[node];
             var taintSet = worklist.GatherPredecessorsState(node, currBlock);
 
-            var succs = node.labelTargets;
+            var succs = node.LabelTargets;
             if (succs.Count > 1)
             { // here we create branchCondVars
                 if (!branchCondVars.ContainsKey(currBlock))

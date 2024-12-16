@@ -14,6 +14,7 @@ using VC;
 using SymDiffUtils;
 using Microsoft.Boogie.GraphUtil;
 using VCGeneration;
+using VCGeneration.Transformations;
 
 
 /* Misc code that should be in  */
@@ -195,7 +196,7 @@ namespace SymDiffUtils
                 nl.Add(v);
             return nl;
         }
-        
+
         /// <summary>
         /// Zips the two lists, but the list with the fewer items decides the
         /// length of the new list (like the `zip` in Python).
@@ -605,7 +606,7 @@ namespace SymDiffUtils
         {
             if (node.Name.Contains("#"))
                 return true;
-            if (QKeyValue.FindBoolAttribute(node.Attributes, "constructor"))
+            if (node.Attributes.FindBoolAttribute("constructor"))
                 return true;
             return false;
         }
@@ -819,9 +820,9 @@ namespace SymDiffUtils
         public static IEnumerable<string> FindChangedProcsWithinDistance(Program prog, int distance)
         {
             Graph<Procedure> cg = CallGraphHelper.ComputeCallGraph(prog);
-            var origChangedProcs = 
+            var origChangedProcs =
                 prog.TopLevelDeclarations.OfType<Procedure>()
-                .Where(x => x != null && QKeyValue.FindBoolAttribute(x.Attributes, "syntacticChangedProc"));
+                .Where(x => x != null && x.Attributes.FindBoolAttribute("syntacticChangedProc"));
 
             var a = BoogieUtils.FindProcsAtDistance(cg, origChangedProcs.Select(x => x.Name));
             var b = a.Where(x => x.Key <= distance);
@@ -920,7 +921,7 @@ namespace SymDiffUtils
                 else
                     prefix = v2Name;
 
-                //RS: weird behaviour due to $$ in filename 
+                //RS: weird behaviour due to $$ in filename
                 string hack = "";
                 if (file.Contains("$$"))
                     hack = file.Replace("$$", ":\\");
@@ -962,7 +963,7 @@ namespace SymDiffUtils
                                 if ((Util.IsModelConst(currConst)
                                     ) && (currConst.Name.StartsWith(prefix + ".")))
                                 {
-                                    if (Int16.Parse(Util.GetSourceLineAttr(currConst)) == i) //fixme: will crash if the sourceLine attribute does not have a legal line 
+                                    if (Int16.Parse(Util.GetSourceLineAttr(currConst)) == i) //fixme: will crash if the sourceLine attribute does not have a legal line
                                     {
                                         Model.Func valueIsFunction = null;
                                         if (errModel.HasFunc(v2Name + ".value_is"))
@@ -980,7 +981,7 @@ namespace SymDiffUtils
                                             partValue = ll.Args[1];
                                         String realVar = Util.GetModelConstExprAttr(currConst);  //currConst.Attributes.Params[0].ToString();
                                         if (!visitedExprs.Contains(realVar))
-                                        { //avoid printing the same 
+                                        { //avoid printing the same
                                             if (k > 0) cTraceModelBuilder.Append(", ");
                                             if (k == 0) cTraceModelBuilder.Append("[");
                                             cTraceModelBuilder.Append(realVar + " = " + partValue.ToString());
@@ -1044,14 +1045,14 @@ namespace SymDiffUtils
         }
         public static SolverOutcome VerifyVC(string descriptiveName, VCExpr vc, out List<Counterexample> cex)
         {
-            collector.examples.Clear(); //reset the cexs
+            collector.Examples.Clear(); //reset the cexs
             //Use MyBeginCheck instead of BeginCheck as it is inconsistent with CheckAssumptions's Push/Pop of declarations
             SolverOutcome proverOutcome;
             //proverOutcome = MyBeginCheck(descriptiveName, vc, VC.handler); //Crashes now
             //proverInterface.BeginCheck(descriptiveName, vc, handler);
             proverOutcome = proverInterface.Check(descriptiveName, vc, handler,
                 BoogieUtils.BoogieOptions.ErrorLimit, CancellationToken.None).Result;
-            cex = collector.examples.ToList();
+            cex = collector.Examples.ToList();
             return proverOutcome;
         }
 
@@ -1073,22 +1074,21 @@ namespace SymDiffUtils
 
         public static VCExpr GenerateVC(Program prog, Implementation impl)
         {
-            SymDiffVC.vcgen.ConvertCFG2DAG(new ImplementationRun(impl, Console.Out));
+            new RemoveBackEdges(SymDiffVC.vcgen).ConvertCfg2Dag(new ImplementationRun(impl, Console.Out));
             ModelViewInfo mvInfo;
-            var /*TransferCmd->ReturnCmd*/ gotoCmdOrigins =
-                SymDiffVC.vcgen.PassifyImpl(new ImplementationRun(impl, Console.Out), out mvInfo);
-        
+            SymDiffVC.vcgen.PassifyImpl(new ImplementationRun(impl, Console.Out), out mvInfo);
+
             var exprGen = SymDiffVC.proverInterface.Context.ExprGen;
-            //VCExpr controlFlowVariableExpr = null; 
+            //VCExpr controlFlowVariableExpr = null;
             VCExpr controlFlowVariableExpr = /*BoogieUtils.BoogieOptions.UseLabels ? null :*/ SymDiffVC.exprGen.Integer(BigNum.ZERO);
-        
-        
+
+
             var absyIds = new ControlFlowIdMap<Absy>();
             var vc = SymDiffVC.vcgen.GenerateVC(impl, controlFlowVariableExpr, absyIds, SymDiffVC.proverInterface.Context);
             VCExpr controlFlowFunctionAppl = SymDiffVC.exprGen.ControlFlowFunctionApplication(SymDiffVC.exprGen.Integer(BigNum.ZERO), SymDiffVC.exprGen.Integer(BigNum.ZERO));
             VCExpr eqExpr = SymDiffVC.exprGen.Eq(controlFlowFunctionAppl, SymDiffVC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
             vc = SymDiffVC.exprGen.Implies(eqExpr, vc);
-        
+
             return vc;
         }
         #endregion

@@ -183,7 +183,7 @@ namespace SDiff
                 RunningBoogieFromCommandLine = true
             };
             options.Parse(["/soundLoopUnrolling", "/inline:spec", "/printModel:1", "/removeEmptyBlocks:0", "/printModelToFile:model.dmp"]);
-            var engine = new ExecutionEngine(options, new VerificationResultCache());
+            var engine = ExecutionEngine.CreateWithoutSharedCache(options);
             if (engine == null) {
                 Log.Out (Log.Verifier, "Could not initialize Boogie verification engine");
             }
@@ -495,8 +495,8 @@ namespace SDiff
             Model[] errModelArray = errModelList.ToArray();
 
             var label = new GotoCmd(Token.NoToken, new List<String>() { "DONE" });
-            label.labelNames = new List<string>(); // label.labelTargets = new List<Block>();
-            label.labelNames.Add("DONE"); //label.labelTargets.Add("DONE");
+            label.LabelNames = new List<string>(); // label.LabelTargets = new List<Block>();
+            label.LabelNames.Add("DONE"); //label.LabelTargets.Add("DONE");
 
 
             // First block
@@ -509,11 +509,11 @@ namespace SDiff
 
             labels.Add("ELSE");
             var labelEntry = new GotoCmd(Token.NoToken, labels);
-            labelEntry.labelTargets = new List<Block>();
+            labelEntry.LabelTargets = new List<Block>();
 
             for (int j = 0; j < errors.Count; j++)
             {
-                labelEntry.labelNames.Add("Cex" + j);//labelEntry.labelTargets.Add("Cex" + j);
+                labelEntry.LabelNames.Add("Cex" + j);//labelEntry.LabelTargets.Add("Cex" + j);
             }
 
             for (int i = 0; i < errors.Count; i++)
