@@ -199,7 +199,7 @@ namespace Rootcause
             VCExpr forcedConditionals = predConsts.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)).Aggregate<VCExpr, VCExpr>(
                 VCExpressionGenerator.True, (VCExpr a, VCExpr b) => VC.exprGen.And(a, b));
 
-            //Proof query 
+            //Proof query
             VCExpr proofQuery = VC.exprGen.Implies(VC.exprGen.And(trueAssertions,forcedConditionals), progVC);
 
             List<Counterexample> cexs;
@@ -239,7 +239,7 @@ namespace Rootcause
             var hardConstraints = new List<VCExpr>();
             hardConstraints.Add(VC.exprGen.And(modelExpr, VC.exprGen.And(trueAssertions, progVC)));
             hardConstraints.AddRange(predConsts.ConvertAll<VCExpr>(x => VC.translator.LookupVariable(x)));
-            var (t, unsat) = VC.proverInterface.CheckAssumptions(hardConstraints, VC.handler, CancellationToken.None).Result;                
+            var (t, unsat) = VC.proverInterface.CheckAssumptions(hardConstraints, VC.handler, CancellationToken.None).Result;
             if (t == SolverOutcome.Valid)
             {
 
@@ -282,7 +282,7 @@ namespace Rootcause
             public int partition = -1;
             public override GotoCmd VisitGotoCmd(GotoCmd node)
             {
-                var label = node.labelNames;
+                var label = node.LabelNames;
                 if (label != null && label.Count == 1 && label[0].Contains("AA_INSTR_EQ_BODY$1"))
                     partition = node.Line;
                 return base.VisitGotoCmd(node);
@@ -498,7 +498,7 @@ namespace Rootcause
                 return hExpr;
             }
         }
-        #endregion 
+        #endregion
 
 
         #region Make Asserts Guarded
@@ -758,7 +758,7 @@ namespace Rootcause
             return store;
         }
         //TODO: add the Select/Store functions to the list
-        //foreach variable of type map:[t1,...,tk]t, create a 
+        //foreach variable of type map:[t1,...,tk]t, create a
         //select([t1,...tk]t, t1, ...tk):t function and a store
         //store([t1,..tk]t, t1, ...tk, t):[t1,...,tk]t
         //Is there a way to avoid the string surgery?
@@ -822,7 +822,7 @@ namespace Rootcause
                 throw new Exception("Handling of bit-vector models not supported yet");
             else if (tp.IsReal)
                 throw new Exception("Handling of real valued models not supported yet");
-            else if (tp.IsMap || tp.IsCtor) // map or user defined 
+            else if (tp.IsMap || tp.IsCtor) // map or user defined
             {
                 var h = g as Model.DatatypeValue;
                 if (h != null)

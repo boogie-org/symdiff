@@ -119,7 +119,7 @@ namespace Rootcause
         {
             return new LocalVariable(Token.NoToken, new TypedIdent(Token.NoToken, v, t));
         }
-        #endregion 
+        #endregion
 
         #region Rootcause related utilities
         public static Tuple<string, BigNum> ReadSourceAssert(AssertCmd node)
@@ -188,7 +188,7 @@ namespace Rootcause
                 this.allBlocks = new List<Block>();
                 this.leftBlocks = new List<Block>();
                 this.rightBlocks = new List<Block>();
-                
+
             }
 
             public Tuple<List<Block>, List<Block>, List<Block>> extractBlocks()
@@ -218,7 +218,7 @@ namespace Rootcause
                     var c_havoc = c as HavocCmd;
                     var c_assert = c as AssertCmd;
                     var c_call = c as CallCmd;
-                    Utils.Assert(c_assign != null || c_assume != null || c_havoc != null || c_assert != null || c_call != null, 
+                    Utils.Assert(c_assign != null || c_assume != null || c_havoc != null || c_assert != null || c_call != null,
                         "Unexpected command type not one of assign, goto, assume, havoc, assert, call");
                     List<Absy> nonNullCastedCommands = new List<Absy>(new Absy[] { c_assign, c_assume, c_havoc, c_assert, c_call }).Where(x => x != null).ToList<Absy>();
                     //list should contain only 1 element now.
@@ -254,7 +254,7 @@ namespace Rootcause
             public int partition = -1;
             public override GotoCmd VisitGotoCmd(GotoCmd node)
             {
-                var label = node.labelNames;
+                var label = node.LabelNames;
                 if (label != null && label.Count == 1 && label[0].Contains("AA_INSTR_EQ_BODY$1"))
                     partition = node.Line;
                 return base.VisitGotoCmd(node);
@@ -271,7 +271,7 @@ namespace Rootcause
         #endregion
 
         #region Utilities for models
-        
+
         public static Dictionary<Constant,Model.Element> ModelForCex(Program prog, Implementation impl, Counterexample cex)
         {
             Dictionary<Constant, Model.Element> ret = new Dictionary<Constant, Model.Element>();
@@ -411,7 +411,7 @@ namespace Rootcause
             return store;
         }
         //TODO: add the Select/Store functions to the list
-        //foreach variable of type map:[t1,...,tk]t, create a 
+        //foreach variable of type map:[t1,...,tk]t, create a
         //select([t1,...tk]t, t1, ...tk):t function and a store
         //store([t1,..tk]t, t1, ...tk, t):[t1,...,tk]t
         //Is there a way to avoid the string surgery?
@@ -475,7 +475,7 @@ namespace Rootcause
                 throw new Exception("Handling of bit-vector models not supported yet");
             else if (tp.IsReal)
                 throw new Exception("Handling of real valued models not supported yet");
-            else if (tp.IsMap || tp.IsCtor) // map or user defined 
+            else if (tp.IsMap || tp.IsCtor) // map or user defined
             {
                 var h = g as Model.DatatypeValue;
                 if (h != null)
@@ -536,7 +536,7 @@ namespace Rootcause
         {
             (new ConditionalLifter()).Visit(prog);
         }
-        
+
         public class ConditionalLifter : StandardVisitor
         {
             Implementation currImpl = null;
@@ -552,9 +552,9 @@ namespace Rootcause
             {
                 if (!(node.TransferCmd is GotoCmd)) return base.VisitBlock(node);
                 var g = node.TransferCmd as GotoCmd;
-                if (g.labelTargets.Count != 2) return base.VisitBlock(node); //goto A, B
-                var truet = g.labelTargets[0];
-                var falset = g.labelTargets[1];
+                if (g.LabelTargets.Count != 2) return base.VisitBlock(node); //goto A, B
+                var truet = g.LabelTargets[0];
+                var falset = g.LabelTargets[1];
                 if (!(truet.Cmds.Count > 0 && falset.Cmds.Count > 0)) return base.VisitBlock(node);
                 if (!(truet.Cmds[0] is AssumeCmd && falset.Cmds[0] is AssumeCmd)) return base.VisitBlock(node);
                 var condT = truet.Cmds[0] as AssumeCmd;
@@ -568,7 +568,7 @@ namespace Rootcause
                 assignRhs.Add(condT.Expr);
                 node.Cmds.Add(new AssignCmd(Token.NoToken, assignLhs, assignRhs));
                 //Important, the condT/condF blocks may be visited before this block
-                condT.Expr = new IdentifierExpr(Token.NoToken, locvar); 
+                condT.Expr = new IdentifierExpr(Token.NoToken, locvar);
                 condF.Expr = Expr.Not(new IdentifierExpr(Token.NoToken, locvar));
                 return base.VisitBlock(node);
             }
@@ -610,12 +610,12 @@ namespace Rootcause
                             EqualityFixes.FilterManager.FunctionNameContains(a.Rhss[1], "CallMem"))
                         {
                             Expr t = GetFirstArgFromNaryExpr(a.Rhss[0]);
-                            var locExpr = new IdentifierExpr(Token.NoToken, locvar); 
+                            var locExpr = new IdentifierExpr(Token.NoToken, locvar);
                             newCmdSeq.Add(new AssignCmd(Token.NoToken,
                                 new List<AssignLhs>() { new SimpleAssignLhs(Token.NoToken, locExpr) },
                                 new List<Expr>() {t}));
                             var d0 = SetFirstArgOfNaryExpr(a.Rhss[0], locExpr);
-                            var d1 = SetFirstArgOfNaryExpr(a.Rhss[1], locExpr); 
+                            var d1 = SetFirstArgOfNaryExpr(a.Rhss[1], locExpr);
                             newCmdSeq.Add(new AssignCmd(Token.NoToken,
                                 new List<AssignLhs>() {a.Lhss[0], a.Lhss[1]},
                                 new List<Expr> () {d0, d1}));
@@ -623,7 +623,7 @@ namespace Rootcause
                         else
                         {
                             newCmdSeq.Add(c);
-                        }                        
+                        }
                     }
                     else
                     {
@@ -651,7 +651,7 @@ namespace Rootcause
                 return e.Args[0];
             }
         }
-        #endregion 
+        #endregion
 
         public class MiscStatementPruner : StandardVisitor
         {
@@ -817,7 +817,7 @@ namespace Rootcause
             //</td><td valign="top"><br>
             //<span class="trace">8:&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;(Line&ensp;9)</span><br>
             //</td><td valign="top"><br>
-            
+
             var trace1 = new List<string>();
             var trace2 = new List<string>();
             var output = new List<string>(l);
@@ -826,7 +826,7 @@ namespace Rootcause
                 while (!l[i].Contains(@"</td><td valign="))
                 {
                     if (l[i].Contains(@"<span class=") &&
-                        (l[i].Contains(@"trace")                        
+                        (l[i].Contains(@"trace")
                         ))
                     {
                         trace1.Add(l[i]);
@@ -870,18 +870,18 @@ namespace Rootcause
         }
         public static List<string> ParseHtmlForSymDiffOutput(string[] l, List<Tuple<BigNum, string, BigNum, string>> outs)
         {
-            //Output for regular symdiff 
+            //Output for regular symdiff
             //Partition looks like (for any html generated by SymDiff)
             /*
              * <table><tr><td><font face="monospace">d:\tvm\projects\symb_diff\symdiff\test\c_examples\ex3\v1\foo.c:<br>
              * "<font face=\"monospace\"><font color=red size=3 style=\"background-color:yellow\"><b>14:&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;if&nbsp;(e->oper&nbsp;==&nbsp;2)&nbsp;</b></font><br>
              * </font><font face=\"monospace\">16:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e->result&nbsp;=&nbsp;e->op1&nbsp;-&nbsp;e->op2;&nbsp;<br>
-             * 
+             *
              * </font><font face=\"monospace\"></td><td><br></font><font face=\"monospace\">4:&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;result;<br>
-             * 
+             *
              * "<font face=\"monospace\"><font color=red size=3 style=\"background-color:yellow\"><b>14:&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;if&nbsp;(e->oper&nbsp;==&nbsp;2)&nbsp;</b></font><br>
              * </font><font face=\"monospace\">16:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e->result&nbsp;=&nbsp;e->op1&nbsp;-&nbsp;e->op2;&nbsp;<br>
-             * 
+             *
              * </font><font face="monospace"></td><td><br></font></td></tr></table></body>
              */
 
