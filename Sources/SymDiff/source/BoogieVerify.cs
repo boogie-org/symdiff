@@ -851,8 +851,10 @@ namespace SDiff
                 Log.LogEmit(Log.Normal, prog.Emit);
             }
 
+            var vtFile = "EQ_" + Path.GetRandomFileName().Replace(".", "") + "_out.bpl";
+
             // To print the EQ files in
-            Util.DumpBplAST(prog, vt.Eq.Name + "_out.bpl");
+            Util.DumpBplAST(prog, vtFile);
             //RS: Uncomment this
 
             /*if (wrapper)
@@ -861,11 +863,11 @@ namespace SDiff
                 prog.RemoveTopLevelDeclaration(vt.Eq.Proc);
             }*/
             prog = null;
-            ReplaceInFile(vt.Eq.Name + "_out.bpl", "@", "_");
+            ReplaceInFile(vtFile, "@", "_");
             if (!wrapper)
             {
                 var implName = vt.Eq.Name;
-                var rs_filename = "RS" + implName + "_out.bpl";
+                var rs_filename = "RS" + vtFile;
                 prog = BoogieUtils.ParseProgram(rs_filename);
                 try {
                     vt.Result = VerifyImplementation(prog, rs_filename, implName, out SErrors);
@@ -970,6 +972,10 @@ namespace SDiff
 
                 return (SErrors == null ? 0 : SErrors.Count);
             }
+
+            // Delete temp file used for this verification task
+            File.Delete(vtFile);
+
             return 0;
         }
 
