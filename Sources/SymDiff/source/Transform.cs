@@ -408,7 +408,7 @@ namespace SDiff
       if (Options.refinedStmtTaint)
       {
           Options.OutputVars.Clear();
-          globals.Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "stmtTaintCollectorGlobalVar")).ForEach(x => Options.OutputVars.Add(x.ToString()));
+          globals.Where(x => x.Attributes.FindBoolAttribute("stmtTaintCollectorGlobalVar")).ForEach(x => Options.OutputVars.Add(x.ToString()));
       }
 
       List<Ensures> outputPostConditions = new List<Ensures>();

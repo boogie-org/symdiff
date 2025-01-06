@@ -27,7 +27,7 @@ using SymDiffUtils;
 //    convenience class defining a block of boogie state. emits boogie code to save and restore
 //    abstracts a set of Boogie variables
 //simplecollections.cs
-//    a simple graph class 
+//    a simple graph class
 //proceduredriver.cs
 //    deprecated
 //worklist.cs
@@ -112,7 +112,7 @@ namespace SDiff
       {
           var nargs = new List<string>();
         for (int i = 0; i < args.Length - 1; i++)
-           nargs.Add(args[i + 1]);     
+           nargs.Add(args[i + 1]);
           try   {
               return AllInOneDriver.AllInOneMain(nargs.ToArray());
           } catch (Exception e) {
@@ -198,7 +198,7 @@ namespace SDiff
 
       return 0;
     }
-     
+
     public static int RecursionCheck(string filename)
     {
         var program = BoogieUtils.ParseProgram(filename);
@@ -257,10 +257,10 @@ namespace SDiff
         Log.Out(Log.Error, "Check failed.");
         return 1;
       }
-      
+
       program.UnrollLoops(iterationsToUnroll, false); //setting it to true breaks ex7
 
-        
+
       var outchan = new TokenTextWriter(outfilename, true, BoogieUtils.BoogieOptions);
       program.Emit(outchan);
       outchan.Close();
@@ -296,10 +296,10 @@ namespace SDiff
         (Dictionary<string, Dictionary<string, Block>> loops, _) =
           LoopExtractor.ExtractLoops(BoogieUtils.BoogieOptions, program);
 
-        // the hacks below should be history now with the deterministic Loop extract in Boogie 
+        // the hacks below should be history now with the deterministic Loop extract in Boogie
 
         ///*
-        // * iterate over each procedure in program 
+        // * iterate over each procedure in program
         // * find the extracted procedures by name
         // * Find the exit block in the extracted procedure
         // * The name of the exit block is "exit"
@@ -321,10 +321,10 @@ namespace SDiff
         //        //      This may cause problem if these functions are inlined more than once
         //        string loopHeadLabel = "";
         //        foreach (Block bl in impl.Blocks)
-        //        {                    
+        //        {
         //            if (bl.Label == "entry")
-        //                loopHeadLabel = FindLoopHeadLabel(bl); 
-        //            if (bl.Label == loopHeadLabel) { 
+        //                loopHeadLabel = FindLoopHeadLabel(bl);
+        //            if (bl.Label == loopHeadLabel) {
         //                AssumeCmd ac = new AssumeCmd(Token.NoToken, Expr.Ident(loopNonDet));
         //                bl.Cmds = new List<Cmd>();
         //                bl.Cmds.Add(ac);
@@ -340,9 +340,9 @@ namespace SDiff
         //        }
         //        if (loopHeadLabel == "") {
         //            throw new Exception("Could not find loophead during loop extraction");
-        //        }                
+        //        }
         //    }
-            
+
 
 
         var outchan = new TokenTextWriter(outfilename, true, BoogieUtils.BoogieOptions);
@@ -357,7 +357,7 @@ namespace SDiff
         var cmd = bl.TransferCmd;
         var gcmd = cmd as GotoCmd;
         if (gcmd == null) return "";
-        var blseq = ((GotoCmd)cmd).labelTargets;
+        var blseq = ((GotoCmd)cmd).LabelTargets;
         foreach(var b in blseq) {
             if (((Block)b).Label != "exit") //anything ohter than "exit"
                 return ((Block)b).Label;
@@ -385,7 +385,7 @@ namespace SDiff
         Console.WriteLine(config.ToString());
         return 0;
     }
-    
+
     public static Config GuessConfig(string first, string second)
     {
         string boogieOptions = Options.BoogieUserOpts;
@@ -449,7 +449,7 @@ namespace SDiff
                 {
                     //match loops (A BIG HACK that pretends that the enclosing procedure has only one loop and the mappings are same)
                     var loopProc = p1Procedure.Name.Split("_loop_")[0];
-    
+
                     // Check if there's exactly one corresponding procedure in p2
                     if (p2Loops.TryGetValue(loopProc, out var loopProcs) && loopProcs.Count == 1)
                     {
@@ -480,7 +480,7 @@ namespace SDiff
             var global = d as GlobalVariable;
             if (global != null)
                 config.AddGlobal(new HDuple<string>(first + global.Name, second + global.Name));
-            
+
             var constant = d as Constant;
             if (constant != null)
                 config.AddConstant(new HDuple<string>(first + constant.Name, second + constant.Name));
