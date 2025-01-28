@@ -1799,6 +1799,7 @@ namespace SDiff
             }
             else
             {
+                BoogieUtils.BoogieOptions.ProcedureInlining = CoreOptions.Inlining.Spec;
                 Util.InlineProg(p1);
                 Util.InlineProg(p2);
             }
