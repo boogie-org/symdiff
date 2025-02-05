@@ -21,7 +21,7 @@ public class LiveVariableAnalysis
     foreach (Block /*!*/ block in impl.Blocks)
     {
       Contract.Assert(block != null);
-      block.liveVarsBefore = null;
+      block.LiveVarsBefore = null;
     }
   }
 
@@ -57,13 +57,13 @@ public class LiveVariableAnalysis
       if (block.TransferCmd is GotoCmd)
       {
         GotoCmd gotoCmd = (GotoCmd) block.TransferCmd;
-        if (gotoCmd.labelTargets != null)
+        if (gotoCmd.LabelTargets != null)
         {
-          foreach (Block /*!*/ succ in gotoCmd.labelTargets)
+          foreach (Block /*!*/ succ in gotoCmd.LabelTargets)
           {
             Contract.Assert(succ != null);
-            Contract.Assert(succ.liveVarsBefore != null);
-            liveVarsAfter.UnionWith(succ.liveVarsBefore);
+            Contract.Assert(succ.LiveVarsBefore != null);
+            liveVarsAfter.UnionWith(succ.LiveVarsBefore);
           }
         }
       }
@@ -87,7 +87,7 @@ public class LiveVariableAnalysis
         Propagate(cmds[i], liveVarsAfter);
       }
 
-      block.liveVarsBefore = liveVarsAfter;
+      block.LiveVarsBefore = liveVarsAfter;
     }
   }
 
@@ -101,7 +101,7 @@ public class LiveVariableAnalysis
       AssignCmd /*!*/
         assignCmd = (AssignCmd) cce.NonNull(cmd);
       // I must first iterate over all the targets and remove the live ones.
-      // After the removals are done, I must add the variables referred on 
+      // After the removals are done, I must add the variables referred on
       // the right side of the removed targets
 
       AssignCmd simpleAssignCmd = assignCmd.AsSimpleAssignCmd;
@@ -144,7 +144,7 @@ public class LiveVariableAnalysis
       foreach (IdentifierExpr /*!*/ expr in havocCmd.Vars)
       {
         Contract.Assert(expr != null);
-        if (expr.Decl != null && !(QKeyValue.FindBoolAttribute(expr.Decl.Attributes, "assumption") &&
+        if (expr.Decl != null && !(expr.Decl.Attributes.FindBoolAttribute("assumption") &&
                                    expr.Decl.Name.StartsWith("a##cached##")))
         {
           liveSet.Remove(expr.Decl);
