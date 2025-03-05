@@ -1030,6 +1030,8 @@ namespace SDiff
 
             var equivalenceResults = new List<EquivalenceResult>();
 
+            Debug.Assert(cg1.GetPostOrder().Count == cg1.GetNodes().Count, "Malformed call graph");
+
             foreach (var n in cg1.GetPostOrder())
             { //the order is topological for non-recursive programs
                 //we're iterating over a topo sort of the first program, but we actually want to

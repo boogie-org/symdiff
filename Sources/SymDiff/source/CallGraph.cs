@@ -55,7 +55,10 @@ namespace SDiff
 
     public List<List<CallGraphNode>> SCCs;
 
-    public IEnumerable<ISimpleGraphNode> GetChildren() { return Callees.Cast<ISimpleGraphNode>(); }
+    public IEnumerable<ISimpleGraphNode> GetChildren()
+    {
+      return Callees.Filter(p => p != this);
+    }
 
     public HashSet<Variable> ReadSet;
     public List<Variable> ReadSetGlobals
