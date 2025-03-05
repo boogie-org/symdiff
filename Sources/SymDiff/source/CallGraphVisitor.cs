@@ -144,7 +144,12 @@ namespace SDiff
           if (assme != null)
             reads.Visit(assme.Expr);
 
-
+          var havc = c as HavocCmd;
+          if (havc != null)
+          {
+            reads.VisitIdentifierExprSeq(havc.Vars);
+            writes.Vars.AddRange(reads.Vars);
+          }
 
         }
       }
