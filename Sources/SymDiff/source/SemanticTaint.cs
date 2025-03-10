@@ -21,7 +21,7 @@ namespace SymDiff
       Program mergedProg;
       Implementation eqImpl, leftImpl, rightImpl;
       HashSet<Constant> taintGuardConsts;
-      HashSet<Constant> outputTaintedConstants; //this is the superset of tainted statements 
+      HashSet<Constant> outputTaintedConstants; //this is the superset of tainted statements
       public RefinedStmtTaint(Program mergedProg, Implementation eq, Implementation left, Implementation right)
       {
         this.mergedProg = mergedProg;
@@ -55,14 +55,14 @@ namespace SymDiff
         taintGuardConsts = new HashSet<Constant>();
         mergedProg.TopLevelDeclarations
             .OfType<Constant>()
-            .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "stmtTaintConst"))
+            .Where(x => x.Attributes.FindBoolAttribute("stmtTaintConst"))
             .ForEach(x => taintGuardConsts.Add(x));
       }
       private HashSet<Tuple<string,string>> GatherProcedureBlocksInConstants(IEnumerable<Constant> consts)
       {
         var GetProcedureBlock = new Func<Constant, Tuple<string,string>>(c =>
         {
-          var p = QKeyValue.FindStringAttribute(c.Attributes, "proc");          
+          var p = QKeyValue.FindStringAttribute(c.Attributes, "proc");
           var b = QKeyValue.FindStringAttribute(c.Attributes, "blockLabel");
           return new Tuple<string,string>(p,b);
         });
@@ -88,7 +88,7 @@ namespace SymDiff
                 - pre = (\wedge_{b \in B} b)
                 - checkValid preInp => VC
                 - if invalid ABORT
-                - A += !VC' 
+                - A += !VC'
                 - A += B
                 - if (CheckAssumption(A, out core) != valid) ABORT
                 - return {b | b in core } as the (super) set of tainted vars
@@ -143,9 +143,9 @@ namespace SymDiff
 
         return true;
       }
-      private static List<VCExpr> AnalyzeUsingUnsatCoreHelper(VCExpr programVC, 
-        ref List<Counterexample> cexs, 
-        ref SolverOutcome outcome, 
+      private static List<VCExpr> AnalyzeUsingUnsatCoreHelper(VCExpr programVC,
+        ref List<Counterexample> cexs,
+        ref SolverOutcome outcome,
         ref VCExpr preInp, List<VCExpr> assumptions)
       {
         List<int> unsatClauseIdentifiers = new List<int>();

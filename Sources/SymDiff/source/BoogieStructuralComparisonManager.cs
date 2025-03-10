@@ -62,7 +62,7 @@ public class ImplementationComparer(BiDictionary<string, string> functionMapping
 
         return true;
     }
-    
+
     public bool Compare(Block blockA, Block blockB)
     {
         if (blockA.TransferCmd == null || blockB.TransferCmd == null ||
@@ -76,7 +76,7 @@ public class ImplementationComparer(BiDictionary<string, string> functionMapping
         if (blockA.TransferCmd is GotoCmd t1 &&
             blockB.TransferCmd is GotoCmd t2)
         {
-            foreach (var (blkTarget1, blkTarget2) in t1.labelTargets.Zip(t2.labelTargets))
+            foreach (var (blkTarget1, blkTarget2) in t1.LabelTargets.Zip(t2.LabelTargets))
             {
                 if (!localBlockMapping.TryAddIfNoConflict(blkTarget1, blkTarget2))
                 {
@@ -190,7 +190,7 @@ public class ImplementationComparer(BiDictionary<string, string> functionMapping
 
         return true;
     }
-    
+
     private bool Compare(Cmd? cmdA, Cmd? cmdB)
     {
         if (cmdA == null || cmdB == null)
@@ -265,8 +265,8 @@ public class ImplementationComparer(BiDictionary<string, string> functionMapping
 
     private bool IsIrrelevantCommand(Cmd cmd)
     {
-        return cmd is AssertCmd { Expr: LiteralExpr { asBool: true } } 
-                   or AssumeCmd { Expr: LiteralExpr { asBool: true } } 
+        return cmd is AssertCmd { Expr: LiteralExpr { asBool: true } }
+                   or AssumeCmd { Expr: LiteralExpr { asBool: true } }
                    or CommentCmd;
     }
 }

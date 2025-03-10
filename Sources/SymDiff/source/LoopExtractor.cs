@@ -54,7 +54,7 @@ public static class LoopExtractor {
           fullMap[impl.Name] = null;
           hasIrreducibleLoops.Add(impl);
 
-          if (options.ExtractLoopsUnrollIrreducible)
+          if (options.LoopUnrollCount == -1)
           {
             // statically unroll loops in this procedure
 
@@ -67,7 +67,7 @@ public static class LoopExtractor {
 
             // unroll
             Block start = impl.Blocks[0];
-            impl.Blocks = LoopUnroll.UnrollLoops(start, options.RecursionBound, false);
+            impl.Blocks = LoopUnroll.UnrollLoops(start, options.LoopUnrollCount, false);
 
             // Now construct the "map back" information
             // Resulting block label -> original block
@@ -147,14 +147,14 @@ public static class LoopExtractor {
     Dictionary<Block, AssignCmd> loopHeaderToAssignCmd = new Dictionary<Block, AssignCmd>();
     Dictionary<Block, List<Variable>> loopHeaderToLoopProcLocalVars = new Dictionary<Block, List<Variable>>();
     List<Implementation> loopImplsForThisImpl = new List<Implementation>();
-    
+
     // Create a 1-unrolled implementation and apply live-variable analysis.
     // Unrolling is needed for ComputeLiveVariables to work.
     var unrolledBlocks = LoopUnroll.UnrollLoops(impl.Blocks[0], 1, false);
     var unrolledImpl = new Implementation(Token.NoToken, impl.Name + "unrolled", impl.TypeParameters,
       impl.InParams, impl.OutParams, impl.LocVars, unrolledBlocks);
     new LiveVariableAnalysis(options).ComputeLiveVariables(unrolledImpl, globals);
-    
+
     foreach (Block /*!*/ header in g.Headers)
     {
       Contract.Assert(header != null);
@@ -190,8 +190,8 @@ public static class LoopExtractor {
           foreach (Cmd /*!*/ cmd in block.Cmds)
           {
             Contract.Assert(cmd != null);
-            cmd.AddAssignedVariables(targets);
-
+            // JATIN_NOTE: CHECK THIS PLEASE
+            cmd.AddAssignedIdentifiers(targets.Select(t => new IdentifierExpr(Token.NoToken, t)).ToList());
             VariableCollector c = new VariableCollector();
             c.Visit(cmd);
             footprint.UnionWith(c.usedVars);
@@ -234,8 +234,8 @@ public static class LoopExtractor {
 
       // Pass only live variables as argument to the extracted procedure.
       var liveVarsBeforeHeader =
-        unrolledBlocks.FirstOrDefault(blk => blk.Label.Equals(header.Label + "#1"))?.liveVarsBefore.ToList() ?? footprint.ToList();
-      
+        unrolledBlocks.FirstOrDefault(blk => blk.Label.Equals(header.Label + "#1"))?.LiveVarsBefore.ToList() ?? footprint.ToList();
+
       foreach (Variable v in impl.OutParams.OrderBy(variable => variable.Name))
       {
         Contract.Assert(v != null);
@@ -364,7 +364,7 @@ public static class LoopExtractor {
             continue;
           }
 
-          Block newBlock = new Block();
+          Block newBlock = new Block(Token.NoToken, block.Label, new List<Cmd>(), null);
           newBlock.Label = block.Label;
           if (headRecursion && block == header)
           {
@@ -383,9 +383,7 @@ public static class LoopExtractor {
           blockMap[block] = newBlock;
           if (newBlocksCreated.ContainsKey(block))
           {
-            Block newBlock2 = new Block();
-            newBlock2.Label = newBlocksCreated[block].Label;
-            newBlock2.Cmds = Substituter.Apply(subst, newBlocksCreated[block].Cmds);
+            Block newBlock2 = new Block(Token.NoToken, newBlocksCreated[block].Label, Substituter.Apply(subst, newBlocksCreated[block].Cmds), null);
             blockMap[newBlocksCreated[block]] = newBlock2;
           }
 
@@ -393,20 +391,18 @@ public static class LoopExtractor {
           if (detLoopExtract)
           {
             GotoCmd auxGotoCmd = block.TransferCmd as GotoCmd;
-            Contract.Assert(auxGotoCmd != null && auxGotoCmd.labelNames != null &&
-                            auxGotoCmd.labelTargets != null && auxGotoCmd.labelTargets.Count >= 1);
+            Contract.Assert(auxGotoCmd != null && auxGotoCmd.LabelNames != null &&
+                            auxGotoCmd.LabelTargets != null && auxGotoCmd.LabelTargets.Count >= 1);
             //BUGFIX on 10/26/15: this contains nodes present in NaturalLoops for a different backedgenode
             var loopNodes = GetBlocksInAllNaturalLoops(options, header, g); //var loopNodes = g.NaturalLoops(header, source);
-            foreach (var bl in auxGotoCmd.labelTargets)
+            foreach (var bl in auxGotoCmd.LabelTargets)
             {
               if (g.Nodes.Contains(bl) && //newly created blocks are not present in NaturalLoop(header, xx, g)
                   !loopNodes.Contains(bl))
               {
-                Block auxNewBlock = new Block();
-                auxNewBlock.Label = bl.Label;
                 //these blocks may have read/write locals that are not present in naturalLoops
                 //we need to capture these variables
-                auxNewBlock.Cmds = Substituter.Apply(subst, bl.Cmds);
+                Block auxNewBlock = new Block(Token.NoToken, bl.Label, Substituter.Apply(subst, bl.Cmds), null);
                 //add restoration code for such blocks
                 if (loopHeaderToAssignCmd.ContainsKey(header))
                 {
@@ -463,27 +459,27 @@ public static class LoopExtractor {
         dummyBlocks.Add(block1.Label);
 
         GotoCmd gotoCmd = source.TransferCmd as GotoCmd;
-        Contract.Assert(gotoCmd != null && gotoCmd.labelNames != null && gotoCmd.labelTargets != null &&
-                        gotoCmd.labelTargets.Count >= 1);
+        Contract.Assert(gotoCmd != null && gotoCmd.LabelNames != null && gotoCmd.LabelTargets != null &&
+                        gotoCmd.LabelTargets.Count >= 1);
         List<string> /*!*/
           newLabels = new List<String>();
         List<Block> /*!*/
           newTargets = new List<Block>();
-        for (int i = 0; i < gotoCmd.labelTargets.Count; i++)
+        for (int i = 0; i < gotoCmd.LabelTargets.Count; i++)
         {
-          if (gotoCmd.labelTargets[i] == header)
+          if (gotoCmd.LabelTargets[i] == header)
           {
             continue;
           }
 
-          newTargets.Add(gotoCmd.labelTargets[i]);
-          newLabels.Add(gotoCmd.labelNames[i]);
+          newTargets.Add(gotoCmd.LabelTargets[i]);
+          newLabels.Add(gotoCmd.LabelNames[i]);
         }
 
         newTargets.Add(block1);
         newLabels.Add(block1.Label);
-        gotoCmd.labelNames = newLabels;
-        gotoCmd.labelTargets = newTargets;
+        gotoCmd.LabelNames = newLabels;
+        gotoCmd.LabelTargets = newTargets;
         blockMap[block1] = block2;
       }
 
@@ -524,15 +520,15 @@ public static class LoopExtractor {
         }
         else
         {
-          Contract.Assume(gotoCmd.labelNames != null && gotoCmd.labelTargets != null);
+          Contract.Assume(gotoCmd.LabelNames != null && gotoCmd.LabelTargets != null);
           List<String> newLabels = new List<String>();
           List<Block> newTargets = new List<Block>();
-          for (int i = 0; i < gotoCmd.labelTargets.Count; i++)
+          for (int i = 0; i < gotoCmd.LabelTargets.Count; i++)
           {
-            Block target = gotoCmd.labelTargets[i];
+            Block target = gotoCmd.LabelTargets[i];
             if (blockMap.ContainsKey(target))
             {
-              newLabels.Add(gotoCmd.labelNames[i]);
+              newLabels.Add(gotoCmd.LabelNames[i]);
               newTargets.Add(blockMap[target]);
             }
           }
@@ -661,7 +657,7 @@ public static class LoopExtractor {
         continue;
       }
 
-      foreach (var bl in auxCmd.labelTargets)
+      foreach (var bl in auxCmd.LabelTargets)
       {
         if (loopBlocks.Contains(bl))
         {

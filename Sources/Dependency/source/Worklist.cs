@@ -49,7 +49,7 @@ namespace Dependency
         internal AbsState GatherBlockPredecessorsState(Block currBlock)
         {
             var state = new AbsState();
-            
+
             foreach (var pred in currBlock.Predecessors)
             {
                 var cmd = (pred.Cmds.Count > 0) ? (Absy)pred.Cmds.Last() : (Absy)pred.TransferCmd;
@@ -93,7 +93,7 @@ namespace Dependency
             }
             else if (node is GotoCmd)
             {
-                foreach (var succ in (node as GotoCmd).labelTargets)
+                foreach (var succ in (node as GotoCmd).LabelTargets)
                 {
                     Absy cmd;
                     if (succ.Cmds.Count > 0)
