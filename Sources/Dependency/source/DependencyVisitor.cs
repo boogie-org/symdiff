@@ -355,7 +355,7 @@ namespace Dependency
             Block currBlock = worklist.cmdBlocks[node];
             Dependencies dependencies = worklist.GatherPredecessorsState(node, currBlock);
 
-            var succs = node.labelTargets;
+            var succs = node.LabelTargets;
             if (succs.Count > 1)
             { // here we create branchCondVars
                 if (!branchCondVars.ContainsKey(currBlock))

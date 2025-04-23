@@ -282,7 +282,7 @@ namespace Rootcause
             public int partition = -1;
             public override GotoCmd VisitGotoCmd(GotoCmd node)
             {
-                var label = node.labelNames;
+                var label = node.LabelNames;
                 if (label != null && label.Count == 1 && label[0].Contains("AA_INSTR_EQ_BODY$1"))
                     partition = node.Line;
                 return base.VisitGotoCmd(node);

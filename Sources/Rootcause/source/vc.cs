@@ -12,6 +12,8 @@ using Microsoft.Boogie.VCExprAST;
 using VC;
 using Microsoft.BaseTypes;
 using SymDiffUtils;
+using VCGeneration;
+using VCGeneration.Transformations;
 using BType = Microsoft.Boogie.Type;
 
 namespace Rootcause
@@ -29,7 +31,7 @@ namespace Rootcause
 
         #region Utilities for calling the verifier
         public static void InitializeVCGen(Program prog)
-        { 
+        {
             //create VC.VerificationConditionGenerator/VC.proverInterface
             var checkerPool = new CheckerPool(BoogieUtils.BoogieOptions);
             VC.VerificationConditionGenerator = new VerificationConditionGenerator(prog, checkerPool);
@@ -42,13 +44,13 @@ namespace Rootcause
         }
         public static SolverOutcome VerifyVC(string descriptiveName, VCExpr vc, out List<Counterexample> cex)
         {
-            VC.collector.examples.Clear(); //reset the cexs
+            VC.collector.Examples.Clear(); //reset the cexs
             //Use MyBeginCheck instead of BeginCheck as it is inconsistent with CheckAssumptions's Push/Pop of declarations
             SolverOutcome proverOutcome;
             //proverOutcome = MyBeginCheck(descriptiveName, vc, VC.handler); //Crashes now
             proverOutcome = proverInterface.Check(descriptiveName, vc, handler,
                 BoogieUtils.BoogieOptions.ErrorLimit, CancellationToken.None).Result;
-            cex = collector.examples.ToList();
+            cex = collector.Examples.ToList();
             return proverOutcome;
         }
 
@@ -70,14 +72,14 @@ namespace Rootcause
 
         public static VCExpr GenerateVC(Program prog, Implementation impl)
         {
-            VC.VerificationConditionGenerator.ConvertCFG2DAG(new ImplementationRun(impl, Console.Out));
+
+            new RemoveBackEdges(VerificationConditionGenerator).ConvertCfg2Dag(new ImplementationRun(impl, Console.Out));
             ModelViewInfo mvInfo;
-            Dictionary<TransferCmd, ReturnCmd> gotoCmdOrigins =
-                VC.VerificationConditionGenerator.PassifyImpl(new ImplementationRun(impl, Console.Out), out mvInfo);
-            //Hashtable/*TransferCmd->ReturnCmd*/ gotoCmdOrigins = VC.VerificationConditionGenerator.PassifyImpl(impl, out mvInfo);
+            VC.VerificationConditionGenerator.PassifyImpl(new ImplementationRun(impl, Console.Out), out mvInfo);
+
 
             var exprGen = VC.proverInterface.Context.ExprGen;
-            //VCExpr controlFlowVariableExpr = null; 
+            //VCExpr controlFlowVariableExpr = null;
             VCExpr controlFlowVariableExpr = /*BoogieUtils.BoogieOptions.UseLabels ? null :*/ VC.exprGen.Integer(BigNum.ZERO);
 
 
@@ -88,14 +90,14 @@ namespace Rootcause
             VCExpr eqExpr = VC.exprGen.Eq(controlFlowFunctionAppl, VC.exprGen.Integer(BigNum.FromInt(impl.Blocks[0].UniqueId)));
             vc = VC.exprGen.Implies(eqExpr, vc);
 
-            var split = new ManualSplit(BoogieUtils.BoogieOptions, impl.Blocks, gotoCmdOrigins,
-                VC.VerificationConditionGenerator, new ImplementationRun(impl, Console.Out), Token.NoToken);
+            var split = new ManualSplit(BoogieUtils.BoogieOptions, impl.Blocks.ToList,
+                VC.VerificationConditionGenerator, new ImplementationRun(impl, Console.Out), new ImplementationRootOrigin(impl), 0);
             VC.handler = new VerificationConditionGenerator.ErrorReporter(
-                BoogieUtils.BoogieOptions, gotoCmdOrigins, absyIds, impl.Blocks, new Dictionary<Cmd, List<object>>(),
+                BoogieUtils.BoogieOptions, absyIds, impl.Blocks, new Dictionary<Cmd, List<object>>(),
                 VC.collector, mvInfo, VC.proverInterface.Context, prog, split);
             return vc;
         }
-        #endregion 
+        #endregion
 
     }
 }

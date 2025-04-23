@@ -32,7 +32,7 @@ namespace SDiff
             houdiniConsts = new HashSet<Constant>
             (mergedProg.TopLevelDeclarations
                 .OfType<Constant>()
-                .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "existential")));
+                .Where(x => x.Attributes.FindBoolAttribute("existential")));
         }
         public void CheckCandidateAsserts()
         {

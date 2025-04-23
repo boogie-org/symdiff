@@ -55,7 +55,7 @@ namespace SymDiff
         taintGuardConsts = new HashSet<Constant>();
         mergedProg.TopLevelDeclarations
             .OfType<Constant>()
-            .Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "stmtTaintConst"))
+            .Where(x => x.Attributes.FindBoolAttribute("stmtTaintConst"))
             .ForEach(x => taintGuardConsts.Add(x));
       }
       private HashSet<Tuple<string,string>> GatherProcedureBlocksInConstants(IEnumerable<Constant> consts)

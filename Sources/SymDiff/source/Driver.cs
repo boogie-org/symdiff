@@ -357,7 +357,7 @@ namespace SDiff
         var cmd = bl.TransferCmd;
         var gcmd = cmd as GotoCmd;
         if (gcmd == null) return "";
-        var blseq = ((GotoCmd)cmd).labelTargets;
+        var blseq = ((GotoCmd)cmd).LabelTargets;
         foreach(var b in blseq) {
             if (((Block)b).Label != "exit") //anything ohter than "exit"
                 return ((Block)b).Label;

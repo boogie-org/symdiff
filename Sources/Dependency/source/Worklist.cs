@@ -93,7 +93,7 @@ namespace Dependency
             }
             else if (node is GotoCmd)
             {
-                foreach (var succ in (node as GotoCmd).labelTargets)
+                foreach (var succ in (node as GotoCmd).LabelTargets)
                 {
                     Absy cmd;
                     if (succ.Cmds.Count > 0)

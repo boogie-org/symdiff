@@ -67,10 +67,10 @@ namespace BoogieWrapper
 
             //RS: Uncomment this
             var newEq = (Implementation)newDict.Get(funcName + "$IMPL");
-            SDiffCounterexamples SErrors;
-            List<Model> errModelList;
+            //SDiffCounterexamples SErrors;
+            //List<Model> errModelList;
 
-            var Result = BoogieVerify.VerifyImplementation(vcgen, newEq, newProg, out SErrors);
+            var Result = BoogieVerify.VerifyImplementation(newProg, fileName, funcName, out var SErrors);
 
             switch (Result)
             {

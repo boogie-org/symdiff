@@ -562,7 +562,7 @@ namespace Rootcause
                 new List<BType>(new BType[] { Datatypes.dtType }), BType.Bool);
             foreach (Function f in prog.TopLevelDeclarations.OfType<Function>().ToList())
             {
-                if (QKeyValue.FindBoolAttribute(f.Attributes, "uninterpreted"))
+                if (f.Attributes.FindBoolAttribute("uninterpreted"))
                 {
                     var vars = f.InParams.Cast<Variable>();
                     // BOOGIE WORKAROUND: original: var tVars = vars.Select(x => Tuple.Create(x.Name, x.TypedIdent.Type));

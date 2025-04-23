@@ -89,7 +89,7 @@ namespace SymdiffPreprocess
             if (errors > 0)
                 throw new ArgumentException("Unable to resolve " + programFileName);
             ModSetCollector c = new ModSetCollector(BoogieUtils.BoogieOptions);
-            c.DoModSetAnalysis(program);
+            c.CollectModifies(program);
             errors = program.Typecheck(BoogieUtils.BoogieOptions);
             if (errors > 0)
                 throw new ArgumentException("Unable to typecheck " + programFileName);

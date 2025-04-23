@@ -3478,7 +3478,7 @@ namespace Rootcause
             {
 
                 GotoCmd gotoCmd = (current.TransferCmd as GotoCmd); if (gotoCmd == null) continue;
-                List<Block> successors = gotoCmd.labelTargets;
+                List<Block> successors = gotoCmd.LabelTargets;
                 foreach (Block successor in successors)
                 {
                     CDFG[current].Item2.Add(successor);
@@ -3553,7 +3553,7 @@ namespace Rootcause
                 AssignCmd lastNode = lastAssign[b];
 
                 GotoCmd gotoCmd = (b.TransferCmd as GotoCmd); if (gotoCmd == null) continue;
-                List<Block> successorBlocks = gotoCmd.labelTargets;
+                List<Block> successorBlocks = gotoCmd.LabelTargets;
                 foreach (Block successorBlock in successorBlocks)
                 {
                     //find firstNode of successorBlock

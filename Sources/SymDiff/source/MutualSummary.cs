@@ -77,7 +77,7 @@ namespace SDiff
             if (!freeContractsIn)
                 Util.DropAllModifies(mergedProgram);
             ModSetCollector c = new ModSetCollector(BoogieUtils.BoogieOptions);
-            c.DoModSetAnalysis(mergedProgram); //important that we do it on the merged program
+            c.CollectModifies(mergedProgram); //important that we do it on the merged program
             //get the call graphs
             cg1 = CallGraph.Make(p1);
             cg2 = CallGraph.Make(p2);

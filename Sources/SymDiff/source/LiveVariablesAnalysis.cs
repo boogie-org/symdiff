@@ -21,7 +21,7 @@ public class LiveVariableAnalysis
     foreach (Block /*!*/ block in impl.Blocks)
     {
       Contract.Assert(block != null);
-      block.liveVarsBefore = null;
+      block.LiveVarsBefore = null;
     }
   }
 
@@ -57,13 +57,13 @@ public class LiveVariableAnalysis
       if (block.TransferCmd is GotoCmd)
       {
         GotoCmd gotoCmd = (GotoCmd) block.TransferCmd;
-        if (gotoCmd.labelTargets != null)
+        if (gotoCmd.LabelTargets != null)
         {
-          foreach (Block /*!*/ succ in gotoCmd.labelTargets)
+          foreach (Block /*!*/ succ in gotoCmd.LabelTargets)
           {
             Contract.Assert(succ != null);
-            Contract.Assert(succ.liveVarsBefore != null);
-            liveVarsAfter.UnionWith(succ.liveVarsBefore);
+            Contract.Assert(succ.LiveVarsBefore != null);
+            liveVarsAfter.UnionWith(succ.LiveVarsBefore);
           }
         }
       }
@@ -75,11 +75,11 @@ public class LiveVariableAnalysis
         if (cmds[i] is CallCmd)
         {
           Procedure /*!*/
-            proc = cce.NonNull(cce.NonNull((CallCmd /*!*/) cmds[i]).Proc);
+            proc = ((CallCmd /*!*/) cmds[i]).Proc;
           if (InterProcGenKill.HasSummary(proc.Name)) // TODO: this is always false! InterProcGenKill.ComputeLiveVars is never called.
           {
             liveVarsAfter =
-              InterProcGenKill.PropagateLiveVarsAcrossCall(options, cce.NonNull((CallCmd /*!*/) cmds[i]), liveVarsAfter);
+              InterProcGenKill.PropagateLiveVarsAcrossCall(options, (CallCmd /*!*/) cmds[i], liveVarsAfter);
             continue;
           }
         }
@@ -87,7 +87,7 @@ public class LiveVariableAnalysis
         Propagate(cmds[i], liveVarsAfter);
       }
 
-      block.liveVarsBefore = liveVarsAfter;
+      block.LiveVarsBefore = liveVarsAfter;
     }
   }
 
@@ -95,11 +95,9 @@ public class LiveVariableAnalysis
   public void Propagate(Cmd cmd, HashSet<Variable /*!*/> /*!*/ liveSet)
   {
     Contract.Requires(cmd != null);
-    Contract.Requires(cce.NonNullElements(liveSet));
-    if (cmd is AssignCmd)
-    {
+    if (cmd is AssignCmd) {
       AssignCmd /*!*/
-        assignCmd = (AssignCmd) cce.NonNull(cmd);
+        assignCmd = (AssignCmd) cmd;
       // I must first iterate over all the targets and remove the live ones.
       // After the removals are done, I must add the variables referred on 
       // the right side of the removed targets
@@ -144,7 +142,7 @@ public class LiveVariableAnalysis
       foreach (IdentifierExpr /*!*/ expr in havocCmd.Vars)
       {
         Contract.Assert(expr != null);
-        if (expr.Decl != null && !(QKeyValue.FindBoolAttribute(expr.Decl.Attributes, "assumption") &&
+        if (expr.Decl != null && !(expr.Decl.Attributes.FindBoolAttribute("assumption") &&
                                    expr.Decl.Name.StartsWith("a##cached##")))
         {
           liveSet.Remove(expr.Decl);
@@ -155,7 +153,7 @@ public class LiveVariableAnalysis
     {
       Contract.Assert((cmd is AssertCmd || cmd is AssumeCmd));
       PredicateCmd /*!*/
-        predicateCmd = (PredicateCmd) cce.NonNull(cmd);
+        predicateCmd = (PredicateCmd) cmd;
       if (predicateCmd.Expr is LiteralExpr)
       {
         LiteralExpr le = (LiteralExpr) predicateCmd.Expr;
@@ -179,7 +177,7 @@ public class LiveVariableAnalysis
     else if (cmd is CallCmd)
     { // a CallCmd is also a SugaredCmd, but simpler to handle here
       CallCmd /*!*/
-        callCmd = (CallCmd)cce.NonNull(cmd);
+        callCmd = (CallCmd)cmd;
       var outVars = callCmd.Outs.Select(v => v.Decl);
       var isLive = outVars.Any(liveSet.Contains);
       liveSet.RemoveWhere(outVars.Contains);
@@ -195,15 +193,15 @@ public class LiveVariableAnalysis
     else if (cmd is SugaredCmd)
     {
       SugaredCmd /*!*/
-        sugCmd = (SugaredCmd) cce.NonNull(cmd);
+        sugCmd = (SugaredCmd) cmd;
       Propagate(sugCmd.GetDesugaring(options), liveSet);
     }
     else if (cmd is StateCmd)
     {
       StateCmd /*!*/
-        stCmd = (StateCmd) cce.NonNull(cmd);
+        stCmd = (StateCmd) cmd;
       List<Cmd> /*!*/
-        cmds = cce.NonNull(stCmd.Cmds);
+        cmds = stCmd.Cmds;
       int len = cmds.Count;
       for (int i = len - 1; i >= 0; i--)
       {
@@ -220,7 +218,6 @@ public class LiveVariableAnalysis
     {
       {
         Contract.Assert(false);
-        throw new cce.UnreachableException();
       }
     }
   }

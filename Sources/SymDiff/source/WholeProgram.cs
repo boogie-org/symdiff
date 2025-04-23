@@ -645,7 +645,7 @@ namespace SDiff
                     List<Counterexample> errors;
                     List<VerificationRunResult> vcResults;
                     (outcome, errors, vcResults) =
-                        vcgen.VerifyImplementation2(new ImplementationRun(n, Console.Out), CancellationToken.None).Result;
+                        vcgen.VerifyImplementationDirectly(new ImplementationRun(n, Console.Out), CancellationToken.None).Result;
                 }
                 catch (Exception e)
                 {
@@ -914,9 +914,9 @@ namespace SDiff
                         List<Cmd> entryCmd = new List<Cmd>();
                         var labelEntry = new GotoCmd(Token.NoToken, new List<String>() { "THEN", "ELSE" });
                         //labelEntry.labelTargets = new List<Block>();
-                        labelEntry.labelNames = new List<string>();
-                        labelEntry.labelNames.Add("THEN");
-                        labelEntry.labelNames.Add("ELSE");
+                        labelEntry.LabelNames = new List<string>();
+                        labelEntry.LabelNames.Add("THEN");
+                        labelEntry.LabelNames.Add("ELSE");
                         //labelEntry.labelTargets.Add("THEN");
                         //labelEntry.labelTargets.Add("ELSE");
                         Block entryBl = new Block(Token.NoToken, "ENTRY", entryCmd, labelEntry);
@@ -927,16 +927,16 @@ namespace SDiff
                         bodyThen.Add(ccmdThen);
                         var labelThen = new GotoCmd(Token.NoToken, new List<String>() { "DONE" });
                         //labelThen.labelTargets = new List<Block>();
-                        labelThen.labelNames = new List<string>();
-                        labelEntry.labelNames.Add("DONE");
+                        labelThen.LabelNames = new List<string>();
+                        labelEntry.LabelNames.Add("DONE");
                         //labelThen.labelTargets.Add("DONE");
                         Block thenBl = new Block(Token.NoToken, "THEN", bodyThen, labelThen);
 
                         // Third block
                         var labelElse = new GotoCmd(Token.NoToken, new List<String>() { "DONE" });
                         //labelElse.labelTargets = new List<Block>();
-                        labelElse.labelNames = new List<string>();
-                        labelElse.labelNames.Add("DONE");
+                        labelElse.LabelNames = new List<string>();
+                        labelElse.LabelNames.Add("DONE");
                         //labelElse.labelTargets.Add("DONE");
                         List<Cmd> bodyElse = new List<Cmd>();
                         bodyElse.Add(new AssumeCmd(Token.NoToken, Expr.False));
