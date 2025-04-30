@@ -385,7 +385,7 @@ namespace SDiff
             //Program mergedProgram = new Program();
             //mergedProgram.TopLevelDeclarations = p2.TopLevelDeclarations.Append(p1.TopLevelDeclarations.ToList());
             Log.Out(Log.Normal, "Resolving and typechecking");
-            Boogie.Process.InitializeBoogie("/doModSetAnalysis");
+            Boogie.Process.InitializeBoogie("/inferModifies");
             if (BoogieUtils.ResolveAndTypeCheckThrow(mergedProgram, Options.MergedProgramOutputFile, BoogieUtils.BoogieOptions))
                 return 1;
 

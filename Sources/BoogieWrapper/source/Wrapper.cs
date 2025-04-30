@@ -35,7 +35,7 @@ namespace BoogieWrapper
             string funcName = args[1];
 
             //TODO: Make it aware of the other Boogie options
-            var boogieOptions = " -doModSetAnalysis -printInstrumented -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
+            var boogieOptions = " -inferModifies -printInstrumented -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
 
             Program prog = BoogieUtils.ParseProgram(args[0]);
