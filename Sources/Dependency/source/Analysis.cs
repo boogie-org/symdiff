@@ -351,8 +351,12 @@ namespace Dependency
                     string procName = items[0].Trim(), procFile = null;
                     // locate the source file for the procedure
                     var impl = program.Implementations.Single(i => i.Name == procName);
-                    // TODO: the following doesn't do anything?
-                    //impl.Blocks.Find(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd && (procFile = Utils.AttributeUtils.GetSourceFile(b)) != null);
+                    foreach (var b in impl.Blocks.Where(b => b.Cmds.Count > 0 && b.Cmds[0] is AssertCmd)) {
+                        procFile = Utils.AttributeUtils.GetSourceFile(b);
+                        if (procFile != null) {
+                            break;
+                        }
+                    }
                     myChangeLog.Add(Tuple.Create(procFile, procName, int.Parse(items[1])));
                 }
                 catch (Exception)
