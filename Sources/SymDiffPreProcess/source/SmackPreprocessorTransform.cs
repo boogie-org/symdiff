@@ -181,10 +181,11 @@ namespace SymdiffPreprocess
                     continue;
                 }
                 //start a new block when you see an Assert Cmd with sourceline
-                nxtBlock = new Block();
-                nxtBlock.Cmds = new List<Cmd>() { cmd };
-                nxtBlock.Label = b.Label + "_splitSourceLine_" + splitBlocks.Count;
-                currBlock.TransferCmd = new GotoCmd(Token.NoToken, new List<Block>() { nxtBlock });
+                nxtBlock = new Block(
+                    Token.NoToken,
+                    b.Label + "_splitSourceLine_" + splitBlocks.Count, 
+                    new List<Cmd>() { cmd },
+                    new GotoCmd(Token.NoToken, new List<Block>() { nxtBlock }));
                 splitBlocks.Add(nxtBlock);
                 currBlock = nxtBlock;
             }
@@ -201,7 +202,7 @@ namespace SymdiffPreprocess
         // This transformation will not work in that case(maybe)?
         public override Block VisitBlock(Block node)
         {
-            foreach (Cmd cmd in node.cmds)
+            foreach (Cmd cmd in node.Cmds)
             {
                 if (cmd is AssignCmd)
                 {                    

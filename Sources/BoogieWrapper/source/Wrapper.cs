@@ -35,7 +35,7 @@ namespace BoogieWrapper
             string funcName = args[1];
 
             //TODO: Make it aware of the other Boogie options
-            var boogieOptions = " -doModSetAnalysis -printInstrumented -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
+            var boogieOptions = " -inferModifies -printInstrumented -typeEncoding:m -timeLimit:" + Options.Timeout + " -removeEmptyBlocks:0 -printModel:1 -printModelToFile:model.dmp " + Options.BoogieUserOpts;
             SDiff.Boogie.Process.InitializeBoogie(boogieOptions);
 
             Program prog = BoogieUtils.ParseProgram(args[0]);
@@ -67,10 +67,10 @@ namespace BoogieWrapper
 
             //RS: Uncomment this
             var newEq = (Implementation)newDict.Get(funcName + "$IMPL");
-            SDiffCounterexamples SErrors;
-            List<Model> errModelList;
+            //SDiffCounterexamples SErrors;
+            //List<Model> errModelList;
 
-            var Result = BoogieVerify.VerifyImplementation(vcgen, newEq, newProg, out SErrors);
+            var Result = BoogieVerify.VerifyImplementation(newProg, fileName, funcName, out var SErrors);
 
             switch (Result)
             {

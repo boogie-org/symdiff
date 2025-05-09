@@ -76,7 +76,7 @@ public class ImplementationComparer(BiDictionary<string, string> functionMapping
         if (blockA.TransferCmd is GotoCmd t1 &&
             blockB.TransferCmd is GotoCmd t2)
         {
-            foreach (var (blkTarget1, blkTarget2) in t1.labelTargets.Zip(t2.labelTargets))
+            foreach (var (blkTarget1, blkTarget2) in t1.LabelTargets.Zip(t2.LabelTargets))
             {
                 if (!localBlockMapping.TryAddIfNoConflict(blkTarget1, blkTarget2))
                 {

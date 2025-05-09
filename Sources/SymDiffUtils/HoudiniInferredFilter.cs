@@ -91,7 +91,7 @@ namespace SymDiffUtils
             procsToAnalyze = procs;
             callGraph = CallGraphHelper.ComputeCallGraph(prog);
             this.candidateConsts = this.prog.Variables.Where(Item => 
-                QKeyValue.FindBoolAttribute(Item.Attributes, "existential")).Select(Item => Item.Name).ToList();
+                Item.Attributes.FindBoolAttribute("existential")).Select(Item => Item.Name).ToList();
         }
 
         public override Program VisitProgram(Program node)
@@ -136,8 +136,8 @@ namespace SymDiffUtils
         {
             var tmp = base.VisitProgram(node);
             var unused = node.TopLevelDeclarations.OfType<Variable>()
-                .Where(x => (QKeyValue.FindBoolAttribute(x.Attributes, "existential") &&
-                    !usedExistentialConstants.Contains(x)));
+                .Where(x => (x.Attributes.FindBoolAttribute("existential")) &&
+                    !usedExistentialConstants.Contains(x));
             Console.WriteLine("HoudiniPruneUnusedExistentialConstants: Removing [{0}]",
                 string.Join(",", unused.Select(x => x.Name)));
             node.RemoveTopLevelDeclarations(x => unused.Contains(x)); 
@@ -147,7 +147,7 @@ namespace SymDiffUtils
         {
             VariableCollector vc = new VariableCollector();
             vc.Visit(node);
-            var existConsts = vc.usedVars.Where(x => QKeyValue.FindBoolAttribute(x.Attributes, "existential"));
+            var existConsts = vc.usedVars.Where(x => x.Attributes.FindBoolAttribute("existential"));
             existConsts.ForEach(x => usedExistentialConstants.Add(x));
             return base.VisitIdentifierExpr(node);
         }

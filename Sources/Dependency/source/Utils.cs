@@ -14,6 +14,7 @@ using Microsoft.BaseTypes;
 using BType = Microsoft.Boogie.Type;
 using Dependency;
 using SymDiffUtils;
+using VCGeneration.Transformations;
 
 namespace Dependency
 {
@@ -50,7 +51,7 @@ namespace Dependency
                 return false;
             }
             ModSetCollector c = new ModSetCollector(BoogieUtils.BoogieOptions);
-            c.DoModSetAnalysis(prog);
+            c.CollectModifies(prog);
             errCount = prog.Typecheck(BoogieUtils.BoogieOptions);
             if (errCount > 0)
             {
@@ -165,12 +166,12 @@ namespace Dependency
 
             static public string GetSourceFile(Block block)
             {
-                if (block.cmds == null)
+                if (block.Cmds == null)
                 {
                     return null;
                 }
                 string file = null;
-                foreach (var cmd in block.cmds)
+                foreach (var cmd in block.Cmds)
                 {
 
                     if (cmd is AssertCmd)
@@ -212,7 +213,7 @@ namespace Dependency
             static public HashSet<int> GetSourceLines(Block block)
             {
                 var lines = new HashSet<int>();
-                if (block.cmds == null)
+                if (block.Cmds == null)
                 {
                     return lines;
                 }
@@ -394,9 +395,10 @@ namespace Dependency
         public static void ComputeDominators(Program program, Implementation impl, Dictionary<Block, HashSet<Block>> dominatedBy)
         {
             // reverse the control dependence mapping (easier for the algorithm)
-            foreach (var cd in program.ProcessLoops(BoogieUtils.BoogieOptions, impl).ControlDependence())
+            var g = program.ProcessLoops(BoogieUtils.BoogieOptions, impl);
+            foreach (var cd in g.ControlDependence(g.Source))
             {
-                foreach (var controlled in cd.Value)
+                foreach (Block controlled in cd.Value)
                 {
                     if (!dominatedBy.ContainsKey(controlled))
                         dominatedBy[controlled] = new HashSet<Block>();
@@ -784,8 +786,8 @@ namespace Dependency
             {
                 // replace {goto A,B,C;} {A: assume (e1); ... } {B: assume (e2); ... } {C: assume (e3); ... }
                 // with {c1 = e1; c2 = e2; c3 = e3; goto A,B,C;} {A: assume (c1); ... } {B: assume(c2); ... } {B: assume(c3); ... }
-                var succs = node.labelTargets;
-                if (succs.Count > 1)
+                var succs = node.LabelTargets;
+                if (succs.Count() > 1)
                 {
                     foreach (var succ in succs.Where(s => s.Cmds.Count > 0))
                     {
@@ -1027,15 +1029,15 @@ namespace Dependency
         }
         public static SolverOutcome VerifyVC(string descriptiveName, VCExpr vc, out List<Counterexample> cex)
         {
-            VC.collector.examples.Clear(); //reset the cexs
+            VC.collector.Examples.Clear(); //reset the cexs
             //Use MyBeginCheck instead of BeginCheck as it is inconsistent with CheckAssumptions's Push/Pop of declarations
             SolverOutcome proverOutcome;
             //proverOutcome = MyBeginCheck(descriptiveName, vc, VC.handler); //Crashes now
             
             proverOutcome = proverInterface.Check(descriptiveName, vc, handler,
                 BoogieUtils.BoogieOptions.ErrorLimit, CancellationToken.None).Result;
-            cex = collector.examples.ToList();
-            cex = VC.collector.examples.ToList();
+            cex = collector.Examples.ToList();
+            cex = VC.collector.Examples.ToList();
             return proverOutcome;
         }
 
@@ -1057,9 +1059,9 @@ namespace Dependency
 
         public static VCExpr GenerateVC(Program prog, Implementation impl)
         {
-            VC.vcgen.ConvertCFG2DAG(new ImplementationRun(impl, Console.Out));
+            new RemoveBackEdges(vcgen).ConvertCfg2Dag(new ImplementationRun(impl, Console.Out));
             ModelViewInfo mvInfo;
-            var /*TransferCmd->ReturnCmd*/ gotoCmdOrigins = VC.vcgen.PassifyImpl(new ImplementationRun(impl, Console.Out), out mvInfo);
+            VC.vcgen.PassifyImpl(new ImplementationRun(impl, Console.Out), out mvInfo);
 
             var exprGen = VC.proverInterface.Context.ExprGen;
             //VCExpr controlFlowVariableExpr = null; 

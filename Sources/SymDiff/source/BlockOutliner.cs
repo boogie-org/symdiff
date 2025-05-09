@@ -89,13 +89,15 @@ public static class BlockOutliner
          *         statements over them.
          */
 
+        var modifiedExprs    = new List<IdentifierExpr>();
         var modifiedVars     = new List<Variable>();
         var footprint        = new HashSet<Variable>();
 
         // Collect used and assigned variables within the block
         foreach (var cmd in block.Cmds)
         {
-            cmd.AddAssignedVariables(modifiedVars);
+            cmd.AddAssignedIdentifiers(modifiedExprs);
+            modifiedVars = modifiedExprs.Select(ie => ie.Decl).ToList();
 
             var c = new VariableCollector();
             c.Visit(cmd);
@@ -123,16 +125,16 @@ public static class BlockOutliner
         {
             foreach (var blk in unrollings)
             {
-                blk.liveVarsBefore.ForEach(v => liveVarsBefore.Add(v));
+                blk.LiveVarsBefore.ForEach(v => liveVarsBefore.Add(v));
                 if (blk.TransferCmd is not GotoCmd cmd) continue;
-                foreach (var blkTarget in cmd.labelTargets)
+                foreach (var blkTarget in cmd.LabelTargets)
                 {
                     var targetUnrollings = unrollingsOfBlock.Where(b =>
                             blkTarget.Label.Equals(b.Key.Label + "#0") ||
                             blkTarget.Label.Equals(b.Key.Label + "#1") ||
                             blkTarget.Label.Equals(b.Key.Label + "#2")).SelectMany(p => p.Value).ToList();
                     if (targetUnrollings.Count == 0) continue;
-                    targetUnrollings.ForEach(b => b.liveVarsBefore.ForEach(v => liveVarsAfter.Add(v)));
+                    targetUnrollings.ForEach(b => b.LiveVarsBefore.ForEach(v => liveVarsAfter.Add(v)));
                     // {
                     //     if (liveVarsBefore.Count == 0) liveVarsBefore = footprint;
                     //     if (liveVarsAfter.Count == 0) liveVarsAfter = globals.Select(v => v as Variable).ToHashSet();
@@ -249,25 +251,28 @@ public static class BlockOutliner
             substMap.ToDictionary(p => p.Key, p => p.Value as Expr));
 
         var finalBlock = new Block
-        {
-            Label = $"{containingImpl.Name}_block_{block}_exit",
-            Cmds = finalAssigns,
-            TransferCmd = new ReturnCmd(Token.NoToken)
-        };
+        (
+            Token.NoToken,
+            $"{containingImpl.Name}_block_{block}_exit",
+            finalAssigns,
+            new ReturnCmd(Token.NoToken)
+        );
 
         var newBlock = new Block
-        {
-            Label = block.Label,
-            Cmds = Substituter.Apply(subst, block.Cmds),
-            TransferCmd = new GotoCmd(Token.NoToken, [finalBlock])
-        };
+        (
+            Token.NoToken,
+            block.Label,
+            Substituter.Apply(subst, block.Cmds),
+            new GotoCmd(Token.NoToken, [finalBlock])
+        );
 
         var initBlock = new Block
-        {
-            Label = $"{containingImpl.Name}_block_{block}_entry",
-            Cmds = initAssigns,
-            TransferCmd = new GotoCmd(Token.NoToken, [newBlock])
-        };
+        (
+            Token.NoToken,
+            $"{containingImpl.Name}_block_{block}_entry",
+            initAssigns,
+            new GotoCmd(Token.NoToken, [newBlock])
+        );
 
         var blockImpl = new Implementation(Token.NoToken, blockProc.Name, [],
             newImplIns, newImplOuts, newImplLocals.OrderBy(v => v.Name).ToList(),

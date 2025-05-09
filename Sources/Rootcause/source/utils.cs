@@ -254,7 +254,7 @@ namespace Rootcause
             public int partition = -1;
             public override GotoCmd VisitGotoCmd(GotoCmd node)
             {
-                var label = node.labelNames;
+                var label = node.LabelNames;
                 if (label != null && label.Count == 1 && label[0].Contains("AA_INSTR_EQ_BODY$1"))
                     partition = node.Line;
                 return base.VisitGotoCmd(node);
@@ -552,9 +552,9 @@ namespace Rootcause
             {
                 if (!(node.TransferCmd is GotoCmd)) return base.VisitBlock(node);
                 var g = node.TransferCmd as GotoCmd;
-                if (g.labelTargets.Count != 2) return base.VisitBlock(node); //goto A, B
-                var truet = g.labelTargets[0];
-                var falset = g.labelTargets[1];
+                if (g.LabelTargets.Count != 2) return base.VisitBlock(node); //goto A, B
+                var truet = g.LabelTargets[0];
+                var falset = g.LabelTargets[1];
                 if (!(truet.Cmds.Count > 0 && falset.Cmds.Count > 0)) return base.VisitBlock(node);
                 if (!(truet.Cmds[0] is AssumeCmd && falset.Cmds[0] is AssumeCmd)) return base.VisitBlock(node);
                 var condT = truet.Cmds[0] as AssumeCmd;
@@ -968,7 +968,7 @@ namespace Rootcause
                 //if (!(f.Name.Contains("CallMem") || f.Name.Contains("CallOut"))) { continue; }
                 //if (QKeyValue.FindBoolAttribute(f.Attributes, "uninterpreted"))
                 //if ((f.Name.Contains("CallMem") || f.Name.Contains("CallOut")))
-                if (QKeyValue.FindBoolAttribute(f.Attributes, "uninterpreted"))
+                if (f.Attributes.FindBoolAttribute("uninterpreted"))
                 {
                     //Make axioms of the form: forall x1, x2 :: f(x1) == f(x2) ==> x1 == x2
                     var inParams = f.InParams.Cast<Variable>();
@@ -1020,7 +1020,7 @@ namespace Rootcause
                         //find all functions with matching return
                         Function other_f = functions[iter_j];
                         if (other_f == f) { continue; }
-                        if (QKeyValue.FindBoolAttribute(other_f.Attributes, "uninterpreted"))
+                        if (other_f.Attributes.FindBoolAttribute("uninterpreted"))
                         {
                             if (other_f.OutParams.Count != f.OutParams.Count) { continue; }
                             bool matchingOutputs = true;

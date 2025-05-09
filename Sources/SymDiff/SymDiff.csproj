@@ -113,16 +113,16 @@
     <ProjectReference Include="..\SymDiffUtils\SymDiffUtils.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Boogie.ExecutionEngine" Version="3.1.3" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="Boogie.BaseTypes" Version="3.1.3" />
-    <PackageReference Include="Boogie.Core" Version="3.1.3" />
-    <PackageReference Include="Boogie.Houdini" Version="3.1.3" />
-    <PackageReference Include="Boogie.Graph" Version="3.1.3" />
-    <PackageReference Include="Boogie.Model" Version="3.1.3" />
-    <PackageReference Include="Boogie.Provers.SMTLib" Version="3.1.3" />
-    <PackageReference Include="Boogie.VCExpr" Version="3.1.3" />
-    <PackageReference Include="Boogie.VCGeneration" Version="3.1.3" />
+    <PackageReference Include="Boogie.ExecutionEngine" Version="3.5.2" />
+    <PackageReference Include="Boogie.BaseTypes" Version="3.5.2" />
+    <PackageReference Include="Boogie.Core" Version="3.5.2" />
+    <PackageReference Include="Boogie.Houdini" Version="3.5.2" />
+    <PackageReference Include="Boogie.Graph" Version="3.5.2" />
+    <PackageReference Include="Boogie.Model" Version="3.5.2" />
+    <PackageReference Include="Boogie.Provers.SMTLib" Version="3.5.2" />
+    <PackageReference Include="Boogie.VCExpr" Version="3.5.2" />
+    <PackageReference Include="Boogie.VCGeneration" Version="3.5.2" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="source\ProcedureDriver.cs" />

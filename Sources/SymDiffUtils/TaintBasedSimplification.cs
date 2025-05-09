@@ -17,7 +17,7 @@ namespace SymDiffUtils
         {            
             this.program = p;
             this.candidateConsts = this.program.Variables.Where(Item =>
-                QKeyValue.FindBoolAttribute(Item.Attributes, "existential")).Select(Item => Item.Name).ToList();
+                Item.Attributes.FindBoolAttribute("existential")).Select(Item => Item.Name).ToList();
             this.procs = this.program.Procedures.Select(proc => new { proc.Name, x = proc }).ToDictionary(x => x.Name, x => x.x);            
         }
 
@@ -154,7 +154,7 @@ namespace SymDiffUtils
         {
             this.program = p;
             this.candidateConsts = this.program.Variables.Where(Item =>
-                QKeyValue.FindBoolAttribute(Item.Attributes, "existential")).Select(Item => Item.Name).ToList();
+                Item.Attributes.FindBoolAttribute("existential")).Select(Item => Item.Name).ToList();
             this.procs = this.program.Procedures.Select(proc => new { proc.Name, x = proc }).ToDictionary(x => x.Name, x => x.x);
             this.SIMPLIFICATION_COMMENT = comment;
             this.FILTERING_REASON = filteringReason;

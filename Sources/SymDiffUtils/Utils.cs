@@ -14,6 +14,7 @@ using VC;
 using SymDiffUtils;
 using Microsoft.Boogie.GraphUtil;
 using VCGeneration;
+using VCGeneration.Transformations;
 
 
 /* Misc code that should be in  */
@@ -605,7 +606,7 @@ namespace SymDiffUtils
         {
             if (node.Name.Contains("#"))
                 return true;
-            if (QKeyValue.FindBoolAttribute(node.Attributes, "constructor"))
+            if (node.Attributes.FindBoolAttribute("constructor"))
                 return true;
             return false;
         }
@@ -821,7 +822,7 @@ namespace SymDiffUtils
             Graph<Procedure> cg = CallGraphHelper.ComputeCallGraph(prog);
             var origChangedProcs = 
                 prog.TopLevelDeclarations.OfType<Procedure>()
-                .Where(x => x != null && QKeyValue.FindBoolAttribute(x.Attributes, "syntacticChangedProc"));
+                .Where(x => x != null && x.Attributes.FindBoolAttribute("syntacticChangedProc"));
 
             var a = BoogieUtils.FindProcsAtDistance(cg, origChangedProcs.Select(x => x.Name));
             var b = a.Where(x => x.Key <= distance);
@@ -1044,14 +1045,14 @@ namespace SymDiffUtils
         }
         public static SolverOutcome VerifyVC(string descriptiveName, VCExpr vc, out List<Counterexample> cex)
         {
-            collector.examples.Clear(); //reset the cexs
+            collector.Examples.Clear(); //reset the cexs
             //Use MyBeginCheck instead of BeginCheck as it is inconsistent with CheckAssumptions's Push/Pop of declarations
             SolverOutcome proverOutcome;
             //proverOutcome = MyBeginCheck(descriptiveName, vc, VC.handler); //Crashes now
             //proverInterface.BeginCheck(descriptiveName, vc, handler);
             proverOutcome = proverInterface.Check(descriptiveName, vc, handler,
                 BoogieUtils.BoogieOptions.ErrorLimit, CancellationToken.None).Result;
-            cex = collector.examples.ToList();
+            cex = collector.Examples.ToList();
             return proverOutcome;
         }
 
@@ -1073,10 +1074,9 @@ namespace SymDiffUtils
 
         public static VCExpr GenerateVC(Program prog, Implementation impl)
         {
-            SymDiffVC.vcgen.ConvertCFG2DAG(new ImplementationRun(impl, Console.Out));
+            new RemoveBackEdges(vcgen).ConvertCfg2Dag(new ImplementationRun(impl, Console.Out));
             ModelViewInfo mvInfo;
-            var /*TransferCmd->ReturnCmd*/ gotoCmdOrigins =
-                SymDiffVC.vcgen.PassifyImpl(new ImplementationRun(impl, Console.Out), out mvInfo);
+            vcgen.PassifyImpl(new ImplementationRun(impl, Console.Out), out mvInfo);
         
             var exprGen = SymDiffVC.proverInterface.Context.ExprGen;
             //VCExpr controlFlowVariableExpr = null; 

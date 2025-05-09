@@ -199,9 +199,8 @@ namespace Dependency
 
             // create body
             List<Block> body = new List<Block>();
-            Block bodyBlock = new Block();
-            body.Add(bodyBlock);
-            bodyBlock.Label = RefineConsts.refinedProcBodyName;
+            List<Cmd> bodyBlockCmds = new List<Cmd>();
+            Block bodyBlock = new Block(Token.NoToken, RefineConsts.refinedProcBodyName, bodyBlockCmds, new ReturnCmd(Token.NoToken));
 
             // first side
             CreateSide(proc, readSet, modSet, actualInputs, recordedReadSet1, actualOutputs, recordedModSet1, bodyBlock);
@@ -210,13 +209,12 @@ namespace Dependency
 
             // create assumptions
             for (int i = 0; i < readSet.Count; i++)
-                bodyBlock.Cmds.Add(new AssumeCmd(new Token(), Expr.Imp(Expr.Ident(inputGuards[i]), Expr.Eq(Expr.Ident(recordedReadSet1[i]), Expr.Ident(recordedReadSet2[i]))))); // ensures bi_k => i_k_1 == i_k_2
+                bodyBlockCmds.Add(new AssumeCmd(new Token(), Expr.Imp(Expr.Ident(inputGuards[i]), Expr.Eq(Expr.Ident(recordedReadSet1[i]), Expr.Ident(recordedReadSet2[i]))))); // ensures bi_k => i_k_1 == i_k_2
 
             // create checks     
             CreateChecks(modSet, equivOutParams, recordedModSet1, recordedModSet2, bodyBlock);
 
-            // create return
-            bodyBlock.TransferCmd = new ReturnCmd(new Token());
+            body.Add(bodyBlock);
 
             // create implementation
             var refineImpl = new Implementation(new Token(), RefineConsts.refinedProcNamePrefix + procName, new List<TypeVariable>(),
@@ -606,7 +604,7 @@ namespace Dependency
 
             var refineImpl = RefineDependencyProgramCreator.CreateCheckDependencyImpl(upperBoundDependencies, lowerBoundDependencies, impl, prog);
             ModSetCollector c = new ModSetCollector(BoogieUtils.BoogieOptions);
-            c.DoModSetAnalysis(prog);
+            c.CollectModifies(prog);
 
             //add callee ensures to procedure
             Declaration[] decls = new Declaration[prog.TopLevelDeclarations.Count()];
