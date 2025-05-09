@@ -134,6 +134,13 @@ namespace SDiff
         public Dictionary<string, Implementation> impls { get; } = new();
         public Dictionary<string, ImplementationRunResult> implResults { get; } = new();
 
+        public override void AdvisoryWriteLine(TextWriter output, string format, params object[] args)
+        {
+            if (format.Contains("Proved vacuously")) {
+                Log.Out(Log.Verifier, String.Format(format, args));
+            }
+        }
+
         public override void ReportEndVerifyImplementation(Implementation implementation, ImplementationRunResult result) {
             implResults.Add(implementation.Name, result);
             impls.Add(implementation.Name, implementation);
@@ -183,7 +190,7 @@ namespace SDiff
             {
                 RunningBoogieFromCommandLine = true
             };
-            options.Parse(["/soundLoopUnrolling", "/inline:spec", "/printModel:1", "/removeEmptyBlocks:0", "/printModelToFile:model.dmp"]);
+            options.Parse(["/soundLoopUnrolling", "/warnVacuousProofs", "/inline:spec", "/printModel:1", "/removeEmptyBlocks:0", "/printModelToFile:model.dmp"]);
             var engine = new ExecutionEngine(options, new VerificationResultCache(), TaskScheduler.Current);
             if (engine == null) {
                 Log.Out (Log.Verifier, "Could not initialize Boogie verification engine");
