@@ -71,6 +71,7 @@ namespace SDiff
           Console.WriteLine("\t -recursionDepth:k     inline procedures upto k depth");
           Console.WriteLine("\t -localcheck     only checks the syntactically changed procedures");
           Console.WriteLine("\t -noSyn     do not check for syntactic equvalence (except those specified with -synEq)");
+          Console.WriteLine("\t -ignoreUnalignedGlobals     ignore globals variables that aren't aligned in config");
           Console.WriteLine("\t -rvt            Godlin & Strichman's method for dealing with recursion (not tested well)");
           Console.WriteLine("\t -returnAsOnlyOutput     only considers retuns as the output of a procedure (input is all globals read + params)");
           Console.WriteLine("\t -outvar:\"<name>\"  only compares output variables with substring <name> (needs -splitOutputEqualities). Can specify multiple -outvar:\"x\" -outvar:\"y\"");
@@ -119,6 +120,7 @@ namespace SDiff
             Options.oneproc = argsList.Remove("-oneproc");
             Options.noSyntacticCheck = argsList.Remove("-noSyn");
             Options.noLoopExtract = argsList.Remove("-noLoopExtract");
+            Options.ignoreUnalignedGlobals = argsList.Remove("-ignoreUnalignedGlobals");
 
             //DAC related
             Options.checkAssertsOnly = argsList.Remove("-asserts");
@@ -1166,7 +1168,7 @@ namespace SDiff
 
                 // Creates EQ_f_f' function
                 var eqp =
-                  Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores, mergedProgram,
+                  Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores, mergedProgram, cfg,
                       out var outputVars, out var eqProcParamInfo);
 
                 //RS: adding OK1=true, OK2=true, and OK1=>OK2
