@@ -265,7 +265,7 @@ namespace RVT
             string eqpName = Transform.mkEqProcName(n1.Name, n2.Name);
 
             Duple<Procedure, Implementation> eqp;
-            eqp = Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores, null, out outputVars, out _);
+            eqp = Transform.EqualityReduction(n1.Impl, n2.Impl, cfg.FindProcedure(n1.Name, n2.Name), ignores, null, cfg, out outputVars, out _);
 
             // if any visible output
             //VerificationTask vt;

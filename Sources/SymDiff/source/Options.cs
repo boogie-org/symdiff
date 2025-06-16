@@ -63,6 +63,7 @@ namespace SDiff
         public static bool checkAssertsOnly;
         public static bool noSyntacticCheck;
         public static bool noLoopExtract;
+        public static bool ignoreUnalignedGlobals = false;
 
         //mutual summaries
         public static bool mutualSummaryMode;

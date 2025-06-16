@@ -211,6 +211,7 @@ namespace SDiff
                                                                      ParamMap argMap,
                                                                      HashSet<Variable> ignoreSet,
                                                                      Program mergedProgram,
+                                                                     Config config,
                                                                      out List<Variable> outputVarsForVFTask,
                                                                      out EqualityProcedureParameterInfo eqParamInfo)
     {
@@ -243,6 +244,20 @@ namespace SDiff
       foreach (IdentifierExpr ie in d2.Modifies)
         if(!globals.Contains(ie.Decl))
           globals.Add(ie.Decl);
+
+      // Globals that are modified by either procedure but aren't mapped by config.GlobalMap
+      var ignoreGlobals = new List<Variable>();
+      if (Options.ignoreUnalignedGlobals)
+      {
+        foreach (var glob in globals)
+        {
+          if (!config.GlobalMap.Exists(p => p.fst == glob.Name || p.snd == glob.Name))
+          {
+            ignoreGlobals.Add(glob);
+            Log.Out(Log.Warning, "Equality reduction ignoring unmapped global: " + glob.Name);
+          }
+        }
+      }
 
       /***** Produce mapped list of identifiers *****/
 
@@ -368,7 +383,15 @@ namespace SDiff
       }
       for (int i = 0; i < savedc1Globals.Count; i++)
       {
-        outputEqualityExprs[savedOutputs.Count + i] = Tuple.Create(EmitEq(comparisonPostc1Vars[i], comparisonGlobals[i], ignoreSet), comparisonGlobals[i].Decl);
+        // if this global is in the ignore set, create a trivial equality
+        if (ignoreGlobals.Contains(comparisonGlobals[i].Decl))
+        {
+          outputEqualityExprs[savedOutputs.Count + i] = Tuple.Create((Expr) Expr.True, comparisonGlobals[i].Decl);
+        }
+        else
+        {
+          outputEqualityExprs[savedOutputs.Count + i] = Tuple.Create(EmitEq(comparisonPostc1Vars[i], comparisonGlobals[i], ignoreSet), comparisonGlobals[i].Decl);
+        }
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d1.Name + "_" + globals[i].Name, savedc1Globals.Decls[i]));
         outputVars.Add(new Duple<string, Variable>("Output_of_" + d2.Name + "_" + globals[i].Name, globals[i]));
       }
