@@ -362,8 +362,8 @@ namespace SDiff
             // restructuring the order of declarations
             Program p1 = new Program();
             p1.AddTopLevelDeclarations(typeDeclsP);
-            p1.AddTopLevelDeclarations(globDeclsP);
             p1.AddTopLevelDeclarations(consDeclsP);
+            p1.AddTopLevelDeclarations(globDeclsP);
             p1.AddTopLevelDeclarations(funcDeclsP);
             p1.AddTopLevelDeclarations(axiomDeclsP);
             p1.AddTopLevelDeclarations(procDeclsP);
